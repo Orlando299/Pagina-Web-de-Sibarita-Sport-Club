@@ -2,174 +2,172 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#1a1a2e">
-<title>Bolas Criollas 2026</title>
+<title>Sibarita Sport Club</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-  ::-webkit-scrollbar{display:none;}
-  body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;max-width:430px;margin:0 auto;min-height:100vh;}
-
-  /* HEADER */
-  .header{background:linear-gradient(135deg,#16213e,#0f3460);padding:14px 16px 0;border-bottom:3px solid #e8b84b;position:sticky;top:0;z-index:100;}
-  .header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-  .logo{display:flex;align-items:center;gap:10px;}
-  .logo-icon{width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f5c842,#c0392b);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 0 2px #e8b84b55;flex-shrink:0;}
-  .logo-text .title{font-size:16px;font-weight:bold;color:#e8b84b;text-transform:uppercase;letter-spacing:.04em;}
-  .logo-text .subtitle{font-size:10px;color:#8899aa;letter-spacing:.1em;text-transform:uppercase;}
-  .fase-badge{background:#c0392b;color:#fff;font-size:10px;font-weight:bold;padding:3px 8px;border-radius:10px;}
-
-  /* NAV */
-  .nav{display:flex;}
-  .nav-btn{flex:1;padding:10px 4px;font-size:10px;font-weight:bold;letter-spacing:.06em;text-transform:uppercase;border:none;background:transparent;color:#8899aa;border-bottom:3px solid transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit;transition:all .2s;}
-  .nav-btn.active{color:#e8b84b;border-bottom:3px solid #e8b84b;}
-  .nav-icon{font-size:18px;}
-
-  /* BODY */
-  .body{padding:14px 14px 80px;}
-
-  /* FILTERS */
-  .filter-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
-  .filter-row.scroll{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;}
-  .f-btn{padding:6px 12px;border-radius:16px;border:1px solid #0f3460;background:transparent;color:#8899aa;font-weight:bold;cursor:pointer;font-size:11px;font-family:inherit;white-space:nowrap;transition:all .2s;}
-  .f-btn.active{background:#e8b84b;border-color:#e8b84b;color:#000;}
-
-  /* CARDS */
-  .card{background:#16213e;border:1px solid #0f3460;border-radius:12px;padding:12px;margin-bottom:8px;}
-  .match-card{background:linear-gradient(135deg,#16213e,#0f3460);border:1px solid #e8b84b33;border-radius:12px;padding:12px 14px;margin-bottom:8px;}
-  .match-meta{font-size:10px;color:#8899aa;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;}
-  .match-teams{display:flex;align-items:center;justify-content:space-between;}
-  .team-name{flex:1;font-size:12px;font-weight:bold;color:#f0e6d3;text-align:center;line-height:1.3;}
-  .vs-box{text-align:center;flex-shrink:0;padding:0 8px;}
-  .vs-icon{font-size:18px;}
-  .vs-text{font-size:10px;color:#8899aa;font-weight:bold;}
-  .vs-field{font-size:10px;color:#8899aa;}
-
-  /* WEEK TAG */
-  .week-tag{font-size:9px;font-weight:bold;padding:2px 7px;border-radius:8px;}
-
-  /* TEAM CARD */
-  .team-card{background:#0f3460;border-radius:12px;padding:12px;margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:opacity .2s;}
-  .team-card:active{opacity:.7;}
-  .team-card-name{font-size:14px;font-weight:bold;color:#f0e6d3;}
-  .team-card-sub{font-size:11px;color:#8899aa;margin-top:2px;}
-  .arrow{font-size:20px;color:#8899aa;}
-
-  /* PLAYER LIST */
-  .player-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;margin-bottom:5px;background:#16213e;border:1px solid #0f3460;}
-  .player-num{width:24px;height:24px;border-radius:50%;background:#0f3460;display:flex;align-items:center;justify-content:center;font-size:10px;color:#8899aa;font-weight:bold;flex-shrink:0;}
-  .player-name-text{font-size:13px;color:#f0e6d3;}
-
-  /* BACK BTN */
-  .back-btn{padding:6px 14px;border-radius:20px;border:1px solid #0f3460;background:transparent;color:#8899aa;cursor:pointer;font-size:12px;font-family:inherit;margin-bottom:14px;}
-
-  /* STANDING */
-  .stand-row{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;margin-bottom:5px;}
-  .stand-row.r1{background:linear-gradient(90deg,#e8b84b22,transparent);border:1px solid #e8b84b33;}
-  .stand-row.r2{background:linear-gradient(90deg,#c0c0c022,transparent);border:1px solid #0f3460;}
-  .stand-row.r3{background:linear-gradient(90deg,#cd7f3222,transparent);border:1px solid #0f3460;}
-  .stand-row.rn{background:#16213e;border:1px solid #0f3460;}
-  .rank-badge{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;}
-  .rank-badge.r1{background:#e8b84b;color:#000;}
-  .rank-badge.r2{background:#c0c0c0;color:#000;}
-  .rank-badge.r3{background:#cd7f32;color:#000;}
-  .rank-badge.rn{background:#0f3460;color:#8899aa;}
-  .stand-name{flex:1;font-size:12px;font-weight:bold;color:#f0e6d3;line-height:1.2;}
-  .stat-cols{display:flex;gap:8px;}
-  .stat-c{text-align:center;min-width:26px;}
-  .stat-v{font-size:12px;font-weight:bold;color:#f0e6d3;}
-  .stat-pts{font-size:14px;font-weight:bold;color:#e8b84b;}
-  .stat-head{font-size:9px;color:#e8b84b;font-weight:bold;}
-
-  .section-label{font-size:11px;color:#e8b84b;font-weight:bold;margin-bottom:10px;margin-top:6px;letter-spacing:.1em;}
-  .info-box{font-size:10px;color:#8899aa;padding:10px;background:#16213e;border-radius:10px;border:1px solid #0f3460;margin-top:10px;}
-
-  .screen{display:none;}
-  .screen.active{display:block;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+::-webkit-scrollbar{display:none;}
+body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;max-width:430px;margin:0 auto;min-height:100vh;}
+.hdr{background:linear-gradient(135deg,#16213e,#0f3460);padding:10px 14px 0;border-bottom:3px solid #e8b84b;position:sticky;top:0;z-index:100;}
+.hdr-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.logo{display:flex;align-items:center;gap:8px;}
+.logo img{width:38px;height:38px;border-radius:50%;border:2px solid #e8b84b;flex-shrink:0;}
+.logo-t{font-size:13px;font-weight:bold;color:#e8b84b;text-transform:uppercase;letter-spacing:.03em;line-height:1.1;}
+.logo-s{font-size:9px;color:#8899aa;text-transform:uppercase;letter-spacing:.06em;}
+.badge{background:#c0392b;color:#fff;font-size:9px;font-weight:bold;padding:3px 7px;border-radius:8px;}
+.nav{display:flex;}
+.nb{flex:1;padding:8px 2px;font-size:9px;font-weight:bold;text-transform:uppercase;border:none;background:transparent;color:#8899aa;border-bottom:3px solid transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;}
+.nb.on{color:#e8b84b;border-bottom:3px solid #e8b84b;}
+.nb span{font-size:15px;}
+.body{padding:12px 12px 70px;}
+.fb{padding:5px 10px;border-radius:12px;border:1px solid #0f3460;background:transparent;color:#8899aa;font-weight:bold;cursor:pointer;font-size:11px;font-family:inherit;white-space:nowrap;}
+.fb.on{background:#e8b84b;border-color:#e8b84b;color:#000;}
+.frow{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
+.fscroll{display:flex;gap:6px;margin-bottom:8px;overflow-x:auto;padding-bottom:3px;flex-wrap:nowrap;}
+.card{background:#16213e;border:1px solid #0f3460;border-radius:10px;padding:10px;margin-bottom:7px;}
+.mc{background:linear-gradient(135deg,#16213e,#0f3460);border:1px solid #e8b84b33;border-radius:10px;padding:10px 12px;margin-bottom:7px;}
+.mm{font-size:10px;color:#8899aa;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:3px;}
+.mteams{display:flex;align-items:center;justify-content:space-between;}
+.tn{flex:1;font-size:11px;font-weight:bold;color:#f0e6d3;text-align:center;line-height:1.3;}
+.vb{text-align:center;flex-shrink:0;padding:0 5px;}
+.sinp{width:46px;height:34px;background:#0f3460;border:1px solid #e8b84b55;border-radius:7px;color:#e8b84b;font-size:18px;font-weight:bold;text-align:center;font-family:inherit;-webkit-appearance:none;}
+.sinp:focus{outline:none;border-color:#e8b84b;}
+.srow{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:6px;}
+.ss{font-size:24px;font-weight:bold;color:#e8b84b;min-width:30px;text-align:center;}
+.ss.l{color:#8899aa;}
+.sep{font-size:16px;color:#8899aa;font-weight:bold;}
+.sbtn{width:100%;margin-top:6px;padding:6px;background:#2ecc71;border:none;border-radius:7px;color:#000;font-weight:bold;font-size:12px;cursor:pointer;font-family:inherit;}
+.fbtn{width:100%;margin-top:4px;padding:5px;background:transparent;border:1px solid #c0392b55;border-radius:7px;color:#c0392b;font-size:10px;cursor:pointer;font-family:inherit;}
+.rtag{font-size:9px;font-weight:bold;padding:2px 6px;border-radius:7px;}
+.done{background:#2ecc7133;color:#2ecc71;border:1px solid #2ecc7122;}
+.forf{background:#c0392b33;color:#c0392b;border:1px solid #c0392b22;}
+.wtag{font-size:9px;font-weight:bold;padding:2px 6px;border-radius:7px;}
+.tc{background:#0f3460;border-radius:10px;padding:10px;margin-bottom:7px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+.back{padding:5px 12px;border-radius:16px;border:1px solid #0f3460;background:transparent;color:#8899aa;cursor:pointer;font-size:11px;font-family:inherit;margin-bottom:12px;}
+.pi{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;margin-bottom:4px;background:#16213e;border:1px solid #0f3460;}
+.pn{width:22px;height:22px;border-radius:50%;background:#0f3460;display:flex;align-items:center;justify-content:center;font-size:9px;color:#8899aa;font-weight:bold;flex-shrink:0;}
+.sr{display:flex;align-items:center;gap:6px;padding:7px 8px;border-radius:8px;margin-bottom:4px;}
+.r1{background:linear-gradient(90deg,#e8b84b22,transparent);border:1px solid #e8b84b33;}
+.r2{background:linear-gradient(90deg,#c0c0c022,transparent);border:1px solid #0f3460;}
+.r3{background:linear-gradient(90deg,#cd7f3222,transparent);border:1px solid #0f3460;}
+.rn{background:#16213e;border:1px solid #0f3460;}
+.rb{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;flex-shrink:0;}
+.rb.r1{background:#e8b84b;color:#000;}.rb.r2{background:#c0c0c0;color:#000;}.rb.r3{background:#cd7f32;color:#000;}.rb.rn{background:#0f3460;color:#8899aa;}
+.sv{font-size:11px;font-weight:bold;color:#f0e6d3;}.spts{font-size:12px;font-weight:bold;color:#e8b84b;}.sh{font-size:8px;color:#e8b84b;font-weight:bold;}
+.scols{display:flex;gap:4px;}.sc{text-align:center;min-width:22px;}
+.srch{position:relative;margin-bottom:10px;}
+.srch input{width:100%;padding:8px 12px 8px 32px;background:#16213e;border:1px solid #0f3460;border-radius:9px;color:#f0e6d3;font-size:13px;font-family:inherit;}
+.srch input:focus{outline:none;border-color:#e8b84b;}
+.srch-ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#8899aa;font-size:13px;}
+.ar{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:8px;margin-bottom:4px;background:#16213e;border:1px solid #0f3460;}
+.av{font-size:12px;font-weight:bold;color:#e8b84b;}.al{font-size:8px;color:#8899aa;}
+.lbl{font-size:10px;color:#e8b84b;font-weight:bold;margin-bottom:7px;margin-top:4px;letter-spacing:.06em;}
+.ibox{font-size:10px;color:#8899aa;padding:9px;background:#16213e;border-radius:9px;border:1px solid #0f3460;margin-top:7px;line-height:1.5;}
+.scr{display:none;}.scr.on{display:block;}
 </style>
 </head>
 <body>
-
-<div class="header">
-  <div class="header-top">
+<div class="hdr">
+  <div class="hdr-top">
     <div class="logo">
-      <div class="logo-icon">🎯</div>
-      <div class="logo-text">
-        <div class="title">Bolas Criollas</div>
-        <div class="subtitle">2do Campeonato 2026, Categoría B</div>
-      </div>
+      <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCABQAFADASIAAhEBAxEB/8QAGwAAAgIDAQAAAAAAAAAAAAAABQYCBAABAwf/xAAzEAABAwIEBQIFBAEFAAAAAAABAgMEABEFEiFhEyIxQVEGFEJxkaHRIzJSwRUkgbHh8P/EABkBAAMBAQEAAAAAAAAAAAAAAAMEBQIBBv/EACYRAAICAgEEAQQDAAAAAAAAAAEDAAIEETESIUFRYQUTMuFxkbH/2gAMAwEAAhEDEQA/APTqyspdxvFFuFUWIqyOi1g/u2G1Be+qa9VoVKrNt0iWsSx+PDJbZHHeHUA8qfmaXJeN4lJJ/XLST8LQy/frXAsnxUSyfFRG5rWHnQltOMlY42fmV3C44buLWo+VEmtILjZu2taT5SoirBaPitcPalus8xvqGtSzFxzE4pFpBdSPhdGb79aY8M9QxphDT44Dx0AJ5VfI/mlHh7VnD2plWaxZ52Is7FS0caPxPSKylfAcZU2pMSYu7Z0Q4T+3Y7U0VbQ+rq9VZDeiybdNpTxF5TbGRs2WvS/gd6XC0RcnQA2Kf7phko4jxPjQVVcjHMFoSCoaWPQipmXW7GE+BGMe4pXUDqZGYjW4IsakY+1dG34qnUou9mVI4PM3bmAv9KIlgeKWvjMp+Q1DDKrb8TuBzH2qJj7UZMceKiY48UIrM0MiBjH2rktsJdS2Qbq1FEHZMdpyShYcHtkhSzk0sfHmuciOt2Uzw2l8NSCOIB0zV26L0G7CETk1vYjcGISgNAqUBckU3YJKU/F4Tpu41pfyOxpffw15mMW2M7udQuLAWophSFR3WSoEEpCVA/8AvNGw7lTR6M5mGjF7Bhe6DS/iS3E4wRJmyYcdQSI7rY/TzfEF7/OiZesog9jahs6JImLcbM9SYrts7RbBIt2Se1emVSotszzrbm1dCUn1SZUhttMlQcGKONtrVrkGXt96vy47+D8GU3OkSGlOpbebfVmuFG1x4NcHMIDibJlqb/1SpAUlOqSRYAfK3Wu6Ych19pzEp/uEMqzobS2EAqHdXmi2+3oca9agqi+z2O/5moUWTjDS5zk+QwhS1JZbZVlCQDa58nSh6VYitbcVc5wOnEFsKcT/ABCR0H1oiIclh1z/ABs8x2nlFZbU1nyk9SmoxMKRGWyv3anOHKU/dSdVEpta/msD7Q33GvHbiaNGHQ0d+e8oYhHdS3isYzJKm4rLa0hS75rg3B2/FWYsaRKkqgJmyEMRm0KWoKGdalC4F+wAq7JgpfViKjIy+8aS2eT9mUdax+GeO3KgzPbyA2G1EozJcA6XHmskrNdbH9edDv8A7Ohdxbej+tn9SvEZkxsfMR2W4+z7YrQFnUcwGvk70Y4ViD4qhAgqaxMz35xkurayEFGUdQdPAouFpJ6Uo/HoywI9eIym9qAg9u8C4osx5y0normH+/8A3VYS96KeoYSpMLjMi7rOth8Se4/uk4St6qJoGU3JOUyyWaPBh8St6mmV16G4sQelABK3qQl71u2MCNGDpmmp2DDy8QShN3XEBNrc2gPTfYVGLiSZkcOJuElRIzJAOiifpc0ozLuSG86gSq2YgUQYWYoysqKm/wCCjqDsf6rNsJYHzCj6izfPaMpfCkqBI5uv/NTEjmzZhfTt4Oh67UCEvTrUxL160I4o9Qgz7e4bS9okZhyiw+lqsxFl18AdBqaXRL060zYQwpuNxXRZbmtj2HasXUF1h1PLrS/Sf6kwFbS1zYKCps6uNpGqdxtThWUNTbLtsQz0VdXptPKM9bK7gg96eMW9MRJylOxz7Z86kpHKo7j8UqzPT2KxCbxi8gfE1zD6dftVZeSu/nRkNuCxZ42IPKU25QAa6hw+arrDjZs4hSD4Um1bbC3FWbQpZ8JTejxY0PE7pXlvl0ubmph5XmrUP0/issi0YtIPxO8o+nX7U0YV6ZiwiHZB9w8NRccqTsPzS7chdPOzGFYTWH0JS9PYO66pEuakpbGrbZ6q3O1NdZWVKawstsy6hFU16az/2Q==" alt="Logo">
+      <div><div class="logo-t">Sibarita Sport Club</div><div class="logo-s">1er Campeonato Bolas Criollas 2026</div></div>
     </div>
-    <div class="fase-badge">FASE 1</div>
+    <div class="badge">FASE 1</div>
   </div>
   <div class="nav">
-    <button class="nav-btn active" onclick="showTab('teams',this)">
-      <span class="nav-icon">👥</span>Equipos
-    </button>
-    <button class="nav-btn" onclick="showTab('matches',this)">
-      <span class="nav-icon">🎯</span>Partidos
-    </button>
-    <button class="nav-btn" onclick="showTab('standings',this)">
-      <span class="nav-icon">🏆</span>Tabla
-    </button>
+    <button class="nb on" onclick="tab('teams',this)"><span>👥</span>Equipos</button>
+    <button class="nb" onclick="tab('matches',this)"><span>🎯</span>Partidos</button>
+    <button class="nb" onclick="tab('standings',this)"><span>🏆</span>Tabla</button>
+    <button class="nb" onclick="tab('stats',this)"><span>📊</span>Average</button>
+  </div>
+</div>
+<div class="body">
+
+<!-- EQUIPOS -->
+<div id="s-teams" class="scr on">
+  <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar equipo o jugador..." oninput="srchTeam(this.value)"></div>
+  <div id="srch-res" style="display:none"></div>
+  <div id="teams-main">
+    <div class="frow">
+      <button class="fb on" id="t-fem" onclick="tCat('Femenino')">👩 Femenino</button>
+      <button class="fb" id="t-mas" onclick="tCat('Masculino')">👨 Masculino</button>
+    </div>
+    <div class="frow">
+      <button class="fb on" id="t-ga" onclick="tGrp('A')">Grupo A</button>
+      <button class="fb" id="t-gb" onclick="tGrp('B')">Grupo B</button>
+    </div>
+    <div class="lbl" id="t-cnt"></div>
+    <div id="t-list"></div>
+    <div id="t-detail" style="display:none">
+      <button class="back" onclick="tBack()">← Volver</button>
+      <div class="card" id="t-dhead" style="border:1px solid #e8b84b44;margin-bottom:12px;"></div>
+      <div class="lbl">Plantilla</div>
+      <div id="t-dplayers"></div>
+    </div>
   </div>
 </div>
 
-<div class="body">
+<!-- PARTIDOS -->
+<div id="s-matches" class="scr">
+  <div class="frow">
+    <button class="fb on" id="m-fem" onclick="mCat('Femenino')">👩 Femenino</button>
+    <button class="fb" id="m-mas" onclick="mCat('Masculino')">👨 Masculino</button>
+  </div>
+  <div class="frow">
+    <button class="fb on" id="m-ga" onclick="mGrp('A')">Grupo A</button>
+    <button class="fb" id="m-gb" onclick="mGrp('B')">Grupo B</button>
+  </div>
+  <div class="fscroll" id="m-weeks"></div>
+  <div class="lbl" id="m-cnt"></div>
+  <div id="m-list"></div>
+</div>
 
-  <!-- ══ EQUIPOS ══ -->
-  <div id="screen-teams" class="screen active">
-    <div class="filter-row">
-      <button class="f-btn active" id="cat-fem" onclick="setCat('Femenino')">👩 Femenino</button>
-      <button class="f-btn" id="cat-mas" onclick="setCat('Masculino')">👨 Masculino</button>
-    </div>
-    <div class="filter-row">
-      <button class="f-btn active" id="grp-a" onclick="setGrp('A')">Grupo A</button>
-      <button class="f-btn" id="grp-b" onclick="setGrp('B')">Grupo B</button>
-    </div>
-    <div class="section-label" id="teams-count"></div>
-    <div id="teams-list"></div>
+<!-- TABLA -->
+<div id="s-standings" class="scr">
+  <div class="frow">
+    <button class="fb on" id="st-fem" onclick="sCat('Femenino')">👩 Femenino</button>
+    <button class="fb" id="st-mas" onclick="sCat('Masculino')">👨 Masculino</button>
+  </div>
+  <div class="frow">
+    <button class="fb on" id="st-ga" onclick="sGrp('A')">Grupo A</button>
+    <button class="fb" id="st-gb" onclick="sGrp('B')">Grupo B</button>
+  </div>
+  <div id="st-list"></div>
+  <div class="ibox">📌 <b>Victoria:</b> 3 pts | <b>Derrota:</b> 0 pts<br>📌 Gana quien llegue a <b>20 tantos</b>. A las 2h gana quien tenga ≥12 (60%).<br>📌 Empate 12-12 → <b>tiro extra</b>.</div>
+</div>
 
-    <!-- DETALLE EQUIPO -->
-    <div id="team-detail" style="display:none;">
-      <button class="back-btn" onclick="closeDetail()">← Volver</button>
-      <div class="card" style="border:1px solid #e8b84b44;margin-bottom:14px;">
-        <div id="detail-name" style="font-size:16px;font-weight:bold;color:#e8b84b;margin-bottom:4px;"></div>
-        <div id="detail-sub" style="font-size:11px;color:#8899aa;"></div>
-      </div>
-      <div id="detail-players"></div>
+<!-- AVERAGE -->
+<div id="s-stats" class="scr">
+  <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar jugador..." oninput="srchPlayer(this.value)" id="psrch"></div>
+  <div class="frow">
+    <button class="fb on" id="a-fem" onclick="aCat('Femenino')">👩 Femenino</button>
+    <button class="fb" id="a-mas" onclick="aCat('Masculino')">👨 Masculino</button>
+  </div>
+  <div class="frow">
+    <button class="fb on" id="a-ga" onclick="aGrp('A')">Grupo A</button>
+    <button class="fb" id="a-gb" onclick="aGrp('B')">Grupo B</button>
+  </div>
+  <div class="frow">
+    <button class="fb on" id="a-all" onclick="aPos('Todos')">Todos</button>
+    <button class="fb" id="a-arr" onclick="aPos('Arrime')">🎯 Arrime</button>
+    <button class="fb" id="a-boc" onclick="aPos('Boche')">💥 Boche</button>
+  </div>
+  <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;margin-bottom:6px;">
+    <div style="width:20px"></div>
+    <div style="flex:1;font-size:9px;color:#8899aa;">JUGADOR</div>
+    <div style="display:flex;gap:6px;">
+      <div style="min-width:26px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">PJ</div>
+      <div style="min-width:26px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">ARR</div>
+      <div style="min-width:26px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">BOC</div>
+      <div style="min-width:32px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">EFEC%</div>
     </div>
   </div>
-
-  <!-- ══ PARTIDOS ══ -->
-  <div id="screen-matches" class="screen">
-    <div class="filter-row">
-      <button class="f-btn active" id="mcat-fem" onclick="setMCat('Femenino')">👩 Femenino</button>
-      <button class="f-btn" id="mcat-mas" onclick="setMCat('Masculino')">👨 Masculino</button>
-    </div>
-    <div class="filter-row">
-      <button class="f-btn active" id="mgrp-a" onclick="setMGrp('A')">Grupo A</button>
-      <button class="f-btn" id="mgrp-b" onclick="setMGrp('B')">Grupo B</button>
-    </div>
-    <div class="filter-row scroll" id="week-filters"></div>
-    <div class="section-label" id="matches-count"></div>
-    <div id="matches-list"></div>
-  </div>
-
-  <!-- ══ TABLA ══ -->
-  <div id="screen-standings" class="screen">
-    <div class="filter-row">
-      <button class="f-btn active" id="scat-fem" onclick="setSCat('Femenino')">👩 Femenino</button>
-      <button class="f-btn" id="scat-mas" onclick="setSCat('Masculino')">👨 Masculino</button>
-    </div>
-    <div class="filter-row">
-      <button class="f-btn active" id="sgrp-a" onclick="setSGrp('A')">Grupo A</button>
-      <button class="f-btn" id="sgrp-b" onclick="setSGrp('B')">Grupo B</button>
-    </div>
-    <div id="standings-list"></div>
-    <div class="info-box">🏆 La tabla se actualizará conforme se registren los resultados de cada partido.</div>
-  </div>
+  <div id="a-list"></div>
+  <div class="ibox">📌 <b>ARR:</b> Arrimes buenos/malos | <b>BOC:</b> Boches buenos/malos | <b>EFEC%:</b> Efectividad<br>📌 Mín. <b>30%</b> partidos del equipo para clasificar a eliminatorias.</div>
+</div>
 
 </div>
 
@@ -198,365 +196,445 @@ const teams = [
   {name:"Atavenca",category:"Femenino",group:"B",players:["Rosa Fuentes","Luisa Méndez","Ana Ortíz","Carmen Peña","Lourdes Rey","Teresa Santos","Francisca Torre","Pilar Uribe","Ángeles Valcárcel","Mercedes Velasco","María Villanueva","Antonia Yáñez"]},
   {name:"Las Femix",category:"Femenino",group:"B",players:["Jacinta Alonso","Felisa Blanco","Nuria Carrión","Olga De Lucas","Irene Escudero","Raquel Fernández","Sara Gracia","Elena Hernández","Marta Iglesias","Diana Jiménez","Laura López","Beatriz Martínez"]},
   {name:"Emprendedoras",category:"Femenino",group:"B",players:["Jacinta Alonso","Felisa Blanco","Nuria Carrión","Olga De Lucas","Irene Escudero","Raquel Fernández","Sara Gracia","Elena Hernández","Marta Iglesias","Diana Jiménez","Laura López","Beatriz Martínez"]},
-  {name:"Corpolec1",category:"Masculino",group:"A",players:["Rodrigo González","Matías Muñoz","Sebastián Rojas","Benjamín Díaz","Lucas Soto","Martín Fernández","Nicolás Pérez","Diego López","Pablo Jiménez","Alejandro Ruiz","Carlos Sánchez","Javier Ramírez"]},
-  {name:"La Familia",category:"Masculino",group:"A",players:["Marcelo Herrera","Cristian Flores","Felipe Bravo","Mauricio Silva","Gonzalo Valenzuela","Nicolás Carrasco","Sebastián Pizarro","Rafael Toledo","Francisco Salinas","Ignacio Guzmán","Vicente Sepúlveda","Agustín Espinoza"]},
-  {name:"Ingenieros",category:"Masculino",group:"A",players:["Francisco González","Juan Pablo Rodríguez","Andrés López","José Martínez","Jorge Fernández","Claudio Herrera","Pablo Díaz","Gustavo García","Rodrigo Pérez","Gabriel Jiménez","Patricio Suárez","Esteban Muñoz"]},
-  {name:"Futboleros",category:"Masculino",group:"A",players:["Ignacio Soto","Tomás Castillo","Cristóbal Cárdenas","Damián Molina","Joaquín Riquelme","Simón Lagos","Gaspar Mora","Santiago Cabrera","Lucas Silva","Maximiliano Soto","Alonso Tapia","Baltazar Catalán"]},
-  {name:"Poder Judicial",category:"Masculino",group:"A",players:["Fernando Valdés","Eduardo Salazar","Daniel Gaete","Juan Vargas","Alex Cáceres","Fabián Maldonado","Héctor Escobar","Iván Parra","Christian Bustos","Oscar Orellana","Sergio Pino","René Henríquez"]},
+  {name:"Tornillería YR Portuguesa",category:"Masculino",group:"A",players:["Rodrigo González","Matías Muñoz","Sebastián Rojas","Benjamín Díaz","Lucas Soto","Martín Fernández","Nicolás Pérez","Diego López","Pablo Jiménez","Alejandro Ruiz","Carlos Sánchez","Javier Ramírez"]},
+  {name:"Fuerza",category:"Masculino",group:"A",players:["Marcelo Herrera","Cristian Flores","Felipe Bravo","Mauricio Silva","Gonzalo Valenzuela","Nicolás Carrasco","Sebastián Pizarro","Rafael Toledo","Francisco Salinas","Ignacio Guzmán","Vicente Sepúlveda","Agustín Espinoza"]},
+  {name:"Corpoelec2",category:"Masculino",group:"A",players:["Francisco González","Juan Pablo Rodríguez","Andrés López","José Martínez","Jorge Fernández","Claudio Herrera","Pablo Díaz","Gustavo García","Rodrigo Pérez","Gabriel Jiménez","Patricio Suárez","Esteban Muñoz"]},
+  {name:"Servihidra",category:"Masculino",group:"A",players:["Ignacio Soto","Tomás Castillo","Cristóbal Cárdenas","Damián Molina","Joaquín Riquelme","Simón Lagos","Gaspar Mora","Santiago Cabrera","Lucas Silva","Maximiliano Soto","Alonso Tapia","Baltazar Catalán"]},
+  {name:"Familia Ortega",category:"Masculino",group:"A",players:["Fernando Valdés","Eduardo Salazar","Daniel Gaete","Juan Vargas","Alex Cáceres","Fabián Maldonado","Héctor Escobar","Iván Parra","Christian Bustos","Oscar Orellana","Sergio Pino","René Henríquez"]},
   {name:"Exasa",category:"Masculino",group:"A",players:["David Morales","Emilio Mella","Kevin Ortega","Brandon Farías","Yerko Zapata","Darío Leiva","Óscar Sanhueza","Víctor Vergara","Álvaro Paredes","Iván Hidalgo","Ricardo Cornejo","Franco Fuentes"]},
-  {name:"Micro PC",category:"Masculino",group:"A",players:["Mathías Carrillo","Damián Jara","Bruno Soto","Nicolás Villalobos","Benjamín Acuña","Alan Ríos","Enzo Millán","Axel Cuevas","Liam Cárcamo","Ian Poblete","Thiago Godoy","Luciano Ramírez"]},
-  {name:"Triunfadores",category:"Masculino",group:"A",players:["Joaquín González","Maximiliano Rivera","Luciano Soto","Santiago Rojas","Nicolás Martínez","Benjamín Rodríguez","Lucas López","Matías García","Alonso Fernández","Vicente Pérez","Agustín Sánchez","Tomás Díaz"]},
-  {name:"Sibarita",category:"Masculino",group:"A",players:["Julián Muñoz","Franco Vera","Mateo Castillo","Facundo Córdova","Lorenzo Figueroa","Gael Espinoza","Dylan Acosta","Thiago Bustamante","Agustín Navarrete","Valentino Parada","Félix Olguín","Elías Pereira"]},
-  {name:"Tecnifamilia",category:"Masculino",group:"A",players:["Carlos Alarcón","Cristopher Bahamondes","Bryan Carvajal","Patricio Duran","Jorge Escobar","Felipe Gaete","Gonzalo Hernández","Hugo Inostroza","Ignacio Jorquera","José Kramm","Kevin Lagos","Luis Mardones"]},
-  {name:"Los Panas (Vimapin)",category:"Masculino",group:"A",players:["Manuel Núñez","Nelson Orellana","Óscar Parra","Pedro Quiroz","René Riquelme","Samuel Salinas","Teodoro Tapia","Ulises Urrutia","Vicente Vásquez","Wilmer Yáñez","Xavier Zúñiga","Yonathan Arancibia"]},
-  {name:"Familia Ortega",category:"Masculino",group:"B",players:["Miguel Ortega","Antonio Ortega","José Ortega","Francisco Ortega","Manuel Ortega","Juan Ortega","Pedro Ortega","David Ortega","Javier Ortega","Jesús Ortega","Carlos Ortega","Daniel Ortega"]},
-  {name:"Los Veliz",category:"Masculino",group:"B",players:["Rafael Veliz","Fernando Veliz","Diego Veliz","Eduardo Veliz","Jorge Veliz","Mario Veliz","Ricardo Veliz","Alejandro Veliz","Alberto Veliz","Luis Veliz","Juan Veliz","Gabriel Veliz"]},
-  {name:"Sibarita 2",category:"Masculino",group:"B",players:["Alex Sierra","Brian Lagos","Cristóbal Soto","Eduardo Maldonado","Felipe Galaz","Gustavo Arriagada","Héctor Carvajal","Italo Durán","Jonathan Escalona","Kevin Flores","Leonardo Godoy","Marcelo Herrera"]},
+  {name:"Los Panas Vimapin",category:"Masculino",group:"A",players:["Mathías Carrillo","Damián Jara","Bruno Soto","Nicolás Villalobos","Benjamín Acuña","Alan Ríos","Enzo Millán","Axel Cuevas","Liam Cárcamo","Ian Poblete","Thiago Godoy","Luciano Ramírez"]},
+  {name:"Club Afibola",category:"Masculino",group:"A",players:["Joaquín González","Maximiliano Rivera","Luciano Soto","Santiago Rojas","Nicolás Martínez","Benjamín Rodríguez","Lucas López","Matías García","Alonso Fernández","Vicente Pérez","Agustín Sánchez","Tomás Díaz"]},
+  {name:"Yusevin CA",category:"Masculino",group:"A",players:["Julián Muñoz","Franco Vera","Mateo Castillo","Facundo Córdova","Lorenzo Figueroa","Gael Espinoza","Dylan Acosta","Thiago Bustamante","Agustín Navarrete","Valentino Parada","Félix Olguín","Elías Pereira"]},
+  {name:"Los Amigos",category:"Masculino",group:"A",players:["Carlos Alarcón","Cristopher Bahamondes","Bryan Carvajal","Patricio Duran","Jorge Escobar","Felipe Gaete","Gonzalo Hernández","Hugo Inostroza","Ignacio Jorquera","José Kramm","Kevin Lagos","Luis Mardones"]},
+  {name:"Unidos de Hato",category:"Masculino",group:"A",players:["Manuel Núñez","Nelson Orellana","Óscar Parra","Pedro Quiroz","René Riquelme","Samuel Salinas","Teodoro Tapia","Ulises Urrutia","Vicente Vásquez","Wilmer Yáñez","Xavier Zúñiga","Yonathan Arancibia"]},
+  {name:"Sibarita",category:"Masculino",group:"A",players:["Manuel Núñez","Nelson Orellana","Óscar Parra","Pedro Quiroz","René Riquelme","Samuel Salinas","Teodoro Tapia","Ulises Urrutia","Vicente Vásquez","Wilmer Yáñez","Xavier Zúñiga","Yonathan Arancibia"]},
+  {name:"Team JM&JA",category:"Masculino",group:"B",players:["Miguel Ortega","Antonio Ortega","José Ortega","Francisco Ortega","Manuel Ortega","Juan Ortega","Pedro Ortega","David Ortega","Javier Ortega","Jesús Ortega","Carlos Ortega","Daniel Ortega"]},
+  {name:"Poder Justiciable",category:"Masculino",group:"B",players:["Rafael Veliz","Fernando Veliz","Diego Veliz","Eduardo Veliz","Jorge Veliz","Mario Veliz","Ricardo Veliz","Alejandro Veliz","Alberto Veliz","Luis Veliz","Juan Veliz","Gabriel Veliz"]},
+  {name:"Ingenieros",category:"Masculino",group:"B",players:["Alex Sierra","Brian Lagos","Cristóbal Soto","Eduardo Maldonado","Felipe Galaz","Gustavo Arriagada","Héctor Carvajal","Italo Durán","Jonathan Escalona","Kevin Flores","Leonardo Godoy","Marcelo Herrera"]},
   {name:"Agroserviportuguesa",category:"Masculino",group:"B",players:["Rodrigo Armijo","Sebastián Belmar","Tomás Contreras","Vicente Díaz","William Estay","Yerko Ferreira","Álvaro González","Benjamín Henríquez","Claudio Ibarra","Daniel Jara","Esteban Kämpf","Fabián López"]},
-  {name:"Servihidra",category:"Masculino",group:"B",players:["Germán Martínez","Harol Nazar","Israel Oyarzún","Juan Peña","Kevin Quezada","Leandro Rojas","Mauricio Salazar","Nicolás Toro","Óscar Urzúa","Pablo Vásquez","Renato Valenzuela","Sergio Zamorano"]},
-  {name:"Pintucal",category:"Masculino",group:"B",players:["Alexis Alvarado","Brayan Baeza","Cristian Cabrera","David Donoso","Enzo Escobar","Francesco Fuenzalida","Gary Guzmán","Hugo Hidalgo","Iván Inostroza","Jean Jara","Kevin Kramm","Luis Lagos"]},
-  {name:"Corpolec2",category:"Masculino",group:"B",players:["Marco Mena","Nicolás Núñez","Óscar Orellana","Patricio Pino","Ricardo Quevedo","Sandro Riquelme","Tomás San Martín","Ulises Tapia","Valentín Uribe","Williams Valdés","Xavier Watson","Yonathan Zamora"]},
-  {name:"San Jose 2",category:"Masculino",group:"B",players:["Adrián Acevedo","Benjamín Bravo","César Cornejo","Dylan Díaz","Elías Espinoza","Fabián Flores","Gabriel González","Héctor Hernández","Ignacio Ibarra","Joaquín Jorquera","Kevin Lagos","Leonardo Martínez"]},
-  {name:"Big Tipos",category:"Masculino",group:"B",players:["Mauricio Navarro","Nicolás Orellana","Octavio Pardo","Patricio Quezada","Rodrigo Rubio","Samuel Salinas","Tomás Tapia","Vicente Urrutia","William Vásquez","Xavier Yáñez","Yerko Zúñiga","Zacarías Aguilar"]},
-  {name:"Los amigos",category:"Masculino",group:"B",players:["Alan Bastías","Boris Castillo","Cristóbal Cerda","Domingo Díaz","Eduardo Farías","Fabián Guerra","Gabriel Herrera","Hugo Cerda","Irwin Jara","Jorge Lagos","Kevin Márquez","Leonardo Núñez"]},
-  {name:"Refrigeracion torrealba",category:"Masculino",group:"B",players:["Marcelo Opazo","Nelson Ponce","Orlando Quiroz","Pedro Ríos","Raúl Silva","Salvador Tapia","Teodoro Urrea","Víctor Valenzuela","Walter Westphal","Yhon Yáñez","Zacarías Zuleta","Alexis Torrealba"]},
+  {name:"Los Irochimas",category:"Masculino",group:"B",players:["Germán Martínez","Harol Nazar","Israel Oyarzún","Juan Peña","Kevin Quezada","Leandro Rojas","Mauricio Salazar","Nicolás Toro","Óscar Urzúa","Pablo Vásquez","Renato Valenzuela","Sergio Zamorano"]},
+  {name:"Tribunal Protección",category:"Masculino",group:"B",players:["Alexis Alvarado","Brayan Baeza","Cristian Cabrera","David Donoso","Enzo Escobar","Francesco Fuenzalida","Gary Guzmán","Hugo Hidalgo","Iván Inostroza","Jean Jara","Kevin Kramm","Luis Lagos"]},
+  {name:"Bodegon Los Vasquez",category:"Masculino",group:"B",players:["Marco Mena","Nicolás Núñez","Óscar Orellana","Patricio Pino","Ricardo Quevedo","Sandro Riquelme","Tomás San Martín","Ulises Tapia","Valentín Uribe","Williams Valdés","Xavier Watson","Yonathan Zamora"]},
+  {name:"Triunfadores",category:"Masculino",group:"B",players:["Adrián Acevedo","Benjamín Bravo","César Cornejo","Dylan Díaz","Elías Espinoza","Fabián Flores","Gabriel González","Héctor Hernández","Ignacio Ibarra","Joaquín Jorquera","Kevin Lagos","Leonardo Martínez"]},
+  {name:"Pintucal",category:"Masculino",group:"B",players:["Mauricio Navarro","Nicolás Orellana","Octavio Pardo","Patricio Quezada","Rodrigo Rubio","Samuel Salinas","Tomás Tapia","Vicente Urrutia","William Vásquez","Xavier Yáñez","Yerko Zúñiga","Zacarías Aguilar"]},
+  {name:"Gladiadores del Cerrito",category:"Masculino",group:"B",players:["Alan Bastías","Boris Castillo","Cristóbal Cerda","Domingo Díaz","Eduardo Farías","Fabián Guerra","Gabriel Herrera","Hugo Cerda","Irwin Jara","Jorge Lagos","Kevin Márquez","Leonardo Núñez"]},
+  {name:"Atletico Paez",category:"Masculino",group:"B",players:["Marcelo Opazo","Nelson Ponce","Orlando Quiroz","Pedro Ríos","Raúl Silva","Salvador Tapia","Teodoro Urrea","Víctor Valenzuela","Walter Westphal","Yhon Yáñez","Zacarías Zuleta","Alexis Torrealba"]},
 ];
 
-const matches = [
-  {id:1,category:"Femenino",group:"A",teamA:"Jujure (Educadoras)",teamB:"Ferrecenca",date:"8/5/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 1",week:"Semana 1"},
-  {id:2,category:"Masculino",group:"A",teamA:"La Familia",teamB:"Triunfadores",date:"8/5/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 2",week:"Semana 1"},
-  {id:3,category:"Masculino",group:"B",teamA:"Familia Ortega",teamB:"Corpolec2",date:"8/5/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 3",week:"Semana 1"},
-  {id:4,category:"Femenino",group:"B",teamA:"Cerveceras",teamB:"Chikas",date:"8/5/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 1",week:"Semana 1"},
-  {id:5,category:"Femenino",group:"B",teamA:"Centinelas A/A",teamB:"Corpolec Jubiladas",date:"8/5/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 2",week:"Semana 1"},
-  {id:6,category:"Femenino",group:"A",teamA:"Las niñas malas",teamB:"Ferrecenca",date:"8/5/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 3",week:"Semana 1"},
-  {id:7,category:"Femenino",group:"B",teamA:"Taferca",teamB:"Sibarita Chicas",date:"9/5/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 1",week:"Semana 1"},
-  {id:8,category:"Masculino",group:"B",teamA:"Servihidra",teamB:"Los amigos",date:"9/5/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 2",week:"Semana 1"},
-  {id:9,category:"Masculino",group:"B",teamA:"Los Veliz",teamB:"Big Tipos",date:"9/5/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 3",week:"Semana 1"},
-  {id:10,category:"Masculino",group:"A",teamA:"Poder Judicial",teamB:"Triunfadores",date:"9/5/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 1",week:"Semana 1"},
-  {id:11,category:"Masculino",group:"A",teamA:"Sibarita",teamB:"Los Panas (Vimapin)",date:"9/5/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 2",week:"Semana 1"},
-  {id:12,category:"Femenino",group:"B",teamA:"Centinelas A/A",teamB:"Contadoras",date:"9/5/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 3",week:"Semana 1"},
-  {id:13,category:"Masculino",group:"B",teamA:"Los Veliz",teamB:"Los amigos",date:"9/5/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 1",week:"Semana 1"},
-  {id:14,category:"Masculino",group:"A",teamA:"La Familia",teamB:"Futboleros",date:"9/5/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 2",week:"Semana 1"},
-  {id:15,category:"Femenino",group:"B",teamA:"Centinelas A/A",teamB:"Vimapin",date:"9/5/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 3",week:"Semana 1"},
-  {id:16,category:"Masculino",group:"B",teamA:"San Jose 2",teamB:"Los amigos",date:"10/5/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 1",week:"Semana 1"},
-  {id:17,category:"Masculino",group:"B",teamA:"San Jose 2",teamB:"Refrigeracion torrealba",date:"10/5/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 2",week:"Semana 1"},
-  {id:18,category:"Femenino",group:"A",teamA:"Ferrecenca",teamB:"Santana",date:"10/5/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 3",week:"Semana 1"},
-  {id:19,category:"Femenino",group:"A",teamA:"Agro Biz",teamB:"Esquina del Sabor",date:"10/5/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 1",week:"Semana 1"},
-  {id:20,category:"Femenino",group:"A",teamA:"Las niñas malas",teamB:"Esquina del Sabor",date:"10/5/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 2",week:"Semana 1"},
-  {id:21,category:"Femenino",group:"A",teamA:"Jujure (Educadoras)",teamB:"Santana",date:"10/5/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 3",week:"Semana 1"},
-  {id:22,category:"Femenino",group:"A",teamA:"Agro Biz",teamB:"Santana",date:"14/5/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 1",week:"Semana 1"},
-  {id:23,category:"Femenino",group:"A",teamA:"Sabaneta",teamB:"Saboga",date:"14/5/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 2",week:"Semana 1"},
-  {id:24,category:"Femenino",group:"A",teamA:"Esquina del Sabor",teamB:"Coelecmar",date:"14/5/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 3",week:"Semana 1"},
-  {id:25,category:"Femenino",group:"B",teamA:"Emprendedoras",teamB:"Contadoras",date:"14/5/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 1",week:"Semana 1"},
-  {id:26,category:"Femenino",group:"B",teamA:"Vimapin",teamB:"Contadoras",date:"14/5/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 2",week:"Semana 1"},
-  {id:27,category:"Femenino",group:"A",teamA:"Esquina del Sabor",teamB:"Futboleras",date:"14/5/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 3",week:"Semana 1"},
-  {id:28,category:"Masculino",group:"A",teamA:"Micro PC",teamB:"Los Panas (Vimapin)",date:"15/5/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 1",week:"Semana 2"},
-  {id:29,category:"Femenino",group:"B",teamA:"Atrevidas",teamB:"Taferca",date:"15/5/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 2",week:"Semana 2"},
-  {id:30,category:"Masculino",group:"A",teamA:"Ingenieros",teamB:"Poder Judicial",date:"15/5/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 3",week:"Semana 2"},
-  {id:31,category:"Masculino",group:"A",teamA:"La Familia",teamB:"Tecnifamilia",date:"15/5/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 1",week:"Semana 2"},
-  {id:32,category:"Masculino",group:"A",teamA:"Exasa",teamB:"Micro PC",date:"15/5/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 2",week:"Semana 2"},
-  {id:33,category:"Femenino",group:"B",teamA:"Atrevidas",teamB:"Chikas",date:"15/5/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 3",week:"Semana 2"},
-  {id:34,category:"Masculino",group:"B",teamA:"Familia Ortega",teamB:"Servihidra",date:"16/5/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 1",week:"Semana 2"},
-  {id:35,category:"Femenino",group:"A",teamA:"Agro Biz",teamB:"Coelecmar",date:"16/5/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 2",week:"Semana 2"},
-  {id:36,category:"Masculino",group:"A",teamA:"Tecnifamilia",teamB:"Los Panas (Vimapin)",date:"16/5/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 3",week:"Semana 2"},
-  {id:37,category:"Femenino",group:"B",teamA:"Taferca",teamB:"Vimapin",date:"16/5/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 1",week:"Semana 2"},
-  {id:38,category:"Masculino",group:"B",teamA:"Los Veliz",teamB:"Pintucal",date:"16/5/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 2",week:"Semana 2"},
-  {id:39,category:"Femenino",group:"B",teamA:"Centinelas A/A",teamB:"Emprendedoras",date:"16/5/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 3",week:"Semana 2"},
-  {id:40,category:"Femenino",group:"B",teamA:"Contadoras",teamB:"Sibarita Chicas",date:"16/5/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 1",week:"Semana 2"},
-  {id:41,category:"Femenino",group:"A",teamA:"Agro Biz",teamB:"Futboleras",date:"16/5/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 2",week:"Semana 2"},
-  {id:42,category:"Femenino",group:"B",teamA:"Taferca",teamB:"Contadoras",date:"16/5/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 3",week:"Semana 2"},
-  {id:43,category:"Femenino",group:"A",teamA:"Sabaneta",teamB:"Ferrecenca",date:"17/5/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 1",week:"Semana 2"},
-  {id:44,category:"Masculino",group:"A",teamA:"Futboleros",teamB:"Micro PC",date:"17/5/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 2",week:"Semana 2"},
-  {id:45,category:"Femenino",group:"B",teamA:"Chikas",teamB:"Sibarita Chicas",date:"17/5/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 3",week:"Semana 2"},
-  {id:46,category:"Masculino",group:"A",teamA:"La Familia",teamB:"Micro PC",date:"17/5/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 1",week:"Semana 2"},
-  {id:47,category:"Masculino",group:"A",teamA:"Ingenieros",teamB:"Micro PC",date:"17/5/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 2",week:"Semana 2"},
-  {id:48,category:"Masculino",group:"B",teamA:"Corpolec2",teamB:"Los amigos",date:"17/5/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 3",week:"Semana 2"},
-  {id:49,category:"Masculino",group:"A",teamA:"Ingenieros",teamB:"Triunfadores",date:"21/5/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 1",week:"Semana 2"},
-  {id:50,category:"Masculino",group:"A",teamA:"Micro PC",teamB:"Sibarita",date:"21/5/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 2",week:"Semana 2"},
-  {id:51,category:"Masculino",group:"A",teamA:"Futboleros",teamB:"Tecnifamilia",date:"21/5/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 3",week:"Semana 2"},
-  {id:52,category:"Femenino",group:"B",teamA:"Atrevidas",teamB:"Centinelas A/A",date:"21/5/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 1",week:"Semana 2"},
-  {id:53,category:"Masculino",group:"B",teamA:"Sibarita 2",teamB:"Pintucal",date:"21/5/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 2",week:"Semana 2"},
-  {id:54,category:"Femenino",group:"A",teamA:"Agro Biz",teamB:"Saboga",date:"21/5/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 3",week:"Semana 2"},
-  {id:55,category:"Masculino",group:"A",teamA:"Corpolec1",teamB:"Los Panas (Vimapin)",date:"22/5/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 1",week:"Semana 3"},
-  {id:56,category:"Femenino",group:"B",teamA:"Atrevidas",teamB:"Cerveceras",date:"22/5/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 2",week:"Semana 3"},
-  {id:57,category:"Masculino",group:"A",teamA:"Futboleros",teamB:"Exasa",date:"22/5/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 3",week:"Semana 3"},
-  {id:58,category:"Masculino",group:"B",teamA:"Los Veliz",teamB:"Sibarita 2",date:"22/5/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 1",week:"Semana 3"},
-  {id:59,category:"Femenino",group:"A",teamA:"Las niñas malas",teamB:"Saboga",date:"22/5/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 2",week:"Semana 3"},
-  {id:60,category:"Femenino",group:"A",teamA:"Jujure (Educadoras)",teamB:"Coelecmar",date:"22/5/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 3",week:"Semana 3"},
-  {id:61,category:"Femenino",group:"A",teamA:"Futboleras",teamB:"Sabaneta",date:"23/5/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 1",week:"Semana 3"},
-  {id:62,category:"Femenino",group:"B",teamA:"Emprendedoras",teamB:"Corpolec Jubiladas",date:"23/5/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 2",week:"Semana 3"},
-  {id:63,category:"Masculino",group:"B",teamA:"Familia Ortega",teamB:"Pintucal",date:"23/5/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 3",week:"Semana 3"},
-  {id:64,category:"Masculino",group:"A",teamA:"Poder Judicial",teamB:"Los Panas (Vimapin)",date:"23/5/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 1",week:"Semana 3"},
-  {id:65,category:"Femenino",group:"A",teamA:"Coelecmar",teamB:"Santana",date:"23/5/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 2",week:"Semana 3"},
-  {id:66,category:"Masculino",group:"A",teamA:"Ingenieros",teamB:"Sibarita",date:"23/5/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 3",week:"Semana 3"},
-  {id:67,category:"Masculino",group:"B",teamA:"Sibarita 2",teamB:"Refrigeracion torrealba",date:"23/5/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 1",week:"Semana 3"},
-  {id:68,category:"Femenino",group:"A",teamA:"Esquina del Sabor",teamB:"Santana",date:"23/5/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 2",week:"Semana 3"},
-  {id:69,category:"Masculino",group:"A",teamA:"Futboleros",teamB:"Triunfadores",date:"23/5/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 3",week:"Semana 3"},
-  {id:70,category:"Masculino",group:"A",teamA:"Micro PC",teamB:"Tecnifamilia",date:"24/5/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 1",week:"Semana 3"},
-  {id:71,category:"Masculino",group:"B",teamA:"Familia Ortega",teamB:"Los Veliz",date:"24/5/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 2",week:"Semana 3"},
-  {id:72,category:"Femenino",group:"B",teamA:"Vimapin",teamB:"Sibarita Chicas",date:"24/5/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 3",week:"Semana 3"},
-  {id:73,category:"Femenino",group:"A",teamA:"Esquina del Sabor",teamB:"Sabaneta",date:"24/5/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 1",week:"Semana 3"},
-  {id:74,category:"Masculino",group:"A",teamA:"La Familia",teamB:"Los Panas (Vimapin)",date:"24/5/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 2",week:"Semana 3"},
-  {id:75,category:"Masculino",group:"A",teamA:"Corpolec1",teamB:"Ingenieros",date:"24/5/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 3",week:"Semana 3"},
-  {id:76,category:"Femenino",group:"B",teamA:"Contadoras",teamB:"Corpolec Jubiladas",date:"28/5/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 1",week:"Semana 3"},
-  {id:77,category:"Femenino",group:"A",teamA:"Agro Biz",teamB:"Las niñas malas",date:"28/5/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 2",week:"Semana 3"},
-  {id:78,category:"Masculino",group:"A",teamA:"Poder Judicial",teamB:"Tecnifamilia",date:"28/5/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 3",week:"Semana 3"},
-  {id:79,category:"Masculino",group:"B",teamA:"Los Veliz",teamB:"Refrigeracion torrealba",date:"28/5/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 1",week:"Semana 3"},
-  {id:80,category:"Masculino",group:"A",teamA:"Corpolec1",teamB:"Triunfadores",date:"28/5/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 2",week:"Semana 3"},
-  {id:81,category:"Femenino",group:"B",teamA:"Taferca",teamB:"Corpolec Jubiladas",date:"28/5/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 3",week:"Semana 3"},
-  {id:82,category:"Masculino",group:"A",teamA:"Exasa",teamB:"Tecnifamilia",date:"29/5/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 1",week:"Semana 4"},
-  {id:83,category:"Femenino",group:"B",teamA:"Atrevidas",teamB:"Corpolec Jubiladas",date:"29/5/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 2",week:"Semana 4"},
-  {id:84,category:"Femenino",group:"B",teamA:"Cerveceras",teamB:"Sibarita Chicas",date:"29/5/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 3",week:"Semana 4"},
-  {id:85,category:"Femenino",group:"A",teamA:"Las niñas malas",teamB:"Futboleras",date:"29/5/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 1",week:"Semana 4"},
-  {id:86,category:"Masculino",group:"A",teamA:"Futboleros",teamB:"Sibarita",date:"29/5/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 2",week:"Semana 4"},
-  {id:87,category:"Femenino",group:"B",teamA:"Emprendedoras",teamB:"Sibarita Chicas",date:"29/5/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 3",week:"Semana 4"},
-  {id:88,category:"Masculino",group:"B",teamA:"Big Tipos",teamB:"Los amigos",date:"30/5/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 1",week:"Semana 4"},
-  {id:89,category:"Femenino",group:"A",teamA:"Coelecmar",teamB:"Sabaneta",date:"30/5/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 2",week:"Semana 4"},
-  {id:90,category:"Masculino",group:"B",teamA:"Big Tipos",teamB:"Refrigeracion torrealba",date:"30/5/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 3",week:"Semana 4"},
-  {id:91,category:"Femenino",group:"B",teamA:"Centinelas A/A",teamB:"Cerveceras",date:"30/5/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 1",week:"Semana 4"},
-  {id:92,category:"Femenino",group:"A",teamA:"Las niñas malas",teamB:"Coelecmar",date:"30/5/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 2",week:"Semana 4"},
-  {id:93,category:"Masculino",group:"B",teamA:"Los Veliz",teamB:"Agroserviportuguesa",date:"30/5/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 3",week:"Semana 4"},
-  {id:94,category:"Femenino",group:"A",teamA:"Sabaneta",teamB:"Santana",date:"30/5/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 1",week:"Semana 4"},
-  {id:95,category:"Femenino",group:"B",teamA:"Atrevidas",teamB:"Contadoras",date:"30/5/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 2",week:"Semana 4"},
-  {id:96,category:"Femenino",group:"B",teamA:"Centinelas A/A",teamB:"Sibarita Chicas",date:"30/5/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 3",week:"Semana 4"},
-  {id:97,category:"Masculino",group:"A",teamA:"Ingenieros",teamB:"Exasa",date:"31/5/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 1",week:"Semana 4"},
-  {id:98,category:"Masculino",group:"B",teamA:"Agroserviportuguesa",teamB:"Servihidra",date:"31/5/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 2",week:"Semana 4"},
-  {id:99,category:"Masculino",group:"A",teamA:"Ingenieros",teamB:"Tecnifamilia",date:"31/5/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 3",week:"Semana 4"},
-  {id:100,category:"Masculino",group:"B",teamA:"Servihidra",teamB:"Big Tipos",date:"31/5/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 1",week:"Semana 4"},
-  {id:101,category:"Masculino",group:"B",teamA:"Familia Ortega",teamB:"Agroserviportuguesa",date:"31/5/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 2",week:"Semana 4"},
-  {id:102,category:"Masculino",group:"A",teamA:"La Familia",teamB:"Sibarita",date:"31/5/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 3",week:"Semana 4"},
-  {id:103,category:"Masculino",group:"A",teamA:"Triunfadores",teamB:"Los Panas (Vimapin)",date:"4/6/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 1",week:"Semana 4"},
-  {id:104,category:"Femenino",group:"B",teamA:"Centinelas A/A",teamB:"Chikas",date:"4/6/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 2",week:"Semana 4"},
-  {id:105,category:"Femenino",group:"A",teamA:"Futboleras",teamB:"Saboga",date:"4/6/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 3",week:"Semana 4"},
-  {id:106,category:"Femenino",group:"A",teamA:"Agro Biz",teamB:"Sabaneta",date:"4/6/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 1",week:"Semana 4"},
-  {id:107,category:"Masculino",group:"B",teamA:"Familia Ortega",teamB:"Big Tipos",date:"4/6/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 2",week:"Semana 4"},
-  {id:108,category:"Masculino",group:"B",teamA:"Agroserviportuguesa",teamB:"San Jose 2",date:"4/6/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 3",week:"Semana 4"},
-  {id:109,category:"Femenino",group:"A",teamA:"Agro Biz",teamB:"Ferrecenca",date:"5/6/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 1",week:"Semana 5"},
-  {id:110,category:"Masculino",group:"A",teamA:"Corpolec1",teamB:"Sibarita",date:"5/6/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 2",week:"Semana 5"},
-  {id:111,category:"Masculino",group:"A",teamA:"Corpolec1",teamB:"Tecnifamilia",date:"5/6/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 3",week:"Semana 5"},
-  {id:112,category:"Masculino",group:"B",teamA:"Los Veliz",teamB:"Servihidra",date:"5/6/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 1",week:"Semana 5"},
-  {id:113,category:"Masculino",group:"B",teamA:"Familia Ortega",teamB:"Los amigos",date:"5/6/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 2",week:"Semana 5"},
-  {id:114,category:"Femenino",group:"A",teamA:"Esquina del Sabor",teamB:"Ferrecenca",date:"5/6/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 3",week:"Semana 5"},
-  {id:115,category:"Femenino",group:"A",teamA:"Coelecmar",teamB:"Futboleras",date:"6/6/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 1",week:"Semana 5"},
-  {id:116,category:"Masculino",group:"B",teamA:"Sibarita 2",teamB:"San Jose 2",date:"6/6/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 2",week:"Semana 5"},
-  {id:117,category:"Masculino",group:"B",teamA:"Servihidra",teamB:"San Jose 2",date:"6/6/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 3",week:"Semana 5"},
-  {id:118,category:"Masculino",group:"A",teamA:"Poder Judicial",teamB:"Micro PC",date:"6/6/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 1",week:"Semana 5"},
-  {id:119,category:"Femenino",group:"A",teamA:"Jujure (Educadoras)",teamB:"Esquina del Sabor",date:"6/6/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 2",week:"Semana 5"},
-  {id:120,category:"Masculino",group:"A",teamA:"Triunfadores",teamB:"Sibarita",date:"6/6/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 3",week:"Semana 5"},
-  {id:121,category:"Masculino",group:"B",teamA:"Sibarita 2",teamB:"Big Tipos",date:"6/6/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 1",week:"Semana 5"},
-  {id:122,category:"Masculino",group:"A",teamA:"Corpolec1",teamB:"Futboleros",date:"6/6/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 2",week:"Semana 5"},
-  {id:123,category:"Masculino",group:"B",teamA:"San Jose 2",teamB:"Big Tipos",date:"6/6/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 3",week:"Semana 5"},
-  {id:124,category:"Masculino",group:"A",teamA:"La Familia",teamB:"Exasa",date:"7/6/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 1",week:"Semana 5"},
-  {id:125,category:"Masculino",group:"B",teamA:"Pintucal",teamB:"Refrigeracion torrealba",date:"7/6/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 2",week:"Semana 5"},
-  {id:126,category:"Masculino",group:"B",teamA:"Pintucal",teamB:"Los amigos",date:"7/6/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 3",week:"Semana 5"},
-  {id:127,category:"Masculino",group:"B",teamA:"Sibarita 2",teamB:"Corpolec2",date:"7/6/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 1",week:"Semana 5"},
-  {id:128,category:"Masculino",group:"B",teamA:"Los Veliz",teamB:"Corpolec2",date:"7/6/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 2",week:"Semana 5"},
-  {id:129,category:"Femenino",group:"B",teamA:"Cerveceras",teamB:"Corpolec Jubiladas",date:"7/6/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 3",week:"Semana 5"},
-  {id:130,category:"Femenino",group:"A",teamA:"Jujure (Educadoras)",teamB:"Futboleras",date:"11/6/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 1",week:"Semana 5"},
-  {id:131,category:"Femenino",group:"B",teamA:"Cerveceras",teamB:"Vimapin",date:"11/6/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 2",week:"Semana 5"},
-  {id:132,category:"Masculino",group:"A",teamA:"Micro PC",teamB:"Triunfadores",date:"11/6/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 3",week:"Semana 5"},
-  {id:133,category:"Femenino",group:"B",teamA:"Atrevidas",teamB:"Emprendedoras",date:"11/6/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 1",week:"Semana 5"},
-  {id:134,category:"Femenino",group:"A",teamA:"Jujure (Educadoras)",teamB:"Saboga",date:"11/6/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 2",week:"Semana 5"},
-  {id:135,category:"Femenino",group:"B",teamA:"Cerveceras",teamB:"Taferca",date:"11/6/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 3",week:"Semana 5"},
-  {id:136,category:"Femenino",group:"B",teamA:"Cerveceras",teamB:"Emprendedoras",date:"12/6/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 1",week:"Semana 6"},
-  {id:137,category:"Masculino",group:"B",teamA:"Los Veliz",teamB:"San Jose 2",date:"12/6/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 2",week:"Semana 6"},
-  {id:138,category:"Femenino",group:"B",teamA:"Vimapin",teamB:"Corpolec Jubiladas",date:"12/6/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 3",week:"Semana 6"},
-  {id:139,category:"Masculino",group:"A",teamA:"Corpolec1",teamB:"Exasa",date:"12/6/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 1",week:"Semana 6"},
-  {id:140,category:"Masculino",group:"B",teamA:"Agroserviportuguesa",teamB:"Los amigos",date:"12/6/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 2",week:"Semana 6"},
-  {id:141,category:"Masculino",group:"B",teamA:"Los amigos",teamB:"Refrigeracion torrealba",date:"12/6/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 3",week:"Semana 6"},
-  {id:142,category:"Femenino",group:"B",teamA:"Emprendedoras",teamB:"Taferca",date:"13/6/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 1",week:"Semana 6"},
-  {id:143,category:"Masculino",group:"A",teamA:"Triunfadores",teamB:"Tecnifamilia",date:"13/6/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 2",week:"Semana 6"},
-  {id:144,category:"Femenino",group:"A",teamA:"Coelecmar",teamB:"Saboga",date:"13/6/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 3",week:"Semana 6"},
-  {id:145,category:"Masculino",group:"B",teamA:"Servihidra",teamB:"Corpolec2",date:"13/6/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 1",week:"Semana 6"},
-  {id:146,category:"Femenino",group:"B",teamA:"Chikas",teamB:"Contadoras",date:"13/6/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 2",week:"Semana 6"},
-  {id:147,category:"Femenino",group:"A",teamA:"Futboleras",teamB:"Ferrecenca",date:"13/6/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 3",week:"Semana 6"},
-  {id:148,category:"Masculino",group:"B",teamA:"Pintucal",teamB:"Corpolec2",date:"13/6/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 1",week:"Semana 6"},
-  {id:149,category:"Masculino",group:"B",teamA:"Sibarita 2",teamB:"Servihidra",date:"13/6/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 2",week:"Semana 6"},
-  {id:150,category:"Femenino",group:"A",teamA:"Futboleras",teamB:"Santana",date:"13/6/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 3",week:"Semana 6"},
-  {id:151,category:"Masculino",group:"B",teamA:"Sibarita 2",teamB:"Los amigos",date:"14/6/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 1",week:"Semana 6"},
-  {id:152,category:"Masculino",group:"A",teamA:"Exasa",teamB:"Triunfadores",date:"14/6/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 2",week:"Semana 6"},
-  {id:153,category:"Femenino",group:"B",teamA:"Corpolec Jubiladas",teamB:"Sibarita Chicas",date:"14/6/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 3",week:"Semana 6"},
-  {id:154,category:"Masculino",group:"B",teamA:"Familia Ortega",teamB:"Refrigeracion torrealba",date:"14/6/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 1",week:"Semana 6"},
-  {id:155,category:"Femenino",group:"A",teamA:"Ferrecenca",teamB:"Saboga",date:"14/6/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 2",week:"Semana 6"},
-  {id:156,category:"Femenino",group:"B",teamA:"Atrevidas",teamB:"Vimapin",date:"14/6/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 3",week:"Semana 6"},
-  {id:157,category:"Femenino",group:"B",teamA:"Chikas",teamB:"Corpolec Jubiladas",date:"18/6/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 1",week:"Semana 6"},
-  {id:158,category:"Masculino",group:"B",teamA:"Pintucal",teamB:"San Jose 2",date:"18/6/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 2",week:"Semana 6"},
-  {id:159,category:"Femenino",group:"B",teamA:"Centinelas A/A",teamB:"Taferca",date:"18/6/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 3",week:"Semana 6"},
-  {id:160,category:"Masculino",group:"A",teamA:"Futboleros",teamB:"Poder Judicial",date:"18/6/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 1",week:"Semana 6"},
-  {id:161,category:"Femenino",group:"A",teamA:"Jujure (Educadoras)",teamB:"Las niñas malas",date:"18/6/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 2",week:"Semana 6"},
-  {id:162,category:"Masculino",group:"B",teamA:"Corpolec2",teamB:"Big Tipos",date:"18/6/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 3",week:"Semana 6"},
-  {id:163,category:"Masculino",group:"B",teamA:"Agroserviportuguesa",teamB:"Pintucal",date:"19/6/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 1",week:"Semana 7"},
-  {id:164,category:"Masculino",group:"A",teamA:"Poder Judicial",teamB:"Sibarita",date:"19/6/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 2",week:"Semana 7"},
-  {id:165,category:"Femenino",group:"B",teamA:"Cerveceras",teamB:"Contadoras",date:"19/6/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 3",week:"Semana 7"},
-  {id:166,category:"Masculino",group:"B",teamA:"Familia Ortega",teamB:"Sibarita 2",date:"19/6/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 1",week:"Semana 7"},
-  {id:167,category:"Femenino",group:"A",teamA:"Las niñas malas",teamB:"Santana",date:"19/6/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 2",week:"Semana 7"},
-  {id:168,category:"Femenino",group:"B",teamA:"Vimapin",teamB:"Chikas",date:"19/6/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 3",week:"Semana 7"},
-  {id:169,category:"Masculino",group:"B",teamA:"Agroserviportuguesa",teamB:"Big Tipos",date:"20/6/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 1",week:"Semana 7"},
-  {id:170,category:"Masculino",group:"A",teamA:"Ingenieros",teamB:"Los Panas (Vimapin)",date:"20/6/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 2",week:"Semana 7"},
-  {id:171,category:"Masculino",group:"A",teamA:"Poder Judicial",teamB:"Exasa",date:"20/6/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 3",week:"Semana 7"},
-  {id:172,category:"Masculino",group:"A",teamA:"Ingenieros",teamB:"Futboleros",date:"20/6/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 1",week:"Semana 7"},
-  {id:173,category:"Masculino",group:"B",teamA:"Sibarita 2",teamB:"Agroserviportuguesa",date:"20/6/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 2",week:"Semana 7"},
-  {id:174,category:"Femenino",group:"A",teamA:"Saboga",teamB:"Santana",date:"20/6/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 3",week:"Semana 7"},
-  {id:175,category:"Femenino",group:"B",teamA:"Taferca",teamB:"Chikas",date:"20/6/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 1",week:"Semana 7"},
-  {id:176,category:"Masculino",group:"A",teamA:"Corpolec1",teamB:"La Familia",date:"20/6/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 2",week:"Semana 7"},
-  {id:177,category:"Femenino",group:"A",teamA:"Jujure (Educadoras)",teamB:"Sabaneta",date:"20/6/2026",day:"Sábado",hour:"8:00pm",field:"Cancha 3",week:"Semana 7"},
-  {id:178,category:"Masculino",group:"B",teamA:"Corpolec2",teamB:"San Jose 2",date:"21/6/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 1",week:"Semana 7"},
-  {id:179,category:"Masculino",group:"A",teamA:"La Familia",teamB:"Ingenieros",date:"21/6/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 2",week:"Semana 7"},
-  {id:180,category:"Masculino",group:"A",teamA:"Exasa",teamB:"Los Panas (Vimapin)",date:"21/6/2026",day:"Domingo",hour:"4:00pm",field:"Cancha 3",week:"Semana 7"},
-  {id:181,category:"Femenino",group:"B",teamA:"Emprendedoras",teamB:"Chikas",date:"21/6/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 1",week:"Semana 7"},
-  {id:182,category:"Femenino",group:"A",teamA:"Jujure (Educadoras)",teamB:"Agro Biz",date:"21/6/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 2",week:"Semana 7"},
-  {id:183,category:"Masculino",group:"A",teamA:"Exasa",teamB:"Sibarita",date:"21/6/2026",day:"Domingo",hour:"6:00pm",field:"Cancha 3",week:"Semana 7"},
-  {id:184,category:"Masculino",group:"A",teamA:"Corpolec1",teamB:"Micro PC",date:"25/6/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 1",week:"Semana 7"},
-  {id:185,category:"Masculino",group:"B",teamA:"Agroserviportuguesa",teamB:"Corpolec2",date:"25/6/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 2",week:"Semana 7"},
-  {id:186,category:"Masculino",group:"B",teamA:"Servihidra",teamB:"Pintucal",date:"25/6/2026",day:"Jueves",hour:"6:00pm",field:"Cancha 3",week:"Semana 7"},
-  {id:187,category:"Masculino",group:"A",teamA:"Futboleros",teamB:"Los Panas (Vimapin)",date:"25/6/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 1",week:"Semana 7"},
-  {id:188,category:"Masculino",group:"B",teamA:"Servihidra",teamB:"Refrigeracion torrealba",date:"25/6/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 2",week:"Semana 7"},
-  {id:189,category:"Femenino",group:"B",teamA:"Atrevidas",teamB:"Sibarita Chicas",date:"25/6/2026",day:"Jueves",hour:"8:00pm",field:"Cancha 3",week:"Semana 7"},
-  {id:190,category:"Femenino",group:"A",teamA:"Las niñas malas",teamB:"Sabaneta",date:"26/6/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 1",week:"Semana 8"},
-  {id:191,category:"Femenino",group:"A",teamA:"Coelecmar",teamB:"Ferrecenca",date:"26/6/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 2",week:"Semana 8"},
-  {id:192,category:"Masculino",group:"B",teamA:"Agroserviportuguesa",teamB:"Refrigeracion torrealba",date:"26/6/2026",day:"Viernes",hour:"6:00pm",field:"Cancha 3",week:"Semana 8"},
-  {id:193,category:"Masculino",group:"B",teamA:"Familia Ortega",teamB:"San Jose 2",date:"26/6/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 1",week:"Semana 8"},
-  {id:194,category:"Masculino",group:"A",teamA:"La Familia",teamB:"Poder Judicial",date:"26/6/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 2",week:"Semana 8"},
-  {id:195,category:"Femenino",group:"B",teamA:"Emprendedoras",teamB:"Vimapin",date:"26/6/2026",day:"Viernes",hour:"8:00pm",field:"Cancha 3",week:"Semana 8"},
-  {id:196,category:"Masculino",group:"A",teamA:"Sibarita",teamB:"Tecnifamilia",date:"27/6/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 1",week:"Semana 8"},
-  {id:197,category:"Masculino",group:"B",teamA:"Corpolec2",teamB:"Refrigeracion torrealba",date:"27/6/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 2",week:"Semana 8"},
-  {id:198,category:"Masculino",group:"B",teamA:"Pintucal",teamB:"Big Tipos",date:"27/6/2026",day:"Sábado",hour:"4:00pm",field:"Cancha 3",week:"Semana 8"},
-  {id:199,category:"Femenino",group:"A",teamA:"Esquina del Sabor",teamB:"Saboga",date:"27/6/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 1",week:"Semana 8"},
-  {id:200,category:"Masculino",group:"A",teamA:"Corpolec1",teamB:"Poder Judicial",date:"27/6/2026",day:"Sábado",hour:"6:00pm",field:"Cancha 2",week:"Semana 8"},
+const M=[
+  {id:1,c:"Femenino",g:"A",a:"Jujure (Educadoras)",b:"Ferrecenca",d:"8/5",dy:"Vie",h:"6pm",f:"C1",w:"S1"},
+  {id:2,c:"Masculino",g:"A",a:"La Familia",b:"Triunfadores",d:"8/5",dy:"Vie",h:"6pm",f:"C2",w:"S1"},
+  {id:3,c:"Masculino",g:"B",a:"Familia Ortega",b:"Corpolec2",d:"8/5",dy:"Vie",h:"6pm",f:"C3",w:"S1"},
+  {id:4,c:"Femenino",g:"B",a:"Cerveceras",b:"Chikas",d:"8/5",dy:"Vie",h:"8pm",f:"C1",w:"S1"},
+  {id:5,c:"Femenino",g:"B",a:"Centinelas A/A",b:"Corpolec Jubiladas",d:"8/5",dy:"Vie",h:"8pm",f:"C2",w:"S1"},
+  {id:6,c:"Femenino",g:"A",a:"Las niñas malas",b:"Ferrecenca",d:"8/5",dy:"Vie",h:"8pm",f:"C3",w:"S1"},
+  {id:7,c:"Femenino",g:"B",a:"Taferca",b:"Sibarita Chicas",d:"9/5",dy:"Sáb",h:"4pm",f:"C1",w:"S1"},
+  {id:8,c:"Masculino",g:"B",a:"Servihidra",b:"Los amigos",d:"9/5",dy:"Sáb",h:"4pm",f:"C2",w:"S1"},
+  {id:9,c:"Masculino",g:"B",a:"Los Veliz",b:"Big Tipos",d:"9/5",dy:"Sáb",h:"4pm",f:"C3",w:"S1"},
+  {id:10,c:"Masculino",g:"A",a:"Poder Judicial",b:"Triunfadores",d:"9/5",dy:"Sáb",h:"6pm",f:"C1",w:"S1"},
+  {id:11,c:"Masculino",g:"A",a:"Sibarita",b:"Los Panas (Vimapin)",d:"9/5",dy:"Sáb",h:"6pm",f:"C2",w:"S1"},
+  {id:12,c:"Femenino",g:"B",a:"Centinelas A/A",b:"Contadoras",d:"9/5",dy:"Sáb",h:"6pm",f:"C3",w:"S1"},
+  {id:13,c:"Masculino",g:"B",a:"Los Veliz",b:"Los amigos",d:"9/5",dy:"Sáb",h:"8pm",f:"C1",w:"S1"},
+  {id:14,c:"Masculino",g:"A",a:"La Familia",b:"Futboleros",d:"9/5",dy:"Sáb",h:"8pm",f:"C2",w:"S1"},
+  {id:15,c:"Femenino",g:"B",a:"Centinelas A/A",b:"Vimapin",d:"9/5",dy:"Sáb",h:"8pm",f:"C3",w:"S1"},
+  {id:16,c:"Masculino",g:"B",a:"San Jose 2",b:"Los amigos",d:"10/5",dy:"Dom",h:"4pm",f:"C1",w:"S1"},
+  {id:17,c:"Masculino",g:"B",a:"San Jose 2",b:"Refrigeracion torrealba",d:"10/5",dy:"Dom",h:"4pm",f:"C2",w:"S1"},
+  {id:18,c:"Femenino",g:"A",a:"Ferrecenca",b:"Santana",d:"10/5",dy:"Dom",h:"4pm",f:"C3",w:"S1"},
+  {id:19,c:"Femenino",g:"A",a:"Agro Biz",b:"Esquina del Sabor",d:"10/5",dy:"Dom",h:"6pm",f:"C1",w:"S1"},
+  {id:20,c:"Femenino",g:"A",a:"Las niñas malas",b:"Esquina del Sabor",d:"10/5",dy:"Dom",h:"6pm",f:"C2",w:"S1"},
+  {id:21,c:"Femenino",g:"A",a:"Jujure (Educadoras)",b:"Santana",d:"10/5",dy:"Dom",h:"6pm",f:"C3",w:"S1"},
+  {id:22,c:"Femenino",g:"A",a:"Agro Biz",b:"Santana",d:"14/5",dy:"Jue",h:"6pm",f:"C1",w:"S1"},
+  {id:23,c:"Femenino",g:"A",a:"Sabaneta",b:"Saboga",d:"14/5",dy:"Jue",h:"6pm",f:"C2",w:"S1"},
+  {id:24,c:"Femenino",g:"A",a:"Esquina del Sabor",b:"Coelecmar",d:"14/5",dy:"Jue",h:"6pm",f:"C3",w:"S1"},
+  {id:25,c:"Femenino",g:"B",a:"Emprendedoras",b:"Contadoras",d:"14/5",dy:"Jue",h:"8pm",f:"C1",w:"S1"},
+  {id:26,c:"Femenino",g:"B",a:"Vimapin",b:"Contadoras",d:"14/5",dy:"Jue",h:"8pm",f:"C2",w:"S1"},
+  {id:27,c:"Femenino",g:"A",a:"Esquina del Sabor",b:"Futboleras",d:"14/5",dy:"Jue",h:"8pm",f:"C3",w:"S1"},
+  {id:28,c:"Masculino",g:"A",a:"Micro PC",b:"Los Panas (Vimapin)",d:"15/5",dy:"Vie",h:"6pm",f:"C1",w:"S2"},
+  {id:29,c:"Femenino",g:"B",a:"Atrevidas",b:"Taferca",d:"15/5",dy:"Vie",h:"6pm",f:"C2",w:"S2"},
+  {id:30,c:"Masculino",g:"A",a:"Ingenieros",b:"Poder Judicial",d:"15/5",dy:"Vie",h:"6pm",f:"C3",w:"S2"},
+  {id:31,c:"Masculino",g:"A",a:"La Familia",b:"Tecnifamilia",d:"15/5",dy:"Vie",h:"8pm",f:"C1",w:"S2"},
+  {id:32,c:"Masculino",g:"A",a:"Exasa",b:"Micro PC",d:"15/5",dy:"Vie",h:"8pm",f:"C2",w:"S2"},
+  {id:33,c:"Femenino",g:"B",a:"Atrevidas",b:"Chikas",d:"15/5",dy:"Vie",h:"8pm",f:"C3",w:"S2"},
+  {id:34,c:"Masculino",g:"B",a:"Familia Ortega",b:"Servihidra",d:"16/5",dy:"Sáb",h:"4pm",f:"C1",w:"S2"},
+  {id:35,c:"Femenino",g:"A",a:"Agro Biz",b:"Coelecmar",d:"16/5",dy:"Sáb",h:"4pm",f:"C2",w:"S2"},
+  {id:36,c:"Masculino",g:"A",a:"Tecnifamilia",b:"Los Panas (Vimapin)",d:"16/5",dy:"Sáb",h:"4pm",f:"C3",w:"S2"},
+  {id:37,c:"Femenino",g:"B",a:"Taferca",b:"Vimapin",d:"16/5",dy:"Sáb",h:"6pm",f:"C1",w:"S2"},
+  {id:38,c:"Masculino",g:"B",a:"Los Veliz",b:"Pintucal",d:"16/5",dy:"Sáb",h:"6pm",f:"C2",w:"S2"},
+  {id:39,c:"Femenino",g:"B",a:"Centinelas A/A",b:"Emprendedoras",d:"16/5",dy:"Sáb",h:"6pm",f:"C3",w:"S2"},
+  {id:40,c:"Femenino",g:"B",a:"Contadoras",b:"Sibarita Chicas",d:"16/5",dy:"Sáb",h:"8pm",f:"C1",w:"S2"},
+  {id:41,c:"Femenino",g:"A",a:"Agro Biz",b:"Futboleras",d:"16/5",dy:"Sáb",h:"8pm",f:"C2",w:"S2"},
+  {id:42,c:"Femenino",g:"B",a:"Taferca",b:"Contadoras",d:"16/5",dy:"Sáb",h:"8pm",f:"C3",w:"S2"},
+  {id:43,c:"Femenino",g:"A",a:"Sabaneta",b:"Ferrecenca",d:"17/5",dy:"Dom",h:"4pm",f:"C1",w:"S2"},
+  {id:44,c:"Masculino",g:"A",a:"Futboleros",b:"Micro PC",d:"17/5",dy:"Dom",h:"4pm",f:"C2",w:"S2"},
+  {id:45,c:"Femenino",g:"B",a:"Chikas",b:"Sibarita Chicas",d:"17/5",dy:"Dom",h:"4pm",f:"C3",w:"S2"},
+  {id:46,c:"Masculino",g:"A",a:"La Familia",b:"Micro PC",d:"17/5",dy:"Dom",h:"6pm",f:"C1",w:"S2"},
+  {id:47,c:"Masculino",g:"A",a:"Ingenieros",b:"Micro PC",d:"17/5",dy:"Dom",h:"6pm",f:"C2",w:"S2"},
+  {id:48,c:"Masculino",g:"B",a:"Corpolec2",b:"Los amigos",d:"17/5",dy:"Dom",h:"6pm",f:"C3",w:"S2"},
+  {id:49,c:"Masculino",g:"A",a:"Ingenieros",b:"Triunfadores",d:"21/5",dy:"Jue",h:"6pm",f:"C1",w:"S2"},
+  {id:50,c:"Masculino",g:"A",a:"Micro PC",b:"Sibarita",d:"21/5",dy:"Jue",h:"6pm",f:"C2",w:"S2"},
+  {id:51,c:"Masculino",g:"A",a:"Futboleros",b:"Tecnifamilia",d:"21/5",dy:"Jue",h:"6pm",f:"C3",w:"S2"},
+  {id:52,c:"Femenino",g:"B",a:"Atrevidas",b:"Centinelas A/A",d:"21/5",dy:"Jue",h:"8pm",f:"C1",w:"S2"},
+  {id:53,c:"Masculino",g:"B",a:"Sibarita 2",b:"Pintucal",d:"21/5",dy:"Jue",h:"8pm",f:"C2",w:"S2"},
+  {id:54,c:"Femenino",g:"A",a:"Agro Biz",b:"Saboga",d:"21/5",dy:"Jue",h:"8pm",f:"C3",w:"S2"},
+  {id:55,c:"Masculino",g:"A",a:"Corpolec1",b:"Los Panas (Vimapin)",d:"22/5",dy:"Vie",h:"6pm",f:"C1",w:"S3"},
+  {id:56,c:"Femenino",g:"B",a:"Atrevidas",b:"Cerveceras",d:"22/5",dy:"Vie",h:"6pm",f:"C2",w:"S3"},
+  {id:57,c:"Masculino",g:"A",a:"Futboleros",b:"Exasa",d:"22/5",dy:"Vie",h:"6pm",f:"C3",w:"S3"},
+  {id:58,c:"Masculino",g:"B",a:"Los Veliz",b:"Sibarita 2",d:"22/5",dy:"Vie",h:"8pm",f:"C1",w:"S3"},
+  {id:59,c:"Femenino",g:"A",a:"Las niñas malas",b:"Saboga",d:"22/5",dy:"Vie",h:"8pm",f:"C2",w:"S3"},
+  {id:60,c:"Femenino",g:"A",a:"Jujure (Educadoras)",b:"Coelecmar",d:"22/5",dy:"Vie",h:"8pm",f:"C3",w:"S3"},
+  {id:61,c:"Femenino",g:"A",a:"Futboleras",b:"Sabaneta",d:"23/5",dy:"Sáb",h:"4pm",f:"C1",w:"S3"},
+  {id:62,c:"Femenino",g:"B",a:"Emprendedoras",b:"Corpolec Jubiladas",d:"23/5",dy:"Sáb",h:"4pm",f:"C2",w:"S3"},
+  {id:63,c:"Masculino",g:"B",a:"Familia Ortega",b:"Pintucal",d:"23/5",dy:"Sáb",h:"4pm",f:"C3",w:"S3"},
+  {id:64,c:"Masculino",g:"A",a:"Poder Judicial",b:"Los Panas (Vimapin)",d:"23/5",dy:"Sáb",h:"6pm",f:"C1",w:"S3"},
+  {id:65,c:"Femenino",g:"A",a:"Coelecmar",b:"Santana",d:"23/5",dy:"Sáb",h:"6pm",f:"C2",w:"S3"},
+  {id:66,c:"Masculino",g:"A",a:"Ingenieros",b:"Sibarita",d:"23/5",dy:"Sáb",h:"6pm",f:"C3",w:"S3"},
+  {id:67,c:"Masculino",g:"B",a:"Sibarita 2",b:"Refrigeracion torrealba",d:"23/5",dy:"Sáb",h:"8pm",f:"C1",w:"S3"},
+  {id:68,c:"Femenino",g:"A",a:"Esquina del Sabor",b:"Santana",d:"23/5",dy:"Sáb",h:"8pm",f:"C2",w:"S3"},
+  {id:69,c:"Masculino",g:"A",a:"Futboleros",b:"Triunfadores",d:"23/5",dy:"Sáb",h:"8pm",f:"C3",w:"S3"},
+  {id:70,c:"Masculino",g:"A",a:"Micro PC",b:"Tecnifamilia",d:"24/5",dy:"Dom",h:"4pm",f:"C1",w:"S3"},
+  {id:71,c:"Masculino",g:"B",a:"Familia Ortega",b:"Los Veliz",d:"24/5",dy:"Dom",h:"4pm",f:"C2",w:"S3"},
+  {id:72,c:"Femenino",g:"B",a:"Vimapin",b:"Sibarita Chicas",d:"24/5",dy:"Dom",h:"4pm",f:"C3",w:"S3"},
+  {id:73,c:"Femenino",g:"A",a:"Esquina del Sabor",b:"Sabaneta",d:"24/5",dy:"Dom",h:"6pm",f:"C1",w:"S3"},
+  {id:74,c:"Masculino",g:"A",a:"La Familia",b:"Los Panas (Vimapin)",d:"24/5",dy:"Dom",h:"6pm",f:"C2",w:"S3"},
+  {id:75,c:"Masculino",g:"A",a:"Corpolec1",b:"Ingenieros",d:"24/5",dy:"Dom",h:"6pm",f:"C3",w:"S3"},
+  {id:76,c:"Femenino",g:"B",a:"Contadoras",b:"Corpolec Jubiladas",d:"28/5",dy:"Jue",h:"6pm",f:"C1",w:"S3"},
+  {id:77,c:"Femenino",g:"A",a:"Agro Biz",b:"Las niñas malas",d:"28/5",dy:"Jue",h:"6pm",f:"C2",w:"S3"},
+  {id:78,c:"Masculino",g:"A",a:"Poder Judicial",b:"Tecnifamilia",d:"28/5",dy:"Jue",h:"6pm",f:"C3",w:"S3"},
+  {id:79,c:"Masculino",g:"B",a:"Los Veliz",b:"Refrigeracion torrealba",d:"28/5",dy:"Jue",h:"8pm",f:"C1",w:"S3"},
+  {id:80,c:"Masculino",g:"A",a:"Corpolec1",b:"Triunfadores",d:"28/5",dy:"Jue",h:"8pm",f:"C2",w:"S3"},
+  {id:81,c:"Femenino",g:"B",a:"Taferca",b:"Corpolec Jubiladas",d:"28/5",dy:"Jue",h:"8pm",f:"C3",w:"S3"},
+  {id:82,c:"Masculino",g:"A",a:"Exasa",b:"Tecnifamilia",d:"29/5",dy:"Vie",h:"6pm",f:"C1",w:"S4"},
+  {id:83,c:"Femenino",g:"B",a:"Atrevidas",b:"Corpolec Jubiladas",d:"29/5",dy:"Vie",h:"6pm",f:"C2",w:"S4"},
+  {id:84,c:"Femenino",g:"B",a:"Cerveceras",b:"Sibarita Chicas",d:"29/5",dy:"Vie",h:"6pm",f:"C3",w:"S4"},
+  {id:85,c:"Femenino",g:"A",a:"Las niñas malas",b:"Futboleras",d:"29/5",dy:"Vie",h:"8pm",f:"C1",w:"S4"},
+  {id:86,c:"Masculino",g:"A",a:"Futboleros",b:"Sibarita",d:"29/5",dy:"Vie",h:"8pm",f:"C2",w:"S4"},
+  {id:87,c:"Femenino",g:"B",a:"Emprendedoras",b:"Sibarita Chicas",d:"29/5",dy:"Vie",h:"8pm",f:"C3",w:"S4"},
+  {id:88,c:"Masculino",g:"B",a:"Big Tipos",b:"Los amigos",d:"30/5",dy:"Sáb",h:"4pm",f:"C1",w:"S4"},
+  {id:89,c:"Femenino",g:"A",a:"Coelecmar",b:"Sabaneta",d:"30/5",dy:"Sáb",h:"4pm",f:"C2",w:"S4"},
+  {id:90,c:"Masculino",g:"B",a:"Big Tipos",b:"Refrigeracion torrealba",d:"30/5",dy:"Sáb",h:"4pm",f:"C3",w:"S4"},
+  {id:91,c:"Femenino",g:"B",a:"Centinelas A/A",b:"Cerveceras",d:"30/5",dy:"Sáb",h:"6pm",f:"C1",w:"S4"},
+  {id:92,c:"Femenino",g:"A",a:"Las niñas malas",b:"Coelecmar",d:"30/5",dy:"Sáb",h:"6pm",f:"C2",w:"S4"},
+  {id:93,c:"Masculino",g:"B",a:"Los Veliz",b:"Agroserviportuguesa",d:"30/5",dy:"Sáb",h:"6pm",f:"C3",w:"S4"},
+  {id:94,c:"Femenino",g:"A",a:"Sabaneta",b:"Santana",d:"30/5",dy:"Sáb",h:"8pm",f:"C1",w:"S4"},
+  {id:95,c:"Femenino",g:"B",a:"Atrevidas",b:"Contadoras",d:"30/5",dy:"Sáb",h:"8pm",f:"C2",w:"S4"},
+  {id:96,c:"Femenino",g:"B",a:"Centinelas A/A",b:"Sibarita Chicas",d:"30/5",dy:"Sáb",h:"8pm",f:"C3",w:"S4"},
+  {id:97,c:"Masculino",g:"A",a:"Ingenieros",b:"Exasa",d:"31/5",dy:"Dom",h:"4pm",f:"C1",w:"S4"},
+  {id:98,c:"Masculino",g:"B",a:"Agroserviportuguesa",b:"Servihidra",d:"31/5",dy:"Dom",h:"4pm",f:"C2",w:"S4"},
+  {id:99,c:"Masculino",g:"A",a:"Ingenieros",b:"Tecnifamilia",d:"31/5",dy:"Dom",h:"4pm",f:"C3",w:"S4"},
+  {id:100,c:"Masculino",g:"B",a:"Servihidra",b:"Big Tipos",d:"31/5",dy:"Dom",h:"6pm",f:"C1",w:"S4"},
+  {id:101,c:"Masculino",g:"B",a:"Familia Ortega",b:"Agroserviportuguesa",d:"31/5",dy:"Dom",h:"6pm",f:"C2",w:"S4"},
+  {id:102,c:"Masculino",g:"A",a:"La Familia",b:"Sibarita",d:"31/5",dy:"Dom",h:"6pm",f:"C3",w:"S4"},
+  {id:103,c:"Masculino",g:"A",a:"Triunfadores",b:"Los Panas (Vimapin)",d:"4/6",dy:"Jue",h:"6pm",f:"C1",w:"S4"},
+  {id:104,c:"Femenino",g:"B",a:"Centinelas A/A",b:"Chikas",d:"4/6",dy:"Jue",h:"6pm",f:"C2",w:"S4"},
+  {id:105,c:"Femenino",g:"A",a:"Futboleras",b:"Saboga",d:"4/6",dy:"Jue",h:"6pm",f:"C3",w:"S4"},
+  {id:106,c:"Femenino",g:"A",a:"Agro Biz",b:"Sabaneta",d:"4/6",dy:"Jue",h:"8pm",f:"C1",w:"S4"},
+  {id:107,c:"Masculino",g:"B",a:"Familia Ortega",b:"Big Tipos",d:"4/6",dy:"Jue",h:"8pm",f:"C2",w:"S4"},
+  {id:108,c:"Masculino",g:"B",a:"Agroserviportuguesa",b:"San Jose 2",d:"4/6",dy:"Jue",h:"8pm",f:"C3",w:"S4"},
+  {id:109,c:"Femenino",g:"A",a:"Agro Biz",b:"Ferrecenca",d:"5/6",dy:"Vie",h:"6pm",f:"C1",w:"S5"},
+  {id:110,c:"Masculino",g:"A",a:"Corpolec1",b:"Sibarita",d:"5/6",dy:"Vie",h:"6pm",f:"C2",w:"S5"},
+  {id:111,c:"Masculino",g:"A",a:"Corpolec1",b:"Tecnifamilia",d:"5/6",dy:"Vie",h:"6pm",f:"C3",w:"S5"},
+  {id:112,c:"Masculino",g:"B",a:"Los Veliz",b:"Servihidra",d:"5/6",dy:"Vie",h:"8pm",f:"C1",w:"S5"},
+  {id:113,c:"Masculino",g:"B",a:"Familia Ortega",b:"Los amigos",d:"5/6",dy:"Vie",h:"8pm",f:"C2",w:"S5"},
+  {id:114,c:"Femenino",g:"A",a:"Esquina del Sabor",b:"Ferrecenca",d:"5/6",dy:"Vie",h:"8pm",f:"C3",w:"S5"},
+  {id:115,c:"Femenino",g:"A",a:"Coelecmar",b:"Futboleras",d:"6/6",dy:"Sáb",h:"4pm",f:"C1",w:"S5"},
+  {id:116,c:"Masculino",g:"B",a:"Sibarita 2",b:"San Jose 2",d:"6/6",dy:"Sáb",h:"4pm",f:"C2",w:"S5"},
+  {id:117,c:"Masculino",g:"B",a:"Servihidra",b:"San Jose 2",d:"6/6",dy:"Sáb",h:"4pm",f:"C3",w:"S5"},
+  {id:118,c:"Masculino",g:"A",a:"Poder Judicial",b:"Micro PC",d:"6/6",dy:"Sáb",h:"6pm",f:"C1",w:"S5"},
+  {id:119,c:"Femenino",g:"A",a:"Jujure (Educadoras)",b:"Esquina del Sabor",d:"6/6",dy:"Sáb",h:"6pm",f:"C2",w:"S5"},
+  {id:120,c:"Masculino",g:"A",a:"Triunfadores",b:"Sibarita",d:"6/6",dy:"Sáb",h:"6pm",f:"C3",w:"S5"},
+  {id:121,c:"Masculino",g:"B",a:"Sibarita 2",b:"Big Tipos",d:"6/6",dy:"Sáb",h:"8pm",f:"C1",w:"S5"},
+  {id:122,c:"Masculino",g:"A",a:"Corpolec1",b:"Futboleros",d:"6/6",dy:"Sáb",h:"8pm",f:"C2",w:"S5"},
+  {id:123,c:"Masculino",g:"B",a:"San Jose 2",b:"Big Tipos",d:"6/6",dy:"Sáb",h:"8pm",f:"C3",w:"S5"},
+  {id:124,c:"Masculino",g:"A",a:"La Familia",b:"Exasa",d:"7/6",dy:"Dom",h:"4pm",f:"C1",w:"S5"},
+  {id:125,c:"Masculino",g:"B",a:"Pintucal",b:"Refrigeracion torrealba",d:"7/6",dy:"Dom",h:"4pm",f:"C2",w:"S5"},
+  {id:126,c:"Masculino",g:"B",a:"Pintucal",b:"Los amigos",d:"7/6",dy:"Dom",h:"4pm",f:"C3",w:"S5"},
+  {id:127,c:"Masculino",g:"B",a:"Sibarita 2",b:"Corpolec2",d:"7/6",dy:"Dom",h:"6pm",f:"C1",w:"S5"},
+  {id:128,c:"Masculino",g:"B",a:"Los Veliz",b:"Corpolec2",d:"7/6",dy:"Dom",h:"6pm",f:"C2",w:"S5"},
+  {id:129,c:"Femenino",g:"B",a:"Cerveceras",b:"Corpolec Jubiladas",d:"7/6",dy:"Dom",h:"6pm",f:"C3",w:"S5"},
+  {id:130,c:"Femenino",g:"A",a:"Jujure (Educadoras)",b:"Futboleras",d:"11/6",dy:"Jue",h:"6pm",f:"C1",w:"S5"},
+  {id:131,c:"Femenino",g:"B",a:"Cerveceras",b:"Vimapin",d:"11/6",dy:"Jue",h:"6pm",f:"C2",w:"S5"},
+  {id:132,c:"Masculino",g:"A",a:"Micro PC",b:"Triunfadores",d:"11/6",dy:"Jue",h:"6pm",f:"C3",w:"S5"},
+  {id:133,c:"Femenino",g:"B",a:"Atrevidas",b:"Emprendedoras",d:"11/6",dy:"Jue",h:"8pm",f:"C1",w:"S5"},
+  {id:134,c:"Femenino",g:"A",a:"Jujure (Educadoras)",b:"Saboga",d:"11/6",dy:"Jue",h:"8pm",f:"C2",w:"S5"},
+  {id:135,c:"Femenino",g:"B",a:"Cerveceras",b:"Taferca",d:"11/6",dy:"Jue",h:"8pm",f:"C3",w:"S5"},
+  {id:136,c:"Femenino",g:"B",a:"Cerveceras",b:"Emprendedoras",d:"12/6",dy:"Vie",h:"6pm",f:"C1",w:"S6"},
+  {id:137,c:"Masculino",g:"B",a:"Los Veliz",b:"San Jose 2",d:"12/6",dy:"Vie",h:"6pm",f:"C2",w:"S6"},
+  {id:138,c:"Femenino",g:"B",a:"Vimapin",b:"Corpolec Jubiladas",d:"12/6",dy:"Vie",h:"6pm",f:"C3",w:"S6"},
+  {id:139,c:"Masculino",g:"A",a:"Corpolec1",b:"Exasa",d:"12/6",dy:"Vie",h:"8pm",f:"C1",w:"S6"},
+  {id:140,c:"Masculino",g:"B",a:"Agroserviportuguesa",b:"Los amigos",d:"12/6",dy:"Vie",h:"8pm",f:"C2",w:"S6"},
+  {id:141,c:"Masculino",g:"B",a:"Los amigos",b:"Refrigeracion torrealba",d:"12/6",dy:"Vie",h:"8pm",f:"C3",w:"S6"},
+  {id:142,c:"Femenino",g:"B",a:"Emprendedoras",b:"Taferca",d:"13/6",dy:"Sáb",h:"4pm",f:"C1",w:"S6"},
+  {id:143,c:"Masculino",g:"A",a:"Triunfadores",b:"Tecnifamilia",d:"13/6",dy:"Sáb",h:"4pm",f:"C2",w:"S6"},
+  {id:144,c:"Femenino",g:"A",a:"Coelecmar",b:"Saboga",d:"13/6",dy:"Sáb",h:"4pm",f:"C3",w:"S6"},
+  {id:145,c:"Masculino",g:"B",a:"Servihidra",b:"Corpolec2",d:"13/6",dy:"Sáb",h:"6pm",f:"C1",w:"S6"},
+  {id:146,c:"Femenino",g:"B",a:"Chikas",b:"Contadoras",d:"13/6",dy:"Sáb",h:"6pm",f:"C2",w:"S6"},
+  {id:147,c:"Femenino",g:"A",a:"Futboleras",b:"Ferrecenca",d:"13/6",dy:"Sáb",h:"6pm",f:"C3",w:"S6"},
+  {id:148,c:"Masculino",g:"B",a:"Pintucal",b:"Corpolec2",d:"13/6",dy:"Sáb",h:"8pm",f:"C1",w:"S6"},
+  {id:149,c:"Masculino",g:"B",a:"Sibarita 2",b:"Servihidra",d:"13/6",dy:"Sáb",h:"8pm",f:"C2",w:"S6"},
+  {id:150,c:"Femenino",g:"A",a:"Futboleras",b:"Santana",d:"13/6",dy:"Sáb",h:"8pm",f:"C3",w:"S6"},
+  {id:151,c:"Masculino",g:"B",a:"Sibarita 2",b:"Los amigos",d:"14/6",dy:"Dom",h:"4pm",f:"C1",w:"S6"},
+  {id:152,c:"Masculino",g:"A",a:"Exasa",b:"Triunfadores",d:"14/6",dy:"Dom",h:"4pm",f:"C2",w:"S6"},
+  {id:153,c:"Femenino",g:"B",a:"Corpolec Jubiladas",b:"Sibarita Chicas",d:"14/6",dy:"Dom",h:"4pm",f:"C3",w:"S6"},
+  {id:154,c:"Masculino",g:"B",a:"Familia Ortega",b:"Refrigeracion torrealba",d:"14/6",dy:"Dom",h:"6pm",f:"C1",w:"S6"},
+  {id:155,c:"Femenino",g:"A",a:"Ferrecenca",b:"Saboga",d:"14/6",dy:"Dom",h:"6pm",f:"C2",w:"S6"},
+  {id:156,c:"Femenino",g:"B",a:"Atrevidas",b:"Vimapin",d:"14/6",dy:"Dom",h:"6pm",f:"C3",w:"S6"},
+  {id:157,c:"Femenino",g:"B",a:"Chikas",b:"Corpolec Jubiladas",d:"18/6",dy:"Jue",h:"6pm",f:"C1",w:"S6"},
+  {id:158,c:"Masculino",g:"B",a:"Pintucal",b:"San Jose 2",d:"18/6",dy:"Jue",h:"6pm",f:"C2",w:"S6"},
+  {id:159,c:"Femenino",g:"B",a:"Centinelas A/A",b:"Taferca",d:"18/6",dy:"Jue",h:"6pm",f:"C3",w:"S6"},
+  {id:160,c:"Masculino",g:"A",a:"Futboleros",b:"Poder Judicial",d:"18/6",dy:"Jue",h:"8pm",f:"C1",w:"S6"},
+  {id:161,c:"Femenino",g:"A",a:"Jujure (Educadoras)",b:"Las niñas malas",d:"18/6",dy:"Jue",h:"8pm",f:"C2",w:"S6"},
+  {id:162,c:"Masculino",g:"B",a:"Corpolec2",b:"Big Tipos",d:"18/6",dy:"Jue",h:"8pm",f:"C3",w:"S6"},
+  {id:163,c:"Masculino",g:"B",a:"Agroserviportuguesa",b:"Pintucal",d:"19/6",dy:"Vie",h:"6pm",f:"C1",w:"S7"},
+  {id:164,c:"Masculino",g:"A",a:"Poder Judicial",b:"Sibarita",d:"19/6",dy:"Vie",h:"6pm",f:"C2",w:"S7"},
+  {id:165,c:"Femenino",g:"B",a:"Cerveceras",b:"Contadoras",d:"19/6",dy:"Vie",h:"6pm",f:"C3",w:"S7"},
+  {id:166,c:"Masculino",g:"B",a:"Familia Ortega",b:"Sibarita 2",d:"19/6",dy:"Vie",h:"8pm",f:"C1",w:"S7"},
+  {id:167,c:"Femenino",g:"A",a:"Las niñas malas",b:"Santana",d:"19/6",dy:"Vie",h:"8pm",f:"C2",w:"S7"},
+  {id:168,c:"Femenino",g:"B",a:"Vimapin",b:"Chikas",d:"19/6",dy:"Vie",h:"8pm",f:"C3",w:"S7"},
+  {id:169,c:"Masculino",g:"B",a:"Agroserviportuguesa",b:"Big Tipos",d:"20/6",dy:"Sáb",h:"4pm",f:"C1",w:"S7"},
+  {id:170,c:"Masculino",g:"A",a:"Ingenieros",b:"Los Panas (Vimapin)",d:"20/6",dy:"Sáb",h:"4pm",f:"C2",w:"S7"},
+  {id:171,c:"Masculino",g:"A",a:"Poder Judicial",b:"Exasa",d:"20/6",dy:"Sáb",h:"4pm",f:"C3",w:"S7"},
+  {id:172,c:"Masculino",g:"A",a:"Ingenieros",b:"Futboleros",d:"20/6",dy:"Sáb",h:"6pm",f:"C1",w:"S7"},
+  {id:173,c:"Masculino",g:"B",a:"Sibarita 2",b:"Agroserviportuguesa",d:"20/6",dy:"Sáb",h:"6pm",f:"C2",w:"S7"},
+  {id:174,c:"Femenino",g:"A",a:"Saboga",b:"Santana",d:"20/6",dy:"Sáb",h:"6pm",f:"C3",w:"S7"},
+  {id:175,c:"Femenino",g:"B",a:"Taferca",b:"Chikas",d:"20/6",dy:"Sáb",h:"8pm",f:"C1",w:"S7"},
+  {id:176,c:"Masculino",g:"A",a:"Corpolec1",b:"La Familia",d:"20/6",dy:"Sáb",h:"8pm",f:"C2",w:"S7"},
+  {id:177,c:"Femenino",g:"A",a:"Jujure (Educadoras)",b:"Sabaneta",d:"20/6",dy:"Sáb",h:"8pm",f:"C3",w:"S7"},
+  {id:178,c:"Masculino",g:"B",a:"Corpolec2",b:"San Jose 2",d:"21/6",dy:"Dom",h:"4pm",f:"C1",w:"S7"},
+  {id:179,c:"Masculino",g:"A",a:"La Familia",b:"Ingenieros",d:"21/6",dy:"Dom",h:"4pm",f:"C2",w:"S7"},
+  {id:180,c:"Masculino",g:"A",a:"Exasa",b:"Los Panas (Vimapin)",d:"21/6",dy:"Dom",h:"4pm",f:"C3",w:"S7"},
+  {id:181,c:"Femenino",g:"B",a:"Emprendedoras",b:"Chikas",d:"21/6",dy:"Dom",h:"6pm",f:"C1",w:"S7"},
+  {id:182,c:"Femenino",g:"A",a:"Jujure (Educadoras)",b:"Agro Biz",d:"21/6",dy:"Dom",h:"6pm",f:"C2",w:"S7"},
+  {id:183,c:"Masculino",g:"A",a:"Exasa",b:"Sibarita",d:"21/6",dy:"Dom",h:"6pm",f:"C3",w:"S7"},
+  {id:184,c:"Masculino",g:"A",a:"Corpolec1",b:"Micro PC",d:"25/6",dy:"Jue",h:"6pm",f:"C1",w:"S7"},
+  {id:185,c:"Masculino",g:"B",a:"Agroserviportuguesa",b:"Corpolec2",d:"25/6",dy:"Jue",h:"6pm",f:"C2",w:"S7"},
+  {id:186,c:"Masculino",g:"B",a:"Servihidra",b:"Pintucal",d:"25/6",dy:"Jue",h:"6pm",f:"C3",w:"S7"},
+  {id:187,c:"Masculino",g:"A",a:"Futboleros",b:"Los Panas (Vimapin)",d:"25/6",dy:"Jue",h:"8pm",f:"C1",w:"S7"},
+  {id:188,c:"Masculino",g:"B",a:"Servihidra",b:"Refrigeracion torrealba",d:"25/6",dy:"Jue",h:"8pm",f:"C2",w:"S7"},
+  {id:189,c:"Femenino",g:"B",a:"Atrevidas",b:"Sibarita Chicas",d:"25/6",dy:"Jue",h:"8pm",f:"C3",w:"S7"},
+  {id:190,c:"Femenino",g:"A",a:"Las niñas malas",b:"Sabaneta",d:"26/6",dy:"Vie",h:"6pm",f:"C1",w:"S8"},
+  {id:191,c:"Femenino",g:"A",a:"Coelecmar",b:"Ferrecenca",d:"26/6",dy:"Vie",h:"6pm",f:"C2",w:"S8"},
+  {id:192,c:"Masculino",g:"B",a:"Agroserviportuguesa",b:"Refrigeracion torrealba",d:"26/6",dy:"Vie",h:"6pm",f:"C3",w:"S8"},
+  {id:193,c:"Masculino",g:"B",a:"Familia Ortega",b:"San Jose 2",d:"26/6",dy:"Vie",h:"8pm",f:"C1",w:"S8"},
+  {id:194,c:"Masculino",g:"A",a:"La Familia",b:"Poder Judicial",d:"26/6",dy:"Vie",h:"8pm",f:"C2",w:"S8"},
+  {id:195,c:"Femenino",g:"B",a:"Emprendedoras",b:"Vimapin",d:"26/6",dy:"Vie",h:"8pm",f:"C3",w:"S8"},
+  {id:196,c:"Masculino",g:"A",a:"Sibarita",b:"Tecnifamilia",d:"27/6",dy:"Sáb",h:"4pm",f:"C1",w:"S8"},
+  {id:197,c:"Masculino",g:"B",a:"Corpolec2",b:"Refrigeracion torrealba",d:"27/6",dy:"Sáb",h:"4pm",f:"C2",w:"S8"},
+  {id:198,c:"Masculino",g:"B",a:"Pintucal",b:"Big Tipos",d:"27/6",dy:"Sáb",h:"4pm",f:"C3",w:"S8"},
+  {id:199,c:"Femenino",g:"A",a:"Esquina del Sabor",b:"Saboga",d:"27/6",dy:"Sáb",h:"6pm",f:"C1",w:"S8"},
+  {id:200,c:"Masculino",g:"A",a:"Corpolec1",b:"Poder Judicial",d:"27/6",dy:"Sáb",h:"6pm",f:"C2",w:"S8"},
 ];
 
-const weekColors = {"Semana 1":"#2ecc71","Semana 2":"#3498db","Semana 3":"#9b59b6","Semana 4":"#e67e22","Semana 5":"#c0392b","Semana 6":"#1abc9c","Semana 7":"#e91e63","Semana 8":"#607d8b"};
+const WC={"S1":"#2ecc71","S2":"#3498db","S3":"#9b59b6","S4":"#e67e22","S5":"#c0392b","S6":"#1abc9c","S7":"#e91e63","S8":"#607d8b"};
 
-// ══ STATE ══════════════════════════════════════════════════════════════════════
-let state = {
-  tab: 'teams',
-  teamCat: 'Femenino', teamGrp: 'A',
-  mCat: 'Femenino', mGrp: 'A', mWeek: 'Todos',
-  sCat: 'Femenino', sGrp: 'A',
-  detail: null
-};
+// Pre-loaded results Semana 1
+let R = {"1": {"scoreA": 15, "scoreB": 14, "status": "done"}, "2": {"scoreA": 14, "scoreB": 15, "status": "done"}, "3": {"scoreA": 12, "scoreB": 13, "status": "done"}, "4": {"scoreA": 8, "scoreB": 0, "status": "forfeit"}, "5": {"scoreA": 0, "scoreB": 8, "status": "forfeit"}, "6": {"scoreA": 13, "scoreB": 12, "status": "done"}, "7": {"scoreA": 12, "scoreB": 15, "status": "done"}, "8": {"scoreA": 10, "scoreB": 11, "status": "done"}, "9": {"scoreA": 0, "scoreB": 8, "status": "forfeit"}, "10": {"scoreA": 15, "scoreB": 14, "status": "done"}, "11": {"scoreA": 14, "scoreB": 15, "status": "done"}, "12": {"scoreA": 15, "scoreB": 14, "status": "done"}, "13": {"scoreA": 14, "scoreB": 15, "status": "done"}, "14": {"scoreA": 12, "scoreB": 13, "status": "done"}, "15": {"scoreA": 8, "scoreB": 0, "status": "forfeit"}, "16": {"scoreA": 0, "scoreB": 8, "status": "forfeit"}, "17": {"scoreA": 13, "scoreB": 12, "status": "done"}, "18": {"scoreA": 12, "scoreB": 15, "status": "done"}, "19": {"scoreA": 10, "scoreB": 11, "status": "done"}, "20": {"scoreA": 0, "scoreB": 8, "status": "forfeit"}, "21": {"scoreA": 15, "scoreB": 14, "status": "done"}, "22": {"scoreA": 14, "scoreB": 15, "status": "done"}, "23": {"scoreA": 10, "scoreB": 11, "status": "done"}, "24": {"scoreA": 2, "scoreB": 15, "status": "done"}, "25": {"scoreA": 14, "scoreB": 13, "status": "done"}, "26": {"scoreA": 12, "scoreB": 11, "status": "done"}, "27": {"scoreA": 15, "scoreB": 3, "status": "done"}};
 
-// ══ TAB ═══════════════════════════════════════════════════════════════════════
-function showTab(id, btn) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('screen-'+id).classList.add('active');
-  btn.classList.add('active');
-  state.tab = id;
-  if(id==='matches') renderMatches();
-  if(id==='standings') renderStandings();
-  if(id==='teams') renderTeams();
+// Pre-loaded player stats
+let PS = {"Jujure (Educadoras)|Valeria Torres": {"pos": "Arrime", "arr_b": 10, "arr_m": 5, "boc_b": 0, "boc_m": 0, "total_arr": 15, "total_boc": 0, "efec_arr": 66.7, "efec_boc": 0, "partidos": 1}, "Las ni\u00f1as malas|Bel\u00e9n Valenzuela": {"pos": "Boche", "arr_b": 0, "arr_m": 0, "boc_b": 10, "boc_m": 6, "total_arr": 0, "total_boc": 16, "efec_arr": 0, "efec_boc": 62.5, "partidos": 1}, "Agroserviportuguesa|William Estay": {"pos": "Arrime", "arr_b": 4, "arr_m": 10, "boc_b": 0, "boc_m": 0, "total_arr": 14, "total_boc": 0, "efec_arr": 28.6, "efec_boc": 0, "partidos": 1}, "Futboleros|Ignacio Soto": {"pos": "Arrime", "arr_b": 50, "arr_m": 20, "boc_b": 0, "boc_m": 0, "total_arr": 70, "total_boc": 0, "efec_arr": 71.4, "efec_boc": 0, "partidos": 1}, "Jujure (Educadoras)|Luc\u00eda S\u00e1nchez": {"pos": "Arrime", "arr_b": 45, "arr_m": 25, "boc_b": 0, "boc_m": 0, "total_arr": 70, "total_boc": 0, "efec_arr": 64.3, "efec_boc": 0, "partidos": 1}};
+
+// Merge localStorage
+try{
+  const lr=localStorage.getItem('bc26_r'); if(lr) Object.assign(R,JSON.parse(lr));
+  const lp=localStorage.getItem('bc26_p'); if(lp) Object.assign(PS,JSON.parse(lp));
+}catch(e){}
+
+function save(){
+  try{localStorage.setItem('bc26_r',JSON.stringify(R));localStorage.setItem('bc26_p',JSON.stringify(PS));}catch(e){}
 }
 
-// ══ TEAMS ══════════════════════════════════════════════════════════════════════
-function setCat(v){ state.teamCat=v; document.getElementById('cat-fem').classList.toggle('active',v==='Femenino'); document.getElementById('cat-mas').classList.toggle('active',v==='Masculino'); renderTeams(); }
-function setGrp(v){ state.teamGrp=v; document.getElementById('grp-a').classList.toggle('active',v==='A'); document.getElementById('grp-b').classList.toggle('active',v==='B'); renderTeams(); }
+// STATE
+let st={tc:'Femenino',tg:'A',mc:'Femenino',mg:'A',mw:'Todos',sc:'Femenino',sg:'A',ac:'Femenino',ag:'A',ap:'Todos',ps:''};
 
-function renderTeams(){
-  const list = teams.filter(t=>t.category===state.teamCat && t.group===state.teamGrp);
-  document.getElementById('teams-count').textContent = list.length+' EQUIPOS';
-  const el = document.getElementById('teams-list');
-  el.innerHTML = list.map((t,i)=>`
-    <div class="team-card" onclick="openDetail(${i+(state.teamCat==='Femenino'?(state.teamGrp==='A'?0:10):(state.teamGrp==='A'?20:31))})">
-      <div>
-        <div class="team-card-name">${t.name}</div>
-        <div class="team-card-sub">${t.players.length} jugadores · Grupo ${t.group}</div>
+function tab(id,btn){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('s-'+id).classList.add('on');
+  btn.classList.add('on');
+  if(id==='matches')rM();
+  else if(id==='standings')rS();
+  else if(id==='stats')rA();
+  else rT();
+}
+
+// TEAMS
+function tCat(v){st.tc=v;$('t-fem').classList.toggle('on',v==='Femenino');$('t-mas').classList.toggle('on',v==='Masculino');rT();}
+function tGrp(v){st.tg=v;$('t-ga').classList.toggle('on',v==='A');$('t-gb').classList.toggle('on',v==='B');rT();}
+function srchTeam(q){
+  const sr=$('srch-res'),tm=$('teams-main');
+  if(!q.trim()){sr.style.display='none';tm.style.display='block';return;}
+  sr.style.display='block';tm.style.display='none';
+  const ql=q.toLowerCase();
+  let h='';
+  T.forEach(t=>{
+    const pm=t.p.filter(p=>p.toLowerCase().includes(ql));
+    if(t.n.toLowerCase().includes(ql)||pm.length){
+      h+=`<div class="card" style="margin-bottom:7px;"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`;
+      pm.forEach(p=>{h+=`<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`;});
+      h+='</div>';
+    }
+  });
+  sr.innerHTML=h||'<div style="color:#8899aa;text-align:center;padding:16px;font-size:12px;">Sin resultados</div>';
+}
+function rT(){
+  const list=T.filter(t=>t.c===st.tc&&t.g===st.tg);
+  $('t-cnt').textContent=list.length+' EQUIPOS — '+st.tc+' Grupo '+st.tg;
+  $('t-list').innerHTML=list.map(t=>`<div class="tc" onclick="tDet('${t.n.replace(/'/g,"\'")}')" ><div><div style="font-size:13px;font-weight:bold;color:#f0e6d3;">${t.n}</div><div style="font-size:10px;color:#8899aa;margin-top:2px;">${t.p.length} jugadores · Gr.${t.g}</div></div><div style="font-size:18px;color:#8899aa;">›</div></div>`).join('');
+  $('t-detail').style.display='none';
+  $('t-list').style.display='block';
+}
+function tDet(name){
+  const t=T.find(x=>x.n===name); if(!t) return;
+  $('t-list').style.display='none';$('t-detail').style.display='block';
+  $('t-dhead').innerHTML=`<div style="font-size:15px;font-weight:bold;color:#e8b84b;margin-bottom:3px;">${t.n}</div><div style="font-size:10px;color:#8899aa;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`;
+  $('t-dplayers').innerHTML=t.p.map((p,i)=>{
+    const k=t.n+'|'+p, ps=PS[k]||{};
+    const arr=ps.total_arr||0, boc=ps.total_boc||0, ef=ps.efec_arr||ps.efec_boc||0;
+    return `<div class="pi"><div class="pn">${i+1}</div><div style="flex:1;"><div style="font-size:12px;color:#f0e6d3;font-weight:bold;">${p}</div><div style="font-size:9px;color:#8899aa;">${ps.pos||'—'} · ARR:${arr} BOC:${boc} EFEC:${ef}%</div></div></div>`;
+  }).join('');
+}
+function tBack(){$('t-list').style.display='block';$('t-detail').style.display='none';}
+
+// MATCHES
+function mCat(v){st.mc=v;$('m-fem').classList.toggle('on',v==='Femenino');$('m-mas').classList.toggle('on',v==='Masculino');rM();}
+function mGrp(v){st.mg=v;$('m-ga').classList.toggle('on',v==='A');$('m-gb').classList.toggle('on',v==='B');rM();}
+function mWk(v){st.mw=v;rM();}
+function rM(){
+  const wks=['Todos','S1','S2','S3','S4','S5','S6','S7','S8'];
+  const wlbl={'Todos':'Todos','S1':'Sem 1','S2':'Sem 2','S3':'Sem 3','S4':'Sem 4','S5':'Sem 5','S6':'Sem 6','S7':'Sem 7','S8':'Sem 8'};
+  $('m-weeks').innerHTML=wks.map(w=>`<button class="fb ${st.mw===w?'on':''}" onclick="mWk('${w}')">${wlbl[w]}</button>`).join('');
+  const list=M.filter(m=>m.c===st.mc&&m.g===st.mg&&(st.mw==='Todos'||m.w===st.mw));
+  $('m-cnt').textContent=list.length+' PARTIDOS';
+  $('m-list').innerHTML=list.map(m=>{
+    const r=R[m.id];
+    const done=r&&r.status==='done', forf=r&&r.status==='forfeit';
+    const wA=done&&r.scoreA>r.scoreB, wB=done&&r.scoreB>r.scoreA;
+    const wc=WC[m.w]||'#888';
+    return `<div class="mc">
+      <div class="mm">
+        <span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>
+        <span class="wtag" style="background:${wc}33;color:${wc}">${m.w}</span>
       </div>
-      <div class="arrow">›</div>
-    </div>
-  `).join('');
-}
-
-function openDetail(idx){
-  const t = teams[idx];
-  document.getElementById('teams-list').style.display='none';
-  document.getElementById('team-detail').style.display='block';
-  document.getElementById('detail-name').textContent = t.name;
-  document.getElementById('detail-sub').textContent = `${t.category} · Grupo ${t.group} · ${t.players.length} jugadores`;
-  document.getElementById('detail-players').innerHTML = t.players.map((p,i)=>`
-    <div class="player-item">
-      <div class="player-num">${i+1}</div>
-      <div class="player-name-text">${p}</div>
-    </div>
-  `).join('');
-}
-
-function closeDetail(){
-  document.getElementById('teams-list').style.display='block';
-  document.getElementById('team-detail').style.display='none';
-}
-
-// ══ MATCHES ════════════════════════════════════════════════════════════════════
-function setMCat(v){ state.mCat=v; document.getElementById('mcat-fem').classList.toggle('active',v==='Femenino'); document.getElementById('mcat-mas').classList.toggle('active',v==='Masculino'); renderMatches(); }
-function setMGrp(v){ state.mGrp=v; document.getElementById('mgrp-a').classList.toggle('active',v==='A'); document.getElementById('mgrp-b').classList.toggle('active',v==='B'); renderMatches(); }
-function setMWeek(v){ state.mWeek=v; renderMatches(); }
-
-function renderMatches(){
-  // Week filters
-  const weeks = ['Todos','Semana 1','Semana 2','Semana 3','Semana 4','Semana 5','Semana 6','Semana 7','Semana 8'];
-  document.getElementById('week-filters').innerHTML = weeks.map(w=>`
-    <button class="f-btn ${state.mWeek===w?'active':''}" onclick="setMWeek('${w}')">${w}</button>
-  `).join('');
-
-  const list = matches.filter(m=>m.category===state.mCat && m.group===state.mGrp && (state.mWeek==='Todos'||m.week===state.mWeek));
-  document.getElementById('matches-count').textContent = list.length+' PARTIDOS';
-
-  const color = weekColors;
-  document.getElementById('matches-list').innerHTML = list.length===0
-    ? '<div style="color:#8899aa;text-align:center;margin-top:30px;font-size:13px;">No hay partidos para estos filtros</div>'
-    : list.map(m=>`
-    <div class="match-card">
-      <div class="match-meta">
-        <span>📅 ${m.date} · ${m.day} · ${m.hour}</span>
-        <span class="week-tag" style="background:${color[m.week]||'#8899aa'}33;color:${color[m.week]||'#8899aa'}">${m.week}</span>
-      </div>
-      <div class="match-teams">
-        <div class="team-name">${m.teamA}</div>
-        <div class="vs-box">
-          <div class="vs-icon">🎯</div>
-          <div class="vs-text">VS</div>
-          <div class="vs-field">${m.field}</div>
+      <div class="mteams">
+        <div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div>
+        <div class="vb">
+          ${done||forf
+            ?`<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+                <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+                <span class="sep">—</span>
+                <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+              </div>
+              ${forf?`<div style="font-size:9px;color:#c0392b;text-align:center;margin-top:2px;">FORFEIT</div>`:''}
+              <div style="text-align:center;margin-top:4px;">
+                <span class="rtag done">✓ Finalizado</span>
+                <button onclick="delR(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;margin-left:4px;">✕</button>
+              </div>`
+            :`<div style="font-size:14px;text-align:center;">🎯</div>
+              <div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div>
+              <div class="srow">
+                <input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0">
+                <span class="sep">—</span>
+                <input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0">
+              </div>
+              <button class="sbtn" onclick="saveR(${m.id})">💾 Guardar</button>
+              <button class="fbtn" onclick="forfR(${m.id})">⚠️ Forfeit/WO</button>`
+          }
         </div>
-        <div class="team-name">${m.teamB}</div>
+        <div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div>
       </div>
-    </div>
-  `).join('');
-}
-
-// ══ STANDINGS ══════════════════════════════════════════════════════════════════
-function setSCat(v){ state.sCat=v; document.getElementById('scat-fem').classList.toggle('active',v==='Femenino'); document.getElementById('scat-mas').classList.toggle('active',v==='Masculino'); renderStandings(); }
-function setSGrp(v){ state.sGrp=v; document.getElementById('sgrp-a').classList.toggle('active',v==='A'); document.getElementById('sgrp-b').classList.toggle('active',v==='B'); renderStandings(); }
-
-function renderStandings(){
-  const list = teams.filter(t=>t.category===state.sCat && t.group===state.sGrp);
-  const rankClass = r => r===1?'r1':r===2?'r2':r===3?'r3':'rn';
-  const header = `
-    <div class="card" style="display:flex;gap:8px;align-items:center;padding:8px 10px;margin-bottom:6px;">
-      <div style="width:22px"></div>
-      <div style="flex:1;font-size:9px;color:#8899aa;">EQUIPO</div>
-      <div class="stat-cols">${['PJ','PG','PP','PF','PC','PTS'].map(h=>`<div class="stat-c stat-head">${h}</div>`).join('')}</div>
     </div>`;
-  const rows = list.map((t,i)=>{
-    const r=i+1, rc=rankClass(r);
-    return `
-      <div class="stand-row ${rc}">
-        <div class="rank-badge ${rc}">${r}</div>
-        <div class="stand-name">${t.name}</div>
-        <div class="stat-cols">
-          <div class="stat-c"><div class="stat-v">0</div></div>
-          <div class="stat-c"><div class="stat-v">0</div></div>
-          <div class="stat-c"><div class="stat-v">0</div></div>
-          <div class="stat-c"><div class="stat-v">0</div></div>
-          <div class="stat-c"><div class="stat-v">0</div></div>
-          <div class="stat-c"><div class="stat-pts">0</div></div>
+  }).join('')||'<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin partidos</div>';
+}
+function saveR(id){
+  const sA=document.getElementById('sA'+id)?.value;
+  const sB=document.getElementById('sB'+id)?.value;
+  if(sA===''||sB===''){alert('Ingresa ambos marcadores');return;}
+  const a=parseInt(sA),b=parseInt(sB);
+  if(isNaN(a)||isNaN(b)||a<0||b<0||a>20||b>20){alert('Marcador inválido (0-20)');return;}
+  R[id]={scoreA:a,scoreB:b,status:'done'};save();rM();rS();
+}
+function forfR(id){
+  const m=M.find(x=>x.id===id);
+  const ans=prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
+  if(ans==='1'){R[id]={scoreA:0,scoreB:8,status:'forfeit'};save();rM();rS();}
+  else if(ans==='2'){R[id]={scoreA:8,scoreB:0,status:'forfeit'};save();rM();rS();}
+}
+function delR(id){if(confirm('¿Borrar este resultado?')){delete R[id];save();rM();rS();}}
+
+// STANDINGS
+function sCat(v){st.sc=v;$('st-fem').classList.toggle('on',v==='Femenino');$('st-mas').classList.toggle('on',v==='Masculino');rS();}
+function sGrp(v){st.sg=v;$('st-ga').classList.toggle('on',v==='A');$('st-gb').classList.toggle('on',v==='B');rS();}
+function rS(){
+  const tl=T.filter(t=>t.c===st.sc&&t.g===st.sg);
+  const tb={};
+  tl.forEach(t=>{tb[t.n]={n:t.n,pj:0,pg:0,pp:0,tf:0,tc:0,pts:0};});
+  M.filter(m=>m.c===st.sc&&m.g===st.sg).forEach(m=>{
+    const r=R[m.id]; if(!r) return;
+    if(tb[m.a]){tb[m.a].pj++;tb[m.a].tf+=r.scoreA;tb[m.a].tc+=r.scoreB;}
+    if(tb[m.b]){tb[m.b].pj++;tb[m.b].tf+=r.scoreB;tb[m.b].tc+=r.scoreA;}
+    if(r.scoreA>r.scoreB){if(tb[m.a]){tb[m.a].pg++;tb[m.a].pts+=3;}if(tb[m.b])tb[m.b].pp++;}
+    else if(r.scoreB>r.scoreA){if(tb[m.b]){tb[m.b].pg++;tb[m.b].pts+=3;}if(tb[m.a])tb[m.a].pp++;}
+  });
+  const sorted=Object.values(tb).sort((a,b)=>b.pts-a.pts||(b.tf-b.tc)-(a.tf-a.tc)||b.tf-a.tf);
+  const rc=r=>r===1?'r1':r===2?'r2':r===3?'r3':'rn';
+  $('st-list').innerHTML=
+    `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;margin-bottom:5px;">
+      <div style="width:20px"></div>
+      <div style="flex:1;font-size:8px;color:#8899aa;">EQUIPO</div>
+      <div class="scols">${['PJ','PG','PP','TF','TC','PTS'].map(h=>`<div class="sc sh">${h}</div>`).join('')}</div>
+    </div>`+
+    sorted.map((t,i)=>{
+      const r=i+1,c=rc(r);
+      return `<div class="sr ${c}">
+        <div class="rb ${c}">${r}</div>
+        <div style="flex:1;font-size:11px;font-weight:bold;color:#f0e6d3;line-height:1.2;">${t.n}</div>
+        <div class="scols">
+          ${[t.pj,t.pg,t.pp,t.tf,t.tc].map(v=>`<div class="sc"><div class="sv">${v}</div></div>`).join('')}
+          <div class="sc"><div class="spts">${t.pts}</div></div>
         </div>
       </div>`;
-  }).join('');
-  document.getElementById('standings-list').innerHTML = header + rows;
+    }).join('');
 }
 
-// ══ INIT ══════════════════════════════════════════════════════════════════════
-renderTeams();
+// AVERAGE/STATS
+function aCat(v){st.ac=v;$('a-fem').classList.toggle('on',v==='Femenino');$('a-mas').classList.toggle('on',v==='Masculino');rA();}
+function aGrp(v){st.ag=v;$('a-ga').classList.toggle('on',v==='A');$('a-gb').classList.toggle('on',v==='B');rA();}
+function aPos(v){st.ap=v;$('a-all').classList.toggle('on',v==='Todos');$('a-arr').classList.toggle('on',v==='Arrime');$('a-boc').classList.toggle('on',v==='Boche');rA();}
+function srchPlayer(q){st.ps=q;rA();}
+function rA(){
+  const tl=T.filter(t=>t.c===st.ac&&t.g===st.ag);
+  let players=[];
+  tl.forEach(t=>t.p.forEach(p=>{
+    const k=t.n+'|'+p, ps=PS[k]||{};
+    const pos=ps.pos||'—';
+    if(st.ap!=='Todos'&&pos!==st.ap) return;
+    if(st.ps&&!p.toLowerCase().includes(st.ps.toLowerCase())&&!t.n.toLowerCase().includes(st.ps.toLowerCase())) return;
+    players.push({name:p,team:t.n,pos,
+      arr:ps.total_arr||0,arr_b:ps.arr_b||0,arr_m:ps.arr_m||0,
+      boc:ps.total_boc||0,boc_b:ps.boc_b||0,boc_m:ps.boc_m||0,
+      efec:ps.efec_arr||ps.efec_boc||0,partidos:ps.partidos||0});
+  }));
+  players.sort((a,b)=>b.efec-a.efec||(b.arr+b.boc)-(a.arr+a.boc));
+  $('a-list').innerHTML=players.length===0
+    ?'<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin estadísticas registradas aún</div>'
+    :players.map((p,i)=>`<div class="ar">
+        <div style="width:20px;text-align:center;font-size:10px;color:#8899aa;font-weight:bold;flex-shrink:0;">${i+1}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:11px;color:#f0e6d3;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</div>
+          <div style="font-size:9px;color:#8899aa;">${p.team} · ${p.pos}</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <div style="min-width:26px;text-align:center;"><div class="av">${p.partidos}</div><div class="al">PJ</div></div>
+          <div style="min-width:26px;text-align:center;"><div class="av">${p.arr_b}/${p.arr_m}</div><div class="al">ARR</div></div>
+          <div style="min-width:26px;text-align:center;"><div class="av">${p.boc_b}/${p.boc_m}</div><div class="al">BOC</div></div>
+          <div style="min-width:32px;text-align:center;"><div class="av" style="color:#2ecc71">${p.efec}%</div><div class="al">EFEC</div></div>
+        </div>
+      </div>`).join('');
+}
+
+function $(id){return document.getElementById(id);}
+
+// INIT
+rT();
 </script>
 </body>
 </html> 
