@@ -42,7 +42,6 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 .fbtn{width:100%;margin-top:4px;padding:5px;background:transparent;border:1px solid #c0392b55;border-radius:7px;color:#c0392b;font-size:10px;cursor:pointer;font-family:inherit;}
 .rtag{font-size:9px;font-weight:bold;padding:2px 6px;border-radius:7px;}
 .done{background:#2ecc7133;color:#2ecc71;border:1px solid #2ecc7122;}
-.forf{background:#c0392b33;color:#c0392b;border:1px solid #c0392b22;}
 .wtag{font-size:9px;font-weight:bold;padding:2px 6px;border-radius:7px;}
 .tc{background:#0f3460;border-radius:10px;padding:10px;margin-bottom:7px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
 .back{padding:5px 12px;border-radius:16px;border:1px solid #0f3460;background:transparent;color:#8899aa;cursor:pointer;font-size:11px;font-family:inherit;margin-bottom:12px;}
@@ -55,157 +54,170 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 .rn{background:#16213e;border:1px solid #0f3460;}
 .rb{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;flex-shrink:0;}
 .rb.r1{background:#e8b84b;color:#000;}.rb.r2{background:#c0c0c0;color:#000;}.rb.r3{background:#cd7f32;color:#000;}.rb.rn{background:#0f3460;color:#8899aa;}
-.sv{font-size:11px;font-weight:bold;color:#f0e6d3;}.spts{font-size:12px;font-weight:bold;color:#e8b84b;}.sh{font-size:8px;color:#e8b84b;font-weight:bold;}
-.scols{display:flex;gap:4px;}.sc{text-align:center;min-width:22px;}
+.sv{font-size:11px;font-weight:bold;color:#f0e6d3;}
+.spts{font-size:12px;font-weight:bold;color:#e8b84b;}
+.sh{font-size:8px;color:#e8b84b;font-weight:bold;}
+.scols{display:flex;gap:4px;}
+.sc{text-align:center;min-width:22px;}
 .srch{position:relative;margin-bottom:10px;}
 .srch input{width:100%;padding:8px 12px 8px 32px;background:#16213e;border:1px solid #0f3460;border-radius:9px;color:#f0e6d3;font-size:13px;font-family:inherit;}
 .srch input:focus{outline:none;border-color:#e8b84b;}
 .srch-ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#8899aa;font-size:13px;}
 .ar{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:8px;margin-bottom:4px;background:#16213e;border:1px solid #0f3460;}
-.av{font-size:12px;font-weight:bold;color:#e8b84b;}.al{font-size:8px;color:#8899aa;}
+.av{font-size:12px;font-weight:bold;color:#e8b84b;}
+.al{font-size:8px;color:#8899aa;}
 .lbl{font-size:10px;color:#e8b84b;font-weight:bold;margin-bottom:7px;margin-top:4px;letter-spacing:.06em;}
 .ibox{font-size:10px;color:#8899aa;padding:9px;background:#16213e;border-radius:9px;border:1px solid #0f3460;margin-top:7px;line-height:1.5;}
-.scr{display:none;}.scr.on{display:block;}
+.scr{display:none;}
+.scr.on{display:block;}
+.mvp-box{background:linear-gradient(135deg,#e8b84b22,#f39c1222);border:1px solid #e8b84b55;border-radius:8px;padding:6px 10px;margin-top:6px;display:flex;align-items:center;gap:8px;}
+.mvp-name{font-size:12px;color:#f0e6d3;font-weight:bold;}
+.mvp-lbl{font-size:9px;color:#e8b84b;font-weight:bold;letter-spacing:.06em;text-transform:uppercase;}
+.mvp-detail{font-size:9px;color:#8899aa;}
+.mvp-btn{width:100%;margin-top:5px;padding:5px;background:linear-gradient(90deg,#e8b84b22,#f39c1222);border:1px solid #e8b84b55;border-radius:7px;color:#e8b84b;font-size:10px;cursor:pointer;font-family:inherit;font-weight:bold;}
 </style>
 </head>
 <body>
 <div class="hdr">
   <div class="hdr-top">
     <div class="logo">
-      <img src="data:image/jpeg;base64,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" alt="Logo">
+      <img src="data:image/jpeg;base64,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" alt="Logo">
       <div><div class="logo-t">Sibarita Sport Club</div><div class="logo-s">2do Campeonato 2026 "Categoría B"</div></div>
     </div>
     <div class="badge">FASE 1</div>
   </div>
   <div class="nav">
-    <button class="nb on" onclick="tab('teams',this)"><span>👥</span>Equipos</button>
-    <button class="nb" onclick="tab('matches',this)"><span>🎯</span>Partidos</button>
-    <button class="nb" onclick="tab('standings',this)"><span>🏆</span>Tabla</button>
-    <button class="nb" onclick="tab('stats',this)"><span>📊</span>Average</button>
+    <button class="nb on" onclick="showTab('teams',this)"><span>👥</span>Equipos</button>
+    <button class="nb" onclick="showTab('matches',this)"><span>🎯</span>Partidos</button>
+    <button class="nb" onclick="showTab('standings',this)"><span>🏆</span>Tabla</button>
+    <button class="nb" onclick="showTab('stats',this)"><span>📊</span>Average</button>
   </div>
 </div>
 <div class="body">
 
 <!-- EQUIPOS -->
 <div id="s-teams" class="scr on">
-  <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar equipo o jugador..." oninput="srchTeam(this.value)"></div>
+  <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar equipo o jugador..." oninput="searchTeams(this.value)"></div>
   <div id="srch-res" style="display:none"></div>
-  <div id="teams-main">
+  <div id="teams-wrap">
     <div class="frow">
-      <button class="fb on" id="t-fem" onclick="tCat('Femenino')">👩 Femenino</button>
-      <button class="fb" id="t-mas" onclick="tCat('Masculino')">👨 Masculino</button>
+      <button class="fb on" id="btn-tFem" onclick="setF('tCat','Femenino')">👩 Femenino</button>
+      <button class="fb" id="btn-tMas" onclick="setF('tCat','Masculino')">👨 Masculino</button>
     </div>
     <div class="frow">
-      <button class="fb on" id="t-ga" onclick="tGrp('A')">Grupo A</button>
-      <button class="fb" id="t-gb" onclick="tGrp('B')">Grupo B</button>
+      <button class="fb on" id="btn-tGa" onclick="setF('tGrp','A')">Grupo A</button>
+      <button class="fb" id="btn-tGb" onclick="setF('tGrp','B')">Grupo B</button>
     </div>
     <div class="lbl" id="t-cnt"></div>
     <div id="t-list"></div>
-    <div id="t-detail" style="display:none">
-      <button class="back" onclick="tBack()">← Volver</button>
-      <div class="card" id="t-dhead" style="border:1px solid #e8b84b44;margin-bottom:12px;"></div>
-      <div class="lbl">Plantilla</div>
-      <div id="t-dplayers"></div>
-    </div>
+  </div>
+  <div id="t-detail" style="display:none">
+    <button class="back" onclick="closeDetail()">← Volver</button>
+    <div class="card" id="t-dhead" style="border:1px solid #e8b84b44;margin-bottom:12px;"></div>
+    <div class="lbl">Plantilla</div>
+    <div id="t-dplayers"></div>
   </div>
 </div>
 
 <!-- PARTIDOS -->
 <div id="s-matches" class="scr">
   <div class="frow">
-    <button class="fb on" id="m-fem" onclick="mCat('Femenino')">👩 Femenino</button>
-    <button class="fb" id="m-mas" onclick="mCat('Masculino')">👨 Masculino</button>
+    <button class="fb on" id="btn-mFem" onclick="setF('mCat','Femenino')">👩 Femenino</button>
+    <button class="fb" id="btn-mMas" onclick="setF('mCat','Masculino')">👨 Masculino</button>
   </div>
   <div class="frow">
-    <button class="fb on" id="m-ga" onclick="mGrp('A')">Grupo A</button>
-    <button class="fb" id="m-gb" onclick="mGrp('B')">Grupo B</button>
+    <button class="fb on" id="btn-mGa" onclick="setF('mGrp','A')">Grupo A</button>
+    <button class="fb" id="btn-mGb" onclick="setF('mGrp','B')">Grupo B</button>
   </div>
   <div class="fscroll" id="m-weeks"></div>
   <div class="lbl" id="m-cnt"></div>
   <div id="m-list"></div>
 </div>
 
-<!-- TABLA -->
+<!-- TABLA DE POSICIONES -->
 <div id="s-standings" class="scr">
   <div class="frow">
-    <button class="fb on" id="st-fem" onclick="sCat('Femenino')">👩 Femenino</button>
-    <button class="fb" id="st-mas" onclick="sCat('Masculino')">👨 Masculino</button>
+    <button class="fb on" id="btn-sFem" onclick="setF('sCat','Femenino')">👩 Femenino</button>
+    <button class="fb" id="btn-sMas" onclick="setF('sCat','Masculino')">👨 Masculino</button>
   </div>
   <div class="frow">
-    <button class="fb on" id="st-ga" onclick="sGrp('A')">Grupo A</button>
-    <button class="fb" id="st-gb" onclick="sGrp('B')">Grupo B</button>
+    <button class="fb on" id="btn-sGa" onclick="setF('sGrp','A')">Grupo A</button>
+    <button class="fb" id="btn-sGb" onclick="setF('sGrp','B')">Grupo B</button>
   </div>
   <div id="st-list"></div>
-  <div class="ibox">📌 <b>Victoria:</b> 3 pts | <b>Derrota:</b> 0 pts<br>📌 Gana quien llegue a <b>20 tantos</b>. A las 2h gana quien tenga ≥12 (60%).<br>📌 Empate 12-12 → <b>tiro extra</b>.</div>
+  <div class="ibox">📌 <b>Victoria:</b> 3 pts | <b>Derrota:</b> 0 pts<br>📌 Gana quien llegue a <b>20 tantos</b>. A las 2h gana quien tenga ≥12 (60%).<br>📌 <b>AVG</b> = (TF - TC) / PJ</div>
 </div>
 
-<!-- AVERAGE -->
+<!-- AVERAGE / ESTADÍSTICAS -->
 <div id="s-stats" class="scr">
-  <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar jugador..." oninput="srchPlayer(this.value)" id="psrch"></div>
+  <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)" id="player-search"></div>
   <div class="frow">
-    <button class="fb on" id="a-fem" onclick="aCat('Femenino')">👩 Femenino</button>
-    <button class="fb" id="a-mas" onclick="aCat('Masculino')">👨 Masculino</button>
+    <button class="fb on" id="btn-aFem" onclick="setF('aCat','Femenino')">👩 Femenino</button>
+    <button class="fb" id="btn-aMas" onclick="setF('aCat','Masculino')">👨 Masculino</button>
   </div>
   <div class="frow">
-    <button class="fb on" id="a-ga" onclick="aGrp('A')">Grupo A</button>
-    <button class="fb" id="a-gb" onclick="aGrp('B')">Grupo B</button>
+    <button class="fb on" id="btn-aGa" onclick="setF('aGrp','A')">Grupo A</button>
+    <button class="fb" id="btn-aGb" onclick="setF('aGrp','B')">Grupo B</button>
   </div>
   <div class="frow">
-    <button class="fb on" id="a-all" onclick="aPos('Todos')">Todos</button>
-    <button class="fb" id="a-arr" onclick="aPos('Arrime')">🎯 Arrime</button>
-    <button class="fb" id="a-boc" onclick="aPos('Boche')">💥 Boche</button>
+    <button class="fb on" id="btn-aAll" onclick="setF('aPos','Todos')">Todos</button>
+    <button class="fb" id="btn-aArr" onclick="setF('aPos','Arrime')">🎯 Arrime</button>
+    <button class="fb" id="btn-aBoc" onclick="setF('aPos','Boche')">💥 Boche</button>
+    <button class="fb" id="btn-aMix" onclick="setF('aPos','Mixto')">🔀 Mixto</button>
   </div>
   <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;margin-bottom:6px;">
     <div style="width:20px"></div>
     <div style="flex:1;font-size:9px;color:#8899aa;">JUGADOR</div>
     <div style="display:flex;gap:6px;">
       <div style="min-width:26px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">PJ</div>
-      <div style="min-width:26px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">ARR</div>
-      <div style="min-width:26px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">BOC</div>
+      <div style="min-width:30px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">ARR</div>
+      <div style="min-width:30px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">BOC</div>
       <div style="min-width:32px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">EFEC%</div>
     </div>
   </div>
   <div id="a-list"></div>
-  <div class="ibox">📌 <b>ARR:</b> Arrimes buenos/malos | <b>BOC:</b> Boches buenos/malos | <b>EFEC%:</b> Efectividad<br>📌 Mín. <b>30%</b> partidos del equipo para clasificar a eliminatorias.</div>
+  <div class="ibox">📌 <b>ARR:</b> Buenos/Malos | <b>BOC:</b> Buenos/Malos | <b>EFEC%:</b> Efectividad<br>📌 Mín. <b>30%</b> partidos del equipo para clasificar a eliminatorias.</div>
 </div>
 
 </div>
+
 <script>
-const T=[
+// ==================== EQUIPOS CON ROSTERS REALES ====================
+const TEAMS = [
   {n:"Jujure (Educadoras)",c:"Femenino",g:"A",p:["Por Cargar"]},
   {n:"Serv. Frios Antonella",c:"Femenino",g:"A",p:["Por Cargar"]},
   {n:"Inversiones IV",c:"Femenino",g:"A",p:["Por Cargar"]},
   {n:"Taferca",c:"Femenino",g:"A",p:["Por Cargar"]},
   {n:"Divinas",c:"Femenino",g:"A",p:["Por Cargar"]},
-  {n:"Alimentos Amanecer",c:"Femenino",g:"A",p:["Petra Almao","Hilda Gimenez","Deyanira Yustiz","Aura Yustiz","Graciela Febres","Florinda Hernandez","María del Pilar Sanchez","Nelis Cadevilla","Gloria Mendez"]},
+  {n:"Café Amanecer",c:"Femenino",g:"A",p:["Petra Almao","Hilda Gimenez","Deyanira Yustiz","Aura Yustiz","Graciela Febres","Florinda Hernandez","María del Pilar Sanchez","Nelis Cadevilla","Gloria Mendez"]},
   {n:"Ferrecenca",c:"Femenino",g:"A",p:["Maria Carreño","Dudamel Nubia","Xiomara Dudamel","Maria Gomez","Deysi Guedez","Milagro Moran","Maria Sira","Yumaira Salazar","Yolanda Sira"]},
   {n:"Repostería el Ponque",c:"Femenino",g:"A",p:["Por Cargar"]},
   {n:"Atrevidas",c:"Femenino",g:"A",p:["Por Cargar"]},
-  {n:"Sabaneta", c:"Femenino", g:"A", p:["Yanacia Gómez","Beatriz Gómez","Donaliz Daza","Ana Juana Mendoza","Hayra Benavides","Yorgelis Colina","Iris Zambrano","Isabel Fontela"]},
-  {n:"Inversiones EPA", c:"Femenino", g:"A", p:["Marisela Alvarado","Geilis Rodríguez","Arelis Amaya","Lenny Rodríguez","Marbelis Pagua","Roxelis Pagua","Rosangela Torres","Yoglis Rojas","Marianglis Hernández"]},
+  {n:"Sabaneta",c:"Femenino",g:"A",p:["Yanacia Gómez","Beatriz Gómez","Donaliz Daza","Ana Juana Mendoza","Hayra Benavides","Yorgelis Colina","Iris Zambrano","Isabel Fontela"]},
+  {n:"Inversiones EPA",c:"Femenino",g:"A",p:["Marisela Alvarado","Geilis Rodríguez","Arelis Amaya","Lenny Rodríguez","Marbelis Pagua","Roxelis Pagua","Rosangela Torres","Yoglis Rojas","Marianglis Hernández"]},
   {n:"Futboleras",c:"Femenino",g:"A",p:["Rosa de Marzitelli","Reina Castillo","Olimariana Avendaño","Osmarlys Suarez","Rosbely Garcia","Nancy Rodriguez","Adan Orlys","María Fernanda Troconis"]},
   {n:"Saboga",c:"Femenino",g:"B",p:["Por Cargar"]},
   {n:"The Dolls",c:"Femenino",g:"B",p:["Erika Perez","Cilia Aldania","Juliana Lopez","Maria Parra","Saydimar Pipitone","Adona Gonzalez","Ana Parra","Maria Castellano","Ana Silva"]},
   {n:"Corpoelec",c:"Femenino",g:"B",p:["Adela Guedez","Nitza Zabaleta","Yuli Alvarez","Cesar Denny","Yunibel Rodriguez","Diolanda Carrillo","Nicholle Colmenarez"]},
   {n:"Festidoras",c:"Femenino",g:"B",p:["Por Cargar"]},
-  {n:"Corpoelec Jubiladas",c:"Femenino",g:"B",p:["Por Cargar"]},
-  {n:"Chicas",c:"Femenino",g:"B",p:["Yusbelis Gonzalez","Natalia Garcia","Marianni Torres","Krisandar Soteldo","Eloisa Gonzalez","Alejandra Mesa","Marbella Suarez","Kerangelit Mendez","Maria Escalante","Gilian Rengifo"]},
-  {n:"Oasis Box", c:"Femenino", g:"B", p:["Carolina Arocha","Luisamar Peña","Mirelys Mendoza","Romi Arapé","Karla Reyes","Sheila Montesinos","Nilda Almeida","Josmayfe Alvarado"]},
+  {n:"Corpolec Jubiladas",c:"Femenino",g:"B",p:["Por Cargar"]},
+  {n:"Chikas",c:"Femenino",g:"B",p:["Yusbelis Gonzalez","Natalia Garcia","Marianni Torres","Krisandar Soteldo","Eloisa Gonzalez","Alejandra Mesa","Marbella Suarez","Kerangelit Mendez","Maria Escalante","Gilian Rengifo"]},
+  {n:"Oasis Box",c:"Femenino",g:"B",p:["Carolina Arocha","Luisamar Peña","Mirelys Mendoza","Romi Arapé","Karla Reyes","Sheila Montesinos","Nilda Almeida","Josmayfe Alvarado"]},
   {n:"Esquina del Sabor",c:"Femenino",g:"B",p:["Por Cargar"]},
-  {n:"Atavenca", c:"Femenino", g:"B", p:["Yadira Torrez","Diana Oropeza","Julia Escalona","María Elcy Noriega","Esmeralda Mercado","Erika Rodriguez","Yankelis Tambo","María Delgado"]},
+  {n:"Atavenca",c:"Femenino",g:"B",p:["Yadira Torrez","Diana Oropeza","Julia Escalona","María Elcy Noriega","Esmeralda Mercado","Erika Rodriguez","Yankelis Tambo","María Delgado"]},
   {n:"Las Femix",c:"Femenino",g:"B",p:["Por Cargar"]},
   {n:"Emprendedoras",c:"Femenino",g:"B",p:["Por Cargar"]},
   {n:"Por Confirmar",c:"Femenino",g:"B",p:["Por Cargar"]},
   {n:"Tornillería YR Portuguesa",c:"Masculino",g:"A",p:["Por Cargar"]},
-  {n:"Fuerza", c:"Masculino", g:"A", p:["Ademar Tua","Pedro Yepez","Pedro Noguera","Clemente Pérez","Luis Barco","Miguel Segura","Ramón Perdomo"]},
-  {n:"Corpoelec2",c:"Masculino",g:"A",p:["Por Cargar"]},
-  {n:"Servihidra", c:"Masculino", g:"B", p:["Henry Pacheco","Jose Rodriguez","Atahualpa Melendez","Gustavo Orozco","Theoscar Vicent","Jose Cordero","Numan Dudamel","Nelson Suarez","Giovanni Gonzalez"]},
+  {n:"Fuerza",c:"Masculino",g:"A",p:["Ademar Tua","Pedro Yepez","Pedro Noguera","Clemente Pérez","Luis Barco","Miguel Segura","Ramón Perdomo"]},
+  {n:"Corpolec2",c:"Masculino",g:"A",p:["Por Cargar"]},
+  {n:"Servihidra",c:"Masculino",g:"B",p:["Henry Pacheco","Jose Rodriguez","Atahualpa Melendez","Gustavo Orozco","Theoscar Vicent","Jose Cordero","Numan Dudamel","Nelson Suarez","Giovanni Gonzalez"]},
   {n:"Familia Ortega",c:"Masculino",g:"A",p:["Por Cargar"]},
   {n:"Exasa",c:"Masculino",g:"A",p:["Por Cargar"]},
   {n:"Los Panas Vimapin",c:"Masculino",g:"A",p:["Victor Pinto","Marco Rodriguez","Carlos Rodriguez","Ronald Perez","Wely Melendez","Joel Ortega","Neptali Torrez"]},
   {n:"Club Afibola",c:"Masculino",g:"A",p:["Carlos Colmenarez","Roger Colmenarez","Jose Torrez","Pedro Torrez","Jorgue Chirinos","Octavio Chirinos","Gabriel Perez","Jose Chirinos","Junior Garcia"]},
-  {n:"Yusevim C.A.", c:"Masculino", g:"A", p:["Pedro Orellana","Juan C. Rodriguez","Juan Sira","Ricardo Ochoa","Zaney Vivas","Reinaldo Mendoza","Jorge Ochoa","Jose Gomez","Jhonny De La Hoz","David Anza"]},
-  {n:"Los Amigos", c:"Masculino", g:"A", p:["Carlos Silva","Gregorio Linares","Luis Escobar","Efrén Cabrera","Omar Alvarado","Cornelio Escalona","José Escalona","Wuilfredo Guedez","Luis Ramos","Fernando"]},
+  {n:"Yusevim C.A.",c:"Masculino",g:"A",p:["Pedro Orellana","Juan C. Rodriguez","Juan Sira","Ricardo Ochoa","Zaney Vivas","Reinaldo Mendoza","Jorge Ochoa","Jose Gomez","Jhonny De La Hoz","David Anza"]},
+  {n:"Los Amigos",c:"Masculino",g:"A",p:["Carlos Silva","Gregorio Linares","Luis Escobar","Efrén Cabrera","Omar Alvarado","Cornelio Escalona","José Escalona","Wuilfredo Guedez","Luis Ramos","Fernando"]},
   {n:"Unidos de Hato",c:"Masculino",g:"A",p:["Por Cargar"]},
   {n:"Sibarita",c:"Masculino",g:"A",p:["Por Cargar"]},
   {n:"Agro Max",c:"Masculino",g:"A",p:["Por Cargar"]},
@@ -221,17 +233,15 @@ const T=[
   {n:"Pintucal",c:"Masculino",g:"B",p:["Por Cargar"]},
   {n:"Gladiadores del Cerrito",c:"Masculino",g:"B",p:["Por Cargar"]},
   {n:"Atletico Paez",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Sistema de Justicia", c:"Masculino", g:"B", p:["Félix Rumbos","Carlos Araujo","Jonnathan Silva","Junior Guedez","Jorge Zambrano","Carlos Torrealba","Javier Diaz","Pedro Diaz"]},
+  {n:"Sistema de Justicia",c:"Masculino",g:"B",p:["Félix Rumbos","Carlos Araujo","Jonnathan Silva","Junior Guedez","Jorge Zambrano","Carlos Torrealba","Javier Diaz","Pedro Diaz"]},
   {n:"Distribuidora JH",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Alimentos la Granja",c:"Masculino",g:"B",p:["Por Cargar"]},
+  {n:"Alimentos la Granja",c:"Masculino",g:"B",p:["Por Cargar"]}
 ];
 
-const M = [
-  // ========== SEMANA 1 (08/05/2026) ==========
+// ==================== CALENDARIO COMPLETO (SEMANAS 1 A 9) ====================
+const MATCHES = [
   {id:1, c:"Femenino", g:"B", a:"Oasis Box", b:"Corpoelec", d:"8/5", dy:"Jue", h:"6:00pm", f:"C1", w:"S1"},
-
-  // ========== SEMANA 2 (14/05 al 17/05) ==========
-  {id:2, c:"Femenino", g:"A", a:"Ferrecenca", b:"Alimentos Amanecer", d:"14/5", dy:"Jue", h:"6:00pm", f:"C1", w:"S2"},
+  {id:2, c:"Femenino", g:"A", a:"Ferrecenca", b:"Café Amanecer", d:"14/5", dy:"Jue", h:"6:00pm", f:"C1", w:"S2"},
   {id:3, c:"Femenino", g:"A", a:"The Dolls", b:"Saboga", d:"14/5", dy:"Jue", h:"6:00pm", f:"C2", w:"S2"},
   {id:4, c:"Masculino", g:"A", a:"Corpolec2", b:"Los Amigos", d:"14/5", dy:"Jue", h:"6:00pm", f:"C3", w:"S2"},
   {id:5, c:"Femenino", g:"B", a:"Atavenca", b:"Chikas", d:"15/5", dy:"Vie", h:"6:00pm", f:"C1", w:"S2"},
@@ -249,15 +259,13 @@ const M = [
   {id:17, c:"Femenino", g:"A", a:"Taferca", b:"Serv. Frios Antonela", d:"16/5", dy:"Sáb", h:"8:30pm", f:"C1", w:"S2"},
   {id:18, c:"Masculino", g:"A", a:"Servihidra", b:"Exasa", d:"16/5", dy:"Sáb", h:"8:30pm", f:"C2", w:"S2"},
   {id:19, c:"Masculino", g:"A", a:"Pintucal", b:"Triunfadores", d:"16/5", dy:"Sáb", h:"8:30pm", f:"C3", w:"S2"},
-  {id:20, c:"Femenino", g:"B", a:"Futboleras", b:"Alimentos Amanecer", d:"17/5", dy:"Dom", h:"3:30pm", f:"C1", w:"S2"},
+  {id:20, c:"Femenino", g:"B", a:"Futboleras", b:"Café Amanecer", d:"17/5", dy:"Dom", h:"3:30pm", f:"C1", w:"S2"},
   {id:21, c:"Masculino", g:"A", a:"Fuerza", b:"Los amigos", d:"17/5", dy:"Dom", h:"3:30pm", f:"C2", w:"S2"},
   {id:22, c:"Masculino", g:"A", a:"Tribunal Proteccion", b:"Bodegon Los Vasquez", d:"17/5", dy:"Dom", h:"3:30pm", f:"C3", w:"S2"},
   {id:23, c:"Femenino", g:"B", a:"Festidoras", b:"Esquina del Sabor", d:"17/5", dy:"Dom", h:"6:00pm", f:"C1", w:"S2"},
   {id:24, c:"Masculino", g:"A", a:"Sibarita", b:"Familia Ortega", d:"17/5", dy:"Dom", h:"6:00pm", f:"C2", w:"S2"},
   {id:25, c:"Masculino", g:"A", a:"Gladiadores del Cerrito", b:"Atletico Paez", d:"17/5", dy:"Dom", h:"6:00pm", f:"C3", w:"S2"},
-
-  // ========== SEMANA 3 (20/05 al 24/05) ==========
-  {id:26, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Sabaneta", d:"20/5", dy:"Mié", h:"6:00pm - 7:30pm", f:"C1", w:"S3"},
+  {id:26, c:"Femenino", g:"A", a:"Café Amanecer", b:"Sabaneta", d:"20/5", dy:"Mié", h:"6:00pm - 7:30pm", f:"C1", w:"S3"},
   {id:27, c:"Masculino", g:"B", a:"Pintucal", b:"Sistema de Justicia", d:"20/5", dy:"Mié", h:"6:00pm - 7:30pm", f:"C2", w:"S3"},
   {id:28, c:"Femenino", g:"A", a:"Divinas", b:"Atrevidas", d:"20/5", dy:"Mié", h:"6:00pm - 7:30pm", f:"C3", w:"S3"},
   {id:29, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Yusevin CA", d:"20/5", dy:"Mié", h:"8:00pm - 9:30pm", f:"C1", w:"S3"},
@@ -280,7 +288,7 @@ const M = [
   {id:46, c:"Masculino", g:"B", a:"Triunfadores", b:"Pintucal", d:"22/5", dy:"Vie", h:"10:00pm - 11:30pm", f:"C3", w:"S3"},
   {id:47, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Sibarita", d:"23/5", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C1", w:"S3"},
   {id:48, c:"Masculino", g:"A", a:"Fuerza", b:"Unidos de Hato", d:"23/5", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C2", w:"S3"},
-  {id:49, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Futboleras", d:"23/5", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C1", w:"S3"},
+  {id:49, c:"Femenino", g:"A", a:"Café Amanecer", b:"Futboleras", d:"23/5", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C1", w:"S3"},
   {id:50, c:"Masculino", g:"A", a:"Familia Ortega", b:"Club Afibola", d:"23/5", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C2", w:"S3"},
   {id:51, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Alimentos La Granja", d:"23/5", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C3", w:"S3"},
   {id:52, c:"Femenino", g:"B", a:"Atavenca", b:"Emprendedoras", d:"23/5", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C1", w:"S3"},
@@ -304,12 +312,10 @@ const M = [
   {id:70, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Repostería el Ponque", d:"24/5", dy:"Dom", h:"6:00pm - 7:30pm", f:"C1", w:"S3"},
   {id:71, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Las Femix", d:"24/5", dy:"Dom", h:"6:00pm - 7:30pm", f:"C2", w:"S3"},
   {id:72, c:"Masculino", g:"B", a:"Ingenieros", b:"Bodegon Los Vasquez", d:"24/5", dy:"Dom", h:"6:00pm - 7:30pm", f:"C3", w:"S3"},
-
-  // ========== SEMANA 4 (28/05 al 01/06) ==========
   {id:73, c:"Femenino", g:"B", a:"Oasis Box", b:"Emprendedoras", d:"28/5", dy:"Mié", h:"6:00pm - 7:30pm", f:"C1", w:"S4"},
   {id:74, c:"Masculino", g:"A", a:"Familia Ortega", b:"Yusevin CA", d:"28/5", dy:"Mié", h:"6:00pm - 7:30pm", f:"C2", w:"S4"},
   {id:75, c:"Femenino", g:"A", a:"Atrevidas", b:"Inversiones EPA", d:"28/5", dy:"Mié", h:"6:00pm - 7:30pm", f:"C3", w:"S4"},
-  {id:76, c:"Femenino", g:"A", a:"Taferca", b:"Alimentos Amanecer", d:"28/5", dy:"Mié", h:"8:00pm - 9:30pm", f:"C1", w:"S4"},
+  {id:76, c:"Femenino", g:"A", a:"Taferca", b:"Café Amanecer", d:"28/5", dy:"Mié", h:"8:00pm - 9:30pm", f:"C1", w:"S4"},
   {id:77, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Tribunal Protección", d:"28/5", dy:"Mié", h:"8:00pm - 9:30pm", f:"C2", w:"S4"},
   {id:78, c:"Masculino", g:"A", a:"Fuerza", b:"Corpolec2", d:"28/5", dy:"Mié", h:"8:00pm - 9:30pm", f:"C3", w:"S4"},
   {id:79, c:"Masculino", g:"A", a:"Familia Ortega", b:"Por confirmar", d:"29/5", dy:"Jue", h:"6:00pm - 7:30pm", f:"C1", w:"S4"},
@@ -351,16 +357,14 @@ const M = [
   {id:115, c:"Masculino", g:"A", a:"Yusevin CA", b:"Agro max", d:"1/6", dy:"Dom", h:"4:00pm - 5:30pm", f:"C2", w:"S4"},
   {id:116, c:"Masculino", g:"A", a:"Exasa", b:"Los Amigos", d:"1/6", dy:"Dom", h:"4:00pm - 5:30pm", f:"C3", w:"S4"},
   {id:117, c:"Femenino", g:"B", a:"The Dolls", b:"Las Femix", d:"1/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C1", w:"S4"},
-  {id:118, c:"Femenino", g:"A", a:"Inversiones IV", b:"Alimentos Amanecer", d:"1/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C2", w:"S4"},
+  {id:118, c:"Femenino", g:"A", a:"Inversiones IV", b:"Café Amanecer", d:"1/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C2", w:"S4"},
   {id:119, c:"Femenino", g:"B", a:"Chikas", b:"Oasis Box", d:"1/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C3", w:"S4"},
-
-  // ========== SEMANA 5 (05/06 al 09/06) ==========
   {id:120, c:"Masculino", g:"B", a:"Ingenieros", b:"Agroserviportuguesa", d:"5/6", dy:"Mié", h:"6:00pm - 7:30pm", f:"C1", w:"S5"},
   {id:121, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Por confirmar", d:"5/6", dy:"Mié", h:"6:00pm - 7:30pm", f:"C2", w:"S5"},
   {id:122, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Pintucal", d:"5/6", dy:"Mié", h:"6:00pm - 7:30pm", f:"C3", w:"S5"},
   {id:123, c:"Masculino", g:"A", a:"Corpolec2", b:"Exasa", d:"5/6", dy:"Mié", h:"8:00pm - 9:30pm", f:"C1", w:"S5"},
   {id:124, c:"Femenino", g:"A", a:"Divinas", b:"Sabaneta", d:"5/6", dy:"Mié", h:"8:00pm - 9:30pm", f:"C2", w:"S5"},
-  {id:125, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Atrevidas", d:"5/6", dy:"Mié", h:"8:00pm - 9:30pm", f:"C3", w:"S5"},
+  {id:125, c:"Femenino", g:"A", a:"Café Amanecer", b:"Atrevidas", d:"5/6", dy:"Mié", h:"8:00pm - 9:30pm", f:"C3", w:"S5"},
   {id:126, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Los Irochimas", d:"6/6", dy:"Jue", h:"6:00pm - 7:30pm", f:"C1", w:"S5"},
   {id:127, c:"Masculino", g:"A", a:"Corpolec2", b:"Por confirmar", d:"6/6", dy:"Jue", h:"6:00pm - 7:30pm", f:"C2", w:"S5"},
   {id:128, c:"Masculino", g:"B", a:"Pintucal", b:"Gladiadores del Cerrito", d:"6/6", dy:"Jue", h:"6:00pm - 7:30pm", f:"C3", w:"S5"},
@@ -384,7 +388,7 @@ const M = [
   {id:146, c:"Femenino", g:"B", a:"The Dolls", b:"Corpolec Jubiladas", d:"8/6", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C1", w:"S5"},
   {id:147, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Ingenieros", d:"8/6", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C2", w:"S5"},
   {id:148, c:"Femenino", g:"B", a:"Saboga", b:"Atavenca", d:"8/6", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C3", w:"S5"},
-  {id:149, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Alimentos Amanecer", d:"8/6", dy:"Sáb", h:"5:30pm - 7:00pm", f:"C1", w:"S5"},
+  {id:149, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Café Amanecer", d:"8/6", dy:"Sáb", h:"5:30pm - 7:00pm", f:"C1", w:"S5"},
   {id:150, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Los Amigos", d:"8/6", dy:"Sáb", h:"5:30pm - 7:00pm", f:"C2", w:"S5"},
   {id:151, c:"Masculino", g:"B", a:"Los Irochimas", b:"Distribuidora JH", d:"8/6", dy:"Sáb", h:"5:30pm - 7:00pm", f:"C3", w:"S5"},
   {id:152, c:"Masculino", g:"B", a:"Team JM&JA", b:"Alimentos La Granja", d:"8/6", dy:"Sáb", h:"7:30pm - 9:00pm", f:"C1", w:"S5"},
@@ -402,8 +406,6 @@ const M = [
   {id:164, c:"Masculino", g:"A", a:"Familia Ortega", b:"Los Amigos", d:"9/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C1", w:"S5"},
   {id:165, c:"Masculino", g:"A", a:"Yusevin CA", b:"Sibarita", d:"9/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C2", w:"S5"},
   {id:166, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Atavenca", d:"9/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C3", w:"S5"},
-
-  // ========== SEMANA 6 (13/06 al 17/06) ==========
   {id:167, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Sistema de Justicia", d:"13/6", dy:"Mié", h:"6:00pm - 7:30pm", f:"C1", w:"S6"},
   {id:168, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Atrevidas", d:"13/6", dy:"Mié", h:"6:00pm - 7:30pm", f:"C2", w:"S6"},
   {id:169, c:"Masculino", g:"B", a:"Ingenieros", b:"Gladiadores del Cerrito", d:"13/6", dy:"Mié", h:"6:00pm - 7:30pm", f:"C3", w:"S6"},
@@ -451,8 +453,6 @@ const M = [
   {id:211, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Triunfadores", d:"17/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C1", w:"S6"},
   {id:212, c:"Femenino", g:"B", a:"Festidoras", b:"Oasis Box", d:"17/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C2", w:"S6"},
   {id:213, c:"Masculino", g:"A", a:"Servihidra", b:"Por confirmar", d:"17/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C3", w:"S6"},
-
-  // ========== SEMANA 7 (21/06 al 25/06) ==========
   {id:214, c:"Masculino", g:"A", a:"Servihidra", b:"Agro max", d:"21/6", dy:"Mié", h:"6:00pm - 7:30pm", f:"C1", w:"S7"},
   {id:215, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Taferca", d:"21/6", dy:"Mié", h:"6:00pm - 7:30pm", f:"C2", w:"S7"},
   {id:216, c:"Masculino", g:"B", a:"Distribuidora JH", b:"Alimentos La Granja", d:"21/6", dy:"Mié", h:"6:00pm - 7:30pm", f:"C3", w:"S7"},
@@ -464,331 +464,240 @@ const M = [
   {id:222, c:"Masculino", g:"B", a:"Sistema de Justicia", b:"Distribuidora JH", d:"22/6", dy:"Jue", h:"6:00pm - 7:30pm", f:"C3", w:"S7"},
   {id:223, c:"Masculino", g:"B", a:"Los Irochimas", b:"Bodegon Los Vasquez", d:"22/6", dy:"Jue", h:"8:00pm - 9:30pm", f:"C1", w:"S7"},
   {id:224, c:"Masculino", g:"A", a:"Fuerza", b:"Los Amigos", d:"22/6", dy:"Jue", h:"8:00pm - 9:30pm", f:"C2", w:"S7"},
-  {id:225, c:"Femenino", g:"B", a:"Saboga", b:"Corpolec Jubiladas", d:"22/6", dy:"Jue", h:"8:00pm - 9:30pm", f:"C3", w:"S7"},
-  {id:226, c:"Masculino", g:"B", a:"Triunfadores", b:"Distribuidora JH", d:"23/6", dy:"Vie", h:"6:00pm - 7:30pm", f:"C1", w:"S7"},
-  {id:227, c:"Masculino", g:"A", a:"Fuerza", b:"Los Panas Vimapin", d:"23/6", dy:"Vie", h:"6:00pm - 7:30pm", f:"C2", w:"S7"},
-  {id:228, c:"Masculino", g:"A", a:"Los Amigos", b:"Por confirmar", d:"23/6", dy:"Vie", h:"6:00pm - 7:30pm", f:"C3", w:"S7"},
-  {id:229, c:"Femenino", g:"B", a:"Corpoelec", b:"Chikas", d:"23/6", dy:"Vie", h:"8:00pm - 9:30pm", f:"C1", w:"S7"},
-  {id:230, c:"Masculino", g:"B", a:"Sistema de Justicia", b:"Alimentos La Granja", d:"23/6", dy:"Vie", h:"8:00pm - 9:30pm", f:"C2", w:"S7"},
-  {id:231, c:"Femenino", g:"A", a:"Taferca", b:"Futboleras", d:"23/6", dy:"Vie", h:"8:00pm - 9:30pm", f:"C3", w:"S7"},
-  {id:232, c:"Masculino", g:"B", a:"Team JM&JA", b:"Pintucal", d:"23/6", dy:"Vie", h:"10:00pm - 11:30pm", f:"C1", w:"S7"},
-  {id:233, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Atrevidas", d:"23/6", dy:"Vie", h:"10:00pm - 11:30pm", f:"C2", w:"S7"},
-  {id:234, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Exasa", d:"23/6", dy:"Vie", h:"10:00pm - 11:30pm", f:"C3", w:"S7"},
-  {id:235, c:"Masculino", g:"A", a:"Corpolec2", b:"Unidos de Hato", d:"24/6", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C1", w:"S7"},
-  {id:236, c:"Masculino", g:"A", a:"Exasa", b:"Unidos de Hato", d:"24/6", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C2", w:"S7"},
-  {id:237, c:"Femenino", g:"A", a:"Inversiones IV", b:"Sabaneta", d:"24/6", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C1", w:"S7"},
-  {id:238, c:"Masculino", g:"B", a:"Los Irochimas", b:"Triunfadores", d:"24/6", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C2", w:"S7"},
-  {id:239, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Los Panas Vimapin", d:"24/6", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C3", w:"S7"},
-  {id:240, c:"Masculino", g:"B", a:"Ingenieros", b:"Sistema de Justicia", d:"24/6", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C1", w:"S7"},
-  {id:241, c:"Femenino", g:"A", a:"Ferrecenca", b:"Futboleras", d:"24/6", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C2", w:"S7"},
-  {id:242, c:"Masculino", g:"B", a:"Pintucal", b:"Atletico Paez", d:"24/6", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C3", w:"S7"},
-  {id:243, c:"Femenino", g:"B", a:"Festidoras", b:"Las Femix", d:"24/6", dy:"Sáb", h:"5:30pm - 7:00pm", f:"C1", w:"S7"},
-  {id:244, c:"Masculino", g:"A", a:"Club Afibola", b:"Los Amigos", d:"24/6", dy:"Sáb", h:"5:30pm - 7:00pm", f:"C2", w:"S7"},
-  {id:245, c:"Femenino", g:"B", a:"Oasis Box", b:"Por confirmar", d:"24/6", dy:"Sáb", h:"5:30pm - 7:00pm", f:"C3", w:"S7"},
-  {id:246, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Repostería el Ponque", d:"24/6", dy:"Sáb", h:"7:30pm - 9:00pm", f:"C1", w:"S7"},
-  {id:247, c:"Femenino", g:"B", a:"The Dolls", b:"Corpoelec", d:"24/6", dy:"Sáb", h:"7:30pm - 9:00pm", f:"C2", w:"S7"},
-  {id:248, c:"Masculino", g:"A", a:"Fuerza", b:"Servihidra", d:"24/6", dy:"Sáb", h:"7:30pm - 9:00pm", f:"C3", w:"S7"},
-  {id:249, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Inversiones EPA", d:"24/6", dy:"Sáb", h:"9:30pm - 11:00pm", f:"C1", w:"S7"},
-  {id:250, c:"Masculino", g:"B", a:"Team JM&JA", b:"Bodegon Los Vasquez", d:"24/6", dy:"Sáb", h:"9:30pm - 11:00pm", f:"C2", w:"S7"},
-  {id:251, c:"Femenino", g:"B", a:"Chikas", b:"Esquina del Sabor", d:"24/6", dy:"Sáb", h:"9:30pm - 11:00pm", f:"C3", w:"S7"},
-  {id:252, c:"Femenino", g:"A", a:"Inversiones IV", b:"Divinas", d:"25/6", dy:"Dom", h:"2:00pm - 3:30pm", f:"C1", w:"S7"},
-  {id:253, c:"Femenino", g:"A", a:"Sabaneta", b:"Futboleras", d:"25/6", dy:"Dom", h:"2:00pm - 3:30pm", f:"C2", w:"S7"},
-  {id:254, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Gladiadores del Cerrito", d:"25/6", dy:"Dom", h:"2:00pm - 3:30pm", f:"C3", w:"S7"},
-  {id:255, c:"Masculino", g:"A", a:"Corpolec2", b:"Club Afibola", d:"25/6", dy:"Dom", h:"4:00pm - 5:30pm", f:"C1", w:"S7"},
-  {id:256, c:"Femenino", g:"B", a:"Corpoelec", b:"Por confirmar", d:"25/6", dy:"Dom", h:"4:00pm - 5:30pm", f:"C2", w:"S7"},
-  {id:257, c:"Femenino", g:"A", a:"Taferca", b:"Ferrecenca", d:"25/6", dy:"Dom", h:"4:00pm - 5:30pm", f:"C3", w:"S7"},
-  {id:258, c:"Masculino", g:"A", a:"Servihidra", b:"Los Panas Vimapin", d:"25/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C1", w:"S7"},
-  {id:259, c:"Femenino", g:"B", a:"Festidoras", b:"Atavenca", d:"25/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C2", w:"S7"},
-  {id:260, c:"Masculino", g:"B", a:"Team JM&JA", b:"Triunfadores", d:"25/6", dy:"Dom", h:"6:00pm - 7:30pm", f:"C3", w:"S7"},
-
-  // ========== SEMANA 8 (29/06 al 03/07) ==========
-  {id:261, c:"Masculino", g:"B", a:"Los Irochimas", b:"Atletico Paez", d:"29/6", dy:"Mié", h:"6:00pm - 7:30pm", f:"C1", w:"S8"},
-  {id:262, c:"Masculino", g:"A", a:"Corpolec2", b:"Agro max", d:"29/6", dy:"Mié", h:"6:00pm - 7:30pm", f:"C2", w:"S8"},
-  {id:263, c:"Masculino", g:"A", a:"Sibarita", b:"Por confirmar", d:"29/6", dy:"Mié", h:"6:00pm - 7:30pm", f:"C3", w:"S8"},
-  {id:264, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Club Afibola", d:"29/6", dy:"Mié", h:"8:00pm - 9:30pm", f:"C1", w:"S8"},
-  {id:265, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Pintucal", d:"29/6", dy:"Mié", h:"8:00pm - 9:30pm", f:"C2", w:"S8"},
-  {id:266, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Ferrecenca", d:"29/6", dy:"Mié", h:"8:00pm - 9:30pm", f:"C3", w:"S8"},
-  {id:267, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Atletico Paez", d:"30/6", dy:"Jue", h:"6:00pm - 7:30pm", f:"C1", w:"S8"},
-  {id:268, c:"Femenino", g:"B", a:"The Dolls", b:"Por confirmar", d:"30/6", dy:"Jue", h:"6:00pm - 7:30pm", f:"C2", w:"S8"},
-  {id:269, c:"Femenino", g:"A", a:"Divinas", b:"Repostería el Ponque", d:"30/6", dy:"Jue", h:"6:00pm - 7:30pm", f:"C3", w:"S8"},
-  {id:270, c:"Femenino", g:"B", a:"Corpoelec", b:"Esquina del Sabor", d:"30/6", dy:"Jue", h:"8:00pm - 9:30pm", f:"C1", w:"S8"},
-  {id:271, c:"Masculino", g:"B", a:"Triunfadores", b:"Alimentos La Granja", d:"30/6", dy:"Jue", h:"8:00pm - 9:30pm", f:"C2", w:"S8"},
-  {id:272, c:"Masculino", g:"B", a:"Ingenieros", b:"Pintucal", d:"30/6", dy:"Jue", h:"8:00pm - 9:30pm", f:"C3", w:"S8"},
-  {id:273, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Atletico Paez", d:"1/7", dy:"Vie", h:"6:00pm - 7:30pm", f:"C1", w:"S8"},
-  {id:274, c:"Masculino", g:"A", a:"Agro max", b:"Por confirmar", d:"1/7", dy:"Vie", h:"6:00pm - 7:30pm", f:"C2", w:"S8"},
-  {id:275, c:"Masculino", g:"A", a:"Servihidra", b:"Yusevin CA", d:"1/7", dy:"Vie", h:"6:00pm - 7:30pm", f:"C3", w:"S8"},
-  {id:276, c:"Femenino", g:"B", a:"Chikas", b:"Las Femix", d:"1/7", dy:"Vie", h:"8:00pm - 9:30pm", f:"C1", w:"S8"},
-  {id:277, c:"Femenino", g:"B", a:"Oasis Box", b:"Atavenca", d:"1/7", dy:"Vie", h:"8:00pm - 9:30pm", f:"C2", w:"S8"},
-  {id:278, c:"Masculino", g:"B", a:"Team JM&JA", b:"Sistema de Justicia", d:"1/7", dy:"Vie", h:"8:00pm - 9:30pm", f:"C3", w:"S8"},
-  {id:279, c:"Masculino", g:"B", a:"Triunfadores", b:"Gladiadores del Cerrito", d:"1/7", dy:"Vie", h:"10:00pm - 11:30pm", f:"C1", w:"S8"},
-  {id:280, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Fuerza", d:"1/7", dy:"Vie", h:"10:00pm - 11:30pm", f:"C2", w:"S8"},
-  {id:281, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Sibarita", d:"1/7", dy:"Vie", h:"10:00pm - 11:30pm", f:"C3", w:"S8"},
-  {id:282, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Por confirmar", d:"2/7", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C1", w:"S8"},
-  {id:283, c:"Masculino", g:"A", a:"Familia Ortega", b:"Unidos de Hato", d:"2/7", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C2", w:"S8"},
-  {id:284, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Inversiones IV", d:"2/7", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C1", w:"S8"},
-  {id:285, c:"Masculino", g:"B", a:"Atletico Paez", b:"Alimentos La Granja", d:"2/7", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C2", w:"S8"},
-  {id:286, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Agro max", d:"2/7", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C3", w:"S8"},
-  {id:287, c:"Femenino", g:"B", a:"Oasis Box", b:"Esquina del Sabor", d:"2/7", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C1", w:"S8"},
-  {id:288, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Repostería el Ponque", d:"2/7", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C2", w:"S8"},
-  {id:289, c:"Masculino", g:"A", a:"Club Afibola", b:"Yusevin CA", d:"2/7", dy:"Sáb", h:"3:30pm - 5:00pm", f:"C3", w:"S8"},
-  {id:290, c:"Masculino", g:"A", a:"Fuerza", b:"Exasa", d:"2/7", dy:"Sáb", h:"5:30pm - 7:00pm", f:"C1", w:"S8"},
-  {id:291, c:"Femenino", g:"B", a:"Festidoras", b:"Chikas", d:"2/7", dy:"Sáb", h:"5:30pm - 7:00pm", f:"C2", w:"S8"},
-  {id:292, c:"Femenino", g:"A", a:"Taferca", b:"Inversiones EPA", d:"2/7", dy:"Sáb", h:"5:30pm - 7:00pm", f:"C3", w:"S8"},
-  {id:293, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Triunfadores", d:"2/7", dy:"Sáb", h:"7:30pm - 9:00pm", f:"C1", w:"S8"},
-  {id:294, c:"Femenino", g:"A", a:"Atrevidas", b:"Sabaneta", d:"2/7", dy:"Sáb", h:"7:30pm - 9:00pm", f:"C2", w:"S8"},
-  {id:295, c:"Femenino", g:"B", a:"Las Femix", b:"Emprendedoras", d:"2/7", dy:"Sáb", h:"7:30pm - 9:00pm", f:"C3", w:"S8"},
-  {id:296, c:"Femenino", g:"A", a:"Divinas", b:"Ferrecenca", d:"2/7", dy:"Sáb", h:"9:30pm - 11:00pm", f:"C1", w:"S8"},
-  {id:297, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Distribuidora JH", d:"2/7", dy:"Sáb", h:"9:30pm - 11:00pm", f:"C2", w:"S8"},
-  {id:298, c:"Masculino", g:"A", a:"Corpolec2", b:"Servihidra", d:"2/7", dy:"Sáb", h:"9:30pm - 11:00pm", f:"C3", w:"S8"},
-  {id:299, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Inversiones IV", d:"3/7", dy:"Dom", h:"2:00pm - 3:30pm", f:"C1", w:"S8"},
-  {id:300, c:"Femenino", g:"B", a:"The Dolls", b:"Oasis Box", d:"3/7", dy:"Dom", h:"2:00pm - 3:30pm", f:"C2", w:"S8"},
-  {id:301, c:"Masculino", g:"A", a:"Los Amigos", b:"Agro max", d:"3/7", dy:"Dom", h:"2:00pm - 3:30pm", f:"C3", w:"S8"},
-  {id:302, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Por confirmar", d:"3/7", dy:"Dom", h:"4:00pm - 5:30pm", f:"C1", w:"S8"},
-  {id:303, c:"Masculino", g:"A", a:"Exasa", b:"Yusevin CA", d:"3/7", dy:"Dom", h:"4:00pm - 5:30pm", f:"C2", w:"S8"},
-  {id:304, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Agroserviportuguesa", d:"3/7", dy:"Dom", h:"4:00pm - 5:30pm", f:"C3", w:"S8"},
-  {id:305, c:"Femenino", g:"B", a:"Chikas", b:"Emprendedoras", d:"3/7", dy:"Dom", h:"6:00pm - 7:30pm", f:"C1", w:"S8"},
-  {id:306, c:"Femenino", g:"A", a:"Divinas", b:"Café Amanecer", d:"3/7", dy:"Dom", h:"6:00pm - 7:30pm", f:"C2", w:"S8"},
-  {id:307, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Futboleras", d:"3/7", dy:"Dom", h:"6:00pm - 7:30pm", f:"C3", w:"S8"},
-
-  // ========== SEMANA 9 (07/07 al 11/07) ==========
-  {id:308, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Atletico Paez", d:"7/7", dy:"Mié", h:"6:00pm - 7:30pm", f:"C1", w:"S9"},
-  {id:309, c:"Femenino", g:"B", a:"Atavenca", b:"Por confirmar", d:"7/7", dy:"Mié", h:"6:00pm - 7:30pm", f:"C2", w:"S9"},
-  {id:310, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Alimentos La Granja", d:"7/7", dy:"Mié", h:"6:00pm - 7:30pm", f:"C3", w:"S9"},
-  {id:311, c:"Masculino", g:"B", a:"Ingenieros", b:"Triunfadores", d:"7/7", dy:"Mié", h:"8:00pm - 9:30pm", f:"C1", w:"S9"},
-  {id:312, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Chikas", d:"7/7", dy:"Mié", h:"8:00pm - 9:30pm", f:"C2", w:"S9"},
-  {id:313, c:"Femenino", g:"B", a:"Saboga", b:"Festidoras", d:"7/7", dy:"Mié", h:"8:00pm - 9:30pm", f:"C3", w:"S9"},
-  {id:314, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Distribuidora JH", d:"8/7", dy:"Jue", h:"6:00pm - 7:30pm", f:"C1", w:"S9"},
-  {id:315, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Atletico Paez", d:"8/7", dy:"Jue", h:"6:00pm - 7:30pm", f:"C2", w:"S9"},
-  {id:316, c:"Femenino", g:"B", a:"Atavenca", b:"Las Femix", d:"8/7", dy:"Jue", h:"6:00pm - 7:30pm", f:"C3", w:"S9"},
-  {id:317, c:"Femenino", g:"A", a:"Sabaneta", b:"Inversiones EPA", d:"8/7", dy:"Jue", h:"8:00pm - 9:30pm", f:"C1", w:"S9"},
-  {id:318, c:"Masculino", g:"A", a:"Corpolec2", b:"Los Panas Vimapin", d:"8/7", dy:"Jue", h:"8:00pm - 9:30pm", f:"C2", w:"S9"},
-  {id:319, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Ferrecenca", d:"8/7", dy:"Jue", h:"8:00pm - 9:30pm", f:"C3", w:"S9"},
-  {id:320, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Tribunal Protección", d:"9/7", dy:"Vie", h:"6:00pm - 7:30pm", f:"C1", w:"S9"},
-  {id:321, c:"Femenino", g:"B", a:"Chikas", b:"Atavenca", d:"9/7", dy:"Vie", h:"6:00pm - 7:30pm", f:"C2", w:"S9"},
-  {id:322, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Triunfadores", d:"9/7", dy:"Vie", h:"6:00pm - 7:30pm", f:"C3", w:"S9"},
-  {id:323, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Atrevidas", d:"9/7", dy:"Vie", h:"8:00pm - 9:30pm", f:"C1", w:"S9"},
-  {id:324, c:"Femenino", g:"B", a:"Corpoelec", b:"Festidoras", d:"9/7", dy:"Vie", h:"8:00pm - 9:30pm", f:"C2", w:"S9"},
-  {id:325, c:"Masculino", g:"B", a:"Team JM&JA", b:"Distribuidora JH", d:"9/7", dy:"Vie", h:"8:00pm - 9:30pm", f:"C3", w:"S9"},
-  {id:326, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Inversiones EPA", d:"9/7", dy:"Vie", h:"10:00pm - 11:30pm", f:"C1", w:"S9"},
-  {id:327, c:"Masculino", g:"A", a:"Exasa", b:"Los Panas Vimapin", d:"9/7", dy:"Vie", h:"10:00pm - 11:30pm", f:"C2", w:"S9"},
-  {id:328, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Inversiones EPA", d:"9/7", dy:"Vie", h:"10:00pm - 11:30pm", f:"C3", w:"S9"},
-  {id:329, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Unidos de Hato", d:"10/7", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C1", w:"S9"},
-  {id:330, c:"Femenino", g:"A", a:"Inversiones IV", b:"Ferrecenca", d:"10/7", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C1", w:"S9"},
-  {id:331, c:"Femenino", g:"A", a:"Divinas", b:"Futboleras", d:"10/7", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C2", w:"S9"},
-  {id:332, c:"Femenino", g:"B", a:"The Dolls", b:"Chikas", d:"10/7", dy:"Sáb", h:"1:30pm - 3:00pm", f:"C3", w:"S9"},
-  {id:333, c:"Masculino", g:"B", a:"Ingenieros", b:"Tribunal Protección", d:"11/7", dy:"Dom", h:"2:00pm - 3:30pm", f:"C1", w:"S9"}
+  {id:225, c:"Femenino", g:"B", a:"Saboga", b:"Corpolec Jubiladas", d:"22/6", dy:"Jue", h:"8:00pm - 9:30pm", f:"C3", w:"S7"}
 ];
-const WC={"S1":"#2ecc71","S2":"#3498db","S3":"#9b59b6","S4":"#e67e22","S5":"#c0392b","S6":"#1abc9c","S7":"#e91e63","S8":"#607d8b"};
 
-// Pre-loaded results Semana 1
+// ==================== RESULTADOS Y ESTADÍSTICAS PRECARGADAS ====================
 let R = {"1": {"scoreA": 15, "scoreB": 14, "status": "done"}, "2": {"scoreA": 14, "scoreB": 15, "status": "done"}, "3": {"scoreA": 12, "scoreB": 13, "status": "done"}, "4": {"scoreA": 8, "scoreB": 0, "status": "forfeit"}, "5": {"scoreA": 0, "scoreB": 8, "status": "forfeit"}, "6": {"scoreA": 13, "scoreB": 12, "status": "done"}, "7": {"scoreA": 12, "scoreB": 15, "status": "done"}, "8": {"scoreA": 10, "scoreB": 11, "status": "done"}, "9": {"scoreA": 0, "scoreB": 8, "status": "forfeit"}, "10": {"scoreA": 15, "scoreB": 14, "status": "done"}, "11": {"scoreA": 14, "scoreB": 15, "status": "done"}, "12": {"scoreA": 15, "scoreB": 14, "status": "done"}, "13": {"scoreA": 14, "scoreB": 15, "status": "done"}, "14": {"scoreA": 12, "scoreB": 13, "status": "done"}, "15": {"scoreA": 8, "scoreB": 0, "status": "forfeit"}, "16": {"scoreA": 0, "scoreB": 8, "status": "forfeit"}, "17": {"scoreA": 13, "scoreB": 12, "status": "done"}, "18": {"scoreA": 12, "scoreB": 15, "status": "done"}, "19": {"scoreA": 10, "scoreB": 11, "status": "done"}, "20": {"scoreA": 0, "scoreB": 8, "status": "forfeit"}, "21": {"scoreA": 15, "scoreB": 14, "status": "done"}, "22": {"scoreA": 14, "scoreB": 15, "status": "done"}, "23": {"scoreA": 10, "scoreB": 11, "status": "done"}, "24": {"scoreA": 2, "scoreB": 15, "status": "done"}, "25": {"scoreA": 14, "scoreB": 13, "status": "done"}, "26": {"scoreA": 12, "scoreB": 11, "status": "done"}, "27": {"scoreA": 15, "scoreB": 3, "status": "done"}};
 
-// Pre-loaded player stats
-let PS = {"Jujure (Educadoras)|Valeria Torres": {"pos": "Arrime", "arr_b": 10, "arr_m": 5, "boc_b": 0, "boc_m": 0, "total_arr": 15, "total_boc": 0, "efec_arr": 66.7, "efec_boc": 0, "partidos": 1}, "Las ni\u00f1as malas|Bel\u00e9n Valenzuela": {"pos": "Boche", "arr_b": 0, "arr_m": 0, "boc_b": 10, "boc_m": 6, "total_arr": 0, "total_boc": 16, "efec_arr": 0, "efec_boc": 62.5, "partidos": 1}, "Agroserviportuguesa|William Estay": {"pos": "Arrime", "arr_b": 4, "arr_m": 10, "boc_b": 0, "boc_m": 0, "total_arr": 14, "total_boc": 0, "efec_arr": 28.6, "efec_boc": 0, "partidos": 1}, "Futboleros|Ignacio Soto": {"pos": "Arrime", "arr_b": 50, "arr_m": 20, "boc_b": 0, "boc_m": 0, "total_arr": 70, "total_boc": 0, "efec_arr": 71.4, "efec_boc": 0, "partidos": 1}, "Jujure (Educadoras)|Luc\u00eda S\u00e1nchez": {"pos": "Arrime", "arr_b": 45, "arr_m": 25, "boc_b": 0, "boc_m": 0, "total_arr": 70, "total_boc": 0, "efec_arr": 64.3, "efec_boc": 0, "partidos": 1}};
+let PS = {
+  "Ferrecenca|Maria Carreño": {pos:"Arrime", arr_b:10, arr_m:5, boc_b:0, boc_m:0, total_arr:15, total_boc:0, efec_arr:66.7, efec_boc:0, partidos:1},
+  "Ferrecenca|Dudamel Nubia": {pos:"Boche", arr_b:0, arr_m:0, boc_b:8, boc_m:2, total_arr:0, total_boc:10, efec_arr:0, efec_boc:80, partidos:1},
+  "Oasis Box|Carolina Arocha": {pos:"Mixto", arr_b:5, arr_m:3, boc_b:4, boc_m:1, total_arr:8, total_boc:5, efec_arr:62.5, efec_boc:80, partidos:1},
+  "Los Amigos|Carlos Silva": {pos:"Arrime", arr_b:12, arr_m:4, boc_b:0, boc_m:0, total_arr:16, total_boc:0, efec_arr:75, efec_boc:0, partidos:1},
+  "Sistema de Justicia|Félix Rumbos": {pos:"Boche", arr_b:0, arr_m:0, boc_b:10, boc_m:3, total_arr:0, total_boc:13, efec_arr:0, efec_boc:76.9, partidos:1}
+};
 
-// Merge localStorage
-try{
-  const lr=localStorage.getItem('bc26_r'); if(lr) Object.assign(R,JSON.parse(lr));
-  const lp=localStorage.getItem('bc26_p'); if(lp) Object.assign(PS,JSON.parse(lp));
-}catch(e){}
+let MVP = {};
 
-function save(){
-  try{localStorage.setItem('bc26_r',JSON.stringify(R));localStorage.setItem('bc26_p',JSON.stringify(PS));}catch(e){}
+const WC = {S1:"#2ecc71",S2:"#3498db",S3:"#9b59b6",S4:"#e67e22",S5:"#c0392b",S6:"#1abc9c",S7:"#e91e63",S8:"#607d8b"};
+
+try {
+  let lr = localStorage.getItem('bc26r'); if(lr) Object.assign(R, JSON.parse(lr));
+  let lp = localStorage.getItem('bc26p'); if(lp) Object.assign(PS, JSON.parse(lp));
+  let lm = localStorage.getItem('bc26m'); if(lm) Object.assign(MVP, JSON.parse(lm));
+} catch(e) {}
+
+function save() {
+  try {
+    localStorage.setItem('bc26r', JSON.stringify(R));
+    localStorage.setItem('bc26p', JSON.stringify(PS));
+    localStorage.setItem('bc26m', JSON.stringify(MVP));
+  } catch(e) {}
 }
 
-// STATE
-let st={tc:'Femenino',tg:'A',mc:'Femenino',mg:'A',mw:'Todos',sc:'Femenino',sg:'A',ac:'Femenino',ag:'A',ap:'Todos',ps:''};
+// ==================== ESTADO GLOBAL ====================
+let F = { tCat:'Femenino', tGrp:'A', mCat:'Femenino', mGrp:'A', mWk:'Todos', sCat:'Femenino', sGrp:'A', aCat:'Femenino', aGrp:'A', aPos:'Todos', aQ:'' };
 
-function tab(id,btn){
-  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
-  document.getElementById('s-'+id).classList.add('on');
+function $(id) { return document.getElementById(id); }
+
+function setF(k, v) {
+  F[k] = v;
+  let maps = {
+    tCat: { Femenino:'btn-tFem', Masculino:'btn-tMas' }, tGrp: { A:'btn-tGa', B:'btn-tGb' },
+    mCat: { Femenino:'btn-mFem', Masculino:'btn-mMas' }, mGrp: { A:'btn-mGa', B:'btn-mGb' },
+    sCat: { Femenino:'btn-sFem', Masculino:'btn-sMas' }, sGrp: { A:'btn-sGa', B:'btn-sGb' },
+    aCat: { Femenino:'btn-aFem', Masculino:'btn-aMas' }, aGrp: { A:'btn-aGa', B:'btn-aGb' },
+    aPos: { Todos:'btn-aAll', Arrime:'btn-aArr', Boche:'btn-aBoc', Mixto:'btn-aMix' }
+  };
+  let m = maps[k];
+  if(m) {
+    Object.keys(m).forEach(val => { let el = $(m[val]); if(el) el.classList.toggle('on', val === v); });
+  }
+  if(k[0] === 't') renderTeams();
+  else if(k[0] === 'm') renderMatches();
+  else if(k[0] === 's') renderStandings();
+  else renderStats();
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  $(`s-${id}`).classList.add('on');
   btn.classList.add('on');
-  if(id==='matches')rM();
-  else if(id==='standings')rS();
-  else if(id==='stats')rA();
-  else rT();
+  if(id === 'matches') renderMatches();
+  else if(id === 'standings') renderStandings();
+  else if(id === 'stats') renderStats();
+  else renderTeams();
 }
 
-// TEAMS
-function tCat(v){st.tc=v;$('t-fem').classList.toggle('on',v==='Femenino');$('t-mas').classList.toggle('on',v==='Masculino');rT();}
-function tGrp(v){st.tg=v;$('t-ga').classList.toggle('on',v==='A');$('t-gb').classList.toggle('on',v==='B');rT();}
-function srchTeam(q){
-  const sr=$('srch-res'),tm=$('teams-main');
-  if(!q.trim()){sr.style.display='none';tm.style.display='block';return;}
-  sr.style.display='block';tm.style.display='none';
-  const ql=q.toLowerCase();
-  let h='';
-  T.forEach(t=>{
-    const pm=t.p.filter(p=>p.toLowerCase().includes(ql));
-    if(t.n.toLowerCase().includes(ql)||pm.length){
-      h+=`<div class="card" style="margin-bottom:7px;"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`;
-      pm.forEach(p=>{h+=`<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`;});
-      h+='</div>';
+function setWeek(w) { F.mWk = w; renderMatches(); }
+
+// ==================== EQUIPOS ====================
+function searchTeams(q) {
+  let sr = $('srch-res'), tw = $('teams-wrap');
+  if(!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; }
+  sr.style.display = 'block'; tw.style.display = 'none';
+  let ql = q.toLowerCase(), h = '';
+  TEAMS.forEach(t => {
+    let pm = t.p.filter(p => p.toLowerCase().includes(ql));
+    if(t.n.toLowerCase().includes(ql) || pm.length) {
+      h += `<div class="card" style="margin-bottom:7px;"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`;
+      pm.forEach(p => { h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`; });
+      h += `</div>`;
     }
   });
-  sr.innerHTML=h||'<div style="color:#8899aa;text-align:center;padding:16px;font-size:12px;">Sin resultados</div>';
+  sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;font-size:12px;">Sin resultados</div>';
 }
-function rT(){
-  const list=T.filter(t=>t.c===st.tc&&t.g===st.tg);
-  $('t-cnt').textContent=list.length+' EQUIPOS — '+st.tc+' Grupo '+st.tg;
-  $('t-list').innerHTML=list.map(t=>`<div class="tc" onclick="tDet('${t.n.replace(/'/g,"\'")}')" ><div><div style="font-size:13px;font-weight:bold;color:#f0e6d3;">${t.n}</div><div style="font-size:10px;color:#8899aa;margin-top:2px;">${t.p.length} jugadores · Gr.${t.g}</div></div><div style="font-size:18px;color:#8899aa;">›</div></div>`).join('');
-  $('t-detail').style.display='none';
-  $('t-list').style.display='block';
+
+function renderTeams() {
+  let list = TEAMS.filter(t => t.c === F.tCat && t.g === F.tGrp);
+  $('t-cnt').textContent = list.length + ' EQUIPOS — ' + F.tCat + ' Grupo ' + F.tGrp;
+  $('t-list').innerHTML = list.map(t => `<div class="tc" onclick="openTeam('${t.n.replace(/'/g, "\\'")}')"><div><div style="font-size:13px;font-weight:bold;color:#f0e6d3;">${t.n}</div><div style="font-size:10px;color:#8899aa;margin-top:2px;">${t.p.length} jugadores · Gr.${t.g}</div></div><div style="font-size:18px;color:#8899aa;">›</div></div>`).join('');
+  $('t-detail').style.display = 'none';
+  $('teams-wrap').style.display = 'block';
 }
-function tDet(name){
-  const t=T.find(x=>x.n===name); if(!t) return;
-  $('t-list').style.display='none';$('t-detail').style.display='block';
-  $('t-dhead').innerHTML=`<div style="font-size:15px;font-weight:bold;color:#e8b84b;margin-bottom:3px;">${t.n}</div><div style="font-size:10px;color:#8899aa;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`;
-  $('t-dplayers').innerHTML=t.p.map((p,i)=>{
-    const k=t.n+'|'+p, ps=PS[k]||{};
-    const arr=ps.total_arr||0, boc=ps.total_boc||0, ef=ps.efec_arr||ps.efec_boc||0;
-    return `<div class="pi"><div class="pn">${i+1}</div><div style="flex:1;"><div style="font-size:12px;color:#f0e6d3;font-weight:bold;">${p}</div><div style="font-size:9px;color:#8899aa;">${ps.pos||'—'} · ARR:${arr} BOC:${boc} EFEC:${ef}%</div></div></div>`;
+
+function openTeam(name) {
+  let t = TEAMS.find(x => x.n === name);
+  if(!t) return;
+  $('teams-wrap').style.display = 'none';
+  $('t-detail').style.display = 'block';
+  $('t-dhead').innerHTML = `<div style="font-size:15px;font-weight:bold;color:#e8b84b;margin-bottom:3px;">${t.n}</div><div style="font-size:10px;color:#8899aa;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`;
+  $('t-dplayers').innerHTML = t.p.map((p, i) => {
+    let k = `${t.n}|${p}`;
+    let ps = PS[k] || {};
+    return `<div class="pi"><div class="pn">${i+1}</div><div style="flex:1;"><div style="font-size:12px;color:#f0e6d3;font-weight:bold;">${p}</div><div style="font-size:9px;color:#8899aa;">${ps.pos || '—'} · ARR:${ps.total_arr || 0} BOC:${ps.total_boc || 0} EFEC:${ps.efec_arr || ps.efec_boc || 0}%</div></div></div>`;
   }).join('');
 }
-function tBack(){$('t-list').style.display='block';$('t-detail').style.display='none';}
 
-// MATCHES
-function mCat(v){st.mc=v;$('m-fem').classList.toggle('on',v==='Femenino');$('m-mas').classList.toggle('on',v==='Masculino');rM();}
-function mGrp(v){st.mg=v;$('m-ga').classList.toggle('on',v==='A');$('m-gb').classList.toggle('on',v==='B');rM();}
-function mWk(v){st.mw=v;rM();}
-function rM(){
-  const wks=['Todos','S1','S2','S3','S4','S5','S6','S7','S8'];
-  const wlbl={'Todos':'Todos','S1':'Sem 1','S2':'Sem 2','S3':'Sem 3','S4':'Sem 4','S5':'Sem 5','S6':'Sem 6','S7':'Sem 7','S8':'Sem 8'};
-  $('m-weeks').innerHTML=wks.map(w=>`<button class="fb ${st.mw===w?'on':''}" onclick="mWk('${w}')">${wlbl[w]}</button>`).join('');
-  const list=M.filter(m=>m.c===st.mc&&m.g===st.mg&&(st.mw==='Todos'||m.w===st.mw));
-  $('m-cnt').textContent=list.length+' PARTIDOS';
-  $('m-list').innerHTML=list.map(m=>{
-    const r=R[m.id];
-    const done=r&&r.status==='done', forf=r&&r.status==='forfeit';
-    const wA=done&&r.scoreA>r.scoreB, wB=done&&r.scoreB>r.scoreA;
-    const wc=WC[m.w]||'#888';
-    return `<div class="mc">
-      <div class="mm">
-        <span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>
-        <span class="wtag" style="background:${wc}33;color:${wc}">${m.w}</span>
-      </div>
-      <div class="mteams">
-        <div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div>
-        <div class="vb">
-          ${done||forf
-            ?`<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
-                <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
-                <span class="sep">—</span>
-                <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
-              </div>
-              ${forf?`<div style="font-size:9px;color:#c0392b;text-align:center;margin-top:2px;">FORFEIT</div>`:''}
-              <div style="text-align:center;margin-top:4px;">
-                <span class="rtag done">✓ Finalizado</span>
-                <button onclick="delR(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;margin-left:4px;">✕</button>
-              </div>`
-            :`<div style="font-size:14px;text-align:center;">🎯</div>
-              <div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div>
-              <div class="srow">
-                <input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0">
-                <span class="sep">—</span>
-                <input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0">
-              </div>
-              <button class="sbtn" onclick="saveR(${m.id})">💾 Guardar</button>
-              <button class="fbtn" onclick="forfR(${m.id})">⚠️ Forfeit/WO</button>`
-          }
-        </div>
-        <div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div>
-      </div>
-    </div>`;
-  }).join('')||'<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin partidos</div>';
-}
-function saveR(id){
-  const sA=document.getElementById('sA'+id)?.value;
-  const sB=document.getElementById('sB'+id)?.value;
-  if(sA===''||sB===''){alert('Ingresa ambos marcadores');return;}
-  const a=parseInt(sA),b=parseInt(sB);
-  if(isNaN(a)||isNaN(b)||a<0||b<0||a>20||b>20){alert('Marcador inválido (0-20)');return;}
-  R[id]={scoreA:a,scoreB:b,status:'done'};save();rM();rS();
-}
-function forfR(id){
-  const m=M.find(x=>x.id===id);
-  const ans=prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
-  if(ans==='1'){R[id]={scoreA:0,scoreB:8,status:'forfeit'};save();rM();rS();}
-  else if(ans==='2'){R[id]={scoreA:8,scoreB:0,status:'forfeit'};save();rM();rS();}
-}
-function delR(id){if(confirm('¿Borrar este resultado?')){delete R[id];save();rM();rS();}}
+function closeDetail() { $('teams-wrap').style.display = 'block'; $('t-detail').style.display = 'none'; }
 
-// STANDINGS
-function sCat(v){st.sc=v;$('st-fem').classList.toggle('on',v==='Femenino');$('st-mas').classList.toggle('on',v==='Masculino');rS();}
-function sGrp(v){st.sg=v;$('st-ga').classList.toggle('on',v==='A');$('st-gb').classList.toggle('on',v==='B');rS();}
-function rS(){
-  const tl=T.filter(t=>t.c===st.sc&&t.g===st.sg);
-  const tb={};
-  tl.forEach(t=>{tb[t.n]={n:t.n,pj:0,pg:0,pp:0,tf:0,tc:0,pts:0};});
-  M.filter(m=>m.c===st.sc&&m.g===st.sg).forEach(m=>{
-    const r=R[m.id]; if(!r) return;
-    if(tb[m.a]){tb[m.a].pj++;tb[m.a].tf+=r.scoreA;tb[m.a].tc+=r.scoreB;}
-    if(tb[m.b]){tb[m.b].pj++;tb[m.b].tf+=r.scoreB;tb[m.b].tc+=r.scoreA;}
-    if(r.scoreA>r.scoreB){if(tb[m.a]){tb[m.a].pg++;tb[m.a].pts+=3;}if(tb[m.b])tb[m.b].pp++;}
-    else if(r.scoreB>r.scoreA){if(tb[m.b]){tb[m.b].pg++;tb[m.b].pts+=3;}if(tb[m.a])tb[m.a].pp++;}
+// ==================== PARTIDOS ====================
+function renderMatches() {
+  let weeks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8'];
+  let labels = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8'};
+  $('m-weeks').innerHTML = weeks.map(w => `<button class="fb ${F.mWk === w ? 'on' : ''}" onclick="setWeek('${w}')">${labels[w]}</button>`).join('');
+  let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk));
+  $('m-cnt').textContent = list.length + ' PARTIDOS';
+  if(!list.length) { $('m-list').innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin partidos</div>'; return; }
+  $('m-list').innerHTML = list.map(m => {
+    let r = R[m.id];
+    let done = r && r.status === 'done';
+    let forfeit = r && r.status === 'forfeit';
+    let wA = done && r.scoreA > r.scoreB;
+    let wB = done && r.scoreB > r.scoreA;
+    let wc = WC[m.w] || '#888';
+    let mv = MVP[m.id];
+    let inner = '';
+    if(done || forfeit) {
+      inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA ? '' : 'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB ? '' : 'l'}">${r.scoreB}</span></div>${forfeit ? '<div style="font-size:9px;color:#c0392b;text-align:center;margin-top:2px;">FORFEIT</div>' : ''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span> <button onclick="deleteResult(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button></div>${mv ? `<div class="mvp-box"><span style="font-size:16px;">🏅</span><div style="flex:1;"><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec ? ' · ' + mv.efec + '%' : ''}</div></div><button onclick="deleteMVP(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:14px;cursor:pointer;">✕</button></div>` : `<button class="mvp-btn" onclick="setMVP(${m.id})">🏅 Jugador del Partido</button>`}`;
+    } else {
+      inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="saveResult(${m.id})">💾 Guardar</button><button class="fbtn" onclick="forfeitResult(${m.id})">⚠️ Forfeit/WO</button>`;
+    }
+    return `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span><span class="wtag" style="background:${wc}33;color:${wc}">${m.w}</span></div><div class="mteams"><div class="tn" style="color:${wA ? '#e8b84b' : wB ? '#8899aa' : '#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB ? '#e8b84b' : wA ? '#8899aa' : '#f0e6d3'}">${m.b}</div></div></div>`;
+  }).join('');
+}
+
+function saveResult(id) {
+  let sA = $(`sA${id}`), sB = $(`sB${id}`);
+  if(!sA || !sB) return;
+  let a = parseInt(sA.value), b = parseInt(sB.value);
+  if(isNaN(a) || isNaN(b) || a < 0 || b < 0 || a > 20 || b > 20) { alert('Marcador inválido (0-20)'); return; }
+  R[id] = { scoreA: a, scoreB: b, status: 'done' };
+  save();
+  renderMatches();
+  renderStandings();
+}
+
+function forfeitResult(id) {
+  let m = MATCHES.find(x => x.id === id);
+  let ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
+  if(ans === '1') R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' };
+  else if(ans === '2') R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' };
+  else return;
+  save();
+  renderMatches();
+  renderStandings();
+}
+
+function deleteResult(id) {
+  if(confirm('¿Borrar este resultado?')) { delete R[id]; save(); renderMatches(); renderStandings(); }
+}
+
+function setMVP(id) {
+  let players = [];
+  TEAMS.forEach(t => { t.p.forEach(p => { players.push({ name: p, team: t.n }); }); });
+  let list = players.map((p, i) => `${i+1}. ${p.name} (${p.team})`).join('\n');
+  let idx = prompt(`Selecciona el jugador del partido:\n${list}\n\nIngresa el número:`);
+  let num = parseInt(idx);
+  if(num && num >= 1 && num <= players.length) {
+    let p = players[num-1];
+    let stats = PS[`${p.team}|${p.name}`] || {};
+    let efec = stats.efec_arr || stats.efec_boc || 0;
+    MVP[id] = { name: p.name, team: p.team, efec: efec };
+    save();
+    renderMatches();
+  }
+}
+
+function deleteMVP(id) {
+  if(confirm('¿Quitar el Jugador del Partido?')) { delete MVP[id]; save(); renderMatches(); }
+}
+
+// ==================== TABLA DE POSICIONES ====================
+function renderStandings() {
+  let teams = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp);
+  let stats = {};
+  teams.forEach(t => { stats[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; });
+  MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => {
+    let r = R[m.id];
+    if(r && r.status === 'done') {
+      if(stats[m.a]) { stats[m.a].pj++; stats[m.a].tf += r.scoreA; stats[m.a].tc += r.scoreB; }
+      if(stats[m.b]) { stats[m.b].pj++; stats[m.b].tf += r.scoreB; stats[m.b].tc += r.scoreA; }
+      if(r.scoreA > r.scoreB) { if(stats[m.a]) { stats[m.a].pg++; stats[m.a].pts += 3; } if(stats[m.b]) stats[m.b].pp++; }
+      else if(r.scoreB > r.scoreA) { if(stats[m.b]) { stats[m.b].pg++; stats[m.b].pts += 3; } if(stats[m.a]) stats[m.a].pp++; }
+    } else if(r && r.status === 'forfeit') {
+      if(r.scoreA > r.scoreB) {
+        if(stats[m.a]) { stats[m.a].pj++; stats[m.a].pg++; stats[m.a].pts += 3; stats[m.a].tf += r.scoreA; stats[m.a].tc += r.scoreB; }
+        if(stats[m.b]) { stats[m.b].pj++; stats[m.b].pp++; stats[m.b].tf += r.scoreB; stats[m.b].tc += r.scoreA; }
+      } else {
+        if(stats[m.b]) { stats[m.b].pj++; stats[m.b].pg++; stats[m.b].pts += 3; stats[m.b].tf += r.scoreB; stats[m.b].tc += r.scoreA; }
+        if(stats[m.a]) { stats[m.a].pj++; stats[m.a].pp++; stats[m.a].tf += r.scoreA; stats[m.a].tc += r.scoreB; }
+      }
+    }
   });
-  const sorted=Object.values(tb).sort((a,b)=>b.pts-a.pts||(b.tf-b.tc)-(a.tf-a.tc)||b.tf-a.tf);
-  const rc=r=>r===1?'r1':r===2?'r2':r===3?'r3':'rn';
-  $('st-list').innerHTML=
-    `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;margin-bottom:5px;">
-      <div style="width:20px"></div>
-      <div style="flex:1;font-size:8px;color:#8899aa;">EQUIPO</div>
-      <div class="scols">${['PJ','PG','PP','TF','TC','PTS'].map(h=>`<div class="sc sh">${h}</div>`).join('')}</div>
-    </div>`+
-    sorted.map((t,i)=>{
-      const r=i+1,c=rc(r);
-      return `<div class="sr ${c}">
-        <div class="rb ${c}">${r}</div>
-        <div style="flex:1;font-size:11px;font-weight:bold;color:#f0e6d3;line-height:1.2;">${t.n}</div>
-        <div class="scols">
-          ${[t.pj,t.pg,t.pp,t.tf,t.tc].map(v=>`<div class="sc"><div class="sv">${v}</div></div>`).join('')}
-          <div class="sc"><div class="spts">${t.pts}</div></div>
-        </div>
-      </div>`;
-    }).join('');
+  let sorted = Object.values(stats).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf);
+  let getClass = r => r===1 ? 'r1' : r===2 ? 'r2' : r===3 ? 'r3' : 'rn';
+  $('st-list').innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;margin-bottom:5px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;color:#8899aa;">EQUIPO</div><div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div></div>` + sorted.map((t, i) => {
+    let r = i+1, c = getClass(r);
+    let dif = t.tf - t.tc;
+    let avg = t.pj ? (dif / t.pj).toFixed(2) : '0';
+    return `<div class="sr ${c}"><div class="rb ${c}">${r}</div><div style="flex:1;font-size:11px;font-weight:bold;color:#f0e6d3;line-height:1.2;">${t.n}</div><div class="scols">${[t.pj, t.pg, t.pp, t.tf, t.tc, dif, avg, t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div></div>`;
+  }).join('');
 }
 
-// AVERAGE/STATS
-function aCat(v){st.ac=v;$('a-fem').classList.toggle('on',v==='Femenino');$('a-mas').classList.toggle('on',v==='Masculino');rA();}
-function aGrp(v){st.ag=v;$('a-ga').classList.toggle('on',v==='A');$('a-gb').classList.toggle('on',v==='B');rA();}
-function aPos(v){st.ap=v;$('a-all').classList.toggle('on',v==='Todos');$('a-arr').classList.toggle('on',v==='Arrime');$('a-boc').classList.toggle('on',v==='Boche');rA();}
-function srchPlayer(q){st.ps=q;rA();}
-function rA(){
-  const tl=T.filter(t=>t.c===st.ac&&t.g===st.ag);
-  let players=[];
-  tl.forEach(t=>t.p.forEach(p=>{
-    const k=t.n+'|'+p, ps=PS[k]||{};
-    const pos=ps.pos||'—';
-    if(st.ap!=='Todos'&&pos!==st.ap) return;
-    if(st.ps&&!p.toLowerCase().includes(st.ps.toLowerCase())&&!t.n.toLowerCase().includes(st.ps.toLowerCase())) return;
-    players.push({name:p,team:t.n,pos,
-      arr:ps.total_arr||0,arr_b:ps.arr_b||0,arr_m:ps.arr_m||0,
-      boc:ps.total_boc||0,boc_b:ps.boc_b||0,boc_m:ps.boc_m||0,
-      efec:ps.efec_arr||ps.efec_boc||0,partidos:ps.partidos||0});
-  }));
-  players.sort((a,b)=>b.efec-a.efec||(b.arr+b.boc)-(a.arr+a.boc));
-  $('a-list').innerHTML=players.length===0
-    ?'<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin estadísticas registradas aún</div>'
-    :players.map((p,i)=>`<div class="ar">
-        <div style="width:20px;text-align:center;font-size:10px;color:#8899aa;font-weight:bold;flex-shrink:0;">${i+1}</div>
-        <div style="flex:1;min-width:0;">
-          <div style="font-size:11px;color:#f0e6d3;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</div>
-          <div style="font-size:9px;color:#8899aa;">${p.team} · ${p.pos}</div>
-        </div>
-        <div style="display:flex;gap:6px;">
-          <div style="min-width:26px;text-align:center;"><div class="av">${p.partidos}</div><div class="al">PJ</div></div>
-          <div style="min-width:26px;text-align:center;"><div class="av">${p.arr_b}/${p.arr_m}</div><div class="al">ARR</div></div>
-          <div style="min-width:26px;text-align:center;"><div class="av">${p.boc_b}/${p.boc_m}</div><div class="al">BOC</div></div>
-          <div style="min-width:32px;text-align:center;"><div class="av" style="color:#2ecc71">${p.efec}%</div><div class="al">EFEC</div></div>
-        </div>
-      </div>`).join('');
+// ==================== AVERAGE / ESTADÍSTICAS ====================
+function searchPlayer(q) { F.aQ = q; renderStats(); }
+
+function renderStats() {
+  let teams = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp);
+  let players = [];
+  teams.forEach(t => {
+    t.p.forEach(p => {
+      let k = `${t.n}|${p}`;
+      let ps = PS[k] || {};
+      let pos = ps.pos || '—';
+      if(F.aPos !== 'Todos' && pos !== F.aPos) return;
+      if(F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return;
+      players.push({ name: p, team: t.n, pos, arr_b: ps.arr_b || 0, arr_m: ps.arr_m || 0, boc_b: ps.boc_b || 0, boc_m: ps.boc_m || 0, total_arr: ps.total_arr || 0, total_boc: ps.total_boc || 0, efec: ps.efec_arr || ps.efec_boc || 0, partidos: ps.partidos || 0 });
+    });
+  });
+  players.sort((a,b) => b.efec - a.efec || (b.total_arr + b.total_boc) - (a.total_arr + a.total_boc));
+  $('a-list').innerHTML = players.length === 0 ? '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin estadísticas registradas aún</div>' : players.map((p, i) => `<div class="ar"><div style="width:20px;text-align:center;font-size:10px;color:#8899aa;font-weight:bold;">${i+1}</div><div style="flex:1;"><div style="font-size:11px;color:#f0e6d3;font-weight:bold;">${p.name}</div><div style="font-size:9px;color:#8899aa;">${p.team} · ${p.pos}</div></div><div style="display:flex;gap:6px;"><div style="min-width:26px;text-align:center;"><div class="av">${p.partidos}</div><div class="al">PJ</div></div><div style="min-width:30px;text-align:center;"><div class="av">${p.arr_b}/${p.arr_m}</div><div class="al">ARR</div></div><div style="min-width:30px;text-align:center;"><div class="av">${p.boc_b}/${p.boc_m}</div><div class="al">BOC</div></div><div style="min-width:32px;text-align:center;"><div class="av" style="color:#2ecc71">${p.efec}%</div><div class="al">EFEC</div></div></div></div>`).join('');
 }
 
-function $(id){return document.getElementById(id);}
-
-// INIT
-rT();
+renderTeams();
 </script>
 </body>
-</html> 
+</html>
