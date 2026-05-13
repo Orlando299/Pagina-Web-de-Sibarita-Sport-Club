@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1a1a2e">
-<title>Sibarita Sport Club - Estadísticas por Jugador</title>
+<title>Sibarita Sport Club - Resultados Oficiales</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -14,7 +14,7 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 .hdr{background:linear-gradient(135deg,#16213e,#0f3460);padding:10px 14px 0;border-bottom:3px solid #e8b84b;position:sticky;top:0;z-index:100;}
 .hdr-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
 .logo{display:flex;align-items:center;gap:8px;}
-.logo img{width:38px;height:38px;border-radius:50%;border:2px solid #e8b84b;flex-shrink:0;}
+.logo img{width:38px;height:38px;border-radius:50%;border:2px solid #e8b84b;flex-shrink:0;object-fit:cover;}
 .logo-t{font-size:13px;font-weight:bold;color:#e8b84b;text-transform:uppercase;letter-spacing:.03em;line-height:1.1;}
 .logo-s{font-size:9px;color:#8899aa;text-transform:uppercase;letter-spacing:.06em;}
 .badge{background:#c0392b;color:#fff;font-size:9px;font-weight:bold;padding:3px 7px;border-radius:8px;}
@@ -77,6 +77,8 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 .pdf-gen-btn{width:100%;padding:8px;background:#e8b84b;border:none;border-radius:7px;color:#000;font-weight:bold;font-size:12px;cursor:pointer;font-family:inherit;}
 .pdf-cancel-btn{width:100%;padding:5px;margin-top:5px;background:transparent;border:1px solid #0f3460;border-radius:7px;color:#8899aa;font-size:11px;cursor:pointer;font-family:inherit;}
 .stats-btn{background:#3498db33;border:1px solid #3498db;color:#3498db;font-size:9px;padding:4px 8px;border-radius:7px;margin-top:4px;width:100%;cursor:pointer;}
+.sync-status{font-size:9px;color:#2ecc71;text-align:center;margin-bottom:8px;padding:4px;background:#0f346033;border-radius:8px;}
+.sync-status.error{color:#c0392b;}
 
 /* MODAL ESTADÍSTICAS */
 .modal-stats{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;overflow-y:auto;}
@@ -97,11 +99,11 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 <body>
 <div class="hdr">
   <div class="hdr-top">
-   <div class="logo">
-  <img src="https://i.imgur.com/HbKo42m.png" alt="Logo Sibarita Sport Club">
-  <div><div class="logo-t">Sibarita Sport Club</div><div class="logo-s">2do Campeonato 2026 "Categoría B"</div></div>
-</div>
-    <div class="badge">REGISTRO ESTADÍSTICAS</div>
+    <div class="logo">
+      <img src="https://i.imgur.com/HbKo42m.png" alt="Logo Sibarita Sport Club">
+      <div><div class="logo-t">Sibarita Sport Club</div><div class="logo-s">2do Campeonato 2026 "Categoría B"</div></div>
+    </div>
+    <div class="badge">RESULTADOS OFICIALES</div>
   </div>
   <div class="nav">
     <button class="nb on" onclick="showTab('teams',this)"><span>👥</span>Equipos</button>
@@ -148,7 +150,8 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
   </div>
   <div class="fscroll" id="m-weeks"></div>
   <div class="frow">
-    <button class="fb" onclick="togglePdfPanel()" style="background:#c0392b;border-color:#c0392b;color:#fff;">📄 Descargar PDF</button>
+    <button class="fb" onclick="sincronizarResultadosDesdeGoogleSheets()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Sincronizar</button>
+    <button class="fb" onclick="togglePdfPanel()" style="background:#c0392b33;border-color:#c0392b;color:#c0392b;">📄 Descargar PDF</button>
   </div>
   <div class="pdf-panel" id="pdf-panel">
     <div style="font-size:11px;color:#e8b84b;font-weight:bold;margin-bottom:8px;letter-spacing:.06em;">DESCARGAR CALENDARIO EN PDF</div>
@@ -607,6 +610,14 @@ const MATCHES = [
   {id:314, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Bodegon Los Vasquez", d:"11/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S9"}
 ];
 
+
+// ==================== CONFIGURACIÓN GOOGLE SHEETS ====================
+const GOOGLE_SHEETS_RESULTADOS_URL = 'https://docs.google.com/spreadsheets/d/18NL6I-HHldsmdk-i-tPnhD7ztHOECeNVB-FHCdKhGc4/export?format=csv&gid=0';
+const GOOGLE_SHEETS_MVP_URL = 'https://docs.google.com/spreadsheets/d/18NL6I-HHldsmdk-i-tPnhD7ztHOECeNVB-FHCdKhGc4/export?format=csv&gid=1';
+
+let cargandoDesdeSheets = false;
+let ultimaSincronizacion = null;
+
 // ==================== ESTADO GLOBAL ====================
 let R = {}, PS = {}, MVP = {};
 let currentMatchId = null;
@@ -739,9 +750,11 @@ function rM() {
 }
 
 function saveRes(id) {
+  const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+  if (!esOrganizador) { alert('⚠️ Solo el organizador puede guardar resultados.'); return; }
   const inputA = g('sA' + id);
   const inputB = g('sB' + id);
-  if (!inputA || !inputB) { alert('Error: No se encontraron los campos. Por favor refresca la página.'); return; }
+  if (!inputA || !inputB) { alert('Error: No se encontraron los campos.'); return; }
   const a = parseInt(inputA.value);
   const b = parseInt(inputB.value);
   if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; }
@@ -749,20 +762,26 @@ function saveRes(id) {
   save();
   rM();
   rSt();
+  if (confirm('📤 ¿Exportar todos los resultados a CSV para actualizar Google Sheets?')) exportarResultadosACSV();
 }
 
 function forfRes(id) {
+  const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+  if (!esOrganizador) { alert('⚠️ Solo el organizador puede registrar forfeit.'); return; }
   const m = MATCHES.find(x => x.id === id);
   if (!m) { alert('Error: Partido no encontrado'); return; }
   const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
   if (ans === '1') { R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' }; save(); rM(); rSt(); }
   else if (ans === '2') { R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' }; save(); rM(); rSt(); }
-  else { alert('Opción inválida. Cancela o ingresa 1 o 2.'); }
+  else { alert('Opción inválida.'); }
+  if (confirm('📤 ¿Exportar resultados a CSV?')) exportarResultadosACSV();
 }
 
 function delRes(id) { if (confirm('¿Borrar resultado?')) { delete R[id]; save(); rM(); rSt(); } }
 
 function setMVP(id) {
+  const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+  if (!esOrganizador) { alert('⚠️ Solo el organizador puede designar MVP.'); return; }
   const m = MATCHES.find(x => x.id === id);
   if (!m) return;
   const cands = [];
@@ -793,6 +812,7 @@ function setMVP(id) {
       save(); rM();
     }
   }
+  if (confirm('📤 ¿Exportar MVP a CSV?')) exportarResultadosACSV();
 }
 
 function delMVP(id) { delete MVP[id]; save(); rM(); }
@@ -853,16 +873,11 @@ function openStatsModal(matchId) {
   const match = MATCHES.find(m => m.id === matchId);
   if (!match) return;
   currentMatchId = matchId;
-  
   const title = g('stats-modal-title');
   title.innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`;
-  
   const body = g('stats-modal-body');
   let html = '';
-  
   const savedStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {};
-  
-  // Equipo A
   const teamA = TEAMS.find(t => t.n === match.a);
   if (teamA) {
     html += `<div class="lbl" style="margin-top:10px;">🏆 ${match.a}</div>`;
@@ -873,8 +888,6 @@ function openStatsModal(matchId) {
       }
     });
   }
-  
-  // Equipo B
   const teamB = TEAMS.find(t => t.n === match.b);
   if (teamB) {
     html += `<div class="lbl" style="margin-top:10px;">🏆 ${match.b}</div>`;
@@ -885,7 +898,6 @@ function openStatsModal(matchId) {
       }
     });
   }
-  
   body.innerHTML = html;
   g('stats-modal').style.display = 'block';
 }
@@ -920,9 +932,7 @@ function getPlayerStatsHTML(playerName, saved) {
 function saveMatchStats() {
   const match = MATCHES.find(m => m.id === currentMatchId);
   if (!match) return;
-  
   const stats = {};
-  
   [match.a, match.b].forEach(teamName => {
     const team = TEAMS.find(t => t.n === teamName);
     if (team) {
@@ -933,14 +943,9 @@ function saveMatchStats() {
           const arr_total = parseInt(g(`arr_total_${safeKey}`)?.value) || 0;
           const boc_b = parseInt(g(`boc_b_${safeKey}`)?.value) || 0;
           const boc_total = parseInt(g(`boc_total_${safeKey}`)?.value) || 0;
-          
           stats[player] = { arr_b, arr_total, boc_b, boc_total };
-          
-          // Actualizar PS global (Player Stats)
           const psKey = `${teamName}|${player}`;
           if (!PS[psKey]) PS[psKey] = {};
-          
-          // Acumular estadísticas
           PS[psKey].arr_b = (PS[psKey].arr_b || 0) + arr_b;
           PS[psKey].total_arr = (PS[psKey].total_arr || 0) + arr_total;
           PS[psKey].boc_b = (PS[psKey].boc_b || 0) + boc_b;
@@ -950,18 +955,126 @@ function saveMatchStats() {
       });
     }
   });
-  
   localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats));
   save();
   closeStatsModal();
   alert('✅ Estadísticas guardadas correctamente');
   rA();
-  rT(); // Actualizar vista de equipos también
+  rT();
 }
 
 function closeStatsModal() {
   g('stats-modal').style.display = 'none';
   currentMatchId = null;
+}
+
+// ==================== SINCRONIZACIÓN CON GOOGLE SHEETS ====================
+async function sincronizarResultadosDesdeGoogleSheets() {
+  try {
+    cargandoDesdeSheets = true;
+    mostrarEstadoSincronizacion('🔄 Sincronizando...');
+    const response = await fetch(GOOGLE_SHEETS_RESULTADOS_URL);
+    const csvText = await response.text();
+    const resultados = convertirCSVaResultados(csvText);
+    for (const [id, datos] of Object.entries(resultados)) {
+      if (!R[id] || datos.actualizado > (R[id].actualizado || 0)) {
+        R[id] = { scoreA: datos.scoreA, scoreB: datos.scoreB, status: datos.status };
+      }
+    }
+    try {
+      const mvpResponse = await fetch(GOOGLE_SHEETS_MVP_URL);
+      const mvpCsv = await mvpResponse.text();
+      const mvps = convertirCSVaMVP(mvpCsv);
+      for (const [id, datos] of Object.entries(mvps)) {
+        if (!MVP[id]) { MVP[id] = datos; }
+      }
+    } catch(e) { console.log('No se pudo cargar MVP'); }
+    save();
+    cargandoDesdeSheets = false;
+    ultimaSincronizacion = new Date();
+    mostrarEstadoSincronizacion('✅ Sincronizado: ' + ultimaSincronizacion.toLocaleTimeString());
+    rM();
+    rSt();
+    rA();
+  } catch (error) {
+    console.error('Error al sincronizar:', error);
+    cargandoDesdeSheets = false;
+    mostrarEstadoSincronizacion('⚠️ Error de sincronización. Usando datos locales.', true);
+  }
+}
+
+function convertirCSVaResultados(csv) {
+  const lineas = csv.split('\n');
+  const resultados = {};
+  for (let i = 1; i < lineas.length; i++) {
+    const valores = lineas[i].split(',');
+    if (valores.length >= 4 && valores[0]) {
+      const id = parseInt(valores[0]);
+      const scoreA = parseInt(valores[1]);
+      const scoreB = parseInt(valores[2]);
+      const status = valores[3].trim().replace(/"/g, '');
+      if (!isNaN(scoreA) && !isNaN(scoreB)) {
+        resultados[id] = { scoreA, scoreB, status };
+      }
+    }
+  }
+  return resultados;
+}
+
+function convertirCSVaMVP(csv) {
+  const lineas = csv.split('\n');
+  const mvps = {};
+  for (let i = 1; i < lineas.length; i++) {
+    const valores = lineas[i].split(',');
+    if (valores.length >= 4 && valores[0]) {
+      const id = parseInt(valores[0]);
+      mvps[id] = { name: valores[1].trim(), team: valores[2].trim(), efec: parseInt(valores[3]) || 0 };
+    }
+  }
+  return mvps;
+}
+
+function mostrarEstadoSincronizacion(mensaje, esError = false) {
+  let estadoDiv = document.getElementById('sync-status');
+  if (!estadoDiv) {
+    estadoDiv = document.createElement('div');
+    estadoDiv.id = 'sync-status';
+    estadoDiv.className = 'sync-status';
+    document.querySelector('.body').prepend(estadoDiv);
+  }
+  estadoDiv.innerHTML = mensaje;
+  estadoDiv.classList.toggle('error', esError);
+  if (!esError) {
+    setTimeout(() => {
+      if (estadoDiv.innerHTML === mensaje) estadoDiv.innerHTML = '';
+    }, 4000);
+  }
+}
+
+function exportarResultadosACSV() {
+  let csvResultados = 'partido_id,scoreA,scoreB,status\n';
+  for (const [id, datos] of Object.entries(R)) {
+    csvResultados += `${id},${datos.scoreA},${datos.scoreB},${datos.status}\n`;
+  }
+  let csvMVP = 'partido_id,nombre,equipo,efec\n';
+  for (const [id, datos] of Object.entries(MVP)) {
+    csvMVP += `${id},${datos.name},${datos.team},${datos.efec || 0}\n`;
+  }
+  const blobResultados = new Blob([csvResultados], { type: 'text/csv' });
+  const urlResultados = URL.createObjectURL(blobResultados);
+  const aResultados = document.createElement('a');
+  aResultados.href = urlResultados;
+  aResultados.download = `resultados_torneo_${new Date().toISOString().slice(0,19)}.csv`;
+  aResultados.click();
+  URL.revokeObjectURL(urlResultados);
+  const blobMVP = new Blob([csvMVP], { type: 'text/csv' });
+  const urlMVP = URL.createObjectURL(blobMVP);
+  const aMVP = document.createElement('a');
+  aMVP.href = urlMVP;
+  aMVP.download = `mvp_torneo_${new Date().toISOString().slice(0,19)}.csv`;
+  aMVP.click();
+  URL.revokeObjectURL(urlMVP);
+  alert('✅ Archivos CSV generados. Cópialos a tu Google Sheet para que todos los vean.');
 }
 
 // ==================== PDF ====================
@@ -989,7 +1102,7 @@ function populateTeamSel() {
 }
 
 function generatePDF() {
-  if (typeof window.jspdf === 'undefined') { alert('Librería PDF no disponible. Verifica conexión a internet.'); return; }
+  if (typeof window.jspdf === 'undefined') { alert('Librería PDF no disponible.'); return; }
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const pw = 210, mg = 12;
@@ -1010,7 +1123,6 @@ function generatePDF() {
     fname = `Calendario_${tn.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
   }
   if (!list.length) { alert('No hay partidos para este filtro.'); return; }
-  
   doc.setFillColor(26, 26, 46);
   doc.rect(0, 0, pw, 32, 'F');
   doc.setTextColor(232, 184, 75);
@@ -1024,12 +1136,10 @@ function generatePDF() {
   doc.setTextColor(136, 153, 170);
   doc.text(`${F.mCat} · Grupo ${F.mGrp} · ${filterLabel}`, pw / 2, 25, { align: 'center' });
   y = 38;
-  
   const groups = {};
   list.forEach(m => { if (!groups[m.w]) groups[m.w] = []; groups[m.w].push(m); });
   const wlbls2 = { S1: 'SEMANA 1', S2: 'SEMANA 2', S3: 'SEMANA 3', S4: 'SEMANA 4', S5: 'SEMANA 5', S6: 'SEMANA 6', S7: 'SEMANA 7', S8: 'SEMANA 8', S9: 'SEMANA 9' };
   const wrgb = { S1: [46,204,113], S2: [52,152,219], S3: [155,89,182], S4: [230,126,34], S5: [192,57,43], S6: [26,188,156], S7: [233,30,99], S8: [96,125,139], S9: [241,196,15] };
-  
   Object.keys(groups).sort().forEach(wk => {
     const ms = groups[wk];
     const rgb = wrgb[wk] || [100,100,100];
@@ -1085,7 +1195,9 @@ function generatePDF() {
   togglePdfPanel();
 }
 
+// Inicializar y sincronizar automáticamente
 rT();
+setTimeout(() => { sincronizarResultadosDesdeGoogleSheets(); }, 500);
 </script>
 </body>
 </html>
