@@ -79,8 +79,6 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 .stats-btn{background:#3498db33;border:1px solid #3498db;color:#3498db;font-size:9px;padding:4px 8px;border-radius:7px;margin-top:4px;width:100%;cursor:pointer;}
 .sync-status{font-size:9px;color:#2ecc71;text-align:center;margin-bottom:8px;padding:4px;background:#0f346033;border-radius:8px;}
 .sync-status.error{color:#c0392b;}
-
-/* MODAL ESTADÍSTICAS */
 .modal-stats{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;overflow-y:auto;}
 .modal-stats .modal-content{background:#16213e;margin:15px;border-radius:15px;padding:15px;border:1px solid #e8b84b55;max-width:500px;margin-left:auto;margin-right:auto;}
 .modal-stats .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;border-bottom:1px solid #0f3460;padding-bottom:10px;}
@@ -114,128 +112,105 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 </div>
 <div class="body">
 
-<!-- EQUIPOS -->
 <div id="s-teams" class="scr on">
   <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar equipo o jugador..." oninput="searchTeams(this.value)"></div>
   <div id="srch-res" style="display:none"></div>
   <div id="teams-wrap">
-    <div class="frow">
-      <button class="fb on" id="btn-tFem" onclick="setF('tCat','Femenino')">👩 Femenino</button>
-      <button class="fb" id="btn-tMas" onclick="setF('tCat','Masculino')">👨 Masculino</button>
-    </div>
-    <div class="frow">
-      <button class="fb on" id="btn-tGa" onclick="setF('tGrp','A')">Grupo A</button>
-      <button class="fb" id="btn-tGb" onclick="setF('tGrp','B')">Grupo B</button>
-    </div>
+    <div class="frow"><button class="fb on" id="btn-tFem" onclick="setF('tCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-tMas" onclick="setF('tCat','Masculino')">👨 Masculino</button></div>
+    <div class="frow"><button class="fb on" id="btn-tGa" onclick="setF('tGrp','A')">Grupo A</button><button class="fb" id="btn-tGb" onclick="setF('tGrp','B')">Grupo B</button></div>
     <div class="lbl" id="t-cnt"></div>
     <div id="t-list"></div>
   </div>
-  <div id="t-detail" style="display:none">
-    <button class="back" onclick="closeDetail()">← Volver</button>
-    <div class="card" id="t-dhead" style="border:1px solid #e8b84b44;margin-bottom:12px;"></div>
-    <div class="lbl">Plantilla</div>
-    <div id="t-dplayers"></div>
-  </div>
+  <div id="t-detail" style="display:none"><button class="back" onclick="closeDetail()">← Volver</button><div class="card" id="t-dhead" style="border:1px solid #e8b84b44;margin-bottom:12px;"></div><div class="lbl">Plantilla</div><div id="t-dplayers"></div></div>
 </div>
 
-<!-- PARTIDOS -->
 <div id="s-matches" class="scr">
-  <div class="frow">
-    <button class="fb on" id="btn-mFem" onclick="setF('mCat','Femenino')">👩 Femenino</button>
-    <button class="fb" id="btn-mMas" onclick="setF('mCat','Masculino')">👨 Masculino</button>
-  </div>
-  <div class="frow">
-    <button class="fb on" id="btn-mGa" onclick="setF('mGrp','A')">Grupo A</button>
-    <button class="fb" id="btn-mGb" onclick="setF('mGrp','B')">Grupo B</button>
-  </div>
+  <div class="frow"><button class="fb on" id="btn-mFem" onclick="setF('mCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-mMas" onclick="setF('mCat','Masculino')">👨 Masculino</button></div>
+  <div class="frow"><button class="fb on" id="btn-mGa" onclick="setF('mGrp','A')">Grupo A</button><button class="fb" id="btn-mGb" onclick="setF('mGrp','B')">Grupo B</button></div>
   <div class="fscroll" id="m-weeks"></div>
-  <div class="frow">
-    <button class="fb" onclick="sincronizarResultadosDesdeGoogleSheets()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Sincronizar</button>
-    <button class="fb" onclick="togglePdfPanel()" style="background:#c0392b33;border-color:#c0392b;color:#c0392b;">📄 Descargar PDF</button>
-  </div>
-  <div class="pdf-panel" id="pdf-panel">
-    <div style="font-size:11px;color:#e8b84b;font-weight:bold;margin-bottom:8px;letter-spacing:.06em;">DESCARGAR CALENDARIO EN PDF</div>
-    <div class="frow">
-      <button class="fb on" id="pdf-btn-week" onclick="setPdfMode('week')">📅 Por Semana</button>
-      <button class="fb" id="pdf-btn-team" onclick="setPdfMode('team')">👥 Por Equipo</button>
-      <button class="fb" id="pdf-btn-all" onclick="setPdfMode('all')">🌍 Todas las Categorías</button>
-    </div>
-    <div id="pdf-week-wrap">
-      <select id="pdf-week-sel" class="pdf-sel">
-        <option value="Todos">Todas las Semanas</option>
-        <option value="S1">Semana 1</option>
-        <option value="S2">Semana 2</option>
-        <option value="S3">Semana 3</option>
-        <option value="S4">Semana 4</option>
-        <option value="S5">Semana 5</option>
-        <option value="S6">Semana 6</option>
-        <option value="S7">Semana 7</option>
-        <option value="S8">Semana 8</option>
-        <option value="S9">Semana 9</option>
-      </select>
-    </div>
-    <div id="pdf-team-wrap" style="display:none;">
-      <select id="pdf-team-sel" class="pdf-sel"></select>
-    </div>
-    <button class="pdf-gen-btn" onclick="generatePDF()">⬇️ Generar y Descargar PDF</button>
-    <button class="pdf-cancel-btn" onclick="togglePdfPanel()">Cancelar</button>
-  </div>
+  <div class="frow"><button class="fb" onclick="sincronizarResultadosDesdeGoogleSheets()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Sincronizar</button><button class="fb" onclick="togglePdfPanel()" style="background:#c0392b33;border-color:#c0392b;color:#c0392b;">📄 Descargar PDF</button></div>
+  <div class="pdf-panel" id="pdf-panel"><div style="font-size:11px;color:#e8b84b;font-weight:bold;margin-bottom:8px;letter-spacing:.06em;">DESCARGAR CALENDARIO EN PDF</div><div class="frow"><button class="fb on" id="pdf-btn-week" onclick="setPdfMode('week')">📅 Por Semana</button><button class="fb" id="pdf-btn-team" onclick="setPdfMode('team')">👥 Por Equipo</button><button class="fb" id="pdf-btn-all" onclick="setPdfMode('all')">🌍 Semana (Todas Categorías)</button></div><div id="pdf-week-wrap"><select id="pdf-week-sel" class="pdf-sel"><option value="Todos">Todas las Semanas</option><option value="S1">Semana 1</option><option value="S2">Semana 2</option><option value="S3">Semana 3</option><option value="S4">Semana 4</option><option value="S5">Semana 5</option><option value="S6">Semana 6</option><option value="S7">Semana 7</option><option value="S8">Semana 8</option><option value="S9">Semana 9</option></select></div><div id="pdf-team-wrap" style="display:none;"><select id="pdf-team-sel" class="pdf-sel"></select></div><button class="pdf-gen-btn" onclick="generatePDF()">⬇️ Generar y Descargar PDF</button><button class="pdf-cancel-btn" onclick="togglePdfPanel()">Cancelar</button></div>
+  <div class="lbl" id="m-cnt"></div>
+  <div id="m-list"></div>
+</div>
 
-<!-- TABLA -->
 <div id="s-standings" class="scr">
-  <div class="frow">
-    <button class="fb on" id="btn-sFem" onclick="setF('sCat','Femenino')">👩 Femenino</button>
-    <button class="fb" id="btn-sMas" onclick="setF('sCat','Masculino')">👨 Masculino</button>
-  </div>
-  <div class="frow">
-    <button class="fb on" id="btn-sGa" onclick="setF('sGrp','A')">Grupo A</button>
-    <button class="fb" id="btn-sGb" onclick="setF('sGrp','B')">Grupo B</button>
-  </div>
+  <div class="frow"><button class="fb on" id="btn-sFem" onclick="setF('sCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-sMas" onclick="setF('sCat','Masculino')">👨 Masculino</button></div>
+  <div class="frow"><button class="fb on" id="btn-sGa" onclick="setF('sGrp','A')">Grupo A</button><button class="fb" id="btn-sGb" onclick="setF('sGrp','B')">Grupo B</button></div>
   <div id="st-list"></div>
   <div class="ibox">📌 <b>Victoria:</b> 3 pts | <b>Derrota:</b> 0 pts<br>📌 Gana quien llegue a <b>20 tantos</b>. A las 2h gana quien tenga ≥12 (60%).<br>📌 <b>AVG</b> = (TF - TC) / PJ</div>
 </div>
 
-<!-- AVERAGE -->
 <div id="s-stats" class="scr">
   <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)"></div>
-  <div class="frow">
-    <button class="fb on" id="btn-aFem" onclick="setF('aCat','Femenino')">👩 Femenino</button>
-    <button class="fb" id="btn-aMas" onclick="setF('aCat','Masculino')">👨 Masculino</button>
-  </div>
-  <div class="frow">
-    <button class="fb on" id="btn-aGa" onclick="setF('aGrp','A')">Grupo A</button>
-    <button class="fb" id="btn-aGb" onclick="setF('aGrp','B')">Grupo B</button>
-  </div>
-  <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;margin-bottom:6px;">
-    <div style="width:20px"></div>
-    <div style="flex:1;font-size:9px;color:#8899aa;">JUGADOR</div>
-    <div style="display:flex;gap:6px;">
-      <div style="min-width:26px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">PJ</div>
-      <div style="min-width:50px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">ARR(B/T)</div>
-      <div style="min-width:50px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">BOC(B/T)</div>
-      <div style="min-width:32px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">EFEC%</div>
-    </div>
-  </div>
+  <div class="frow"><button class="fb on" id="btn-aFem" onclick="setF('aCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-aMas" onclick="setF('aCat','Masculino')">👨 Masculino</button></div>
+  <div class="frow"><button class="fb on" id="btn-aGa" onclick="setF('aGrp','A')">Grupo A</button><button class="fb" id="btn-aGb" onclick="setF('aGrp','B')">Grupo B</button></div>
+  <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;margin-bottom:6px;"><div style="width:20px"></div><div style="flex:1;font-size:9px;color:#8899aa;">JUGADOR</div><div style="display:flex;gap:6px;"><div style="min-width:26px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">PJ</div><div style="min-width:50px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">ARR(B/T)</div><div style="min-width:50px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">BOC(B/T)</div><div style="min-width:32px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">EFEC%</div></div></div>
   <div id="a-list"></div>
   <div class="ibox">📌 <b>ARR:</b> Arrime Buenos/Total | <b>BOC:</b> Boche Buenos/Total | <b>EFEC%:</b> Efectividad</div>
 </div>
 
 </div>
 
-<!-- MODAL ESTADÍSTICAS -->
-<div id="stats-modal" class="modal-stats">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div class="modal-title" id="stats-modal-title">Registrar Estadísticas</div>
-      <button class="modal-close" onclick="closeStatsModal()">✕</button>
-    </div>
-    <div id="stats-modal-body"></div>
-    <button class="btn-save-stats" onclick="saveMatchStats()">💾 Guardar Estadísticas del Partido</button>
-  </div>
-</div>
+<div id="stats-modal" class="modal-stats"><div class="modal-content"><div class="modal-header"><div class="modal-title" id="stats-modal-title">Registrar Estadísticas</div><button class="modal-close" onclick="closeStatsModal()">✕</button></div><div id="stats-modal-body"></div><button class="btn-save-stats" onclick="saveMatchStats()">💾 Guardar Estadísticas del Partido</button></div></div>
 
 <script>
-// ==================== TEAMS ====================
+// ==================== TEAMS (PON AQUÍ TU ARRAY) ====================
+const TEAMS = [
+  {n:"Jujure (Educadoras)",c:"Femenino",g:"A",p:["Por Cargar"]},
+  {n:"Serv. Frios Antonella",c:"Femenino",g:"A",p:["Por Cargar"]},
+  {n:"Inversiones IV",c:"Femenino",g:"A",p:["Por Cargar"]},
+  {n:"Taferca",c:"Femenino",g:"A",p:["Por Cargar"]},
+  {n:"Divinas",c:"Femenino",g:"A",p:["Por Cargar"]},
+  {n:"Alimentos Amanecer",c:"Femenino",g:"A",p:["Petra Almao","Hilda Gimenez","Deyanira Yustiz","Aura Yustiz","Graciela Febres","Florinda Hernandez","María del Pilar Sanchez","Nelis Cadevilla","Gloria Mendez"]},
+  {n:"Ferrecenca",c:"Femenino",g:"A",p:["Maria Carreño","Dudamel Nubia","Xiomara Dudamel","Maria Gomez","Deysi Guedez","Milagro Moran","Maria Sira","Yumaira Salazar","Yolanda Sira"]},
+  {n:"Repostería el Ponque",c:"Femenino",g:"A",p:["Por Cargar"]},
+  {n:"Atrevidas",c:"Femenino",g:"A",p:["Por Cargar"]},
+  {n:"Sabaneta",c:"Femenino",g:"A",p:["Yanacia Gómez","Beatriz Gómez","Donaliz Daza","Ana Juana Mendoza","Hayra Benavides","Yorgelis Colina","Iris Zambrano","Isabel Fontela"]},
+  {n:"Inversiones EPA",c:"Femenino",g:"A",p:["Marisela Alvarado","Geilis Rodríguez","Arelis Amaya","Lenny Rodríguez","Marbelis Pagua","Roxelis Pagua","Rosangela Torres","Yoglis Rojas","Marianglis Hernández"]},
+  {n:"Futboleras",c:"Femenino",g:"A",p:["Rosa de Marzitelli","Reina Castillo","Olimariana Avendaño","Osmarlys Suarez","Rosbely Garcia","Nancy Rodriguez","Adan Orlys","María Fernanda Troconis"]},
+  {n:"Saboga",c:"Femenino",g:"B",p:["Por Cargar"]},
+  {n:"The Dolls",c:"Femenino",g:"B",p:["Erika Perez","Cilia Aldania","Juliana Lopez","Maria Parra","Saydimar Pipitone","Adona Gonzalez","Ana Parra","Maria Castellano","Ana Silva"]},
+  {n:"Corpoelec",c:"Femenino",g:"B",p:["Adela Guedez","Nitza Zabaleta","Yuli Alvarez","Cesar Denny","Yunibel Rodriguez","Diolanda Carrillo","Nicholle Colmenarez"]},
+  {n:"Festidoras",c:"Femenino",g:"B",p:["Por Cargar"]},
+  {n:"Corpolec Jubiladas",c:"Femenino",g:"B",p:["Por Cargar"]},
+  {n:"Chikas",c:"Femenino",g:"B",p:["Yusbelis Gonzalez","Natalia Garcia","Marianni Torres","Krisandar Soteldo","Eloisa Gonzalez","Alejandra Mesa","Marbella Suarez","Kerangelit Mendez","Maria Escalante","Gilian Rengifo"]},
+  {n:"Oasis Box",c:"Femenino",g:"B",p:["Carolina Arocha","Luisamar Peña","Mirelys Mendoza","Romi Arapé","Karla Reyes","Sheila Montesinos","Nilda Almeida","Josmayfe Alvarado"]},
+  {n:"Esquina del Sabor",c:"Femenino",g:"B",p:["Por Cargar"]},
+  {n:"Atavenca",c:"Femenino",g:"B",p:["Yadira Torrez","Diana Oropeza","Julia Escalona","María Elcy Noriega","Esmeralda Mercado","Erika Rodriguez","Yankelis Tambo","María Delgado"]},
+  {n:"Las Femix",c:"Femenino",g:"B",p:["Por Cargar"]},
+  {n:"Emprendedoras",c:"Femenino",g:"B",p:["Por Cargar"]},
+  {n:"Santana",c:"Femenino",g:"B",p:["Por Cargar"]},
+  {n:"Tornillería YR Portuguesa",c:"Masculino",g:"A",p:["Por Cargar"]},
+  {n:"Fuerza",c:"Masculino",g:"A",p:["Ademar Tua","Pedro Yepez","Pedro Noguera","Clemente Pérez","Luis Barco","Miguel Segura","Ramón Perdomo"]},
+  {n:"Corpolec2",c:"Masculino",g:"A",p:["Por Cargar"]},
+  {n:"Servihidra",c:"Masculino",g:"B",p:["Henry Pacheco","Jose Rodriguez","Atahualpa Melendez","Gustavo Orozco","Theoscar Vicent","Jose Cordero","Numan Dudamel","Nelson Suarez","Giovanni Gonzalez"]},
+  {n:"Familia Ortega",c:"Masculino",g:"A",p:["Por Cargar"]},
+  {n:"Exasa",c:"Masculino",g:"A",p:["Por Cargar"]},
+  {n:"Los Panas Vimapin",c:"Masculino",g:"A",p:["Victor Pinto","Marco Rodriguez","Carlos Rodriguez","Ronald Perez","Wely Melendez","Joel Ortega","Neptali Torrez"]},
+  {n:"Club Afibola",c:"Masculino",g:"A",p:["Carlos Colmenarez","Roger Colmenarez","Jose Torrez","Pedro Torrez","Jorgue Chirinos","Octavio Chirinos","Gabriel Perez","Jose Chirinos","Junior Garcia"]},
+  {n:"Yusevin CA",c:"Masculino",g:"A",p:["Pedro Orellana","Juan C. Rodriguez","Juan Sira","Ricardo Ochoa","Zaney Vivas","Reinaldo Mendoza","Jorge Ochoa","Jose Gomez","Jhonny De La Hoz","David Anza"]},
+  {n:"Los Amigos",c:"Masculino",g:"A",p:["Carlos Silva","Gregorio Linares","Luis Escobar","Efrén Cabrera","Omar Alvarado","Cornelio Escalona","José Escalona","Wuilfredo Guedez","Luis Ramos","Fernando"]},
+  {n:"Unidos de Hato",c:"Masculino",g:"A",p:["Por Cargar"]},
+  {n:"Sibarita",c:"Masculino",g:"A",p:["Por Cargar"]},
+  {n:"Agro max",c:"Masculino",g:"A",p:["Por Cargar"]},
+  {n:"Team JM&JA",c:"Masculino",g:"B",p:["Por Cargar"]},
+  {n:"Poder Justiciable",c:"Masculino",g:"B",p:["Daniel Roman","Honorio Peroza","Tony Perez","Alfonzo Delgado","Jhonatan Cedeño","Jhonny Oviedo","Ruben Montero","Javier Torrealba"]},
+  {n:"Ingenieros",c:"Masculino",g:"B",p:["Por Cargar"]},
+  {n:"Agroserviportuguesa",c:"Masculino",g:"B",p:["Por Cargar"]},
+  {n:"Los Irochimas",c:"Masculino",g:"B",p:["Por Cargar"]},
+  {n:"Tribunal Protección",c:"Masculino",g:"B",p:["Por Cargar"]},
+  {n:"Bodegon Los Vasquez",c:"Masculino",g:"B",p:["Por Cargar"]},
+  {n:"Triunfadores",c:"Masculino",g:"B",p:["Por Cargar"]},
+  {n:"Pintucal",c:"Masculino",g:"B",p:["Por Cargar"]},
+  {n:"Gladiadores del Cerrito",c:"Masculino",g:"B",p:["Por Cargar"]},
+  {n:"Atletico Paez",c:"Masculino",g:"B",p:["Por Cargar"]},
+  {n:"Sistema de Justicia",c:"Masculino",g:"B",p:["Félix Rumbos","Carlos Araujo","Jonnathan Silva","Junior Guedez","Jorge Zambrano","Carlos Torrealba","Javier Diaz","Pedro Diaz"]},
+  {n:"Distribuidora JH",c:"Masculino",g:"B",p:["Por Cargar"]},
+  {n:"Alimentos la Granja",c:"Masculino",g:"B",p:["Por Cargar"]}
+];
+
+// ==================== MATCHES (PON AQUÍ TU ARRAY DE 314 PARTIDOS) ====================
 const TEAMS = [
   {n:"Jujure (Educadoras)",c:"Femenino",g:"A",p:["Por Cargar"]},
   {n:"Serv. Frios Antonella",c:"Femenino",g:"A",p:["Por Cargar"]},
@@ -608,497 +583,80 @@ const MATCHES = [
   {id:314, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Bodegon Los Vasquez", d:"11/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S9"}
 ];
 
-
-// ==================== CONFIGURACIÓN GOOGLE SHEETS ====================
+// ==================== CONFIGURACIÓN ====================
 const GOOGLE_SHEETS_RESULTADOS_URL = 'https://docs.google.com/spreadsheets/d/18NL6I-HHldsmdk-i-tPnhD7ztHOECeNVB-FHCdKhGc4/export?format=csv&gid=0';
 const GOOGLE_SHEETS_MVP_URL = 'https://docs.google.com/spreadsheets/d/18NL6I-HHldsmdk-i-tPnhD7ztHOECeNVB-FHCdKhGc4/export?format=csv&gid=1';
 
 let cargandoDesdeSheets = false;
 let ultimaSincronizacion = null;
-
-// ==================== ESTADO GLOBAL ====================
 let R = {}, PS = {}, MVP = {};
 let currentMatchId = null;
 
-try {
-  const lr = localStorage.getItem('bc26r');
-  if (lr) Object.assign(R, JSON.parse(lr));
-  const lp = localStorage.getItem('bc26p');
-  if (lp) Object.assign(PS, JSON.parse(lp));
-  const lm = localStorage.getItem('bc26m');
-  if (lm) Object.assign(MVP, JSON.parse(lm));
-} catch(e) {}
+try { const lr = localStorage.getItem('bc26r'); if (lr) Object.assign(R, JSON.parse(lr)); const lp = localStorage.getItem('bc26p'); if (lp) Object.assign(PS, JSON.parse(lp)); const lm = localStorage.getItem('bc26m'); if (lm) Object.assign(MVP, JSON.parse(lm)); } catch(e) {}
 
-function save() {
-  try {
-    localStorage.setItem('bc26r', JSON.stringify(R));
-    localStorage.setItem('bc26p', JSON.stringify(PS));
-    localStorage.setItem('bc26m', JSON.stringify(MVP));
-  } catch(e) {}
-}
+function save() { try { localStorage.setItem('bc26r', JSON.stringify(R)); localStorage.setItem('bc26p', JSON.stringify(PS)); localStorage.setItem('bc26m', JSON.stringify(MVP)); } catch(e) {} }
 
 let F = {tCat:'Femenino', tGrp:'A', mCat:'Femenino', mGrp:'A', mWk:'Todos', sCat:'Femenino', sGrp:'A', aCat:'Femenino', aGrp:'A', aPos:'Todos', aQ:''};
-
 function g(id) { return document.getElementById(id); }
 
-function setF(k, v) {
-  F[k] = v;
-  const maps = {
-    tCat: {Femenino:'btn-tFem', Masculino:'btn-tMas'},
-    tGrp: {A:'btn-tGa', B:'btn-tGb'},
-    mCat: {Femenino:'btn-mFem', Masculino:'btn-mMas'},
-    mGrp: {A:'btn-mGa', B:'btn-mGb'},
-    sCat: {Femenino:'btn-sFem', Masculino:'btn-sMas'},
-    sGrp: {A:'btn-sGa', B:'btn-sGb'},
-    aCat: {Femenino:'btn-aFem', Masculino:'btn-aMas'},
-    aGrp: {A:'btn-aGa', B:'btn-aGb'},
-    aPos: {Todos:'btn-aAll', Arrime:'btn-aArr', Boche:'btn-aBoc', Mixto:'btn-aMix'}
-  };
-  const m = maps[k];
-  if (m) {
-    Object.keys(m).forEach(val => {
-      const el = g(m[val]);
-      if (el) el.classList.toggle('on', val === v);
-    });
-  }
-  if (k[0] === 't') rT();
-  else if (k[0] === 'm') rM();
-  else if (k[0] === 's') rSt();
-  else rA();
-}
+function setF(k, v) { F[k] = v; const maps = { tCat: {Femenino:'btn-tFem', Masculino:'btn-tMas'}, tGrp: {A:'btn-tGa', B:'btn-tGb'}, mCat: {Femenino:'btn-mFem', Masculino:'btn-mMas'}, mGrp: {A:'btn-mGa', B:'btn-mGb'}, sCat: {Femenino:'btn-sFem', Masculino:'btn-sMas'}, sGrp: {A:'btn-sGa', B:'btn-sGb'}, aCat: {Femenino:'btn-aFem', Masculino:'btn-aMas'}, aGrp: {A:'btn-aGa', B:'btn-aGb'}, aPos: {Todos:'btn-aAll', Arrime:'btn-aArr', Boche:'btn-aBoc', Mixto:'btn-aMix'} }; const m = maps[k]; if (m) { Object.keys(m).forEach(val => { const el = g(m[val]); if (el) el.classList.toggle('on', val === v); }); } if (k[0] === 't') rT(); else if (k[0] === 'm') rM(); else if (k[0] === 's') rSt(); else rA(); }
 
-function showTab(id, btn) {
-  document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
-  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
-  g('s-' + id).classList.add('on');
-  btn.classList.add('on');
-  if (id === 'matches') rM();
-  else if (id === 'standings') rSt();
-  else if (id === 'stats') rA();
-  else rT();
-}
+function showTab(id, btn) { document.querySelectorAll('.scr').forEach(s => s.classList.remove('on')); document.querySelectorAll('.nb').forEach(b => b.classList.remove('on')); g('s-' + id).classList.add('on'); btn.classList.add('on'); if (id === 'matches') rM(); else if (id === 'standings') rSt(); else if (id === 'stats') rA(); else rT(); }
 
 function setWeek(w) { F.mWk = w; rM(); }
 
-function searchTeams(q) {
-  const sr = g('srch-res'), tw = g('teams-wrap');
-  if (!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; }
-  sr.style.display = 'block'; tw.style.display = 'none';
-  const ql = q.toLowerCase();
-  let h = '';
-  TEAMS.forEach(t => {
-    const pm = t.p.filter(p => p.toLowerCase().includes(ql));
-    if (t.n.toLowerCase().includes(ql) || pm.length) {
-      h += `<div class="card" style="margin-bottom:7px;"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`;
-      pm.forEach(p => { h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`; });
-      h += '</div>';
-    }
-  });
-  sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;font-size:12px;">Sin resultados</div>';
-}
+function searchTeams(q) { const sr = g('srch-res'), tw = g('teams-wrap'); if (!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; } sr.style.display = 'block'; tw.style.display = 'none'; const ql = q.toLowerCase(); let h = ''; TEAMS.forEach(t => { const pm = t.p.filter(p => p.toLowerCase().includes(ql)); if (t.n.toLowerCase().includes(ql) || pm.length) { h += `<div class="card" style="margin-bottom:7px;"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`; pm.forEach(p => { h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`; }); h += '</div>'; } }); sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;font-size:12px;">Sin resultados</div>'; }
 
-function rT() {
-  const list = TEAMS.filter(t => t.c === F.tCat && t.g === F.tGrp);
-  g('t-cnt').textContent = list.length + ' EQUIPOS — ' + F.tCat + ' Grupo ' + F.tGrp;
-  g('t-list').innerHTML = list.map(t => `<div class="tc" onclick="openTeam('${t.n.replace(/'/g, "\\'")}')"><div><div style="font-size:13px;font-weight:bold;color:#f0e6d3;">${t.n}</div><div style="font-size:10px;color:#8899aa;margin-top:2px;">${t.p.length} jugadores · Gr.${t.g}</div></div><div style="font-size:18px;color:#8899aa;">›</div></div>`).join('');
-  g('t-detail').style.display = 'none';
-  g('teams-wrap').style.display = 'block';
-}
+function rT() { const list = TEAMS.filter(t => t.c === F.tCat && t.g === F.tGrp); g('t-cnt').textContent = list.length + ' EQUIPOS — ' + F.tCat + ' Grupo ' + F.tGrp; g('t-list').innerHTML = list.map(t => `<div class="tc" onclick="openTeam('${t.n.replace(/'/g, "\\'")}')"><div><div style="font-size:13px;font-weight:bold;color:#f0e6d3;">${t.n}</div><div style="font-size:10px;color:#8899aa;margin-top:2px;">${t.p.length} jugadores · Gr.${t.g}</div></div><div style="font-size:18px;color:#8899aa;">›</div></div>`).join(''); g('t-detail').style.display = 'none'; g('teams-wrap').style.display = 'block'; }
 
-function openTeam(name) {
-  const t = TEAMS.find(x => x.n === name);
-  if (!t) return;
-  g('teams-wrap').style.display = 'none';
-  g('t-detail').style.display = 'block';
-  g('t-dhead').innerHTML = `<div style="font-size:15px;font-weight:bold;color:#e8b84b;margin-bottom:3px;">${t.n}</div><div style="font-size:10px;color:#8899aa;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`;
-  g('t-dplayers').innerHTML = t.p.map((p, i) => {
-    const k = t.n + '|' + p;
-    const ps = PS[k] || {};
-    const arrDisplay = ps.total_arr ? `${ps.arr_b || 0}/${ps.total_arr}` : '0/0';
-    const bocDisplay = ps.total_boc ? `${ps.boc_b || 0}/${ps.total_boc}` : '0/0';
-    const efec = (ps.arr_b && ps.total_arr) ? Math.round((ps.arr_b / ps.total_arr) * 100) : (ps.boc_b && ps.total_boc) ? Math.round((ps.boc_b / ps.total_boc) * 100) : 0;
-    return `<div class="pi"><div class="pn">${i+1}</div><div style="flex:1;"><div style="font-size:12px;color:#f0e6d3;font-weight:bold;">${p}</div><div style="font-size:9px;color:#8899aa;">ARR: ${arrDisplay} · BOC: ${bocDisplay} · EFEC: ${efec}%</div></div></div>`;
-  }).join('');
-}
+function openTeam(name) { const t = TEAMS.find(x => x.n === name); if (!t) return; g('teams-wrap').style.display = 'none'; g('t-detail').style.display = 'block'; g('t-dhead').innerHTML = `<div style="font-size:15px;font-weight:bold;color:#e8b84b;margin-bottom:3px;">${t.n}</div><div style="font-size:10px;color:#8899aa;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`; g('t-dplayers').innerHTML = t.p.map((p, i) => { const k = t.n + '|' + p; const ps = PS[k] || {}; const arrDisplay = ps.total_arr ? `${ps.arr_b || 0}/${ps.total_arr}` : '0/0'; const bocDisplay = ps.total_boc ? `${ps.boc_b || 0}/${ps.total_boc}` : '0/0'; const efec = (ps.arr_b && ps.total_arr) ? Math.round((ps.arr_b / ps.total_arr) * 100) : (ps.boc_b && ps.total_boc) ? Math.round((ps.boc_b / ps.total_boc) * 100) : 0; return `<div class="pi"><div class="pn">${i+1}</div><div style="flex:1;"><div style="font-size:12px;color:#f0e6d3;font-weight:bold;">${p}</div><div style="font-size:9px;color:#8899aa;">ARR: ${arrDisplay} · BOC: ${bocDisplay} · EFEC: ${efec}%</div></div></div>`; }).join(''); }
 
 function closeDetail() { g('teams-wrap').style.display = 'block'; g('t-detail').style.display = 'none'; }
 
-function rM() {
-  const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9'];
-  const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9'};
-  g('m-weeks').innerHTML = wks.map(w => `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`).join('');
-  let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk));
-  g('m-cnt').textContent = list.length + ' PARTIDOS';
-  if (!list.length) { g('m-list').innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin partidos</div>'; return; }
-  g('m-list').innerHTML = list.map(m => {
-    const r = R[m.id];
-    const done = r && r.status === 'done';
-    const forf = r && r.status === 'forfeit';
-    const wA = done && r.scoreA > r.scoreB;
-    const wB = done && r.scoreB > r.scoreA;
-    const mv = MVP[m.id];
-    let inner = '';
-    if (done || forf) {
-      inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;margin-top:2px;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span> <button onclick="delRes(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button></div>${mv?`<div class="mvp-box"><span style="font-size:16px;">🏅</span><div style="flex:1;"><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div><button onclick="delMVP(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:14px;cursor:pointer;">✕</button></div>`:'<button class="mvp-btn" onclick="setMVP('+m.id+')">🏅 Jugador del Partido</button>'}<button class="stats-btn" onclick="openStatsModal(${m.id})">📋 ${done || forf ? 'Editar Stats' : 'Registrar Stats'}</button>`;
-    } else {
-      inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="saveRes(${m.id})">💾 Guardar</button><button class="fbtn" onclick="forfRes(${m.id})">⚠️ Forfeit/WO</button><button class="stats-btn" onclick="openStatsModal(${m.id})">📋 Registrar Stats</button>`;
-    }
-    return `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span><span class="wtag">${m.w}</span></div><div class="mteams"><div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div></div></div>`;
-  }).join('');
-}
+function rM() { const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9']; const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9'}; g('m-weeks').innerHTML = wks.map(w => `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`).join(''); let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk)); g('m-cnt').textContent = list.length + ' PARTIDOS'; if (!list.length) { g('m-list').innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin partidos</div>'; return; } g('m-list').innerHTML = list.map(m => { const r = R[m.id]; const done = r && r.status === 'done'; const forf = r && r.status === 'forfeit'; const wA = done && r.scoreA > r.scoreB; const wB = done && r.scoreB > r.scoreA; const mv = MVP[m.id]; let inner = ''; if (done || forf) { inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;margin-top:2px;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span> <button onclick="delRes(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button></div>${mv?`<div class="mvp-box"><span style="font-size:16px;">🏅</span><div style="flex:1;"><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div><button onclick="delMVP(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:14px;cursor:pointer;">✕</button></div>`:'<button class="mvp-btn" onclick="setMVP('+m.id+')">🏅 Jugador del Partido</button>'}<button class="stats-btn" onclick="openStatsModal(${m.id})">📋 ${done || forf ? 'Editar Stats' : 'Registrar Stats'}</button>`; } else { inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="saveRes(${m.id})">💾 Guardar</button><button class="fbtn" onclick="forfRes(${m.id})">⚠️ Forfeit/WO</button><button class="stats-btn" onclick="openStatsModal(${m.id})">📋 Registrar Stats</button>`; } return `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span><span class="wtag">${m.w}</span></div><div class="mteams"><div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div></div></div>`; }).join(''); }
 
-function saveRes(id) {
-  const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-  if (!esOrganizador) { alert('⚠️ Solo el organizador puede guardar resultados.'); return; }
-  const inputA = g('sA' + id);
-  const inputB = g('sB' + id);
-  if (!inputA || !inputB) { alert('Error: No se encontraron los campos.'); return; }
-  const a = parseInt(inputA.value);
-  const b = parseInt(inputB.value);
-  if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; }
-  R[id] = { scoreA: a, scoreB: b, status: 'done' };
-  save();
-  rM();
-  rSt();
-  if (confirm('📤 ¿Exportar todos los resultados a CSV para actualizar Google Sheets?')) exportarResultadosACSV();
-}
+function saveRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede guardar resultados.'); return; } const inputA = g('sA' + id); const inputB = g('sB' + id); if (!inputA || !inputB) { alert('Error: No se encontraron los campos.'); return; } const a = parseInt(inputA.value); const b = parseInt(inputB.value); if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; } R[id] = { scoreA: a, scoreB: b, status: 'done' }; save(); rM(); rSt(); if (confirm('📤 ¿Exportar todos los resultados a CSV para actualizar Google Sheets?')) exportarResultadosACSV(); }
 
-function forfRes(id) {
-  const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-  if (!esOrganizador) { alert('⚠️ Solo el organizador puede registrar forfeit.'); return; }
-  const m = MATCHES.find(x => x.id === id);
-  if (!m) { alert('Error: Partido no encontrado'); return; }
-  const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
-  if (ans === '1') { R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' }; save(); rM(); rSt(); }
-  else if (ans === '2') { R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' }; save(); rM(); rSt(); }
-  else { alert('Opción inválida.'); }
-  if (confirm('📤 ¿Exportar resultados a CSV?')) exportarResultadosACSV();
-}
+function forfRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede registrar forfeit.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) { alert('Error: Partido no encontrado'); return; } const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`); if (ans === '1') { R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' }; save(); rM(); rSt(); } else if (ans === '2') { R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' }; save(); rM(); rSt(); } else { alert('Opción inválida.'); } if (confirm('📤 ¿Exportar resultados a CSV?')) exportarResultadosACSV(); }
 
 function delRes(id) { if (confirm('¿Borrar resultado?')) { delete R[id]; save(); rM(); rSt(); } }
 
-function setMVP(id) {
-  const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-  if (!esOrganizador) { alert('⚠️ Solo el organizador puede designar MVP.'); return; }
-  const m = MATCHES.find(x => x.id === id);
-  if (!m) return;
-  const cands = [];
-  [m.a, m.b].forEach(tn => {
-    const t = TEAMS.find(x => x.n === tn);
-    if (!t) return;
-    t.p.forEach(p => {
-      const k = tn + '|' + p;
-      const ps = PS[k] || {};
-      const efec = ps.efec_arr || ps.efec_boc || 0;
-      if ((ps.total_arr || 0) + (ps.total_boc || 0) > 0) cands.push({ name: p, team: tn, efec });
-    });
-  });
-  if (!cands.length) {
-    const nm = prompt('Sin estadísticas. Nombre del Jugador del Partido:');
-    if (nm && nm.trim()) { MVP[id] = { name: nm.trim(), team: 'Manual', efec: 0 }; save(); rM(); }
-    return;
-  }
-  cands.sort((a,b) => b.efec - a.efec);
-  const best = cands[0];
-  if (confirm(`🏅 Jugador del Partido sugerido:\n${best.name} (${best.team})\nEfectividad: ${best.efec}%\n\n¿Confirmar?`)) {
-    MVP[id] = best; save(); rM();
-  } else {
-    const nm2 = prompt('Nombre manual:');
-    if (nm2 && nm2.trim()) {
-      const tm = prompt(`Equipo (${m.a} o ${m.b}):`);
-      MVP[id] = { name: nm2.trim(), team: tm || '', efec: 0 };
-      save(); rM();
-    }
-  }
-  if (confirm('📤 ¿Exportar MVP a CSV?')) exportarResultadosACSV();
-}
+function setMVP(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede designar MVP.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) return; const cands = []; [m.a, m.b].forEach(tn => { const t = TEAMS.find(x => x.n === tn); if (!t) return; t.p.forEach(p => { const k = tn + '|' + p; const ps = PS[k] || {}; const efec = ps.efec_arr || ps.efec_boc || 0; if ((ps.total_arr || 0) + (ps.total_boc || 0) > 0) cands.push({ name: p, team: tn, efec }); }); }); if (!cands.length) { const nm = prompt('Sin estadísticas. Nombre del Jugador del Partido:'); if (nm && nm.trim()) { MVP[id] = { name: nm.trim(), team: 'Manual', efec: 0 }; save(); rM(); } return; } cands.sort((a,b) => b.efec - a.efec); const best = cands[0]; if (confirm(`🏅 Jugador del Partido sugerido:\n${best.name} (${best.team})\nEfectividad: ${best.efec}%\n\n¿Confirmar?`)) { MVP[id] = best; save(); rM(); } else { const nm2 = prompt('Nombre manual:'); if (nm2 && nm2.trim()) { const tm = prompt(`Equipo (${m.a} o ${m.b}):`); MVP[id] = { name: nm2.trim(), team: tm || '', efec: 0 }; save(); rM(); } } if (confirm('📤 ¿Exportar MVP a CSV?')) exportarResultadosACSV(); }
 
 function delMVP(id) { delete MVP[id]; save(); rM(); }
 
-function rSt() {
-  const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp);
-  const tb = {};
-  tl.forEach(t => { tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; });
-  MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => {
-    const r = R[m.id];
-    if (!r) return;
-    if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; }
-    if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; }
-    if (r.scoreA > r.scoreB) {
-      if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; }
-      if (tb[m.b]) tb[m.b].pp++;
-    } else if (r.scoreB > r.scoreA) {
-      if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; }
-      if (tb[m.a]) tb[m.a].pp++;
-    }
-  });
-  const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf);
-  const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn';
-  g('st-list').innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;margin-bottom:5px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;color:#8899aa;">EQUIPO</div><div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div></div>` +
-    sorted.map((t,i) => {
-      const r = i+1, c = rc(r);
-      const dif = t.tf - t.tc;
-      const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0';
-      return `<div class="sr ${c}"><div class="rb ${c}">${r}</div><div style="flex:1;font-size:11px;font-weight:bold;color:#f0e6d3;line-height:1.2;">${t.n}</div><div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div></div>`;
-    }).join('');
-}
+function rSt() { const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp); const tb = {}; tl.forEach(t => { tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; }); MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => { const r = R[m.id]; if (!r) return; if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; } if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; } if (r.scoreA > r.scoreB) { if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; } if (tb[m.b]) tb[m.b].pp++; } else if (r.scoreB > r.scoreA) { if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; } if (tb[m.a]) tb[m.a].pp++; } }); const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf); const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn'; g('st-list').innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;margin-bottom:5px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;color:#8899aa;">EQUIPO</div><div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div></div>` + sorted.map((t,i) => { const r = i+1, c = rc(r); const dif = t.tf - t.tc; const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0'; return `<div class="sr ${c}"><div class="rb ${c}">${r}</div><div style="flex:1;font-size:11px;font-weight:bold;color:#f0e6d3;line-height:1.2;">${t.n}</div><div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div></div>`; }).join(''); }
 
 function searchPlayer(q) { F.aQ = q; rA(); }
 
-function rA() {
-  const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp);
-  const players = [];
-  tl.forEach(t => {
-    t.p.forEach(p => {
-      const k = t.n + '|' + p;
-      const ps = PS[k] || {};
-      if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return;
-      const arrB = ps.arr_b || 0;
-      const arrTotal = ps.total_arr || 0;
-      const bocB = ps.boc_b || 0;
-      const bocTotal = ps.total_boc || 0;
-      const efec = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : (bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0);
-      const partidos = ps.partidos || 0;
-      players.push({ name: p, team: t.n, arrB, arrTotal, bocB, bocTotal, efec, partidos });
-    });
-  });
-  players.sort((a,b) => b.efec - a.efec);
-  g('a-list').innerHTML = !players.length ? '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin estadísticas registradas aún</div>' : players.map((p,i) => `<div class="ar"><div style="width:20px;text-align:center;font-size:10px;color:#8899aa;font-weight:bold;">${i+1}</div><div style="flex:1;min-width:0;"><div style="font-size:11px;color:#f0e6d3;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</div><div style="font-size:9px;color:#8899aa;">${p.team}</div></div><div style="display:flex;gap:6px;"><div style="min-width:26px;text-align:center;"><div class="av">${p.partidos}</div><div class="al">PJ</div></div><div style="min-width:50px;text-align:center;"><div class="av">${p.arrB}/${p.arrTotal}</div><div class="al">ARR</div></div><div style="min-width:50px;text-align:center;"><div class="av">${p.bocB}/${p.bocTotal}</div><div class="al">BOC</div></div><div style="min-width:32px;text-align:center;"><div class="av" style="color:#2ecc71;">${p.efec}%</div><div class="al">EFEC</div></div></div></div>`).join('');
-}
+function rA() { const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp); const players = []; tl.forEach(t => { t.p.forEach(p => { const k = t.n + '|' + p; const ps = PS[k] || {}; if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return; const arrB = ps.arr_b || 0; const arrTotal = ps.total_arr || 0; const bocB = ps.boc_b || 0; const bocTotal = ps.total_boc || 0; const efec = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : (bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0); const partidos = ps.partidos || 0; players.push({ name: p, team: t.n, arrB, arrTotal, bocB, bocTotal, efec, partidos }); }); }); players.sort((a,b) => b.efec - a.efec); g('a-list').innerHTML = !players.length ? '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin estadísticas registradas aún</div>' : players.map((p,i) => `<div class="ar"><div style="width:20px;text-align:center;font-size:10px;color:#8899aa;font-weight:bold;">${i+1}</div><div style="flex:1;min-width:0;"><div style="font-size:11px;color:#f0e6d3;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</div><div style="font-size:9px;color:#8899aa;">${p.team}</div></div><div style="display:flex;gap:6px;"><div style="min-width:26px;text-align:center;"><div class="av">${p.partidos}</div><div class="al">PJ</div></div><div style="min-width:50px;text-align:center;"><div class="av">${p.arrB}/${p.arrTotal}</div><div class="al">ARR</div></div><div style="min-width:50px;text-align:center;"><div class="av">${p.bocB}/${p.bocTotal}</div><div class="al">BOC</div></div><div style="min-width:32px;text-align:center;"><div class="av" style="color:#2ecc71;">${p.efec}%</div><div class="al">EFEC</div></div></div></div>`).join(''); }
 
-// ==================== ESTADÍSTICAS POR JUGADOR EN PARTIDO ====================
-function openStatsModal(matchId) {
-  const match = MATCHES.find(m => m.id === matchId);
-  if (!match) return;
-  currentMatchId = matchId;
-  const title = g('stats-modal-title');
-  title.innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`;
-  const body = g('stats-modal-body');
-  let html = '';
-  const savedStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {};
-  const teamA = TEAMS.find(t => t.n === match.a);
-  if (teamA) {
-    html += `<div class="lbl" style="margin-top:10px;">🏆 ${match.a}</div>`;
-    teamA.p.forEach(player => {
-      if (player !== 'Por Cargar') {
-        const saved = savedStats[player] || { arr_b: 0, arr_total: 0, boc_b: 0, boc_total: 0 };
-        html += getPlayerStatsHTML(player, saved);
-      }
-    });
-  }
-  const teamB = TEAMS.find(t => t.n === match.b);
-  if (teamB) {
-    html += `<div class="lbl" style="margin-top:10px;">🏆 ${match.b}</div>`;
-    teamB.p.forEach(player => {
-      if (player !== 'Por Cargar') {
-        const saved = savedStats[player] || { arr_b: 0, arr_total: 0, boc_b: 0, boc_total: 0 };
-        html += getPlayerStatsHTML(player, saved);
-      }
-    });
-  }
-  body.innerHTML = html;
-  g('stats-modal').style.display = 'block';
-}
+function openStatsModal(matchId) { const match = MATCHES.find(m => m.id === matchId); if (!match) return; currentMatchId = matchId; g('stats-modal-title').innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`; const body = g('stats-modal-body'); let html = ''; const savedStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {}; const teamA = TEAMS.find(t => t.n === match.a); if (teamA) { html += `<div class="lbl" style="margin-top:10px;">🏆 ${match.a}</div>`; teamA.p.forEach(player => { if (player !== 'Por Cargar') { const saved = savedStats[player] || { arr_b: 0, arr_total: 0, boc_b: 0, boc_total: 0 }; html += getPlayerStatsHTML(player, saved); } }); } const teamB = TEAMS.find(t => t.n === match.b); if (teamB) { html += `<div class="lbl" style="margin-top:10px;">🏆 ${match.b}</div>`; teamB.p.forEach(player => { if (player !== 'Por Cargar') { const saved = savedStats[player] || { arr_b: 0, arr_total: 0, boc_b: 0, boc_total: 0 }; html += getPlayerStatsHTML(player, saved); } }); } body.innerHTML = html; g('stats-modal').style.display = 'block'; }
 
-function getPlayerStatsHTML(playerName, saved) {
-  const safeKey = playerName.replace(/[^a-zA-Z0-9]/g, '_');
-  return `
-    <div class="player-stats-row">
-      <div class="player-name">${playerName}</div>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <div class="stat-label">🎯 Arrime Buenos (A azul)</div>
-          <input type="number" class="stat-input" id="arr_b_${safeKey}" value="${saved.arr_b || 0}" min="0" max="50">
-        </div>
-        <div class="stat-item">
-          <div class="stat-label">📊 Total Arrime (Buenos+Malos)</div>
-          <input type="number" class="stat-input" id="arr_total_${safeKey}" value="${saved.arr_total || 0}" min="0" max="50">
-        </div>
-        <div class="stat-item">
-          <div class="stat-label">💥 Boche Buenos (B azul)</div>
-          <input type="number" class="stat-input" id="boc_b_${safeKey}" value="${saved.boc_b || 0}" min="0" max="50">
-        </div>
-        <div class="stat-item">
-          <div class="stat-label">📊 Total Boche (Buenos+Malos)</div>
-          <input type="number" class="stat-input" id="boc_total_${safeKey}" value="${saved.boc_total || 0}" min="0" max="50">
-        </div>
-      </div>
-    </div>
-  `;
-}
+function getPlayerStatsHTML(playerName, saved) { const safeKey = playerName.replace(/[^a-zA-Z0-9]/g, '_'); return `<div class="player-stats-row"><div class="player-name">${playerName}</div><div class="stats-grid"><div class="stat-item"><div class="stat-label">🎯 Arrime Buenos (A azul)</div><input type="number" class="stat-input" id="arr_b_${safeKey}" value="${saved.arr_b || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">📊 Total Arrime</div><input type="number" class="stat-input" id="arr_total_${safeKey}" value="${saved.arr_total || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">💥 Boche Buenos (B azul)</div><input type="number" class="stat-input" id="boc_b_${safeKey}" value="${saved.boc_b || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">📊 Total Boche</div><input type="number" class="stat-input" id="boc_total_${safeKey}" value="${saved.boc_total || 0}" min="0" max="50"></div></div></div>`; }
 
-function saveMatchStats() {
-  const match = MATCHES.find(m => m.id === currentMatchId);
-  if (!match) return;
-  const stats = {};
-  [match.a, match.b].forEach(teamName => {
-    const team = TEAMS.find(t => t.n === teamName);
-    if (team) {
-      team.p.forEach(player => {
-        if (player !== 'Por Cargar') {
-          const safeKey = player.replace(/[^a-zA-Z0-9]/g, '_');
-          const arr_b = parseInt(g(`arr_b_${safeKey}`)?.value) || 0;
-          const arr_total = parseInt(g(`arr_total_${safeKey}`)?.value) || 0;
-          const boc_b = parseInt(g(`boc_b_${safeKey}`)?.value) || 0;
-          const boc_total = parseInt(g(`boc_total_${safeKey}`)?.value) || 0;
-          stats[player] = { arr_b, arr_total, boc_b, boc_total };
-          const psKey = `${teamName}|${player}`;
-          if (!PS[psKey]) PS[psKey] = {};
-          PS[psKey].arr_b = (PS[psKey].arr_b || 0) + arr_b;
-          PS[psKey].total_arr = (PS[psKey].total_arr || 0) + arr_total;
-          PS[psKey].boc_b = (PS[psKey].boc_b || 0) + boc_b;
-          PS[psKey].total_boc = (PS[psKey].total_boc || 0) + boc_total;
-          PS[psKey].partidos = (PS[psKey].partidos || 0) + 1;
-        }
-      });
-    }
-  });
-  localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats));
-  save();
-  closeStatsModal();
-  alert('✅ Estadísticas guardadas correctamente');
-  rA();
-  rT();
-}
+function saveMatchStats() { const match = MATCHES.find(m => m.id === currentMatchId); if (!match) return; const stats = {}; [match.a, match.b].forEach(teamName => { const team = TEAMS.find(t => t.n === teamName); if (team) { team.p.forEach(player => { if (player !== 'Por Cargar') { const safeKey = player.replace(/[^a-zA-Z0-9]/g, '_'); const arr_b = parseInt(g(`arr_b_${safeKey}`)?.value) || 0; const arr_total = parseInt(g(`arr_total_${safeKey}`)?.value) || 0; const boc_b = parseInt(g(`boc_b_${safeKey}`)?.value) || 0; const boc_total = parseInt(g(`boc_total_${safeKey}`)?.value) || 0; stats[player] = { arr_b, arr_total, boc_b, boc_total }; const psKey = `${teamName}|${player}`; if (!PS[psKey]) PS[psKey] = {}; PS[psKey].arr_b = (PS[psKey].arr_b || 0) + arr_b; PS[psKey].total_arr = (PS[psKey].total_arr || 0) + arr_total; PS[psKey].boc_b = (PS[psKey].boc_b || 0) + boc_b; PS[psKey].total_boc = (PS[psKey].total_boc || 0) + boc_total; PS[psKey].partidos = (PS[psKey].partidos || 0) + 1; } }); } }); localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats)); save(); closeStatsModal(); alert('✅ Estadísticas guardadas correctamente'); rA(); rT(); }
 
-function closeStatsModal() {
-  g('stats-modal').style.display = 'none';
-  currentMatchId = null;
-}
+function closeStatsModal() { g('stats-modal').style.display = 'none'; currentMatchId = null; }
 
-// ==================== SINCRONIZACIÓN CON GOOGLE SHEETS ====================
-async function sincronizarResultadosDesdeGoogleSheets() {
-  try {
-    cargandoDesdeSheets = true;
-    mostrarEstadoSincronizacion('🔄 Sincronizando...');
-    const response = await fetch(GOOGLE_SHEETS_RESULTADOS_URL);
-    const csvText = await response.text();
-    const resultados = convertirCSVaResultados(csvText);
-    for (const [id, datos] of Object.entries(resultados)) {
-      if (!R[id] || datos.actualizado > (R[id].actualizado || 0)) {
-        R[id] = { scoreA: datos.scoreA, scoreB: datos.scoreB, status: datos.status };
-      }
-    }
-    try {
-      const mvpResponse = await fetch(GOOGLE_SHEETS_MVP_URL);
-      const mvpCsv = await mvpResponse.text();
-      const mvps = convertirCSVaMVP(mvpCsv);
-      for (const [id, datos] of Object.entries(mvps)) {
-        if (!MVP[id]) { MVP[id] = datos; }
-      }
-    } catch(e) { console.log('No se pudo cargar MVP'); }
-    save();
-    cargandoDesdeSheets = false;
-    ultimaSincronizacion = new Date();
-    mostrarEstadoSincronizacion('✅ Sincronizado: ' + ultimaSincronizacion.toLocaleTimeString());
-    rM();
-    rSt();
-    rA();
-  } catch (error) {
-    console.error('Error al sincronizar:', error);
-    cargandoDesdeSheets = false;
-    mostrarEstadoSincronizacion('⚠️ Error de sincronización. Usando datos locales.', true);
-  }
-}
+async function sincronizarResultadosDesdeGoogleSheets() { try { cargandoDesdeSheets = true; mostrarEstadoSincronizacion('🔄 Sincronizando...'); const response = await fetch(GOOGLE_SHEETS_RESULTADOS_URL); const csvText = await response.text(); const resultados = convertirCSVaResultados(csvText); for (const [id, datos] of Object.entries(resultados)) { if (!R[id] || datos.actualizado > (R[id].actualizado || 0)) { R[id] = { scoreA: datos.scoreA, scoreB: datos.scoreB, status: datos.status }; } } try { const mvpResponse = await fetch(GOOGLE_SHEETS_MVP_URL); const mvpCsv = await mvpResponse.text(); const mvps = convertirCSVaMVP(mvpCsv); for (const [id, datos] of Object.entries(mvps)) { if (!MVP[id]) { MVP[id] = datos; } } } catch(e) { console.log('No se pudo cargar MVP'); } save(); cargandoDesdeSheets = false; ultimaSincronizacion = new Date(); mostrarEstadoSincronizacion('✅ Sincronizado: ' + ultimaSincronizacion.toLocaleTimeString()); rM(); rSt(); rA(); } catch (error) { console.error('Error al sincronizar:', error); cargandoDesdeSheets = false; mostrarEstadoSincronizacion('⚠️ Error de sincronización. Usando datos locales.', true); } }
 
-function convertirCSVaResultados(csv) {
-  const lineas = csv.split('\n');
-  const resultados = {};
-  for (let i = 1; i < lineas.length; i++) {
-    const valores = lineas[i].split(',');
-    if (valores.length >= 4 && valores[0]) {
-      const id = parseInt(valores[0]);
-      const scoreA = parseInt(valores[1]);
-      const scoreB = parseInt(valores[2]);
-      const status = valores[3].trim().replace(/"/g, '');
-      if (!isNaN(scoreA) && !isNaN(scoreB)) {
-        resultados[id] = { scoreA, scoreB, status };
-      }
-    }
-  }
-  return resultados;
-}
+function convertirCSVaResultados(csv) { const lineas = csv.split('\n'); const resultados = {}; for (let i = 1; i < lineas.length; i++) { const valores = lineas[i].split(','); if (valores.length >= 4 && valores[0]) { const id = parseInt(valores[0]); const scoreA = parseInt(valores[1]); const scoreB = parseInt(valores[2]); const status = valores[3].trim().replace(/"/g, ''); if (!isNaN(scoreA) && !isNaN(scoreB)) { resultados[id] = { scoreA, scoreB, status }; } } } return resultados; }
 
-function convertirCSVaMVP(csv) {
-  const lineas = csv.split('\n');
-  const mvps = {};
-  for (let i = 1; i < lineas.length; i++) {
-    const valores = lineas[i].split(',');
-    if (valores.length >= 4 && valores[0]) {
-      const id = parseInt(valores[0]);
-      mvps[id] = { name: valores[1].trim(), team: valores[2].trim(), efec: parseInt(valores[3]) || 0 };
-    }
-  }
-  return mvps;
-}
+function convertirCSVaMVP(csv) { const lineas = csv.split('\n'); const mvps = {}; for (let i = 1; i < lineas.length; i++) { const valores = lineas[i].split(','); if (valores.length >= 4 && valores[0]) { const id = parseInt(valores[0]); mvps[id] = { name: valores[1].trim(), team: valores[2].trim(), efec: parseInt(valores[3]) || 0 }; } } return mvps; }
 
-function mostrarEstadoSincronizacion(mensaje, esError = false) {
-  let estadoDiv = document.getElementById('sync-status');
-  if (!estadoDiv) {
-    estadoDiv = document.createElement('div');
-    estadoDiv.id = 'sync-status';
-    estadoDiv.className = 'sync-status';
-    document.querySelector('.body').prepend(estadoDiv);
-  }
-  estadoDiv.innerHTML = mensaje;
-  estadoDiv.classList.toggle('error', esError);
-  if (!esError) {
-    setTimeout(() => {
-      if (estadoDiv.innerHTML === mensaje) estadoDiv.innerHTML = '';
-    }, 4000);
-  }
-}
+function mostrarEstadoSincronizacion(mensaje, esError = false) { let estadoDiv = document.getElementById('sync-status'); if (!estadoDiv) { estadoDiv = document.createElement('div'); estadoDiv.id = 'sync-status'; estadoDiv.className = 'sync-status'; document.querySelector('.body').prepend(estadoDiv); } estadoDiv.innerHTML = mensaje; estadoDiv.classList.toggle('error', esError); if (!esError) { setTimeout(() => { if (estadoDiv.innerHTML === mensaje) estadoDiv.innerHTML = ''; }, 4000); } }
 
-function exportarResultadosACSV() {
-  let csvResultados = 'partido_id,scoreA,scoreB,status\n';
-  for (const [id, datos] of Object.entries(R)) {
-    csvResultados += `${id},${datos.scoreA},${datos.scoreB},${datos.status}\n`;
-  }
-  let csvMVP = 'partido_id,nombre,equipo,efec\n';
-  for (const [id, datos] of Object.entries(MVP)) {
-    csvMVP += `${id},${datos.name},${datos.team},${datos.efec || 0}\n`;
-  }
-  const blobResultados = new Blob([csvResultados], { type: 'text/csv' });
-  const urlResultados = URL.createObjectURL(blobResultados);
-  const aResultados = document.createElement('a');
-  aResultados.href = urlResultados;
-  aResultados.download = `resultados_torneo_${new Date().toISOString().slice(0,19)}.csv`;
-  aResultados.click();
-  URL.revokeObjectURL(urlResultados);
-  const blobMVP = new Blob([csvMVP], { type: 'text/csv' });
-  const urlMVP = URL.createObjectURL(blobMVP);
-  const aMVP = document.createElement('a');
-  aMVP.href = urlMVP;
-  aMVP.download = `mvp_torneo_${new Date().toISOString().slice(0,19)}.csv`;
-  aMVP.click();
-  URL.revokeObjectURL(urlMVP);
-  alert('✅ Archivos CSV generados. Cópialos a tu Google Sheet para que todos los vean.');
-}
+function exportarResultadosACSV() { let csvResultados = 'partido_id,scoreA,scoreB,status\n'; for (const [id, datos] of Object.entries(R)) { csvResultados += `${id},${datos.scoreA},${datos.scoreB},${datos.status}\n`; } let csvMVP = 'partido_id,nombre,equipo,efec\n'; for (const [id, datos] of Object.entries(MVP)) { csvMVP += `${id},${datos.name},${datos.team},${datos.efec || 0}\n`; } const blobResultados = new Blob([csvResultados], { type: 'text/csv' }); const urlResultados = URL.createObjectURL(blobResultados); const aResultados = document.createElement('a'); aResultados.href = urlResultados; aResultados.download = `resultados_torneo_${new Date().toISOString().slice(0,19)}.csv`; aResultados.click(); URL.revokeObjectURL(urlResultados); const blobMVP = new Blob([csvMVP], { type: 'text/csv' }); const urlMVP = URL.createObjectURL(blobMVP); const aMVP = document.createElement('a'); aMVP.href = urlMVP; aMVP.download = `mvp_torneo_${new Date().toISOString().slice(0,19)}.csv`; aMVP.click(); URL.revokeObjectURL(urlMVP); alert('✅ Archivos CSV generados. Cópialos a tu Google Sheet para que todos los vean.'); }
 
 // ==================== PDF ====================
 let pdfMode = 'week';
 
-function togglePdfPanel() {
-  const panel = g('pdf-panel');
-  const isOpen = panel.classList.contains('open');
-  if (!isOpen) populateTeamSel();
-  panel.classList.toggle('open');
-}
+function togglePdfPanel() { const panel = g('pdf-panel'); const isOpen = panel.classList.contains('open'); if (!isOpen) populateTeamSel(); panel.classList.toggle('open'); }
 
-function setPdfMode(mode) {
-  pdfMode = mode;
-  g('pdf-btn-week').classList.toggle('on', mode === 'week');
-  g('pdf-btn-team').classList.toggle('on', mode === 'team');
-  g('pdf-btn-all').classList.toggle('on', mode === 'all');
-  g('pdf-week-wrap').style.display = mode === 'week' ? 'block' : 'none';
-  g('pdf-team-wrap').style.display = mode === 'team' ? 'block' : 'none';
-}
+function setPdfMode(mode) { pdfMode = mode; g('pdf-btn-week').classList.toggle('on', mode === 'week'); g('pdf-btn-team').classList.toggle('on', mode === 'team'); g('pdf-btn-all').classList.toggle('on', mode === 'all'); g('pdf-week-wrap').style.display = mode === 'week' ? 'block' : 'none'; g('pdf-team-wrap').style.display = mode === 'team' ? 'block' : 'none'; }
 
-function populateTeamSel() {
-  const sel = g('pdf-team-sel');
-  const teams = TEAMS.filter(t => t.c === F.mCat && t.g === F.mGrp);
-  sel.innerHTML = teams.map(t => `<option value="${t.n}">${t.n}</option>`).join('');
-}
+function populateTeamSel() { const sel = g('pdf-team-sel'); const teams = TEAMS.filter(t => t.c === F.mCat && t.g === F.mGrp); sel.innerHTML = teams.map(t => `<option value="${t.n}">${t.n}</option>`).join(''); }
 
 function generatePDF() {
   if (typeof window.jspdf === 'undefined') { alert('Librería PDF no disponible.'); return; }
@@ -1110,95 +668,107 @@ function generatePDF() {
   let filterLabel = '';
   let fname = '';
 
+  // MODO: TODAS LAS CATEGORÍAS POR SEMANA
   if (pdfMode === 'all') {
-    list = MATCHES;
-    filterLabel = 'TODAS LAS CATEGORÍAS Y GRUPOS';
-    fname = `Calendario_Completo_Todas_Categorias.pdf`;
+    const semanaSeleccionada = F.mWk;
+    if (semanaSeleccionada === 'Todos') {
+      alert('⚠️ Para generar PDF de "Todas las Categorías", primero selecciona una semana específica (Sem 1, Sem 2, etc.) en la pestaña Partidos.');
+      return;
+    }
     
-    const weeks = {};
-    list.forEach(m => { if (!weeks[m.w]) weeks[m.w] = []; weeks[m.w].push(m); });
+    list = MATCHES.filter(m => m.w === semanaSeleccionada);
     
-    doc.setFillColor(26, 26, 46);
-    doc.rect(0, 0, pw, 32, 'F');
-    doc.setTextColor(232, 184, 75);
-    doc.setFontSize(15);
-    doc.setFont('helvetica', 'bold');
-    doc.text('SIBARITA SPORT CLUB', pw / 2, 11, { align: 'center' });
-    doc.setFontSize(10);
-    doc.setTextColor(240, 230, 211);
-    doc.text('2do Campeonato Bolas Criollas 2026 - Categoría B', pw / 2, 18, { align: 'center' });
-    doc.setFontSize(9);
-    doc.setTextColor(136, 153, 170);
-    doc.text('CALENDARIO COMPLETO - TODAS LAS CATEGORÍAS', pw / 2, 25, { align: 'center' });
-    y = 38;
+    if (list.length === 0) {
+      alert(`No hay partidos en ${semanaSeleccionada}`);
+      return;
+    }
     
-    const wlbls2 = { S1: 'SEMANA 1', S2: 'SEMANA 2', S3: 'SEMANA 3', S4: 'SEMANA 4', S5: 'SEMANA 5', S6: 'SEMANA 6', S7: 'SEMANA 7', S8: 'SEMANA 8', S9: 'SEMANA 9' };
-    const wrgb = { S1: [46,204,113], S2: [52,152,219], S3: [155,89,182], S4: [230,126,34], S5: [192,57,43], S6: [26,188,156], S7: [233,30,99], S8: [96,125,139], S9: [241,196,15] };
+    const semanaNombre = { S1:'Semana 1', S2:'Semana 2', S3:'Semana 3', S4:'Semana 4', S5:'Semana 5', S6:'Semana 6', S7:'Semana 7', S8:'Semana 8', S9:'Semana 9' };
+    filterLabel = `${semanaNombre[semanaSeleccionada]} - TODAS LAS CATEGORÍAS (Femenino A/B + Masculino A/B)`;
+    fname = `Calendario_${semanaSeleccionada}_Todas_Categorias.pdf`;
     
-    Object.keys(weeks).sort().forEach(wk => {
-      const ms = weeks[wk];
-      const rgb = wrgb[wk] || [100,100,100];
-      if (y > 255) { doc.addPage(); y = 15; }
-      doc.setFillColor(rgb[0], rgb[1], rgb[2]);
-      doc.rect(mg, y, pw - mg * 2, 8, 'F');
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(9);
-      doc.setFont('helvetica', 'bold');
-      doc.text(wlbls2[wk] || wk, mg + 3, y + 5.5);
-      y += 11;
-      
-      const groups = {};
-      ms.forEach(m => { const key = `${m.c} - Grupo ${m.g}`; if (!groups[key]) groups[key] = []; groups[key].push(m); });
-      
-      Object.keys(groups).sort().forEach(groupName => {
-        if (y > 265) { doc.addPage(); y = 15; }
-        doc.setFillColor(22, 33, 62);
-        doc.rect(mg, y, pw - mg * 2, 6, 'F');
-        doc.setTextColor(232, 184, 75);
-        doc.setFontSize(8);
-        doc.setFont('helvetica', 'bold');
-        doc.text(groupName, mg + 3, y + 4.5);
-        y += 8;
-        
-        groups[groupName].forEach(m => {
-          if (y > 265) { doc.addPage(); y = 15; }
-          const r = R[m.id];
-          const result = r ? `${r.scoreA} — ${r.scoreB}${r.status === 'forfeit' ? ' (FF)' : ''}` : 'Pendiente';
-          const mv = MVP[m.id];
-          doc.setFillColor(22, 33, 62);
-          doc.rect(mg, y, pw - mg * 2, 13, 'F');
-          doc.setDrawColor(15, 52, 96);
-          doc.rect(mg, y, pw - mg * 2, 13, 'S');
-          doc.setTextColor(136, 153, 170);
-          doc.setFontSize(6.5);
-          doc.setFont('helvetica', 'normal');
-          doc.text(`${m.d} ${m.dy} · ${m.h} · ${m.f}`, mg + 3, y + 3.5);
-          const colorA = r && r.scoreA > r.scoreB ? [232,184,75] : [240,230,211];
-          doc.setTextColor(colorA[0], colorA[1], colorA[2]);
-          doc.setFontSize(8);
-          doc.setFont('helvetica', 'bold');
-          const tA = m.a.length > 22 ? m.a.substring(0,21) + '.' : m.a;
-          doc.text(tA, mg + 3, y + 9);
-          doc.setTextColor(232, 184, 75);
-          doc.setFontSize(8.5);
-          doc.text(result, pw / 2, y + 9, { align: 'center' });
-          const colorB = r && r.scoreB > r.scoreA ? [232,184,75] : [240,230,211];
-          doc.setTextColor(colorB[0], colorB[1], colorB[2]);
-          const tB = m.b.length > 22 ? m.b.substring(0,21) + '.' : m.b;
-          doc.text(tB, pw - mg - 3, y + 9, { align: 'right' });
-          if (mv) {
-            doc.setTextColor(232, 184, 75);
-            doc.setFontSize(5.5);
-            doc.setFont('helvetica', 'italic');
-            doc.text(`🏅 ${mv.name} (${mv.team})`, mg + 3, y + 3.5);
-          }
-          y += 15;
-        });
-        y += 2;
-      });
-      y += 3;
+    // Organizar por categoría y grupo
+    const grupos = {
+      'Femenino - Grupo A': [],
+      'Femenino - Grupo B': [],
+      'Masculino - Grupo A': [],
+      'Masculino - Grupo B': []
+    };
+    
+    list.forEach(m => {
+      const key = `${m.c} - Grupo ${m.g}`;
+      if (grupos[key]) grupos[key].push(m);
     });
     
+    // Header
+    doc.setFillColor(26, 26, 46);
+    doc.rect(0, 0, pw, 38, 'F');
+    doc.setTextColor(232, 184, 75);
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text('SIBARITA SPORT CLUB', pw / 2, 12, { align: 'center' });
+    doc.setFontSize(11);
+    doc.setTextColor(240, 230, 211);
+    doc.text('2do Campeonato Bolas Criollas 2026 - Categoría B', pw / 2, 20, { align: 'center' });
+    doc.setFontSize(13);
+    doc.setTextColor(232, 184, 75);
+    doc.text(semanaNombre[semanaSeleccionada], pw / 2, 28, { align: 'center' });
+    doc.setFontSize(9);
+    doc.setTextColor(136, 153, 170);
+    doc.text('TODAS LAS CATEGORÍAS (Femenino A/B + Masculino A/B)', pw / 2, 35, { align: 'center' });
+    y = 45;
+    
+    const colores = {
+      'Femenino - Grupo A': [232, 184, 75],
+      'Femenino - Grupo B': [255, 159, 64],
+      'Masculino - Grupo A': [52, 152, 219],
+      'Masculino - Grupo B': [46, 204, 113]
+    };
+    
+    Object.keys(grupos).forEach(grupo => {
+      const partidos = grupos[grupo];
+      if (partidos.length === 0) return;
+      if (y > 250) { doc.addPage(); y = 20; }
+      const color = colores[grupo] || [100, 100, 100];
+      doc.setFillColor(color[0], color[1], color[2]);
+      doc.rect(mg, y, pw - mg * 2, 9, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.text(grupo, mg + 3, y + 6.5);
+      y += 13;
+      doc.setFillColor(22, 33, 62);
+      doc.rect(mg, y, pw - mg * 2, 6, 'F');
+      doc.setTextColor(232, 184, 75);
+      doc.setFontSize(7);
+      doc.text('FECHA', mg + 3, y + 4.5);
+      doc.text('HORA', mg + 35, y + 4.5);
+      doc.text('CANCHA', mg + 55, y + 4.5);
+      doc.text('EQUIPO A', mg + 80, y + 4.5);
+      doc.text('VS', mg + 130, y + 4.5);
+      doc.text('EQUIPO B', mg + 145, y + 4.5);
+      doc.text('RES', mg + 185, y + 4.5);
+      y += 9;
+      partidos.forEach((m, idx) => {
+        if (y > 270) { doc.addPage(); y = 20; }
+        const r = R[m.id];
+        const resultado = r ? `${r.scoreA}-${r.scoreB}` : 'Pend.';
+        doc.setFillColor(idx % 2 === 0 ? 22 : 28, idx % 2 === 0 ? 33 : 40, idx % 2 === 0 ? 62 : 70);
+        doc.rect(mg, y, pw - mg * 2, 7, 'F');
+        doc.setTextColor(240, 230, 211);
+        doc.setFontSize(7.5);
+        doc.text(m.d.substring(8,10)+'/'+m.d.substring(5,7), mg + 3, y + 5);
+        doc.text(m.h, mg + 35, y + 5);
+        doc.text(m.f, mg + 55, y + 5);
+        doc.text(m.a.length > 18 ? m.a.substring(0,16)+'..' : m.a, mg + 80, y + 5);
+        doc.text('vs', mg + 130, y + 5);
+        doc.text(m.b.length > 18 ? m.b.substring(0,16)+'..' : m.b, mg + 145, y + 5);
+        doc.setTextColor(232, 184, 75);
+        doc.text(resultado, mg + 185, y + 5);
+        y += 7;
+      });
+      y += 5;
+    });
     doc.setTextColor(136, 153, 170);
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
@@ -1208,6 +778,7 @@ function generatePDF() {
     return;
   }
   
+  // MODO NORMAL (semana o equipo)
   if (pdfMode === 'week') {
     const wk = g('pdf-week-sel').value;
     const wlbls = { Todos: 'Todas las Semanas', S1: 'Semana 1', S2: 'Semana 2', S3: 'Semana 3', S4: 'Semana 4', S5: 'Semana 5', S6: 'Semana 6', S7: 'Semana 7', S8: 'Semana 8', S9: 'Semana 9' };
@@ -1297,9 +868,8 @@ function generatePDF() {
   doc.save(fname);
   togglePdfPanel();
 }
-// Inicializar y sincronizar automáticamente
+
 rT();
-// setTimeout(() => { sincronizarResultadosDesdeGoogleSheets(); }, 500);
 </script>
 </body>
 </html>
