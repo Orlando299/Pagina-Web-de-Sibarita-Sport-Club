@@ -158,6 +158,7 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
     <div class="frow">
       <button class="fb on" id="pdf-btn-week" onclick="setPdfMode('week')">📅 Por Semana</button>
       <button class="fb" id="pdf-btn-team" onclick="setPdfMode('team')">👥 Por Equipo</button>
+      <button class="fb" id="pdf-btn-all" onclick="setPdfMode('all')">🌍 Todas las Categorías</button>
     </div>
     <div id="pdf-week-wrap">
       <select id="pdf-week-sel" class="pdf-sel">
@@ -179,9 +180,6 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
     <button class="pdf-gen-btn" onclick="generatePDF()">⬇️ Generar y Descargar PDF</button>
     <button class="pdf-cancel-btn" onclick="togglePdfPanel()">Cancelar</button>
   </div>
-  <div class="lbl" id="m-cnt"></div>
-  <div id="m-list"></div>
-</div>
 
 <!-- TABLA -->
 <div id="s-standings" class="scr">
@@ -1091,6 +1089,7 @@ function setPdfMode(mode) {
   pdfMode = mode;
   g('pdf-btn-week').classList.toggle('on', mode === 'week');
   g('pdf-btn-team').classList.toggle('on', mode === 'team');
+  g('pdf-btn-all').classList.toggle('on', mode === 'all');
   g('pdf-week-wrap').style.display = mode === 'week' ? 'block' : 'none';
   g('pdf-team-wrap').style.display = mode === 'team' ? 'block' : 'none';
 }
@@ -1107,22 +1106,123 @@ function generatePDF() {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const pw = 210, mg = 12;
   let y = 20;
-  let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp);
+  let list = [];
   let filterLabel = '';
   let fname = '';
+
+  if (pdfMode === 'all') {
+    list = MATCHES;
+    filterLabel = 'TODAS LAS CATEGORÍAS Y GRUPOS';
+    fname = `Calendario_Completo_Todas_Categorias.pdf`;
+    
+    const weeks = {};
+    list.forEach(m => { if (!weeks[m.w]) weeks[m.w] = []; weeks[m.w].push(m); });
+    
+    doc.setFillColor(26, 26, 46);
+    doc.rect(0, 0, pw, 32, 'F');
+    doc.setTextColor(232, 184, 75);
+    doc.setFontSize(15);
+    doc.setFont('helvetica', 'bold');
+    doc.text('SIBARITA SPORT CLUB', pw / 2, 11, { align: 'center' });
+    doc.setFontSize(10);
+    doc.setTextColor(240, 230, 211);
+    doc.text('2do Campeonato Bolas Criollas 2026 - Categoría B', pw / 2, 18, { align: 'center' });
+    doc.setFontSize(9);
+    doc.setTextColor(136, 153, 170);
+    doc.text('CALENDARIO COMPLETO - TODAS LAS CATEGORÍAS', pw / 2, 25, { align: 'center' });
+    y = 38;
+    
+    const wlbls2 = { S1: 'SEMANA 1', S2: 'SEMANA 2', S3: 'SEMANA 3', S4: 'SEMANA 4', S5: 'SEMANA 5', S6: 'SEMANA 6', S7: 'SEMANA 7', S8: 'SEMANA 8', S9: 'SEMANA 9' };
+    const wrgb = { S1: [46,204,113], S2: [52,152,219], S3: [155,89,182], S4: [230,126,34], S5: [192,57,43], S6: [26,188,156], S7: [233,30,99], S8: [96,125,139], S9: [241,196,15] };
+    
+    Object.keys(weeks).sort().forEach(wk => {
+      const ms = weeks[wk];
+      const rgb = wrgb[wk] || [100,100,100];
+      if (y > 255) { doc.addPage(); y = 15; }
+      doc.setFillColor(rgb[0], rgb[1], rgb[2]);
+      doc.rect(mg, y, pw - mg * 2, 8, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.text(wlbls2[wk] || wk, mg + 3, y + 5.5);
+      y += 11;
+      
+      const groups = {};
+      ms.forEach(m => { const key = `${m.c} - Grupo ${m.g}`; if (!groups[key]) groups[key] = []; groups[key].push(m); });
+      
+      Object.keys(groups).sort().forEach(groupName => {
+        if (y > 265) { doc.addPage(); y = 15; }
+        doc.setFillColor(22, 33, 62);
+        doc.rect(mg, y, pw - mg * 2, 6, 'F');
+        doc.setTextColor(232, 184, 75);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'bold');
+        doc.text(groupName, mg + 3, y + 4.5);
+        y += 8;
+        
+        groups[groupName].forEach(m => {
+          if (y > 265) { doc.addPage(); y = 15; }
+          const r = R[m.id];
+          const result = r ? `${r.scoreA} — ${r.scoreB}${r.status === 'forfeit' ? ' (FF)' : ''}` : 'Pendiente';
+          const mv = MVP[m.id];
+          doc.setFillColor(22, 33, 62);
+          doc.rect(mg, y, pw - mg * 2, 13, 'F');
+          doc.setDrawColor(15, 52, 96);
+          doc.rect(mg, y, pw - mg * 2, 13, 'S');
+          doc.setTextColor(136, 153, 170);
+          doc.setFontSize(6.5);
+          doc.setFont('helvetica', 'normal');
+          doc.text(`${m.d} ${m.dy} · ${m.h} · ${m.f}`, mg + 3, y + 3.5);
+          const colorA = r && r.scoreA > r.scoreB ? [232,184,75] : [240,230,211];
+          doc.setTextColor(colorA[0], colorA[1], colorA[2]);
+          doc.setFontSize(8);
+          doc.setFont('helvetica', 'bold');
+          const tA = m.a.length > 22 ? m.a.substring(0,21) + '.' : m.a;
+          doc.text(tA, mg + 3, y + 9);
+          doc.setTextColor(232, 184, 75);
+          doc.setFontSize(8.5);
+          doc.text(result, pw / 2, y + 9, { align: 'center' });
+          const colorB = r && r.scoreB > r.scoreA ? [232,184,75] : [240,230,211];
+          doc.setTextColor(colorB[0], colorB[1], colorB[2]);
+          const tB = m.b.length > 22 ? m.b.substring(0,21) + '.' : m.b;
+          doc.text(tB, pw - mg - 3, y + 9, { align: 'right' });
+          if (mv) {
+            doc.setTextColor(232, 184, 75);
+            doc.setFontSize(5.5);
+            doc.setFont('helvetica', 'italic');
+            doc.text(`🏅 ${mv.name} (${mv.team})`, mg + 3, y + 3.5);
+          }
+          y += 15;
+        });
+        y += 2;
+      });
+      y += 3;
+    });
+    
+    doc.setTextColor(136, 153, 170);
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Generado: ${new Date().toLocaleDateString('es-VE')} · Sibarita Sport Club`, pw / 2, 290, { align: 'center' });
+    doc.save(fname);
+    togglePdfPanel();
+    return;
+  }
+  
   if (pdfMode === 'week') {
     const wk = g('pdf-week-sel').value;
     const wlbls = { Todos: 'Todas las Semanas', S1: 'Semana 1', S2: 'Semana 2', S3: 'Semana 3', S4: 'Semana 4', S5: 'Semana 5', S6: 'Semana 6', S7: 'Semana 7', S8: 'Semana 8', S9: 'Semana 9' };
-    if (wk !== 'Todos') list = list.filter(m => m.w === wk);
-    filterLabel = wlbls[wk] || wk;
+    list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (wk === 'Todos' || m.w === wk));
+    filterLabel = `${F.mCat} · Grupo ${F.mGrp} · ${wlbls[wk] || wk}`;
     fname = `Calendario_${F.mCat}_Gr${F.mGrp}_${wk}.pdf`;
   } else {
     const tn = g('pdf-team-sel').value;
-    list = list.filter(m => m.a === tn || m.b === tn);
-    filterLabel = 'Equipo: ' + tn;
+    list = MATCHES.filter(m => (m.c === F.mCat && m.g === F.mGrp) && (m.a === tn || m.b === tn));
+    filterLabel = `${F.mCat} · Grupo ${F.mGrp} · Equipo: ${tn}`;
     fname = `Calendario_${tn.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
   }
+  
   if (!list.length) { alert('No hay partidos para este filtro.'); return; }
+  
   doc.setFillColor(26, 26, 46);
   doc.rect(0, 0, pw, 32, 'F');
   doc.setTextColor(232, 184, 75);
@@ -1134,12 +1234,14 @@ function generatePDF() {
   doc.text('2do Campeonato Bolas Criollas 2026 - Categoría B', pw / 2, 18, { align: 'center' });
   doc.setFontSize(9);
   doc.setTextColor(136, 153, 170);
-  doc.text(`${F.mCat} · Grupo ${F.mGrp} · ${filterLabel}`, pw / 2, 25, { align: 'center' });
+  doc.text(filterLabel, pw / 2, 25, { align: 'center' });
   y = 38;
+  
   const groups = {};
   list.forEach(m => { if (!groups[m.w]) groups[m.w] = []; groups[m.w].push(m); });
   const wlbls2 = { S1: 'SEMANA 1', S2: 'SEMANA 2', S3: 'SEMANA 3', S4: 'SEMANA 4', S5: 'SEMANA 5', S6: 'SEMANA 6', S7: 'SEMANA 7', S8: 'SEMANA 8', S9: 'SEMANA 9' };
   const wrgb = { S1: [46,204,113], S2: [52,152,219], S3: [155,89,182], S4: [230,126,34], S5: [192,57,43], S6: [26,188,156], S7: [233,30,99], S8: [96,125,139], S9: [241,196,15] };
+  
   Object.keys(groups).sort().forEach(wk => {
     const ms = groups[wk];
     const rgb = wrgb[wk] || [100,100,100];
@@ -1187,6 +1289,7 @@ function generatePDF() {
     });
     y += 2;
   });
+  
   doc.setTextColor(136, 153, 170);
   doc.setFontSize(7);
   doc.setFont('helvetica', 'normal');
@@ -1194,7 +1297,6 @@ function generatePDF() {
   doc.save(fname);
   togglePdfPanel();
 }
-
 // Inicializar y sincronizar automáticamente
 rT();
 setTimeout(() => { sincronizarResultadosDesdeGoogleSheets(); }, 500);
