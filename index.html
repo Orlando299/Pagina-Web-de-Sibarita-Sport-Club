@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1a1a2e">
-<title>Sibarita Sport Club</title>
+<title>Sibarita Sport Club - Torneo Bolas Criollas</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 ::-webkit-scrollbar{display:none;}
@@ -54,36 +55,36 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 .rn{background:#16213e;border:1px solid #0f3460;}
 .rb{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;flex-shrink:0;}
 .rb.r1{background:#e8b84b;color:#000;}.rb.r2{background:#c0c0c0;color:#000;}.rb.r3{background:#cd7f32;color:#000;}.rb.rn{background:#0f3460;color:#8899aa;}
-.sv{font-size:11px;font-weight:bold;color:#f0e6d3;}
-.spts{font-size:12px;font-weight:bold;color:#e8b84b;}
-.sh{font-size:8px;color:#e8b84b;font-weight:bold;}
-.scols{display:flex;gap:4px;}
-.sc{text-align:center;min-width:22px;}
+.sv{font-size:11px;font-weight:bold;color:#f0e6d3;}.spts{font-size:12px;font-weight:bold;color:#e8b84b;}.sh{font-size:8px;color:#e8b84b;font-weight:bold;}
+.scols{display:flex;gap:4px;}.sc{text-align:center;min-width:22px;}
 .srch{position:relative;margin-bottom:10px;}
 .srch input{width:100%;padding:8px 12px 8px 32px;background:#16213e;border:1px solid #0f3460;border-radius:9px;color:#f0e6d3;font-size:13px;font-family:inherit;}
 .srch input:focus{outline:none;border-color:#e8b84b;}
 .srch-ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#8899aa;font-size:13px;}
 .ar{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:8px;margin-bottom:4px;background:#16213e;border:1px solid #0f3460;}
-.av{font-size:12px;font-weight:bold;color:#e8b84b;}
-.al{font-size:8px;color:#8899aa;}
+.av{font-size:12px;font-weight:bold;color:#e8b84b;}.al{font-size:8px;color:#8899aa;}
 .lbl{font-size:10px;color:#e8b84b;font-weight:bold;margin-bottom:7px;margin-top:4px;letter-spacing:.06em;}
 .ibox{font-size:10px;color:#8899aa;padding:9px;background:#16213e;border-radius:9px;border:1px solid #0f3460;margin-top:7px;line-height:1.5;}
-.scr{display:none;}
-.scr.on{display:block;}
+.scr{display:none;}.scr.on{display:block;}
 .mvp-box{background:linear-gradient(135deg,#e8b84b22,#f39c1222);border:1px solid #e8b84b55;border-radius:8px;padding:6px 10px;margin-top:6px;display:flex;align-items:center;gap:8px;}
 .mvp-name{font-size:12px;color:#f0e6d3;font-weight:bold;}
 .mvp-lbl{font-size:9px;color:#e8b84b;font-weight:bold;letter-spacing:.06em;text-transform:uppercase;}
 .mvp-detail{font-size:9px;color:#8899aa;}
 .mvp-btn{width:100%;margin-top:5px;padding:5px;background:linear-gradient(90deg,#e8b84b22,#f39c1222);border:1px solid #e8b84b55;border-radius:7px;color:#e8b84b;font-size:10px;cursor:pointer;font-family:inherit;font-weight:bold;}
+.pdf-panel{background:#16213e;border:1px solid #e8b84b55;border-radius:10px;padding:12px;margin-bottom:10px;display:none;}
+.pdf-panel.open{display:block;}
+.pdf-sel{width:100%;padding:7px;background:#0f3460;border:1px solid #e8b84b55;border-radius:7px;color:#f0e6d3;font-size:12px;font-family:inherit;margin-bottom:8px;}
+.pdf-gen-btn{width:100%;padding:8px;background:#e8b84b;border:none;border-radius:7px;color:#000;font-weight:bold;font-size:12px;cursor:pointer;font-family:inherit;}
+.pdf-cancel-btn{width:100%;padding:5px;margin-top:5px;background:transparent;border:1px solid #0f3460;border-radius:7px;color:#8899aa;font-size:11px;cursor:pointer;font-family:inherit;}
 </style>
 </head>
 <body>
 <div class="hdr">
   <div class="hdr-top">
-   <div class="logo">
-  <img src="data:image/jpeg;base64,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" alt="Logo Sibarita Sport Club">
-  <div><div class="logo-t">Sibarita Sport Club</div><div class="logo-s">2do Campeonato 2026 "Categoría B"</div></div>
-</div>
+    <div class="logo">
+      <img src="data:image/jpeg;base64,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"/>
+      <div><div class="logo-t">Sibarita Sport Club</div><div class="logo-s">2do Campeonato 2026 "Categoría B"</div></div>
+    </div>
     <div class="badge">FASE 1</div>
   </div>
   <div class="nav">
@@ -130,11 +131,40 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
     <button class="fb" id="btn-mGb" onclick="setF('mGrp','B')">Grupo B</button>
   </div>
   <div class="fscroll" id="m-weeks"></div>
+  <div class="frow">
+    <button class="fb" onclick="togglePdfPanel()" style="background:#c0392b;border-color:#c0392b;color:#fff;">📄 Descargar PDF</button>
+  </div>
+  <div class="pdf-panel" id="pdf-panel">
+    <div style="font-size:11px;color:#e8b84b;font-weight:bold;margin-bottom:8px;letter-spacing:.06em;">DESCARGAR CALENDARIO EN PDF</div>
+    <div class="frow">
+      <button class="fb on" id="pdf-btn-week" onclick="setPdfMode('week')">📅 Por Semana</button>
+      <button class="fb" id="pdf-btn-team" onclick="setPdfMode('team')">👥 Por Equipo</button>
+    </div>
+    <div id="pdf-week-wrap">
+      <select id="pdf-week-sel" class="pdf-sel">
+        <option value="Todos">Todas las Semanas</option>
+        <option value="S1">Semana 1</option>
+        <option value="S2">Semana 2</option>
+        <option value="S3">Semana 3</option>
+        <option value="S4">Semana 4</option>
+        <option value="S5">Semana 5</option>
+        <option value="S6">Semana 6</option>
+        <option value="S7">Semana 7</option>
+        <option value="S8">Semana 8</option>
+        <option value="S9">Semana 9</option>
+      </select>
+    </div>
+    <div id="pdf-team-wrap" style="display:none;">
+      <select id="pdf-team-sel" class="pdf-sel"></select>
+    </div>
+    <button class="pdf-gen-btn" onclick="generatePDF()">⬇️ Generar y Descargar PDF</button>
+    <button class="pdf-cancel-btn" onclick="togglePdfPanel()">Cancelar</button>
+  </div>
   <div class="lbl" id="m-cnt"></div>
   <div id="m-list"></div>
 </div>
 
-<!-- TABLA DE POSICIONES -->
+<!-- TABLA -->
 <div id="s-standings" class="scr">
   <div class="frow">
     <button class="fb on" id="btn-sFem" onclick="setF('sCat','Femenino')">👩 Femenino</button>
@@ -148,9 +178,9 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
   <div class="ibox">📌 <b>Victoria:</b> 3 pts | <b>Derrota:</b> 0 pts<br>📌 Gana quien llegue a <b>20 tantos</b>. A las 2h gana quien tenga ≥12 (60%).<br>📌 <b>AVG</b> = (TF - TC) / PJ</div>
 </div>
 
-<!-- AVERAGE / ESTADÍSTICAS -->
+<!-- AVERAGE -->
 <div id="s-stats" class="scr">
-  <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)" id="player-search"></div>
+  <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)"></div>
   <div class="frow">
     <button class="fb on" id="btn-aFem" onclick="setF('aCat','Femenino')">👩 Femenino</button>
     <button class="fb" id="btn-aMas" onclick="setF('aCat','Masculino')">👨 Masculino</button>
@@ -176,13 +206,13 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
     </div>
   </div>
   <div id="a-list"></div>
-  <div class="ibox">📌 <b>ARR:</b> Buenos/Malos | <b>BOC:</b> Buenos/Malos | <b>EFEC%:</b> Efectividad<br>📌 Mín. <b>30%</b> partidos del equipo para clasificar a eliminatorias.</div>
+  <div class="ibox">📌 <b>ARR:</b> Buenos/Malos | <b>BOC:</b> Buenos/Malos | <b>EFEC%:</b> Efectividad<br>📌 Mín. 30% partidos del equipo para clasificar a eliminatorias.</div>
 </div>
 
 </div>
 
 <script>
-// ==================== EQUIPOS CON ROSTERS REALES ====================
+// ==================== TEAMS (con Alimentos Amanecer) ====================
 const TEAMS = [
   {n:"Jujure (Educadoras)",c:"Femenino",g:"A",p:["Por Cargar"]},
   {n:"Serv. Frios Antonella",c:"Femenino",g:"A",p:["Por Cargar"]},
@@ -208,20 +238,19 @@ const TEAMS = [
   {n:"Las Femix",c:"Femenino",g:"B",p:["Por Cargar"]},
   {n:"Emprendedoras",c:"Femenino",g:"B",p:["Por Cargar"]},
   {n:"Santana",c:"Femenino",g:"B",p:["Por Cargar"]},
-  {n:"Servihidra",c:"Masculino",g:"A",p:["Henry Pacheco","Jose Rodriguez","Atahualpa Melendez","Gustavo Orozco","Theoscar Vicent","Jose Cordero","Numan Dudamel","Nelson Suarez","Giovanni Gonzalez"]},
   {n:"Tornillería YR Portuguesa",c:"Masculino",g:"A",p:["Por Cargar"]},
   {n:"Fuerza",c:"Masculino",g:"A",p:["Ademar Tua","Pedro Yepez","Pedro Noguera","Clemente Pérez","Luis Barco","Miguel Segura","Ramón Perdomo"]},
   {n:"Corpolec2",c:"Masculino",g:"A",p:["Por Cargar"]},
+  {n:"Servihidra",c:"Masculino",g:"B",p:["Henry Pacheco","Jose Rodriguez","Atahualpa Melendez","Gustavo Orozco","Theoscar Vicent","Jose Cordero","Numan Dudamel","Nelson Suarez","Giovanni Gonzalez"]},
   {n:"Familia Ortega",c:"Masculino",g:"A",p:["Por Cargar"]},
   {n:"Exasa",c:"Masculino",g:"A",p:["Por Cargar"]},
   {n:"Los Panas Vimapin",c:"Masculino",g:"A",p:["Victor Pinto","Marco Rodriguez","Carlos Rodriguez","Ronald Perez","Wely Melendez","Joel Ortega","Neptali Torrez"]},
   {n:"Club Afibola",c:"Masculino",g:"A",p:["Carlos Colmenarez","Roger Colmenarez","Jose Torrez","Pedro Torrez","Jorgue Chirinos","Octavio Chirinos","Gabriel Perez","Jose Chirinos","Junior Garcia"]},
-  {n:"Yusevim C.A.",c:"Masculino",g:"A",p:["Pedro Orellana","Juan C. Rodriguez","Juan Sira","Ricardo Ochoa","Zaney Vivas","Reinaldo Mendoza","Jorge Ochoa","Jose Gomez","Jhonny De La Hoz","David Anza"]},
+  {n:"Yusevin CA",c:"Masculino",g:"A",p:["Pedro Orellana","Juan C. Rodriguez","Juan Sira","Ricardo Ochoa","Zaney Vivas","Reinaldo Mendoza","Jorge Ochoa","Jose Gomez","Jhonny De La Hoz","David Anza"]},
   {n:"Los Amigos",c:"Masculino",g:"A",p:["Carlos Silva","Gregorio Linares","Luis Escobar","Efrén Cabrera","Omar Alvarado","Cornelio Escalona","José Escalona","Wuilfredo Guedez","Luis Ramos","Fernando"]},
   {n:"Unidos de Hato",c:"Masculino",g:"A",p:["Por Cargar"]},
   {n:"Sibarita",c:"Masculino",g:"A",p:["Por Cargar"]},
-  {n:"Agro Max",c:"Masculino",g:"A",p:["Por Cargar"]},
-  {n:"Por Cargar",c:"Masculino",g:"A",p:["Por Cargar"]},
+  {n:"Agro max",c:"Masculino",g:"A",p:["Por Cargar"]},
   {n:"Team JM&JA",c:"Masculino",g:"B",p:["Por Cargar"]},
   {n:"Poder Justiciable",c:"Masculino",g:"B",p:["Daniel Roman","Honorio Peroza","Tony Perez","Alfonzo Delgado","Jhonatan Cedeño","Jhonny Oviedo","Ruben Montero","Javier Torrealba"]},
   {n:"Ingenieros",c:"Masculino",g:"B",p:["Por Cargar"]},
@@ -238,335 +267,333 @@ const TEAMS = [
   {n:"Alimentos la Granja",c:"Masculino",g:"B",p:["Por Cargar"]}
 ];
 
-// ==================== CALENDARIO COMPLETO (SEMANAS 1 A 9) ====================
+// ==================== MATCHES (314 partidos - versión definitiva) ====================
 const MATCHES = [
-  {id:1, c:"Femenino", g:"B", a:"Oasis Box", b:"Corpoelec", d:"08/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"Semana 1"},
-  {id:2, c:"Femenino", g:"A", a:"Ferrecenca", b:"Alimentos Amanecer", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"Semana 2"},
-  {id:3, c:"Femenino", g:"A", a:"The Dolls", b:"Saboga", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 2", w:"Semana 2"},
-  {id:4, c:"Masculino", g:"A", a:"Corpolec2", b:"Los Amigos", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 3", w:"Semana 2"},
-  {id:5, c:"Femenino", g:"B", a:"Atavenca", b:"Chikas", d:"15/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 1", w:"Semana 2"},
-  {id:6, c:"Femenino", g:"B", a:"Oasis Box", b:"Las Femix", d:"15/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 2", w:"Semana 2"},
-  {id:7, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Los Irochimas", d:"15/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 3", w:"Semana 2"},
-  {id:8, c:"Femenino", g:"B", a:"Futboleras", b:"Repostería el Ponque", d:"15/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 1", w:"Semana 2"},
-  {id:9, c:"Femenino", g:"B", a:"Emprendedoras", b:"Corpolec Jubiladas", d:"15/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 2", w:"Semana 2"},
-  {id:10, c:"Masculino", g:"A", a:"Agroserviportuguesa", b:"Los Panas Vimapin", d:"15/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 3", w:"Semana 2"},
-  {id:11, c:"Femenino", g:"B", a:"Sabaneta", b:"Divinas", d:"16/05/2026", dy:"Sábado", h:"3:30pm", f:"Cancha 1", w:"Semana 2"},
-  {id:12, c:"Masculino", g:"A", a:"Team JM&JA", b:"Los Irochimas", d:"16/05/2026", dy:"Sábado", h:"3:30pm", f:"Cancha 2", w:"Semana 2"},
-  {id:13, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Tornillería YR Portuguesa", d:"16/05/2026", dy:"Sábado", h:"3:30pm", f:"Cancha 3", w:"Semana 2"},
-  {id:14, c:"Femenino", g:"A", a:"Inversiones IV", b:"Jujure (Educadoras)", d:"16/05/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 1", w:"Semana 2"},
-  {id:15, c:"Masculino", g:"B", a:"Corpoelec", b:"Las Femix", d:"16/05/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 2", w:"Semana 2"},
-  {id:16, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Yusevin CA", d:"16/05/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 3", w:"Semana 2"},
-  {id:17, c:"Femenino", g:"A", a:"Taferca", b:"Serv. Frios Antonella", d:"16/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 1", w:"Semana 2"},
-  {id:18, c:"Masculino", g:"A", a:"Servihidra", b:"Exasa", d:"16/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 2", w:"Semana 2"},
-  {id:19, c:"Masculino", g:"A", a:"Pintucal", b:"Triunfadores", d:"16/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 3", w:"Semana 2"},
-  {id:20, c:"Femenino", g:"B", a:"Futboleras", b:"Alimentos Amanecer", d:"17/05/2026", dy:"Domingo", h:"3:30pm", f:"Cancha 1", w:"Semana 2"},
-  {id:21, c:"Masculino", g:"A", a:"Fuerza", b:"Los amigos", d:"17/05/2026", dy:"Domingo", h:"3:30pm", f:"Cancha 2", w:"Semana 2"},
-  {id:22, c:"Masculino", g:"A", a:"Tribunal Protección", b:"Bodegon Los Vasquez", d:"17/05/2026", dy:"Domingo", h:"3:30pm", f:"Cancha 3", w:"Semana 2"},
-  {id:23, c:"Femenino", g:"B", a:"Festidoras", b:"Esquina del Sabor", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"Semana 2"},
-  {id:24, c:"Masculino", g:"A", a:"Sibarita", b:"Familia Ortega", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 2", w:"Semana 2"},
-  {id:25, c:"Masculino", g:"A", a:"Gladiadores del Cerrito", b:"Atletico Paez", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 3", w:"Semana 2"},
-  {id:26, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Sabaneta", d:"20/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 3"},
-  {id:27, c:"Masculino", g:"B", a:"Pintucal", b:"Sistema de Justicia", d:"20/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 3"},
-  {id:28, c:"Femenino", g:"A", a:"Divinas", b:"Atrevidas", d:"20/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 3"},
-  {id:29, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Yusevin CA", d:"20/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 3"},
-  {id:30, c:"Masculino", g:"B", a:"Team JM&JA", b:"Tribunal Protección", d:"20/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 3"},
-  {id:31, c:"Masculino", g:"B", a:"Los Irochimas", b:"Gladiadores del Cerrito", d:"20/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 3"},
-  {id:32, c:"Masculino", g:"B", a:"Ingenieros", b:"Atletico Paez", d:"21/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 3"},
-  {id:33, c:"Masculino", g:"A", a:"Corpolec2", b:"Familia Ortega", d:"21/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 3"},
-  {id:34, c:"Femenino", g:"B", a:"Saboga", b:"Las Femix", d:"21/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 3"},
-  {id:35, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Sibarita", d:"21/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 3"},
-  {id:36, c:"Masculino", g:"A", a:"Fuerza", b:"Yusevin CA", d:"21/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 3"},
-  {id:37, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Sabaneta", d:"21/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 3"},
-  {id:38, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Servihidra", d:"22/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 3"},
-  {id:39, c:"Masculino", g:"A", a:"Club Afibola", b:"Sibarita", d:"22/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 3"},
-  {id:40, c:"Masculino", g:"B", a:"Atletico Paez", b:"Sistema de Justicia", d:"22/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 3"},
-  {id:41, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Gladiadores del Cerrito", d:"22/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 3"},
-  {id:42, c:"Femenino", g:"B", a:"Festidoras", b:"Emprendedoras", d:"22/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 3"},
-  {id:43, c:"Femenino", g:"B", a:"Corpoelec", b:"Atavenca", d:"22/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 3"},
-  {id:44, c:"Femenino", g:"A", a:"Taferca", b:"Sabaneta", d:"22/05/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"Semana 3"},
-  {id:45, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Sibarita", d:"23/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"Semana 3"},
-  {id:46, c:"Masculino", g:"A", a:"Fuerza", b:"Unidos de Hato", d:"23/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 3"},
-  {id:47, c:"Masculino", g:"A", a:"Familia Ortega", b:"Club Afibola", d:"23/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"Semana 3"},
-  {id:48, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Alimentos La Granja", d:"23/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"Semana 3"},
-  {id:49, c:"Femenino", g:"B", a:"Atavenca", b:"Emprendedoras", d:"23/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"Semana 3"},
-  {id:50, c:"Femenino", g:"A", a:"Inversiones IV", b:"Repostería el Ponque", d:"23/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 3"},
-  {id:51, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Santana", d:"23/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"Semana 3"},
-  {id:52, c:"Masculino", g:"A", a:"Servihidra", b:"Los Amigos", d:"23/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"Semana 3"},
-  {id:53, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Distribuidora JH", d:"23/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"Semana 3"},
-  {id:54, c:"Femenino", g:"A", a:"Taferca", b:"Atrevidas", d:"23/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"Semana 3"},
-  {id:55, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Agro max", d:"23/05/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 1", w:"Semana 3"},
-  {id:56, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Sistema de Justicia", d:"23/05/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 2", w:"Semana 3"},
-  {id:57, c:"Femenino", g:"A", a:"Ferrecenca", b:"Sabaneta", d:"23/05/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"Semana 3"},
-  {id:58, c:"Masculino", g:"B", a:"Team JM&JA", b:"Gladiadores del Cerrito", d:"23/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"Semana 3"},
-  {id:59, c:"Femenino", g:"B", a:"Saboga", b:"Esquina del Sabor", d:"23/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"Semana 3"},
-  {id:60, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Divinas", d:"23/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"Semana 3"},
-  {id:61, c:"Masculino", g:"A", a:"Club Afibola", b:"Santana", d:"24/05/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"Semana 3"},
-  {id:62, c:"Masculino", g:"A", a:"Fuerza", b:"Sibarita", d:"24/05/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"Semana 3"},
-  {id:63, c:"Femenino", g:"B", a:"Saboga", b:"Emprendedoras", d:"24/05/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"Semana 3"},
-  {id:64, c:"Femenino", g:"A", a:"Inversiones IV", b:"Futboleras", d:"24/05/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"Semana 3"},
-  {id:65, c:"Masculino", g:"A", a:"Familia Ortega", b:"Los Panas Vimapin", d:"24/05/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"Semana 3"},
-  {id:66, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Pintucal", d:"24/05/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"Semana 3"},
-  {id:67, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Repostería el Ponque", d:"24/05/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 3"},
-  {id:68, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Las Femix", d:"24/05/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 3"},
-  {id:69, c:"Masculino", g:"B", a:"Ingenieros", b:"Bodegon Los Vasquez", d:"24/05/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 3"},
-  {id:70, c:"Femenino", g:"B", a:"Oasis Box", b:"Emprendedoras", d:"28/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 4"},
-  {id:71, c:"Masculino", g:"A", a:"Familia Ortega", b:"Yusevin CA", d:"28/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 4"},
-  {id:72, c:"Femenino", g:"A", a:"Atrevidas", b:"Inversiones EPA", d:"28/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 4"},
-  {id:73, c:"Femenino", g:"A", a:"Taferca", b:"Alimentos Amanecer", d:"28/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 4"},
-  {id:74, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Tribunal Protección", d:"28/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 4"},
-  {id:75, c:"Masculino", g:"A", a:"Fuerza", b:"Corpolec2", d:"28/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 4"},
-  {id:76, c:"Masculino", g:"A", a:"Familia Ortega", b:"Santana", d:"29/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 4"},
-  {id:77, c:"Femenino", g:"B", a:"The Dolls", b:"Atavenca", d:"29/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 4"},
-  {id:78, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Taferca", d:"29/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 4"},
-  {id:79, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Sistema de Justicia", d:"29/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 4"},
-  {id:80, c:"Masculino", g:"A", a:"Los Amigos", b:"Sibarita", d:"29/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 4"},
-  {id:81, c:"Femenino", g:"B", a:"Festidoras", b:"Corpolec Jubiladas", d:"29/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 4"},
-  {id:82, c:"Femenino", g:"B", a:"Emprendedoras", b:"Santana", d:"30/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 4"},
-  {id:83, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Familia Ortega", d:"30/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 4"},
-  {id:84, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Pintucal", d:"30/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 4"},
-  {id:85, c:"Masculino", g:"A", a:"Exasa", b:"Agro max", d:"30/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 4"},
-  {id:86, c:"Femenino", g:"A", a:"Atrevidas", b:"Futboleras", d:"30/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 4"},
-  {id:87, c:"Masculino", g:"A", a:"Yusevin CA", b:"Los Amigos", d:"30/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 4"},
-  {id:88, c:"Femenino", g:"B", a:"Esquina del Sabor", b:"Atavenca", d:"30/05/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"Semana 4"},
-  {id:89, c:"Masculino", g:"B", a:"Triunfadores", b:"Atletico Paez", d:"30/05/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"Semana 4"},
-  {id:90, c:"Masculino", g:"A", a:"Los Amigos", b:"Unidos de Hato", d:"31/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"Semana 4"},
-  {id:91, c:"Masculino", g:"A", a:"Servihidra", b:"Unidos de Hato", d:"31/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 4"},
-  {id:92, c:"Femenino", g:"B", a:"Chikas", b:"Santana", d:"31/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"Semana 4"},
-  {id:93, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Oasis Box", d:"31/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"Semana 4"},
-  {id:94, c:"Masculino", g:"B", a:"Pintucal", b:"Distribuidora JH", d:"31/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"Semana 4"},
-  {id:95, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Atletico Paez", d:"31/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"Semana 4"},
-  {id:96, c:"Femenino", g:"A", a:"Inversiones IV", b:"Inversiones EPA", d:"31/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 4"},
-  {id:97, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Yusevin CA", d:"31/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"Semana 4"},
-  {id:98, c:"Masculino", g:"A", a:"Exasa", b:"Club Afibola", d:"31/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"Semana 4"},
-  {id:99, c:"Masculino", g:"B", a:"Los Irochimas", b:"Alimentos La Granja", d:"31/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"Semana 4"},
-  {id:100, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Sistema de Justicia", d:"31/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"Semana 4"},
-  {id:101, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Sabaneta", d:"31/05/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"Semana 4"},
-  {id:102, c:"Femenino", g:"A", a:"Ferrecenca", b:"Repostería el Ponque", d:"31/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"Semana 4"},
-  {id:103, c:"Femenino", g:"B", a:"The Dolls", b:"Esquina del Sabor", d:"31/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"Semana 4"},
-  {id:104, c:"Masculino", g:"B", a:"Team JM&JA", b:"Ingenieros", d:"31/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"Semana 4"},
-  {id:105, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Distribuidora JH", d:"01/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"Semana 4"},
-  {id:106, c:"Masculino", g:"A", a:"Fuerza", b:"Santana", d:"01/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"Semana 4"},
-  {id:107, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Esquina del Sabor", d:"01/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"Semana 4"},
-  {id:108, c:"Masculino", g:"B", a:"Los Irochimas", b:"Pintucal", d:"01/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"Semana 4"},
-  {id:109, c:"Masculino", g:"A", a:"Yusevin CA", b:"Agro max", d:"01/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"Semana 4"},
-  {id:110, c:"Masculino", g:"A", a:"Exasa", b:"Los Amigos", d:"01/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"Semana 4"},
-  {id:111, c:"Femenino", g:"B", a:"The Dolls", b:"Las Femix", d:"01/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 4"},
-  {id:112, c:"Femenino", g:"A", a:"Inversiones IV", b:"Alimentos Amanecer", d:"01/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 4"},
-  {id:113, c:"Femenino", g:"B", a:"Chikas", b:"Oasis Box", d:"01/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 4"},
-  {id:114, c:"Masculino", g:"B", a:"Ingenieros", b:"Agroserviportuguesa", d:"05/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 5"},
-  {id:115, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Santana", d:"05/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 5"},
-  {id:116, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Pintucal", d:"05/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 5"},
-  {id:117, c:"Masculino", g:"A", a:"Corpolec2", b:"Exasa", d:"05/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 5"},
-  {id:118, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Atrevidas", d:"05/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 5"},
-  {id:119, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Los Irochimas", d:"06/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 5"},
-  {id:120, c:"Masculino", g:"A", a:"Corpolec2", b:"Santana", d:"06/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 5"},
-  {id:121, c:"Masculino", g:"B", a:"Pintucal", b:"Gladiadores del Cerrito", d:"06/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 5"},
-  {id:122, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Inversiones EPA", d:"06/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 5"},
-  {id:123, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Triunfadores", d:"06/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 5"},
-  {id:124, c:"Masculino", g:"B", a:"Atletico Paez", b:"Distribuidora JH", d:"06/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 5"},
-  {id:125, c:"Masculino", g:"B", a:"Ingenieros", b:"Los Irochimas", d:"07/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 5"},
-  {id:126, c:"Femenino", g:"B", a:"Festidoras", b:"Santana", d:"07/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 5"},
-  {id:127, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Alimentos La Granja", d:"07/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 5"},
-  {id:128, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Futboleras", d:"07/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 5"},
-  {id:129, c:"Masculino", g:"A", a:"Servihidra", b:"Club Afibola", d:"07/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 5"},
-  {id:130, c:"Femenino", g:"A", a:"Ferrecenca", b:"Inversiones EPA", d:"07/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 5"},
-  {id:131, c:"Masculino", g:"A", a:"Familia Ortega", b:"Agro max", d:"07/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"Semana 5"},
-  {id:132, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Bodegon Los Vasquez", d:"07/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"Semana 5"},
-  {id:133, c:"Masculino", g:"A", a:"Corpolec2", b:"Sibarita", d:"07/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"Semana 5"},
-  {id:134, c:"Masculino", g:"A", a:"Club Afibola", b:"Unidos de Hato", d:"08/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 5"},
-  {id:135, c:"Femenino", g:"A", a:"Inversiones IV", b:"Atrevidas", d:"08/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"Semana 5"},
-  {id:136, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Gladiadores del Cerrito", d:"08/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"Semana 5"},
-  {id:137, c:"Masculino", g:"A", a:"Exasa", b:"Santana", d:"08/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"Semana 5"},
-  {id:138, c:"Femenino", g:"B", a:"The Dolls", b:"Corpolec Jubiladas", d:"08/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"Semana 5"},
-  {id:139, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Ingenieros", d:"08/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 5"},
-  {id:140, c:"Femenino", g:"B", a:"Saboga", b:"Atavenca", d:"08/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"Semana 5"},
-  {id:141, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Alimentos Amanecer", d:"08/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"Semana 5"},
-  {id:142, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Los Amigos", d:"08/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"Semana 5"},
-  {id:143, c:"Masculino", g:"B", a:"Los Irochimas", b:"Distribuidora JH", d:"08/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"Semana 5"},
-  {id:144, c:"Masculino", g:"B", a:"Team JM&JA", b:"Alimentos La Granja", d:"08/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 1", w:"Semana 5"},
-  {id:145, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Corpolec2", d:"08/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 2", w:"Semana 5"},
-  {id:146, c:"Femenino", g:"A", a:"Futboleras", b:"Inversiones EPA", d:"08/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"Semana 5"},
-  {id:147, c:"Masculino", g:"A", a:"Servihidra", b:"Familia Ortega", d:"08/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"Semana 5"},
-  {id:148, c:"Femenino", g:"A", a:"Taferca", b:"Repostería el Ponque", d:"08/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"Semana 5"},
-  {id:149, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Divinas", d:"08/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"Semana 5"},
-  {id:150, c:"Masculino", g:"B", a:"Team JM&JA", b:"Agroserviportuguesa", d:"09/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"Semana 5"},
-  {id:151, c:"Masculino", g:"A", a:"Fuerza", b:"Club Afibola", d:"09/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"Semana 5"},
-  {id:152, c:"Femenino", g:"B", a:"Las Femix", b:"Santana", d:"09/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"Semana 5"},
-  {id:153, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Los Irochimas", d:"09/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"Semana 5"},
-  {id:154, c:"Masculino", g:"B", a:"Ingenieros", b:"Alimentos La Granja", d:"09/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"Semana 5"},
-  {id:155, c:"Femenino", g:"B", a:"Saboga", b:"Oasis Box", d:"09/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"Semana 5"},
-  {id:156, c:"Masculino", g:"A", a:"Familia Ortega", b:"Los Amigos", d:"09/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 5"},
-  {id:157, c:"Masculino", g:"A", a:"Yusevin CA", b:"Sibarita", d:"09/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 5"},
-  {id:158, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Atavenca", d:"09/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 5"},
-  {id:159, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Sistema de Justicia", d:"13/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 6"},
-  {id:160, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Atrevidas", d:"13/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 6"},
-  {id:161, c:"Masculino", g:"B", a:"Ingenieros", b:"Gladiadores del Cerrito", d:"13/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 6"},
-  {id:162, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Club Afibola", d:"13/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 6"},
-  {id:163, c:"Femenino", g:"B", a:"Saboga", b:"Corpoelec", d:"13/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 6"},
-  {id:164, c:"Masculino", g:"B", a:"Pintucal", b:"Alimentos La Granja", d:"13/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 6"},
-  {id:165, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Alimentos La Granja", d:"14/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 6"},
-  {id:166, c:"Masculino", g:"A", a:"Club Afibola", b:"Agro max", d:"14/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 6"},
-  {id:167, c:"Masculino", g:"B", a:"Team JM&JA", b:"Poder Justiciable", d:"14/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 6"},
-  {id:168, c:"Femenino", g:"B", a:"Corpoelec", b:"Corpolec Jubiladas", d:"14/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 6"},
-  {id:169, c:"Masculino", g:"A", a:"Corpolec2", b:"Yusevin CA", d:"14/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 6"},
-  {id:170, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Serv. Frios Antonella", d:"15/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 6"},
-  {id:171, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Distribuidora JH", d:"15/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 6"},
-  {id:172, c:"Masculino", g:"A", a:"Yusevin CA", b:"Santana", d:"15/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 6"},
-  {id:173, c:"Masculino", g:"A", a:"Fuerza", b:"Familia Ortega", d:"15/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 6"},
-  {id:174, c:"Femenino", g:"B", a:"Corpoelec", b:"Emprendedoras", d:"15/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 6"},
-  {id:175, c:"Femenino", g:"A", a:"Ferrecenca", b:"Atrevidas", d:"15/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"Semana 6"},
-  {id:176, c:"Masculino", g:"A", a:"Servihidra", b:"Sibarita", d:"15/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"Semana 6"},
-  {id:177, c:"Masculino", g:"B", a:"Triunfadores", b:"Sistema de Justicia", d:"15/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"Semana 6"},
-  {id:178, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Agro max", d:"16/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"Semana 6"},
-  {id:179, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Unidos de Hato", d:"16/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 6"},
-  {id:180, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Sabaneta", d:"16/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"Semana 6"},
-  {id:181, c:"Masculino", g:"B", a:"Los Irochimas", b:"Tribunal Protección", d:"16/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"Semana 6"},
-  {id:182, c:"Femenino", g:"A", a:"Divinas", b:"Inversiones EPA", d:"16/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"Semana 6"},
-  {id:183, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Alimentos Amanecer", d:"16/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"Semana 6"},
-  {id:184, c:"Masculino", g:"A", a:"Familia Ortega", b:"Exasa", d:"16/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 6"},
-  {id:185, c:"Femenino", g:"B", a:"Esquina del Sabor", b:"Santana", d:"16/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"Semana 6"},
-  {id:186, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Gladiadores del Cerrito", d:"16/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"Semana 6"},
-  {id:187, c:"Femenino", g:"B", a:"Saboga", b:"Chikas", d:"16/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"Semana 6"},
-  {id:188, c:"Masculino", g:"B", a:"Ingenieros", b:"Distribuidora JH", d:"16/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"Semana 6"},
-  {id:189, c:"Masculino", g:"B", a:"Team JM&JA", b:"Atletico Paez", d:"16/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"Semana 6"},
-  {id:190, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Alimentos La Granja", d:"16/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"Semana 6"},
-  {id:191, c:"Femenino", g:"B", a:"The Dolls", b:"Festidoras", d:"16/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"Semana 6"},
-  {id:192, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Los Amigos", d:"16/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"Semana 6"},
-  {id:193, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Ferrecenca", d:"17/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"Semana 6"},
-  {id:194, c:"Masculino", g:"A", a:"Fuerza", b:"Agro max", d:"17/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"Semana 6"},
-  {id:195, c:"Masculino", g:"A", a:"Exasa", b:"Sibarita", d:"17/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"Semana 6"},
-  {id:196, c:"Femenino", g:"A", a:"Taferca", b:"Divinas", d:"17/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"Semana 6"},
-  {id:197, c:"Masculino", g:"B", a:"Los Irochimas", b:"Sistema de Justicia", d:"17/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"Semana 6"},
-  {id:198, c:"Femenino", g:"B", a:"Esquina del Sabor", b:"Emprendedoras", d:"17/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"Semana 6"},
-  {id:199, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Triunfadores", d:"17/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 6"},
-  {id:200, c:"Femenino", g:"B", a:"Festidoras", b:"Oasis Box", d:"17/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 6"},
-  {id:201, c:"Masculino", g:"A", a:"Servihidra", b:"Santana", d:"17/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 6"},
-  {id:202, c:"Masculino", g:"A", a:"Servihidra", b:"Agro max", d:"21/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 7"},
-  {id:203, c:"Masculino", g:"B", a:"Distribuidora JH", b:"Alimentos La Granja", d:"21/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 7"},
-  {id:204, c:"Femenino", g:"B", a:"Saboga", b:"Santana", d:"21/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 7"},
-  {id:205, c:"Femenino", g:"B", a:"Esquina del Sabor", b:"Las Femix", d:"21/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 7"},
-  {id:206, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Sistema de Justicia", d:"21/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 7"},
-  {id:207, c:"Masculino", g:"A", a:"Sibarita", b:"Agro max", d:"22/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 7"},
-  {id:208, c:"Femenino", g:"B", a:"The Dolls", b:"Emprendedoras", d:"22/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 7"},
-  {id:209, c:"Masculino", g:"B", a:"Sistema de Justicia", b:"Distribuidora JH", d:"22/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 7"},
-  {id:210, c:"Femenino", g:"B", a:"Saboga", b:"Corpolec Jubiladas", d:"22/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 7"},
-  {id:211, c:"Masculino", g:"B", a:"Triunfadores", b:"Distribuidora JH", d:"23/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 7"},
-  {id:212, c:"Masculino", g:"A", a:"Fuerza", b:"Los Panas Vimapin", d:"23/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 7"},
-  {id:213, c:"Masculino", g:"A", a:"Los Amigos", b:"Santana", d:"23/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 7"},
-  {id:214, c:"Femenino", g:"B", a:"Corpoelec", b:"Chikas", d:"23/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 7"},
-  {id:215, c:"Masculino", g:"B", a:"Sistema de Justicia", b:"Alimentos La Granja", d:"23/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 7"},
-  {id:216, c:"Femenino", g:"A", a:"Taferca", b:"Futboleras", d:"23/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 7"},
-  {id:217, c:"Masculino", g:"B", a:"Team JM&JA", b:"Pintucal", d:"23/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"Semana 7"},
-  {id:218, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Atrevidas", d:"23/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"Semana 7"},
-  {id:219, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Exasa", d:"23/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"Semana 7"},
-  {id:220, c:"Masculino", g:"A", a:"Corpolec2", b:"Unidos de Hato", d:"24/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"Semana 7"},
-  {id:221, c:"Masculino", g:"A", a:"Exasa", b:"Unidos de Hato", d:"24/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 7"},
-  {id:222, c:"Femenino", g:"A", a:"Inversiones IV", b:"Sabaneta", d:"24/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"Semana 7"},
-  {id:223, c:"Masculino", g:"B", a:"Los Irochimas", b:"Triunfadores", d:"24/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"Semana 7"},
-  {id:224, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Los Panas Vimapin", d:"24/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"Semana 7"},
-  {id:225, c:"Masculino", g:"B", a:"Ingenieros", b:"Sistema de Justicia", d:"24/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"Semana 7"},
-  {id:226, c:"Femenino", g:"A", a:"Ferrecenca", b:"Futboleras", d:"24/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 7"},
-  {id:227, c:"Masculino", g:"B", a:"Pintucal", b:"Atletico Paez", d:"24/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"Semana 7"},
-  {id:228, c:"Femenino", g:"B", a:"Festidoras", b:"Las Femix", d:"24/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"Semana 7"},
-  {id:229, c:"Masculino", g:"A", a:"Club Afibola", b:"Los Amigos", d:"24/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"Semana 7"},
-  {id:230, c:"Femenino", g:"B", a:"Oasis Box", b:"Santana", d:"24/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"Semana 7"},
-  {id:231, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Repostería el Ponque", d:"24/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 1", w:"Semana 7"},
-  {id:232, c:"Femenino", g:"B", a:"The Dolls", b:"Corpoelec", d:"24/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 2", w:"Semana 7"},
-  {id:233, c:"Masculino", g:"A", a:"Fuerza", b:"Servihidra", d:"24/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"Semana 7"},
-  {id:234, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Inversiones EPA", d:"24/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"Semana 7"},
-  {id:235, c:"Masculino", g:"B", a:"Team JM&JA", b:"Bodegon Los Vasquez", d:"24/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"Semana 7"},
-  {id:236, c:"Femenino", g:"B", a:"Chikas", b:"Esquina del Sabor", d:"24/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"Semana 7"},
-  {id:237, c:"Femenino", g:"A", a:"Inversiones IV", b:"Divinas", d:"25/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"Semana 7"},
-  {id:238, c:"Femenino", g:"A", a:"Sabaneta", b:"Futboleras", d:"25/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"Semana 7"},
-  {id:239, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Gladiadores del Cerrito", d:"25/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"Semana 7"},
-  {id:240, c:"Masculino", g:"A", a:"Corpolec2", b:"Club Afibola", d:"25/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"Semana 7"},
-  {id:241, c:"Femenino", g:"B", a:"Corpoelec", b:"Santana", d:"25/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"Semana 7"},
-  {id:242, c:"Femenino", g:"A", a:"Taferca", b:"Ferrecenca", d:"25/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"Semana 7"},
-  {id:243, c:"Masculino", g:"A", a:"Servihidra", b:"Los Panas Vimapin", d:"25/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 7"},
-  {id:244, c:"Femenino", g:"B", a:"Festidoras", b:"Atavenca", d:"25/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 7"},
-  {id:245, c:"Masculino", g:"B", a:"Team JM&JA", b:"Triunfadores", d:"25/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 7"},
-  {id:246, c:"Masculino", g:"B", a:"Los Irochimas", b:"Atletico Paez", d:"29/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 8"},
-  {id:247, c:"Masculino", g:"A", a:"Corpolec2", b:"Agro max", d:"29/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 8"},
-  {id:248, c:"Masculino", g:"A", a:"Sibarita", b:"Santana", d:"29/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 8"},
-  {id:249, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Club Afibola", d:"29/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 8"},
-  {id:250, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Pintucal", d:"29/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 8"},
-  {id:251, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Ferrecenca", d:"29/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 8"},
-  {id:252, c:"Femenino", g:"B", a:"The Dolls", b:"Santana", d:"30/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 8"},
-  {id:253, c:"Femenino", g:"A", a:"Divinas", b:"Repostería el Ponque", d:"30/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 8"},
-  {id:254, c:"Femenino", g:"B", a:"Corpoelec", b:"Esquina del Sabor", d:"30/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 8"},
-  {id:255, c:"Masculino", g:"B", a:"Triunfadores", b:"Alimentos La Granja", d:"30/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 8"},
-  {id:256, c:"Masculino", g:"B", a:"Ingenieros", b:"Pintucal", d:"30/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 8"},
-  {id:257, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Atletico Paez", d:"01/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 8"},
-  {id:258, c:"Masculino", g:"A", a:"Agro max", b:"Santana", d:"01/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 8"},
-  {id:259, c:"Masculino", g:"A", a:"Servihidra", b:"Yusevin CA", d:"01/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 8"},
-  {id:260, c:"Femenino", g:"B", a:"Chikas", b:"Las Femix", d:"01/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 8"},
-  {id:261, c:"Femenino", g:"B", a:"Oasis Box", b:"Atavenca", d:"01/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 8"},
-  {id:262, c:"Masculino", g:"B", a:"Team JM&JA", b:"Sistema de Justicia", d:"01/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 8"},
-  {id:263, c:"Masculino", g:"B", a:"Triunfadores", b:"Gladiadores del Cerrito", d:"01/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"Semana 8"},
-  {id:264, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Fuerza", d:"01/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"Semana 8"},
-  {id:265, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Sibarita", d:"01/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"Semana 8"},
-  {id:266, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Santana", d:"02/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"Semana 8"},
-  {id:267, c:"Masculino", g:"A", a:"Familia Ortega", b:"Unidos de Hato", d:"02/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 8"},
-  {id:268, c:"Masculino", g:"B", a:"Atletico Paez", b:"Alimentos La Granja", d:"02/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"Semana 8"},
-  {id:269, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Agro max", d:"02/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"Semana 8"},
-  {id:270, c:"Femenino", g:"B", a:"Oasis Box", b:"Esquina del Sabor", d:"02/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"Semana 8"},
-  {id:271, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Repostería el Ponque", d:"02/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 8"},
-  {id:272, c:"Masculino", g:"A", a:"Club Afibola", b:"Yusevin CA", d:"02/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"Semana 8"},
-  {id:273, c:"Masculino", g:"A", a:"Fuerza", b:"Exasa", d:"02/07/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"Semana 8"},
-  {id:274, c:"Femenino", g:"B", a:"Festidoras", b:"Chikas", d:"02/07/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"Semana 8"},
-  {id:275, c:"Femenino", g:"A", a:"Taferca", b:"Inversiones EPA", d:"02/07/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"Semana 8"},
-  {id:276, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Triunfadores", d:"02/07/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 1", w:"Semana 8"},
-  {id:277, c:"Femenino", g:"A", a:"Atrevidas", b:"Sabaneta", d:"02/07/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 2", w:"Semana 8"},
-  {id:278, c:"Femenino", g:"B", a:"Las Femix", b:"Emprendedoras", d:"02/07/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"Semana 8"},
-  {id:279, c:"Femenino", g:"A", a:"Divinas", b:"Ferrecenca", d:"02/07/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"Semana 8"},
-  {id:280, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Distribuidora JH", d:"02/07/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"Semana 8"},
-  {id:281, c:"Masculino", g:"A", a:"Corpolec2", b:"Servihidra", d:"02/07/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"Semana 8"},
-  {id:282, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Inversiones IV", d:"03/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"Semana 8"},
-  {id:283, c:"Femenino", g:"B", a:"The Dolls", b:"Oasis Box", d:"03/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"Semana 8"},
-  {id:284, c:"Masculino", g:"A", a:"Los Amigos", b:"Agro max", d:"03/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"Semana 8"},
-  {id:285, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Santana", d:"03/07/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"Semana 8"},
-  {id:286, c:"Masculino", g:"A", a:"Exasa", b:"Yusevin CA", d:"03/07/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"Semana 8"},
-  {id:287, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Agroserviportuguesa", d:"03/07/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"Semana 8"},
-  {id:288, c:"Femenino", g:"B", a:"Chikas", b:"Emprendedoras", d:"03/07/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 8"},
-  {id:289, c:"Femenino", g:"A", a:"Divinas", b:"Alimentos Amanecer", d:"03/07/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 8"},
-  {id:290, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Futboleras", d:"03/07/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 8"},
-  {id:291, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Atletico Paez", d:"07/07/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 9"},
-  {id:292, c:"Femenino", g:"B", a:"Atavenca", b:"Santana", d:"07/07/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 9"},
-  {id:293, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Alimentos La Granja", d:"07/07/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 9"},
-  {id:294, c:"Masculino", g:"B", a:"Ingenieros", b:"Triunfadores", d:"07/07/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 9"},
-  {id:295, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Chikas", d:"07/07/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 9"},
-  {id:296, c:"Femenino", g:"B", a:"Saboga", b:"Festidoras", d:"07/07/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 9"},
-  {id:297, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Distribuidora JH", d:"08/07/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 9"},
-  {id:298, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Atletico Paez", d:"08/07/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"Semana 9"},
-  {id:299, c:"Femenino", g:"B", a:"Atavenca", b:"Las Femix", d:"08/07/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 9"},
-  {id:300, c:"Femenino", g:"A", a:"Sabaneta", b:"Inversiones EPA", d:"08/07/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 9"},
-  {id:301, c:"Masculino", g:"A", a:"Corpolec2", b:"Los Panas Vimapin", d:"08/07/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 9"},
-  {id:302, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Tribunal Protección", d:"09/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"Semana 9"},
-  {id:303, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Triunfadores", d:"09/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"Semana 9"},
-  {id:304, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Atrevidas", d:"09/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"Semana 9"},
-  {id:305, c:"Femenino", g:"B", a:"Corpoelec", b:"Festidoras", d:"09/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"Semana 9"},
-  {id:306, c:"Masculino", g:"B", a:"Team JM&JA", b:"Distribuidora JH", d:"09/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"Semana 9"},
-  {id:307, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Inversiones EPA", d:"09/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"Semana 9"},
-  {id:308, c:"Masculino", g:"A", a:"Exasa", b:"Los Panas Vimapin", d:"09/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"Semana 9"},
-  {id:309, c:"Femenino", g:"A", a:"Inversiones IV", b:"Ferrecenca", d:"10/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"Semana 9"},
-  {id:310, c:"Femenino", g:"A", a:"Divinas", b:"Futboleras", d:"10/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"Semana 9"},
-  {id:311, c:"Femenino", g:"B", a:"The Dolls", b:"Chikas", d:"10/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"Semana 9"},
-  {id:312, c:"Masculino", g:"B", a:"Ingenieros", b:"Tribunal Protección", d:"10/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"Semana 9"},
-  {id:313, c:"Femenino", g:"A", a:"Inversiones IV", b:"Taferca", d:"10/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"Semana 9"},
-  {id:314, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Bodegon Los Vasquez", d:"11/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"Semana 9"}
-  ];
+  {id:1, c:"Femenino", g:"B", a:"Oasis Box", b:"Corpoelec", d:"08/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S1"},
+  {id:2, c:"Femenino", g:"A", a:"Ferrecenca", b:"Alimentos Amanecer", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S2"},
+  {id:3, c:"Femenino", g:"A", a:"The Dolls", b:"Saboga", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 2", w:"S2"},
+  {id:4, c:"Masculino", g:"A", a:"Corpolec2", b:"Los Amigos", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 3", w:"S2"},
+  {id:5, c:"Femenino", g:"B", a:"Atavenca", b:"Chikas", d:"15/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 1", w:"S2"},
+  {id:6, c:"Femenino", g:"B", a:"Oasis Box", b:"Las Femix", d:"15/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 2", w:"S2"},
+  {id:7, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Los Irochimas", d:"15/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 3", w:"S2"},
+  {id:8, c:"Femenino", g:"B", a:"Futboleras", b:"Repostería el Ponque", d:"15/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 1", w:"S2"},
+  {id:9, c:"Femenino", g:"B", a:"Emprendedoras", b:"Corpolec Jubiladas", d:"15/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 2", w:"S2"},
+  {id:10, c:"Masculino", g:"A", a:"Agroserviportuguesa", b:"Los Panas Vimapin", d:"15/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 3", w:"S2"},
+  {id:11, c:"Femenino", g:"B", a:"Sabaneta", b:"Divinas", d:"16/05/2026", dy:"Sábado", h:"3:30pm", f:"Cancha 1", w:"S2"},
+  {id:12, c:"Masculino", g:"A", a:"Team JM&JA", b:"Los Irochimas", d:"16/05/2026", dy:"Sábado", h:"3:30pm", f:"Cancha 2", w:"S2"},
+  {id:13, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Tornillería YR Portuguesa", d:"16/05/2026", dy:"Sábado", h:"3:30pm", f:"Cancha 3", w:"S2"},
+  {id:14, c:"Femenino", g:"A", a:"Inversiones IV", b:"Jujure (Educadoras)", d:"16/05/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 1", w:"S2"},
+  {id:15, c:"Masculino", g:"B", a:"Corpoelec", b:"Las Femix", d:"16/05/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 2", w:"S2"},
+  {id:16, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Yusevin CA", d:"16/05/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 3", w:"S2"},
+  {id:17, c:"Femenino", g:"A", a:"Taferca", b:"Serv. Frios Antonella", d:"16/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 1", w:"S2"},
+  {id:18, c:"Masculino", g:"A", a:"Servihidra", b:"Exasa", d:"16/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 2", w:"S2"},
+  {id:19, c:"Masculino", g:"A", a:"Pintucal", b:"Triunfadores", d:"16/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 3", w:"S2"},
+  {id:20, c:"Femenino", g:"B", a:"Futboleras", b:"Alimentos Amanecer", d:"17/05/2026", dy:"Domingo", h:"3:30pm", f:"Cancha 1", w:"S2"},
+  {id:21, c:"Masculino", g:"A", a:"Fuerza", b:"Los amigos", d:"17/05/2026", dy:"Domingo", h:"3:30pm", f:"Cancha 2", w:"S2"},
+  {id:22, c:"Masculino", g:"A", a:"Tribunal Protección", b:"Bodegon Los Vasquez", d:"17/05/2026", dy:"Domingo", h:"3:30pm", f:"Cancha 3", w:"S2"},
+  {id:23, c:"Femenino", g:"B", a:"Festidoras", b:"Esquina del Sabor", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S2"},
+  {id:24, c:"Masculino", g:"A", a:"Sibarita", b:"Familia Ortega", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 2", w:"S2"},
+  {id:25, c:"Masculino", g:"A", a:"Gladiadores del Cerrito", b:"Atletico Paez", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 3", w:"S2"},
+  {id:26, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Sabaneta", d:"20/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S3"},
+  {id:27, c:"Masculino", g:"B", a:"Pintucal", b:"Sistema de Justicia", d:"20/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S3"},
+  {id:28, c:"Femenino", g:"A", a:"Divinas", b:"Atrevidas", d:"20/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S3"},
+  {id:29, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Yusevin CA", d:"20/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S3"},
+  {id:30, c:"Masculino", g:"B", a:"Team JM&JA", b:"Tribunal Protección", d:"20/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S3"},
+  {id:31, c:"Masculino", g:"B", a:"Los Irochimas", b:"Gladiadores del Cerrito", d:"20/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S3"},
+  {id:32, c:"Masculino", g:"B", a:"Ingenieros", b:"Atletico Paez", d:"21/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S3"},
+  {id:33, c:"Masculino", g:"A", a:"Corpolec2", b:"Familia Ortega", d:"21/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S3"},
+  {id:34, c:"Femenino", g:"B", a:"Saboga", b:"Las Femix", d:"21/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S3"},
+  {id:35, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Sibarita", d:"21/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S3"},
+  {id:36, c:"Masculino", g:"A", a:"Fuerza", b:"Yusevin CA", d:"21/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S3"},
+  {id:37, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Sabaneta", d:"21/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S3"},
+  {id:38, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Servihidra", d:"22/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S3"},
+  {id:39, c:"Masculino", g:"A", a:"Club Afibola", b:"Sibarita", d:"22/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S3"},
+  {id:40, c:"Masculino", g:"B", a:"Atletico Paez", b:"Sistema de Justicia", d:"22/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S3"},
+  {id:41, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Gladiadores del Cerrito", d:"22/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S3"},
+  {id:42, c:"Femenino", g:"B", a:"Festidoras", b:"Emprendedoras", d:"22/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S3"},
+  {id:43, c:"Femenino", g:"B", a:"Corpoelec", b:"Atavenca", d:"22/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S3"},
+  {id:44, c:"Femenino", g:"A", a:"Taferca", b:"Sabaneta", d:"22/05/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S3"},
+  {id:45, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Sibarita", d:"23/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S3"},
+  {id:46, c:"Masculino", g:"A", a:"Fuerza", b:"Unidos de Hato", d:"23/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S3"},
+  {id:47, c:"Masculino", g:"A", a:"Familia Ortega", b:"Club Afibola", d:"23/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S3"},
+  {id:48, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Alimentos La Granja", d:"23/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S3"},
+  {id:49, c:"Femenino", g:"B", a:"Atavenca", b:"Emprendedoras", d:"23/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S3"},
+  {id:50, c:"Femenino", g:"A", a:"Inversiones IV", b:"Repostería el Ponque", d:"23/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S3"},
+  {id:51, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Santana", d:"23/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"S3"},
+  {id:52, c:"Masculino", g:"A", a:"Servihidra", b:"Los Amigos", d:"23/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"S3"},
+  {id:53, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Distribuidora JH", d:"23/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"S3"},
+  {id:54, c:"Femenino", g:"A", a:"Taferca", b:"Atrevidas", d:"23/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"S3"},
+  {id:55, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Agro max", d:"23/05/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 1", w:"S3"},
+  {id:56, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Sistema de Justicia", d:"23/05/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 2", w:"S3"},
+  {id:57, c:"Femenino", g:"A", a:"Ferrecenca", b:"Sabaneta", d:"23/05/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"S3"},
+  {id:58, c:"Masculino", g:"B", a:"Team JM&JA", b:"Gladiadores del Cerrito", d:"23/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"S3"},
+  {id:59, c:"Femenino", g:"B", a:"Saboga", b:"Esquina del Sabor", d:"23/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"S3"},
+  {id:60, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Divinas", d:"23/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"S3"},
+  {id:61, c:"Masculino", g:"A", a:"Club Afibola", b:"Santana", d:"24/05/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S3"},
+  {id:62, c:"Masculino", g:"A", a:"Fuerza", b:"Sibarita", d:"24/05/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"S3"},
+  {id:63, c:"Femenino", g:"B", a:"Saboga", b:"Emprendedoras", d:"24/05/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"S3"},
+  {id:64, c:"Femenino", g:"A", a:"Inversiones IV", b:"Futboleras", d:"24/05/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S3"},
+  {id:65, c:"Masculino", g:"A", a:"Familia Ortega", b:"Los Panas Vimapin", d:"24/05/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S3"},
+  {id:66, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Pintucal", d:"24/05/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S3"},
+  {id:67, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Repostería el Ponque", d:"24/05/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S3"},
+  {id:68, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Las Femix", d:"24/05/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S3"},
+  {id:69, c:"Masculino", g:"B", a:"Ingenieros", b:"Bodegon Los Vasquez", d:"24/05/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S3"},
+  {id:70, c:"Femenino", g:"B", a:"Oasis Box", b:"Emprendedoras", d:"28/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S4"},
+  {id:71, c:"Masculino", g:"A", a:"Familia Ortega", b:"Yusevin CA", d:"28/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S4"},
+  {id:72, c:"Femenino", g:"A", a:"Atrevidas", b:"Inversiones EPA", d:"28/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S4"},
+  {id:73, c:"Femenino", g:"A", a:"Taferca", b:"Alimentos Amanecer", d:"28/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S4"},
+  {id:74, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Tribunal Protección", d:"28/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S4"},
+  {id:75, c:"Masculino", g:"A", a:"Fuerza", b:"Corpolec2", d:"28/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S4"},
+  {id:76, c:"Masculino", g:"A", a:"Familia Ortega", b:"Santana", d:"29/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S4"},
+  {id:77, c:"Femenino", g:"B", a:"The Dolls", b:"Atavenca", d:"29/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S4"},
+  {id:78, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Taferca", d:"29/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S4"},
+  {id:79, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Sistema de Justicia", d:"29/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S4"},
+  {id:80, c:"Masculino", g:"A", a:"Los Amigos", b:"Sibarita", d:"29/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S4"},
+  {id:81, c:"Femenino", g:"B", a:"Festidoras", b:"Corpolec Jubiladas", d:"29/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S4"},
+  {id:82, c:"Femenino", g:"B", a:"Emprendedoras", b:"Santana", d:"30/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S4"},
+  {id:83, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Familia Ortega", d:"30/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S4"},
+  {id:84, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Pintucal", d:"30/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S4"},
+  {id:85, c:"Masculino", g:"A", a:"Exasa", b:"Agro max", d:"30/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S4"},
+  {id:86, c:"Femenino", g:"A", a:"Atrevidas", b:"Futboleras", d:"30/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S4"},
+  {id:87, c:"Masculino", g:"A", a:"Yusevin CA", b:"Los Amigos", d:"30/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S4"},
+  {id:88, c:"Femenino", g:"B", a:"Esquina del Sabor", b:"Atavenca", d:"30/05/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S4"},
+  {id:89, c:"Masculino", g:"B", a:"Triunfadores", b:"Atletico Paez", d:"30/05/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"S4"},
+  {id:90, c:"Masculino", g:"A", a:"Los Amigos", b:"Unidos de Hato", d:"31/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S4"},
+  {id:91, c:"Masculino", g:"A", a:"Servihidra", b:"Unidos de Hato", d:"31/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S4"},
+  {id:92, c:"Femenino", g:"B", a:"Chikas", b:"Santana", d:"31/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S4"},
+  {id:93, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Oasis Box", d:"31/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S4"},
+  {id:94, c:"Masculino", g:"B", a:"Pintucal", b:"Distribuidora JH", d:"31/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S4"},
+  {id:95, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Atletico Paez", d:"31/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S4"},
+  {id:96, c:"Femenino", g:"A", a:"Inversiones IV", b:"Inversiones EPA", d:"31/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S4"},
+  {id:97, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Yusevin CA", d:"31/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"S4"},
+  {id:98, c:"Masculino", g:"A", a:"Exasa", b:"Club Afibola", d:"31/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"S4"},
+  {id:99, c:"Masculino", g:"B", a:"Los Irochimas", b:"Alimentos La Granja", d:"31/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"S4"},
+  {id:100, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Sistema de Justicia", d:"31/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"S4"},
+  {id:101, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Sabaneta", d:"31/05/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"S4"},
+  {id:102, c:"Femenino", g:"A", a:"Ferrecenca", b:"Repostería el Ponque", d:"31/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"S4"},
+  {id:103, c:"Femenino", g:"B", a:"The Dolls", b:"Esquina del Sabor", d:"31/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"S4"},
+  {id:104, c:"Masculino", g:"B", a:"Team JM&JA", b:"Ingenieros", d:"31/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"S4"},
+  {id:105, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Distribuidora JH", d:"01/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S4"},
+  {id:106, c:"Masculino", g:"A", a:"Fuerza", b:"Santana", d:"01/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"S4"},
+  {id:107, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Esquina del Sabor", d:"01/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"S4"},
+  {id:108, c:"Masculino", g:"B", a:"Los Irochimas", b:"Pintucal", d:"01/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S4"},
+  {id:109, c:"Masculino", g:"A", a:"Yusevin CA", b:"Agro max", d:"01/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S4"},
+  {id:110, c:"Masculino", g:"A", a:"Exasa", b:"Los Amigos", d:"01/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S4"},
+  {id:111, c:"Femenino", g:"B", a:"The Dolls", b:"Las Femix", d:"01/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S4"},
+  {id:112, c:"Femenino", g:"A", a:"Inversiones IV", b:"Alimentos Amanecer", d:"01/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S4"},
+  {id:113, c:"Femenino", g:"B", a:"Chikas", b:"Oasis Box", d:"01/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S4"},
+  {id:114, c:"Masculino", g:"B", a:"Ingenieros", b:"Agroserviportuguesa", d:"05/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S5"},
+  {id:115, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Santana", d:"05/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S5"},
+  {id:116, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Pintucal", d:"05/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S5"},
+  {id:117, c:"Masculino", g:"A", a:"Corpolec2", b:"Exasa", d:"05/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S5"},
+  {id:118, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Atrevidas", d:"05/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S5"},
+  {id:119, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Los Irochimas", d:"06/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S5"},
+  {id:120, c:"Masculino", g:"A", a:"Corpolec2", b:"Santana", d:"06/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S5"},
+  {id:121, c:"Masculino", g:"B", a:"Pintucal", b:"Gladiadores del Cerrito", d:"06/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S5"},
+  {id:122, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Inversiones EPA", d:"06/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S5"},
+  {id:123, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Triunfadores", d:"06/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S5"},
+  {id:124, c:"Masculino", g:"B", a:"Atletico Paez", b:"Distribuidora JH", d:"06/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S5"},
+  {id:125, c:"Masculino", g:"B", a:"Ingenieros", b:"Los Irochimas", d:"07/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S5"},
+  {id:126, c:"Femenino", g:"B", a:"Festidoras", b:"Santana", d:"07/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S5"},
+  {id:127, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Alimentos La Granja", d:"07/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S5"},
+  {id:128, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Futboleras", d:"07/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S5"},
+  {id:129, c:"Masculino", g:"A", a:"Servihidra", b:"Club Afibola", d:"07/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S5"},
+  {id:130, c:"Femenino", g:"A", a:"Ferrecenca", b:"Inversiones EPA", d:"07/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S5"},
+  {id:131, c:"Masculino", g:"A", a:"Familia Ortega", b:"Agro max", d:"07/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"S5"},
+  {id:132, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Bodegon Los Vasquez", d:"07/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S5"},
+  {id:133, c:"Masculino", g:"A", a:"Corpolec2", b:"Sibarita", d:"07/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"S5"},
+  {id:134, c:"Masculino", g:"A", a:"Club Afibola", b:"Unidos de Hato", d:"08/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S5"},
+  {id:135, c:"Femenino", g:"A", a:"Inversiones IV", b:"Atrevidas", d:"08/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S5"},
+  {id:136, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Gladiadores del Cerrito", d:"08/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S5"},
+  {id:137, c:"Masculino", g:"A", a:"Exasa", b:"Santana", d:"08/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S5"},
+  {id:138, c:"Femenino", g:"B", a:"The Dolls", b:"Corpolec Jubiladas", d:"08/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S5"},
+  {id:139, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Ingenieros", d:"08/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S5"},
+  {id:140, c:"Femenino", g:"B", a:"Saboga", b:"Atavenca", d:"08/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"S5"},
+  {id:141, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Alimentos Amanecer", d:"08/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"S5"},
+  {id:142, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Los Amigos", d:"08/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"S5"},
+  {id:143, c:"Masculino", g:"B", a:"Los Irochimas", b:"Distribuidora JH", d:"08/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"S5"},
+  {id:144, c:"Masculino", g:"B", a:"Team JM&JA", b:"Alimentos La Granja", d:"08/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 1", w:"S5"},
+  {id:145, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Corpolec2", d:"08/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 2", w:"S5"},
+  {id:146, c:"Femenino", g:"A", a:"Futboleras", b:"Inversiones EPA", d:"08/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"S5"},
+  {id:147, c:"Masculino", g:"A", a:"Servihidra", b:"Familia Ortega", d:"08/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"S5"},
+  {id:148, c:"Femenino", g:"A", a:"Taferca", b:"Repostería el Ponque", d:"08/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"S5"},
+  {id:149, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Divinas", d:"08/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"S5"},
+  {id:150, c:"Masculino", g:"B", a:"Team JM&JA", b:"Agroserviportuguesa", d:"09/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S5"},
+  {id:151, c:"Masculino", g:"A", a:"Fuerza", b:"Club Afibola", d:"09/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"S5"},
+  {id:152, c:"Femenino", g:"B", a:"Las Femix", b:"Santana", d:"09/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"S5"},
+  {id:153, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Los Irochimas", d:"09/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S5"},
+  {id:154, c:"Masculino", g:"B", a:"Ingenieros", b:"Alimentos La Granja", d:"09/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S5"},
+  {id:155, c:"Femenino", g:"B", a:"Saboga", b:"Oasis Box", d:"09/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S5"},
+  {id:156, c:"Masculino", g:"A", a:"Familia Ortega", b:"Los Amigos", d:"09/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S5"},
+  {id:157, c:"Masculino", g:"A", a:"Yusevin CA", b:"Sibarita", d:"09/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S5"},
+  {id:158, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Atavenca", d:"09/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S5"},
+  {id:159, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Sistema de Justicia", d:"13/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S6"},
+  {id:160, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Atrevidas", d:"13/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S6"},
+  {id:161, c:"Masculino", g:"B", a:"Ingenieros", b:"Gladiadores del Cerrito", d:"13/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S6"},
+  {id:162, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Club Afibola", d:"13/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S6"},
+  {id:163, c:"Femenino", g:"B", a:"Saboga", b:"Corpoelec", d:"13/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S6"},
+  {id:164, c:"Masculino", g:"B", a:"Pintucal", b:"Alimentos La Granja", d:"13/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S6"},
+  {id:165, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Alimentos La Granja", d:"14/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S6"},
+  {id:166, c:"Masculino", g:"A", a:"Club Afibola", b:"Agro max", d:"14/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S6"},
+  {id:167, c:"Masculino", g:"B", a:"Team JM&JA", b:"Poder Justiciable", d:"14/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S6"},
+  {id:168, c:"Femenino", g:"B", a:"Corpoelec", b:"Corpolec Jubiladas", d:"14/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S6"},
+  {id:169, c:"Masculino", g:"A", a:"Corpolec2", b:"Yusevin CA", d:"14/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S6"},
+  {id:170, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Serv. Frios Antonella", d:"15/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S6"},
+  {id:171, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Distribuidora JH", d:"15/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S6"},
+  {id:172, c:"Masculino", g:"A", a:"Yusevin CA", b:"Santana", d:"15/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S6"},
+  {id:173, c:"Masculino", g:"A", a:"Fuerza", b:"Familia Ortega", d:"15/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S6"},
+  {id:174, c:"Femenino", g:"B", a:"Corpoelec", b:"Emprendedoras", d:"15/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S6"},
+  {id:175, c:"Femenino", g:"A", a:"Ferrecenca", b:"Atrevidas", d:"15/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"S6"},
+  {id:176, c:"Masculino", g:"A", a:"Servihidra", b:"Sibarita", d:"15/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S6"},
+  {id:177, c:"Masculino", g:"B", a:"Triunfadores", b:"Sistema de Justicia", d:"15/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"S6"},
+  {id:178, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Agro max", d:"16/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S6"},
+  {id:179, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Unidos de Hato", d:"16/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S6"},
+  {id:180, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Sabaneta", d:"16/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S6"},
+  {id:181, c:"Masculino", g:"B", a:"Los Irochimas", b:"Tribunal Protección", d:"16/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S6"},
+  {id:182, c:"Femenino", g:"A", a:"Divinas", b:"Inversiones EPA", d:"16/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S6"},
+  {id:183, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Alimentos Amanecer", d:"16/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S6"},
+  {id:184, c:"Masculino", g:"A", a:"Familia Ortega", b:"Exasa", d:"16/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S6"},
+  {id:185, c:"Femenino", g:"B", a:"Esquina del Sabor", b:"Santana", d:"16/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"S6"},
+  {id:186, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Gladiadores del Cerrito", d:"16/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"S6"},
+  {id:187, c:"Femenino", g:"B", a:"Saboga", b:"Chikas", d:"16/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"S6"},
+  {id:188, c:"Masculino", g:"B", a:"Ingenieros", b:"Distribuidora JH", d:"16/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"S6"},
+  {id:189, c:"Masculino", g:"B", a:"Team JM&JA", b:"Atletico Paez", d:"16/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"S6"},
+  {id:190, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Alimentos La Granja", d:"16/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"S6"},
+  {id:191, c:"Femenino", g:"B", a:"The Dolls", b:"Festidoras", d:"16/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"S6"},
+  {id:192, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Los Amigos", d:"16/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"S6"},
+  {id:193, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Ferrecenca", d:"17/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S6"},
+  {id:194, c:"Masculino", g:"A", a:"Fuerza", b:"Agro max", d:"17/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"S6"},
+  {id:195, c:"Masculino", g:"A", a:"Exasa", b:"Sibarita", d:"17/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"S6"},
+  {id:196, c:"Femenino", g:"A", a:"Taferca", b:"Divinas", d:"17/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S6"},
+  {id:197, c:"Masculino", g:"B", a:"Los Irochimas", b:"Sistema de Justicia", d:"17/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S6"},
+  {id:198, c:"Femenino", g:"B", a:"Esquina del Sabor", b:"Emprendedoras", d:"17/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S6"},
+  {id:199, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Triunfadores", d:"17/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S6"},
+  {id:200, c:"Femenino", g:"B", a:"Festidoras", b:"Oasis Box", d:"17/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S6"},
+  {id:201, c:"Masculino", g:"A", a:"Servihidra", b:"Santana", d:"17/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S6"},
+  {id:202, c:"Masculino", g:"A", a:"Servihidra", b:"Agro max", d:"21/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S7"},
+  {id:203, c:"Masculino", g:"B", a:"Distribuidora JH", b:"Alimentos La Granja", d:"21/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S7"},
+  {id:204, c:"Femenino", g:"B", a:"Saboga", b:"Santana", d:"21/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S7"},
+  {id:205, c:"Femenino", g:"B", a:"Esquina del Sabor", b:"Las Femix", d:"21/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S7"},
+  {id:206, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Sistema de Justicia", d:"21/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S7"},
+  {id:207, c:"Masculino", g:"A", a:"Sibarita", b:"Agro max", d:"22/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S7"},
+  {id:208, c:"Femenino", g:"B", a:"The Dolls", b:"Emprendedoras", d:"22/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S7"},
+  {id:209, c:"Masculino", g:"B", a:"Sistema de Justicia", b:"Distribuidora JH", d:"22/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S7"},
+  {id:210, c:"Femenino", g:"B", a:"Saboga", b:"Corpolec Jubiladas", d:"22/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S7"},
+  {id:211, c:"Masculino", g:"B", a:"Triunfadores", b:"Distribuidora JH", d:"23/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S7"},
+  {id:212, c:"Masculino", g:"A", a:"Fuerza", b:"Los Panas Vimapin", d:"23/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S7"},
+  {id:213, c:"Masculino", g:"A", a:"Los Amigos", b:"Santana", d:"23/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S7"},
+  {id:214, c:"Femenino", g:"B", a:"Corpoelec", b:"Chikas", d:"23/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S7"},
+  {id:215, c:"Masculino", g:"B", a:"Sistema de Justicia", b:"Alimentos La Granja", d:"23/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S7"},
+  {id:216, c:"Femenino", g:"A", a:"Taferca", b:"Futboleras", d:"23/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S7"},
+  {id:217, c:"Masculino", g:"B", a:"Team JM&JA", b:"Pintucal", d:"23/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"S7"},
+  {id:218, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Atrevidas", d:"23/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S7"},
+  {id:219, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Exasa", d:"23/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"S7"},
+  {id:220, c:"Masculino", g:"A", a:"Corpolec2", b:"Unidos de Hato", d:"24/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S7"},
+  {id:221, c:"Masculino", g:"A", a:"Exasa", b:"Unidos de Hato", d:"24/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S7"},
+  {id:222, c:"Femenino", g:"A", a:"Inversiones IV", b:"Sabaneta", d:"24/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S7"},
+  {id:223, c:"Masculino", g:"B", a:"Los Irochimas", b:"Triunfadores", d:"24/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S7"},
+  {id:224, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Los Panas Vimapin", d:"24/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S7"},
+  {id:225, c:"Masculino", g:"B", a:"Ingenieros", b:"Sistema de Justicia", d:"24/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S7"},
+  {id:226, c:"Femenino", g:"A", a:"Ferrecenca", b:"Futboleras", d:"24/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S7"},
+  {id:227, c:"Masculino", g:"B", a:"Pintucal", b:"Atletico Paez", d:"24/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"S7"},
+  {id:228, c:"Femenino", g:"B", a:"Festidoras", b:"Las Femix", d:"24/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"S7"},
+  {id:229, c:"Masculino", g:"A", a:"Club Afibola", b:"Los Amigos", d:"24/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"S7"},
+  {id:230, c:"Femenino", g:"B", a:"Oasis Box", b:"Santana", d:"24/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"S7"},
+  {id:231, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Repostería el Ponque", d:"24/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 1", w:"S7"},
+  {id:232, c:"Femenino", g:"B", a:"The Dolls", b:"Corpoelec", d:"24/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 2", w:"S7"},
+  {id:233, c:"Masculino", g:"A", a:"Fuerza", b:"Servihidra", d:"24/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"S7"},
+  {id:234, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Inversiones EPA", d:"24/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"S7"},
+  {id:235, c:"Masculino", g:"B", a:"Team JM&JA", b:"Bodegon Los Vasquez", d:"24/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"S7"},
+  {id:236, c:"Femenino", g:"B", a:"Chikas", b:"Esquina del Sabor", d:"24/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"S7"},
+  {id:237, c:"Femenino", g:"A", a:"Inversiones IV", b:"Divinas", d:"25/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S7"},
+  {id:238, c:"Femenino", g:"A", a:"Sabaneta", b:"Futboleras", d:"25/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"S7"},
+  {id:239, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Gladiadores del Cerrito", d:"25/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"S7"},
+  {id:240, c:"Masculino", g:"A", a:"Corpolec2", b:"Club Afibola", d:"25/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S7"},
+  {id:241, c:"Femenino", g:"B", a:"Corpoelec", b:"Santana", d:"25/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S7"},
+  {id:242, c:"Femenino", g:"A", a:"Taferca", b:"Ferrecenca", d:"25/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S7"},
+  {id:243, c:"Masculino", g:"A", a:"Servihidra", b:"Los Panas Vimapin", d:"25/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S7"},
+  {id:244, c:"Femenino", g:"B", a:"Festidoras", b:"Atavenca", d:"25/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S7"},
+  {id:245, c:"Masculino", g:"B", a:"Team JM&JA", b:"Triunfadores", d:"25/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S7"},
+  {id:246, c:"Masculino", g:"B", a:"Los Irochimas", b:"Atletico Paez", d:"29/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S8"},
+  {id:247, c:"Masculino", g:"A", a:"Corpolec2", b:"Agro max", d:"29/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S8"},
+  {id:248, c:"Masculino", g:"A", a:"Sibarita", b:"Santana", d:"29/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S8"},
+  {id:249, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Club Afibola", d:"29/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S8"},
+  {id:250, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Pintucal", d:"29/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S8"},
+  {id:251, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Ferrecenca", d:"29/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S8"},
+  {id:252, c:"Femenino", g:"B", a:"The Dolls", b:"Santana", d:"30/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S8"},
+  {id:253, c:"Femenino", g:"A", a:"Divinas", b:"Repostería el Ponque", d:"30/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S8"},
+  {id:254, c:"Femenino", g:"B", a:"Corpoelec", b:"Esquina del Sabor", d:"30/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S8"},
+  {id:255, c:"Masculino", g:"B", a:"Triunfadores", b:"Alimentos La Granja", d:"30/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S8"},
+  {id:256, c:"Masculino", g:"B", a:"Ingenieros", b:"Pintucal", d:"30/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S8"},
+  {id:257, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Atletico Paez", d:"01/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S8"},
+  {id:258, c:"Masculino", g:"A", a:"Agro max", b:"Santana", d:"01/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S8"},
+  {id:259, c:"Masculino", g:"A", a:"Servihidra", b:"Yusevin CA", d:"01/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S8"},
+  {id:260, c:"Femenino", g:"B", a:"Chikas", b:"Las Femix", d:"01/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S8"},
+  {id:261, c:"Femenino", g:"B", a:"Oasis Box", b:"Atavenca", d:"01/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S8"},
+  {id:262, c:"Masculino", g:"B", a:"Team JM&JA", b:"Sistema de Justicia", d:"01/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S8"},
+  {id:263, c:"Masculino", g:"B", a:"Triunfadores", b:"Gladiadores del Cerrito", d:"01/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"S8"},
+  {id:264, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Fuerza", d:"01/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S8"},
+  {id:265, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Sibarita", d:"01/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"S8"},
+  {id:266, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Santana", d:"02/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S8"},
+  {id:267, c:"Masculino", g:"A", a:"Familia Ortega", b:"Unidos de Hato", d:"02/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S8"},
+  {id:268, c:"Masculino", g:"B", a:"Atletico Paez", b:"Alimentos La Granja", d:"02/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S8"},
+  {id:269, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Agro max", d:"02/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S8"},
+  {id:270, c:"Femenino", g:"B", a:"Oasis Box", b:"Esquina del Sabor", d:"02/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S8"},
+  {id:271, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Repostería el Ponque", d:"02/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S8"},
+  {id:272, c:"Masculino", g:"A", a:"Club Afibola", b:"Yusevin CA", d:"02/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"S8"},
+  {id:273, c:"Masculino", g:"A", a:"Fuerza", b:"Exasa", d:"02/07/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"S8"},
+  {id:274, c:"Femenino", g:"B", a:"Festidoras", b:"Chikas", d:"02/07/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"S8"},
+  {id:275, c:"Femenino", g:"A", a:"Taferca", b:"Inversiones EPA", d:"02/07/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"S8"},
+  {id:276, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Triunfadores", d:"02/07/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 1", w:"S8"},
+  {id:277, c:"Femenino", g:"A", a:"Atrevidas", b:"Sabaneta", d:"02/07/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 2", w:"S8"},
+  {id:278, c:"Femenino", g:"B", a:"Las Femix", b:"Emprendedoras", d:"02/07/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"S8"},
+  {id:279, c:"Femenino", g:"A", a:"Divinas", b:"Ferrecenca", d:"02/07/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"S8"},
+  {id:280, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Distribuidora JH", d:"02/07/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"S8"},
+  {id:281, c:"Masculino", g:"A", a:"Corpolec2", b:"Servihidra", d:"02/07/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"S8"},
+  {id:282, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Inversiones IV", d:"03/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S8"},
+  {id:283, c:"Femenino", g:"B", a:"The Dolls", b:"Oasis Box", d:"03/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"S8"},
+  {id:284, c:"Masculino", g:"A", a:"Los Amigos", b:"Agro max", d:"03/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"S8"},
+  {id:285, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Santana", d:"03/07/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S8"},
+  {id:286, c:"Masculino", g:"A", a:"Exasa", b:"Yusevin CA", d:"03/07/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S8"},
+  {id:287, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Agroserviportuguesa", d:"03/07/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S8"},
+  {id:288, c:"Femenino", g:"B", a:"Chikas", b:"Emprendedoras", d:"03/07/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S8"},
+  {id:289, c:"Femenino", g:"A", a:"Divinas", b:"Alimentos Amanecer", d:"03/07/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S8"},
+  {id:290, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Futboleras", d:"03/07/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S8"},
+  {id:291, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Atletico Paez", d:"07/07/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S9"},
+  {id:292, c:"Femenino", g:"B", a:"Atavenca", b:"Santana", d:"07/07/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S9"},
+  {id:293, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Alimentos La Granja", d:"07/07/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S9"},
+  {id:294, c:"Masculino", g:"B", a:"Ingenieros", b:"Triunfadores", d:"07/07/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S9"},
+  {id:295, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Chikas", d:"07/07/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S9"},
+  {id:296, c:"Femenino", g:"B", a:"Saboga", b:"Festidoras", d:"07/07/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S9"},
+  {id:297, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Distribuidora JH", d:"08/07/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S9"},
+  {id:298, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Atletico Paez", d:"08/07/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S9"},
+  {id:299, c:"Femenino", g:"B", a:"Atavenca", b:"Las Femix", d:"08/07/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S9"},
+  {id:300, c:"Femenino", g:"A", a:"Sabaneta", b:"Inversiones EPA", d:"08/07/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S9"},
+  {id:301, c:"Masculino", g:"A", a:"Corpolec2", b:"Los Panas Vimapin", d:"08/07/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S9"},
+  {id:302, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Tribunal Protección", d:"09/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S9"},
+  {id:303, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Triunfadores", d:"09/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S9"},
+  {id:304, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Atrevidas", d:"09/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S9"},
+  {id:305, c:"Femenino", g:"B", a:"Corpoelec", b:"Festidoras", d:"09/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S9"},
+  {id:306, c:"Masculino", g:"B", a:"Team JM&JA", b:"Distribuidora JH", d:"09/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S9"},
+  {id:307, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Inversiones EPA", d:"09/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"S9"},
+  {id:308, c:"Masculino", g:"A", a:"Exasa", b:"Los Panas Vimapin", d:"09/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S9"},
+  {id:309, c:"Femenino", g:"A", a:"Inversiones IV", b:"Ferrecenca", d:"10/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S9"},
+  {id:310, c:"Femenino", g:"A", a:"Divinas", b:"Futboleras", d:"10/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S9"},
+  {id:311, c:"Femenino", g:"B", a:"The Dolls", b:"Chikas", d:"10/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S9"},
+  {id:312, c:"Masculino", g:"B", a:"Ingenieros", b:"Tribunal Protección", d:"10/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S9"},
+  {id:313, c:"Femenino", g:"A", a:"Inversiones IV", b:"Taferca", d:"10/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S9"},
+  {id:314, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Bodegon Los Vasquez", d:"11/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S9"}
+];
 
-// ==================== RESULTADOS Y ESTADÍSTICAS VACÍOS ====================
-let R = {};
-let PS = {};
-let MVP = {};
-
-const WC = {S1:"#2ecc71",S2:"#3498db",S3:"#9b59b6",S4:"#e67e22",S5:"#c0392b",S6:"#1abc9c",S7:"#e91e63",S8:"#607d8b"};
-
+// ==================== Estado y utilidades ====================
+let R = {}, PS = {}, MVP = {};
 try {
-  let lr = localStorage.getItem('bc26r'); if(lr) Object.assign(R, JSON.parse(lr));
-  let lp = localStorage.getItem('bc26p'); if(lp) Object.assign(PS, JSON.parse(lp));
-  let lm = localStorage.getItem('bc26m'); if(lm) Object.assign(MVP, JSON.parse(lm));
+  const lr = localStorage.getItem('bc26r');
+  if (lr) Object.assign(R, JSON.parse(lr));
+  const lp = localStorage.getItem('bc26p');
+  if (lp) Object.assign(PS, JSON.parse(lp));
+  const lm = localStorage.getItem('bc26m');
+  if (lm) Object.assign(MVP, JSON.parse(lm));
 } catch(e) {}
 
 function save() {
@@ -577,208 +604,342 @@ function save() {
   } catch(e) {}
 }
 
-// ==================== ESTADO GLOBAL ====================
-let F = { tCat:'Femenino', tGrp:'A', mCat:'Femenino', mGrp:'A', mWk:'Todos', sCat:'Femenino', sGrp:'A', aCat:'Femenino', aGrp:'A', aPos:'Todos', aQ:'' };
+let F = {tCat:'Femenino', tGrp:'A', mCat:'Femenino', mGrp:'A', mWk:'Todos', sCat:'Femenino', sGrp:'A', aCat:'Femenino', aGrp:'A', aPos:'Todos', aQ:''};
 
-function $(id) { return document.getElementById(id); }
+function g(id) { return document.getElementById(id); }
 
 function setF(k, v) {
   F[k] = v;
-  let maps = {
-    tCat: { Femenino:'btn-tFem', Masculino:'btn-tMas' }, tGrp: { A:'btn-tGa', B:'btn-tGb' },
-    mCat: { Femenino:'btn-mFem', Masculino:'btn-mMas' }, mGrp: { A:'btn-mGa', B:'btn-mGb' },
-    sCat: { Femenino:'btn-sFem', Masculino:'btn-sMas' }, sGrp: { A:'btn-sGa', B:'btn-sGb' },
-    aCat: { Femenino:'btn-aFem', Masculino:'btn-aMas' }, aGrp: { A:'btn-aGa', B:'btn-aGb' },
-    aPos: { Todos:'btn-aAll', Arrime:'btn-aArr', Boche:'btn-aBoc', Mixto:'btn-aMix' }
+  const maps = {
+    tCat: {Femenino:'btn-tFem', Masculino:'btn-tMas'},
+    tGrp: {A:'btn-tGa', B:'btn-tGb'},
+    mCat: {Femenino:'btn-mFem', Masculino:'btn-mMas'},
+    mGrp: {A:'btn-mGa', B:'btn-mGb'},
+    sCat: {Femenino:'btn-sFem', Masculino:'btn-sMas'},
+    sGrp: {A:'btn-sGa', B:'btn-sGb'},
+    aCat: {Femenino:'btn-aFem', Masculino:'btn-aMas'},
+    aGrp: {A:'btn-aGa', B:'btn-aGb'},
+    aPos: {Todos:'btn-aAll', Arrime:'btn-aArr', Boche:'btn-aBoc', Mixto:'btn-aMix'}
   };
-  let m = maps[k];
-  if(m) {
-    Object.keys(m).forEach(val => { let el = $(m[val]); if(el) el.classList.toggle('on', val === v); });
+  const m = maps[k];
+  if (m) {
+    Object.keys(m).forEach(val => {
+      const el = g(m[val]);
+      if (el) el.classList.toggle('on', val === v);
+    });
   }
-  if(k[0] === 't') renderTeams();
-  else if(k[0] === 'm') renderMatches();
-  else if(k[0] === 's') renderStandings();
-  else renderStats();
+  if (k[0] === 't') rT();
+  else if (k[0] === 'm') rM();
+  else if (k[0] === 's') rSt();
+  else rA();
 }
 
 function showTab(id, btn) {
   document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
   document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
-  $(`s-${id}`).classList.add('on');
+  g('s-' + id).classList.add('on');
   btn.classList.add('on');
-  if(id === 'matches') renderMatches();
-  else if(id === 'standings') renderStandings();
-  else if(id === 'stats') renderStats();
-  else renderTeams();
+  if (id === 'matches') rM();
+  else if (id === 'standings') rSt();
+  else if (id === 'stats') rA();
+  else rT();
 }
 
-function setWeek(w) { F.mWk = w; renderMatches(); }
+function setWeek(w) { F.mWk = w; rM(); }
 
-// ==================== EQUIPOS ====================
 function searchTeams(q) {
-  let sr = $('srch-res'), tw = $('teams-wrap');
-  if(!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; }
+  const sr = g('srch-res'), tw = g('teams-wrap');
+  if (!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; }
   sr.style.display = 'block'; tw.style.display = 'none';
-  let ql = q.toLowerCase(), h = '';
+  const ql = q.toLowerCase();
+  let h = '';
   TEAMS.forEach(t => {
-    let pm = t.p.filter(p => p.toLowerCase().includes(ql));
-    if(t.n.toLowerCase().includes(ql) || pm.length) {
+    const pm = t.p.filter(p => p.toLowerCase().includes(ql));
+    if (t.n.toLowerCase().includes(ql) || pm.length) {
       h += `<div class="card" style="margin-bottom:7px;"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`;
       pm.forEach(p => { h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`; });
-      h += `</div>`;
+      h += '</div>';
     }
   });
   sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;font-size:12px;">Sin resultados</div>';
 }
 
-function renderTeams() {
-  let list = TEAMS.filter(t => t.c === F.tCat && t.g === F.tGrp);
-  $('t-cnt').textContent = list.length + ' EQUIPOS — ' + F.tCat + ' Grupo ' + F.tGrp;
-  $('t-list').innerHTML = list.map(t => `<div class="tc" onclick="openTeam('${t.n.replace(/'/g, "\\'")}')"><div><div style="font-size:13px;font-weight:bold;color:#f0e6d3;">${t.n}</div><div style="font-size:10px;color:#8899aa;margin-top:2px;">${t.p.length} jugadores · Gr.${t.g}</div></div><div style="font-size:18px;color:#8899aa;">›</div></div>`).join('');
-  $('t-detail').style.display = 'none';
-  $('teams-wrap').style.display = 'block';
+function rT() {
+  const list = TEAMS.filter(t => t.c === F.tCat && t.g === F.tGrp);
+  g('t-cnt').textContent = list.length + ' EQUIPOS — ' + F.tCat + ' Grupo ' + F.tGrp;
+  g('t-list').innerHTML = list.map(t => `<div class="tc" onclick="openTeam('${t.n.replace(/'/g, "\\'")}')"><div><div style="font-size:13px;font-weight:bold;color:#f0e6d3;">${t.n}</div><div style="font-size:10px;color:#8899aa;margin-top:2px;">${t.p.length} jugadores · Gr.${t.g}</div></div><div style="font-size:18px;color:#8899aa;">›</div></div>`).join('');
+  g('t-detail').style.display = 'none';
+  g('teams-wrap').style.display = 'block';
 }
 
 function openTeam(name) {
-  let t = TEAMS.find(x => x.n === name);
-  if(!t) return;
-  $('teams-wrap').style.display = 'none';
-  $('t-detail').style.display = 'block';
-  $('t-dhead').innerHTML = `<div style="font-size:15px;font-weight:bold;color:#e8b84b;margin-bottom:3px;">${t.n}</div><div style="font-size:10px;color:#8899aa;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`;
-  $('t-dplayers').innerHTML = t.p.map((p, i) => {
-    let k = `${t.n}|${p}`;
-    let ps = PS[k] || {};
-    return `<div class="pi"><div class="pn">${i+1}</div><div style="flex:1;"><div style="font-size:12px;color:#f0e6d3;font-weight:bold;">${p}</div><div style="font-size:9px;color:#8899aa;">${ps.pos || '—'} · ARR:${ps.total_arr || 0} BOC:${ps.total_boc || 0} EFEC:${ps.efec_arr || ps.efec_boc || 0}%</div></div></div>`;
+  const t = TEAMS.find(x => x.n === name);
+  if (!t) return;
+  g('teams-wrap').style.display = 'none';
+  g('t-detail').style.display = 'block';
+  g('t-dhead').innerHTML = `<div style="font-size:15px;font-weight:bold;color:#e8b84b;margin-bottom:3px;">${t.n}</div><div style="font-size:10px;color:#8899aa;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`;
+  g('t-dplayers').innerHTML = t.p.map((p, i) => {
+    const k = t.n + '|' + p;
+    const ps = PS[k] || {};
+    return `<div class="pi"><div class="pn">${i+1}</div><div style="flex:1;"><div style="font-size:12px;color:#f0e6d3;font-weight:bold;">${p}</div><div style="font-size:9px;color:#8899aa;">${ps.pos || '—'} · ARR:${ps.total_arr||0} BOC:${ps.total_boc||0} EFEC:${ps.efec_arr||ps.efec_boc||0}%</div></div></div>`;
   }).join('');
 }
 
-function closeDetail() { $('teams-wrap').style.display = 'block'; $('t-detail').style.display = 'none'; }
+function closeDetail() { g('teams-wrap').style.display = 'block'; g('t-detail').style.display = 'none'; }
 
-// ==================== PARTIDOS ====================
-function renderMatches() {
-  let weeks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8'];
-  let labels = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8'};
-  $('m-weeks').innerHTML = weeks.map(w => `<button class="fb ${F.mWk === w ? 'on' : ''}" onclick="setWeek('${w}')">${labels[w]}</button>`).join('');
+function rM() {
+  const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9'];
+  const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9'};
+  g('m-weeks').innerHTML = wks.map(w => `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`).join('');
   let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk));
-  $('m-cnt').textContent = list.length + ' PARTIDOS';
-  if(!list.length) { $('m-list').innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin partidos</div>'; return; }
-  $('m-list').innerHTML = list.map(m => {
-    let r = R[m.id];
-    let done = r && r.status === 'done';
-    let forfeit = r && r.status === 'forfeit';
-    let wA = done && r.scoreA > r.scoreB;
-    let wB = done && r.scoreB > r.scoreA;
-    let wc = WC[m.w] || '#888';
-    let mv = MVP[m.id];
+  g('m-cnt').textContent = list.length + ' PARTIDOS';
+  if (!list.length) { g('m-list').innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin partidos</div>'; return; }
+  g('m-list').innerHTML = list.map(m => {
+    const r = R[m.id];
+    const done = r && r.status === 'done';
+    const forf = r && r.status === 'forfeit';
+    const wA = done && r.scoreA > r.scoreB;
+    const wB = done && r.scoreB > r.scoreA;
+    const wc = '#888';
+    const mv = MVP[m.id];
     let inner = '';
-    if(done || forfeit) {
-      inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA ? '' : 'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB ? '' : 'l'}">${r.scoreB}</span></div>${forfeit ? '<div style="font-size:9px;color:#c0392b;text-align:center;margin-top:2px;">FORFEIT</div>' : ''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span> <button onclick="deleteResult(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button></div>${mv ? `<div class="mvp-box"><span style="font-size:16px;">🏅</span><div style="flex:1;"><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec ? ' · ' + mv.efec + '%' : ''}</div></div><button onclick="deleteMVP(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:14px;cursor:pointer;">✕</button></div>` : `<button class="mvp-btn" onclick="setMVP(${m.id})">🏅 Jugador del Partido</button>`}`;
+    if (done || forf) {
+      inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;margin-top:2px;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span> <button onclick="delRes(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button></div>${mv?`<div class="mvp-box"><span style="font-size:16px;">🏅</span><div style="flex:1;"><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div><button onclick="delMVP(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:14px;cursor:pointer;">✕</button></div>`:'<button class="mvp-btn" onclick="setMVP('+m.id+')">🏅 Jugador del Partido</button>'}`;
     } else {
-      inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="saveResult(${m.id})">💾 Guardar</button><button class="fbtn" onclick="forfeitResult(${m.id})">⚠️ Forfeit/WO</button>`;
+      inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="saveRes(${m.id})">💾 Guardar</button><button class="fbtn" onclick="forfRes(${m.id})">⚠️ Forfeit/WO</button>`;
     }
-    return `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span><span class="wtag" style="background:${wc}33;color:${wc}">${m.w}</span></div><div class="mteams"><div class="tn" style="color:${wA ? '#e8b84b' : wB ? '#8899aa' : '#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB ? '#e8b84b' : wA ? '#8899aa' : '#f0e6d3'}">${m.b}</div></div></div>`;
+    return `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span><span class="wtag">${m.w}</span></div><div class="mteams"><div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div></div></div>`;
   }).join('');
 }
 
-function saveResult(id) {
-  let sA = $(`sA${id}`), sB = $(`sB${id}`);
-  if(!sA || !sB) return;
-  let a = parseInt(sA.value), b = parseInt(sB.value);
-  if(isNaN(a) || isNaN(b) || a < 0 || b < 0 || a > 20 || b > 20) { alert('Marcador inválido (0-20)'); return; }
+function saveRes(id) {
+  const inputA = g('sA' + id);
+  const inputB = g('sB' + id);
+  if (!inputA || !inputB) { alert('Error: No se encontraron los campos. Por favor refresca la página.'); return; }
+  const a = parseInt(inputA.value);
+  const b = parseInt(inputB.value);
+  if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; }
   R[id] = { scoreA: a, scoreB: b, status: 'done' };
   save();
-  renderMatches();
-  renderStandings();
+  rM();
+  rSt();
 }
 
-function forfeitResult(id) {
-  let m = MATCHES.find(x => x.id === id);
-  let ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
-  if(ans === '1') R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' };
-  else if(ans === '2') R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' };
-  else return;
-  save();
-  renderMatches();
-  renderStandings();
+function forfRes(id) {
+  const m = MATCHES.find(x => x.id === id);
+  if (!m) { alert('Error: Partido no encontrado'); return; }
+  const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
+  if (ans === '1') { R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' }; save(); rM(); rSt(); }
+  else if (ans === '2') { R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' }; save(); rM(); rSt(); }
+  else { alert('Opción inválida. Cancela o ingresa 1 o 2.'); }
 }
 
-function deleteResult(id) {
-  if(confirm('¿Borrar este resultado?')) { delete R[id]; save(); renderMatches(); renderStandings(); }
-}
+function delRes(id) { if (confirm('¿Borrar resultado?')) { delete R[id]; save(); rM(); rSt(); } }
 
 function setMVP(id) {
-  let players = [];
-  TEAMS.forEach(t => { t.p.forEach(p => { players.push({ name: p, team: t.n }); }); });
-  let list = players.map((p, i) => `${i+1}. ${p.name} (${p.team})`).join('\n');
-  let idx = prompt(`Selecciona el jugador del partido:\n${list}\n\nIngresa el número:`);
-  let num = parseInt(idx);
-  if(num && num >= 1 && num <= players.length) {
-    let p = players[num-1];
-    let stats = PS[`${p.team}|${p.name}`] || {};
-    let efec = stats.efec_arr || stats.efec_boc || 0;
-    MVP[id] = { name: p.name, team: p.team, efec: efec };
-    save();
-    renderMatches();
+  const m = MATCHES.find(x => x.id === id);
+  if (!m) return;
+  const cands = [];
+  [m.a, m.b].forEach(tn => {
+    const t = TEAMS.find(x => x.n === tn);
+    if (!t) return;
+    t.p.forEach(p => {
+      const k = tn + '|' + p;
+      const ps = PS[k] || {};
+      const efec = ps.efec_arr || ps.efec_boc || 0;
+      if ((ps.total_arr || 0) + (ps.total_boc || 0) > 0) cands.push({ name: p, team: tn, efec });
+    });
+  });
+  if (!cands.length) {
+    const nm = prompt('Sin estadísticas. Nombre del Jugador del Partido:');
+    if (nm && nm.trim()) { MVP[id] = { name: nm.trim(), team: 'Manual', efec: 0 }; save(); rM(); }
+    return;
+  }
+  cands.sort((a,b) => b.efec - a.efec);
+  const best = cands[0];
+  if (confirm(`🏅 Jugador del Partido sugerido:\n${best.name} (${best.team})\nEfectividad: ${best.efec}%\n\n¿Confirmar?`)) {
+    MVP[id] = best; save(); rM();
+  } else {
+    const nm2 = prompt('Nombre manual:');
+    if (nm2 && nm2.trim()) {
+      const tm = prompt(`Equipo (${m.a} o ${m.b}):`);
+      MVP[id] = { name: nm2.trim(), team: tm || '', efec: 0 };
+      save(); rM();
+    }
   }
 }
 
-function deleteMVP(id) {
-  if(confirm('¿Quitar el Jugador del Partido?')) { delete MVP[id]; save(); renderMatches(); }
-}
+function delMVP(id) { delete MVP[id]; save(); rM(); }
 
-// ==================== TABLA DE POSICIONES ====================
-function renderStandings() {
-  let teams = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp);
-  let stats = {};
-  teams.forEach(t => { stats[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; });
+function rSt() {
+  const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp);
+  const tb = {};
+  tl.forEach(t => { tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; });
   MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => {
-    let r = R[m.id];
-    if(r && r.status === 'done') {
-      if(stats[m.a]) { stats[m.a].pj++; stats[m.a].tf += r.scoreA; stats[m.a].tc += r.scoreB; }
-      if(stats[m.b]) { stats[m.b].pj++; stats[m.b].tf += r.scoreB; stats[m.b].tc += r.scoreA; }
-      if(r.scoreA > r.scoreB) { if(stats[m.a]) { stats[m.a].pg++; stats[m.a].pts += 3; } if(stats[m.b]) stats[m.b].pp++; }
-      else if(r.scoreB > r.scoreA) { if(stats[m.b]) { stats[m.b].pg++; stats[m.b].pts += 3; } if(stats[m.a]) stats[m.a].pp++; }
-    } else if(r && r.status === 'forfeit') {
-      if(r.scoreA > r.scoreB) {
-        if(stats[m.a]) { stats[m.a].pj++; stats[m.a].pg++; stats[m.a].pts += 3; stats[m.a].tf += r.scoreA; stats[m.a].tc += r.scoreB; }
-        if(stats[m.b]) { stats[m.b].pj++; stats[m.b].pp++; stats[m.b].tf += r.scoreB; stats[m.b].tc += r.scoreA; }
-      } else {
-        if(stats[m.b]) { stats[m.b].pj++; stats[m.b].pg++; stats[m.b].pts += 3; stats[m.b].tf += r.scoreB; stats[m.b].tc += r.scoreA; }
-        if(stats[m.a]) { stats[m.a].pj++; stats[m.a].pp++; stats[m.a].tf += r.scoreA; stats[m.a].tc += r.scoreB; }
-      }
+    const r = R[m.id];
+    if (!r) return;
+    if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; }
+    if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; }
+    if (r.scoreA > r.scoreB) {
+      if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; }
+      if (tb[m.b]) tb[m.b].pp++;
+    } else if (r.scoreB > r.scoreA) {
+      if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; }
+      if (tb[m.a]) tb[m.a].pp++;
     }
   });
-  let sorted = Object.values(stats).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf);
-  let getClass = r => r===1 ? 'r1' : r===2 ? 'r2' : r===3 ? 'r3' : 'rn';
-  $('st-list').innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;margin-bottom:5px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;color:#8899aa;">EQUIPO</div><div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div></div>` + sorted.map((t, i) => {
-    let r = i+1, c = getClass(r);
-    let dif = t.tf - t.tc;
-    let avg = t.pj ? (dif / t.pj).toFixed(2) : '0';
-    return `<div class="sr ${c}"><div class="rb ${c}">${r}</div><div style="flex:1;font-size:11px;font-weight:bold;color:#f0e6d3;line-height:1.2;">${t.n}</div><div class="scols">${[t.pj, t.pg, t.pp, t.tf, t.tc, dif, avg, t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div></div>`;
-  }).join('');
+  const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf);
+  const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn';
+  g('st-list').innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;margin-bottom:5px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;color:#8899aa;">EQUIPO</div><div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div></div>` +
+    sorted.map((t,i) => {
+      const r = i+1, c = rc(r);
+      const dif = t.tf - t.tc;
+      const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0';
+      return `<div class="sr ${c}"><div class="rb ${c}">${r}</div><div style="flex:1;font-size:11px;font-weight:bold;color:#f0e6d3;line-height:1.2;">${t.n}</div><div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div></div>`;
+    }).join('');
 }
 
-// ==================== AVERAGE / ESTADÍSTICAS ====================
-function searchPlayer(q) { F.aQ = q; renderStats(); }
+function searchPlayer(q) { F.aQ = q; rA(); }
 
-function renderStats() {
-  let teams = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp);
-  let players = [];
-  teams.forEach(t => {
+function rA() {
+  const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp);
+  const players = [];
+  tl.forEach(t => {
     t.p.forEach(p => {
-      let k = `${t.n}|${p}`;
-      let ps = PS[k] || {};
-      let pos = ps.pos || '—';
-      if(F.aPos !== 'Todos' && pos !== F.aPos) return;
-      if(F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return;
-      players.push({ name: p, team: t.n, pos, arr_b: ps.arr_b || 0, arr_m: ps.arr_m || 0, boc_b: ps.boc_b || 0, boc_m: ps.boc_m || 0, total_arr: ps.total_arr || 0, total_boc: ps.total_boc || 0, efec: ps.efec_arr || ps.efec_boc || 0, partidos: ps.partidos || 0 });
+      const k = t.n + '|' + p;
+      const ps = PS[k] || {};
+      const pos = ps.pos || '—';
+      if (F.aPos === 'Mixto' && !((ps.total_arr||0) > 0 && (ps.total_boc||0) > 0)) return;
+      if (F.aPos !== 'Todos' && F.aPos !== 'Mixto' && pos !== F.aPos) return;
+      if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return;
+      players.push({ name: p, team: t.n, pos, arr_b: ps.arr_b||0, arr_m: ps.arr_m||0, boc_b: ps.boc_b||0, boc_m: ps.boc_m||0, efec: ps.efec_arr||ps.efec_boc||0, partidos: ps.partidos||0 });
     });
   });
-  players.sort((a,b) => b.efec - a.efec || (b.total_arr + b.total_boc) - (a.total_arr + a.total_boc));
-  $('a-list').innerHTML = players.length === 0 ? '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin estadísticas registradas aún</div>' : players.map((p, i) => `<div class="ar"><div style="width:20px;text-align:center;font-size:10px;color:#8899aa;font-weight:bold;">${i+1}</div><div style="flex:1;"><div style="font-size:11px;color:#f0e6d3;font-weight:bold;">${p.name}</div><div style="font-size:9px;color:#8899aa;">${p.team} · ${p.pos}</div></div><div style="display:flex;gap:6px;"><div style="min-width:26px;text-align:center;"><div class="av">${p.partidos}</div><div class="al">PJ</div></div><div style="min-width:30px;text-align:center;"><div class="av">${p.arr_b}/${p.arr_m}</div><div class="al">ARR</div></div><div style="min-width:30px;text-align:center;"><div class="av">${p.boc_b}/${p.boc_m}</div><div class="al">BOC</div></div><div style="min-width:32px;text-align:center;"><div class="av" style="color:#2ecc71">${p.efec}%</div><div class="al">EFEC</div></div></div></div>`).join('');
+  players.sort((a,b) => b.efec - a.efec || (b.arr_b + b.boc_b) - (a.arr_b + a.boc_b));
+  g('a-list').innerHTML = !players.length ? '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin estadísticas registradas aún</div>' : players.map((p,i) => `<div class="ar"><div style="width:20px;text-align:center;font-size:10px;color:#8899aa;font-weight:bold;">${i+1}</div><div style="flex:1;min-width:0;"><div style="font-size:11px;color:#f0e6d3;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</div><div style="font-size:9px;color:#8899aa;">${p.team} · ${p.pos}</div></div><div style="display:flex;gap:6px;"><div style="min-width:26px;text-align:center;"><div class="av">${p.partidos}</div><div class="al">PJ</div></div><div style="min-width:30px;text-align:center;"><div class="av">${p.arr_b}/${p.arr_m}</div><div class="al">ARR</div></div><div style="min-width:30px;text-align:center;"><div class="av">${p.boc_b}/${p.boc_m}</div><div class="al">BOC</div></div><div style="min-width:32px;text-align:center;"><div class="av" style="color:#2ecc71;">${p.efec}%</div><div class="al">EFEC</div></div></div></div>`).join('');
 }
 
-renderTeams();
+// ==================== PDF ====================
+let pdfMode = 'week';
+
+function togglePdfPanel() {
+  const panel = g('pdf-panel');
+  const isOpen = panel.classList.contains('open');
+  if (!isOpen) populateTeamSel();
+  panel.classList.toggle('open');
+}
+
+function setPdfMode(mode) {
+  pdfMode = mode;
+  g('pdf-btn-week').classList.toggle('on', mode === 'week');
+  g('pdf-btn-team').classList.toggle('on', mode === 'team');
+  g('pdf-week-wrap').style.display = mode === 'week' ? 'block' : 'none';
+  g('pdf-team-wrap').style.display = mode === 'team' ? 'block' : 'none';
+}
+
+function populateTeamSel() {
+  const sel = g('pdf-team-sel');
+  const teams = TEAMS.filter(t => t.c === F.mCat && t.g === F.mGrp);
+  sel.innerHTML = teams.map(t => `<option value="${t.n}">${t.n}</option>`).join('');
+}
+
+function generatePDF() {
+  if (typeof window.jspdf === 'undefined') { alert('Librería PDF no disponible. Verifica conexión a internet.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const pw = 210, mg = 12;
+  let y = 20;
+  let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp);
+  let filterLabel = '';
+  let fname = '';
+  if (pdfMode === 'week') {
+    const wk = g('pdf-week-sel').value;
+    const wlbls = { Todos: 'Todas las Semanas', S1: 'Semana 1', S2: 'Semana 2', S3: 'Semana 3', S4: 'Semana 4', S5: 'Semana 5', S6: 'Semana 6', S7: 'Semana 7', S8: 'Semana 8', S9: 'Semana 9' };
+    if (wk !== 'Todos') list = list.filter(m => m.w === wk);
+    filterLabel = wlbls[wk] || wk;
+    fname = `Calendario_${F.mCat}_Gr${F.mGrp}_${wk}.pdf`;
+  } else {
+    const tn = g('pdf-team-sel').value;
+    list = list.filter(m => m.a === tn || m.b === tn);
+    filterLabel = 'Equipo: ' + tn;
+    fname = `Calendario_${tn.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+  }
+  if (!list.length) { alert('No hay partidos para este filtro.'); return; }
+  // Header
+  doc.setFillColor(26, 26, 46);
+  doc.rect(0, 0, pw, 32, 'F');
+  doc.setTextColor(232, 184, 75);
+  doc.setFontSize(15);
+  doc.setFont('helvetica', 'bold');
+  doc.text('SIBARITA SPORT CLUB', pw / 2, 11, { align: 'center' });
+  doc.setFontSize(10);
+  doc.setTextColor(240, 230, 211);
+  doc.text('2do Campeonato Bolas Criollas 2026 - Categoría B', pw / 2, 18, { align: 'center' });
+  doc.setFontSize(9);
+  doc.setTextColor(136, 153, 170);
+  doc.text(`${F.mCat} · Grupo ${F.mGrp} · ${filterLabel}`, pw / 2, 25, { align: 'center' });
+  y = 38;
+  // Group by week
+  const groups = {};
+  list.forEach(m => { if (!groups[m.w]) groups[m.w] = []; groups[m.w].push(m); });
+  const wlbls2 = { S1: 'SEMANA 1', S2: 'SEMANA 2', S3: 'SEMANA 3', S4: 'SEMANA 4', S5: 'SEMANA 5', S6: 'SEMANA 6', S7: 'SEMANA 7', S8: 'SEMANA 8', S9: 'SEMANA 9' };
+  const wrgb = { S1: [46,204,113], S2: [52,152,219], S3: [155,89,182], S4: [230,126,34], S5: [192,57,43], S6: [26,188,156], S7: [233,30,99], S8: [96,125,139], S9: [241,196,15] };
+  Object.keys(groups).sort().forEach(wk => {
+    const ms = groups[wk];
+    const rgb = wrgb[wk] || [100,100,100];
+    if (y > 255) { doc.addPage(); y = 15; }
+    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
+    doc.rect(mg, y, pw - mg * 2, 8, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'bold');
+    doc.text(wlbls2[wk] || wk, mg + 3, y + 5.5);
+    y += 11;
+    ms.forEach(m => {
+      if (y > 265) { doc.addPage(); y = 15; }
+      const r = R[m.id];
+      const result = r ? `${r.scoreA} — ${r.scoreB}${r.status === 'forfeit' ? ' (FF)' : ''}` : 'Pendiente';
+      const mv = MVP[m.id];
+      doc.setFillColor(22, 33, 62);
+      doc.rect(mg, y, pw - mg * 2, 13, 'F');
+      doc.setDrawColor(15, 52, 96);
+      doc.rect(mg, y, pw - mg * 2, 13, 'S');
+      doc.setTextColor(136, 153, 170);
+      doc.setFontSize(7);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`${m.d} ${m.dy} · ${m.h} · ${m.f}`, mg + 3, y + 4);
+      const colorA = r && r.scoreA > r.scoreB ? [232,184,75] : [240,230,211];
+      doc.setTextColor(colorA[0], colorA[1], colorA[2]);
+      doc.setFontSize(8.5);
+      doc.setFont('helvetica', 'bold');
+      const tA = m.a.length > 22 ? m.a.substring(0,21) + '.' : m.a;
+      doc.text(tA, mg + 3, y + 10);
+      doc.setTextColor(232, 184, 75);
+      doc.setFontSize(9);
+      doc.text(result, pw / 2, y + 10, { align: 'center' });
+      const colorB = r && r.scoreB > r.scoreA ? [232,184,75] : [240,230,211];
+      doc.setTextColor(colorB[0], colorB[1], colorB[2]);
+      const tB = m.b.length > 22 ? m.b.substring(0,21) + '.' : m.b;
+      doc.text(tB, pw - mg - 3, y + 10, { align: 'right' });
+      if (mv) {
+        doc.setTextColor(232, 184, 75);
+        doc.setFontSize(6);
+        doc.setFont('helvetica', 'italic');
+        doc.text(`🏅 ${mv.name} (${mv.team})`, mg + 3, y + 4);
+      }
+      y += 15;
+    });
+    y += 2;
+  });
+  doc.setTextColor(136, 153, 170);
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`Generado: ${new Date().toLocaleDateString('es-VE')} · Sibarita Sport Club`, pw / 2, 290, { align: 'center' });
+  doc.save(fname);
+  togglePdfPanel();
+}
+
+rT();
 </script>
 </body>
 </html>
