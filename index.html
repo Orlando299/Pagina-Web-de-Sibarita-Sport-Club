@@ -835,210 +835,198 @@ function generatePDF() {
     }
     
     const { jsPDF } = window.jspdf;
-    // Usar configuración básica (sin orientation, que puede causar error)
     const doc = new jsPDF();
-    const pw = 210, mg = 15;
-    let y = 25;
-    
-    // Función para agregar texto
-    function addText(text, x, y, options = {}) {
-      doc.setFontSize(options.size || 11);
-      doc.setFont(options.font || 'helvetica', options.style || 'normal');
-      if (options.align) {
-        doc.text(text, x, y, { align: options.align });
-      } else {
-        doc.text(text, x, y);
-      }
-    }
+    const pw = 210;
+    let y = 20;
     
     // PORTADA
-    doc.setFillColor(26, 26, 46);
-    doc.rect(0, 0, pw, 297, 'F');
-    
-    // Logo con emoji
-    doc.setFontSize(45);
-    doc.setTextColor(232, 184, 75);
-    doc.text('🏆', pw / 2, 45, { align: 'center' });
-    
-    doc.setFontSize(18);
-    doc.setTextColor(232, 184, 75);
-    doc.setFont('helvetica', 'bold');
-    doc.text('SIBARITA SPORT CLUB', pw / 2, 75, { align: 'center' });
+    doc.setFontSize(20);
+    doc.setTextColor(0, 0, 0);
+    doc.text('SIBARITA SPORT CLUB', pw / 2, y, { align: 'center' });
+    y += 8;
     doc.setFontSize(11);
-    doc.setTextColor(240, 230, 211);
-    doc.text('2do Campeonato Bolas Criollas 2026 - Categoría B', pw / 2, 85, { align: 'center' });
-    
-    doc.setFontSize(22);
-    doc.setTextColor(232, 184, 75);
-    doc.text('INSTRUCTIVO', pw / 2, 120, { align: 'center' });
-    doc.text('PARA JUGADORES', pw / 2, 133, { align: 'center' });
-    
-    doc.setFontSize(10);
-    doc.setTextColor(136, 153, 170);
-    doc.text('Versión 1.0 - Mayo 2026', pw / 2, 160, { align: 'center' });
-    
-    doc.setFontSize(9);
-    doc.text('https://orlando299.github.io/Pagina-Web-de-Sibarita-Sport-Club/', pw / 2, 270, { align: 'center' });
-    
-    // PÁGINA 2
-    doc.addPage();
-    y = 25;
-    doc.setFillColor(26, 26, 46);
-    doc.rect(0, 0, pw, 297, 'F');
-    
-    addText('📌 ¿QUÉ ES ESTA PÁGINA?', mg, y, { size: 14, style: 'bold' });
-    y += 10;
-    addText('Es el sistema oficial del torneo. Aquí podrás consultar:', mg, y, { size: 10 });
-    y += 7;
-    addText('• Resultados de todos los partidos', mg + 5, y, { size: 10 });
-    y += 6;
-    addText('• Tabla de posiciones actualizada', mg + 5, y, { size: 10 });
-    y += 6;
-    addText('• Estadísticas individuales (Arrime y Boche)', mg + 5, y, { size: 10 });
-    y += 6;
-    addText('• Calendario de partidos', mg + 5, y, { size: 10 });
-    y += 10;
-    addText('➡️ Los datos son de SOLO LECTURA. Solo el desarrollador', mg, y, { size: 9 });
-    y += 5;
-    addText('  puede cargar o modificar resultados y estadísticas.', mg, y, { size: 9 });
-    y += 14;
-    
-    addText('🎯 PESTAÑA "PARTIDOS"', mg, y, { size: 12, style: 'bold' });
-    y += 9;
-    addText('1. Filtra por categoría (Femenino/Masculino) y grupo', mg, y, { size: 10 });
-    y += 6;
-    addText('2. Selecciona una semana (Sem 1, Sem 2, etc.)', mg, y, { size: 10 });
-    y += 6;
-    addText('3. Cada tarjeta muestra fecha, hora, cancha y marcador', mg, y, { size: 10 });
-    y += 14;
-    
-    addText('🏆 PESTAÑA "TABLA"', mg, y, { size: 12, style: 'bold' });
-    y += 9;
-    addText('Muestra la clasificación completa:', mg, y, { size: 10 });
-    y += 7;
-    addText('• PJ = Partidos Jugados | PG = Ganados | PP = Perdidos', mg, y, { size: 9 });
-    y += 5;
-    addText('• TF = Tantos a Favor | TC = Tantos en Contra', mg, y, { size: 9 });
-    y += 5;
-    addText('• DIF = Diferencia | AVG = Promedio | PTS = Puntos', mg, y, { size: 9 });
-    
-    // PÁGINA 3
-    doc.addPage();
-    y = 25;
-    doc.setFillColor(26, 26, 46);
-    doc.rect(0, 0, pw, 297, 'F');
-    
-    addText('📊 PESTAÑA "AVERAGE"', mg, y, { size: 12, style: 'bold' });
-    y += 9;
-    addText('Estadísticas individuales de cada jugador:', mg, y, { size: 10 });
-    y += 7;
-    addText('• ARR (B/T) = Arrime Buenos / Total de arrimes', mg + 5, y, { size: 10 });
-    y += 6;
-    addText('• BOC (B/T) = Boche Buenos / Total de boches', mg + 5, y, { size: 10 });
-    y += 6;
-    addText('• EFEC% = Efectividad = (Buenos / Total) × 100', mg + 5, y, { size: 10 });
-    y += 10;
-    addText('Puedes buscar jugadores por nombre usando la lupa 🔍', mg, y, { size: 10 });
-    y += 14;
-    
-    addText('👥 PESTAÑA "EQUIPOS"', mg, y, { size: 12, style: 'bold' });
-    y += 9;
-    addText('1. Filtra por Femenino/Masculino y Grupo A/B', mg, y, { size: 10 });
-    y += 6;
-    addText('2. Toca cualquier equipo para ver su plantilla', mg, y, { size: 10 });
-    y += 6;
-    addText('3. Cada jugador muestra sus estadísticas acumuladas', mg, y, { size: 10 });
-    y += 14;
-    
-    addText('📄 CÓMO DESCARGAR EL CALENDARIO EN PDF', mg, y, { size: 12, style: 'bold' });
-    y += 9;
-    addText('1. Ve a la pestaña "PARTIDOS"', mg, y, { size: 10 });
-    y += 6;
-    addText('2. Toca el botón "📄 Descargar PDF"', mg, y, { size: 10 });
-    y += 6;
-    addText('3. Elige una opción: Por Semana / Por Equipo / Todas', mg, y, { size: 10 });
-    y += 6;
-    addText('4. El PDF se descargará automáticamente', mg, y, { size: 10 });
-    
-    // PÁGINA 4
-    doc.addPage();
-    y = 25;
-    doc.setFillColor(26, 26, 46);
-    doc.rect(0, 0, pw, 297, 'F');
-    
-    addText('⚽ REGLAS DEL TORNEO', mg, y, { size: 12, style: 'bold' });
-    y += 9;
-    
-    addText('📌 SEMANA 1 y SEMANA 2:', mg, y, { size: 10, style: 'bold' });
-    y += 6;
-    addText('• Gana el equipo que primero llegue a 20 tantos', mg + 3, y, { size: 9 });
-    y += 5;
-    addText('• Si el tiempo se agota (2h), gana quien tenga ≥12 (60%)', mg + 3, y, { size: 9 });
-    y += 9;
-    
-    addText('📌 A PARTIR DE LA SEMANA 3:', mg, y, { size: 10, style: 'bold' });
-    y += 6;
-    addText('• Duración del partido: 1 hora y media (90 minutos)', mg + 3, y, { size: 9 });
-    y += 5;
-    addText('• Gana el equipo que primero llegue a 15 tantos', mg + 3, y, { size: 9 });
-    y += 5;
-    addText('• Si el tiempo se agota, gana quien tenga 12 o más', mg + 3, y, { size: 9 });
-    y += 9;
-    
-    addText('📌 EMPATE AL TERMINAR EL TIEMPO:', mg, y, { size: 10, style: 'bold' });
-    y += 6;
-    addText('• Se fuerza un tiro extra (desempate)', mg + 3, y, { size: 9 });
-    y += 5;
-    addText('• Gana el equipo que realice el tanto o los tantos', mg + 3, y, { size: 9 });
-    y += 5;
-    addText('  necesarios para desempatar', mg + 3, y, { size: 9 });
-    y += 9;
-    
-    addText('📌 SISTEMA DE PUNTUACIÓN:', mg, y, { size: 10, style: 'bold' });
-    y += 6;
-    addText('• Victoria = 3 puntos', mg + 3, y, { size: 9 });
-    y += 5;
-    addText('• Derrota = 0 puntos', mg + 3, y, { size: 9 });
-    y += 14;
-    
-    addText('❓ PREGUNTAS FRECUENTES', mg, y, { size: 12, style: 'bold' });
-    y += 9;
-    addText('❔ ¿Por qué no veo un resultado?', mg, y, { size: 10, style: 'bold' });
-    y += 6;
-    addText('→ El desarrollador aún no lo ha cargado. Espera y recarga.', mg + 3, y, { size: 9 });
-    y += 8;
-    addText('❔ ¿Puedo modificar un resultado?', mg, y, { size: 10, style: 'bold' });
-    y += 6;
-    addText('→ No. Solo el desarrollador tiene acceso para cargar datos.', mg + 3, y, { size: 9 });
-    y += 8;
-    addText('❔ ¿Cómo actualizo la página?', mg, y, { size: 10, style: 'bold' });
-    y += 6;
-    addText('→ Desliza hacia abajo (pantalla táctil) o presiona F5', mg + 3, y, { size: 9 });
-    y += 8;
-    addText('❔ ¿Hay algún costo?', mg, y, { size: 10, style: 'bold' });
-    y += 6;
-    addText('→ No, la página es completamente gratuita.', mg + 3, y, { size: 9 });
-    y += 14;
-    
-    addText('📞 CONTACTO', mg, y, { size: 12, style: 'bold' });
-    y += 9;
-    addText('Si encuentras algún error o tienes dudas, comunícate', mg, y, { size: 10 });
-    y += 6;
-    addText('con el desarrollador de la página web:', mg, y, { size: 10 });
-    y += 8;
-    addText('🧑‍💻 MSc. Orlando Silva', mg + 3, y, { size: 10, style: 'bold' });
-    y += 6;
-    addText('📱 0426-435-79-41', mg + 3, y, { size: 10, style: 'bold' });
+    doc.text('2do Campeonato Bolas Criollas 2026 - Categoría B', pw / 2, y, { align: 'center' });
     y += 15;
     
-    addText('🏆 ¡Gracias por participar! Que gane el mejor.', pw / 2, y, { size: 11, align: 'center' });
+    doc.setFontSize(18);
+    doc.text('INSTRUCTIVO PARA JUGADORES', pw / 2, y, { align: 'center' });
     y += 10;
-    addText('Generado: ' + new Date().toLocaleDateString('es-VE'), pw / 2, y, { size: 8 });
+    doc.setFontSize(9);
+    doc.text('https://orlando299.github.io/Pagina-Web-de-Sibarita-Sport-Club/', pw / 2, y, { align: 'center' });
+    y += 20;
+    
+    // ==================== PÁGINA 2 ====================
+    doc.addPage();
+    y = 20;
+    
+    doc.setFontSize(14);
+    doc.text('📌 ¿QUÉ ES ESTA PÁGINA?', 15, y);
+    y += 8;
+    doc.setFontSize(10);
+    doc.text('Es el sistema oficial del torneo. Aquí podrás consultar:', 15, y);
+    y += 6;
+    doc.text('• Resultados de todos los partidos', 20, y);
+    y += 6;
+    doc.text('• Tabla de posiciones actualizada', 20, y);
+    y += 6;
+    doc.text('• Estadisticas individuales (Arrime y Boche)', 20, y);
+    y += 6;
+    doc.text('• Calendario de partidos', 20, y);
+    y += 10;
+    doc.text('➡️ Los datos son de SOLO LECTURA. Solo el desarrollador', 15, y);
     y += 5;
-    addText('Sibarita Sport Club', pw / 2, y, { size: 8 });
+    doc.text('  puede cargar o modificar resultados.', 15, y);
+    y += 12;
+    
+    doc.setFontSize(12);
+    doc.text('🎯 PESTAÑA "PARTIDOS"', 15, y);
+    y += 8;
+    doc.setFontSize(10);
+    doc.text('1. Filtra por categoria (Femenino/Masculino) y grupo', 15, y);
+    y += 6;
+    doc.text('2. Selecciona una semana (Sem 1, Sem 2, etc.)', 15, y);
+    y += 6;
+    doc.text('3. Cada tarjeta muestra fecha, hora, cancha y marcador', 15, y);
+    y += 12;
+    
+    doc.setFontSize(12);
+    doc.text('🏆 PESTAÑA "TABLA"', 15, y);
+    y += 8;
+    doc.setFontSize(10);
+    doc.text('Muestra la clasificacion completa:', 15, y);
+    y += 6;
+    doc.text('• PJ = Partidos Jugados | PG = Ganados | PP = Perdidos', 15, y);
+    y += 5;
+    doc.text('• TF = Tantos a Favor | TC = Tantos en Contra', 15, y);
+    y += 5;
+    doc.text('• DIF = Diferencia | AVG = Promedio | PTS = Puntos', 15, y);
+    
+    // ==================== PÁGINA 3 ====================
+    doc.addPage();
+    y = 20;
+    
+    doc.setFontSize(12);
+    doc.text('📊 PESTAÑA "AVERAGE"', 15, y);
+    y += 8;
+    doc.setFontSize(10);
+    doc.text('Estadisticas individuales de cada jugador:', 15, y);
+    y += 6;
+    doc.text('• ARR (B/T) = Arrime Buenos / Total de arrimes', 20, y);
+    y += 5;
+    doc.text('• BOC (B/T) = Boche Buenos / Total de boches', 20, y);
+    y += 5;
+    doc.text('• EFEC% = Efectividad = (Buenos / Total) x 100', 20, y);
+    y += 10;
+    doc.text('Puedes buscar jugadores por nombre usando la lupa 🔍', 15, y);
+    y += 14;
+    
+    doc.setFontSize(12);
+    doc.text('👥 PESTAÑA "EQUIPOS"', 15, y);
+    y += 8;
+    doc.setFontSize(10);
+    doc.text('1. Filtra por Femenino/Masculino y Grupo A/B', 15, y);
+    y += 6;
+    doc.text('2. Toca cualquier equipo para ver su plantilla', 15, y);
+    y += 6;
+    doc.text('3. Cada jugador muestra sus estadisticas acumuladas', 15, y);
+    y += 14;
+    
+    doc.setFontSize(12);
+    doc.text('📄 COMO DESCARGAR EL CALENDARIO EN PDF', 15, y);
+    y += 8;
+    doc.setFontSize(10);
+    doc.text('1. Ve a la pestaña "PARTIDOS"', 15, y);
+    y += 6;
+    doc.text('2. Toca el boton "📄 Descargar PDF"', 15, y);
+    y += 6;
+    doc.text('3. Elige una opcion: Por Semana / Por Equipo / Todas', 15, y);
+    y += 6;
+    doc.text('4. El PDF se descargara automaticamente', 15, y);
+    
+    // ==================== PÁGINA 4 ====================
+    doc.addPage();
+    y = 20;
+    
+    doc.setFontSize(12);
+    doc.text('⚽ REGLAS DEL TORNEO', 15, y);
+    y += 8;
+    
+    doc.setFontSize(10);
+    doc.text('📌 SEMANA 1 y SEMANA 2:', 15, y);
+    y += 6;
+    doc.text('• Gana el equipo que primero llegue a 20 tantos', 20, y);
+    y += 5;
+    doc.text('• Si el tiempo se agota (2h), gana quien tenga ≥12 (60%)', 20, y);
+    y += 10;
+    
+    doc.text('📌 A PARTIR DE LA SEMANA 3:', 15, y);
+    y += 6;
+    doc.text('• Duracion del partido: 1 hora y media (90 minutos)', 20, y);
+    y += 5;
+    doc.text('• Gana el equipo que primero llegue a 15 tantos', 20, y);
+    y += 5;
+    doc.text('• Si el tiempo se agota, gana quien tenga 12 o mas', 20, y);
+    y += 10;
+    
+    doc.text('📌 EMPATE AL TERMINAR EL TIEMPO:', 15, y);
+    y += 6;
+    doc.text('• Se fuerza un tiro extra (desempate)', 20, y);
+    y += 5;
+    doc.text('• Gana el equipo que realice el tanto o los tantos', 20, y);
+    y += 5;
+    doc.text('  necesarios para desempatar', 20, y);
+    y += 10;
+    
+    doc.text('📌 SISTEMA DE PUNTUACION:', 15, y);
+    y += 6;
+    doc.text('• Victoria = 3 puntos', 20, y);
+    y += 5;
+    doc.text('• Derrota = 0 puntos', 20, y);
+    y += 14;
+    
+    doc.setFontSize(12);
+    doc.text('❓ PREGUNTAS FRECUENTES', 15, y);
+    y += 8;
+    doc.setFontSize(10);
+    doc.text('❔ ¿Por que no veo un resultado?', 15, y);
+    y += 5;
+    doc.text('→ El desarrollador aun no lo ha cargado. Espera y recarga.', 20, y);
+    y += 8;
+    doc.text('❔ ¿Puedo modificar un resultado?', 15, y);
+    y += 5;
+    doc.text('→ No. Solo el desarrollador tiene acceso para cargar datos.', 20, y);
+    y += 8;
+    doc.text('❔ ¿Como actualizo la pagina?', 15, y);
+    y += 5;
+    doc.text('→ Desliza hacia abajo (pantalla tactil) o presiona F5', 20, y);
+    y += 8;
+    doc.text('❔ ¿Hay algun costo?', 15, y);
+    y += 5;
+    doc.text('→ No, la pagina es completamente gratuita.', 20, y);
+    y += 14;
+    
+    doc.setFontSize(12);
+    doc.text('📞 CONTACTO', 15, y);
+    y += 8;
+    doc.setFontSize(10);
+    doc.text('Si encuentras algun error o tienes dudas, comunicate', 15, y);
+    y += 6;
+    doc.text('con el desarrollador de la pagina web:', 15, y);
+    y += 8;
+    doc.text('🧑‍💻 MSc. Orlando Silva', 15, y);
+    y += 6;
+    doc.text('📱 0426-435-79-41', 15, y);
+    y += 15;
+    
+    doc.setFontSize(11);
+    doc.text('🏆 ¡Gracias por participar! Que gane el mejor.', pw / 2, y, { align: 'center' });
+    y += 10;
+    doc.setFontSize(8);
+    doc.text('Generado: ' + new Date().toLocaleDateString('es-VE'), pw / 2, y, { align: 'center' });
+    y += 5;
+    doc.text('Sibarita Sport Club', pw / 2, y, { align: 'center' });
     
     doc.save('Instructivo_Sibarita_Sport_Club.pdf');
-    alert('✅ PDF generado correctamente');
     
   } catch(e) {
     console.error('Error:', e);
