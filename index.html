@@ -837,7 +837,6 @@ function generatePDF() {
   const pw = 210, mg = 15;
   let y = 20;
 
-  // Función para agregar texto
   function addText(text, x, y, options = {}) {
     doc.setFontSize(options.size || 11);
     doc.setFont(options.font || 'helvetica', options.style || 'normal');
@@ -849,12 +848,14 @@ function generatePDF() {
     }
   }
 
-  // ==================== PORTADA ====================
+  // PORTADA
   doc.setFillColor(26, 26, 46);
   doc.rect(0, 0, pw, 297, 'F');
   
-  // Logo
-  doc.addImage('https://i.imgur.com/HbKo42m.png', 'PNG', pw/2 - 15, 25, 30, 30);
+  // Logo con emoji
+  doc.setFontSize(45);
+  doc.setTextColor(232, 184, 75);
+  doc.text('🏆', pw / 2, 45, { align: 'center' });
   
   doc.setFontSize(18);
   doc.setTextColor(232, 184, 75);
@@ -876,7 +877,7 @@ function generatePDF() {
   doc.setFontSize(9);
   doc.text('https://orlando299.github.io/Pagina-Web-de-Sibarita-Sport-Club/', pw / 2, 270, { align: 'center' });
   
-  // ==================== PÁGINA 2 ====================
+  // PÁGINA 2
   doc.addPage();
   y = 25;
   doc.setFillColor(26, 26, 46);
@@ -884,7 +885,7 @@ function generatePDF() {
   
   addText('📌 ¿QUÉ ES ESTA PÁGINA?', mg, y, { size: 14, color: [232, 184, 75], style: 'bold' });
   y += 10;
-  addText('Es el sistema oficial del torneo. Aquí podrás consultar:', mg, y, { size: 10, color: [240, 230, 211] });
+  addText('Es el sistema oficial del torneo. Aquí podrás consultar:', mg, y, { size: 10 });
   y += 7;
   addText('• Resultados de todos los partidos', mg + 5, y, { size: 10 });
   y += 6;
@@ -918,7 +919,7 @@ function generatePDF() {
   y += 5;
   addText('• DIF = Diferencia | AVG = Promedio | PTS = Puntos', mg, y, { size: 9 });
   
-  // ==================== PÁGINA 3 ====================
+  // PÁGINA 3
   doc.addPage();
   y = 25;
   doc.setFillColor(26, 26, 46);
@@ -956,7 +957,7 @@ function generatePDF() {
   y += 6;
   addText('4. El PDF se descargará automáticamente', mg, y, { size: 10 });
   
-  // ==================== PÁGINA 4 ====================
+  // PÁGINA 4
   doc.addPage();
   y = 25;
   doc.setFillColor(26, 26, 46);
