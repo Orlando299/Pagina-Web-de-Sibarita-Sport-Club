@@ -155,62 +155,7 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 <div id="stats-modal" class="modal-stats"><div class="modal-content"><div class="modal-header"><div class="modal-title" id="stats-modal-title">Registrar Estadísticas</div><button class="modal-close" onclick="closeStatsModal()">✕</button></div><div id="stats-modal-body"></div><button class="btn-save-stats" onclick="saveMatchStats()">💾 Guardar Estadísticas del Partido</button></div></div>
 
 <script>
-// ==================== TEAMS (PON AQUÍ TU ARRAY) ====================
-const TEAMS = [
-  {n:"Jujure (Educadoras)",c:"Femenino",g:"A",p:["Por Cargar"]},
-  {n:"Serv. Frios Antonella",c:"Femenino",g:"A",p:["Por Cargar"]},
-  {n:"Inversiones IV",c:"Femenino",g:"A",p:["Por Cargar"]},
-  {n:"Taferca",c:"Femenino",g:"A",p:["Por Cargar"]},
-  {n:"Divinas",c:"Femenino",g:"A",p:["Por Cargar"]},
-  {n:"Alimentos Amanecer",c:"Femenino",g:"A",p:["Petra Almao","Hilda Gimenez","Deyanira Yustiz","Aura Yustiz","Graciela Febres","Florinda Hernandez","María del Pilar Sanchez","Nelis Cadevilla","Gloria Mendez"]},
-  {n:"Ferrecenca",c:"Femenino",g:"A",p:["Maria Carreño","Dudamel Nubia","Xiomara Dudamel","Maria Gomez","Deysi Guedez","Milagro Moran","Maria Sira","Yumaira Salazar","Yolanda Sira"]},
-  {n:"Repostería el Ponque",c:"Femenino",g:"A",p:["Por Cargar"]},
-  {n:"Atrevidas",c:"Femenino",g:"A",p:["Por Cargar"]},
-  {n:"Sabaneta",c:"Femenino",g:"A",p:["Yanacia Gómez","Beatriz Gómez","Donaliz Daza","Ana Juana Mendoza","Hayra Benavides","Yorgelis Colina","Iris Zambrano","Isabel Fontela"]},
-  {n:"Inversiones EPA",c:"Femenino",g:"A",p:["Marisela Alvarado","Geilis Rodríguez","Arelis Amaya","Lenny Rodríguez","Marbelis Pagua","Roxelis Pagua","Rosangela Torres","Yoglis Rojas","Marianglis Hernández"]},
-  {n:"Futboleras",c:"Femenino",g:"A",p:["Rosa de Marzitelli","Reina Castillo","Olimariana Avendaño","Osmarlys Suarez","Rosbely Garcia","Nancy Rodriguez","Adan Orlys","María Fernanda Troconis"]},
-  {n:"Saboga",c:"Femenino",g:"B",p:["Por Cargar"]},
-  {n:"The Dolls",c:"Femenino",g:"B",p:["Erika Perez","Cilia Aldania","Juliana Lopez","Maria Parra","Saydimar Pipitone","Adona Gonzalez","Ana Parra","Maria Castellano","Ana Silva"]},
-  {n:"Corpoelec",c:"Femenino",g:"B",p:["Adela Guedez","Nitza Zabaleta","Yuli Alvarez","Cesar Denny","Yunibel Rodriguez","Diolanda Carrillo","Nicholle Colmenarez"]},
-  {n:"Festidoras",c:"Femenino",g:"B",p:["Por Cargar"]},
-  {n:"Corpolec Jubiladas",c:"Femenino",g:"B",p:["Por Cargar"]},
-  {n:"Chikas",c:"Femenino",g:"B",p:["Yusbelis Gonzalez","Natalia Garcia","Marianni Torres","Krisandar Soteldo","Eloisa Gonzalez","Alejandra Mesa","Marbella Suarez","Kerangelit Mendez","Maria Escalante","Gilian Rengifo"]},
-  {n:"Oasis Box",c:"Femenino",g:"B",p:["Carolina Arocha","Luisamar Peña","Mirelys Mendoza","Romi Arapé","Karla Reyes","Sheila Montesinos","Nilda Almeida","Josmayfe Alvarado"]},
-  {n:"Esquina del Sabor",c:"Femenino",g:"B",p:["Por Cargar"]},
-  {n:"Atavenca",c:"Femenino",g:"B",p:["Yadira Torrez","Diana Oropeza","Julia Escalona","María Elcy Noriega","Esmeralda Mercado","Erika Rodriguez","Yankelis Tambo","María Delgado"]},
-  {n:"Las Femix",c:"Femenino",g:"B",p:["Por Cargar"]},
-  {n:"Emprendedoras",c:"Femenino",g:"B",p:["Por Cargar"]},
-  {n:"Santana",c:"Femenino",g:"B",p:["Por Cargar"]},
-  {n:"Tornillería YR Portuguesa",c:"Masculino",g:"A",p:["Por Cargar"]},
-  {n:"Fuerza",c:"Masculino",g:"A",p:["Ademar Tua","Pedro Yepez","Pedro Noguera","Clemente Pérez","Luis Barco","Miguel Segura","Ramón Perdomo"]},
-  {n:"Corpolec2",c:"Masculino",g:"A",p:["Por Cargar"]},
-  {n:"Servihidra",c:"Masculino",g:"B",p:["Henry Pacheco","Jose Rodriguez","Atahualpa Melendez","Gustavo Orozco","Theoscar Vicent","Jose Cordero","Numan Dudamel","Nelson Suarez","Giovanni Gonzalez"]},
-  {n:"Familia Ortega",c:"Masculino",g:"A",p:["Por Cargar"]},
-  {n:"Exasa",c:"Masculino",g:"A",p:["Por Cargar"]},
-  {n:"Los Panas Vimapin",c:"Masculino",g:"A",p:["Victor Pinto","Marco Rodriguez","Carlos Rodriguez","Ronald Perez","Wely Melendez","Joel Ortega","Neptali Torrez"]},
-  {n:"Club Afibola",c:"Masculino",g:"A",p:["Carlos Colmenarez","Roger Colmenarez","Jose Torrez","Pedro Torrez","Jorgue Chirinos","Octavio Chirinos","Gabriel Perez","Jose Chirinos","Junior Garcia"]},
-  {n:"Yusevin CA",c:"Masculino",g:"A",p:["Pedro Orellana","Juan C. Rodriguez","Juan Sira","Ricardo Ochoa","Zaney Vivas","Reinaldo Mendoza","Jorge Ochoa","Jose Gomez","Jhonny De La Hoz","David Anza"]},
-  {n:"Los Amigos",c:"Masculino",g:"A",p:["Carlos Silva","Gregorio Linares","Luis Escobar","Efrén Cabrera","Omar Alvarado","Cornelio Escalona","José Escalona","Wuilfredo Guedez","Luis Ramos","Fernando"]},
-  {n:"Unidos de Hato",c:"Masculino",g:"A",p:["Por Cargar"]},
-  {n:"Sibarita",c:"Masculino",g:"A",p:["Por Cargar"]},
-  {n:"Agro max",c:"Masculino",g:"A",p:["Por Cargar"]},
-  {n:"Team JM&JA",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Poder Justiciable",c:"Masculino",g:"B",p:["Daniel Roman","Honorio Peroza","Tony Perez","Alfonzo Delgado","Jhonatan Cedeño","Jhonny Oviedo","Ruben Montero","Javier Torrealba"]},
-  {n:"Ingenieros",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Agroserviportuguesa",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Los Irochimas",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Tribunal Protección",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Bodegon Los Vasquez",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Triunfadores",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Pintucal",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Gladiadores del Cerrito",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Atletico Paez",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Sistema de Justicia",c:"Masculino",g:"B",p:["Félix Rumbos","Carlos Araujo","Jonnathan Silva","Junior Guedez","Jorge Zambrano","Carlos Torrealba","Javier Diaz","Pedro Diaz"]},
-  {n:"Distribuidora JH",c:"Masculino",g:"B",p:["Por Cargar"]},
-  {n:"Alimentos la Granja",c:"Masculino",g:"B",p:["Por Cargar"]}
-];
-
-// ==================== MATCHES (PON AQUÍ TU ARRAY DE 314 PARTIDOS) ====================
+// ==================== TEAMS (PON AQUÍ TU ARRAY DE EQUIPOS) ====================
 const TEAMS = [
   {n:"Jujure (Educadoras)",c:"Femenino",g:"A",p:["Por Cargar"]},
   {n:"Serv. Frios Antonella",c:"Femenino",g:"A",p:["Por Cargar"]},
@@ -583,9 +528,10 @@ const MATCHES = [
   {id:314, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Bodegon Los Vasquez", d:"11/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S9"}
 ];
 
+
 // ==================== CONFIGURACIÓN ====================
-const GOOGLE_SHEETS_RESULTADOS_URL = 'https://docs.google.com/spreadsheets/d/18NL6I-HHldsmdk-i-tPnhD7ztHOECeNVB-FHCdKhGc4/export?format=csv&gid=0';
-const GOOGLE_SHEETS_MVP_URL = 'https://docs.google.com/spreadsheets/d/18NL6I-HHldsmdk-i-tPnhD7ztHOECeNVB-FHCdKhGc4/export?format=csv&gid=1';
+const GOOGLE_SHEETS_RESULTADOS_URL = '';
+const GOOGLE_SHEETS_MVP_URL = '';
 
 let cargandoDesdeSheets = false;
 let ultimaSincronizacion = null;
@@ -639,7 +585,7 @@ function saveMatchStats() { const match = MATCHES.find(m => m.id === currentMatc
 
 function closeStatsModal() { g('stats-modal').style.display = 'none'; currentMatchId = null; }
 
-async function sincronizarResultadosDesdeGoogleSheets() { try { cargandoDesdeSheets = true; mostrarEstadoSincronizacion('🔄 Sincronizando...'); const response = await fetch(GOOGLE_SHEETS_RESULTADOS_URL); const csvText = await response.text(); const resultados = convertirCSVaResultados(csvText); for (const [id, datos] of Object.entries(resultados)) { if (!R[id] || datos.actualizado > (R[id].actualizado || 0)) { R[id] = { scoreA: datos.scoreA, scoreB: datos.scoreB, status: datos.status }; } } try { const mvpResponse = await fetch(GOOGLE_SHEETS_MVP_URL); const mvpCsv = await mvpResponse.text(); const mvps = convertirCSVaMVP(mvpCsv); for (const [id, datos] of Object.entries(mvps)) { if (!MVP[id]) { MVP[id] = datos; } } } catch(e) { console.log('No se pudo cargar MVP'); } save(); cargandoDesdeSheets = false; ultimaSincronizacion = new Date(); mostrarEstadoSincronizacion('✅ Sincronizado: ' + ultimaSincronizacion.toLocaleTimeString()); rM(); rSt(); rA(); } catch (error) { console.error('Error al sincronizar:', error); cargandoDesdeSheets = false; mostrarEstadoSincronizacion('⚠️ Error de sincronización. Usando datos locales.', true); } }
+async function sincronizarResultadosDesdeGoogleSheets() { try { if (!GOOGLE_SHEETS_RESULTADOS_URL) { alert('Configura primero las URLs de Google Sheets'); return; } cargandoDesdeSheets = true; mostrarEstadoSincronizacion('🔄 Sincronizando...'); const response = await fetch(GOOGLE_SHEETS_RESULTADOS_URL); const csvText = await response.text(); const resultados = convertirCSVaResultados(csvText); for (const [id, datos] of Object.entries(resultados)) { if (!R[id] || datos.actualizado > (R[id].actualizado || 0)) { R[id] = { scoreA: datos.scoreA, scoreB: datos.scoreB, status: datos.status }; } } try { const mvpResponse = await fetch(GOOGLE_SHEETS_MVP_URL); const mvpCsv = await mvpResponse.text(); const mvps = convertirCSVaMVP(mvpCsv); for (const [id, datos] of Object.entries(mvps)) { if (!MVP[id]) { MVP[id] = datos; } } } catch(e) { console.log('No se pudo cargar MVP'); } save(); cargandoDesdeSheets = false; ultimaSincronizacion = new Date(); mostrarEstadoSincronizacion('✅ Sincronizado: ' + ultimaSincronizacion.toLocaleTimeString()); rM(); rSt(); rA(); } catch (error) { console.error('Error al sincronizar:', error); cargandoDesdeSheets = false; mostrarEstadoSincronizacion('⚠️ Error de sincronización. Usando datos locales.', true); } }
 
 function convertirCSVaResultados(csv) { const lineas = csv.split('\n'); const resultados = {}; for (let i = 1; i < lineas.length; i++) { const valores = lineas[i].split(','); if (valores.length >= 4 && valores[0]) { const id = parseInt(valores[0]); const scoreA = parseInt(valores[1]); const scoreB = parseInt(valores[2]); const status = valores[3].trim().replace(/"/g, ''); if (!isNaN(scoreA) && !isNaN(scoreB)) { resultados[id] = { scoreA, scoreB, status }; } } } return resultados; }
 
@@ -649,7 +595,6 @@ function mostrarEstadoSincronizacion(mensaje, esError = false) { let estadoDiv =
 
 function exportarResultadosACSV() { let csvResultados = 'partido_id,scoreA,scoreB,status\n'; for (const [id, datos] of Object.entries(R)) { csvResultados += `${id},${datos.scoreA},${datos.scoreB},${datos.status}\n`; } let csvMVP = 'partido_id,nombre,equipo,efec\n'; for (const [id, datos] of Object.entries(MVP)) { csvMVP += `${id},${datos.name},${datos.team},${datos.efec || 0}\n`; } const blobResultados = new Blob([csvResultados], { type: 'text/csv' }); const urlResultados = URL.createObjectURL(blobResultados); const aResultados = document.createElement('a'); aResultados.href = urlResultados; aResultados.download = `resultados_torneo_${new Date().toISOString().slice(0,19)}.csv`; aResultados.click(); URL.revokeObjectURL(urlResultados); const blobMVP = new Blob([csvMVP], { type: 'text/csv' }); const urlMVP = URL.createObjectURL(blobMVP); const aMVP = document.createElement('a'); aMVP.href = urlMVP; aMVP.download = `mvp_torneo_${new Date().toISOString().slice(0,19)}.csv`; aMVP.click(); URL.revokeObjectURL(urlMVP); alert('✅ Archivos CSV generados. Cópialos a tu Google Sheet para que todos los vean.'); }
 
-// ==================== PDF ====================
 let pdfMode = 'week';
 
 function togglePdfPanel() { const panel = g('pdf-panel'); const isOpen = panel.classList.contains('open'); if (!isOpen) populateTeamSel(); panel.classList.toggle('open'); }
@@ -668,117 +613,64 @@ function generatePDF() {
   let filterLabel = '';
   let fname = '';
 
-  // MODO: TODAS LAS CATEGORÍAS POR SEMANA
   if (pdfMode === 'all') {
     const semanaSeleccionada = F.mWk;
     if (semanaSeleccionada === 'Todos') {
       alert('⚠️ Para generar PDF de "Todas las Categorías", primero selecciona una semana específica (Sem 1, Sem 2, etc.) en la pestaña Partidos.');
       return;
     }
-    
     list = MATCHES.filter(m => m.w === semanaSeleccionada);
-    
-    if (list.length === 0) {
-      alert(`No hay partidos en ${semanaSeleccionada}`);
-      return;
-    }
-    
+    if (list.length === 0) { alert(`No hay partidos en ${semanaSeleccionada}`); return; }
     const semanaNombre = { S1:'Semana 1', S2:'Semana 2', S3:'Semana 3', S4:'Semana 4', S5:'Semana 5', S6:'Semana 6', S7:'Semana 7', S8:'Semana 8', S9:'Semana 9' };
-    filterLabel = `${semanaNombre[semanaSeleccionada]} - TODAS LAS CATEGORÍAS (Femenino A/B + Masculino A/B)`;
+    filterLabel = `${semanaNombre[semanaSeleccionada]} - TODAS LAS CATEGORÍAS`;
     fname = `Calendario_${semanaSeleccionada}_Todas_Categorias.pdf`;
-    
-    // Organizar por categoría y grupo
-    const grupos = {
-      'Femenino - Grupo A': [],
-      'Femenino - Grupo B': [],
-      'Masculino - Grupo A': [],
-      'Masculino - Grupo B': []
-    };
-    
-    list.forEach(m => {
-      const key = `${m.c} - Grupo ${m.g}`;
-      if (grupos[key]) grupos[key].push(m);
-    });
-    
-    // Header
-    doc.setFillColor(26, 26, 46);
-    doc.rect(0, 0, pw, 38, 'F');
-    doc.setTextColor(232, 184, 75);
-    doc.setFontSize(16);
-    doc.setFont('helvetica', 'bold');
+    const grupos = { 'Femenino - Grupo A': [], 'Femenino - Grupo B': [], 'Masculino - Grupo A': [], 'Masculino - Grupo B': [] };
+    list.forEach(m => { const key = `${m.c} - Grupo ${m.g}`; if (grupos[key]) grupos[key].push(m); });
+    doc.setFillColor(26, 26, 46); doc.rect(0, 0, pw, 38, 'F');
+    doc.setTextColor(232, 184, 75); doc.setFontSize(16); doc.setFont('helvetica', 'bold');
     doc.text('SIBARITA SPORT CLUB', pw / 2, 12, { align: 'center' });
-    doc.setFontSize(11);
-    doc.setTextColor(240, 230, 211);
+    doc.setFontSize(11); doc.setTextColor(240, 230, 211);
     doc.text('2do Campeonato Bolas Criollas 2026 - Categoría B', pw / 2, 20, { align: 'center' });
-    doc.setFontSize(13);
-    doc.setTextColor(232, 184, 75);
+    doc.setFontSize(13); doc.setTextColor(232, 184, 75);
     doc.text(semanaNombre[semanaSeleccionada], pw / 2, 28, { align: 'center' });
-    doc.setFontSize(9);
-    doc.setTextColor(136, 153, 170);
+    doc.setFontSize(9); doc.setTextColor(136, 153, 170);
     doc.text('TODAS LAS CATEGORÍAS (Femenino A/B + Masculino A/B)', pw / 2, 35, { align: 'center' });
     y = 45;
-    
-    const colores = {
-      'Femenino - Grupo A': [232, 184, 75],
-      'Femenino - Grupo B': [255, 159, 64],
-      'Masculino - Grupo A': [52, 152, 219],
-      'Masculino - Grupo B': [46, 204, 113]
-    };
-    
+    const colores = { 'Femenino - Grupo A': [232,184,75], 'Femenino - Grupo B': [255,159,64], 'Masculino - Grupo A': [52,152,219], 'Masculino - Grupo B': [46,204,113] };
     Object.keys(grupos).forEach(grupo => {
       const partidos = grupos[grupo];
       if (partidos.length === 0) return;
       if (y > 250) { doc.addPage(); y = 20; }
-      const color = colores[grupo] || [100, 100, 100];
-      doc.setFillColor(color[0], color[1], color[2]);
-      doc.rect(mg, y, pw - mg * 2, 9, 'F');
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'bold');
-      doc.text(grupo, mg + 3, y + 6.5);
-      y += 13;
-      doc.setFillColor(22, 33, 62);
-      doc.rect(mg, y, pw - mg * 2, 6, 'F');
-      doc.setTextColor(232, 184, 75);
-      doc.setFontSize(7);
-      doc.text('FECHA', mg + 3, y + 4.5);
-      doc.text('HORA', mg + 35, y + 4.5);
-      doc.text('CANCHA', mg + 55, y + 4.5);
-      doc.text('EQUIPO A', mg + 80, y + 4.5);
-      doc.text('VS', mg + 130, y + 4.5);
-      doc.text('EQUIPO B', mg + 145, y + 4.5);
-      doc.text('RES', mg + 185, y + 4.5);
+      const color = colores[grupo] || [100,100,100];
+      doc.setFillColor(color[0], color[1], color[2]); doc.rect(mg, y, pw - mg * 2, 9, 'F');
+      doc.setTextColor(255,255,255); doc.setFontSize(10); doc.setFont('helvetica', 'bold');
+      doc.text(grupo, mg + 3, y + 6.5); y += 13;
+      doc.setFillColor(22,33,62); doc.rect(mg, y, pw - mg * 2, 6, 'F');
+      doc.setTextColor(232,184,75); doc.setFontSize(7);
+      doc.text('FECHA', mg + 3, y + 4.5); doc.text('HORA', mg + 35, y + 4.5); doc.text('CANCHA', mg + 55, y + 4.5);
+      doc.text('EQUIPO A', mg + 80, y + 4.5); doc.text('VS', mg + 130, y + 4.5); doc.text('EQUIPO B', mg + 145, y + 4.5); doc.text('RES', mg + 185, y + 4.5);
       y += 9;
       partidos.forEach((m, idx) => {
         if (y > 270) { doc.addPage(); y = 20; }
-        const r = R[m.id];
-        const resultado = r ? `${r.scoreA}-${r.scoreB}` : 'Pend.';
+        const r = R[m.id]; const resultado = r ? `${r.scoreA}-${r.scoreB}` : 'Pend.';
         doc.setFillColor(idx % 2 === 0 ? 22 : 28, idx % 2 === 0 ? 33 : 40, idx % 2 === 0 ? 62 : 70);
         doc.rect(mg, y, pw - mg * 2, 7, 'F');
-        doc.setTextColor(240, 230, 211);
-        doc.setFontSize(7.5);
+        doc.setTextColor(240,230,211); doc.setFontSize(7.5);
         doc.text(m.d.substring(8,10)+'/'+m.d.substring(5,7), mg + 3, y + 5);
-        doc.text(m.h, mg + 35, y + 5);
-        doc.text(m.f, mg + 55, y + 5);
+        doc.text(m.h, mg + 35, y + 5); doc.text(m.f, mg + 55, y + 5);
         doc.text(m.a.length > 18 ? m.a.substring(0,16)+'..' : m.a, mg + 80, y + 5);
         doc.text('vs', mg + 130, y + 5);
         doc.text(m.b.length > 18 ? m.b.substring(0,16)+'..' : m.b, mg + 145, y + 5);
-        doc.setTextColor(232, 184, 75);
-        doc.text(resultado, mg + 185, y + 5);
+        doc.setTextColor(232,184,75); doc.text(resultado, mg + 185, y + 5);
         y += 7;
       });
       y += 5;
     });
-    doc.setTextColor(136, 153, 170);
-    doc.setFontSize(7);
-    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(136,153,170); doc.setFontSize(7); doc.setFont('helvetica', 'normal');
     doc.text(`Generado: ${new Date().toLocaleDateString('es-VE')} · Sibarita Sport Club`, pw / 2, 290, { align: 'center' });
-    doc.save(fname);
-    togglePdfPanel();
-    return;
+    doc.save(fname); togglePdfPanel(); return;
   }
   
-  // MODO NORMAL (semana o equipo)
   if (pdfMode === 'week') {
     const wk = g('pdf-week-sel').value;
     const wlbls = { Todos: 'Todas las Semanas', S1: 'Semana 1', S2: 'Semana 2', S3: 'Semana 3', S4: 'Semana 4', S5: 'Semana 5', S6: 'Semana 6', S7: 'Semana 7', S8: 'Semana 8', S9: 'Semana 9' };
@@ -794,82 +686,51 @@ function generatePDF() {
   
   if (!list.length) { alert('No hay partidos para este filtro.'); return; }
   
-  doc.setFillColor(26, 26, 46);
-  doc.rect(0, 0, pw, 32, 'F');
-  doc.setTextColor(232, 184, 75);
-  doc.setFontSize(15);
-  doc.setFont('helvetica', 'bold');
+  doc.setFillColor(26,26,46); doc.rect(0, 0, pw, 32, 'F');
+  doc.setTextColor(232,184,75); doc.setFontSize(15); doc.setFont('helvetica', 'bold');
   doc.text('SIBARITA SPORT CLUB', pw / 2, 11, { align: 'center' });
-  doc.setFontSize(10);
-  doc.setTextColor(240, 230, 211);
+  doc.setFontSize(10); doc.setTextColor(240,230,211);
   doc.text('2do Campeonato Bolas Criollas 2026 - Categoría B', pw / 2, 18, { align: 'center' });
-  doc.setFontSize(9);
-  doc.setTextColor(136, 153, 170);
+  doc.setFontSize(9); doc.setTextColor(136,153,170);
   doc.text(filterLabel, pw / 2, 25, { align: 'center' });
   y = 38;
-  
-  const groups = {};
-  list.forEach(m => { if (!groups[m.w]) groups[m.w] = []; groups[m.w].push(m); });
+  const groups = {}; list.forEach(m => { if (!groups[m.w]) groups[m.w] = []; groups[m.w].push(m); });
   const wlbls2 = { S1: 'SEMANA 1', S2: 'SEMANA 2', S3: 'SEMANA 3', S4: 'SEMANA 4', S5: 'SEMANA 5', S6: 'SEMANA 6', S7: 'SEMANA 7', S8: 'SEMANA 8', S9: 'SEMANA 9' };
   const wrgb = { S1: [46,204,113], S2: [52,152,219], S3: [155,89,182], S4: [230,126,34], S5: [192,57,43], S6: [26,188,156], S7: [233,30,99], S8: [96,125,139], S9: [241,196,15] };
-  
   Object.keys(groups).sort().forEach(wk => {
-    const ms = groups[wk];
-    const rgb = wrgb[wk] || [100,100,100];
+    const ms = groups[wk]; const rgb = wrgb[wk] || [100,100,100];
     if (y > 255) { doc.addPage(); y = 15; }
-    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
-    doc.rect(mg, y, pw - mg * 2, 8, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(9);
-    doc.setFont('helvetica', 'bold');
-    doc.text(wlbls2[wk] || wk, mg + 3, y + 5.5);
-    y += 11;
+    doc.setFillColor(rgb[0], rgb[1], rgb[2]); doc.rect(mg, y, pw - mg * 2, 8, 'F');
+    doc.setTextColor(255,255,255); doc.setFontSize(9); doc.setFont('helvetica', 'bold');
+    doc.text(wlbls2[wk] || wk, mg + 3, y + 5.5); y += 11;
     ms.forEach(m => {
       if (y > 265) { doc.addPage(); y = 15; }
-      const r = R[m.id];
-      const result = r ? `${r.scoreA} — ${r.scoreB}${r.status === 'forfeit' ? ' (FF)' : ''}` : 'Pendiente';
+      const r = R[m.id]; const result = r ? `${r.scoreA} — ${r.scoreB}${r.status === 'forfeit' ? ' (FF)' : ''}` : 'Pendiente';
       const mv = MVP[m.id];
-      doc.setFillColor(22, 33, 62);
-      doc.rect(mg, y, pw - mg * 2, 13, 'F');
-      doc.setDrawColor(15, 52, 96);
-      doc.rect(mg, y, pw - mg * 2, 13, 'S');
-      doc.setTextColor(136, 153, 170);
-      doc.setFontSize(7);
-      doc.setFont('helvetica', 'normal');
+      doc.setFillColor(22,33,62); doc.rect(mg, y, pw - mg * 2, 13, 'F');
+      doc.setDrawColor(15,52,96); doc.rect(mg, y, pw - mg * 2, 13, 'S');
+      doc.setTextColor(136,153,170); doc.setFontSize(7); doc.setFont('helvetica', 'normal');
       doc.text(`${m.d} ${m.dy} · ${m.h} · ${m.f}`, mg + 3, y + 4);
       const colorA = r && r.scoreA > r.scoreB ? [232,184,75] : [240,230,211];
-      doc.setTextColor(colorA[0], colorA[1], colorA[2]);
-      doc.setFontSize(8.5);
-      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(colorA[0], colorA[1], colorA[2]); doc.setFontSize(8.5); doc.setFont('helvetica', 'bold');
       const tA = m.a.length > 22 ? m.a.substring(0,21) + '.' : m.a;
       doc.text(tA, mg + 3, y + 10);
-      doc.setTextColor(232, 184, 75);
-      doc.setFontSize(9);
-      doc.text(result, pw / 2, y + 10, { align: 'center' });
+      doc.setTextColor(232,184,75); doc.setFontSize(9); doc.text(result, pw / 2, y + 10, { align: 'center' });
       const colorB = r && r.scoreB > r.scoreA ? [232,184,75] : [240,230,211];
-      doc.setTextColor(colorB[0], colorB[1], colorB[2]);
-      const tB = m.b.length > 22 ? m.b.substring(0,21) + '.' : m.b;
+      doc.setTextColor(colorB[0], colorB[1], colorB[2]); const tB = m.b.length > 22 ? m.b.substring(0,21) + '.' : m.b;
       doc.text(tB, pw - mg - 3, y + 10, { align: 'right' });
-      if (mv) {
-        doc.setTextColor(232, 184, 75);
-        doc.setFontSize(6);
-        doc.setFont('helvetica', 'italic');
-        doc.text(`🏅 ${mv.name} (${mv.team})`, mg + 3, y + 4);
-      }
+      if (mv) { doc.setTextColor(232,184,75); doc.setFontSize(6); doc.setFont('helvetica', 'italic'); doc.text(`🏅 ${mv.name} (${mv.team})`, mg + 3, y + 4); }
       y += 15;
     });
     y += 2;
   });
-  
-  doc.setTextColor(136, 153, 170);
-  doc.setFontSize(7);
-  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(136,153,170); doc.setFontSize(7); doc.setFont('helvetica', 'normal');
   doc.text(`Generado: ${new Date().toLocaleDateString('es-VE')} · Sibarita Sport Club`, pw / 2, 290, { align: 'center' });
-  doc.save(fname);
-  togglePdfPanel();
+  doc.save(fname); togglePdfPanel();
 }
 
 rT();
 </script>
 </body>
 </html>
+
