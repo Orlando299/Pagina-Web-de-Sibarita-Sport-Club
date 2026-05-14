@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instructivo - Sibarita Sport Club</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:Arial,sans-serif;background:#fff;color:#333;padding:20px;max-width:800px;margin:0 auto;line-height:1.5;}
+  h1{color:#1a1a2e;text-align:center;margin-bottom:10px;}
+  h2{color:#1a1a2e;margin:20px 0 10px;border-bottom:2px solid #e8b84b;padding-bottom:5px;}
+  h3{color:#e8b84b;margin:15px 0 8px;}
+  .logo{text-align:center;margin-bottom:20px;}
+  .logo img{width:60px;height:60px;border-radius:50%;}
+  .contacto{background:#f5f5f5;padding:15px;border-radius:10px;margin-top:20px;}
+  .footer{text-align:center;margin-top:30px;padding-top:15px;border-top:1px solid #ddd;font-size:12px;color:#999;}
+  ul,ol{padding-left:25px;margin:10px 0;}
+  li{margin:5px 0;}
+  .regla{background:#f9f9f9;padding:12px;border-left:4px solid #e8b84b;margin:10px 0;}
+  @media print{
+    body{margin:0;padding:10px;}
+    .no-print{display:none;}
+  }
+  .btn-pdf{background:#e8b84b;border:none;padding:10px 20px;border-radius:5px;cursor:pointer;font-size:16px;margin-bottom:20px;display:inline-block;}
+</style>
+</head>
+<body>
+
+<div class="logo">
+  <img src="https://i.imgur.com/HbKo42m.png" alt="Logo">
+  <h1>Sibarita Sport Club</h1>
+  <p>2do Campeonato Bolas Criollas 2026 - Categoría B</p>
+</div>
+
+<button class="btn-pdf no-print" onclick="window.print()">📄 Guardar como PDF / Imprimir</button>
+
+<h2>📌 ¿QUÉ ES ESTA PÁGINA?</h2>
+<p>Es el sistema oficial del torneo. Aquí podrás consultar:</p>
+<ul>
+  <li>Resultados de todos los partidos</li>
+  <li>Tabla de posiciones actualizada</li>
+  <li>Estadísticas individuales (Arrime y Boche)</li>
+  <li>Calendario de partidos</li>
+</ul>
+<p><strong>➡️ Los datos son de SOLO LECTURA.</strong> Solo el desarrollador puede cargar o modificar resultados y estadísticas.</p>
+
+<h2>🎯 PESTAÑA "PARTIDOS"</h2>
+<ol>
+  <li>Filtra por categoría (Femenino/Masculino) y grupo</li>
+  <li>Selecciona una semana (Sem 1, Sem 2, etc.)</li>
+  <li>Cada tarjeta muestra fecha, hora, cancha y marcador</li>
+</ol>
+
+<h2>🏆 PESTAÑA "TABLA"</h2>
+<p>Muestra la clasificación completa:</p>
+<ul>
+  <li><strong>PJ</strong> = Partidos Jugados</li>
+  <li><strong>PG</strong> = Partidos Ganados</li>
+  <li><strong>PP</strong> = Partidos Perdidos</li>
+  <li><strong>TF</strong> = Tantos a Favor</li>
+  <li><strong>TC</strong> = Tantos en Contra</li>
+  <li><strong>DIF</strong> = Diferencia (TF - TC)</li>
+  <li><strong>AVG</strong> = Promedio</li>
+  <li><strong>PTS</strong> = Puntos (Victoria = 3 pts)</li>
+</ul>
+
+<h2>📊 PESTAÑA "AVERAGE"</h2>
+<p>Estadísticas individuales de cada jugador:</p>
+<ul>
+  <li><strong>ARR (B/T)</strong> = Arrime Buenos / Total de arrimes</li>
+  <li><strong>BOC (B/T)</strong> = Boche Buenos / Total de boches</li>
+  <li><strong>EFEC%</strong> = Efectividad = (Buenos / Total) × 100</li>
+</ul>
+<p>Puedes buscar jugadores por nombre usando la lupa 🔍</p>
+
+<h2>👥 PESTAÑA "EQUIPOS"</h2>
+<ol>
+  <li>Filtra por Femenino/Masculino y Grupo A/B</li>
+  <li>Toca cualquier equipo para ver su plantilla</li>
+  <li>Cada jugador muestra sus estadísticas acumuladas</li>
+</ol>
+
+<h2>📄 CÓMO DESCARGAR EL CALENDARIO EN PDF</h2>
+<ol>
+  <li>Ve a la pestaña "PARTIDOS"</li>
+  <li>Toca el botón "📄 Descargar PDF"</li>
+  <li>Elige una opción: Por Semana / Por Equipo / Todas las Categorías</li>
+  <li>El PDF se descargará automáticamente</li>
+</ol>
+
+<h2>⚽ REGLAS DEL TORNEO</h2>
+
+<div class="regla">
+  <strong>📌 SEMANA 1 y SEMANA 2:</strong>
+  <ul>
+    <li>Gana el equipo que primero llegue a 20 tantos</li>
+    <li>Si el tiempo se agota (2h), gana quien tenga ≥12 (60%)</li>
+  </ul>
+</div>
+
+<div class="regla">
+  <strong>📌 A PARTIR DE LA SEMANA 3:</strong>
+  <ul>
+    <li>Duración del partido: 1 hora y media (90 minutos)</li>
+    <li>Gana el equipo que primero llegue a 15 tantos</li>
+    <li>Si el tiempo se agota, gana quien tenga 12 tantos o más</li>
+  </ul>
+</div>
+
+<div class="regla">
+  <strong>📌 EMPATE AL TERMINAR EL TIEMPO:</strong>
+  <ul>
+    <li>Se fuerza un tiro extra (desempate)</li>
+    <li>Gana el equipo que realice el tanto o los tantos necesarios para desempatar</li>
+  </ul>
+</div>
+
+<div class="regla">
+  <strong>📌 SISTEMA DE PUNTUACIÓN:</strong>
+  <ul>
+    <li>Victoria = 3 puntos</li>
+    <li>Derrota = 0 puntos</li>
+  </ul>
+</div>
+
+<h2>❓ PREGUNTAS FRECUENTES</h2>
+<ul>
+  <li><strong>❔ ¿Por qué no veo un resultado?</strong><br>→ El desarrollador aún no lo ha cargado. Espera un poco y recarga la página.</li>
+  <li><strong>❔ ¿Puedo modificar un resultado desde mi celular?</strong><br>→ No. Solo el desarrollador tiene acceso para cargar o modificar resultados.</li>
+  <li><strong>❔ ¿Cómo actualizo la página?</strong><br>→ Desliza hacia abajo (pantalla táctil) o presiona F5.</li>
+  <li><strong>❔ ¿Hay algún costo?</strong><br>→ No, la página es completamente gratuita.</li>
+</ul>
+
+<div class="contacto">
+  <h3>📞 CONTACTO</h3>
+  <p>Si encuentras algún error o tienes dudas, comunícate con el desarrollador de la página web:</p>
+  <p><strong>🧑‍💻 MSc. Orlando Silva</strong><br>
+  📱 0426-435-79-41</p>
+</div>
+
+<div class="footer">
+  <p>🏆 ¡Gracias por participar! Que gane el mejor.</p>
+  <p>Generado: Mayo 2026 | Sibarita Sport Club</p>
+</div>
+
+</body>
+</html>
