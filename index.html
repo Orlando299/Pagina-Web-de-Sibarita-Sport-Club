@@ -685,8 +685,46 @@ function closeStatsModal() { g('stats-modal').style.display = 'none'; currentMat
 
 async function sincronizarResultadosDesdeGoogleSheets() { try { if (!GOOGLE_SHEETS_RESULTADOS_URL) { alert('Configura primero las URLs de Google Sheets'); return; } cargandoDesdeSheets = true; mostrarEstadoSincronizacion('🔄 Sincronizando...'); const response = await fetch(GOOGLE_SHEETS_RESULTADOS_URL); const csvText = await response.text(); const resultados = convertirCSVaResultados(csvText); for (const [id, datos] of Object.entries(resultados)) { if (!R[id] || datos.actualizado > (R[id].actualizado || 0)) { R[id] = { scoreA: datos.scoreA, scoreB: datos.scoreB, status: datos.status }; } } try { const mvpResponse = await fetch(GOOGLE_SHEETS_MVP_URL); const mvpCsv = await mvpResponse.text(); const mvps = convertirCSVaMVP(mvpCsv); for (const [id, datos] of Object.entries(mvps)) { if (!MVP[id]) { MVP[id] = datos; } } } catch(e) { console.log('No se pudo cargar MVP'); } save(); cargandoDesdeSheets = false; ultimaSincronizacion = new Date(); mostrarEstadoSincronizacion('✅ Sincronizado: ' + ultimaSincronizacion.toLocaleTimeString()); rM(); rSt(); rA(); } catch (error) { console.error('Error al sincronizar:', error); cargandoDesdeSheets = false; mostrarEstadoSincronizacion('⚠️ Error de sincronización. Usando datos locales.', true); } }
 
-function convertirCSVaResultados(csv) { const lineas = csv.split('\n'); const resultados = {}; for (let i = 1; i < lineas.length; i++) { const valores = lineas[i].split(','); if (valores.length >= 4 && valores[0]) { const id = parseInt(valores[0]); const scoreA = parseInt(valores[1]); const scoreB = parseInt(valores[2]); const status = valores[3].trim().replace(/"/g, ''); if (!isNaN(scoreA) && !isNaN(scoreB)) { resultados[id] = { scoreA, scoreB, status }; } } } return resultados; }
+function convertirCSVaResultados(csv) {
+  const lineas = csv.split('\n');
+  const resultados = {};
+  
+  for (let i = 0; i < lineas.length; i++) {
+    // Saltar líneas vacías
+    if (!lineas[i].trim()) continue;
+    
+    // Dividir por coma (manejar posibles comillas)
+    let valores = lineas[i].split(',');
+    
+    // Limpiar cada valor (quitar comillas y espacios)
+    valores = valores.map(v => v.trim().replace(/^"|"$/g, ''));
+    
+    // La primera línea es el encabezado, saltarla
+    if (i === 0) {
+      if (valores[0] === 'partido_id') continue;
+    }
+    
+    // Verificar que tenga al menos 4 columnas
+    if (valores.length >= 4 && valores[0] !== 'partido_id') {
+      const id = parseInt(valores[0]);
+      const scoreA = parseInt(valores[1]);
+      const scoreB = parseInt(valores[2]);
+      const status = valores[3];
+      
+      // Verificar que sean números válidos
+      if (!isNaN(id) && !isNaN(scoreA) && !isNaN(scoreB)) {
+        resultados[id] = { scoreA, scoreB, status };
+        console.log(`✅ Cargado partido ${id}: ${scoreA}-${scoreB} (${status})`);
+      }
+    }
+  }
+  
+  console.log(`📊 Total de resultados cargados: ${Object.keys(resultados).length}`);
+  return resultados;
+}
 
+
+  
 function convertirCSVaMVP(csv) { const lineas = csv.split('\n'); const mvps = {}; for (let i = 1; i < lineas.length; i++) { const valores = lineas[i].split(','); if (valores.length >= 4 && valores[0]) { const id = parseInt(valores[0]); mvps[id] = { name: valores[1].trim(), team: valores[2].trim(), efec: parseInt(valores[3]) || 0 }; } } return mvps; }
 
 function mostrarEstadoSincronizacion(mensaje, esError = false) { let estadoDiv = document.getElementById('sync-status'); if (!estadoDiv) { estadoDiv = document.createElement('div'); estadoDiv.id = 'sync-status'; estadoDiv.className = 'sync-status'; document.querySelector('.body').prepend(estadoDiv); } estadoDiv.innerHTML = mensaje; estadoDiv.classList.toggle('error', esError); if (!esError) { setTimeout(() => { if (estadoDiv.innerHTML === mensaje) estadoDiv.innerHTML = ''; }, 4000); } }
