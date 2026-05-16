@@ -131,9 +131,10 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
   <div class="frow"><button class="fb on" id="btn-mGa" onclick="setF('mGrp','A')">Grupo A</button><button class="fb" id="btn-mGb" onclick="setF('mGrp','B')">Grupo B</button></div>
   <div class="fscroll" id="m-weeks"></div>
 
-  <button class="fb" onclick="togglePdfPanel()" style="background:#c0392b33;border-color:#c0392b;color:#c0392b;">📄 Descargar PDF</button>
-
-  <button class="fb" onclick="sincronizarResultadosDesdeGoogleSheets()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Sincronizar</button>
+  <div class="frow">
+    <button class="fb" onclick="togglePdfPanel()" style="background:#c0392b33;border-color:#c0392b;color:#c0392b;">📄 Descargar PDF</button>
+    <button class="fb" onclick="sincronizarResultadosDesdeGoogleSheets()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Sincronizar</button>
+  </div>
   
   <div class="pdf-panel" id="pdf-panel"><div style="font-size:11px;color:#e8b84b;font-weight:bold;margin-bottom:8px;letter-spacing:.06em;">DESCARGAR CALENDARIO EN PDF</div><div class="frow"><button class="fb on" id="pdf-btn-week" onclick="setPdfMode('week')">📅 Por Semana</button><button class="fb" id="pdf-btn-team" onclick="setPdfMode('team')">👥 Por Equipo</button><button class="fb" id="pdf-btn-all" onclick="setPdfMode('all')">🌍 Semana (Todas Categorías)</button></div><div id="pdf-week-wrap"><select id="pdf-week-sel" class="pdf-sel"><option value="Todos">Todas las Semanas</option><option value="S1">Semana 1</option><option value="S2">Semana 2</option><option value="S3">Semana 3</option><option value="S4">Semana 4</option><option value="S5">Semana 5</option><option value="S6">Semana 6</option><option value="S7">Semana 7</option><option value="S8">Semana 8</option><option value="S9">Semana 9</option></select></div><div id="pdf-team-wrap" style="display:none;"><select id="pdf-team-sel" class="pdf-sel"></select></div><button class="pdf-gen-btn" onclick="generatePDF()">⬇️ Generar y Descargar PDF</button><button class="pdf-cancel-btn" onclick="togglePdfPanel()">Cancelar</button></div>
   <div class="lbl" id="m-cnt"></div>
@@ -151,6 +152,10 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
   <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)"></div>
   <div class="frow"><button class="fb on" id="btn-aFem" onclick="setF('aCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-aMas" onclick="setF('aCat','Masculino')">👨 Masculino</button></div>
   <div class="frow"><button class="fb on" id="btn-aGa" onclick="setF('aGrp','A')">Grupo A</button><button class="fb" id="btn-aGb" onclick="setF('aGrp','B')">Grupo B</button></div>
+  <div class="frow">
+    <button class="fb" onclick="exportarEstadisticasACSV()" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;">📊 Exportar Estadísticas</button>
+    <button class="fb" onclick="sincronizarEstadisticasDesdeGoogleSheets()" style="background:#e67e2233;border-color:#e67e22;color:#e67e22;">🔄 Sincronizar Estadísticas</button>
+  </div>
   <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;margin-bottom:6px;"><div style="width:20px"></div><div style="flex:1;font-size:9px;color:#8899aa;">JUGADOR</div><div style="display:flex;gap:6px;"><div style="min-width:26px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">PJ</div><div style="min-width:50px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">ARR(B/T)</div><div style="min-width:50px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">BOC(B/T)</div><div style="min-width:32px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">EFEC%</div></div></div>
   <div id="a-list"></div>
   <div class="ibox">📌 <b>ARR:</b> Arrime Buenos/Total | <b>BOC:</b> Boche Buenos/Total | <b>EFEC%:</b> Efectividad</div>
@@ -626,9 +631,9 @@ const MATCHES = [
   {id:314, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Bodegon Los Vasquez", d:"11/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S9"},
 ];
 
-
-// ==================== CONFIGURACIÓN ====================
+// ==================== CONFIGURACIÓN GOOGLE SHEETS ====================
 const GOOGLE_SHEETS_RESULTADOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRAgJDFG7NM5ZO8JjbzxxxZEdmPcPPGoINrXubK06P1e1ltLXhZbOliEyH-t0kCkZJ7djZlNyDyevt9/pub?output=csv';
+const GOOGLE_SHEETS_ESTADISTICAS_URL = '';  // PON AQUÍ LA URL DE TU HOJA DE ESTADÍSTICAS
 const GOOGLE_SHEETS_MVP_URL = '';
 
 let cargandoDesdeSheets = false;
@@ -683,6 +688,7 @@ function saveMatchStats() { const match = MATCHES.find(m => m.id === currentMatc
 
 function closeStatsModal() { g('stats-modal').style.display = 'none'; currentMatchId = null; }
 
+// ==================== SINCRONIZACIÓN CON GOOGLE SHEETS ====================
 async function sincronizarResultadosDesdeGoogleSheets() {
   try {
     if (!GOOGLE_SHEETS_RESULTADOS_URL) {
@@ -691,123 +697,140 @@ async function sincronizarResultadosDesdeGoogleSheets() {
       return;
     }
     
-    mostrarEstadoSincronizacion('🔄 Sincronizando con Google Sheets...');
-    console.log('📡 Conectando a:', GOOGLE_SHEETS_RESULTADOS_URL);
-    
+    mostrarEstadoSincronizacion('🔄 Sincronizando resultados...');
     const response = await fetch(GOOGLE_SHEETS_RESULTADOS_URL);
     
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     
     const csvText = await response.text();
-    console.log('📄 CSV recibido, longitud:', csvText.length, 'caracteres');
-    console.log('📄 Primeros 300 caracteres:', csvText.substring(0, 300));
-    
-    // Verificar que el CSV no esté vacío
-    if (!csvText.trim()) {
-      throw new Error('El archivo CSV está vacío');
-    }
-    
     const resultados = convertirCSVaResultados(csvText);
     const cantidadResultados = Object.keys(resultados).length;
     
-    console.log(`📊 Se encontraron ${cantidadResultados} resultados en Google Sheets`);
-    
-    if (cantidadResultados === 0) {
-      mostrarEstadoSincronizacion('⚠️ No hay resultados en Google Sheets. Agrega datos primero.', true);
-      return;
-    }
-    
-    // Contar cuántos resultados nuevos se van a cargar
     let nuevos = 0;
-    let actualizados = 0;
-    
     for (const [id, datos] of Object.entries(resultados)) {
       if (!R[id]) {
         nuevos++;
         R[id] = { scoreA: datos.scoreA, scoreB: datos.scoreB, status: datos.status };
-      } else if (R[id].scoreA !== datos.scoreA || R[id].scoreB !== datos.scoreB) {
-        actualizados++;
-        R[id] = { scoreA: datos.scoreA, scoreB: datos.scoreB, status: datos.status };
       }
     }
     
-    // Guardar en localStorage
     save();
-    
-    mostrarEstadoSincronizacion(`✅ Sincronizado: ${nuevos} nuevos, ${actualizados} actualizados`);
-    
-    // Refrescar las vistas
+    mostrarEstadoSincronizacion(`✅ Sincronizado: ${nuevos} resultados`);
     rM();
     rSt();
     rA();
-    
-    console.log('✅ Sincronización completada');
-    
   } catch (error) {
-    console.error('❌ Error al sincronizar:', error);
-    mostrarEstadoSincronizacion(`⚠️ Error: ${error.message}. Usando datos locales.`, true);
+    console.error(error);
+    mostrarEstadoSincronizacion('⚠️ Error al sincronizar resultados', true);
   }
-}function convertirCSVaResultados(csv) {
+}
+
+function convertirCSVaResultados(csv) {
   const lineas = csv.split('\n');
   const resultados = {};
-  
-  for (let i = 0; i < lineas.length; i++) {
-    // Saltar líneas vacías
-    if (!lineas[i].trim()) continue;
-    
-    // Dividir por coma (manejar posibles comillas)
-    let valores = lineas[i].split(',');
-    
-    // Limpiar cada valor (quitar comillas y espacios)
-    valores = valores.map(v => v.trim().replace(/^"|"$/g, ''));
-    
-    // La primera línea es el encabezado, saltarla
-    if (i === 0) {
-      if (valores[0] === 'partido_id') continue;
-    }
-    
-    // Verificar que tenga al menos 4 columnas
-    if (valores.length >= 4 && valores[0] !== 'partido_id') {
+  for (let i = 1; i < lineas.length; i++) {
+    const valores = lineas[i].split(',');
+    if (valores.length >= 4 && valores[0]) {
       const id = parseInt(valores[0]);
       const scoreA = parseInt(valores[1]);
       const scoreB = parseInt(valores[2]);
-      const status = valores[3];
-      
-      // Verificar que sean números válidos
-      if (!isNaN(id) && !isNaN(scoreA) && !isNaN(scoreB)) {
+      const status = valores[3].trim().replace(/"/g, '');
+      if (!isNaN(scoreA) && !isNaN(scoreB)) {
         resultados[id] = { scoreA, scoreB, status };
-        console.log(`✅ Cargado partido ${id}: ${scoreA}-${scoreB} (${status})`);
       }
     }
   }
-  
-  console.log(`📊 Total de resultados cargados: ${Object.keys(resultados).length}`);
   return resultados;
 }
 
-
+// ==================== EXPORTAR ESTADÍSTICAS ====================
+function exportarEstadisticasACSV() {
+  let csv = "Jugador,Equipo,Categoría,Grupo,Partidos,Arrime_Buenos,Arrime_Total,Arrime_Efectividad,Boche_Buenos,Boche_Total,Boche_Efectividad\n";
   
-function convertirCSVaMVP(csv) { const lineas = csv.split('\n'); const mvps = {}; for (let i = 1; i < lineas.length; i++) { const valores = lineas[i].split(','); if (valores.length >= 4 && valores[0]) { const id = parseInt(valores[0]); mvps[id] = { name: valores[1].trim(), team: valores[2].trim(), efec: parseInt(valores[3]) || 0 }; } } return mvps; }
+  TEAMS.forEach(team => {
+    team.p.forEach(player => {
+      if (player === 'Por Cargar') return;
+      const psKey = `${team.n}|${player}`;
+      const ps = PS[psKey] || {};
+      
+      const arrB = ps.arr_b || 0;
+      const arrTotal = ps.total_arr || 0;
+      const arrEfec = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : 0;
+      const bocB = ps.boc_b || 0;
+      const bocTotal = ps.total_boc || 0;
+      const bocEfec = bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0;
+      const partidos = ps.partidos || 0;
+      
+      csv += `"${player}","${team.n}","${team.c}","${team.g}",${partidos},${arrB},${arrTotal},${arrEfec},${bocB},${bocTotal},${bocEfec}\n`;
+    });
+  });
+  
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `estadisticas_torneo_${new Date().toISOString().slice(0,19)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  alert('✅ Archivo CSV de estadísticas generado');
+}
+
+// ==================== SINCRONIZAR ESTADÍSTICAS ====================
+async function sincronizarEstadisticasDesdeGoogleSheets() {
+  try {
+    if (!GOOGLE_SHEETS_ESTADISTICAS_URL) {
+      alert('❌ No hay URL de estadísticas configurada');
+      return;
+    }
+    
+    mostrarEstadoSincronizacion('🔄 Sincronizando estadísticas...');
+    const response = await fetch(GOOGLE_SHEETS_ESTADISTICAS_URL);
+    const csvText = await response.text();
+    
+    const lineas = csvText.split('\n');
+    let actualizados = 0;
+    
+    for (let i = 1; i < lineas.length; i++) {
+      const valores = lineas[i].split(',');
+      if (valores.length >= 11) {
+        const jugador = valores[0].trim().replace(/^"|"$/g, '');
+        const equipo = valores[1].trim().replace(/^"|"$/g, '');
+        const arrB = parseInt(valores[5]) || 0;
+        const arrTotal = parseInt(valores[6]) || 0;
+        const bocB = parseInt(valores[8]) || 0;
+        const bocTotal = parseInt(valores[9]) || 0;
+        
+        const psKey = `${equipo}|${jugador}`;
+        if (!PS[psKey]) PS[psKey] = {};
+        
+        PS[psKey].arr_b = arrB;
+        PS[psKey].total_arr = arrTotal;
+        PS[psKey].boc_b = bocB;
+        PS[psKey].total_boc = bocTotal;
+        PS[psKey].partidos = parseInt(valores[4]) || 0;
+        actualizados++;
+      }
+    }
+    
+    save();
+    mostrarEstadoSincronizacion(`✅ Estadísticas sincronizadas: ${actualizados} jugadores`);
+    rA();
+    rT();
+  } catch (error) {
+    console.error(error);
+    mostrarEstadoSincronizacion('⚠️ Error al sincronizar estadísticas', true);
+  }
+}
+
+function exportarResultadosACSV() { let csvResultados = 'partido_id,scoreA,scoreB,status\n'; for (const [id, datos] of Object.entries(R)) { csvResultados += `${id},${datos.scoreA},${datos.scoreB},${datos.status}\n`; } let csvMVP = 'partido_id,nombre,equipo,efec\n'; for (const [id, datos] of Object.entries(MVP)) { csvMVP += `${id},${datos.name},${datos.team},${datos.efec || 0}\n`; } const blobResultados = new Blob([csvResultados], { type: 'text/csv' }); const urlResultados = URL.createObjectURL(blobResultados); const aResultados = document.createElement('a'); aResultados.href = urlResultados; aResultados.download = `resultados_torneo_${new Date().toISOString().slice(0,19)}.csv`; aResultados.click(); URL.revokeObjectURL(urlResultados); const blobMVP = new Blob([csvMVP], { type: 'text/csv' }); const urlMVP = URL.createObjectURL(blobMVP); const aMVP = document.createElement('a'); aMVP.href = urlMVP; aMVP.download = `mvp_torneo_${new Date().toISOString().slice(0,19)}.csv`; aMVP.click(); URL.revokeObjectURL(urlMVP); alert('✅ Archivos CSV generados'); }
 
 function mostrarEstadoSincronizacion(mensaje, esError = false) { let estadoDiv = document.getElementById('sync-status'); if (!estadoDiv) { estadoDiv = document.createElement('div'); estadoDiv.id = 'sync-status'; estadoDiv.className = 'sync-status'; document.querySelector('.body').prepend(estadoDiv); } estadoDiv.innerHTML = mensaje; estadoDiv.classList.toggle('error', esError); if (!esError) { setTimeout(() => { if (estadoDiv.innerHTML === mensaje) estadoDiv.innerHTML = ''; }, 4000); } }
 
-function exportarResultadosACSV() { let csvResultados = 'partido_id,scoreA,scoreB,status\n'; for (const [id, datos] of Object.entries(R)) { csvResultados += `${id},${datos.scoreA},${datos.scoreB},${datos.status}\n`; } let csvMVP = 'partido_id,nombre,equipo,efec\n'; for (const [id, datos] of Object.entries(MVP)) { csvMVP += `${id},${datos.name},${datos.team},${datos.efec || 0}\n`; } const blobResultados = new Blob([csvResultados], { type: 'text/csv' }); const urlResultados = URL.createObjectURL(blobResultados); const aResultados = document.createElement('a'); aResultados.href = urlResultados; aResultados.download = `resultados_torneo_${new Date().toISOString().slice(0,19)}.csv`; aResultados.click(); URL.revokeObjectURL(urlResultados); const blobMVP = new Blob([csvMVP], { type: 'text/csv' }); const urlMVP = URL.createObjectURL(blobMVP); const aMVP = document.createElement('a'); aMVP.href = urlMVP; aMVP.download = `mvp_torneo_${new Date().toISOString().slice(0,19)}.csv`; aMVP.click(); URL.revokeObjectURL(urlMVP); alert('✅ Archivos CSV generados. Cópialos a tu Google Sheet para que todos los vean.'); }
-
 let pdfMode = 'week';
-
 function togglePdfPanel() { const panel = g('pdf-panel'); const isOpen = panel.classList.contains('open'); if (!isOpen) populateTeamSel(); panel.classList.toggle('open'); }
-
 function setPdfMode(mode) { pdfMode = mode; g('pdf-btn-week').classList.toggle('on', mode === 'week'); g('pdf-btn-team').classList.toggle('on', mode === 'team'); g('pdf-btn-all').classList.toggle('on', mode === 'all'); g('pdf-week-wrap').style.display = mode === 'week' ? 'block' : 'none'; g('pdf-team-wrap').style.display = mode === 'team' ? 'block' : 'none'; }
-
 function populateTeamSel() { const sel = g('pdf-team-sel'); const teams = TEAMS.filter(t => t.c === F.mCat && t.g === F.mGrp); sel.innerHTML = teams.map(t => `<option value="${t.n}">${t.n}</option>`).join(''); }
 
-
-
-
-
-  
 function generatePDF() {
   if (typeof window.jspdf === 'undefined') { alert('Librería PDF no disponible.'); return; }
   const { jsPDF } = window.jspdf;
