@@ -683,9 +683,73 @@ function saveMatchStats() { const match = MATCHES.find(m => m.id === currentMatc
 
 function closeStatsModal() { g('stats-modal').style.display = 'none'; currentMatchId = null; }
 
-async function sincronizarResultadosDesdeGoogleSheets() { try { if (!GOOGLE_SHEETS_RESULTADOS_URL) { alert('Configura primero las URLs de Google Sheets'); return; } cargandoDesdeSheets = true; mostrarEstadoSincronizacion('🔄 Sincronizando...'); const response = await fetch(GOOGLE_SHEETS_RESULTADOS_URL); const csvText = await response.text(); const resultados = convertirCSVaResultados(csvText); for (const [id, datos] of Object.entries(resultados)) { if (!R[id] || datos.actualizado > (R[id].actualizado || 0)) { R[id] = { scoreA: datos.scoreA, scoreB: datos.scoreB, status: datos.status }; } } try { const mvpResponse = await fetch(GOOGLE_SHEETS_MVP_URL); const mvpCsv = await mvpResponse.text(); const mvps = convertirCSVaMVP(mvpCsv); for (const [id, datos] of Object.entries(mvps)) { if (!MVP[id]) { MVP[id] = datos; } } } catch(e) { console.log('No se pudo cargar MVP'); } save(); cargandoDesdeSheets = false; ultimaSincronizacion = new Date(); mostrarEstadoSincronizacion('✅ Sincronizado: ' + ultimaSincronizacion.toLocaleTimeString()); rM(); rSt(); rA(); } catch (error) { console.error('Error al sincronizar:', error); cargandoDesdeSheets = false; mostrarEstadoSincronizacion('⚠️ Error de sincronización. Usando datos locales.', true); } }
-
-function convertirCSVaResultados(csv) {
+async function sincronizarResultadosDesdeGoogleSheets() {
+  try {
+    if (!GOOGLE_SHEETS_RESULTADOS_URL) {
+      alert('❌ No hay URL de Google Sheets configurada');
+      mostrarEstadoSincronizacion('❌ No hay URL configurada', true);
+      return;
+    }
+    
+    mostrarEstadoSincronizacion('🔄 Sincronizando con Google Sheets...');
+    console.log('📡 Conectando a:', GOOGLE_SHEETS_RESULTADOS_URL);
+    
+    const response = await fetch(GOOGLE_SHEETS_RESULTADOS_URL);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    const csvText = await response.text();
+    console.log('📄 CSV recibido, longitud:', csvText.length, 'caracteres');
+    console.log('📄 Primeros 300 caracteres:', csvText.substring(0, 300));
+    
+    // Verificar que el CSV no esté vacío
+    if (!csvText.trim()) {
+      throw new Error('El archivo CSV está vacío');
+    }
+    
+    const resultados = convertirCSVaResultados(csvText);
+    const cantidadResultados = Object.keys(resultados).length;
+    
+    console.log(`📊 Se encontraron ${cantidadResultados} resultados en Google Sheets`);
+    
+    if (cantidadResultados === 0) {
+      mostrarEstadoSincronizacion('⚠️ No hay resultados en Google Sheets. Agrega datos primero.', true);
+      return;
+    }
+    
+    // Contar cuántos resultados nuevos se van a cargar
+    let nuevos = 0;
+    let actualizados = 0;
+    
+    for (const [id, datos] of Object.entries(resultados)) {
+      if (!R[id]) {
+        nuevos++;
+        R[id] = { scoreA: datos.scoreA, scoreB: datos.scoreB, status: datos.status };
+      } else if (R[id].scoreA !== datos.scoreA || R[id].scoreB !== datos.scoreB) {
+        actualizados++;
+        R[id] = { scoreA: datos.scoreA, scoreB: datos.scoreB, status: datos.status };
+      }
+    }
+    
+    // Guardar en localStorage
+    save();
+    
+    mostrarEstadoSincronizacion(`✅ Sincronizado: ${nuevos} nuevos, ${actualizados} actualizados`);
+    
+    // Refrescar las vistas
+    rM();
+    rSt();
+    rA();
+    
+    console.log('✅ Sincronización completada');
+    
+  } catch (error) {
+    console.error('❌ Error al sincronizar:', error);
+    mostrarEstadoSincronizacion(`⚠️ Error: ${error.message}. Usando datos locales.`, true);
+  }
+}function convertirCSVaResultados(csv) {
   const lineas = csv.split('\n');
   const resultados = {};
   
