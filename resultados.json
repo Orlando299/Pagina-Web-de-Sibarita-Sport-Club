@@ -1,5 +1,5 @@
 {
-  "ultimaActualizacion": "2026-05-18T04:37:52.722Z",
+  "ultimaActualizacion": "2026-05-18T05:25:03.237Z",
   "resultados": {
     "1": {
       "scoreA": 12,
@@ -51,10 +51,25 @@
       "scoreB": 3,
       "status": "done"
     },
+    "21": {
+      "scoreA": 20,
+      "scoreB": 8,
+      "status": "done"
+    },
+    "22": {
+      "scoreA": 6,
+      "scoreB": 20,
+      "status": "done"
+    },
     "25": {
       "scoreA": 0,
       "scoreB": 8,
       "status": "forfait"
+    },
+    "77": {
+      "scoreA": 20,
+      "scoreB": 6,
+      "status": "done"
     },
     "NaN": {
       "scoreA": 11,
@@ -74,8 +89,18 @@
       "efec": 0
     },
     "5": {
-      "name": "Yadira Torrez",
-      "team": "Atavenca",
+      "name": "Eloisa Gonzalez",
+      "team": "Chikas",
+      "efec": 0
+    },
+    "13": {
+      "name": "Pedro Torres",
+      "team": "Club Afibola",
+      "efec": 0
+    },
+    "21": {
+      "name": "Nelson Suarez",
+      "team": "Servihidra",
       "efec": 0
     },
     "NaN": {
@@ -85,6 +110,111 @@
     }
   },
   "estadisticas": {
+    "Oasis Box|Carolina Arocha": {
+      "arr_b": 16,
+      "total_arr": 26,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Luisamar Peña": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Mirelys Mendoza": {
+      "arr_b": 12,
+      "total_arr": 23,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Romi Arapé": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Karla Reyes": {
+      "arr_b": 2,
+      "total_arr": 18,
+      "boc_b": 2,
+      "total_boc": 4,
+      "partidos": 1
+    },
+    "Oasis Box|Sheila Montesinos": {
+      "arr_b": 5,
+      "total_arr": 11,
+      "boc_b": 5,
+      "total_boc": 14,
+      "partidos": 1
+    },
+    "Oasis Box|Nilda Almeida": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Josmayfe Alvarado": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Adela Guedez": {
+      "arr_b": 4,
+      "total_arr": 8,
+      "boc_b": 1,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Corpoelec|Nitza Zabaleta": {
+      "arr_b": 0,
+      "total_arr": 5,
+      "boc_b": 11,
+      "total_boc": 20,
+      "partidos": 1
+    },
+    "Corpoelec|Yuli Alvarez": {
+      "arr_b": 8,
+      "total_arr": 16,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Cesar Denny": {
+      "arr_b": 4,
+      "total_arr": 12,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Yunibel Rodriguez": {
+      "arr_b": 13,
+      "total_arr": 23,
+      "boc_b": 2,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Corpoelec|Diolanda Carrillo": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Nicholle Colmenarez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
     "Ferrecenca|Maria Carreño": {
       "arr_b": 3,
       "total_arr": 11,
@@ -400,109 +530,179 @@
       "total_boc": 0,
       "partidos": 1
     },
-    "Oasis Box|Carolina Arocha": {
+    "Los Panas Vimapin|Victor Pinto": {
+      "arr_b": 1,
+      "total_arr": 8,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Los Panas Vimapin|Marco Rodriguez": {
+      "arr_b": 18,
+      "total_arr": 31,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Los Panas Vimapin|Carlos Rodriguez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Los Panas Vimapin|Ronald Perez": {
+      "arr_b": 9,
+      "total_arr": 19,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Los Panas Vimapin|Wely Melendez": {
+      "arr_b": 3,
+      "total_arr": 6,
+      "boc_b": 13,
+      "total_boc": 21,
+      "partidos": 1
+    },
+    "Los Panas Vimapin|Joel Ortega": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Los Panas Vimapin|Neptali Torrez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 3,
+      "total_boc": 7,
+      "partidos": 1
+    },
+    "Club Afibola|Carlos Colmenarez": {
+      "arr_b": 1,
+      "total_arr": 2,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Club Afibola|Roger Colmenarez": {
+      "arr_b": 6,
+      "total_arr": 16,
+      "boc_b": 0,
+      "total_boc": 1,
+      "partidos": 1
+    },
+    "Club Afibola|Jose Torrez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Club Afibola|Pedro Torrez": {
+      "arr_b": 2,
+      "total_arr": 3,
+      "boc_b": 16,
+      "total_boc": 28,
+      "partidos": 1
+    },
+    "Club Afibola|Jorgue Chirinos": {
       "arr_b": 16,
+      "total_arr": 23,
+      "boc_b": 1,
+      "total_boc": 3,
+      "partidos": 1
+    },
+    "Club Afibola|Octavio Chirinos": {
+      "arr_b": 11,
       "total_arr": 26,
       "boc_b": 0,
       "total_boc": 0,
       "partidos": 1
     },
-    "Oasis Box|Luisamar Peña": {
+    "Club Afibola|Gabriel Perez": {
       "arr_b": 0,
       "total_arr": 0,
       "boc_b": 0,
       "total_boc": 0,
       "partidos": 1
     },
-    "Oasis Box|Mirelys Mendoza": {
-      "arr_b": 12,
-      "total_arr": 23,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Romi Arapé": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Karla Reyes": {
+    "Club Afibola|Jose Chirinos": {
       "arr_b": 2,
-      "total_arr": 18,
-      "boc_b": 2,
+      "total_arr": 3,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Club Afibola|Junior Garcia": {
+      "arr_b": 1,
+      "total_arr": 4,
+      "boc_b": 7,
+      "total_boc": 12,
+      "partidos": 1
+    },
+    "Servihidra|Henry Pacheco": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Servihidra|Jose Rodriguez": {
+      "arr_b": 7,
+      "total_arr": 14,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Servihidra|Atahualpa Melendez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Servihidra|Gustavo Orozco": {
+      "arr_b": 1,
+      "total_arr": 4,
+      "boc_b": 3,
       "total_boc": 4,
       "partidos": 1
     },
-    "Oasis Box|Sheila Montesinos": {
-      "arr_b": 5,
-      "total_arr": 11,
-      "boc_b": 5,
-      "total_boc": 14,
+    "Servihidra|Theoscar Vicent": {
+      "arr_b": 25,
+      "total_arr": 30,
+      "boc_b": 0,
+      "total_boc": 0,
       "partidos": 1
     },
-    "Oasis Box|Nilda Almeida": {
+    "Servihidra|Jose Cordero": {
       "arr_b": 0,
       "total_arr": 0,
       "boc_b": 0,
       "total_boc": 0,
       "partidos": 1
     },
-    "Oasis Box|Josmayfe Alvarado": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Corpoelec|Adela Guedez": {
-      "arr_b": 4,
-      "total_arr": 8,
+    "Servihidra|Numan Dudamel": {
+      "arr_b": 10,
+      "total_arr": 21,
       "boc_b": 1,
-      "total_boc": 2,
+      "total_boc": 1,
       "partidos": 1
     },
-    "Corpoelec|Nitza Zabaleta": {
-      "arr_b": 0,
-      "total_arr": 5,
-      "boc_b": 11,
-      "total_boc": 20,
+    "Servihidra|Nelson Suarez": {
+      "arr_b": 1,
+      "total_arr": 4,
+      "boc_b": 16,
+      "total_boc": 22,
       "partidos": 1
     },
-    "Corpoelec|Yuli Alvarez": {
-      "arr_b": 8,
-      "total_arr": 16,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Corpoelec|Cesar Denny": {
-      "arr_b": 4,
-      "total_arr": 12,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Corpoelec|Yunibel Rodriguez": {
-      "arr_b": 13,
-      "total_arr": 23,
+    "Servihidra|Giovanni Gonzalez": {
+      "arr_b": 5,
+      "total_arr": 13,
       "boc_b": 2,
-      "total_boc": 2,
-      "partidos": 1
-    },
-    "Corpoelec|Diolanda Carrillo": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Corpoelec|Nicholle Colmenarez": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
+      "total_boc": 6,
       "partidos": 1
     }
   }
