@@ -735,24 +735,6 @@ function exportarResultadosAJSON() {
     estadisticas: PS
   };
 
-  function mostrarBotonesAdmin() {
-  const pass = prompt('🔐 Contraseña de administrador:');
-  if (pass === 'sibarita2026') {
-    const adminDiv = document.getElementById('admin-buttons');
-    if (adminDiv) {
-      adminDiv.style.display = 'flex';
-      mostrarEstado('✅ Modo administrador activado por 5 minutos');
-      
-      // Ocultar botones después de 5 minutos (300000 ms)
-      setTimeout(() => {
-        adminDiv.style.display = 'none';
-        mostrarEstado('⏰ Modo administrador desactivado');
-      }, 300000);
-    }
-  } else {
-    alert('❌ Contraseña incorrecta');
-  }
-}
   
   const jsonStr = JSON.stringify(datos, null, 2);
   const blob = new Blob([jsonStr], { type: 'application/json' });
@@ -765,6 +747,25 @@ function exportarResultadosAJSON() {
   
   mostrarEstado('✅ JSON exportado. Súbelo a GitHub como "resultados.json"');
 }
+
+function mostrarBotonesAdmin() {
+  const pass = prompt('🔐 Contraseña de administrador:');
+  if (pass === 'sibarita2026') {
+    const adminDiv = document.getElementById('admin-buttons');
+    if (adminDiv) {
+      adminDiv.style.display = 'flex';
+      mostrarEstado('✅ Modo administrador activado por 5 minutos');
+      
+      setTimeout(() => {
+        adminDiv.style.display = 'none';
+        mostrarEstado('⏰ Modo administrador desactivado');
+      }, 300000);
+    }
+  } else {
+    alert('❌ Contraseña incorrecta');
+  }
+}
+
 
 function exportarEstadisticasACSV() {
   let csv = "Jugador,Equipo,Categoría,Grupo,Partidos,Arrime_Buenos,Arrime_Total,Arrime_Efectividad,Boche_Buenos,Boche_Total,Boche_Efectividad\n";
