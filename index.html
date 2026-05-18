@@ -670,8 +670,88 @@ function forfRes(id) { const esOrganizador = prompt('🔐 Contraseña de organiz
 
 function delRes(id) { if (confirm('¿Borrar resultado?')) { delete R[id]; save(); rM(); rSt(); } }
 
-function setMVP(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede designar MVP.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) return; const cands = []; [m.a, m.b].forEach(tn => { const t = TEAMS.find(x => x.n === tn); if (!t) return; t.p.forEach(p => { const k = tn + '|' + p; const ps = PS[k] || {}; const efec = ps.efec_arr || ps.efec_boc || 0; if ((ps.total_arr || 0) + (ps.total_boc || 0) > 0) cands.push({ name: p, team: tn, efec }); }); }); if (!cands.length) { const nm = prompt('Sin estadísticas. Nombre del Jugador del Partido:'); if (nm && nm.trim()) { MVP[id] = { name: nm.trim(), team: 'Manual', efec: 0 }; save(); rM(); } return; } cands.sort((a,b) => b.efec - a.efec); const best = cands[0]; if (confirm(`🏅 Jugador del Partido sugerido:\n${best.name} (${best.team})\nEfectividad: ${best.efec}%\n\n¿Confirmar?`)) { MVP[id] = best; save(); rM(); } else { const nm2 = prompt('Nombre manual:'); if (nm2 && nm2.trim()) { const tm = prompt(`Equipo (${m.a} o ${m.b}):`); MVP[id] = { name: nm2.trim(), team: tm || '', efec: 0 }; save(); rM(); } } alert('✅ MVP guardado. Usa "📦 Exportar JSON" para subirlo a GitHub.'); }
-
+function setMVP(id) {
+  const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+  if (!esOrganizador) { 
+    alert('⚠️ Solo el organizador puede designar MVP.'); 
+    return; 
+  }
+  
+  const m = MATCHES.find(x => x.id === id);
+  if (!m) return;
+  
+  const r = R[id];
+  if (!r || r.status !== 'done') {
+    alert('⚠️ Primero debes guardar el resultado del partido');
+    return;
+  }
+  
+  // Determinar equipo ganador
+  let equipoGanador = '';
+  if (r.scoreA > r.scoreB) {
+    equipoGanador = m.a;
+  } else if (r.scoreB > r.scoreA) {
+    equipoGanador = m.b;
+  } else {
+    alert('⚠️ No hay equipo ganador (empate). No se puede asignar MVP.');
+    return;
+  }
+  
+  const equipoPerdedor = equipoGanador === m.a ? m.b : m.a;
+  
+  // Buscar jugadores SOLO del equipo ganador con estadísticas
+  const cands = [];
+  const teamGanador = TEAMS.find(x => x.n === equipoGanador);
+  
+  if (teamGanador) {
+    teamGanador.p.forEach(player => {
+      if (player !== 'Por Cargar') {
+        const k = equipoGanador + '|' + player;
+        const ps = PS[k] || {};
+        // Buscar estadísticas específicas de este partido
+        const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
+        const stats = matchStats[player] || {};
+        
+        const arrB = stats.arr_b || 0;
+        const arrTotal = stats.arr_total || 0;
+        const bocB = stats.boc_b || 0;
+        const bocTotal = stats.boc_total || 0;
+        
+        const totalBuenos = arrB + bocB;
+        const totalIntentos = arrTotal + bocTotal;
+        const efec = totalIntentos > 0 ? Math.round((totalBuenos / totalIntentos) * 100) : 0;
+        
+        if (totalIntentos > 0) {
+          cands.push({ name: player, team: equipoGanador, efec: efec });
+        }
+      }
+    });
+  }
+  
+  // Si hay candidatos, sugerir el de mayor efectividad
+  if (cands.length > 0) {
+    cands.sort((a,b) => b.efec - a.efec);
+    const best = cands[0];
+    if (confirm(`🏅 MVP sugerido para ${equipoGanador}:\n${best.name}\nEfectividad: ${best.efec}%\n\n¿Confirmar?`)) {
+      MVP[id] = best;
+      save();
+      rM();
+      alert(`✅ MVP asignado: ${best.name} (${equipoGanador})`);
+      return;
+    }
+  }
+  
+  // Si no hay estadísticas o no se confirma, pedir manual (pero limitado al equipo ganador)
+  const nm = prompt(`MVP del equipo ganador (${equipoGanador}):\n\nIngresa el nombre del jugador:`);
+  if (nm && nm.trim()) {
+    MVP[id] = { name: nm.trim(), team: equipoGanador, efec: 0 };
+    save();
+    rM();
+    alert(`✅ MVP asignado manualmente: ${nm.trim()} (${equipoGanador})`);
+  }
+  
+}
+  
 function delMVP(id) { delete MVP[id]; save(); rM(); }
 
 function rSt() { const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp); const tb = {}; tl.forEach(t => { tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; }); MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => { const r = R[m.id]; if (!r) return; if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; } if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; } if (r.scoreA > r.scoreB) { if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; } if (tb[m.b]) tb[m.b].pp++; } else if (r.scoreB > r.scoreA) { if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; } if (tb[m.a]) tb[m.a].pp++; } }); const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf); const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn'; g('st-list').innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;margin-bottom:5px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;color:#8899aa;">EQUIPO</div><div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div></div>` + sorted.map((t,i) => { const r = i+1, c = rc(r); const dif = t.tf - t.tc; const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0'; return `<div class="sr ${c}"><div class="rb ${c}">${r}</div><div style="flex:1;font-size:11px;font-weight:bold;color:#f0e6d3;line-height:1.2;">${t.n}</div><div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div></div>`; }).join(''); }
