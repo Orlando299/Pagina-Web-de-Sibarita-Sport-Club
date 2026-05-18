@@ -748,18 +748,13 @@ function exportarResultadosAJSON() {
   mostrarEstado('✅ JSON exportado. Súbelo a GitHub como "resultados.json"');
 }
 
-function mostrarBotonesAdmin() {
+  function mostrarBotonesAdmin() {
   const pass = prompt('🔐 Contraseña de administrador:');
   if (pass === 'sibarita2026') {
     const adminDiv = document.getElementById('admin-buttons');
     if (adminDiv) {
       adminDiv.style.display = 'flex';
-      mostrarEstado('✅ Modo administrador activado por 5 minutos');
-      
-      setTimeout(() => {
-        adminDiv.style.display = 'none';
-        mostrarEstado('⏰ Modo administrador desactivado');
-      }, 300000);
+      mostrarEstado('✅ Modo administrador activado');
     }
   } else {
     alert('❌ Contraseña incorrecta');
