@@ -1,5 +1,5 @@
 {
-  "ultimaActualizacion": "2026-05-18T03:50:35.352Z",
+  "ultimaActualizacion": "2026-05-18T04:37:52.722Z",
   "resultados": {
     "1": {
       "scoreA": 12,
@@ -46,6 +46,16 @@
       "scoreB": 19,
       "status": "done"
     },
+    "19": {
+      "scoreA": 20,
+      "scoreB": 3,
+      "status": "done"
+    },
+    "25": {
+      "scoreA": 0,
+      "scoreB": 8,
+      "status": "forfait"
+    },
     "NaN": {
       "scoreA": 11,
       "scoreB": 19,
@@ -58,6 +68,16 @@
       "team": "Oasis Box",
       "efec": 0
     },
+    "2": {
+      "name": "Graciela Febres",
+      "team": "Alimentos Amanecer",
+      "efec": 0
+    },
+    "5": {
+      "name": "Yadira Torrez",
+      "team": "Atavenca",
+      "efec": 0
+    },
     "NaN": {
       "name": "pw / 2",
       "team": "290",
@@ -65,6 +85,321 @@
     }
   },
   "estadisticas": {
+    "Ferrecenca|Maria Carreño": {
+      "arr_b": 3,
+      "total_arr": 11,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Ferrecenca|Dudamel Nubia": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Ferrecenca|Xiomara Dudamel": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Ferrecenca|Maria Gomez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Ferrecenca|Deysi Guedez": {
+      "arr_b": 0,
+      "total_arr": 5,
+      "boc_b": 6,
+      "total_boc": 12,
+      "partidos": 1
+    },
+    "Ferrecenca|Milagro Moran": {
+      "arr_b": 1,
+      "total_arr": 7,
+      "boc_b": 1,
+      "total_boc": 6,
+      "partidos": 1
+    },
+    "Ferrecenca|Maria Sira": {
+      "arr_b": 1,
+      "total_arr": 7,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Ferrecenca|Yumaira Salazar": {
+      "arr_b": 1,
+      "total_arr": 18,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Ferrecenca|Yolanda Sira": {
+      "arr_b": 1,
+      "total_arr": 6,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Alimentos Amanecer|Petra Almao": {
+      "arr_b": 3,
+      "total_arr": 8,
+      "boc_b": 3,
+      "total_boc": 10,
+      "partidos": 1
+    },
+    "Alimentos Amanecer|Hilda Gimenez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 1,
+      "partidos": 1
+    },
+    "Alimentos Amanecer|Deyanira Yustiz": {
+      "arr_b": 2,
+      "total_arr": 8,
+      "boc_b": 3,
+      "total_boc": 10,
+      "partidos": 1
+    },
+    "Alimentos Amanecer|Aura Yustiz": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Alimentos Amanecer|Graciela Febres": {
+      "arr_b": 11,
+      "total_arr": 17,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Alimentos Amanecer|Florinda Hernandez": {
+      "arr_b": 3,
+      "total_arr": 6,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Alimentos Amanecer|María del Pilar Sanchez": {
+      "arr_b": 0,
+      "total_arr": 6,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Alimentos Amanecer|Nelis Cadevilla": {
+      "arr_b": 2,
+      "total_arr": 6,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Alimentos Amanecer|Gloria Mendez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "The Dolls|Erika Perez": {
+      "arr_b": 3,
+      "total_arr": 10,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "The Dolls|Cilia Aldania": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "The Dolls|Juliana Lopez": {
+      "arr_b": 1,
+      "total_arr": 5,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "The Dolls|Maria Parra": {
+      "arr_b": 0,
+      "total_arr": 3,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "The Dolls|Saydimar Pipitone": {
+      "arr_b": 2,
+      "total_arr": 4,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "The Dolls|Adona Gonzalez": {
+      "arr_b": 0,
+      "total_arr": 3,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "The Dolls|Ana Parra": {
+      "arr_b": 1,
+      "total_arr": 5,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "The Dolls|Maria Castellano": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 9,
+      "total_boc": 13,
+      "partidos": 1
+    },
+    "The Dolls|Ana Silva": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Atavenca|Yadira Torrez": {
+      "arr_b": 4,
+      "total_arr": 5,
+      "boc_b": 13,
+      "total_boc": 16,
+      "partidos": 1
+    },
+    "Atavenca|Diana Oropeza": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Atavenca|Julia Escalona": {
+      "arr_b": 4,
+      "total_arr": 7,
+      "boc_b": 6,
+      "total_boc": 13,
+      "partidos": 1
+    },
+    "Atavenca|María Elcy Noriega": {
+      "arr_b": 3,
+      "total_arr": 6,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Atavenca|Esmeralda Mercado": {
+      "arr_b": 19,
+      "total_arr": 29,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Atavenca|Erika Rodriguez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Atavenca|Yankelis Tambo": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Atavenca|María Delgado": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Chikas|Yusbelis Gonzalez": {
+      "arr_b": 0,
+      "total_arr": 1,
+      "boc_b": 2,
+      "total_boc": 3,
+      "partidos": 1
+    },
+    "Chikas|Natalia Garcia": {
+      "arr_b": 3,
+      "total_arr": 4,
+      "boc_b": 0,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Chikas|Marianni Torres": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Chikas|Krisandar Soteldo": {
+      "arr_b": 6,
+      "total_arr": 7,
+      "boc_b": 14,
+      "total_boc": 20,
+      "partidos": 1
+    },
+    "Chikas|Eloisa Gonzalez": {
+      "arr_b": 7,
+      "total_arr": 8,
+      "boc_b": 3,
+      "total_boc": 7,
+      "partidos": 1
+    },
+    "Chikas|Alejandra Mesa": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Chikas|Marbella Suarez": {
+      "arr_b": 3,
+      "total_arr": 12,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Chikas|Kerangelit Mendez": {
+      "arr_b": 2,
+      "total_arr": 10,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Chikas|Maria Escalante": {
+      "arr_b": 12,
+      "total_arr": 22,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Chikas|Gilian Rengifo": {
+      "arr_b": 4,
+      "total_arr": 14,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
     "Oasis Box|Carolina Arocha": {
       "arr_b": 16,
       "total_arr": 26,
@@ -169,6 +504,9 @@
       "boc_b": 0,
       "total_boc": 0,
       "partidos": 1
+    }
+  }
+}
     }
   }
 }
