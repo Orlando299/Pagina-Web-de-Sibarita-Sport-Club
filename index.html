@@ -133,7 +133,8 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 
   <div class="frow">
     <button class="fb" onclick="togglePdfPanel()" style="background:#c0392b33;border-color:#c0392b;color:#c0392b;">📄 Descargar PDF</button>
-    <button class="fb" onclick="sincronizarResultadosDesdeGoogleSheets()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Sincronizar</button>
+    <button class="fb" onclick="cargarResultadosDesdeGitHub()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Cargar de GitHub</button>
+    <button class="fb" onclick="exportarResultadosAJSON()" style="background:#f39c1233;border-color:#f39c12;color:#f39c12;">📦 Exportar JSON</button>
   </div>
   
   <div class="pdf-panel" id="pdf-panel"><div style="font-size:11px;color:#e8b84b;font-weight:bold;margin-bottom:8px;letter-spacing:.06em;">DESCARGAR CALENDARIO EN PDF</div><div class="frow"><button class="fb on" id="pdf-btn-week" onclick="setPdfMode('week')">📅 Por Semana</button><button class="fb" id="pdf-btn-team" onclick="setPdfMode('team')">👥 Por Equipo</button><button class="fb" id="pdf-btn-all" onclick="setPdfMode('all')">🌍 Semana (Todas Categorías)</button></div><div id="pdf-week-wrap"><select id="pdf-week-sel" class="pdf-sel"><option value="Todos">Todas las Semanas</option><option value="S1">Semana 1</option><option value="S2">Semana 2</option><option value="S3">Semana 3</option><option value="S4">Semana 4</option><option value="S5">Semana 5</option><option value="S6">Semana 6</option><option value="S7">Semana 7</option><option value="S8">Semana 8</option><option value="S9">Semana 9</option></select></div><div id="pdf-team-wrap" style="display:none;"><select id="pdf-team-sel" class="pdf-sel"></select></div><button class="pdf-gen-btn" onclick="generatePDF()">⬇️ Generar y Descargar PDF</button><button class="pdf-cancel-btn" onclick="togglePdfPanel()">Cancelar</button></div>
@@ -154,7 +155,6 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
   <div class="frow"><button class="fb on" id="btn-aGa" onclick="setF('aGrp','A')">Grupo A</button><button class="fb" id="btn-aGb" onclick="setF('aGrp','B')">Grupo B</button></div>
   <div class="frow">
     <button class="fb" onclick="exportarEstadisticasACSV()" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;">📊 Exportar Estadísticas</button>
-    <button class="fb" onclick="sincronizarEstadisticasDesdeGoogleSheets()" style="background:#e67e2233;border-color:#e67e22;color:#e67e22;">🔄 Sincronizar Estadísticas</button>
   </div>
   <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;margin-bottom:6px;"><div style="width:20px"></div><div style="flex:1;font-size:9px;color:#8899aa;">JUGADOR</div><div style="display:flex;gap:6px;"><div style="min-width:26px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">PJ</div><div style="min-width:50px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">ARR(B/T)</div><div style="min-width:50px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">BOC(B/T)</div><div style="min-width:32px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">EFEC%</div></div></div>
   <div id="a-list"></div>
@@ -631,16 +631,11 @@ const MATCHES = [
   {id:314, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Bodegon Los Vasquez", d:"11/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S9"},
 ];
 
-// ==================== CONFIGURACIÓN GOOGLE SHEETS ====================
-const GOOGLE_SHEETS_RESULTADOS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRAgJDFG7NM5ZO8JjbzxxxZEdmPcPPGoINrXubK06P1e1ltLXhZbOliEyH-t0kCkZJ7djZlNyDyevt9/pub?output=csv';
-const GOOGLE_SHEETS_ESTADISTICAS_URL = '';  // PON AQUÍ LA URL DE TU HOJA DE ESTADÍSTICAS
-const GOOGLE_SHEETS_MVP_URL = '';
 
-let cargandoDesdeSheets = false;
-let ultimaSincronizacion = null;
 let R = {}, PS = {}, MVP = {};
 let currentMatchId = null;
 
+// Cargar datos guardados localmente
 try { const lr = localStorage.getItem('bc26r'); if (lr) Object.assign(R, JSON.parse(lr)); const lp = localStorage.getItem('bc26p'); if (lp) Object.assign(PS, JSON.parse(lp)); const lm = localStorage.getItem('bc26m'); if (lm) Object.assign(MVP, JSON.parse(lm)); } catch(e) {}
 
 function save() { try { localStorage.setItem('bc26r', JSON.stringify(R)); localStorage.setItem('bc26p', JSON.stringify(PS)); localStorage.setItem('bc26m', JSON.stringify(MVP)); } catch(e) {} }
@@ -664,13 +659,13 @@ function closeDetail() { g('teams-wrap').style.display = 'block'; g('t-detail').
 
 function rM() { const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9']; const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9'}; g('m-weeks').innerHTML = wks.map(w => `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`).join(''); let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk)); g('m-cnt').textContent = list.length + ' PARTIDOS'; if (!list.length) { g('m-list').innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin partidos</div>'; return; } g('m-list').innerHTML = list.map(m => { const r = R[m.id]; const done = r && r.status === 'done'; const forf = r && r.status === 'forfeit'; const wA = done && r.scoreA > r.scoreB; const wB = done && r.scoreB > r.scoreA; const mv = MVP[m.id]; let inner = ''; if (done || forf) { inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;margin-top:2px;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span> <button onclick="delRes(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button></div>${mv?`<div class="mvp-box"><span style="font-size:16px;">🏅</span><div style="flex:1;"><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div><button onclick="delMVP(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:14px;cursor:pointer;">✕</button></div>`:'<button class="mvp-btn" onclick="setMVP('+m.id+')">🏅 Jugador del Partido</button>'}<button class="stats-btn" onclick="openStatsModal(${m.id})">📋 ${done || forf ? 'Editar Stats' : 'Registrar Stats'}</button>`; } else { inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="saveRes(${m.id})">💾 Guardar</button><button class="fbtn" onclick="forfRes(${m.id})">⚠️ Forfeit/WO</button><button class="stats-btn" onclick="openStatsModal(${m.id})">📋 Registrar Stats</button>`; } return `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span><span class="wtag">${m.w}</span></div><div class="mteams"><div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div></div></div>`; }).join(''); }
 
-function saveRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede guardar resultados.'); return; } const inputA = g('sA' + id); const inputB = g('sB' + id); if (!inputA || !inputB) { alert('Error: No se encontraron los campos.'); return; } const a = parseInt(inputA.value); const b = parseInt(inputB.value); if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; } R[id] = { scoreA: a, scoreB: b, status: 'done' }; save(); rM(); rSt(); if (confirm('📤 ¿Exportar todos los resultados a CSV para actualizar Google Sheets?')) exportarResultadosACSV(); }
+function saveRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede guardar resultados.'); return; } const inputA = g('sA' + id); const inputB = g('sB' + id); if (!inputA || !inputB) { alert('Error: No se encontraron los campos.'); return; } const a = parseInt(inputA.value); const b = parseInt(inputB.value); if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; } R[id] = { scoreA: a, scoreB: b, status: 'done' }; save(); rM(); rSt(); alert('✅ Resultado guardado. Usa "📦 Exportar JSON" para subirlo a GitHub.'); }
 
-function forfRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede registrar forfeit.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) { alert('Error: Partido no encontrado'); return; } const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`); if (ans === '1') { R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' }; save(); rM(); rSt(); } else if (ans === '2') { R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' }; save(); rM(); rSt(); } else { alert('Opción inválida.'); } if (confirm('📤 ¿Exportar resultados a CSV?')) exportarResultadosACSV(); }
+function forfRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede registrar forfeit.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) { alert('Error: Partido no encontrado'); return; } const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`); if (ans === '1') { R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' }; save(); rM(); rSt(); } else if (ans === '2') { R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' }; save(); rM(); rSt(); } else { alert('Opción inválida.'); } alert('✅ Forfeit registrado. Usa "📦 Exportar JSON" para subirlo a GitHub.'); }
 
 function delRes(id) { if (confirm('¿Borrar resultado?')) { delete R[id]; save(); rM(); rSt(); } }
 
-function setMVP(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede designar MVP.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) return; const cands = []; [m.a, m.b].forEach(tn => { const t = TEAMS.find(x => x.n === tn); if (!t) return; t.p.forEach(p => { const k = tn + '|' + p; const ps = PS[k] || {}; const efec = ps.efec_arr || ps.efec_boc || 0; if ((ps.total_arr || 0) + (ps.total_boc || 0) > 0) cands.push({ name: p, team: tn, efec }); }); }); if (!cands.length) { const nm = prompt('Sin estadísticas. Nombre del Jugador del Partido:'); if (nm && nm.trim()) { MVP[id] = { name: nm.trim(), team: 'Manual', efec: 0 }; save(); rM(); } return; } cands.sort((a,b) => b.efec - a.efec); const best = cands[0]; if (confirm(`🏅 Jugador del Partido sugerido:\n${best.name} (${best.team})\nEfectividad: ${best.efec}%\n\n¿Confirmar?`)) { MVP[id] = best; save(); rM(); } else { const nm2 = prompt('Nombre manual:'); if (nm2 && nm2.trim()) { const tm = prompt(`Equipo (${m.a} o ${m.b}):`); MVP[id] = { name: nm2.trim(), team: tm || '', efec: 0 }; save(); rM(); } } if (confirm('📤 ¿Exportar MVP a CSV?')) exportarResultadosACSV(); }
+function setMVP(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede designar MVP.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) return; const cands = []; [m.a, m.b].forEach(tn => { const t = TEAMS.find(x => x.n === tn); if (!t) return; t.p.forEach(p => { const k = tn + '|' + p; const ps = PS[k] || {}; const efec = ps.efec_arr || ps.efec_boc || 0; if ((ps.total_arr || 0) + (ps.total_boc || 0) > 0) cands.push({ name: p, team: tn, efec }); }); }); if (!cands.length) { const nm = prompt('Sin estadísticas. Nombre del Jugador del Partido:'); if (nm && nm.trim()) { MVP[id] = { name: nm.trim(), team: 'Manual', efec: 0 }; save(); rM(); } return; } cands.sort((a,b) => b.efec - a.efec); const best = cands[0]; if (confirm(`🏅 Jugador del Partido sugerido:\n${best.name} (${best.team})\nEfectividad: ${best.efec}%\n\n¿Confirmar?`)) { MVP[id] = best; save(); rM(); } else { const nm2 = prompt('Nombre manual:'); if (nm2 && nm2.trim()) { const tm = prompt(`Equipo (${m.a} o ${m.b}):`); MVP[id] = { name: nm2.trim(), team: tm || '', efec: 0 }; save(); rM(); } } alert('✅ MVP guardado. Usa "📦 Exportar JSON" para subirlo a GitHub.'); }
 
 function delMVP(id) { delete MVP[id]; save(); rM(); }
 
@@ -688,62 +683,65 @@ function saveMatchStats() { const match = MATCHES.find(m => m.id === currentMatc
 
 function closeStatsModal() { g('stats-modal').style.display = 'none'; currentMatchId = null; }
 
-// ==================== SINCRONIZACIÓN CON GOOGLE SHEETS ====================
-async function sincronizarResultadosDesdeGoogleSheets() {
+// ==================== GITHUB SYNC ====================
+
+async function cargarResultadosDesdeGitHub() {
   try {
-    if (!GOOGLE_SHEETS_RESULTADOS_URL) {
-      alert('❌ No hay URL de Google Sheets configurada');
-      mostrarEstadoSincronizacion('❌ No hay URL configurada', true);
-      return;
+    mostrarEstado('🔄 Cargando resultados desde GitHub...');
+    const response = await fetch('resultados.json?v=' + Date.now());
+    if (!response.ok) throw new Error('No se pudo cargar el archivo');
+    const data = await response.json();
+    
+    if (data.resultados) {
+      for (const [id, datos] of Object.entries(data.resultados)) {
+        R[id] = datos;
+      }
     }
     
-    mostrarEstadoSincronizacion('🔄 Sincronizando resultados...');
-    const response = await fetch(GOOGLE_SHEETS_RESULTADOS_URL);
+    if (data.mvp) {
+      for (const [id, datos] of Object.entries(data.mvp)) {
+        MVP[id] = datos;
+      }
+    }
     
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    
-    const csvText = await response.text();
-    const resultados = convertirCSVaResultados(csvText);
-    const cantidadResultados = Object.keys(resultados).length;
-    
-    let nuevos = 0;
-    for (const [id, datos] of Object.entries(resultados)) {
-      if (!R[id]) {
-        nuevos++;
-        R[id] = { scoreA: datos.scoreA, scoreB: datos.scoreB, status: datos.status };
+    if (data.estadisticas) {
+      for (const [key, datos] of Object.entries(data.estadisticas)) {
+        PS[key] = datos;
       }
     }
     
     save();
-    mostrarEstadoSincronizacion(`✅ Sincronizado: ${nuevos} resultados`);
+    mostrarEstado('✅ Resultados cargados desde GitHub');
     rM();
     rSt();
     rA();
+    rT();
   } catch (error) {
     console.error(error);
-    mostrarEstadoSincronizacion('⚠️ Error al sincronizar resultados', true);
+    mostrarEstado('⚠️ Usando datos locales. Crea el archivo resultados.json en GitHub.', true);
   }
 }
 
-function convertirCSVaResultados(csv) {
-  const lineas = csv.split('\n');
-  const resultados = {};
-  for (let i = 1; i < lineas.length; i++) {
-    const valores = lineas[i].split(',');
-    if (valores.length >= 4 && valores[0]) {
-      const id = parseInt(valores[0]);
-      const scoreA = parseInt(valores[1]);
-      const scoreB = parseInt(valores[2]);
-      const status = valores[3].trim().replace(/"/g, '');
-      if (!isNaN(scoreA) && !isNaN(scoreB)) {
-        resultados[id] = { scoreA, scoreB, status };
-      }
-    }
-  }
-  return resultados;
+function exportarResultadosAJSON() {
+  const datos = {
+    ultimaActualizacion: new Date().toISOString(),
+    resultados: R,
+    mvp: MVP,
+    estadisticas: PS
+  };
+  
+  const jsonStr = JSON.stringify(datos, null, 2);
+  const blob = new Blob([jsonStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `resultados_${new Date().toISOString().slice(0,19)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  
+  mostrarEstado('✅ JSON exportado. Súbelo a GitHub como "resultados.json"');
 }
 
-// ==================== EXPORTAR ESTADÍSTICAS ====================
 function exportarEstadisticasACSV() {
   let csv = "Jugador,Equipo,Categoría,Grupo,Partidos,Arrime_Buenos,Arrime_Total,Arrime_Efectividad,Boche_Buenos,Boche_Total,Boche_Efectividad\n";
   
@@ -769,62 +767,28 @@ function exportarEstadisticasACSV() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `estadisticas_torneo_${new Date().toISOString().slice(0,19)}.csv`;
+  a.download = `estadisticas_${new Date().toISOString().slice(0,19)}.csv`;
   a.click();
   URL.revokeObjectURL(url);
-  alert('✅ Archivo CSV de estadísticas generado');
+  mostrarEstado('✅ CSV de estadísticas exportado');
 }
 
-// ==================== SINCRONIZAR ESTADÍSTICAS ====================
-async function sincronizarEstadisticasDesdeGoogleSheets() {
-  try {
-    if (!GOOGLE_SHEETS_ESTADISTICAS_URL) {
-      alert('❌ No hay URL de estadísticas configurada');
-      return;
-    }
-    
-    mostrarEstadoSincronizacion('🔄 Sincronizando estadísticas...');
-    const response = await fetch(GOOGLE_SHEETS_ESTADISTICAS_URL);
-    const csvText = await response.text();
-    
-    const lineas = csvText.split('\n');
-    let actualizados = 0;
-    
-    for (let i = 1; i < lineas.length; i++) {
-      const valores = lineas[i].split(',');
-      if (valores.length >= 11) {
-        const jugador = valores[0].trim().replace(/^"|"$/g, '');
-        const equipo = valores[1].trim().replace(/^"|"$/g, '');
-        const arrB = parseInt(valores[5]) || 0;
-        const arrTotal = parseInt(valores[6]) || 0;
-        const bocB = parseInt(valores[8]) || 0;
-        const bocTotal = parseInt(valores[9]) || 0;
-        
-        const psKey = `${equipo}|${jugador}`;
-        if (!PS[psKey]) PS[psKey] = {};
-        
-        PS[psKey].arr_b = arrB;
-        PS[psKey].total_arr = arrTotal;
-        PS[psKey].boc_b = bocB;
-        PS[psKey].total_boc = bocTotal;
-        PS[psKey].partidos = parseInt(valores[4]) || 0;
-        actualizados++;
-      }
-    }
-    
-    save();
-    mostrarEstadoSincronizacion(`✅ Estadísticas sincronizadas: ${actualizados} jugadores`);
-    rA();
-    rT();
-  } catch (error) {
-    console.error(error);
-    mostrarEstadoSincronizacion('⚠️ Error al sincronizar estadísticas', true);
+function mostrarEstado(mensaje, esError = false) {
+  let estadoDiv = document.getElementById('sync-status');
+  if (!estadoDiv) {
+    estadoDiv = document.createElement('div');
+    estadoDiv.id = 'sync-status';
+    estadoDiv.className = 'sync-status';
+    document.querySelector('.body').prepend(estadoDiv);
+  }
+  estadoDiv.innerHTML = mensaje;
+  estadoDiv.classList.toggle('error', esError);
+  if (!esError) {
+    setTimeout(() => {
+      if (estadoDiv.innerHTML === mensaje) estadoDiv.innerHTML = '';
+    }, 4000);
   }
 }
-
-function exportarResultadosACSV() { let csvResultados = 'partido_id,scoreA,scoreB,status\n'; for (const [id, datos] of Object.entries(R)) { csvResultados += `${id},${datos.scoreA},${datos.scoreB},${datos.status}\n`; } let csvMVP = 'partido_id,nombre,equipo,efec\n'; for (const [id, datos] of Object.entries(MVP)) { csvMVP += `${id},${datos.name},${datos.team},${datos.efec || 0}\n`; } const blobResultados = new Blob([csvResultados], { type: 'text/csv' }); const urlResultados = URL.createObjectURL(blobResultados); const aResultados = document.createElement('a'); aResultados.href = urlResultados; aResultados.download = `resultados_torneo_${new Date().toISOString().slice(0,19)}.csv`; aResultados.click(); URL.revokeObjectURL(urlResultados); const blobMVP = new Blob([csvMVP], { type: 'text/csv' }); const urlMVP = URL.createObjectURL(blobMVP); const aMVP = document.createElement('a'); aMVP.href = urlMVP; aMVP.download = `mvp_torneo_${new Date().toISOString().slice(0,19)}.csv`; aMVP.click(); URL.revokeObjectURL(urlMVP); alert('✅ Archivos CSV generados'); }
-
-function mostrarEstadoSincronizacion(mensaje, esError = false) { let estadoDiv = document.getElementById('sync-status'); if (!estadoDiv) { estadoDiv = document.createElement('div'); estadoDiv.id = 'sync-status'; estadoDiv.className = 'sync-status'; document.querySelector('.body').prepend(estadoDiv); } estadoDiv.innerHTML = mensaje; estadoDiv.classList.toggle('error', esError); if (!esError) { setTimeout(() => { if (estadoDiv.innerHTML === mensaje) estadoDiv.innerHTML = ''; }, 4000); } }
 
 let pdfMode = 'week';
 function togglePdfPanel() { const panel = g('pdf-panel'); const isOpen = panel.classList.contains('open'); if (!isOpen) populateTeamSel(); panel.classList.toggle('open'); }
@@ -957,7 +921,8 @@ function generatePDF() {
   doc.save(fname); togglePdfPanel();
 }
 
-rT();
+// Cargar datos desde GitHub al iniciar
+cargarResultadosDesdeGitHub();
 </script>
 </body>
 </html>
