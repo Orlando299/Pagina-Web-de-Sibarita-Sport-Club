@@ -1,6 +1,174 @@
 {
-  "ultimaActualizacion": "2026-05-17T00:00:00.000Z",
-  "resultados": {},
-  "mvp": {},
-  "estadisticas": {}
+  "ultimaActualizacion": "2026-05-18T03:50:35.352Z",
+  "resultados": {
+    "1": {
+      "scoreA": 12,
+      "scoreB": 11,
+      "status": "done"
+    },
+    "2": {
+      "scoreA": 6,
+      "scoreB": 15,
+      "status": "done"
+    },
+    "3": {
+      "scoreA": 3,
+      "scoreB": 18,
+      "status": "done"
+    },
+    "4": {
+      "scoreA": 15,
+      "scoreB": 6,
+      "status": "done"
+    },
+    "5": {
+      "scoreA": 10,
+      "scoreB": 14,
+      "status": "done"
+    },
+    "9": {
+      "scoreA": 4,
+      "scoreB": 20,
+      "status": "done"
+    },
+    "10": {
+      "scoreA": 20,
+      "scoreB": 6,
+      "status": "done"
+    },
+    "12": {
+      "scoreA": 18,
+      "scoreB": 12,
+      "status": "done"
+    },
+    "13": {
+      "scoreA": 11,
+      "scoreB": 19,
+      "status": "done"
+    },
+    "NaN": {
+      "scoreA": 11,
+      "scoreB": 19,
+      "status": "done"
+    }
+  },
+  "mvp": {
+    "1": {
+      "name": "Carolina Arocha",
+      "team": "Oasis Box",
+      "efec": 0
+    },
+    "NaN": {
+      "name": "pw / 2",
+      "team": "290",
+      "efec": 0
+    }
+  },
+  "estadisticas": {
+    "Oasis Box|Carolina Arocha": {
+      "arr_b": 16,
+      "total_arr": 26,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Luisamar Peña": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Mirelys Mendoza": {
+      "arr_b": 12,
+      "total_arr": 23,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Romi Arapé": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Karla Reyes": {
+      "arr_b": 2,
+      "total_arr": 18,
+      "boc_b": 2,
+      "total_boc": 4,
+      "partidos": 1
+    },
+    "Oasis Box|Sheila Montesinos": {
+      "arr_b": 5,
+      "total_arr": 11,
+      "boc_b": 5,
+      "total_boc": 14,
+      "partidos": 1
+    },
+    "Oasis Box|Nilda Almeida": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Josmayfe Alvarado": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Adela Guedez": {
+      "arr_b": 4,
+      "total_arr": 8,
+      "boc_b": 1,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Corpoelec|Nitza Zabaleta": {
+      "arr_b": 0,
+      "total_arr": 5,
+      "boc_b": 11,
+      "total_boc": 20,
+      "partidos": 1
+    },
+    "Corpoelec|Yuli Alvarez": {
+      "arr_b": 8,
+      "total_arr": 16,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Cesar Denny": {
+      "arr_b": 4,
+      "total_arr": 12,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Yunibel Rodriguez": {
+      "arr_b": 13,
+      "total_arr": 23,
+      "boc_b": 2,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Corpoelec|Diolanda Carrillo": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Nicholle Colmenarez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    }
+  }
 }
