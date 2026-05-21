@@ -3,11 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Bolas Criollas - Juego</title>
+  <title>Bolas Criollas - Reglas Reales</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0d0d0d;font-family:'Segoe UI',Arial,sans-serif;}
     canvas { touch-action: none; }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .message-toast {
+      animation: slideIn 0.3s ease-out;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
@@ -16,7 +23,6 @@
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    // ── Constantes del juego ──────────────────────────────────────────────────────
     const W = 800, H = 400;
     const MOCHE_R = 10;
     const BOLA_R = 18;
@@ -24,10 +30,11 @@
     const MIN_SPEED = 0.08;
     const MAX_POWER = 18;
     const BALLS_PER_PLAYER = 4;
+    const WALL_PENALTY_DIST = 20; // Distancia mínima a la pared
 
     const COLORS = {
-      p1: ["#e63946", "#c1121f", "#ff6b6b", "#ff9a9e"],  // Rojos
-      p2: ["#2ecc71", "#27ae60", "#58d68d", "#82e0aa"],  // Verdes
+      p1: ["#e63946", "#c1121f", "#ff6b6b", "#ff9a9e"],
+      p2: ["#2ecc71", "#27ae60", "#58d68d", "#82e0aa"],
     };
 
     function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
@@ -73,21 +80,69 @@
       };
     }
 
+    // Verificar si una bola tocó la pared
+    function checkWallHit(ball) {
+      return (ball.x - ball.r < WALL_PENALTY_DIST || 
+              ball.x + ball.r > W - WALL_PENALTY_DIST ||
+              ball.y - ball.r < WALL_PENALTY_DIST || 
+              ball.y + ball.r > H - WALL_PENALTY_DIST);
+    }
+
+    // Aplicar boche: desplazar bola rival
+    function applyBoche(targetBall, sourceBall) {
+      const angle = Math.atan2(targetBall.y - sourceBall.y, targetBall.x - sourceBall.x);
+      const displacement = 45; // Distancia a desplazar
+      targetBall.x += Math.cos(angle) * displacement;
+      targetBall.y += Math.sin(angle) * displacement;
+      // Mantener dentro del campo
+      targetBall.x = clamp(targetBall.x, WALL_PENALTY_DIST + targetBall.r, W - WALL_PENALTY_DIST - targetBall.r);
+      targetBall.y = clamp(targetBall.y, WALL_PENALTY_DIST + targetBall.r, H - WALL_PENALTY_DIST - targetBall.r);
+      return true;
+    }
+
+    // Determinar qué jugador debe tirar según la bola más lejana al moche
+    function getPlayerWhoShouldThrow(state) {
+      if (!state.mocheThrown) return state.turn; // Si no hay moche, tira el que tenga el turno
+      
+      const playedBalls = state.balls.filter(b => b.played);
+      if (playedBalls.length === 0) return state.turn;
+      
+      // Encontrar la bola más lejana al moche entre todas las jugadas
+      let farthestBall = null;
+      let farthestDist = -1;
+      
+      playedBalls.forEach(ball => {
+        const d = dist(ball, state.moche);
+        if (d > farthestDist) {
+          farthestDist = d;
+          farthestBall = ball;
+        }
+      });
+      
+      // El dueño de la bola más lejana debe tirar
+      return farthestBall ? farthestBall.owner : state.turn;
+    }
+
+    // Verificar si el jugador actual puede tirar (regla de bola más lejana)
+    function isValidTurn(state) {
+      if (!state.mocheThrown) return true; // Fase de lanzar moche
+      const shouldBe = getPlayerWhoShouldThrow(state);
+      return state.turn === shouldBe;
+    }
+
     function initState() {
       return {
         moche: { x: W / 2, y: H / 2, vx: 0, vy: 0, r: MOCHE_R, color: "#f4d03f", id: "moche" },
         balls: [
-          // Player 1 (rojo) — lado DERECHO, alineados en la parte inferior
           ...Array.from({ length: BALLS_PER_PLAYER }, (_, i) => ({
             id: `p1_${i}`, owner: 1, r: BOLA_R,
             x: W - 50 - i * (BOLA_R * 2 + 5), y: H - 35,
-            vx: 0, vy: 0, color: COLORS.p1[i], played: false
+            vx: 0, vy: 0, color: COLORS.p1[i], played: false, wallHit: false, boched: false
           })),
-          // Player 2 (verde) — lado IZQUIERDO, alineados en la parte inferior
           ...Array.from({ length: BALLS_PER_PLAYER }, (_, i) => ({
             id: `p2_${i}`, owner: 2, r: BOLA_R,
             x: 50 + i * (BOLA_R * 2 + 5), y: H - 35,
-            vx: 0, vy: 0, color: COLORS.p2[i], played: false
+            vx: 0, vy: 0, color: COLORS.p2[i], played: false, wallHit: false, boched: false
           })),
         ],
         turn: 1,
@@ -97,63 +152,112 @@
         maxRounds: 3,
         winner: null,
         mocheThrown: false,
+        repeatThrowAvailable: false,
+        currentThrowValid: true,
       };
     }
 
     function BolasCreollas() {
       const canvasRef = React.useRef(null);
       const stateRef = React.useRef(initState());
-      const [ui, setUi] = React.useState({ turn: 1, phase: "aim", scores: { 1: 0, 2: 0 }, round: 1, winner: null, mocheThrown: false, message: "" });
+      const [ui, setUi] = React.useState({ 
+        turn: 1, phase: "aim", scores: { 1: 0, 2: 0 }, round: 1, winner: null, 
+        mocheThrown: false, message: "", repeatAvailable: false, currentPlayerShouldThrow: true 
+      });
       const aimRef = React.useRef({ active: false, startX: 0, startY: 0, endX: 0, endY: 0 });
       const gameMode = React.useRef("pvp");
 
-      const refreshUi = (message = "") => {
+      const addMessage = (msg, isError = false) => {
+        setUi(prev => ({ ...prev, message: msg }));
+        setTimeout(() => setUi(prev => ({ ...prev, message: "" })), 3000);
+      };
+
+      const refreshUi = () => {
         const gs = stateRef.current;
-        setUi({ turn: gs.turn, phase: gs.phase, scores: { ...gs.scores }, round: gs.round, winner: gs.winner, mocheThrown: gs.mocheThrown, message });
+        const isValid = isValidTurn(gs);
+        setUi({ 
+          turn: gs.turn, phase: gs.phase, scores: { ...gs.scores }, 
+          round: gs.round, winner: gs.winner, mocheThrown: gs.mocheThrown, 
+          message: ui.message, repeatAvailable: gs.repeatThrowAvailable,
+          currentPlayerShouldThrow: isValid
+        });
       };
 
       const endOfThrow = React.useCallback(() => {
         const gs = stateRef.current;
+        
+        // Verificar si la bola actual tocó la pared
+        const lastBall = gs.balls.filter(b => b.played && !b.wallHit).pop();
+        if (lastBall && checkWallHit(lastBall)) {
+          lastBall.wallHit = true;
+          addMessage(`⚠️ Bola tocó la pared ¡ANULADA! No suma puntos`, true);
+        }
+        
         const unplayed = gs.balls.filter(b => !b.played);
+        
         if (!gs.mocheThrown) {
           gs.phase = "aim";
           gs.mocheThrown = true;
-          refreshUi("¡Moche colocado! Ahora lanza tus bolas.");
+          gs.repeatThrowAvailable = false;
+          refreshUi();
+          addMessage("🎯 ¡Moche colocado! Ahora lanza tus bolas. Recuerda: tira quien tiene la bola MÁS LEJANA");
           return;
         }
+        
         if (unplayed.length > 0) {
-          gs.turn = gs.turn === 1 ? 2 : 1;
+          // Cambiar turno según la regla real
+          const nextPlayer = getPlayerWhoShouldThrow(gs);
+          if (nextPlayer !== gs.turn) {
+            gs.turn = nextPlayer;
+            gs.repeatThrowAvailable = false;
+            const msg = gs.turn === 1 ? "🔴 Turno de Jugador Rojo (tiene la bola más lejana)" : "🟢 Turno de Jugador Verde (tiene la bola más lejana)";
+            addMessage(msg);
+          } else {
+            // El mismo jugador puede repetir si no era el más lejano (esto ya se validó al tirar)
+            gs.repeatThrowAvailable = false;
+          }
           gs.phase = "aim";
-          const msg = gs.turn === 1 ? "🔴 Turno de Jugador Rojo" : "🟢 Turno de Jugador Verde";
-          refreshUi(msg);
+          refreshUi();
+          
           if (gameMode.current === "pvc" && gs.turn === 2) {
             setTimeout(() => aiThrow(), 800);
           }
           return;
         }
+        
+        // Fin de la ronda: calcular puntajes considerando pared
         const m = gs.moche;
-        const played = gs.balls.filter(b => b.played);
+        const validBalls = gs.balls.filter(b => b.played && !b.wallHit);
+        
+        // Encontrar la bola más cercana de cada jugador (solo las válidas)
         let d1 = Infinity, d2 = Infinity;
-        played.forEach(b => {
+        validBalls.forEach(b => {
           const d = dist(b, m);
-          if (b.owner === 1) d1 = Math.min(d1, d);
-          if (b.owner === 2) d2 = Math.min(d2, d);
+          if (b.owner === 1 && d < d1) d1 = d;
+          if (b.owner === 2 && d < d2) d2 = d;
         });
+        
         let roundWinner = null;
-        if (d1 < d2) {
+        if (d1 < d2 && d1 !== Infinity) {
           roundWinner = 1;
-          const pts = played.filter(b => b.owner === 1 && dist(b, m) < d2).length;
+          const pts = validBalls.filter(b => b.owner === 1 && dist(b, m) < d2).length;
           gs.scores[1] += pts;
-        } else if (d2 < d1) {
+          addMessage(`✅ Ronda ${gs.round}: Jugador Rojo gana +${pts} punto(s)`);
+        } else if (d2 < d1 && d2 !== Infinity) {
           roundWinner = 2;
-          const pts = played.filter(b => b.owner === 2 && dist(b, m) < d1).length;
+          const pts = validBalls.filter(b => b.owner === 2 && dist(b, m) < d1).length;
           gs.scores[2] += pts;
+          addMessage(`✅ Ronda ${gs.round}: Jugador Verde gana +${pts} punto(s)`);
+        } else {
+          addMessage(`🤝 Ronda ${gs.round}: Empate - Nadie gana puntos`);
         }
+        
         if (gs.round >= gs.maxRounds) {
           const winner = gs.scores[1] > gs.scores[2] ? 1 : gs.scores[2] > gs.scores[1] ? 2 : 0;
           gs.phase = "end";
           gs.winner = winner;
-          refreshUi(winner === 0 ? "¡Empate!" : `🏆 ¡Jugador ${winner === 1 ? "Rojo" : "Verde"} gana el juego!`);
+          refreshUi();
+          addMessage(winner === 0 ? "¡EMPATE!" : `🏆 ¡Jugador ${winner === 1 ? "Rojo" : "Verde"} gana el juego!`);
         } else {
           const next = initState();
           next.scores = gs.scores;
@@ -161,51 +265,111 @@
           next.turn = roundWinner || 1;
           next.maxRounds = gs.maxRounds;
           stateRef.current = next;
-          refreshUi(`Ronda ${next.round} — ${roundWinner ? `Jugador ${roundWinner === 1 ? "Rojo" : "Verde"} ganó la ronda` : "Empate de ronda"}`);
+          refreshUi();
+          addMessage(`🎲 Ronda ${next.round} - Comienza ${roundWinner ? `Jugador ${roundWinner === 1 ? "Rojo" : "Verde"}` : "el ganador de la ronda anterior"}`);
         }
       }, []);
 
       const aiThrow = React.useCallback(() => {
         const gs = stateRef.current;
         if (gs.phase !== "aim" || gs.turn !== 2) return;
+        
+        // Validar que sea el turno correcto según reglas reales
+        if (!isValidTurn(gs)) {
+          addMessage("🤖 IA: No es mi turno (tengo bola más cercana)", true);
+          return;
+        }
+        
         const unplayed = gs.balls.filter(b => b.owner === 2 && !b.played);
         if (!unplayed.length) return;
         const b = unplayed[0];
-        const tx = gs.moche.x + (Math.random() - 0.5) * 40;
-        const ty = gs.moche.y + (Math.random() - 0.5) * 40;
-        const startX = 50 + parseInt(b.id.split("_")[1]) * (BOLA_R * 2 + 5);
+        
+        // IA inteligente: apunta cerca del moche pero evitando paredes
+        let tx = gs.moche.x + (Math.random() - 0.5) * 50;
+        let ty = gs.moche.y + (Math.random() - 0.5) * 50;
+        tx = clamp(tx, 60, W - 60);
+        ty = clamp(ty, 60, H - 60);
+        
+        const bankIdx = parseInt(b.id.split("_")[1]);
+        const startX = 50 + bankIdx * (BOLA_R * 2 + 5);
         const startY = H - 35;
         const dx = tx - startX, dy = ty - startY;
         const len = Math.hypot(dx, dy);
-        const power = clamp(len / 30, 6, MAX_POWER * 0.85);
+        const power = clamp(len / 28, 5, MAX_POWER * 0.8);
         b.vx = (dx / len) * power;
         b.vy = (dy / len) * power;
         b.x = startX; b.y = startY;
         b.played = true;
         gs.phase = "rolling";
-        refreshUi("🤖 IA lanzando...");
+        refreshUi();
+        addMessage("🤖 IA lanzando bola...");
       }, []);
 
       const tick = React.useCallback(() => {
         const gs = stateRef.current;
         if (gs.phase !== "rolling") return;
+        
         let anyMoving = false;
-        const allBalls = gs.mocheThrown ? [gs.moche, ...gs.balls.filter(b => b.played)] : gs.balls.filter(b => b.played);
-        allBalls.forEach(b => {
+        const movingBalls = [];
+        
+        // Solo mover la bola que se acaba de lanzar y el moche si está en movimiento
+        if (gs.moche.vx !== 0 || gs.moche.vy !== 0) {
+          movingBalls.push(gs.moche);
+        }
+        
+        gs.balls.forEach(ball => {
+          if (ball.played && (ball.vx !== 0 || ball.vy !== 0)) {
+            movingBalls.push(ball);
+          }
+        });
+        
+        movingBalls.forEach(b => {
           b.x += b.vx; b.y += b.vy;
           b.vx *= FRICTION; b.vy *= FRICTION;
-          if (b.x - b.r < 20) { b.x = 20 + b.r; b.vx *= -0.6; }
-          if (b.x + b.r > W - 20) { b.x = W - 20 - b.r; b.vx *= -0.6; }
-          if (b.y - b.r < 20) { b.y = 20 + b.r; b.vy *= -0.6; }
-          if (b.y + b.r > H - 20) { b.y = H - 20 - b.r; b.vy *= -0.6; }
+          
+          // Colisiones con paredes (sin anular aún, solo rebote)
+          if (b.x - b.r < 20) { b.x = 20 + b.r; b.vx *= -0.5; }
+          if (b.x + b.r > W - 20) { b.x = W - 20 - b.r; b.vx *= -0.5; }
+          if (b.y - b.r < 20) { b.y = 20 + b.r; b.vy *= -0.5; }
+          if (b.y + b.r > H - 20) { b.y = H - 20 - b.r; b.vy *= -0.5; }
+          
           if (Math.abs(b.vx) < MIN_SPEED) b.vx = 0;
           if (Math.abs(b.vy) < MIN_SPEED) b.vy = 0;
           if (b.vx !== 0 || b.vy !== 0) anyMoving = true;
         });
-        for (let i = 0; i < allBalls.length; i++)
-          for (let j = i + 1; j < allBalls.length; j++)
-            if (dist(allBalls[i], allBalls[j]) < allBalls[i].r + allBalls[j].r)
-              resolveCollision(allBalls[i], allBalls[j]);
+        
+        // Detectar boche (colisión entre bolas de diferentes dueños)
+        const playedBalls = gs.balls.filter(b => b.played);
+        for (let i = 0; i < playedBalls.length; i++) {
+          for (let j = i + 1; j < playedBalls.length; j++) {
+            const ballA = playedBalls[i];
+            const ballB = playedBalls[j];
+            if (ballA.owner !== ballB.owner && dist(ballA, ballB) < ballA.r + ballB.r) {
+              // Aplicar boche a la bola que fue golpeada (la que tiene menor velocidad)
+              if (Math.abs(ballA.vx) + Math.abs(ballA.vy) < Math.abs(ballB.vx) + Math.abs(ballB.vy)) {
+                if (!ballA.boched) {
+                  applyBoche(ballA, ballB);
+                  ballA.boched = true;
+                  addMessage(`💥 ¡BOCHE! Bola ${ballA.owner === 1 ? "Roja" : "Verde"} fue desplazada`);
+                }
+              } else {
+                if (!ballB.boched) {
+                  applyBoche(ballB, ballA);
+                  ballB.boched = true;
+                  addMessage(`💥 ¡BOCHE! Bola ${ballB.owner === 1 ? "Roja" : "Verde"} fue desplazada`);
+                }
+              }
+            }
+          }
+        }
+        
+        // Resolver colisiones físicas normales
+        const allMoving = [gs.moche, ...playedBalls];
+        for (let i = 0; i < allMoving.length; i++)
+          for (let j = i + 1; j < allMoving.length; j++)
+            if (dist(allMoving[i], allMoving[j]) < allMoving[i].r + allMoving[j].r)
+              resolveCollision(allMoving[i], allMoving[j]);
+        
         if (!anyMoving) endOfThrow();
       }, [endOfThrow]);
 
@@ -218,11 +382,27 @@
         gs.moche.vx = (dx / len) * power;
         gs.moche.vy = (dy / len) * power;
         gs.phase = "rolling";
-        refreshUi("🎯 Moche en movimiento...");
+        refreshUi();
+        addMessage("🎯 Lanzando moche...");
       }, []);
 
       const throwBall = React.useCallback((fromX, fromY, toX, toY) => {
         const gs = stateRef.current;
+        
+        // Validar regla de bola más lejana ANTES de lanzar
+        if (!isValidTurn(gs)) {
+          if (!gs.repeatThrowAvailable) {
+            addMessage(`❌ ¡No es tu turno! Debe tirar quien tiene la bola MÁS LEJANA al moche. Puedes repetir el tiro.`, true);
+            gs.repeatThrowAvailable = true;
+            refreshUi();
+            return;
+          } else {
+            addMessage(`🔄 Tiro repetido permitido (no eras el más lejano)`, false);
+          }
+        } else {
+          gs.repeatThrowAvailable = false;
+        }
+        
         const unplayed = gs.balls.filter(b => b.owner === gs.turn && !b.played);
         if (!unplayed.length) return;
         const b = unplayed[0];
@@ -235,8 +415,11 @@
         b.vx = (dx / len) * power;
         b.vy = (dy / len) * power;
         b.played = true;
+        b.wallHit = false;
+        b.boched = false;
         gs.phase = "rolling";
-        refreshUi("🎳 Bola en juego...");
+        refreshUi();
+        addMessage(`🎳 Jugador ${gs.turn === 1 ? "Rojo" : "Verde"} lanzó bola ${bankIdx + 1}`);
       }, []);
 
       const draw = React.useCallback(() => {
@@ -246,27 +429,46 @@
         const gs = stateRef.current;
         const aim = aimRef.current;
 
+        // Fondo
         const grad = ctx.createLinearGradient(0, 0, 0, H);
         grad.addColorStop(0, "#c8a96e");
         grad.addColorStop(1, "#a0784a");
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, W, H);
-        ctx.fillStyle = "rgba(0,0,0,0.06)";
-        for (let i = 0; i < 800; i++) {
-          ctx.fillRect(Math.sin(i * 97.3) * W + W / 2, Math.cos(i * 53.7) * H + H / 2, 2, 1);
+        
+        // Zona de pared (zona prohibida visual)
+        ctx.strokeStyle = "#ff0000aa";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        ctx.strokeRect(WALL_PENALTY_DIST, WALL_PENALTY_DIST, W - WALL_PENALTY_DIST * 2, H - WALL_PENALTY_DIST * 2);
+        ctx.setLineDash([]);
+        
+        // Círculos de puntuación alrededor del moche
+        if (gs.mocheThrown) {
+          [30, 50, 80, 120].forEach((radius, idx) => {
+            ctx.beginPath();
+            ctx.arc(gs.moche.x, gs.moche.y, radius, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(244, 208, 63, ${0.3 - idx * 0.05})`;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+            if (idx === 0) {
+              ctx.fillStyle = "rgba(244, 208, 63, 0.1)";
+              ctx.fill();
+            }
+          });
         }
+        
         ctx.strokeStyle = "#7a5c2e";
         ctx.lineWidth = 8;
         ctx.strokeRect(4, 4, W - 8, H - 8);
-        ctx.strokeStyle = "#f4d03f44";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(20, 20, W - 40, H - 40);
+        
         ctx.setLineDash([12, 8]);
         ctx.strokeStyle = "rgba(255,255,255,0.15)";
         ctx.lineWidth = 2;
         ctx.beginPath(); ctx.moveTo(W / 2, 20); ctx.lineTo(W / 2, H - 20); ctx.stroke();
         ctx.setLineDash([]);
 
+        // Dibujar moche
         if (gs.mocheThrown) {
           const m = gs.moche;
           const mg = ctx.createRadialGradient(m.x - 3, m.y - 3, 1, m.x, m.y, m.r);
@@ -278,19 +480,26 @@
           ctx.textAlign = "center"; ctx.fillText("M", m.x, m.y + 3);
         }
 
+        // Dibujar bolas jugadas
         gs.balls.forEach(b => {
           if (!b.played) return;
+          // Efecto visual si tocó pared
+          if (b.wallHit) {
+            ctx.strokeStyle = "#ff0000";
+            ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.arc(b.x, b.y, b.r + 2, 0, Math.PI * 2);
+            ctx.stroke();
+          }
           const bg = ctx.createRadialGradient(b.x - 5, b.y - 5, 2, b.x, b.y, b.r);
           bg.addColorStop(0, lighten(b.color)); bg.addColorStop(0.6, b.color); bg.addColorStop(1, darken(b.color));
           ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
           ctx.fillStyle = bg; ctx.fill();
           ctx.strokeStyle = "rgba(0,0,0,0.3)"; ctx.lineWidth = 1.5; ctx.stroke();
-          ctx.beginPath(); ctx.arc(b.x - 5, b.y - 5, b.r * 0.3, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(255,255,255,0.4)"; ctx.fill();
           ctx.fillStyle = "#fff"; ctx.font = `bold ${b.r * 0.75}px serif`;
           ctx.textAlign = "center"; ctx.fillText(parseInt(b.id.split("_")[1]) + 1, b.x, b.y + 4);
         });
 
+        // Dibujar bolas sin jugar
         gs.balls.forEach(b => {
           if (b.played) return;
           const bx = b.owner === 1 ? W - 50 - parseInt(b.id.split("_")[1]) * (BOLA_R * 2 + 5) : 50 + parseInt(b.id.split("_")[1]) * (BOLA_R * 2 + 5);
@@ -304,6 +513,7 @@
           ctx.textAlign = "center"; ctx.fillText(parseInt(b.id.split("_")[1]) + 1, bx, by + 4);
         });
 
+        // Línea de apuntado
         if (aim.active && gs.phase === "aim") {
           const dx = aim.endX - aim.startX, dy = aim.endY - aim.startY;
           const len = Math.hypot(dx, dy);
@@ -334,11 +544,12 @@
           ctx.fillText(`PODER ${Math.round(pct * 100)}%`, aim.startX, barY + barH + 14);
         }
 
+        // Mostrar distancias al moche
         if (gs.mocheThrown && gs.phase !== "rolling") {
           const m = gs.moche;
           let closestP1 = null, closestP2 = null, minD1 = Infinity, minD2 = Infinity;
           gs.balls.forEach(b => {
-            if (!b.played) return;
+            if (!b.played || b.wallHit) return;
             const d = dist(b, m);
             if (b.owner === 1 && d < minD1) { minD1 = d; closestP1 = b; }
             if (b.owner === 2 && d < minD2) { minD2 = d; closestP2 = b; }
@@ -399,13 +610,14 @@
 
       const resetGame = () => {
         stateRef.current = initState();
-        refreshUi("¡Nueva partida! Lanza el moche primero.");
+        refreshUi();
+        addMessage("🔄 Nueva partida - Reglas: tira la bola más lejana, pared anula, boche desplaza");
       };
 
       const toggleGameMode = () => {
         gameMode.current = gameMode.current === "pvp" ? "pvc" : "pvp";
         resetGame();
-        refreshUi(gameMode.current === "pvp" ? "Modo: 2 Jugadores" : "Modo: VS Computadora");
+        addMessage(gameMode.current === "pvp" ? "👥 Modo 2 Jugadores" : "🤖 Modo VS Computadora");
       };
 
       React.useEffect(() => {
@@ -415,12 +627,12 @@
         return () => cancelAnimationFrame(frameId);
       }, [tick, draw]);
 
-      const { turn, phase, scores, round, winner, message } = ui;
+      const { turn, phase, scores, round, winner, message, repeatAvailable, currentPlayerShouldThrow } = ui;
 
       return React.createElement("div", { style: { minHeight: "100vh", background: "#0d0d0d", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontFamily: "'Georgia', serif", padding: "16px", gap: "16px" } },
         React.createElement("div", { style: { textAlign: "center" } },
           React.createElement("h1", { style: { fontSize: "clamp(24px, 5vw, 42px)", fontWeight: "900", letterSpacing: "2px", background: "linear-gradient(90deg, #f4d03f, #e67e22, #f4d03f)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", margin: 0 } }, "🎯 BOLAS CRIOLLAS"),
-          React.createElement("p", { style: { color: "#888", fontSize: "13px", margin: "4px 0 0", letterSpacing: "4px" } }, "JUEGO VENEZOLANO TRADICIONAL")
+          React.createElement("p", { style: { color: "#888", fontSize: "13px", margin: "4px 0 0", letterSpacing: "4px" } }, "REGLAS REALES VENEZOLANAS")
         ),
         React.createElement("div", { style: { display: "flex", gap: "12px", marginBottom: "8px" } },
           React.createElement("button", { onClick: toggleGameMode, style: { background: gameMode.current === "pvp" ? "rgba(46,204,113,0.3)" : "rgba(241,196,15,0.3)", border: `1px solid ${gameMode.current === "pvp" ? "#2ecc71" : "#f1c40f"}`, borderRadius: "8px", padding: "6px 12px", color: gameMode.current === "pvp" ? "#2ecc71" : "#f1c40f", fontSize: "11px", fontWeight: "bold", cursor: "pointer" } }, gameMode.current === "pvp" ? "👥 2 Jugadores" : "🤖 VS Computadora")
@@ -429,7 +641,7 @@
           React.createElement("div", { style: { textAlign: "center" } },
             React.createElement("div", { style: { color: "#e63946", fontWeight: "900", fontSize: "28px" } }, scores[1]),
             React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "JUGADOR ROJO"),
-            turn === 1 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: "#e63946" } }, "◀ TURNO")
+            turn === 1 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: "#e63946" } }, currentPlayerShouldThrow ? "◀ TURNO" : "⏸ ESPERA")
           ),
           React.createElement("div", { style: { color: "#555", fontSize: "14px", textAlign: "center" } },
             React.createElement("div", { style: { color: "#f4d03f", fontSize: "12px", letterSpacing: "2px" } }, "RONDA"),
@@ -438,7 +650,7 @@
           React.createElement("div", { style: { textAlign: "center" } },
             React.createElement("div", { style: { color: "#2ecc71", fontWeight: "900", fontSize: "28px" } }, scores[2]),
             React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "JUGADOR VERDE"),
-            turn === 2 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: "#2ecc71" } }, "TURNO ▶")
+            turn === 2 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: "#2ecc71" } }, currentPlayerShouldThrow ? "TURNO ▶" : "⏸ ESPERA")
           )
         ),
         React.createElement("div", { style: { position: "relative", borderRadius: "12px", overflow: "hidden", boxShadow: "0 0 40px rgba(244,208,63,0.2), 0 20px 60px rgba(0,0,0,0.8)", border: "2px solid rgba(244,208,63,0.3)", width: "min(800px, 96vw)" } },
@@ -450,15 +662,15 @@
           )
         ),
         React.createElement("div", { style: { background: "rgba(255,255,255,0.04)", borderRadius: "10px", padding: "12px 20px", border: "1px solid rgba(255,255,255,0.08)", maxWidth: "800px", width: "96vw" } },
-          React.createElement("div", { style: { color: "#f4d03f", fontSize: "12px", fontWeight: "bold", marginBottom: "6px", letterSpacing: "2px" } }, "📖 CÓMO JUGAR"),
-          React.createElement("div", { style: { color: "#999", fontSize: "12px", lineHeight: "1.6", display: "flex", gap: "24px", flexWrap: "wrap" } },
-            React.createElement("span", null, "1️⃣ Haz ", React.createElement("b", { style: { color: "#ccc" } }, "clic + arrastra"), " para lanzar"),
-            React.createElement("span", null, "2️⃣ Primero lanza el ", React.createElement("b", { style: { color: "#f4d03f" } }, "moche"), " (bola dorada)"),
-            React.createElement("span", null, "3️⃣ Acerca tus bolas al moche"),
-            React.createElement("span", null, "4️⃣ El más cercano gana puntos")
-          ),
-          message && React.createElement("div", { style: { marginTop: "8px", color: "#e67e22", fontSize: "13px", fontWeight: "bold" } }, `→ ${message}`)
+          React.createElement("div", { style: { color: "#f4d03f", fontSize: "12px", fontWeight: "bold", marginBottom: "6px", letterSpacing: "2px" } }, "📖 REGLAS REALES"),
+          React.createElement("div", { style: { color: "#999", fontSize: "11px", lineHeight: "1.6", display: "flex", gap: "16px", flexWrap: "wrap" } },
+            React.createElement("span", null, "✅ Tira quien tiene bola MÁS LEJANA"),
+            React.createElement("span", null, "⚠️ Bola que toca pared → ANULADA"),
+            React.createElement("span", null, "💥 BOCHE → bola rival es desplazada"),
+            React.createElement("span", null, "🔄 Si no eras el más lejano, puedes repetir")
+          )
         ),
+        message && React.createElement("div", { className: "message-toast", style: { position: "fixed", bottom: "20px", right: "20px", background: message.includes("❌") || message.includes("⚠️") ? "rgba(231,76,60,0.9)" : "rgba(244,208,63,0.9)", color: "#1a0a00", padding: "10px 20px", borderRadius: "8px", fontSize: "13px", fontWeight: "bold", maxWidth: "300px", zIndex: 1000, backdropFilter: "blur(4px)" } }, message),
         phase !== "end" && React.createElement("div", { style: { display: "flex", gap: "12px" } },
           React.createElement("button", { onClick: resetGame, style: { background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "8px", padding: "8px 20px", color: "#ccc", fontSize: "13px", cursor: "pointer", letterSpacing: "1px" } }, "🔄 Reiniciar")
         )
