@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Bolas Criollas - Juego</title>
+  <title>Bolas Criollas - Juego Oficial</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0d0d0d;font-family:'Segoe UI',Arial,sans-serif;}
+    canvas { touch-action: none; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
@@ -15,6 +16,7 @@
 <body>
   <div id="root"></div>
   <script type="text/babel">
+    // ── Constantes del juego ──────────────────────────────────────────────────────
     const W = 800, H = 400;
     const MOCHE_R = 10;
     const BOLA_R = 18;
@@ -22,82 +24,449 @@
     const MIN_SPEED = 0.08;
     const MAX_POWER = 18;
     const BALLS_PER_PLAYER = 4;
-    const COLORS = { p1: ["#e63946", "#c1121f", "#ff6b6b", "#ff9a9e"], p2: ["#1d7ec1", "#023e8a", "#4cc9f0", "#74b3ce"] };
-    function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
-    function resolveCollision(a,b){
-      const dx=b.x-a.x, dy=b.y-a.y;
-      const d=Math.hypot(dx,dy)||0.001;
-      const overlap=a.r+b.r-d;
-      if(overlap<=0) return;
-      const nx=dx/d, ny=dy/d;
-      a.x-=nx*overlap/2; a.y-=ny*overlap/2;
-      b.x+=nx*overlap/2; b.y+=ny*overlap/2;
-      const p=2*(a.vx*nx+a.vy*ny-b.vx*nx-b.vy*ny)/2;
-      a.vx-=p*nx; a.vy-=p*ny;
-      b.vx+=p*nx; b.vy+=p*ny;
+
+    const COLORS = {
+      p1: ["#e63946", "#c1121f", "#ff6b6b", "#ff9a9e"],
+      p2: ["#1d7ec1", "#023e8a", "#4cc9f0", "#74b3ce"],
+    };
+
+    function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+
+    function resolveCollision(a, b) {
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const d = Math.hypot(dx, dy) || 0.001;
+      const overlap = a.r + b.r - d;
+      if (overlap <= 0) return;
+      const nx = dx / d, ny = dy / d;
+      a.x -= nx * overlap / 2; a.y -= ny * overlap / 2;
+      b.x += nx * overlap / 2; b.y += ny * overlap / 2;
+      const p = 2 * (a.vx * nx + a.vy * ny - b.vx * nx - b.vy * ny) / 2;
+      a.vx -= p * nx; a.vy -= p * ny;
+      b.vx += p * nx; b.vy += p * ny;
     }
-    function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
-    function initState(){
-      return {
-        moche:{x:W/2,y:H/2,vx:0,vy:0,r:MOCHE_R,color:"#f4d03f",id:"moche"},
-        balls:[...Array.from({length:BALLS_PER_PLAYER},(_,i)=>({id:`p1_${i}`,owner:1,r:BOLA_R,x:80+i*15,y:80+i*40,vx:0,vy:0,color:COLORS.p1[i],played:false})),...Array.from({length:BALLS_PER_PLAYER},(_,i)=>({id:`p2_${i}`,owner:2,r:BOLA_R,x:W-80-i*15,y:80+i*40,vx:0,vy:0,color:COLORS.p2[i],played:false}))],
-        turn:1,phase:"aim",scores:{1:0,2:0},round:1,maxRounds:3,winner:null,mocheThrown:false
+
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+    // Helper para roundRect
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+      CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+        if (w < 2 * r) r = w / 2;
+        if (h < 2 * r) r = h / 2;
+        this.moveTo(x+r, y);
+        this.lineTo(x+w-r, y);
+        this.quadraticCurveTo(x+w, y, x+w, y+r);
+        this.lineTo(x+w, y+h-r);
+        this.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+        this.lineTo(x+r, y+h);
+        this.quadraticCurveTo(x, y+h, x, y+h-r);
+        this.lineTo(x, y+r);
+        this.quadraticCurveTo(x, y, x+r, y);
+        return this;
       };
     }
-    function BolasCreollas(){
-      const canvasRef=React.useRef(null);
-      const stateRef=React.useRef(initState());
-      const[ui,setUi]=React.useState({turn:1,phase:"aim",scores:{1:0,2:0},round:1,winner:null,mocheThrown:false,message:""});
-      const aimRef=React.useRef({active:false,startX:0,startY:0,endX:0,endY:0});
-      const refreshUi=(message="")=>{const gs=stateRef.current;setUi({turn:gs.turn,phase:gs.phase,scores:{...gs.scores},round:gs.round,winner:gs.winner,mocheThrown:gs.mocheThrown,message});};
-      const endOfThrow=React.useCallback(()=>{
-        const gs=stateRef.current;
-        const unplayed=gs.balls.filter(b=>!b.played);
-        if(!gs.mocheThrown){gs.phase="aim";gs.mocheThrown=true;refreshUi("¡Moche colocado! Ahora lanza tus bolas.");return;}
-        if(unplayed.length>0){gs.turn=gs.turn===1?2:1;gs.phase="aim";refreshUi(gs.turn===1?"🔴 Turno de Jugador 1":"🔵 Turno de Jugador 2");return;}
-        const m=gs.moche;
-        const played=gs.balls.filter(b=>b.played);
-        let d1=Infinity,d2=Infinity;
-        played.forEach(b=>{const d=dist(b,m);if(b.owner===1)d1=Math.min(d1,d);if(b.owner===2)d2=Math.min(d2,d);});
-        if(d1<d2){const pts=played.filter(b=>b.owner===1&&dist(b,m)<d2).length;gs.scores[1]+=pts;}
-        else if(d2<d1){const pts=played.filter(b=>b.owner===2&&dist(b,m)<d1).length;gs.scores[2]+=pts;}
-        if(gs.round>=gs.maxRounds){const winner=gs.scores[1]>gs.scores[2]?1:gs.scores[2]>gs.scores[1]?2:0;gs.phase="end";gs.winner=winner;refreshUi(winner===0?"¡Empate!":`🏆 ¡Jugador ${winner} gana el juego!`);}
-        else{const next=initState();next.scores=gs.scores;next.round=gs.round+1;next.turn=1;next.maxRounds=gs.maxRounds;stateRef.current=next;refreshUi(`Ronda ${next.round} — Nueva ronda`);}
-      },[]);
-      const tick=React.useCallback(()=>{
-        const gs=stateRef.current;
-        if(gs.phase!=="rolling")return;
-        let anyMoving=false;
-        const allBalls=gs.mocheThrown?[gs.moche,...gs.balls.filter(b=>b.played)]:gs.balls.filter(b=>b.played);
-        allBalls.forEach(b=>{b.x+=b.vx;b.y+=b.vy;b.vx*=FRICTION;b.vy*=FRICTION;if(b.x-b.r<20){b.x=20+b.r;b.vx*=-0.6;}if(b.x+b.r>W-20){b.x=W-20-b.r;b.vx*=-0.6;}if(b.y-b.r<20){b.y=20+b.r;b.vy*=-0.6;}if(b.y+b.r>H-20){b.y=H-20-b.r;b.vy*=-0.6;}if(Math.abs(b.vx)<MIN_SPEED)b.vx=0;if(Math.abs(b.vy)<MIN_SPEED)b.vy=0;if(b.vx!==0||b.vy!==0)anyMoving=true;});
-        for(let i=0;i<allBalls.length;i++)for(let j=i+1;j<allBalls.length;j++)if(dist(allBalls[i],allBalls[j])<allBalls[i].r+allBalls[j].r)resolveCollision(allBalls[i],allBalls[j]);
-        if(!anyMoving)endOfThrow();
-      },[endOfThrow]);
-      const throwMoche=React.useCallback((fromX,fromY,toX,toY)=>{const gs=stateRef.current;const dx=toX-fromX,dy=toY-fromY;const len=Math.hypot(dx,dy)||1;const power=clamp(len/3,3,MAX_POWER*0.7);gs.moche.x=fromX;gs.moche.y=fromY;gs.moche.vx=(dx/len)*power;gs.moche.vy=(dy/len)*power;gs.phase="rolling";refreshUi("🎯 Moche en movimiento...");},[]);
-      const throwBall=React.useCallback((fromX,fromY,toX,toY)=>{const gs=stateRef.current;const unplayed=gs.balls.filter(b=>b.owner===gs.turn&&!b.played);if(!unplayed.length)return;const b=unplayed[0];const bankIdx=parseInt(b.id.split("_")[1]);b.x=b.owner===1?30+bankIdx*(BOLA_R*2+4):W-30-bankIdx*(BOLA_R*2+4);b.y=b.owner===1?H-35:35;const dx=toX-fromX,dy=toY-fromY;const len=Math.hypot(dx,dy)||1;const power=clamp(len/3,2,MAX_POWER);b.vx=(dx/len)*power;b.vy=(dy/len)*power;b.played=true;gs.phase="rolling";refreshUi("🎳 Bola en juego...");},[]);
-      const draw=React.useCallback(()=>{const canvas=canvasRef.current;if(!canvas)return;const ctx=canvas.getContext("2d");const gs=stateRef.current;const aim=aimRef.current;ctx.fillStyle="#c8a96e";ctx.fillRect(0,0,W,H);ctx.fillStyle="rgba(0,0,0,0.06)";for(let i=0;i<800;i++){ctx.fillRect(Math.sin(i*97.3)*W+W/2,Math.cos(i*53.7)*H+H/2,2,1);}ctx.strokeStyle="#7a5c2e";ctx.lineWidth=8;ctx.strokeRect(4,4,W-8,H-8);if(gs.mocheThrown){const m=gs.moche;ctx.beginPath();ctx.arc(m.x,m.y,m.r,0,Math.PI*2);ctx.fillStyle="#f4d03f";ctx.fill();ctx.fillStyle="#7a5c00";ctx.font="bold 8px serif";ctx.textAlign="center";ctx.fillText("M",m.x,m.y+3);}gs.balls.forEach(b=>{if(!b.played)return;ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fillStyle=b.color;ctx.fill();ctx.fillStyle="#fff";ctx.font=`bold ${b.r*0.75}px serif`;ctx.textAlign="center";ctx.fillText(parseInt(b.id.split("_")[1])+1,b.x,b.y+4);});if(aim.active&&gs.phase==="aim"){const dx=aim.endX-aim.startX,dy=aim.endY-aim.startY;const len=Math.hypot(dx,dy);const power=Math.min(len/3,MAX_POWER);const nx=dx/(len||1),ny=dy/(len||1);ctx.setLineDash([6,6]);ctx.strokeStyle=gs.turn===1?"rgba(230,57,70,0.8)":"rgba(29,126,193,0.8)";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(aim.startX,aim.startY);ctx.lineTo(aim.startX+nx*power*12,aim.startY+ny*power*12);ctx.stroke();ctx.setLineDash([]);}},[]);
-      const handleMouseDown=React.useCallback((e)=>{const gs=stateRef.current;if(gs.phase!=="aim")return;const rect=canvasRef.current.getBoundingClientRect();const scaleX=W/rect.width,scaleY=H/rect.height;const x=(e.clientX-rect.left)*scaleX;const y=(e.clientY-rect.top)*scaleY;aimRef.current={active:true,startX:x,startY:y,endX:x,endY:y};},[]);
-      const handleMouseMove=React.useCallback((e)=>{if(!aimRef.current.active)return;const rect=canvasRef.current.getBoundingClientRect();const scaleX=W/rect.width,scaleY=H/rect.height;aimRef.current.endX=(e.clientX-rect.left)*scaleX;aimRef.current.endY=(e.clientY-rect.top)*scaleY;},[]);
-      const handleMouseUp=React.useCallback((e)=>{const gs=stateRef.current;if(!aimRef.current.active||gs.phase!=="aim")return;aimRef.current.active=false;const{startX,startY,endX,endY}=aimRef.current;if(!gs.mocheThrown){throwMoche(startX,startY,endX,endY);}else{throwBall(startX,startY,endX,endY);}},[throwMoche,throwBall]);
-      const resetGame=()=>{stateRef.current=initState();refreshUi("¡Nueva partida! Lanza el moche primero.");};
-      React.useEffect(()=>{let frameId;const loop=()=>{tick();draw();frameId=requestAnimationFrame(loop);};frameId=requestAnimationFrame(loop);return()=>cancelAnimationFrame(frameId);},[tick,draw]);
-      const{turn,phase,scores,round,winner,message}=ui;
-      return React.createElement("div",{style:{minHeight:"100vh",background:"#0d0d0d",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",fontFamily:"'Georgia',serif",padding:"16px",gap:"16px"}},
-        React.createElement("div",{style:{textAlign:"center"}},React.createElement("h1",{style:{fontSize:"clamp(24px,5vw,42px)",fontWeight:"900",letterSpacing:"2px",background:"linear-gradient(90deg,#f4d03f,#e67e22,#f4d03f)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",margin:0}},"🎯 BOLAS CRIOLLAS"),React.createElement("p",{style:{color:"#888",fontSize:"13px",margin:"4px 0 0",letterSpacing:"4px"}},"JUEGO VENEZOLANO TRADICIONAL")),
-        React.createElement("div",{style:{display:"flex",gap:"20px",alignItems:"center",background:"rgba(255,255,255,0.05)",borderRadius:"12px",padding:"10px 24px",border:"1px solid rgba(255,255,255,0.1)"}},
-          React.createElement("div",{style:{textAlign:"center"}},React.createElement("div",{style:{color:"#e63946",fontWeight:"900",fontSize:"28px"}},scores[1]),React.createElement("div",{style:{color:"#aaa",fontSize:"11px",letterSpacing:"1px"}},"JUGADOR 1"),turn===1&&phase!=="end"&&React.createElement("div",{style:{fontSize:"8px",color:"#e63946"}},"◀ TURNO")),
-          React.createElement("div",{style:{color:"#555",fontSize:"14px",textAlign:"center"}},React.createElement("div",{style:{color:"#f4d03f",fontSize:"12px",letterSpacing:"2px"}},"RONDA"),React.createElement("div",{style:{fontSize:"22px",fontWeight:"bold",color:"#fff"}},`${round}/3`)),
-          React.createElement("div",{style:{textAlign:"center"}},React.createElement("div",{style:{color:"#1d7ec1",fontWeight:"900",fontSize:"28px"}},scores[2]),React.createElement("div",{style:{color:"#aaa",fontSize:"11px",letterSpacing:"1px"}},"JUGADOR 2"),turn===2&&phase!=="end"&&React.createElement("div",{style:{fontSize:"8px",color:"#1d7ec1"}},"TURNO ▶"))
+
+    function lighten(hex) {
+      const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+      return `rgb(${Math.min(255, r + 70)}, ${Math.min(255, g + 70)}, ${Math.min(255, b + 70)})`;
+    }
+    function darken(hex) {
+      const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+      return `rgb(${Math.max(0, r - 50)}, ${Math.max(0, g - 50)}, ${Math.max(0, b - 50)})`;
+    }
+
+    function initState() {
+      return {
+        moche: { x: W / 2, y: H / 2, vx: 0, vy: 0, r: MOCHE_R, color: "#f4d03f", id: "moche" },
+        balls: [
+          ...Array.from({ length: BALLS_PER_PLAYER }, (_, i) => ({
+            id: `p1_${i}`, owner: 1, r: BOLA_R,
+            x: 80 + i * 15, y: 80 + i * 40,
+            vx: 0, vy: 0, color: COLORS.p1[i], played: false
+          })),
+          ...Array.from({ length: BALLS_PER_PLAYER }, (_, i) => ({
+            id: `p2_${i}`, owner: 2, r: BOLA_R,
+            x: W - 80 - i * 15, y: 80 + i * 40,
+            vx: 0, vy: 0, color: COLORS.p2[i], played: false
+          })),
+        ],
+        turn: 1,
+        phase: "aim",
+        scores: { 1: 0, 2: 0 },
+        round: 1,
+        maxRounds: 3,
+        winner: null,
+        mocheThrown: false,
+      };
+    }
+
+    function BolasCreollas() {
+      const canvasRef = React.useRef(null);
+      const stateRef = React.useRef(initState());
+      const [ui, setUi] = React.useState({ turn: 1, phase: "aim", scores: { 1: 0, 2: 0 }, round: 1, winner: null, mocheThrown: false, message: "" });
+      const aimRef = React.useRef({ active: false, startX: 0, startY: 0, endX: 0, endY: 0 });
+      const gameMode = React.useRef("pvp"); // pvp | pvc
+
+      const refreshUi = (message = "") => {
+        const gs = stateRef.current;
+        setUi({ turn: gs.turn, phase: gs.phase, scores: { ...gs.scores }, round: gs.round, winner: gs.winner, mocheThrown: gs.mocheThrown, message });
+      };
+
+      const endOfThrow = React.useCallback(() => {
+        const gs = stateRef.current;
+        const unplayed = gs.balls.filter(b => !b.played);
+        if (!gs.mocheThrown) {
+          gs.phase = "aim";
+          gs.mocheThrown = true;
+          refreshUi("¡Moche colocado! Ahora lanza tus bolas.");
+          return;
+        }
+        if (unplayed.length > 0) {
+          gs.turn = gs.turn === 1 ? 2 : 1;
+          gs.phase = "aim";
+          const msg = gs.turn === 1 ? "🔴 Turno de Jugador 1" : "🔵 Turno de Jugador 2";
+          refreshUi(msg);
+          if (gameMode.current === "pvc" && gs.turn === 2) {
+            setTimeout(() => aiThrow(), 800);
+          }
+          return;
+        }
+        const m = gs.moche;
+        const played = gs.balls.filter(b => b.played);
+        let d1 = Infinity, d2 = Infinity;
+        played.forEach(b => {
+          const d = dist(b, m);
+          if (b.owner === 1) d1 = Math.min(d1, d);
+          if (b.owner === 2) d2 = Math.min(d2, d);
+        });
+        let roundWinner = null;
+        if (d1 < d2) {
+          roundWinner = 1;
+          const pts = played.filter(b => b.owner === 1 && dist(b, m) < d2).length;
+          gs.scores[1] += pts;
+        } else if (d2 < d1) {
+          roundWinner = 2;
+          const pts = played.filter(b => b.owner === 2 && dist(b, m) < d1).length;
+          gs.scores[2] += pts;
+        }
+        if (gs.round >= gs.maxRounds) {
+          const winner = gs.scores[1] > gs.scores[2] ? 1 : gs.scores[2] > gs.scores[1] ? 2 : 0;
+          gs.phase = "end";
+          gs.winner = winner;
+          refreshUi(winner === 0 ? "¡Empate!" : `🏆 ¡Jugador ${winner} gana el juego!`);
+        } else {
+          const next = initState();
+          next.scores = gs.scores;
+          next.round = gs.round + 1;
+          next.turn = roundWinner || 1;
+          next.maxRounds = gs.maxRounds;
+          stateRef.current = next;
+          refreshUi(`Ronda ${next.round} — ${roundWinner ? `Jugador ${roundWinner} ganó la ronda` : "Empate de ronda"}`);
+        }
+      }, []);
+
+      const aiThrow = React.useCallback(() => {
+        const gs = stateRef.current;
+        if (gs.phase !== "aim" || gs.turn !== 2) return;
+        const unplayed = gs.balls.filter(b => b.owner === 2 && !b.played);
+        if (!unplayed.length) return;
+        const b = unplayed[0];
+        const tx = gs.moche.x + (Math.random() - 0.5) * 40;
+        const ty = gs.moche.y + (Math.random() - 0.5) * 40;
+        const startX = W - 80 - parseInt(b.id.split("_")[1]) * 15;
+        const startY = 80 + parseInt(b.id.split("_")[1]) * 40;
+        const dx = tx - startX, dy = ty - startY;
+        const len = Math.hypot(dx, dy);
+        const power = clamp(len / 30, 6, MAX_POWER * 0.85);
+        b.vx = (dx / len) * power;
+        b.vy = (dy / len) * power;
+        b.x = startX; b.y = startY;
+        b.played = true;
+        gs.phase = "rolling";
+        refreshUi("🤖 IA lanzando...");
+      }, []);
+
+      const tick = React.useCallback(() => {
+        const gs = stateRef.current;
+        if (gs.phase !== "rolling") return;
+        let anyMoving = false;
+        const allBalls = gs.mocheThrown ? [gs.moche, ...gs.balls.filter(b => b.played)] : gs.balls.filter(b => b.played);
+        allBalls.forEach(b => {
+          b.x += b.vx; b.y += b.vy;
+          b.vx *= FRICTION; b.vy *= FRICTION;
+          if (b.x - b.r < 20) { b.x = 20 + b.r; b.vx *= -0.6; }
+          if (b.x + b.r > W - 20) { b.x = W - 20 - b.r; b.vx *= -0.6; }
+          if (b.y - b.r < 20) { b.y = 20 + b.r; b.vy *= -0.6; }
+          if (b.y + b.r > H - 20) { b.y = H - 20 - b.r; b.vy *= -0.6; }
+          if (Math.abs(b.vx) < MIN_SPEED) b.vx = 0;
+          if (Math.abs(b.vy) < MIN_SPEED) b.vy = 0;
+          if (b.vx !== 0 || b.vy !== 0) anyMoving = true;
+        });
+        for (let i = 0; i < allBalls.length; i++)
+          for (let j = i + 1; j < allBalls.length; j++)
+            if (dist(allBalls[i], allBalls[j]) < allBalls[i].r + allBalls[j].r)
+              resolveCollision(allBalls[i], allBalls[j]);
+        if (!anyMoving) endOfThrow();
+      }, [endOfThrow]);
+
+      const throwMoche = React.useCallback((fromX, fromY, toX, toY) => {
+        const gs = stateRef.current;
+        const dx = toX - fromX, dy = toY - fromY;
+        const len = Math.hypot(dx, dy) || 1;
+        const power = clamp(len / 3, 3, MAX_POWER * 0.7);
+        gs.moche.x = fromX; gs.moche.y = fromY;
+        gs.moche.vx = (dx / len) * power;
+        gs.moche.vy = (dy / len) * power;
+        gs.phase = "rolling";
+        refreshUi("🎯 Moche en movimiento...");
+      }, []);
+
+      const throwBall = React.useCallback((fromX, fromY, toX, toY) => {
+        const gs = stateRef.current;
+        const unplayed = gs.balls.filter(b => b.owner === gs.turn && !b.played);
+        if (!unplayed.length) return;
+        const b = unplayed[0];
+        const bankIdx = parseInt(b.id.split("_")[1]);
+        b.x = b.owner === 1 ? 30 + bankIdx * (BOLA_R * 2 + 4) : W - 30 - bankIdx * (BOLA_R * 2 + 4);
+        b.y = b.owner === 1 ? H - 35 : 35;
+        const dx = toX - fromX, dy = toY - fromY;
+        const len = Math.hypot(dx, dy) || 1;
+        const power = clamp(len / 3, 2, MAX_POWER);
+        b.vx = (dx / len) * power;
+        b.vy = (dy / len) * power;
+        b.played = true;
+        gs.phase = "rolling";
+        refreshUi("🎳 Bola en juego...");
+      }, []);
+
+      const draw = React.useCallback(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        const gs = stateRef.current;
+        const aim = aimRef.current;
+
+        const grad = ctx.createLinearGradient(0, 0, 0, H);
+        grad.addColorStop(0, "#c8a96e");
+        grad.addColorStop(1, "#a0784a");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = "rgba(0,0,0,0.06)";
+        for (let i = 0; i < 800; i++) {
+          ctx.fillRect(Math.sin(i * 97.3) * W + W / 2, Math.cos(i * 53.7) * H + H / 2, 2, 1);
+        }
+        ctx.strokeStyle = "#7a5c2e";
+        ctx.lineWidth = 8;
+        ctx.strokeRect(4, 4, W - 8, H - 8);
+        ctx.strokeStyle = "#f4d03f44";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(20, 20, W - 40, H - 40);
+        ctx.setLineDash([12, 8]);
+        ctx.strokeStyle = "rgba(255,255,255,0.15)";
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(W / 2, 20); ctx.lineTo(W / 2, H - 20); ctx.stroke();
+        ctx.setLineDash([]);
+        ["P1", "P2"].forEach((p, i) => {
+          ctx.fillStyle = i === 0 ? "rgba(230,57,70,0.08)" : "rgba(29,126,193,0.08)";
+          ctx.fillRect(i === 0 ? 20 : W / 2 + 20, 20, W / 2 - 40, H - 40);
+        });
+
+        if (gs.mocheThrown) {
+          const m = gs.moche;
+          const mg = ctx.createRadialGradient(m.x - 3, m.y - 3, 1, m.x, m.y, m.r);
+          mg.addColorStop(0, "#ffe169"); mg.addColorStop(1, "#f0a500");
+          ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
+          ctx.fillStyle = mg; ctx.fill();
+          ctx.strokeStyle = "#c8860a"; ctx.lineWidth = 2; ctx.stroke();
+          ctx.fillStyle = "#7a5c00"; ctx.font = "bold 8px serif";
+          ctx.textAlign = "center"; ctx.fillText("M", m.x, m.y + 3);
+        }
+
+        gs.balls.forEach(b => {
+          if (!b.played) return;
+          const bg = ctx.createRadialGradient(b.x - 5, b.y - 5, 2, b.x, b.y, b.r);
+          bg.addColorStop(0, lighten(b.color)); bg.addColorStop(0.6, b.color); bg.addColorStop(1, darken(b.color));
+          ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+          ctx.fillStyle = bg; ctx.fill();
+          ctx.strokeStyle = "rgba(0,0,0,0.3)"; ctx.lineWidth = 1.5; ctx.stroke();
+          ctx.beginPath(); ctx.arc(b.x - 5, b.y - 5, b.r * 0.3, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,255,255,0.4)"; ctx.fill();
+          ctx.fillStyle = "#fff"; ctx.font = `bold ${b.r * 0.75}px serif`;
+          ctx.textAlign = "center"; ctx.fillText(parseInt(b.id.split("_")[1]) + 1, b.x, b.y + 4);
+        });
+
+        gs.balls.forEach((b, idx) => {
+          if (b.played) return;
+          const bx = b.owner === 1 ? 30 + parseInt(b.id.split("_")[1]) * (BOLA_R * 2 + 4) : W - 30 - parseInt(b.id.split("_")[1]) * (BOLA_R * 2 + 4);
+          const by = b.owner === 1 ? H - 35 : 35;
+          const bg = ctx.createRadialGradient(bx - 4, by - 4, 1, bx, by, BOLA_R - 2);
+          bg.addColorStop(0, lighten(b.color)); bg.addColorStop(1, b.color);
+          ctx.beginPath(); ctx.arc(bx, by, BOLA_R - 2, 0, Math.PI * 2);
+          ctx.fillStyle = bg; ctx.fill();
+          ctx.strokeStyle = "rgba(255,255,255,0.3)"; ctx.lineWidth = 1; ctx.stroke();
+        });
+
+        if (aim.active && gs.phase === "aim") {
+          const dx = aim.endX - aim.startX, dy = aim.endY - aim.startY;
+          const len = Math.hypot(dx, dy);
+          const power = Math.min(len / 3, MAX_POWER);
+          const nx = dx / (len || 1), ny = dy / (len || 1);
+          ctx.setLineDash([6, 6]);
+          ctx.strokeStyle = gs.turn === 1 ? "rgba(230,57,70,0.8)" : "rgba(29,126,193,0.8)";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(aim.startX, aim.startY);
+          ctx.lineTo(aim.startX + nx * power * 12, aim.startY + ny * power * 12);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          const barW = 120, barH = 12;
+          const barX = aim.startX - barW / 2, barY = aim.startY + 30;
+          ctx.fillStyle = "rgba(0,0,0,0.5)";
+          ctx.beginPath();
+          ctx.roundRect(barX, barY, barW, barH, 6);
+          ctx.fill();
+          const pct = power / MAX_POWER;
+          const pc = pct < 0.4 ? "#2ecc71" : pct < 0.7 ? "#f39c12" : "#e74c3c";
+          ctx.fillStyle = pc;
+          ctx.beginPath();
+          ctx.roundRect(barX + 1, barY + 1, (barW - 2) * pct, barH - 2, 5);
+          ctx.fill();
+          ctx.fillStyle = "#fff"; ctx.font = "bold 9px monospace";
+          ctx.textAlign = "center";
+          ctx.fillText(`PODER ${Math.round(pct * 100)}%`, aim.startX, barY + barH + 14);
+        }
+
+        if (gs.mocheThrown && gs.phase !== "rolling") {
+          const m = gs.moche;
+          let closestP1 = null, closestP2 = null, minD1 = Infinity, minD2 = Infinity;
+          gs.balls.forEach(b => {
+            if (!b.played) return;
+            const d = dist(b, m);
+            if (b.owner === 1 && d < minD1) { minD1 = d; closestP1 = b; }
+            if (b.owner === 2 && d < minD2) { minD2 = d; closestP2 = b; }
+          });
+          [{ b: closestP1, col: "#e63946" }, { b: closestP2, col: "#1d7ec1" }].forEach(({ b, col }) => {
+            if (!b) return;
+            ctx.setLineDash([4, 4]);
+            ctx.strokeStyle = col + "88"; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(m.x, m.y); ctx.stroke();
+            ctx.setLineDash([]);
+            const mx = (b.x + m.x) / 2, my = (b.y + m.y) / 2;
+            ctx.fillStyle = col; ctx.font = "bold 10px monospace";
+            ctx.textAlign = "center";
+            ctx.fillText(`${Math.round(dist(b, m))}px`, mx, my - 4);
+          });
+        }
+      }, []);
+
+      const handleMouseDown = React.useCallback((e) => {
+        const gs = stateRef.current;
+        if (gs.phase !== "aim") return;
+        const rect = canvasRef.current.getBoundingClientRect();
+        const scaleX = W / rect.width, scaleY = H / rect.height;
+        const x = (e.clientX - rect.left) * scaleX;
+        const y = (e.clientY - rect.top) * scaleY;
+        aimRef.current = { active: true, startX: x, startY: y, endX: x, endY: y };
+      }, []);
+
+      const handleMouseMove = React.useCallback((e) => {
+        if (!aimRef.current.active) return;
+        const rect = canvasRef.current.getBoundingClientRect();
+        const scaleX = W / rect.width, scaleY = H / rect.height;
+        aimRef.current.endX = (e.clientX - rect.left) * scaleX;
+        aimRef.current.endY = (e.clientY - rect.top) * scaleY;
+      }, []);
+
+      const handleMouseUp = React.useCallback((e) => {
+        const gs = stateRef.current;
+        if (!aimRef.current.active || gs.phase !== "aim") return;
+        aimRef.current.active = false;
+        const { startX, startY, endX, endY } = aimRef.current;
+        if (!gs.mocheThrown) {
+          throwMoche(startX, startY, endX, endY);
+        } else {
+          throwBall(startX, startY, endX, endY);
+        }
+      }, [throwMoche, throwBall]);
+
+      const getTouch = (e) => {
+        const rect = canvasRef.current.getBoundingClientRect();
+        const scaleX = W / rect.width, scaleY = H / rect.height;
+        const t = e.touches[0] || e.changedTouches[0];
+        return { x: (t.clientX - rect.left) * scaleX, y: (t.clientY - rect.top) * scaleY };
+      };
+      const handleTouchStart = (e) => { e.preventDefault(); const p = getTouch(e); handleMouseDown({ clientX: p.x + canvasRef.current.getBoundingClientRect().left, clientY: p.y + canvasRef.current.getBoundingClientRect().top }); };
+      const handleTouchMove = (e) => { e.preventDefault(); const p = getTouch(e); handleMouseMove({ clientX: p.x + canvasRef.current.getBoundingClientRect().left, clientY: p.y + canvasRef.current.getBoundingClientRect().top }); };
+      const handleTouchEnd = (e) => { e.preventDefault(); handleMouseUp({}); };
+
+      const resetGame = () => {
+        stateRef.current = initState();
+        refreshUi("¡Nueva partida! Lanza el moche primero.");
+      };
+
+      const toggleGameMode = () => {
+        gameMode.current = gameMode.current === "pvp" ? "pvc" : "pvp";
+        resetGame();
+        refreshUi(gameMode.current === "pvp" ? "Modo: 2 Jugadores" : "Modo: VS Computadora");
+      };
+
+      React.useEffect(() => {
+        let frameId;
+        const loop = () => { tick(); draw(); frameId = requestAnimationFrame(loop); };
+        frameId = requestAnimationFrame(loop);
+        return () => cancelAnimationFrame(frameId);
+      }, [tick, draw]);
+
+      const { turn, phase, scores, round, winner, message } = ui;
+
+      return React.createElement("div", { style: { minHeight: "100vh", background: "#0d0d0d", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontFamily: "'Georgia', serif", padding: "16px", gap: "16px" } },
+        React.createElement("div", { style: { textAlign: "center" } },
+          React.createElement("h1", { style: { fontSize: "clamp(24px, 5vw, 42px)", fontWeight: "900", letterSpacing: "2px", background: "linear-gradient(90deg, #f4d03f, #e67e22, #f4d03f)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", margin: 0 } }, "🎯 BOLAS CRIOLLAS"),
+          React.createElement("p", { style: { color: "#888", fontSize: "13px", margin: "4px 0 0", letterSpacing: "4px" } }, "JUEGO VENEZOLANO TRADICIONAL")
         ),
-        React.createElement("div",{style:{position:"relative",borderRadius:"12px",overflow:"hidden",boxShadow:"0 0 40px rgba(244,208,63,0.2), 0 20px 60px rgba(0,0,0,0.8)",border:"2px solid rgba(244,208,63,0.3)",width:"min(800px,96vw)"}},
-          React.createElement("canvas",{ref:canvasRef,width:W,height:H,style:{display:"block",width:"100%",cursor:phase==="aim"?"crosshair":"default"},onMouseDown:handleMouseDown,onMouseMove:handleMouseMove,onMouseUp:handleMouseUp}),
-          phase==="end"&&React.createElement("div",{style:{position:"absolute",inset:0,background:"rgba(0,0,0,0.75)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:"16px"}},React.createElement("div",{style:{fontSize:"clamp(24px,6vw,48px)",textAlign:"center"}},winner===0?"🤝 ¡EMPATE!":`🏆 JUGADOR ${winner} GANA`),React.createElement("div",{style:{color:"#ccc",fontSize:"16px"}},`Final: ${scores[1]} — ${scores[2]}`),React.createElement("button",{onClick:resetGame,style:{background:"linear-gradient(135deg,#f4d03f,#e67e22)",border:"none",borderRadius:"8px",padding:"12px 32px",fontSize:"16px",fontWeight:"bold",cursor:"pointer",color:"#1a0a00",letterSpacing:"1px"}},"🔄 NUEVA PARTIDA"))
+        React.createElement("div", { style: { display: "flex", gap: "12px", marginBottom: "8px" } },
+          React.createElement("button", { onClick: toggleGameMode, style: { background: gameMode.current === "pvp" ? "rgba(46,204,113,0.3)" : "rgba(241,196,15,0.3)", border: `1px solid ${gameMode.current === "pvp" ? "#2ecc71" : "#f1c40f"}`, borderRadius: "8px", padding: "6px 12px", color: gameMode.current === "pvp" ? "#2ecc71" : "#f1c40f", fontSize: "11px", fontWeight: "bold", cursor: "pointer" } }, gameMode.current === "pvp" ? "👥 2 Jugadores" : "🤖 VS Computadora")
         ),
-        React.createElement("div",{style:{background:"rgba(255,255,255,0.04)",borderRadius:"10px",padding:"12px 20px",border:"1px solid rgba(255,255,255,0.08)",maxWidth:"800px",width:"96vw"}},React.createElement("div",{style:{color:"#f4d03f",fontSize:"12px",fontWeight:"bold",marginBottom:"6px",letterSpacing:"2px"}},"📖 CÓMO JUGAR"),React.createElement("div",{style:{color:"#999",fontSize:"12px",lineHeight:"1.6",display:"flex",gap:"24px",flexWrap:"wrap"}},React.createElement("span",null,"1️⃣ Haz ",React.createElement("b",{style:{color:"#ccc"}},"clic + arrastra")," para lanzar"),React.createElement("span",null,"2️⃣ Primero lanza el ",React.createElement("b",{style:{color:"#f4d03f"}},"moche")," (bola dorada)"),React.createElement("span",null,"3️⃣ Acerca tus bolas al moche"),React.createElement("span",null,"4️⃣ El más cercano gana puntos")),message&&React.createElement("div",{style:{marginTop:"8px",color:"#e67e22",fontSize:"13px",fontWeight:"bold"}},`→ ${message}`)),
-        phase!=="end"&&React.createElement("div",{style:{display:"flex",gap:"12px"}},React.createElement("button",{onClick:resetGame,style:{background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.2)",borderRadius:"8px",padding:"8px 20px",color:"#ccc",fontSize:"13px",cursor:"pointer",letterSpacing:"1px"}},"🔄 Reiniciar"))
+        React.createElement("div", { style: { display: "flex", gap: "20px", alignItems: "center", background: "rgba(255,255,255,0.05)", borderRadius: "12px", padding: "10px 24px", border: "1px solid rgba(255,255,255,0.1)" } },
+          React.createElement("div", { style: { textAlign: "center" } },
+            React.createElement("div", { style: { color: "#e63946", fontWeight: "900", fontSize: "28px" } }, scores[1]),
+            React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "JUGADOR 1"),
+            turn === 1 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: "#e63946" } }, "◀ TURNO")
+          ),
+          React.createElement("div", { style: { color: "#555", fontSize: "14px", textAlign: "center" } },
+            React.createElement("div", { style: { color: "#f4d03f", fontSize: "12px", letterSpacing: "2px" } }, "RONDA"),
+            React.createElement("div", { style: { fontSize: "22px", fontWeight: "bold", color: "#fff" } }, `${round}/3`)
+          ),
+          React.createElement("div", { style: { textAlign: "center" } },
+            React.createElement("div", { style: { color: "#1d7ec1", fontWeight: "900", fontSize: "28px" } }, scores[2]),
+            React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "JUGADOR 2"),
+            turn === 2 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: "#1d7ec1" } }, "TURNO ▶")
+          )
+        ),
+        React.createElement("div", { style: { position: "relative", borderRadius: "12px", overflow: "hidden", boxShadow: "0 0 40px rgba(244,208,63,0.2), 0 20px 60px rgba(0,0,0,0.8)", border: "2px solid rgba(244,208,63,0.3)", width: "min(800px, 96vw)" } },
+          React.createElement("canvas", { ref: canvasRef, width: W, height: H, style: { display: "block", width: "100%", cursor: phase === "aim" ? "crosshair" : "default" }, onMouseDown: handleMouseDown, onMouseMove: handleMouseMove, onMouseUp: handleMouseUp, onTouchStart: handleTouchStart, onTouchMove: handleTouchMove, onTouchEnd: handleTouchEnd }),
+          phase === "end" && React.createElement("div", { style: { position: "absolute", inset: 0, background: "rgba(0,0,0,0.75)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px" } },
+            React.createElement("div", { style: { fontSize: "clamp(24px,6vw,48px)", textAlign: "center" } }, winner === 0 ? "🤝 ¡EMPATE!" : `🏆 JUGADOR ${winner} GANA`),
+            React.createElement("div", { style: { color: "#ccc", fontSize: "16px" } }, `Final: ${scores[1]} — ${scores[2]}`),
+            React.createElement("button", { onClick: resetGame, style: { background: "linear-gradient(135deg, #f4d03f, #e67e22)", border: "none", borderRadius: "8px", padding: "12px 32px", fontSize: "16px", fontWeight: "bold", cursor: "pointer", color: "#1a0a00", letterSpacing: "1px" } }, "🔄 NUEVA PARTIDA")
+          )
+        ),
+        React.createElement("div", { style: { background: "rgba(255,255,255,0.04)", borderRadius: "10px", padding: "12px 20px", border: "1px solid rgba(255,255,255,0.08)", maxWidth: "800px", width: "96vw" } },
+          React.createElement("div", { style: { color: "#f4d03f", fontSize: "12px", fontWeight: "bold", marginBottom: "6px", letterSpacing: "2px" } }, "📖 CÓMO JUGAR"),
+          React.createElement("div", { style: { color: "#999", fontSize: "12px", lineHeight: "1.6", display: "flex", gap: "24px", flexWrap: "wrap" } },
+            React.createElement("span", null, "1️⃣ Haz ", React.createElement("b", { style: { color: "#ccc" } }, "clic + arrastra"), " para lanzar"),
+            React.createElement("span", null, "2️⃣ Primero lanza el ", React.createElement("b", { style: { color: "#f4d03f" } }, "moche"), " (bola dorada)"),
+            React.createElement("span", null, "3️⃣ Acerca tus bolas al moche"),
+            React.createElement("span", null, "4️⃣ El más cercano gana puntos")
+          ),
+          message && React.createElement("div", { style: { marginTop: "8px", color: "#e67e22", fontSize: "13px", fontWeight: "bold" } }, `→ ${message}`)
+        ),
+        phase !== "end" && React.createElement("div", { style: { display: "flex", gap: "12px" } },
+          React.createElement("button", { onClick: resetGame, style: { background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "8px", padding: "8px 20px", color: "#ccc", fontSize: "13px", cursor: "pointer", letterSpacing: "1px" } }, "🔄 Reiniciar")
+        )
       );
     }
-    ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(BolasCreollas,null));
+
+    ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(BolasCreollas, null));
   </script>
 </body>
 </html>
