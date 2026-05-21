@@ -92,6 +92,31 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 .stat-input{width:100%;padding:5px;background:#1a1a2e;border:1px solid #e8b84b55;border-radius:5px;color:#f0e6d3;font-size:11px;text-align:center;}
 .stat-input:focus{outline:none;border-color:#e8b84b;}
 .btn-save-stats{width:100%;margin-top:15px;padding:10px;background:#2ecc71;border:none;border-radius:8px;color:#000;font-weight:bold;font-size:12px;cursor:pointer;}
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #000;
+}
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.youtube-thumb {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.youtube-thumb:hover {
+    transform: scale(1.02);
+}
+
+
 </style>
 </head>
 <body>
