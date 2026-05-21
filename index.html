@@ -103,14 +103,83 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
     </div>
     <div class="badge">RESULTADOS OFICIALES</div>
   </div>
- <div class="nav">
+  
+<div class="nav">
   <button class="nb on" onclick="showTab('teams',this)"><span>👥</span>Equipos</button>
   <button class="nb" onclick="showTab('matches',this)"><span>🎯</span>Partidos</button>
   <button class="nb" onclick="showTab('standings',this)"><span>🏆</span>Tabla</button>
   <button class="nb" onclick="showTab('stats',this)"><span>📊</span>Average</button>
+  <button class="nb" onclick="showTab('videos',this)"><span>📺</span>Videos</button>
   <button class="nb" onclick="showTab('game',this)"><span>🎮</span>Jugar</button>
 </div>
+  
 <div class="body">
+
+  <!-- SECCIÓN DE VIDEOS / STREAMING -->
+<div id="s-videos" class="scr">
+  <div class="lbl" style="margin-bottom:8px;">📺 EN VIVO Y DESTACADOS</div>
+  
+  <!-- Selector de tipo de contenido -->
+  <div class="frow">
+    <button class="fb on" id="btn-live" onclick="setVideoType('live')">🔴 EN VIVO</button>
+    <button class="fb" id="btn-highlights" onclick="setVideoType('highlights')">🎬 DESTACADOS</button>
+    <button class="fb" id="btn-tiktok" onclick="setVideoType('tiktok')">🎵 TIKTOK CLIPS</button>
+  </div>
+  
+  <!-- Contenedor de videos en vivo -->
+  <div id="live-container" class="video-container">
+    <div class="card" style="text-align: center; padding: 20px;">
+      <div style="font-size: 48px; margin-bottom: 10px;">📡</div>
+      <div style="font-size: 14px; color: #e8b84b; margin-bottom: 10px;">Próximos Eventos en Vivo</div>
+      <div style="font-size: 12px; color: #8899aa;">Los streams se activarán durante los partidos</div>
+      <div style="margin-top: 15px;">
+        <a href="#" id="live-link" target="_blank" style="display: inline-block; background: #ff0000; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold;">🔴 Ver Transmisión en Vivo</a>
+      </div>
+      <div style="margin-top: 10px; font-size: 11px; color: #8899aa;">
+        ⏰ Próximo partido: Jueves 21/05 8:00pm - Taferca vs Sabaneta
+      </div>
+    </div>
+  </div>
+  
+  <!-- Contenedor de videos destacados (YouTube) -->
+  <div id="highlights-container" class="video-container" style="display: none;">
+    <div class="lbl" style="margin-bottom: 5px;">🎥 PARTIDOS COMPLETOS Y RESUMENES</div>
+    <div id="youtube-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+      <!-- Ejemplo de video de YouTube - Reemplazar con IDs reales -->
+      <div class="card" style="padding: 8px;">
+        <div class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
+          <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+          </iframe>
+        </div>
+        <div style="margin-top: 8px; font-size: 12px; font-weight: bold; color: #e8b84b;">Ferrecenca vs Alimentos Amanecer (14/05)</div>
+        <div style="font-size: 10px; color: #8899aa;">Final 6-15 | MVP: Graciela Febres</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Contenedor de TikTok -->
+  <div id="tiktok-container" class="video-container" style="display: none;">
+    <div class="lbl" style="margin-bottom: 5px;">🎵 CLIPS DESTACADOS EN TIKTOK</div>
+    <div id="tiktok-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <!-- TikTok embeds se cargan dinámicamente -->
+      <div class="card" style="text-align: center; padding: 20px;">
+        <div style="font-size: 36px;">🎬</div>
+        <div style="font-size: 11px; margin-top: 8px;">Síguenos en TikTok para clips exclusivos</div>
+        <a href="https://www.tiktok.com/@sibaritasc" target="_blank" style="display: inline-block; background: #000000; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; margin-top: 10px; font-size: 12px;">@sibaritasc</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ibox" style="margin-top: 8px;">
+    💡 <b>Sugerencia:</b> Los videos destacados se actualizan semanalmente. Para sugerir un clip, contacta a la organización.
+  </div>
+</div>
+
+<div id="s-game" class="scr">
 
   <!-- SECCIÓN DEL JUEGO -->
 <div id="s-game" class="scr">
