@@ -8,15 +8,12 @@
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0d0d0d;font-family:'Segoe UI',Arial,sans-serif;}
   </style>
-  <!-- React y ReactDOM desde CDN -->
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
-  <!-- Babel para JSX -->
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
   <div id="root"></div>
-
   <script type="text/babel">
     // ── Constantes del juego ──────────────────────────────────────────────────────
     const W = 800, H = 400;
@@ -32,9 +29,7 @@
       p2: ["#1d7ec1", "#023e8a", "#4cc9f0", "#74b3ce"],
     };
 
-    function dist(a, b) {
-      return Math.hypot(a.x - b.x, a.y - b.y);
-    }
+    function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
 
     function resolveCollision(a, b) {
       const dx = b.x - a.x, dy = b.y - a.y;
@@ -50,15 +45,6 @@
     }
 
     function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-
-    function lighten(hex) {
-      const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
-      return `rgb(${Math.min(255, r + 70)}, ${Math.min(255, g + 70)}, ${Math.min(255, b + 70)})`;
-    }
-    function darken(hex) {
-      const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
-      return `rgb(${Math.max(0, r - 50)}, ${Math.max(0, g - 50)}, ${Math.max(0, b - 50)})`;
-    }
 
     function initState() {
       return {
@@ -85,13 +71,11 @@
       };
     }
 
-    // ── Componente principal ──────────────────────────────────────────────────────
     function BolasCreollas() {
       const canvasRef = React.useRef(null);
       const stateRef = React.useRef(initState());
       const [ui, setUi] = React.useState({ turn: 1, phase: "aim", scores: { 1: 0, 2: 0 }, round: 1, winner: null, mocheThrown: false, message: "" });
-      const aimRef = React.useRef({ active: false, startX: 0, startY: 0, endX: 0, endY: 0, power: 0 });
-      const animRef = React.useRef(null);
+      const aimRef = React.useRef({ active: false, startX: 0, startY: 0, endX: 0, endY: 0 });
 
       const refreshUi = (message = "") => {
         const gs = stateRef.current;
@@ -101,22 +85,18 @@
       const endOfThrow = React.useCallback(() => {
         const gs = stateRef.current;
         const unplayed = gs.balls.filter(b => !b.played);
-
         if (!gs.mocheThrown) {
           gs.phase = "aim";
           gs.mocheThrown = true;
           refreshUi("¡Moche colocado! Ahora lanza tus bolas.");
           return;
         }
-
         if (unplayed.length > 0) {
           gs.turn = gs.turn === 1 ? 2 : 1;
           gs.phase = "aim";
           refreshUi(gs.turn === 1 ? "🔴 Turno de Jugador 1" : "🔵 Turno de Jugador 2");
           return;
         }
-
-        // Calcular puntuación de la ronda
         const m = gs.moche;
         const played = gs.balls.filter(b => b.played);
         let d1 = Infinity, d2 = Infinity;
@@ -125,7 +105,6 @@
           if (b.owner === 1) d1 = Math.min(d1, d);
           if (b.owner === 2) d2 = Math.min(d2, d);
         });
-
         if (d1 < d2) {
           const pts = played.filter(b => b.owner === 1 && dist(b, m) < d2).length;
           gs.scores[1] += pts;
@@ -133,7 +112,6 @@
           const pts = played.filter(b => b.owner === 2 && dist(b, m) < d1).length;
           gs.scores[2] += pts;
         }
-
         if (gs.round >= gs.maxRounds) {
           const winner = gs.scores[1] > gs.scores[2] ? 1 : gs.scores[2] > gs.scores[1] ? 2 : 0;
           gs.phase = "end";
@@ -153,10 +131,8 @@
       const tick = React.useCallback(() => {
         const gs = stateRef.current;
         if (gs.phase !== "rolling") return;
-
         let anyMoving = false;
         const allBalls = gs.mocheThrown ? [gs.moche, ...gs.balls.filter(b => b.played)] : gs.balls.filter(b => b.played);
-
         allBalls.forEach(b => {
           b.x += b.vx; b.y += b.vy;
           b.vx *= FRICTION; b.vy *= FRICTION;
@@ -168,12 +144,10 @@
           if (Math.abs(b.vy) < MIN_SPEED) b.vy = 0;
           if (b.vx !== 0 || b.vy !== 0) anyMoving = true;
         });
-
         for (let i = 0; i < allBalls.length; i++)
           for (let j = i + 1; j < allBalls.length; j++)
             if (dist(allBalls[i], allBalls[j]) < allBalls[i].r + allBalls[j].r)
               resolveCollision(allBalls[i], allBalls[j]);
-
         if (!anyMoving) endOfThrow();
       }, [endOfThrow]);
 
@@ -213,7 +187,6 @@
         const ctx = canvas.getContext("2d");
         const gs = stateRef.current;
         const aim = aimRef.current;
-
         ctx.fillStyle = "#c8a96e";
         ctx.fillRect(0, 0, W, H);
         ctx.fillStyle = "rgba(0,0,0,0.06)";
@@ -223,7 +196,6 @@
         ctx.strokeStyle = "#7a5c2e";
         ctx.lineWidth = 8;
         ctx.strokeRect(4, 4, W - 8, H - 8);
-
         if (gs.mocheThrown) {
           const m = gs.moche;
           ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
@@ -231,7 +203,6 @@
           ctx.fillStyle = "#7a5c00"; ctx.font = "bold 8px serif";
           ctx.textAlign = "center"; ctx.fillText("M", m.x, m.y + 3);
         }
-
         gs.balls.forEach(b => {
           if (!b.played) return;
           ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
@@ -239,7 +210,6 @@
           ctx.fillStyle = "#fff"; ctx.font = `bold ${b.r * 0.75}px serif`;
           ctx.textAlign = "center"; ctx.fillText(parseInt(b.id.split("_")[1]) + 1, b.x, b.y + 4);
         });
-
         if (aim.active && gs.phase === "aim") {
           const dx = aim.endX - aim.startX, dy = aim.endY - aim.startY;
           const len = Math.hypot(dx, dy);
@@ -256,7 +226,6 @@
         }
       }, []);
 
-      // Eventos
       const handleMouseDown = React.useCallback((e) => {
         const gs = stateRef.current;
         if (gs.phase !== "aim") return;
@@ -304,8 +273,6 @@
       }, [tick, draw]);
 
       const { turn, phase, scores, round, winner, message } = ui;
-      const p1Color = "#e63946", p2Color = "#1d7ec1";
-
       return React.createElement("div", { style: { minHeight: "100vh", background: "#0d0d0d", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontFamily: "'Georgia', serif", padding: "16px", gap: "16px" } },
         React.createElement("div", { style: { textAlign: "center" } },
           React.createElement("h1", { style: { fontSize: "clamp(24px, 5vw, 42px)", fontWeight: "900", letterSpacing: "2px", background: "linear-gradient(90deg, #f4d03f, #e67e22, #f4d03f)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", margin: 0 } }, "🎯 BOLAS CRIOLLAS"),
@@ -313,18 +280,18 @@
         ),
         React.createElement("div", { style: { display: "flex", gap: "20px", alignItems: "center", background: "rgba(255,255,255,0.05)", borderRadius: "12px", padding: "10px 24px", border: "1px solid rgba(255,255,255,0.1)" } },
           React.createElement("div", { style: { textAlign: "center" } },
-            React.createElement("div", { style: { color: p1Color, fontWeight: "900", fontSize: "28px" } }, scores[1]),
+            React.createElement("div", { style: { color: "#e63946", fontWeight: "900", fontSize: "28px" } }, scores[1]),
             React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "JUGADOR 1"),
-            turn === 1 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: p1Color } }, "◀ TURNO")
+            turn === 1 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: "#e63946" } }, "◀ TURNO")
           ),
           React.createElement("div", { style: { color: "#555", fontSize: "14px", textAlign: "center" } },
             React.createElement("div", { style: { color: "#f4d03f", fontSize: "12px", letterSpacing: "2px" } }, "RONDA"),
             React.createElement("div", { style: { fontSize: "22px", fontWeight: "bold", color: "#fff" } }, `${round}/3`)
           ),
           React.createElement("div", { style: { textAlign: "center" } },
-            React.createElement("div", { style: { color: p2Color, fontWeight: "900", fontSize: "28px" } }, scores[2]),
+            React.createElement("div", { style: { color: "#1d7ec1", fontWeight: "900", fontSize: "28px" } }, scores[2]),
             React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "JUGADOR 2"),
-            turn === 2 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: p2Color } }, "TURNO ▶")
+            turn === 2 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: "#1d7ec1" } }, "TURNO ▶")
           )
         ),
         React.createElement("div", { style: { position: "relative", borderRadius: "12px", overflow: "hidden", boxShadow: "0 0 40px rgba(244,208,63,0.2), 0 20px 60px rgba(0,0,0,0.8)", border: "2px solid rgba(244,208,63,0.3)", width: "min(800px, 96vw)" } },
