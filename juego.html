@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Bolas Criollas - Juego de Sibarita Sport Club</title>
+  <title>Bolas Criollas - Juego</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0d0d0d;font-family:'Segoe UI',Arial,sans-serif;}
@@ -77,16 +77,16 @@
       return {
         moche: { x: W / 2, y: H / 2, vx: 0, vy: 0, r: MOCHE_R, color: "#f4d03f", id: "moche" },
         balls: [
-          // Player 1 (rojo) — lado DERECHO
+          // Player 1 (rojo) — lado DERECHO, alineados en la parte inferior
           ...Array.from({ length: BALLS_PER_PLAYER }, (_, i) => ({
             id: `p1_${i}`, owner: 1, r: BOLA_R,
-            x: W - 80 - i * 15, y: H - 35,
+            x: W - 50 - i * (BOLA_R * 2 + 5), y: H - 35,
             vx: 0, vy: 0, color: COLORS.p1[i], played: false
           })),
-          // Player 2 (verde) — lado IZQUIERDO
+          // Player 2 (verde) — lado IZQUIERDO, alineados en la parte inferior
           ...Array.from({ length: BALLS_PER_PLAYER }, (_, i) => ({
             id: `p2_${i}`, owner: 2, r: BOLA_R,
-            x: 80 + i * 15, y: H - 35,
+            x: 50 + i * (BOLA_R * 2 + 5), y: H - 35,
             vx: 0, vy: 0, color: COLORS.p2[i], played: false
           })),
         ],
@@ -173,8 +173,8 @@
         const b = unplayed[0];
         const tx = gs.moche.x + (Math.random() - 0.5) * 40;
         const ty = gs.moche.y + (Math.random() - 0.5) * 40;
-        const startX = 80 + parseInt(b.id.split("_")[1]) * 15;
-        const startY = 80 + parseInt(b.id.split("_")[1]) * 40;
+        const startX = 50 + parseInt(b.id.split("_")[1]) * (BOLA_R * 2 + 5);
+        const startY = H - 35;
         const dx = tx - startX, dy = ty - startY;
         const len = Math.hypot(dx, dy);
         const power = clamp(len / 30, 6, MAX_POWER * 0.85);
@@ -227,8 +227,8 @@
         if (!unplayed.length) return;
         const b = unplayed[0];
         const bankIdx = parseInt(b.id.split("_")[1]);
-        b.x = b.owner === 1 ? W - 30 - bankIdx * (BOLA_R * 2 + 4) : 30 + bankIdx * (BOLA_R * 2 + 4);
-        b.y = b.owner === 1 ? H - 35 : 35;
+        b.x = b.owner === 1 ? W - 50 - bankIdx * (BOLA_R * 2 + 5) : 50 + bankIdx * (BOLA_R * 2 + 5);
+        b.y = H - 35;
         const dx = toX - fromX, dy = toY - fromY;
         const len = Math.hypot(dx, dy) || 1;
         const power = clamp(len / 3, 2, MAX_POWER);
@@ -266,10 +266,6 @@
         ctx.lineWidth = 2;
         ctx.beginPath(); ctx.moveTo(W / 2, 20); ctx.lineTo(W / 2, H - 20); ctx.stroke();
         ctx.setLineDash([]);
-        ["P1", "P2"].forEach((p, i) => {
-          ctx.fillStyle = i === 0 ? "rgba(230,57,70,0.08)" : "rgba(46,204,113,0.08)";
-          ctx.fillRect(i === 0 ? W / 2 + 20 : 20, 20, W / 2 - 40, H - 40);
-        });
 
         if (gs.mocheThrown) {
           const m = gs.moche;
@@ -295,17 +291,17 @@
           ctx.textAlign = "center"; ctx.fillText(parseInt(b.id.split("_")[1]) + 1, b.x, b.y + 4);
         });
 
-        gs.balls.forEach((b, idx) => {
+        gs.balls.forEach(b => {
           if (b.played) return;
-          const bx = b.owner === 1 ? W - 30 - parseInt(b.id.split("_")[1]) * (BOLA_R * 2 + 4) : 30 + parseInt(b.id.split("_")[1]) * (BOLA_R * 2 + 4);
-          const by = b.owner === 1 ? H - 35 : 35;
+          const bx = b.owner === 1 ? W - 50 - parseInt(b.id.split("_")[1]) * (BOLA_R * 2 + 5) : 50 + parseInt(b.id.split("_")[1]) * (BOLA_R * 2 + 5);
+          const by = H - 35;
           const bg = ctx.createRadialGradient(bx - 4, by - 4, 1, bx, by, BOLA_R - 2);
           bg.addColorStop(0, lighten(b.color)); bg.addColorStop(1, b.color);
           ctx.beginPath(); ctx.arc(bx, by, BOLA_R - 2, 0, Math.PI * 2);
           ctx.fillStyle = bg; ctx.fill();
           ctx.strokeStyle = "rgba(255,255,255,0.3)"; ctx.lineWidth = 1; ctx.stroke();
           ctx.fillStyle = "#fff"; ctx.font = `bold ${BOLA_R - 4}px serif`;
-          ctx.textAlign = "center"; ctx.fillText(b.id.split("_")[1] && parseInt(b.id.split("_")[1]) + 1, bx, by + 4);
+          ctx.textAlign = "center"; ctx.fillText(parseInt(b.id.split("_")[1]) + 1, bx, by + 4);
         });
 
         if (aim.active && gs.phase === "aim") {
