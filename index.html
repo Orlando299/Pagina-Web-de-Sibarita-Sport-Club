@@ -766,8 +766,24 @@ function g(id) { return document.getElementById(id); }
 
 function setF(k, v) { F[k] = v; const maps = { tCat: {Femenino:'btn-tFem', Masculino:'btn-tMas'}, tGrp: {A:'btn-tGa', B:'btn-tGb'}, mCat: {Femenino:'btn-mFem', Masculino:'btn-mMas'}, mGrp: {A:'btn-mGa', B:'btn-mGb'}, sCat: {Femenino:'btn-sFem', Masculino:'btn-sMas'}, sGrp: {A:'btn-sGa', B:'btn-sGb'}, aCat: {Femenino:'btn-aFem', Masculino:'btn-aMas'}, aGrp: {A:'btn-aGa', B:'btn-aGb'}, aPos: {Todos:'btn-aAll', Arrime:'btn-aArr', Boche:'btn-aBoc', Mixto:'btn-aMix'} }; const m = maps[k]; if (m) { Object.keys(m).forEach(val => { const el = g(m[val]); if (el) el.classList.toggle('on', val === v); }); } if (k[0] === 't') rT(); else if (k[0] === 'm') rM(); else if (k[0] === 's') rSt(); else rA(); }
 
-function showTab(id, btn) { document.querySelectorAll('.scr').forEach(s => s.classList.remove('on')); document.querySelectorAll('.nb').forEach(b => b.classList.remove('on')); g('s-' + id).classList.add('on'); btn.classList.add('on'); if (id === 'matches') rM(); else if (id === 'standings') rSt(); else if (id === 'stats') rA(); else rT(); }
-
+function showTab(id, btn) { 
+    document.querySelectorAll('.scr').forEach(s => s.classList.remove('on')); 
+    document.querySelectorAll('.nb').forEach(b => b.classList.remove('on')); 
+    g('s-' + id).classList.add('on'); 
+    btn.classList.add('on'); 
+    if (id === 'matches') rM(); 
+    else if (id === 'standings') rSt(); 
+    else if (id === 'stats') rA(); 
+    else if (id === 'videos') {
+        // Inicializar la pestaña de videos
+        actualizarStreamEnVivo();
+        // Si ya estaba en modo highlights, recargar
+        if (currentVideoType === 'highlights') {
+            cargarVideosYouTube();
+        }
+    }
+    else rT(); 
+}
 function setWeek(w) { F.mWk = w; rM(); }
 
 function searchTeams(q) { const sr = g('srch-res'), tw = g('teams-wrap'); if (!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; } sr.style.display = 'block'; tw.style.display = 'none'; const ql = q.toLowerCase(); let h = ''; TEAMS.forEach(t => { const pm = t.p.filter(p => p.toLowerCase().includes(ql)); if (t.n.toLowerCase().includes(ql) || pm.length) { h += `<div class="card" style="margin-bottom:7px;"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`; pm.forEach(p => { h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`; }); h += '</div>'; } }); sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;font-size:12px;">Sin resultados</div>'; }
@@ -876,6 +892,108 @@ function searchPlayer(q) { F.aQ = q; rA(); }
 
 function rA() { const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp); const players = []; tl.forEach(t => { t.p.forEach(p => { const k = t.n + '|' + p; const ps = PS[k] || {}; if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return; const arrB = ps.arr_b || 0; const arrTotal = ps.total_arr || 0; const bocB = ps.boc_b || 0; const bocTotal = ps.total_boc || 0; const efec = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : (bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0); const partidos = ps.partidos || 0; players.push({ name: p, team: t.n, arrB, arrTotal, bocB, bocTotal, efec, partidos }); }); }); players.sort((a,b) => b.efec - a.efec); g('a-list').innerHTML = !players.length ? '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin estadísticas registradas aún</div>' : players.map((p,i) => `<div class="ar"><div style="width:20px;text-align:center;font-size:10px;color:#8899aa;font-weight:bold;">${i+1}</div><div style="flex:1;min-width:0;"><div style="font-size:11px;color:#f0e6d3;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</div><div style="font-size:9px;color:#8899aa;">${p.team}</div></div><div style="display:flex;gap:6px;"><div style="min-width:26px;text-align:center;"><div class="av">${p.partidos}</div><div class="al">PJ</div></div><div style="min-width:50px;text-align:center;"><div class="av">${p.arrB}/${p.arrTotal}</div><div class="al">ARR</div></div><div style="min-width:50px;text-align:center;"><div class="av">${p.bocB}/${p.bocTotal}</div><div class="al">BOC</div></div><div style="min-width:32px;text-align:center;"><div class="av" style="color:#2ecc71;">${p.efec}%</div><div class="al">EFEC</div></div></div></div>`).join(''); }
 
+// ==================== VIDEOS Y STREAMING ====================
+let currentVideoType = 'live';
+
+function setVideoType(type) {
+    currentVideoType = type;
+    
+    // Actualizar botones
+    document.getElementById('btn-live').classList.toggle('on', type === 'live');
+    document.getElementById('btn-highlights').classList.toggle('on', type === 'highlights');
+    document.getElementById('btn-tiktok').classList.toggle('on', type === 'tiktok');
+    
+    // Mostrar/ocultar contenedores
+    document.getElementById('live-container').style.display = type === 'live' ? 'block' : 'none';
+    document.getElementById('highlights-container').style.display = type === 'highlights' ? 'block' : 'none';
+    document.getElementById('tiktok-container').style.display = type === 'tiktok' ? 'block' : 'none';
+    
+    // Si es highlights, cargar videos de YouTube
+    if (type === 'highlights') {
+        cargarVideosYouTube();
+    }
+}
+
+// Configuración de YouTube (API Key - necesitas obtenerla gratis)
+// Por ahora usamos videos de ejemplo, pero puedes integrar tu canal
+function cargarVideosYouTube() {
+    // Lista de videos destacados (ejemplo - reemplazar con IDs reales)
+    const videos = [
+        {
+            id: 'dQw4w9WgXcQ',  // Reemplazar con ID real de YouTube
+            title: 'Ferrecenca vs Alimentos Amanecer',
+            date: '14/05/2026',
+            resultado: '6-15',
+            mvp: 'Graciela Febres'
+        },
+        {
+            id: '9bZkp7q19f0',  // Reemplazar con ID real
+            title: 'Serv. Frios Antonella vs Atrevidas',
+            date: '15/05/2026',
+            resultado: 'Pendiente',
+            mvp: ''
+        },
+        {
+            id: 'JGwWNGJdvx8',  // Reemplazar con ID real
+            title: 'Resumen Semana 2',
+            date: '17/05/2026',
+            resultado: 'Mejores jugadas',
+            mvp: ''
+        }
+    ];
+    
+    const grid = document.getElementById('youtube-grid');
+    if (grid) {
+        grid.innerHTML = videos.map(v => `
+            <div class="card" style="padding: 8px;">
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/${v.id}" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div style="margin-top: 8px; font-size: 12px; font-weight: bold; color: #e8b84b;">${v.title}</div>
+                <div style="font-size: 10px; color: #8899aa;">📅 ${v.date} | ${v.resultado} ${v.mvp ? '| 🏅 ' + v.mvp : ''}</div>
+            </div>
+        `).join('');
+    }
+}
+
+// Función para actualizar el link del stream en vivo
+function actualizarStreamEnVivo() {
+    // Puedes cambiar este link según el partido actual
+    const streamLink = document.getElementById('live-link');
+    if (streamLink) {
+        // Ejemplo: link de YouTube en vivo
+        streamLink.href = 'https://www.youtube.com/@SibaritaSC/live';
+        
+        // Detectar próximo partido para mostrar información
+        const proximoPartido = getProximoPartido();
+        if (proximoPartido) {
+            const infoDiv = document.querySelector('#live-container .card div:last-child');
+            if (infoDiv) {
+                infoDiv.innerHTML = `⏰ Próximo partido: ${proximoPartido.d} ${proximoPartido.h} - ${proximoPartido.a} vs ${proximoPartido.b}`;
+            }
+        }
+    }
+}
+
+// Obtener el próximo partido del calendario
+function getProximoPartido() {
+    const hoy = new Date();
+    const partidosFuturos = MATCHES.filter(m => {
+        const fechaPartido = new Date(m.d.split('/').reverse().join('-'));
+        return fechaPartido >= hoy && (!R[m.id] || R[m.id].status !== 'done');
+    }).sort((a,b) => new Date(a.d) - new Date(b.d));
+    
+    return partidosFuturos[0] || null;
+}
+
+// Modificar la función showTab existente para inicializar videos
+// Busca la función showTab y modifícala para que cuando se seleccione la pestaña "videos", se actualice el contenido
+    
 function openStatsModal(matchId) { const match = MATCHES.find(m => m.id === matchId); if (!match) return; currentMatchId = matchId; g('stats-modal-title').innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`; const body = g('stats-modal-body'); let html = ''; const savedStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {}; const teamA = TEAMS.find(t => t.n === match.a); if (teamA) { html += `<div class="lbl" style="margin-top:10px;">🏆 ${match.a}</div>`; teamA.p.forEach(player => { if (player !== 'Por Cargar') { const saved = savedStats[player] || { arr_b: 0, arr_total: 0, boc_b: 0, boc_total: 0 }; html += getPlayerStatsHTML(player, saved); } }); } const teamB = TEAMS.find(t => t.n === match.b); if (teamB) { html += `<div class="lbl" style="margin-top:10px;">🏆 ${match.b}</div>`; teamB.p.forEach(player => { if (player !== 'Por Cargar') { const saved = savedStats[player] || { arr_b: 0, arr_total: 0, boc_b: 0, boc_total: 0 }; html += getPlayerStatsHTML(player, saved); } }); } body.innerHTML = html; g('stats-modal').style.display = 'block'; }
 
 function getPlayerStatsHTML(playerName, saved) { const safeKey = playerName.replace(/[^a-zA-Z0-9]/g, '_'); return `<div class="player-stats-row"><div class="player-name">${playerName}</div><div class="stats-grid"><div class="stat-item"><div class="stat-label">🎯 Arrime Buenos (A azul)</div><input type="number" class="stat-input" id="arr_b_${safeKey}" value="${saved.arr_b || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">📊 Total Arrime</div><input type="number" class="stat-input" id="arr_total_${safeKey}" value="${saved.arr_total || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">💥 Boche Buenos (B azul)</div><input type="number" class="stat-input" id="boc_b_${safeKey}" value="${saved.boc_b || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">📊 Total Boche</div><input type="number" class="stat-input" id="boc_total_${safeKey}" value="${saved.boc_total || 0}" min="0" max="50"></div></div></div>`; }
