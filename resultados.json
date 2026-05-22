@@ -86,12 +86,6 @@
       "scoreA": 8,
       "scoreB": 0,
       "status": "forfeit"
-    },
-    "NaN": {
-      "scoreA": 11,
-      "scoreB": 19,
-      "status": "done"
-    }
   },
   "mvp": {
     "1": {
