@@ -258,7 +258,7 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
   
 <div class="body">
 
-  <!-- SECCIÓN DE VIDEOS / STREAMING -->
+<!-- SECCIÓN DE VIDEOS / STREAMING MEJORADA -->
 <div id="s-videos" class="scr">
   <div class="lbl" style="margin-bottom:8px;">📺 EN VIVO Y DESTACADOS</div>
   
@@ -266,49 +266,59 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
   <div class="frow">
     <button class="fb on" id="btn-live" onclick="setVideoType('live')">🔴 EN VIVO</button>
     <button class="fb" id="btn-highlights" onclick="setVideoType('highlights')">🎬 DESTACADOS</button>
-    <button class="fb" id="btn-tiktok" onclick="setVideoType('tiktok')">🎵 TIKTOK CLIPS</button>
+    <button class="fb" id="btn-tiktok" onclick="setVideoType('tiktok')">🎵 TIKTOK</button>
+    <button class="fb" id="btn-playlist" onclick="setVideoType('playlist')">📋 PLAYLISTS</button>
   </div>
   
-  <!-- Contenedor de videos en vivo -->
+  <!-- ========== EN VIVO ========== -->
   <div id="live-container" class="video-container">
-    <div class="card" style="text-align: center; padding: 20px;">
-      <div style="font-size: 48px; margin-bottom: 10px;">📡</div>
-      <div style="font-size: 14px; color: #e8b84b; margin-bottom: 10px;">Próximos Eventos en Vivo</div>
-      <div style="font-size: 12px; color: #8899aa;">Los streams se activarán durante los partidos</div>
-      <div style="margin-top: 15px;">
-        <a href="#" id="live-link" target="_blank" style="display: inline-block; background: #ff0000; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold;">🔴 Ver Transmisión en Vivo</a>
-      </div>
-      <div style="margin-top: 10px; font-size: 11px; color: #8899aa;">
-        ⏰ Próximo partido: Jueves 21/05 8:00pm - Taferca vs Sabaneta
-      </div>
-    </div>
-  </div>
-  
-  <!-- Contenedor de videos destacados (YouTube) -->
-  <div id="highlights-container" class="video-container" style="display: none;">
-    <div class="lbl" style="margin-bottom: 5px;">🎥 PARTIDOS COMPLETOS Y RESUMENES</div>
-    <div id="youtube-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px;">
-      <!-- Ejemplo de video de YouTube - Reemplazar con IDs reales -->
-      <div class="card" style="padding: 8px;">
-        <div class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
-          <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                  frameborder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowfullscreen>
-          </iframe>
+    <div class="card" style="text-align: center; padding: 15px;">
+      <div id="live-status" style="font-size: 48px; margin-bottom: 10px;">📡</div>
+      <div id="live-title" style="font-size: 14px; color: #e8b84b; margin-bottom: 5px; font-weight: bold;">Verificando transmisiones...</div>
+      <div id="live-subtitle" style="font-size: 11px; color: #8899aa; margin-bottom: 15px;">Buscando streams activos</div>
+      
+      <!-- Reproductor en vivo -->
+      <div id="live-player" style="display: none;">
+        <div class="video-wrapper">
+          <iframe id="live-iframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-        <div style="margin-top: 8px; font-size: 12px; font-weight: bold; color: #e8b84b;">Ferrecenca vs Alimentos Amanecer (14/05)</div>
-        <div style="font-size: 10px; color: #8899aa;">Final 6-15 | MVP: Graciela Febres</div>
+      </div>
+      
+      <!-- Próximos partidos -->
+      <div id="proximos-partidos" style="margin-top: 15px;"></div>
+      
+      <!-- Canal de YouTube -->
+      <div class="channel-link">
+        <span style="font-size: 11px;">📺 ¿Quieres ver transmisiones anteriores?</span>
+        <a href="https://www.youtube.com/@SibaritaSC" target="_blank" class="channel-btn">🔴 Visitar Canal de YouTube</a>
       </div>
     </div>
   </div>
   
-  <!-- Contenedor de TikTok -->
+  <!-- ========== VIDEOS DESTACADOS (YouTube) ========== -->
+  <div id="highlights-container" class="video-container" style="display: none;">
+    <div class="video-section-title">
+      <span>🎥 ÚLTIMOS PARTIDOS</span>
+      <span class="video-badge">Actualizado semanalmente</span>
+    </div>
+    <div id="youtube-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px;"></div>
+    
+    <!-- Botón para ver más -->
+    <div style="text-align: center; margin-top: 10px;">
+      <a href="https://www.youtube.com/@SibaritaSC/videos" target="_blank" style="color: #e8b84b; font-size: 11px; text-decoration: none;">📺 Ver todos los videos en YouTube →</a>
+    </div>
+  </div>
+  
+  <!-- ========== PLAYLISTS ========== -->
+  <div id="playlist-container" class="video-container" style="display: none;">
+    <div class="video-section-title">📋 PLAYLISTS POR CATEGORÍA</div>
+    <div id="playlist-grid" style="display: grid; grid-template-columns: 1fr; gap: 10px;"></div>
+  </div>
+  
+  <!-- ========== TIKTOK ========== -->
   <div id="tiktok-container" class="video-container" style="display: none;">
-    <div class="lbl" style="margin-bottom: 5px;">🎵 CLIPS DESTACADOS EN TIKTOK</div>
+    <div class="video-section-title">🎵 CLIPS CORTOS</div>
     <div id="tiktok-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-      <!-- TikTok embeds se cargan dinámicamente -->
       <div class="card" style="text-align: center; padding: 20px;">
         <div style="font-size: 36px;">🎬</div>
         <div style="font-size: 11px; margin-top: 8px;">Síguenos en TikTok para clips exclusivos</div>
@@ -317,8 +327,14 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
     </div>
   </div>
   
+  <!-- Enlace para compartir -->
+  <div class="channel-link" style="margin-top: 8px; justify-content: center;">
+    <span style="font-size: 10px;">📢 ¡Comparte los videos del torneo!</span>
+    <a href="#" onclick="compartirVideos()" style="color: #e8b84b; font-size: 11px; text-decoration: none;">📤 Compartir</a>
+  </div>
+  
   <div class="ibox" style="margin-top: 8px;">
-    💡 <b>Sugerencia:</b> Los videos destacados se actualizan semanalmente. Para sugerir un clip, contacta a la organización.
+    💡 <b>¿Quieres aparecer en los videos?</b> Envía tus clips destacados al WhatsApp de la organización.
   </div>
 </div>
 
