@@ -1,5 +1,5 @@
 {
-  "ultimaActualizacion": "2026-05-22T15:29:36.792Z",
+  "ultimaActualizacion": "2026-05-22T15:33:08.918Z",
   "resultados": {
     "1": {
       "scoreA": 12,
@@ -25,6 +25,12 @@
       "scoreA": 10,
       "scoreB": 14,
       "status": "done"
+    },
+    "6": {
+      "scoreA": 0,
+      "scoreB": 0,
+      "status": "suspended",
+      "razon": "Equipo Las Femix retirados"
     },
     "9": {
       "scoreA": 4,
