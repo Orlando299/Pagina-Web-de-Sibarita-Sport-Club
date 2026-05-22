@@ -907,15 +907,13 @@ function showTab(id, btn) {
     else if (id === 'standings') rSt(); 
     else if (id === 'stats') rA(); 
     else if (id === 'videos') {
-        // Inicializar la pestaña de videos
-        actualizarStreamEnVivo();
-        // Si ya estaba en modo highlights, recargar
-        if (currentVideoType === 'highlights') {
-            cargarVideosYouTube();
-        }
+        verificarStreamEnVivo();
+        mostrarProximosPartidos();
     }
     else rT(); 
 }
+
+    
 function setWeek(w) { F.mWk = w; rM(); }
 
 function searchTeams(q) { const sr = g('srch-res'), tw = g('teams-wrap'); if (!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; } sr.style.display = 'block'; tw.style.display = 'none'; const ql = q.toLowerCase(); let h = ''; TEAMS.forEach(t => { const pm = t.p.filter(p => p.toLowerCase().includes(ql)); if (t.n.toLowerCase().includes(ql) || pm.length) { h += `<div class="card" style="margin-bottom:7px;"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`; pm.forEach(p => { h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`; }); h += '</div>'; } }); sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;font-size:12px;">Sin resultados</div>'; }
