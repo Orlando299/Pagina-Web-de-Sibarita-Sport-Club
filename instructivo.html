@@ -5,189 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Sibarita Sport Club - Instructivo</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: #1a1a2e;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      color: #f0e6d3;
-      padding: 20px;
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .header {
-      background: linear-gradient(135deg, #16213e, #0f3460);
-      border-radius: 15px;
-      padding: 20px;
-      margin-bottom: 20px;
-      text-align: center;
-      border-bottom: 3px solid #e8b84b;
-    }
-
-    .header h1 {
-      color: #e8b84b;
-      font-size: 22px;
-      margin-bottom: 8px;
-    }
-
-    .header p {
-      color: #8899aa;
-      font-size: 12px;
-    }
-
-    .logo {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 15px;
-    }
-
-    .logo img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      border: 2px solid #e8b84b;
-    }
-
-    .section {
-      background: #16213e;
-      border: 1px solid #0f3460;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-
-    .section-title {
-      color: #e8b84b;
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-left: 3px solid #e8b84b;
-      padding-left: 10px;
-    }
-
-    .section-title span {
-      font-size: 20px;
-    }
-
-    .content {
-      font-size: 13px;
-      color: #c0cce0;
-    }
-
-    .content p {
-      margin-bottom: 10px;
-    }
-
-    .content ul, .content ol {
-      margin-left: 20px;
-      margin-bottom: 10px;
-    }
-
-    .content li {
-      margin-bottom: 5px;
-    }
-
-    .badge {
-      display: inline-block;
-      background: #e8b84b22;
-      color: #e8b84b;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 10px;
-      margin-right: 5px;
-      margin-bottom: 5px;
-    }
-
-    .note {
-      background: #0f3460;
-      border-left: 3px solid #e8b84b;
-      padding: 10px;
-      border-radius: 8px;
-      margin: 10px 0;
-      font-size: 12px;
-    }
-
-    .warning {
-      background: #c0392b22;
-      border-left: 3px solid #c0392b;
-    }
-
-    .success {
-      background: #2ecc7122;
-      border-left: 3px solid #2ecc71;
-    }
-
-    hr {
-      border-color: #0f3460;
-      margin: 10px 0;
-    }
-
-    .footer {
-      text-align: center;
-      font-size: 10px;
-      color: #8899aa;
-      margin-top: 20px;
-      padding-top: 15px;
-      border-top: 1px solid #0f3460;
-    }
-
-    .back-btn {
-      background: #0f3460;
-      border: 1px solid #e8b84b55;
-      border-radius: 8px;
-      padding: 10px 16px;
-      color: #e8b84b;
-      text-decoration: none;
-      font-size: 12px;
-      display: inline-block;
-      margin-bottom: 15px;
-    }
-
-    a {
-      color: #e8b84b;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 12px;
-      }
-    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;padding:20px;line-height:1.6;}
+    .container{max-width:800px;margin:0 auto;}
+    .header{background:linear-gradient(135deg,#16213e,#0f3460);border-radius:15px;padding:20px;margin-bottom:20px;text-align:center;border-bottom:3px solid #e8b84b;}
+    .header h1{color:#e8b84b;font-size:22px;margin-bottom:8px;}
+    .header p{color:#8899aa;font-size:12px;}
+    .logo{display:flex;justify-content:center;margin-bottom:15px;}
+    .logo img{width:60px;height:60px;border-radius:50%;border:2px solid #e8b84b;}
+    .section{background:#16213e;border:1px solid #0f3460;border-radius:12px;padding:16px;margin-bottom:16px;}
+    .section-title{color:#e8b84b;font-size:16px;font-weight:bold;margin-bottom:12px;display:flex;align-items:center;gap:8px;border-left:3px solid #e8b84b;padding-left:10px;}
+    .section-title span{font-size:20px;}
+    .content{font-size:13px;color:#c0cce0;}
+    .content p{margin-bottom:10px;}
+    .content ul,.content ol{margin-left:20px;margin-bottom:10px;}
+    .content li{margin-bottom:5px;}
+    .badge{display:inline-block;background:#e8b84b22;color:#e8b84b;padding:2px 8px;border-radius:12px;font-size:10px;margin-right:5px;margin-bottom:5px;}
+    .note{background:#0f3460;border-left:3px solid #e8b84b;padding:10px;border-radius:8px;margin:10px 0;font-size:12px;}
+    .warning{background:#c0392b22;border-left:3px solid #c0392b;}
+    .success{background:#2ecc7122;border-left:3px solid #2ecc71;}
+    hr{border-color:#0f3460;margin:10px 0;}
+    .footer{text-align:center;font-size:10px;color:#8899aa;margin-top:20px;padding-top:15px;border-top:1px solid #0f3460;}
+    .back-btn{background:#0f3460;border:1px solid #e8b84b55;border-radius:8px;padding:10px 16px;color:#e8b84b;text-decoration:none;font-size:12px;display:inline-block;margin-bottom:15px;}
+    a{color:#e8b84b;text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    @media (max-width:600px){body{padding:12px;}}
   </style>
 </head>
 <body>
 <div class="container">
   <a href="index.html" class="back-btn">← Volver a la App</a>
-
   <div class="header">
-    <div class="logo">
-      <img src="https://i.imgur.com/HbKo42m.png" alt="Logo">
-    </div>
+    <div class="logo"><img src="https://i.imgur.com/HbKo42m.png" alt="Logo"></div>
     <h1>📖 Instructivo de Uso</h1>
     <p>Sibarita Sport Club - 2do Campeonato Bolas Criollas 2026</p>
   </div>
 
-  <!-- JUGADORES -->
   <div class="section">
-    <div class="section-title">
-      <span>👥</span> Para Jugadores
-    </div>
+    <div class="section-title"><span>👥</span> Para Jugadores</div>
     <div class="content">
       <p><strong>Bienvenido al sistema oficial del torneo.</strong> Aquí puedes consultar toda la información actualizada:</p>
       <ul>
@@ -202,11 +57,8 @@
     </div>
   </div>
 
-  <!-- RESULTADOS -->
   <div class="section">
-    <div class="section-title">
-      <span>🎯</span> Consulta de Resultados
-    </div>
+    <div class="section-title"><span>🎯</span> Consulta de Resultados</div>
     <div class="content">
       <p>Los partidos se muestran organizados por semana y categoría:</p>
       <ul>
@@ -218,11 +70,8 @@
     </div>
   </div>
 
-  <!-- ESTADÍSTICAS -->
   <div class="section">
-    <div class="section-title">
-      <span>📊</span> Estadísticas Individuales
-    </div>
+    <div class="section-title"><span>📊</span> Estadísticas Individuales</div>
     <div class="content">
       <p>El sistema registra dos tipos de jugadas:</p>
       <ul>
@@ -234,11 +83,8 @@
     </div>
   </div>
 
-  <!-- VIDEOS -->
   <div class="section">
-    <div class="section-title">
-      <span>📺</span> Videos y Transmisiones
-    </div>
+    <div class="section-title"><span>📺</span> Videos y Transmisiones</div>
     <div class="content">
       <p>En la pestaña <strong>"Videos"</strong> encontrarás:</p>
       <ul>
@@ -251,11 +97,8 @@
     </div>
   </div>
 
-  <!-- JUEGO -->
   <div class="section">
-    <div class="section-title">
-      <span>🎮</span> Juego Interactivo
-    </div>
+    <div class="section-title"><span>🎮</span> Juego Interactivo</div>
     <div class="content">
       <ul>
         <li><strong>📌 Haz clic y arrastra</strong> para lanzar la bola</li>
@@ -266,96 +109,60 @@
     </div>
   </div>
 
-  <!-- TABLA -->
   <div class="section">
-    <div class="section-title">
-      <span>🏆</span> Tabla de Posiciones
-    </div>
+    <div class="section-title"><span>🏆</span> Tabla de Posiciones</div>
     <div class="content">
       <p><strong>Sistema de puntuación:</strong> Victoria: 3 puntos | Derrota: 0 puntos</p>
       <p><strong>Desempate:</strong> Mayor diferencia de goles (TF - TC).</p>
     </div>
   </div>
 
-  <!-- PUBLICIDAD -->
   <div class="section">
-    <div class="section-title">
-      <span>📢</span> Publicidad y Patrocinios
-    </div>
+    <div class="section-title"><span>📢</span> Publicidad y Patrocinios</div>
     <div class="content">
       <p>Este espacio es posible gracias al apoyo de nuestros patrocinadores locales.</p>
       <ul>
-        <li><strong>🏪 Publicidad Local:</strong> Próximamente incluiremos banners y menciones de negocios de la comunidad que apoyan el torneo.</li>
-        <li><strong>📊 Google Ads:</strong> Eventualmente se podrán mostrar anuncios de Google para ayudar a financiar la plataforma y los costos del campeonato.</li>
+        <li><strong>🏪 Publicidad Local:</strong> Próximamente incluiremos banners y menciones de negocios de la comunidad.</li>
+        <li><strong>📊 Google Ads:</strong> Eventualmente se podrán mostrar anuncios de Google para financiar la plataforma.</li>
       </ul>
-      <div class="note">💡 <strong>¿Quieres patrocinar?</strong> Si eres comerciante local y deseas aparecer en nuestra plataforma, contáctanos.</div>
-      <div class="note warning">📌 Los anuncios no afectan la funcionalidad de la aplicación. Todo el contenido del torneo sigue siendo gratuito.</div>
+      <div class="note">💡 ¿Quieres patrocinar? Contáctanos.</div>
+      <div class="note warning">📌 Los anuncios no afectan la funcionalidad. Todo el contenido sigue siendo gratuito.</div>
     </div>
   </div>
 
-  <!-- ORGANIZACIÓN -->
   <div class="section">
-    <div class="section-title">
-      <span>👨‍💼</span> Organización y Desarrollo
-    </div>
+    <div class="section-title"><span>👨‍💼</span> Organización y Desarrollo</div>
     <div class="content">
       <p><strong>🏆 Organizador del Torneo:</strong><br>Arquitecto Berly Salazar</p>
-      
       <p><strong>💻 Desarrollador de la Plataforma Web:</strong><br>MSc. Orlando Silva</p>
-      
       <hr>
-      
       <p><strong>📱 Contacto (Desarrollador):</strong><br>
-      <a href="tel:+5804264357941" style="color:#e8b84b;">0426-4357941</a><br>
-      <a href="mailto:osilva2503@gmail.com" style="color:#e8b84b;">osilva2503@gmail.com</a></p>
-      
-      <div class="note">
-        📌 Para dudas técnicas sobre la aplicación web, contactar al desarrollador.<br>
-        📌 Para asuntos del torneo (resultados, fechas, reglas), contactar al organizador.
-      </div>
+      <a href="tel:+5804264357941">0426-4357941</a><br>
+      <a href="mailto:osilva2503@gmail.com">osilva2503@gmail.com</a></p>
+      <div class="note">📌 Dudas técnicas → contactar al desarrollador.<br>📌 Asuntos del torneo → contactar al organizador.</div>
     </div>
   </div>
 
-  <!-- AVISOS LEGALES -->
   <div class="section">
-    <div class="section-title">
-      <span>⚖️</span> Avisos Legales y Privacidad
-    </div>
+    <div class="section-title"><span>⚖️</span> Avisos Legales y Privacidad</div>
     <div class="content">
       <ul>
-        <li><strong>📜 Aviso Legal:</strong> Los resultados mostrados son oficiales del torneo organizado por Sibarita Sport Club.</li>
-        <li><strong>🔒 Privacidad:</strong> No recopilamos datos personales sin consentimiento. Las estadísticas de jugadores son públicas dentro del torneo.</li>
-        <li><strong>🍪 Cookies:</strong> Este sitio utiliza localStorage para guardar preferencias de visualización. No utilizamos cookies de terceros.</li>
+        <li><strong>📜 Aviso Legal:</strong> Resultados oficiales del torneo organizado por Sibarita Sport Club.</li>
+        <li><strong>🔒 Privacidad:</strong> No recopilamos datos personales sin consentimiento.</li>
+        <li><strong>🍪 Cookies:</strong> Usamos localStorage para guardar preferencias. No usamos cookies de terceros.</li>
       </ul>
-      <div class="note">📌 <strong>Datos almacenados:</strong> La aplicación guarda localmente en tu dispositivo los resultados y estadísticas para funcionar sin conexión.</div>
-      <div class="note warning">⚠️ <strong>Responsabilidad:</strong> Los resultados son proporcionados por la organización del torneo. En caso de error, consultar con los delegados oficiales.</div>
+      <div class="note warning">⚠️ En caso de error, consultar con los delegados oficiales.</div>
     </div>
   </div>
 
-  <!-- CONTACTO Y REDES -->
   <div class="section">
-    <div class="section-title">
-      <span>📞</span> Contacto y Redes Sociales
-    </div>
+    <div class="section-title"><span>📞</span> Contacto y Redes Sociales</div>
     <div class="content">
-      <p><strong>📺 Redes Sociales del Torneo:</strong></p>
-      <p>YouTube: <strong>@SibaritaSC</strong><br>TikTok: <strong>@sibaritasc</strong></p>
-      
+      <p>📺 YouTube: <strong>@SibaritaSC</strong><br>🎵 TikTok: <strong>@sibaritasc</strong></p>
       <hr>
-      
-      <p><strong>🤝 ¿Interesado en patrocinar?</strong></p>
-      <p>Si deseas apoyar el torneo y aparecer en nuestra plataforma, contáctanos.</p>
-      
-      <hr>
-      
-      <p><strong>⚖️ Información Legal:</strong></p>
-      <p>
-        <a href="legal.html">📜 Aviso Legal</a> |
-        <a href="privacidad.html">🔒 Privacidad</a> |
-        <a href="cookies.html">🍪 Cookies</a>
-      </p>
-      
-      <div class="note">📢 ¡Síguenos en redes para no perderte ninguna novedad del torneo!</div>
+      <p><strong>⚖️ Información Legal:</strong><br>
+      <a href="legal.html">📜 Aviso Legal</a> | <a href="privacidad.html">🔒 Privacidad</a> | <a href="cookies.html">🍪 Cookies</a></p>
+      <div class="note">📢 ¡Síguenos en redes para no perderte ninguna novedad!</div>
     </div>
   </div>
 
