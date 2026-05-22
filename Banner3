@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .banner {
+    width: 2560px;
+    height: 1440px;
+    background: #0a0a1a;
+    position: relative;
+    font-family: 'Times New Roman', serif;
+  }
+  
+  .gold-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #e8b84b, #e8b84b, transparent);
+  }
+  
+  .gold-line-bottom {
+    bottom: 0;
+    top: auto;
+  }
+  
+  .main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    padding: 100px;
+  }
+  
+  .shield {
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(135deg, #e8b84b, #b8860b);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    box-shadow: 0 0 0 8px rgba(232, 184, 75, 0.2);
+  }
+  
+  .shield span {
+    font-size: 100px;
+  }
+  
+  h1 {
+    font-size: 72px;
+    color: #e8b84b;
+    letter-spacing: 8px;
+    margin: 0;
+    font-weight: normal;
+  }
+  
+  .divider {
+    width: 200px;
+    height: 2px;
+    background: #e8b84b;
+    margin: 30px auto;
+  }
+  
+  h2 {
+    font-size: 32px;
+    color: #f0e6d3;
+    letter-spacing: 4px;
+    font-weight: normal;
+    margin: 0;
+  }
+  
+  .category {
+    font-size: 28px;
+    color: #c0392b;
+    margin-top: 20px;
+    font-style: italic;
+  }
+  
+  .info {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 18px;
+    color: #8899aa;
+  }
+  
+  .corner {
+    position: absolute;
+    font-size: 100px;
+    opacity: 0.03;
+  }
+  
+  .corner-tl { top: 50px; left: 50px; transform: rotate(-15deg); }
+  .corner-tr { top: 50px; right: 50px; transform: rotate(15deg); }
+  .corner-bl { bottom: 50px; left: 50px; transform: rotate(15deg); }
+  .corner-br { bottom: 50px; right: 50px; transform: rotate(-15deg); }
+  
+  @media (max-width: 768px) {
+    h1 { font-size: 40px; letter-spacing: 4px; }
+    h2 { font-size: 20px; }
+    .shield { width: 100px; height: 100px; }
+    .shield span { font-size: 50px; }
+  }
+</style>
+</head>
+<body>
+<div class="banner">
+  <div class="gold-line"></div>
+  <div class="gold-line gold-line-bottom"></div>
+  
+  <div class="corner corner-tl">⚡</div>
+  <div class="corner corner-tr">🏆</div>
+  <div class="corner corner-bl">🎯</div>
+  <div class="corner corner-br">⭐</div>
+  
+  <div class="main">
+    <div class="shield">
+      <span>⚡</span>
+    </div>
+    <h1>SIBARITA SC</h1>
+    <div class="divider"></div>
+    <h2>BOLAS CRIOLLAS</h2>
+    <div class="category">CATEGORÍA "B" · 2do CAMPEONATO 2026</div>
+  </div>
+  
+  <div class="info">
+    📺 SUSCRÍBETE · 🔔 ACTIVA LA CAMPANITA · 🎬 CONTENIDO EXCLUSIVO
+  </div>
+</div>
+</body>
+</html>
