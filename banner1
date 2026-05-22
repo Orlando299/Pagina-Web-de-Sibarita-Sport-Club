@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .banner {
+    width: 2560px;
+    height: 1440px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    position: relative;
+    overflow: hidden;
+    font-family: 'Arial Black', 'Impact', sans-serif;
+  }
+  
+  /* Círculos decorativos */
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(232, 184, 75, 0.05);
+  }
+  .c1 { width: 800px; height: 800px; top: -200px; right: -200px; }
+  .c2 { width: 600px; height: 600px; bottom: -100px; left: -100px; background: rgba(232, 184, 75, 0.08); }
+  .c3 { width: 400px; height: 400px; top: 300px; left: 400px; background: rgba(232, 184, 75, 0.03); }
+  
+  /* Bola de bolas criollas decorativa */
+  .bola {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle at 30% 30%, #e8b84b, #b8860b);
+    border-radius: 50%;
+    bottom: 100px;
+    right: 200px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  }
+  .bola::before {
+    content: "";
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #1a1a2e;
+    border-radius: 50%;
+    top: 40px;
+    left: 40px;
+    opacity: 0.3;
+  }
+  
+  /* Contenido principal */
+  .content {
+    position: relative;
+    z-index: 10;
+    padding: 200px 100px;
+    text-align: center;
+  }
+  
+  .logo-area {
+    margin-bottom: 40px;
+  }
+  
+  .logo-icon {
+    font-size: 120px;
+    display: inline-block;
+    background: #e8b84b;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    line-height: 200px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  
+  h1 {
+    font-size: 80px;
+    color: #e8b84b;
+    margin: 30px 0 10px;
+    letter-spacing: 5px;
+    text-shadow: 3px 3px 0 #1a1a2e;
+  }
+  
+  .subtitle {
+    font-size: 32px;
+    color: #f0e6d3;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+  }
+  
+  .tagline {
+    font-size: 24px;
+    color: #8899aa;
+    border-top: 2px solid #e8b84b55;
+    border-bottom: 2px solid #e8b84b55;
+    display: inline-block;
+    padding: 15px 40px;
+    margin-top: 20px;
+  }
+  
+  .date {
+    position: absolute;
+    bottom: 50px;
+    right: 100px;
+    font-size: 18px;
+    color: #8899aa;
+    font-family: monospace;
+  }
+  
+  @media (max-width: 768px) {
+    .content { padding: 100px 50px; }
+    h1 { font-size: 48px; }
+    .subtitle { font-size: 20px; }
+    .tagline { font-size: 16px; }
+    .logo-icon { width: 120px; height: 120px; font-size: 70px; line-height: 120px; }
+  }
+</style>
+</head>
+<body>
+<div class="banner">
+  <div class="circle c1"></div>
+  <div class="circle c2"></div>
+  <div class="circle c3"></div>
+  <div class="bola"></div>
+  
+  <div class="content">
+    <div class="logo-area">
+      <div class="logo-icon">🏆</div>
+    </div>
+    <h1>SIBARITA SPORT CLUB</h1>
+    <div class="subtitle">2do CAMPEONATO BOLAS CRIOLLAS</div>
+    <div class="tagline">CATEGORÍA "B" · EN VIVO · DESTACADOS · JUGADAS</div>
+  </div>
+  <div class="date">📅 TEMPORADA 2026</div>
+</div>
+</body>
+</html>
