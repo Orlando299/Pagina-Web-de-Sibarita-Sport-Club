@@ -607,8 +607,83 @@ function openTeam(name) { const t = TEAMS.find(x => x.n === name); if (!t) retur
 
 function closeDetail() { g('teams-wrap').style.display = 'block'; g('t-detail').style.display = 'none'; }
 
-function rM() { const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9']; const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9'}; g('m-weeks').innerHTML = wks.map(w => `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`).join(''); let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk)); g('m-cnt').textContent = list.length + ' PARTIDOS'; if (!list.length) { g('m-list').innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin partidos</div>'; return; } g('m-list').innerHTML = list.map(m => { const r = R[m.id]; const done = r && r.status === 'done'; const forf = r && r.status === 'forfeit'; const wA = done && r.scoreA > r.scoreB; const wB = done && r.scoreB > r.scoreA; const mv = MVP[m.id]; let inner = ''; if (done || forf) { inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;margin-top:2px;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span> <button onclick="delRes(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button></div>${mv?`<div class="mvp-box"><span style="font-size:16px;">🏅</span><div style="flex:1;"><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div><button onclick="delMVP(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:14px;cursor:pointer;">✕</button></div>`:'<button class="mvp-btn" onclick="setMVP('+m.id+')">🏅 Jugador del Partido</button>'}<button class="stats-btn" onclick="openStatsModal(${m.id})">📋 ${done || forf ? 'Editar Stats' : 'Registrar Stats'}</button>`; } else { inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="saveRes(${m.id})">💾 Guardar</button><button class="fbtn" onclick="forfRes(${m.id})">⚠️ Forfeit/WO</button><button class="stats-btn" onclick="openStatsModal(${m.id})">📋 Registrar Stats</button>`; } return `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span><span class="wtag">${m.w}</span></div><div class="mteams"><div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div></div></div>`; }).join(''); }
-
+function rM() {
+  const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9'];
+  const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9'};
+  g('m-weeks').innerHTML = wks.map(w => `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`).join('');
+  let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk));
+  g('m-cnt').textContent = list.length + ' PARTIDOS';
+  if (!list.length) {
+    g('m-list').innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin partidos</div>';
+    return;
+  }
+  
+  g('m-list').innerHTML = list.map(m => {
+    const r = R[m.id];
+    const done = r && r.status === 'done';
+    const forf = r && r.status === 'forfeit';
+    const suspended = r && r.status === 'suspended';
+    const wA = done && r.scoreA > r.scoreB;
+    const wB = done && r.scoreB > r.scoreA;
+    const mv = MVP[m.id];
+    let inner = '';
+    
+    if (suspended) {
+      inner = `<div style="text-align:center;">
+                  <span style="font-size:14px;">⚠️</span>
+                  <div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">JUEGO SUSPENDIDO</div>
+                  <div style="font-size:9px;color:#8899aa;">Motivo: ${r.razon || 'Sin especificar'}</div>
+                  <div style="margin-top:6px;">
+                    <button onclick="reanudarJuego(${m.id})" style="background:#3498db;border:none;border-radius:5px;color:#fff;font-size:9px;padding:3px 8px;margin:0 2px;cursor:pointer;">🔄 Reanudar</button>
+                    <button onclick="delRes(${m.id})" style="background:#c0392b;border:none;border-radius:5px;color:#fff;font-size:9px;padding:3px 8px;cursor:pointer;">✕ Borrar</button>
+                  </div>
+                </div>`;
+    } else if (done || forf) {
+      inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+                  <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+                  <span class="sep">—</span>
+                  <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+                </div>
+                ${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;margin-top:2px;">FORFEIT</div>':''}
+                <div style="text-align:center;margin-top:4px;">
+                  <span class="rtag done">✓ Final</span>
+                  <button onclick="delRes(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button>
+                </div>
+                ${mv?`<div class="mvp-box"><span style="font-size:16px;">🏅</span><div style="flex:1;"><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div><button onclick="delMVP(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:14px;cursor:pointer;">✕</button></div>`:'<button class="mvp-btn" onclick="setMVP('+m.id+')">🏅 Jugador del Partido</button>'}
+                <button class="stats-btn" onclick="openStatsModal(${m.id})">📋 ${done || forf ? 'Editar Stats' : 'Registrar Stats'}</button>`;
+    } else {
+      inner = `<div style="font-size:14px;text-align:center;">🎯</div>
+               <div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div>
+               <div class="srow">
+                 <input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0">
+                 <span class="sep">—</span>
+                 <input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0">
+               </div>
+               <button class="sbtn" onclick="saveRes(${m.id})">💾 Guardar</button>
+               <button class="fbtn" onclick="forfRes(${m.id})">⚠️ Forfeit/WO</button>
+               <button class="fbtn" onclick="suspenderJuego(${m.id})" style="border-color:#e67e22;color:#e67e22;">⏸️ Suspender</button>
+               <button class="stats-btn" onclick="openStatsModal(${m.id})">📋 Registrar Stats</button>`;
+    }
+    
+    let estadoTag = '';
+    if (suspended) estadoTag = '<span class="wtag" style="background:#e67e2233;color:#e67e22;">⏸️ Suspendido</span>';
+    else if (done) estadoTag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>';
+    else if (forf) estadoTag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
+    else estadoTag = '<span class="wtag" style="background:#0f3460;">⏳ Pendiente</span>';
+    
+    return `<div class="mc">
+              <div class="mm">
+                <span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>
+                ${estadoTag}
+              </div>
+              <div class="mteams">
+                <div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div>
+                <div class="vb">${inner}</div>
+                <div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div>
+              </div>
+            </div>`;
+  }).join('');
+}
 function saveRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede guardar resultados.'); return; } const inputA = g('sA' + id); const inputB = g('sB' + id); if (!inputA || !inputB) { alert('Error: No se encontraron los campos.'); return; } const a = parseInt(inputA.value); const b = parseInt(inputB.value); if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; } R[id] = { scoreA: a, scoreB: b, status: 'done' }; save(); rM(); rSt(); alert('✅ Resultado guardado. Usa "📦 Exportar JSON" para subirlo a GitHub.'); }
 
 function forfRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede registrar forfeit.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) { alert('Error: Partido no encontrado'); return; } const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`); if (ans === '1') { R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' }; save(); rM(); rSt(); } else if (ans === '2') { R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' }; save(); rM(); rSt(); } else { alert('Opción inválida.'); } alert('✅ Forfeit registrado. Usa "📦 Exportar JSON" para subirlo a GitHub.'); }
@@ -699,7 +774,7 @@ function setMVP(id) {
   
 function delMVP(id) { delete MVP[id]; save(); rM(); }
 
-function rSt() { const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp); const tb = {}; tl.forEach(t => { tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; }); MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => { const r = R[m.id]; if (!r) return; if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; } if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; } if (r.scoreA > r.scoreB) { if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; } if (tb[m.b]) tb[m.b].pp++; } else if (r.scoreB > r.scoreA) { if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; } if (tb[m.a]) tb[m.a].pp++; } }); const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf); const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn'; g('st-list').innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;margin-bottom:5px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;color:#8899aa;">EQUIPO</div><div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div></div>` + sorted.map((t,i) => { const r = i+1, c = rc(r); const dif = t.tf - t.tc; const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0'; return `<div class="sr ${c}"><div class="rb ${c}">${r}</div><div style="flex:1;font-size:11px;font-weight:bold;color:#f0e6d3;line-height:1.2;">${t.n}</div><div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div></div>`; }).join(''); }
+function rSt() { const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp); const tb = {}; tl.forEach(t => { tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; }); MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => { const r = R[m.id]; if (!r || r.status === 'suspended') return; if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; } if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; } if (r.scoreA > r.scoreB) { if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; } if (tb[m.b]) tb[m.b].pp++; } else if (r.scoreB > r.scoreA) { if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; } if (tb[m.a]) tb[m.a].pp++; } }); const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf); const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn'; g('st-list').innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;margin-bottom:5px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;color:#8899aa;">EQUIPO</div><div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div></div>` + sorted.map((t,i) => { const r = i+1, c = rc(r); const dif = t.tf - t.tc; const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0'; return `<div class="sr ${c}"><div class="rb ${c}">${r}</div><div style="flex:1;font-size:11px;font-weight:bold;color:#f0e6d3;line-height:1.2;">${t.n}</div><div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div></div>`; }).join(''); }
 
 function searchPlayer(q) { F.aQ = q; rA(); }
 
@@ -973,6 +1048,55 @@ function openStatsModal(matchId) { const match = MATCHES.find(m => m.id === matc
 
 function getPlayerStatsHTML(playerName, saved) { const safeKey = playerName.replace(/[^a-zA-Z0-9]/g, '_'); return `<div class="player-stats-row"><div class="player-name">${playerName}</div><div class="stats-grid"><div class="stat-item"><div class="stat-label">🎯 Arrime Buenos (A azul)</div><input type="number" class="stat-input" id="arr_b_${safeKey}" value="${saved.arr_b || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">📊 Total Arrime</div><input type="number" class="stat-input" id="arr_total_${safeKey}" value="${saved.arr_total || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">💥 Boche Buenos (B azul)</div><input type="number" class="stat-input" id="boc_b_${safeKey}" value="${saved.boc_b || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">📊 Total Boche</div><input type="number" class="stat-input" id="boc_total_${safeKey}" value="${saved.boc_total || 0}" min="0" max="50"></div></div></div>`; }
 
+
+
+
+    
+function suspenderJuego(id) {
+  const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+  if (!esOrganizador) {
+    alert('⚠️ Solo el organizador puede suspender juegos.');
+    return;
+  }
+  
+  const m = MATCHES.find(x => x.id === id);
+  if (!m) {
+    alert('Error: Partido no encontrado');
+    return;
+  }
+  
+  const razon = prompt('📋 Motivo de la suspensión:\n(Clima, falta de jugadores, etc.)', 'Clima');
+  if (razon === null) return;
+  
+  R[id] = { 
+    scoreA: 0, 
+    scoreB: 0, 
+    status: 'suspended',
+    razon: razon || 'Sin especificar'
+  };
+  save();
+  rM();
+  rSt();
+  alert(`⚠️ Partido suspendido por: ${razon || 'Sin especificar'}\n\nPuedes reprogramarlo más tarde.`);
+}    
+
+    function reanudarJuego(id) {
+  const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+  if (!esOrganizador) {
+    alert('⚠️ Solo el organizador puede reanudar juegos.');
+    return;
+  }
+  
+  if (confirm('¿Reanudar este partido? Se borrará el estado "Suspendido" y podrás cargar el resultado normalmente.')) {
+    delete R[id];
+    save();
+    rM();
+    rSt();
+    alert('✅ Partido reanudado. Ya puedes cargar el resultado.');
+  }
+}
+
+    
 function saveMatchStats() { const match = MATCHES.find(m => m.id === currentMatchId); if (!match) return; const stats = {}; [match.a, match.b].forEach(teamName => { const team = TEAMS.find(t => t.n === teamName); if (team) { team.p.forEach(player => { if (player !== 'Por Cargar') { const safeKey = player.replace(/[^a-zA-Z0-9]/g, '_'); const arr_b = parseInt(g(`arr_b_${safeKey}`)?.value) || 0; const arr_total = parseInt(g(`arr_total_${safeKey}`)?.value) || 0; const boc_b = parseInt(g(`boc_b_${safeKey}`)?.value) || 0; const boc_total = parseInt(g(`boc_total_${safeKey}`)?.value) || 0; stats[player] = { arr_b, arr_total, boc_b, boc_total }; const psKey = `${teamName}|${player}`; if (!PS[psKey]) PS[psKey] = {}; PS[psKey].arr_b = (PS[psKey].arr_b || 0) + arr_b; PS[psKey].total_arr = (PS[psKey].total_arr || 0) + arr_total; PS[psKey].boc_b = (PS[psKey].boc_b || 0) + boc_b; PS[psKey].total_boc = (PS[psKey].total_boc || 0) + boc_total; PS[psKey].partidos = (PS[psKey].partidos || 0) + 1; } }); } }); localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats)); save(); closeStatsModal(); alert('✅ Estadísticas guardadas correctamente'); rA(); rT(); }
 
 function closeStatsModal() { g('stats-modal').style.display = 'none'; currentMatchId = null; }
