@@ -65,8 +65,7 @@
       "scoreA": 6,
       "scoreB": 20,
       "status": "done"
-      },
-      
+    },
     "77": {
       "scoreA": 20,
       "scoreB": 6,
@@ -86,6 +85,7 @@
       "scoreA": 8,
       "scoreB": 0,
       "status": "forfeit"
+    }
   },
   "mvp": {
     "1": {
@@ -111,11 +111,6 @@
     "21": {
       "name": "Nelson Suarez",
       "team": "Servihidra",
-      "efec": 0
-    },
-    "NaN": {
-      "name": "pw / 2",
-      "team": "290",
       "efec": 0
     }
   },
