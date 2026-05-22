@@ -1,135 +1,381 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instructivo - Sibarita Sport Club</title>
-<style>
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:Arial,sans-serif;background:#fff;color:#333;padding:20px;max-width:800px;margin:0 auto;line-height:1.5;}
-  h1{color:#1a1a2e;text-align:center;margin-bottom:10px;}
-  h2{color:#1a1a2e;margin:20px 0 10px;border-bottom:2px solid #e8b84b;padding-bottom:5px;}
-  h3{color:#e8b84b;margin:15px 0 8px;}
-  .logo{text-align:center;margin-bottom:20px;}
-  .logo img{width:60px;height:60px;border-radius:50%;}
-  .contacto{background:#f5f5f5;padding:15px;border-radius:10px;margin-top:20px;}
-  .footer{text-align:center;margin-top:30px;padding-top:15px;border-top:1px solid #ddd;font-size:12px;color:#999;}
-  ul,ol{padding-left:25px;margin:10px 0;}
-  li{margin:5px 0;}
-  .regla{background:#f9f9f9;padding:12px;border-left:4px solid #e8b84b;margin:10px 0;}
-  @media print{
-    body{margin:0;padding:10px;}
-    .no-print{display:none;}
-  }
-  .btn-pdf{background:#e8b84b;border:none;padding:10px 20px;border-radius:5px;cursor:pointer;font-size:16px;margin-bottom:20px;display:inline-block;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Sibarita Sport Club - Instructivo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #1a1a2e;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #f0e6d3;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #16213e, #0f3460);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      border-bottom: 3px solid #e8b84b;
+    }
+
+    .header h1 {
+      color: #e8b84b;
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #8899aa;
+      font-size: 12px;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .logo img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #e8b84b;
+    }
+
+    .section {
+      background: #16213e;
+      border: 1px solid #0f3460;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      color: #e8b84b;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 3px solid #e8b84b;
+      padding-left: 10px;
+    }
+
+    .section-title span {
+      font-size: 20px;
+    }
+
+    .content {
+      font-size: 13px;
+      color: #c0cce0;
+    }
+
+    .content p {
+      margin-bottom: 10px;
+    }
+
+    .content ul, .content ol {
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    .content li {
+      margin-bottom: 5px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e8b84b22;
+      color: #e8b84b;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 10px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+
+    .note {
+      background: #0f3460;
+      border-left: 3px solid #e8b84b;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-size: 12px;
+    }
+
+    .warning {
+      background: #c0392b22;
+      border-left: 3px solid #c0392b;
+    }
+
+    .success {
+      background: #2ecc7122;
+      border-left: 3px solid #2ecc71;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .icon-card {
+      background: #0f3460;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .icon-card span {
+      font-size: 28px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .icon-card p {
+      font-size: 10px;
+      color: #8899aa;
+    }
+
+    hr {
+      border-color: #0f3460;
+      margin: 10px 0;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 10px;
+      color: #8899aa;
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #0f3460;
+    }
+
+    .back-btn {
+      background: #0f3460;
+      border: 1px solid #e8b84b55;
+      border-radius: 8px;
+      padding: 10px 16px;
+      color: #e8b84b;
+      text-decoration: none;
+      font-size: 12px;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+
+    a {
+      color: #e8b84b;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 12px;
+      }
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
+<div class="container">
+  <a href="index.html" class="back-btn">← Volver a la App</a>
 
-<div class="logo">
-  <img src="https://i.imgur.com/HbKo42m.png" alt="Logo">
-  <h1>Sibarita Sport Club</h1>
-  <p>2do Campeonato Bolas Criollas 2026 - Categoría B</p>
+  <div class="header">
+    <div class="logo">
+      <img src="https://i.imgur.com/HbKo42m.png" alt="Logo">
+    </div>
+    <h1>📖 Instructivo de Uso</h1>
+    <p>Sibarita Sport Club - 2do Campeonato Bolas Criollas 2026</p>
+  </div>
+
+  <!-- JUGADORES -->
+  <div class="section">
+    <div class="section-title">
+      <span>👥</span> Para Jugadores
+    </div>
+    <div class="content">
+      <p><strong>Bienvenido al sistema oficial del torneo.</strong> Aquí puedes consultar toda la información actualizada:</p>
+      <ul>
+        <li><strong>📋 Equipos:</strong> Consulta la lista de equipos, categorías y plantilla de jugadores.</li>
+        <li><strong>🎯 Partidos:</strong> Revisa el calendario, resultados y estadísticas de cada encuentro.</li>
+        <li><strong>🏆 Tabla de Posiciones:</strong> Clasificación actualizada con puntos, goles y promedio.</li>
+        <li><strong>📊 Average:</strong> Estadísticas individuales de efectividad (Arrime/Boche).</li>
+        <li><strong>📺 Videos:</strong> Mira los partidos en vivo, destacados y playlists del torneo.</li>
+        <li><strong>🎮 Jugar:</strong> Practica con el juego interactivo de Bolas Criollas.</li>
+      </ul>
+      <div class="note success">💡 Los resultados se actualizan en tiempo real. ¡Mantente al día!</div>
+    </div>
+  </div>
+
+  <!-- RESULTADOS -->
+  <div class="section">
+    <div class="section-title">
+      <span>🎯</span> Consulta de Resultados
+    </div>
+    <div class="content">
+      <p>Los partidos se muestran organizados por semana y categoría:</p>
+      <ul>
+        <li><span class="badge">✓ Finalizado</span> Partido con resultado registrado</li>
+        <li><span class="badge">⚠️ WO</span> Partido perdido por forfeit/walkover</li>
+        <li><span class="badge">⏸️ Suspendido</span> Partido suspendido (se reprogramará)</li>
+        <li><span class="badge">⏳ Pendiente</span> Partido aún no jugado</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ESTADÍSTICAS -->
+  <div class="section">
+    <div class="section-title">
+      <span>📊</span> Estadísticas Individuales
+    </div>
+    <div class="content">
+      <p>El sistema registra dos tipos de jugadas:</p>
+      <ul>
+        <li><strong>🎯 ARRIME:</strong> Buenos / Total (jugada de aproximación)</li>
+        <li><strong>💥 BOCHE:</strong> Buenos / Total (jugada de impacto)</li>
+      </ul>
+      <p><strong>Efectividad:</strong> Porcentaje de buenos sobre total de intentos.</p>
+      <div class="note">📌 <strong>Fórmula:</strong> (Buenos Totales / Intentos Totales) × 100 = EFEC%</div>
+    </div>
+  </div>
+
+  <!-- VIDEOS -->
+  <div class="section">
+    <div class="section-title">
+      <span>📺</span> Videos y Transmisiones
+    </div>
+    <div class="content">
+      <p>En la pestaña <strong>"Videos"</strong> encontrarás:</p>
+      <ul>
+        <li><strong>🔴 EN VIVO:</strong> Transmisiones actuales y próximos partidos</li>
+        <li><strong>🎬 DESTACADOS:</strong> Resúmenes y partidos completos</li>
+        <li><strong>🎵 TIKTOK:</strong> Clips cortos del torneo</li>
+        <li><strong>📋 PLAYLISTS:</strong> Listas de reproducción por categoría</li>
+      </ul>
+      <div class="note">💡 Los streams comienzan 15 minutos antes de cada partido.</div>
+    </div>
+  </div>
+
+  <!-- JUEGO -->
+  <div class="section">
+    <div class="section-title">
+      <span>🎮</span> Juego Interactivo
+    </div>
+    <div class="content">
+      <ul>
+        <li><strong>📌 Haz clic y arrastra</strong> para lanzar la bola</li>
+        <li><strong>🎯 Primer lanzamiento:</strong> Boche (bola dorada)</li>
+        <li><strong>⚪ Lanzamientos siguientes:</strong> Arrime (bolas blancas)</li>
+        <li><strong>🏆 Objetivo:</strong> Colocar tu bola más cerca que la del rival</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TABLA -->
+  <div class="section">
+    <div class="section-title">
+      <span>🏆</span> Tabla de Posiciones
+    </div>
+    <div class="content">
+      <p><strong>Sistema de puntuación:</strong> Victoria: 3 puntos | Derrota: 0 puntos</p>
+      <p><strong>Desempate:</strong> Mayor diferencia de goles (TF - TC).</p>
+    </div>
+  </div>
+
+  <!-- PUBLICIDAD -->
+  <div class="section">
+    <div class="section-title">
+      <span>📢</span> Publicidad y Patrocinios
+    </div>
+    <div class="content">
+      <p>Este espacio es posible gracias al apoyo de nuestros patrocinadores locales.</p>
+      
+      <ul>
+        <li><strong>🏪 Publicidad Local:</strong> Próximamente incluiremos banners y menciones de negocios de la comunidad que apoyan el torneo.</li>
+        <li><strong>📊 Google Ads:</strong> Eventualmente se podrán mostrar anuncios de Google para ayudar a financiar la plataforma y los costos del campeonato.</li>
+      </ul>
+
+      <div class="note">
+        💡 <strong>¿Quieres patrocinar?</strong> Si eres comerciante local y deseas aparecer en nuestra plataforma, contáctanos a través de nuestras redes sociales.
+      </div>
+      
+      <div class="note warning">
+        📌 Los anuncios no afectan la funcionalidad de la aplicación. Todo el contenido del torneo sigue siendo gratuito y accesible para todos.
+      </div>
+    </div>
+  </div>
+
+  <!-- AVISOS LEGALES -->
+  <div class="section">
+    <div class="section-title">
+      <span>⚖️</span> Avisos Legales y Privacidad
+    </div>
+    <div class="content">
+      <ul>
+        <li><strong>📜 Aviso Legal:</strong> Los resultados mostrados son oficiales del torneo organizado por Sibarita Sport Club.</li>
+        <li><strong>🔒 Privacidad:</strong> No recopilamos datos personales sin consentimiento. Las estadísticas de jugadores son públicas dentro del torneo.</li>
+        <li><strong>🍪 Cookies:</strong> Este sitio utiliza localStorage para guardar preferencias de visualización. No utilizamos cookies de terceros.</li>
+      </ul>
+      <div class="note">📌 <strong>Datos almacenados:</strong> La aplicación guarda localmente en tu dispositivo los resultados y estadísticas para funcionar sin conexión.</div>
+      <div class="note warning">⚠️ <strong>Responsabilidad:</strong> Los resultados son proporcionados por la organización del torneo. En caso de error, consultar con los delegados oficiales.</div>
+    </div>
+  </div>
+
+  <!-- CONTACTO -->
+  <div class="section">
+    <div class="section-title">
+      <span>📞</span> Contacto y Patrocinios
+    </div>
+    <div class="content">
+      <p><strong>📺 Redes Sociales:</strong></p>
+      <p>YouTube: <strong>@SibaritaSC</strong><br>TikTok: <strong>@sibaritasc</strong></p>
+      
+      <hr>
+      
+      <p><strong>🤝 ¿Interesado en patrocinar?</strong></p>
+      <p>Si deseas apoyar el torneo y aparecer en nuestra plataforma, contáctanos por WhatsApp o correo electrónico.</p>
+      
+      <hr>
+      
+      <p><strong>⚖️ Información Legal:</strong></p>
+      <p>
+        <a href="legal.html">📜 Aviso Legal</a> |
+        <a href="privacidad.html">🔒 Privacidad</a> |
+        <a href="cookies.html">🍪 Cookies</a>
+      </p>
+      
+      <div class="note">📢 ¡Síguenos en redes para no perderte ninguna novedad del torneo!</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>© 2026 Sibarita Sport Club - 2do Campeonato Bolas Criollas "Categoría B"</p>
+    <p>Resultados oficiales del torneo</p>
+  </div>
 </div>
-
-<button class="btn-pdf no-print" onclick="window.print()">📄 Guardar como PDF / Imprimir</button>
-
-<h2>📌 ¿QUÉ ES ESTA PÁGINA?</h2>
-<p>Es el sistema oficial del torneo. Aquí podrás consultar:</p>
-<ul>
-  <li>Resultados de todos los partidos</li>
-  <li>Tabla de posiciones actualizada</li>
-  <li>Estadísticas individuales (Arrime y Boche)</li>
-  <li>Calendario de partidos</li>
-</ul>
-<p><strong>➡️ Los datos son de SOLO LECTURA.</strong> Solo el desarrollador puede cargar o modificar resultados y estadísticas.</p>
-
-<h2>🎯 PESTAÑA "PARTIDOS"</h2>
-<ol>
-  <li>Filtra por categoría (Femenino/Masculino) y grupo</li>
-  <li>Selecciona una semana (Sem 1, Sem 2, etc.)</li>
-  <li>Cada tarjeta muestra fecha, hora, cancha y marcador</li>
-</ol>
-
-<h2>🏆 PESTAÑA "TABLA"</h2>
-<p>Muestra la clasificación completa:</p>
-<ul>
-  <li><strong>PJ</strong> = Partidos Jugados</li>
-  <li><strong>PG</strong> = Partidos Ganados</li>
-  <li><strong>PP</strong> = Partidos Perdidos</li>
-  <li><strong>TF</strong> = Tantos a Favor</li>
-  <li><strong>TC</strong> = Tantos en Contra</li>
-  <li><strong>DIF</strong> = Diferencia (TF - TC)</li>
-  <li><strong>AVG</strong> = Promedio</li>
-  <li><strong>PTS</strong> = Puntos (Victoria = 3 pts)</li>
-</ul>
-
-<h2>📊 PESTAÑA "AVERAGE"</h2>
-<p>Estadísticas individuales de cada jugador:</p>
-<ul>
-  <li><strong>ARR (B/T)</strong> = Arrime Buenos / Total de arrimes</li>
-  <li><strong>BOC (B/T)</strong> = Boche Buenos / Total de boches</li>
-  <li><strong>EFEC%</strong> = Efectividad = (Buenos / Total) × 100</li>
-</ul>
-<p>Puedes buscar jugadores por nombre usando la lupa 🔍</p>
-
-<h2>👥 PESTAÑA "EQUIPOS"</h2>
-<ol>
-  <li>Filtra por Femenino/Masculino y Grupo A/B</li>
-  <li>Toca cualquier equipo para ver su plantilla</li>
-  <li>Cada jugador muestra sus estadísticas acumuladas</li>
-</ol>
-
-<h2>📄 CÓMO DESCARGAR EL CALENDARIO EN PDF</h2>
-<ol>
-  <li>Ve a la pestaña "PARTIDOS"</li>
-  <li>Toca el botón "📄 Descargar PDF"</li>
-  <li>Elige una opción: Por Semana / Por Equipo / Todas las Categorías</li>
-  <li>El PDF se descargará automáticamente</li>
-</ol>
-
-<h2>⚽ REGLAS DEL TORNEO</h2>
-
-<div class="regla">
-  <strong>📌 SEMANA 1 y SEMANA 2:</strong>
-  <ul>
-    <li>Gana el equipo que primero llegue a 20 tantos</li>
-    <li>Si el tiempo se agota (2h), gana quien tenga ≥12 (60%)</li>
-  </ul>
-</div>
-
-<div class="regla">
-  <strong>📌 A PARTIR DE LA SEMANA 3:</strong>
-  <ul>
-    <li>Duración del partido: 1 hora y media (90 minutos)</li>
-    <li>Gana el equipo que primero llegue a 15 tantos</li>
-    <li>Si el tiempo se agota, gana quien tenga 12 tantos o más</li>
-  </ul>
-</div>
-
-<div class="regla">
-  <strong>📌 EMPATE AL TERMINAR EL TIEMPO:</strong>
-  <ul>
-    <li>Se fuerza un tiro extra (desempate)</li>
-    <li>Gana el equipo que realice el tanto o los tantos necesarios para desempatar</li>
-  </ul>
-</div>
-
-<div class="regla">
-  <strong>📌 SISTEMA DE PUNTUACIÓN:</strong>
-  <ul>
-    <li>Victoria = 3 puntos</li>
-    <li>Derrota = 0 puntos</li>
-  </ul>
-</div>
-
-<h2>❓ PREGUNTAS FRECUENTES</h2>
-<ul>
-  <li><strong>❔ ¿Por qué no veo un resultado?</strong><br>→ El desarrollador aún no lo ha cargado. Espera un poco y recarga la página.</li>
-  <li><strong>❔ ¿Puedo modificar un resultado desde mi celular?</strong><br>→ No. Solo el desarrollador tiene acceso para cargar o modificar resultados.</li>
-  <li><strong>❔ ¿Cómo actualizo la página?</strong><br>→ Desliza hacia abajo (pantalla táctil) o presiona F5.</li>
-  <li><strong>❔ ¿Hay algún costo?</strong><br>→ No, la página es completamente gratuita.</li>
-</ul>
 
 <div class="contacto">
   <h3>📞 CONTACTO</h3>
@@ -138,10 +384,6 @@
   📱 0426-435-79-41</p>
 </div>
 
-<div class="footer">
-  <p>🏆 ¡Gracias por participar! Que gane el mejor.</p>
-  <p>Generado: Mayo 2026 | Sibarita Sport Club</p>
-</div>
 
 </body>
 </html>
