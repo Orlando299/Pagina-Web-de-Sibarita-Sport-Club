@@ -1,5 +1,5 @@
 {
-  "ultimaActualizacion": "2026-05-22T13:41:57.256Z",
+  "ultimaActualizacion": "2026-05-22T15:29:36.792Z",
   "resultados": {
     "1": {
       "scoreA": 12,
@@ -36,6 +36,12 @@
       "scoreB": 6,
       "status": "done"
     },
+    "11": {
+      "scoreA": 0,
+      "scoreB": 0,
+      "status": "suspended",
+      "razon": "Equipo Atrevidas retirado"
+    },
     "12": {
       "scoreA": 18,
       "scoreB": 12,
@@ -45,6 +51,12 @@
       "scoreA": 11,
       "scoreB": 19,
       "status": "done"
+    },
+    "17": {
+      "scoreA": 0,
+      "scoreB": 0,
+      "status": "suspended",
+      "razon": "Equipo Inversiones IV retirado"
     },
     "19": {
       "scoreA": 20,
@@ -66,6 +78,11 @@
       "scoreB": 20,
       "status": "done"
     },
+    "25": {
+      "scoreA": 0,
+      "scoreB": 8,
+      "status": "forfait"
+    },
     "77": {
       "scoreA": 20,
       "scoreB": 6,
@@ -85,6 +102,11 @@
       "scoreA": 8,
       "scoreB": 0,
       "status": "forfeit"
+    },
+    "NaN": {
+      "scoreA": 11,
+      "scoreB": 19,
+      "status": "done"
     }
   },
   "mvp": {
@@ -111,6 +133,11 @@
     "21": {
       "name": "Nelson Suarez",
       "team": "Servihidra",
+      "efec": 0
+    },
+    "NaN": {
+      "name": "pw / 2",
+      "team": "290",
       "efec": 0
     }
   },
