@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Bolas Criollas - Reglas Reales</title>
+  <title>Bolas Criollas - Perspectiva Rotada 90°</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0d0d0d;font-family:'Segoe UI',Arial,sans-serif;}
@@ -23,6 +23,7 @@
 <body>
   <div id="root"></div>
   <script type="text/babel">
+    // ── CANCHA CON PERSPECTIVA ROTADA 90° (jugadores izquierda/derecha) ────────────
     const W = 800, H = 400;
     const MOCHE_R = 10;
     const BOLA_R = 18;
@@ -30,11 +31,11 @@
     const MIN_SPEED = 0.08;
     const MAX_POWER = 18;
     const BALLS_PER_PLAYER = 4;
-    const WALL_PENALTY_DIST = 20; // Distancia mínima a la pared
+    const WALL_PENALTY_DIST = 20;
 
     const COLORS = {
-      p1: ["#e63946", "#c1121f", "#ff6b6b", "#ff9a9e"],
-      p2: ["#2ecc71", "#27ae60", "#58d68d", "#82e0aa"],
+      p1: ["#e63946", "#c1121f", "#ff6b6b", "#ff9a9e"],  // Rojos (derecha)
+      p2: ["#2ecc71", "#27ae60", "#58d68d", "#82e0aa"],  // Verdes (izquierda)
     };
 
     function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
@@ -80,7 +81,6 @@
       };
     }
 
-    // Verificar si una bola tocó la pared
     function checkWallHit(ball) {
       return (ball.x - ball.r < WALL_PENALTY_DIST || 
               ball.x + ball.r > W - WALL_PENALTY_DIST ||
@@ -88,26 +88,22 @@
               ball.y + ball.r > H - WALL_PENALTY_DIST);
     }
 
-    // Aplicar boche: desplazar bola rival
     function applyBoche(targetBall, sourceBall) {
       const angle = Math.atan2(targetBall.y - sourceBall.y, targetBall.x - sourceBall.x);
-      const displacement = 45; // Distancia a desplazar
+      const displacement = 45;
       targetBall.x += Math.cos(angle) * displacement;
       targetBall.y += Math.sin(angle) * displacement;
-      // Mantener dentro del campo
       targetBall.x = clamp(targetBall.x, WALL_PENALTY_DIST + targetBall.r, W - WALL_PENALTY_DIST - targetBall.r);
       targetBall.y = clamp(targetBall.y, WALL_PENALTY_DIST + targetBall.r, H - WALL_PENALTY_DIST - targetBall.r);
       return true;
     }
 
-    // Determinar qué jugador debe tirar según la bola más lejana al moche
     function getPlayerWhoShouldThrow(state) {
-      if (!state.mocheThrown) return state.turn; // Si no hay moche, tira el que tenga el turno
+      if (!state.mocheThrown) return state.turn;
       
-      const playedBalls = state.balls.filter(b => b.played);
+      const playedBalls = state.balls.filter(b => b.played && !b.wallHit);
       if (playedBalls.length === 0) return state.turn;
       
-      // Encontrar la bola más lejana al moche entre todas las jugadas
       let farthestBall = null;
       let farthestDist = -1;
       
@@ -119,13 +115,11 @@
         }
       });
       
-      // El dueño de la bola más lejana debe tirar
       return farthestBall ? farthestBall.owner : state.turn;
     }
 
-    // Verificar si el jugador actual puede tirar (regla de bola más lejana)
     function isValidTurn(state) {
-      if (!state.mocheThrown) return true; // Fase de lanzar moche
+      if (!state.mocheThrown) return true;
       const shouldBe = getPlayerWhoShouldThrow(state);
       return state.turn === shouldBe;
     }
@@ -134,14 +128,18 @@
       return {
         moche: { x: W / 2, y: H / 2, vx: 0, vy: 0, r: MOCHE_R, color: "#f4d03f", id: "moche" },
         balls: [
+          // Player 1 (Rojo) - DERECHA (x = W - 50)
           ...Array.from({ length: BALLS_PER_PLAYER }, (_, i) => ({
             id: `p1_${i}`, owner: 1, r: BOLA_R,
-            x: W - 50 - i * (BOLA_R * 2 + 5), y: H - 35,
+            x: W - 50 - i * (BOLA_R * 2 + 5), 
+            y: H - 35,
             vx: 0, vy: 0, color: COLORS.p1[i], played: false, wallHit: false, boched: false
           })),
+          // Player 2 (Verde) - IZQUIERDA (x = 50)
           ...Array.from({ length: BALLS_PER_PLAYER }, (_, i) => ({
             id: `p2_${i}`, owner: 2, r: BOLA_R,
-            x: 50 + i * (BOLA_R * 2 + 5), y: H - 35,
+            x: 50 + i * (BOLA_R * 2 + 5),
+            y: H - 35,
             vx: 0, vy: 0, color: COLORS.p2[i], played: false, wallHit: false, boched: false
           })),
         ],
@@ -186,7 +184,6 @@
       const endOfThrow = React.useCallback(() => {
         const gs = stateRef.current;
         
-        // Verificar si la bola actual tocó la pared
         const lastBall = gs.balls.filter(b => b.played && !b.wallHit).pop();
         if (lastBall && checkWallHit(lastBall)) {
           lastBall.wallHit = true;
@@ -205,7 +202,6 @@
         }
         
         if (unplayed.length > 0) {
-          // Cambiar turno según la regla real
           const nextPlayer = getPlayerWhoShouldThrow(gs);
           if (nextPlayer !== gs.turn) {
             gs.turn = nextPlayer;
@@ -213,7 +209,6 @@
             const msg = gs.turn === 1 ? "🔴 Turno de Jugador Rojo (tiene la bola más lejana)" : "🟢 Turno de Jugador Verde (tiene la bola más lejana)";
             addMessage(msg);
           } else {
-            // El mismo jugador puede repetir si no era el más lejano (esto ya se validó al tirar)
             gs.repeatThrowAvailable = false;
           }
           gs.phase = "aim";
@@ -225,11 +220,9 @@
           return;
         }
         
-        // Fin de la ronda: calcular puntajes considerando pared
         const m = gs.moche;
         const validBalls = gs.balls.filter(b => b.played && !b.wallHit);
         
-        // Encontrar la bola más cercana de cada jugador (solo las válidas)
         let d1 = Infinity, d2 = Infinity;
         validBalls.forEach(b => {
           const d = dist(b, m);
@@ -274,7 +267,6 @@
         const gs = stateRef.current;
         if (gs.phase !== "aim" || gs.turn !== 2) return;
         
-        // Validar que sea el turno correcto según reglas reales
         if (!isValidTurn(gs)) {
           addMessage("🤖 IA: No es mi turno (tengo bola más cercana)", true);
           return;
@@ -284,7 +276,6 @@
         if (!unplayed.length) return;
         const b = unplayed[0];
         
-        // IA inteligente: apunta cerca del moche pero evitando paredes
         let tx = gs.moche.x + (Math.random() - 0.5) * 50;
         let ty = gs.moche.y + (Math.random() - 0.5) * 50;
         tx = clamp(tx, 60, W - 60);
@@ -312,7 +303,6 @@
         let anyMoving = false;
         const movingBalls = [];
         
-        // Solo mover la bola que se acaba de lanzar y el moche si está en movimiento
         if (gs.moche.vx !== 0 || gs.moche.vy !== 0) {
           movingBalls.push(gs.moche);
         }
@@ -327,7 +317,6 @@
           b.x += b.vx; b.y += b.vy;
           b.vx *= FRICTION; b.vy *= FRICTION;
           
-          // Colisiones con paredes (sin anular aún, solo rebote)
           if (b.x - b.r < 20) { b.x = 20 + b.r; b.vx *= -0.5; }
           if (b.x + b.r > W - 20) { b.x = W - 20 - b.r; b.vx *= -0.5; }
           if (b.y - b.r < 20) { b.y = 20 + b.r; b.vy *= -0.5; }
@@ -338,14 +327,12 @@
           if (b.vx !== 0 || b.vy !== 0) anyMoving = true;
         });
         
-        // Detectar boche (colisión entre bolas de diferentes dueños)
         const playedBalls = gs.balls.filter(b => b.played);
         for (let i = 0; i < playedBalls.length; i++) {
           for (let j = i + 1; j < playedBalls.length; j++) {
             const ballA = playedBalls[i];
             const ballB = playedBalls[j];
             if (ballA.owner !== ballB.owner && dist(ballA, ballB) < ballA.r + ballB.r) {
-              // Aplicar boche a la bola que fue golpeada (la que tiene menor velocidad)
               if (Math.abs(ballA.vx) + Math.abs(ballA.vy) < Math.abs(ballB.vx) + Math.abs(ballB.vy)) {
                 if (!ballA.boched) {
                   applyBoche(ballA, ballB);
@@ -363,7 +350,6 @@
           }
         }
         
-        // Resolver colisiones físicas normales
         const allMoving = [gs.moche, ...playedBalls];
         for (let i = 0; i < allMoving.length; i++)
           for (let j = i + 1; j < allMoving.length; j++)
@@ -389,7 +375,6 @@
       const throwBall = React.useCallback((fromX, fromY, toX, toY) => {
         const gs = stateRef.current;
         
-        // Validar regla de bola más lejana ANTES de lanzar
         if (!isValidTurn(gs)) {
           if (!gs.repeatThrowAvailable) {
             addMessage(`❌ ¡No es tu turno! Debe tirar quien tiene la bola MÁS LEJANA al moche. Puedes repetir el tiro.`, true);
@@ -407,8 +392,16 @@
         if (!unplayed.length) return;
         const b = unplayed[0];
         const bankIdx = parseInt(b.id.split("_")[1]);
-        b.x = b.owner === 1 ? W - 50 - bankIdx * (BOLA_R * 2 + 5) : 50 + bankIdx * (BOLA_R * 2 + 5);
-        b.y = H - 35;
+        
+        // Posición según el dueño (derecha/izquierda)
+        if (b.owner === 1) {
+          b.x = W - 50 - bankIdx * (BOLA_R * 2 + 5);
+          b.y = H - 35;
+        } else {
+          b.x = 50 + bankIdx * (BOLA_R * 2 + 5);
+          b.y = H - 35;
+        }
+        
         const dx = toX - fromX, dy = toY - fromY;
         const len = Math.hypot(dx, dy) || 1;
         const power = clamp(len / 3, 2, MAX_POWER);
@@ -429,14 +422,29 @@
         const gs = stateRef.current;
         const aim = aimRef.current;
 
-        // Fondo
-        const grad = ctx.createLinearGradient(0, 0, 0, H);
-        grad.addColorStop(0, "#c8a96e");
-        grad.addColorStop(1, "#a0784a");
+        // Fondo con perspectiva rotada (líneas diagonales simulando profundidad)
+        const grad = ctx.createLinearGradient(0, 0, W, H);
+        grad.addColorStop(0, "#8B6914");
+        grad.addColorStop(0.5, "#C4A35A");
+        grad.addColorStop(1, "#8B6914");
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, W, H);
         
-        // Zona de pared (zona prohibida visual)
+        // Líneas de perspectiva rotadas 45° para dar sensación de giro
+        ctx.strokeStyle = "rgba(255,255,255,0.1)";
+        ctx.lineWidth = 1;
+        for (let i = -H; i < W + H; i += 40) {
+          ctx.beginPath();
+          ctx.moveTo(i, 0);
+          ctx.lineTo(i + H, H);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(0, i);
+          ctx.lineTo(W, i - W);
+          ctx.stroke();
+        }
+        
+        // Zona de pared
         ctx.strokeStyle = "#ff0000aa";
         ctx.lineWidth = 2;
         ctx.setLineDash([5, 5]);
@@ -447,27 +455,44 @@
         if (gs.mocheThrown) {
           [30, 50, 80, 120].forEach((radius, idx) => {
             ctx.beginPath();
-            ctx.arc(gs.moche.x, gs.moche.y, radius, 0, Math.PI * 2);
+            ctx.ellipse(gs.moche.x, gs.moche.y, radius, radius * 0.8, 0, 0, Math.PI * 2);
             ctx.strokeStyle = `rgba(244, 208, 63, ${0.3 - idx * 0.05})`;
             ctx.lineWidth = 1.5;
             ctx.stroke();
             if (idx === 0) {
-              ctx.fillStyle = "rgba(244, 208, 63, 0.1)";
+              ctx.fillStyle = "rgba(244, 208, 63, 0.08)";
               ctx.fill();
             }
           });
         }
         
-        ctx.strokeStyle = "#7a5c2e";
-        ctx.lineWidth = 8;
+        // Borde de la cancha con efecto 3D
+        ctx.strokeStyle = "#5C4010";
+        ctx.lineWidth = 10;
         ctx.strokeRect(4, 4, W - 8, H - 8);
-        
-        ctx.setLineDash([12, 8]);
-        ctx.strokeStyle = "rgba(255,255,255,0.15)";
+        ctx.strokeStyle = "#D4B05A";
         ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(W / 2, 20); ctx.lineTo(W / 2, H - 20); ctx.stroke();
+        ctx.strokeRect(8, 8, W - 16, H - 16);
+        
+        // Línea central (vertical, dividiendo izquierda/derecha)
+        ctx.setLineDash([12, 8]);
+        ctx.strokeStyle = "rgba(255,255,255,0.3)";
+        ctx.lineWidth = 2;
+        ctx.beginPath(); 
+        ctx.moveTo(W / 2, 20); 
+        ctx.lineTo(W / 2, H - 20); 
+        ctx.stroke();
         ctx.setLineDash([]);
-
+        
+        // Texto de jugadores en los extremos
+        ctx.font = "bold 16px 'Segoe UI'";
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = "#e63946";
+        ctx.textAlign = "center";
+        ctx.fillText("🔴 JUGADOR ROJO", W - 60, H / 2);
+        ctx.fillStyle = "#2ecc71";
+        ctx.fillText("🟢 JUGADOR VERDE", 60, H / 2);
+        
         // Dibujar moche
         if (gs.mocheThrown) {
           const m = gs.moche;
@@ -476,14 +501,14 @@
           ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
           ctx.fillStyle = mg; ctx.fill();
           ctx.strokeStyle = "#c8860a"; ctx.lineWidth = 2; ctx.stroke();
-          ctx.fillStyle = "#7a5c00"; ctx.font = "bold 8px serif";
-          ctx.textAlign = "center"; ctx.fillText("M", m.x, m.y + 3);
+          ctx.fillStyle = "#7a5c00"; ctx.font = "bold 10px serif";
+          ctx.textAlign = "center"; 
+          ctx.fillText("⚜️", m.x, m.y + 4);
         }
 
         // Dibujar bolas jugadas
         gs.balls.forEach(b => {
           if (!b.played) return;
-          // Efecto visual si tocó pared
           if (b.wallHit) {
             ctx.strokeStyle = "#ff0000";
             ctx.lineWidth = 3;
@@ -496,21 +521,30 @@
           ctx.fillStyle = bg; ctx.fill();
           ctx.strokeStyle = "rgba(0,0,0,0.3)"; ctx.lineWidth = 1.5; ctx.stroke();
           ctx.fillStyle = "#fff"; ctx.font = `bold ${b.r * 0.75}px serif`;
-          ctx.textAlign = "center"; ctx.fillText(parseInt(b.id.split("_")[1]) + 1, b.x, b.y + 4);
+          ctx.textAlign = "center"; 
+          ctx.fillText(parseInt(b.id.split("_")[1]) + 1, b.x, b.y + 4);
         });
 
-        // Dibujar bolas sin jugar
+        // Dibujar bolas sin jugar (en la línea de fondo)
         gs.balls.forEach(b => {
           if (b.played) return;
-          const bx = b.owner === 1 ? W - 50 - parseInt(b.id.split("_")[1]) * (BOLA_R * 2 + 5) : 50 + parseInt(b.id.split("_")[1]) * (BOLA_R * 2 + 5);
-          const by = H - 35;
+          let bx, by;
+          const bankIdx = parseInt(b.id.split("_")[1]);
+          if (b.owner === 1) {
+            bx = W - 50 - bankIdx * (BOLA_R * 2 + 5);
+            by = H - 35;
+          } else {
+            bx = 50 + bankIdx * (BOLA_R * 2 + 5);
+            by = H - 35;
+          }
           const bg = ctx.createRadialGradient(bx - 4, by - 4, 1, bx, by, BOLA_R - 2);
           bg.addColorStop(0, lighten(b.color)); bg.addColorStop(1, b.color);
           ctx.beginPath(); ctx.arc(bx, by, BOLA_R - 2, 0, Math.PI * 2);
           ctx.fillStyle = bg; ctx.fill();
           ctx.strokeStyle = "rgba(255,255,255,0.3)"; ctx.lineWidth = 1; ctx.stroke();
           ctx.fillStyle = "#fff"; ctx.font = `bold ${BOLA_R - 4}px serif`;
-          ctx.textAlign = "center"; ctx.fillText(parseInt(b.id.split("_")[1]) + 1, bx, by + 4);
+          ctx.textAlign = "center"; 
+          ctx.fillText(bankIdx + 1, bx, by + 4);
         });
 
         // Línea de apuntado
@@ -520,28 +554,30 @@
           const power = Math.min(len / 3, MAX_POWER);
           const nx = dx / (len || 1), ny = dy / (len || 1);
           ctx.setLineDash([6, 6]);
-          ctx.strokeStyle = gs.turn === 1 ? "rgba(230,57,70,0.8)" : "rgba(46,204,113,0.8)";
-          ctx.lineWidth = 2;
+          ctx.strokeStyle = gs.turn === 1 ? "rgba(230,57,70,0.9)" : "rgba(46,204,113,0.9)";
+          ctx.lineWidth = 3;
           ctx.beginPath();
           ctx.moveTo(aim.startX, aim.startY);
-          ctx.lineTo(aim.startX + nx * power * 12, aim.startY + ny * power * 12);
+          ctx.lineTo(aim.startX + nx * power * 14, aim.startY + ny * power * 14);
           ctx.stroke();
           ctx.setLineDash([]);
-          const barW = 120, barH = 12;
-          const barX = aim.startX - barW / 2, barY = aim.startY + 30;
-          ctx.fillStyle = "rgba(0,0,0,0.5)";
+          
+          // Barra de poder
+          const barW = 140, barH = 14;
+          const barX = aim.startX - barW / 2, barY = aim.startY + 35;
+          ctx.fillStyle = "rgba(0,0,0,0.7)";
           ctx.beginPath();
-          ctx.roundRect(barX, barY, barW, barH, 6);
+          ctx.roundRect(barX, barY, barW, barH, 7);
           ctx.fill();
           const pct = power / MAX_POWER;
           const pc = pct < 0.4 ? "#2ecc71" : pct < 0.7 ? "#f39c12" : "#e74c3c";
           ctx.fillStyle = pc;
           ctx.beginPath();
-          ctx.roundRect(barX + 1, barY + 1, (barW - 2) * pct, barH - 2, 5);
+          ctx.roundRect(barX + 2, barY + 2, (barW - 4) * pct, barH - 4, 5);
           ctx.fill();
-          ctx.fillStyle = "#fff"; ctx.font = "bold 9px monospace";
+          ctx.fillStyle = "#fff"; ctx.font = "bold 11px monospace";
           ctx.textAlign = "center";
-          ctx.fillText(`PODER ${Math.round(pct * 100)}%`, aim.startX, barY + barH + 14);
+          ctx.fillText(`⚡ POTENCIA ${Math.round(pct * 100)}%`, aim.startX, barY + barH + 18);
         }
 
         // Mostrar distancias al moche
@@ -557,13 +593,13 @@
           [{ b: closestP1, col: "#e63946" }, { b: closestP2, col: "#2ecc71" }].forEach(({ b, col }) => {
             if (!b) return;
             ctx.setLineDash([4, 4]);
-            ctx.strokeStyle = col + "88"; ctx.lineWidth = 1;
+            ctx.strokeStyle = col + "aa"; ctx.lineWidth = 1.5;
             ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(m.x, m.y); ctx.stroke();
             ctx.setLineDash([]);
             const mx = (b.x + m.x) / 2, my = (b.y + m.y) / 2;
-            ctx.fillStyle = col; ctx.font = "bold 10px monospace";
+            ctx.fillStyle = col; ctx.font = "bold 11px monospace";
             ctx.textAlign = "center";
-            ctx.fillText(`${Math.round(dist(b, m))}px`, mx, my - 4);
+            ctx.fillText(`${Math.round(dist(b, m))} cm`, mx, my - 6);
           });
         }
       }, []);
@@ -611,7 +647,7 @@
       const resetGame = () => {
         stateRef.current = initState();
         refreshUi();
-        addMessage("🔄 Nueva partida - Reglas: tira la bola más lejana, pared anula, boche desplaza");
+        addMessage("🔄 Nueva partida - Cancha con perspectiva rotada 90°");
       };
 
       const toggleGameMode = () => {
@@ -627,12 +663,12 @@
         return () => cancelAnimationFrame(frameId);
       }, [tick, draw]);
 
-      const { turn, phase, scores, round, winner, message, repeatAvailable, currentPlayerShouldThrow } = ui;
+      const { turn, phase, scores, round, winner, message, currentPlayerShouldThrow } = ui;
 
-      return React.createElement("div", { style: { minHeight: "100vh", background: "#0d0d0d", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontFamily: "'Georgia', serif", padding: "16px", gap: "16px" } },
+      return React.createElement("div", { style: { minHeight: "100vh", background: "#0d0d0d", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontFamily: "'Segoe UI', Arial, sans-serif", padding: "16px", gap: "16px" } },
         React.createElement("div", { style: { textAlign: "center" } },
-          React.createElement("h1", { style: { fontSize: "clamp(24px, 5vw, 42px)", fontWeight: "900", letterSpacing: "2px", background: "linear-gradient(90deg, #f4d03f, #e67e22, #f4d03f)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", margin: 0 } }, "🎯 BOLAS CRIOLLAS"),
-          React.createElement("p", { style: { color: "#888", fontSize: "13px", margin: "4px 0 0", letterSpacing: "4px" } }, "REGLAS REALES VENEZOLANAS")
+          React.createElement("h1", { style: { fontSize: "clamp(24px, 5vw, 42px)", fontWeight: "900", letterSpacing: "2px", background: "linear-gradient(135deg, #f4d03f, #e67e22, #f4d03f)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", margin: 0 } }, "🎯 BOLAS CRIOLLAS"),
+          React.createElement("p", { style: { color: "#888", fontSize: "13px", margin: "4px 0 0", letterSpacing: "4px" } }, "PERSPECTIVA ROTADA · REGLAS REALES")
         ),
         React.createElement("div", { style: { display: "flex", gap: "12px", marginBottom: "8px" } },
           React.createElement("button", { onClick: toggleGameMode, style: { background: gameMode.current === "pvp" ? "rgba(46,204,113,0.3)" : "rgba(241,196,15,0.3)", border: `1px solid ${gameMode.current === "pvp" ? "#2ecc71" : "#f1c40f"}`, borderRadius: "8px", padding: "6px 12px", color: gameMode.current === "pvp" ? "#2ecc71" : "#f1c40f", fontSize: "11px", fontWeight: "bold", cursor: "pointer" } }, gameMode.current === "pvp" ? "👥 2 Jugadores" : "🤖 VS Computadora")
@@ -640,7 +676,7 @@
         React.createElement("div", { style: { display: "flex", gap: "20px", alignItems: "center", background: "rgba(255,255,255,0.05)", borderRadius: "12px", padding: "10px 24px", border: "1px solid rgba(255,255,255,0.1)" } },
           React.createElement("div", { style: { textAlign: "center" } },
             React.createElement("div", { style: { color: "#e63946", fontWeight: "900", fontSize: "28px" } }, scores[1]),
-            React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "JUGADOR ROJO"),
+            React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "ROJO (DERECHA)"),
             turn === 1 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: "#e63946" } }, currentPlayerShouldThrow ? "◀ TURNO" : "⏸ ESPERA")
           ),
           React.createElement("div", { style: { color: "#555", fontSize: "14px", textAlign: "center" } },
@@ -649,28 +685,29 @@
           ),
           React.createElement("div", { style: { textAlign: "center" } },
             React.createElement("div", { style: { color: "#2ecc71", fontWeight: "900", fontSize: "28px" } }, scores[2]),
-            React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "JUGADOR VERDE"),
+            React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "VERDE (IZQUIERDA)"),
             turn === 2 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: "#2ecc71" } }, currentPlayerShouldThrow ? "TURNO ▶" : "⏸ ESPERA")
           )
         ),
         React.createElement("div", { style: { position: "relative", borderRadius: "12px", overflow: "hidden", boxShadow: "0 0 40px rgba(244,208,63,0.2), 0 20px 60px rgba(0,0,0,0.8)", border: "2px solid rgba(244,208,63,0.3)", width: "min(800px, 96vw)" } },
           React.createElement("canvas", { ref: canvasRef, width: W, height: H, style: { display: "block", width: "100%", cursor: phase === "aim" ? "crosshair" : "default" }, onMouseDown: handleMouseDown, onMouseMove: handleMouseMove, onMouseUp: handleMouseUp, onTouchStart: handleTouchStart, onTouchMove: handleTouchMove, onTouchEnd: handleTouchEnd }),
-          phase === "end" && React.createElement("div", { style: { position: "absolute", inset: 0, background: "rgba(0,0,0,0.75)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px" } },
-            React.createElement("div", { style: { fontSize: "clamp(24px,6vw,48px)", textAlign: "center" } }, winner === 0 ? "🤝 ¡EMPATE!" : `🏆 JUGADOR ${winner === 1 ? "ROJO" : "VERDE"} GANA`),
-            React.createElement("div", { style: { color: "#ccc", fontSize: "16px" } }, `Final: ${scores[1]} — ${scores[2]}`),
+          phase === "end" && React.createElement("div", { style: { position: "absolute", inset: 0, background: "rgba(0,0,0,0.85)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px" } },
+            React.createElement("div", { style: { fontSize: "clamp(24px,6vw,48px)", textAlign: "center", fontWeight: "bold" } }, winner === 0 ? "🤝 ¡EMPATE!" : `🏆 JUGADOR ${winner === 1 ? "ROJO" : "VERDE"} GANA`),
+            React.createElement("div", { style: { color: "#ccc", fontSize: "18px" } }, `Final: ${scores[1]} — ${scores[2]}`),
             React.createElement("button", { onClick: resetGame, style: { background: "linear-gradient(135deg, #f4d03f, #e67e22)", border: "none", borderRadius: "8px", padding: "12px 32px", fontSize: "16px", fontWeight: "bold", cursor: "pointer", color: "#1a0a00", letterSpacing: "1px" } }, "🔄 NUEVA PARTIDA")
           )
         ),
         React.createElement("div", { style: { background: "rgba(255,255,255,0.04)", borderRadius: "10px", padding: "12px 20px", border: "1px solid rgba(255,255,255,0.08)", maxWidth: "800px", width: "96vw" } },
-          React.createElement("div", { style: { color: "#f4d03f", fontSize: "12px", fontWeight: "bold", marginBottom: "6px", letterSpacing: "2px" } }, "📖 REGLAS REALES"),
+          React.createElement("div", { style: { color: "#f4d03f", fontSize: "12px", fontWeight: "bold", marginBottom: "6px", letterSpacing: "2px" } }, "📖 REGLAS REALES · PERSPECTIVA ROTADA"),
           React.createElement("div", { style: { color: "#999", fontSize: "11px", lineHeight: "1.6", display: "flex", gap: "16px", flexWrap: "wrap" } },
             React.createElement("span", null, "✅ Tira quien tiene bola MÁS LEJANA"),
             React.createElement("span", null, "⚠️ Bola que toca pared → ANULADA"),
             React.createElement("span", null, "💥 BOCHE → bola rival es desplazada"),
-            React.createElement("span", null, "🔄 Si no eras el más lejano, puedes repetir")
+            React.createElement("span", null, "🔄 Si no eras el más lejano, puedes repetir"),
+            React.createElement("span", null, "🎨 Perspectiva rotada 90° (jugadores: Rojo→Derecha, Verde←Izquierda)")
           )
         ),
-        message && React.createElement("div", { className: "message-toast", style: { position: "fixed", bottom: "20px", right: "20px", background: message.includes("❌") || message.includes("⚠️") ? "rgba(231,76,60,0.9)" : "rgba(244,208,63,0.9)", color: "#1a0a00", padding: "10px 20px", borderRadius: "8px", fontSize: "13px", fontWeight: "bold", maxWidth: "300px", zIndex: 1000, backdropFilter: "blur(4px)" } }, message),
+        message && React.createElement("div", { className: "message-toast", style: { position: "fixed", bottom: "20px", right: "20px", background: message.includes("❌") || message.includes("⚠️") ? "rgba(231,76,60,0.95)" : "rgba(244,208,63,0.95)", color: "#1a0a00", padding: "12px 20px", borderRadius: "10px", fontSize: "13px", fontWeight: "bold", maxWidth: "320px", zIndex: 1000, backdropFilter: "blur(4px)", boxShadow: "0 4px 12px rgba(0,0,0,0.3)" } }, message),
         phase !== "end" && React.createElement("div", { style: { display: "flex", gap: "12px" } },
           React.createElement("button", { onClick: resetGame, style: { background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "8px", padding: "8px 20px", color: "#ccc", fontSize: "13px", cursor: "pointer", letterSpacing: "1px" } }, "🔄 Reiniciar")
         )
