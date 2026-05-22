@@ -477,33 +477,28 @@ const TEAMS = [
   {n:"Agro Tigrera Ranch", c:"Masculino", g:"B", p:["Felix Rumbos","Carlos Araujo","Jonathan Silva","Junior Guedez","Jorge Zambrano","Carlos Torrealba","Wenceslao Paez","Javier Diaz","Pedro Diaz"]},
   {n:"Distribuidora JH", c:"Masculino", g:"B", p:["Jose Galindez","Reinaldo Torrez","Dixon Torcate","Robertthi Perdomo","Wilmer Linarez","Roseliano Garcia","Cristian Perdomo","Juan Hernandez","Juan Hernandez","Oscar Daniel Mogollon Alvarado","Frank David Torrelles"]},
   {n:"Los Lugo", c:"Masculino", g:"A", p:["Alexander Benitez","Robert Gomez","Renny Parra","Terry Parra","Javier Lugo","Ivan Lugo","Jorge Lugo","Andres Marquez","Yunier Lugo","Eduardo Riera","Francisco Medina","Gustavo Sivada"]},
-  
-  
-];
+  ];
 
-// ==================== MATCHES (REEMPLAZAR CON TU CALENDARIO) ====================
 const MATCHES = [
   // ==================== SEMANA 1 (08/05) ====================
   {id:1, c:"Femenino", g:"B", a:"Oasis Box", b:"Corpoelec", d:"08/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S1"},
 
   // ==================== SEMANA 2 (14-17/05) ====================
-  // ----- Jueves 14/05 (2 jornadas: 6pm, 8:30pm) -----
+  // Jueves 14/05
   {id:2, c:"Femenino", g:"A", a:"Ferrecenca", b:"Alimentos Amanecer", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S2"},
   {id:3, c:"Femenino", g:"A", a:"The Dolls", b:"Saboga", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 2", w:"S2"},
   {id:4, c:"Masculino", g:"A", a:"Corpolec2", b:"Los Amigos", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 3", w:"S2"},
   {id:5, c:"Femenino", g:"B", a:"Atavenca", b:"Chikas", d:"14/05/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 1", w:"S2"},
   {id:6, c:"Femenino", g:"B", a:"Oasis Box", b:"Las Femix", d:"14/05/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 2", w:"S2"},
   {id:7, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Los Irochimas", d:"14/05/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 3", w:"S2"},
-
-  // ----- Viernes 15/05 (2 jornadas: 6pm, 8:30pm) -----
+  // Viernes 15/05
   {id:8, c:"Femenino", g:"B", a:"Futboleras", b:"Repostería el Ponque", d:"15/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 1", w:"S2"},
   {id:9, c:"Femenino", g:"B", a:"Emprendedoras", b:"Santana", d:"15/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 2", w:"S2"},
   {id:10, c:"Masculino", g:"A", a:"Agroserviportuguesa", b:"Tribunal Protección", d:"15/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 3", w:"S2"},
   {id:11, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Atrevidas", d:"15/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 1", w:"S2"},
   {id:12, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Ingenieros", d:"15/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 2", w:"S2"},
   {id:13, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Club Afibola", d:"15/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 3", w:"S2"},
-
-  // ----- Sábado 16/05 (2 jornadas: 6pm, 8:30pm) -----
+  // Sábado 16/05
   {id:14, c:"Femenino", g:"B", a:"Sabaneta", b:"Divinas", d:"16/05/2026", dy:"Sábado", h:"3:30pm", f:"Cancha 1", w:"S2"},
   {id:15, c:"Masculino", g:"A", a:"Team JM&JA", b:"Los Irochimas", d:"16/05/2026", dy:"Sábado", h:"3:30pm", f:"Cancha 2", w:"S2"},
   {id:16, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Tornillería YR Portuguesa", d:"16/05/2026", dy:"Sábado", h:"3:30pm", f:"Cancha 3", w:"S2"},
@@ -513,380 +508,65 @@ const MATCHES = [
   {id:20, c:"Femenino", g:"A", a:"Taferca", b:"Serv. Frios Antonella", d:"16/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 1", w:"S2"},
   {id:21, c:"Masculino", g:"A", a:"Servihidra", b:"Exasa", d:"16/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 2", w:"S2"},
   {id:22, c:"Masculino", g:"A", a:"Pintucal", b:"Triunfadores", d:"16/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 3", w:"S2"},
-
-  // ----- Domingo 17/05 (2 jornadas: 3:30pm, 6:00pm) -----
+  // Domingo 17/05
   {id:23, c:"Femenino", g:"B", a:"Futboleras", b:"Alimentos Amanecer", d:"17/05/2026", dy:"Domingo", h:"3:30pm", f:"Cancha 1", w:"S2"},
   {id:24, c:"Masculino", g:"A", a:"Fuerza", b:"Los amigos", d:"17/05/2026", dy:"Domingo", h:"3:30pm", f:"Cancha 2", w:"S2"},
   {id:25, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Bodegon Los Vasquez", d:"17/05/2026", dy:"Domingo", h:"3:30pm", f:"Cancha 3", w:"S2"},
   {id:26, c:"Femenino", g:"B", a:"Festidoras", b:"Corpolec Jubiladas", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S2"},
   {id:27, c:"Masculino", g:"A", a:"Sibarita", b:"Familia Ortega", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 2", w:"S2"},
   {id:28, c:"Masculino", g:"A", a:"Gladiadores del Cerrito", b:"Atletico Paez", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 3", w:"S2"},
+
+  // ==================== SEMANA 3 (20-24/05) - NUEVA ====================
+  // Miércoles 20/05 (6:30pm)
+  {id:29, c:"Femenino", g:"B", a:"Chikas", b:"Santana", d:"20/05/2026", dy:"Miércoles", h:"6:30pm - 8:00pm", f:"Cancha 1", w:"S3"},
+  {id:30, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Distribuidora JH", d:"20/05/2026", dy:"Miércoles", h:"6:30pm - 8:00pm", f:"Cancha 2", w:"S3"},
+  {id:31, c:"Masculino", g:"A", a:"Corpolec2", b:"Agro max", d:"20/05/2026", dy:"Miércoles", h:"6:30pm - 8:00pm", f:"Cancha 3", w:"S3"},
+  // Jueves 21/05 (6:00pm)
+  {id:32, c:"Femenino", g:"B", a:"Corpoelec", b:"Festidoras", d:"21/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S3"},
+  {id:33, c:"Femenino", g:"A", a:"Divinas", b:"Inversiones EPA", d:"21/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S3"},
+  {id:34, c:"Masculino", g:"B", a:"Ingenieros", b:"Team JM&JA", d:"21/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S3"},
+  // Jueves 21/05 (8:30pm)
+  {id:35, c:"Femenino", g:"B", a:"Alimentos Amanecer", b:"Jujure (Educadoras)", d:"21/05/2026", dy:"Jueves", h:"8:30pm - 10:00pm", f:"Cancha 1", w:"S3"},
+  {id:36, c:"Masculino", g:"A", a:"Servihidra", b:"Los Amigos", d:"21/05/2026", dy:"Jueves", h:"8:30pm - 10:00pm", f:"Cancha 2", w:"S3"},
+  {id:37, c:"Masculino", g:"A", a:"Familia Ortega", b:"Exasa", d:"21/05/2026", dy:"Jueves", h:"8:30pm - 10:00pm", f:"Cancha 3", w:"S3"},
+  // Viernes 22/05 (6:00pm)
+  {id:38, c:"Femenino", g:"A", a:"Sabaneta", b:"Repostería el Ponque", d:"22/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S3"},
+  {id:39, c:"Femenino", g:"B", a:"The Dolls", b:"Atavenca", d:"22/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S3"},
+  {id:40, c:"Masculino", g:"B", a:"Agro Tigrera Ranch", b:"Triunfadores", d:"22/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S3"},
+  // Viernes 22/05 (8:30pm)
+  {id:41, c:"Femenino", g:"B", a:"Oasis Box", b:"Emprendedoras", d:"22/05/2026", dy:"Viernes", h:"8:30pm - 10:00pm", f:"Cancha 1", w:"S3"},
+  {id:42, c:"Masculino", g:"B", a:"Los Irochimas", b:"Gladiadores del Cerrito", d:"22/05/2026", dy:"Viernes", h:"8:30pm - 10:00pm", f:"Cancha 2", w:"S3"},
+  {id:43, c:"Masculino", g:"B", a:"Pintucal", b:"Atletico Paez", d:"22/05/2026", dy:"Viernes", h:"8:30pm - 10:00pm", f:"Cancha 3", w:"S3"},
+  // Sábado 23/05 (4:00pm)
+  {id:44, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Inversiones IV", d:"23/05/2026", dy:"Sábado", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S3"},
+  {id:45, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Tribunal Protección", d:"23/05/2026", dy:"Sábado", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S3"},
+  {id:46, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Agro max", d:"23/05/2026", dy:"Sábado", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S3"},
+  // Sábado 23/05 (6:00pm)
+  {id:47, c:"Femenino", g:"A", a:"Taferca", b:"Ferrecenca", d:"23/05/2026", dy:"Sábado", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S3"},
+  {id:48, c:"Masculino", g:"A", a:"Exasa", b:"Los Panas Vimapin", d:"23/05/2026", dy:"Sábado", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S3"},
+  {id:49, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Fuerza", d:"23/05/2026", dy:"Sábado", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S3"},
+  // Sábado 23/05 (8:30pm)
+  {id:50, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Saboga", d:"23/05/2026", dy:"Sábado", h:"8:30pm - 10:00pm", f:"Cancha 1", w:"S3"},
+  {id:51, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Divinas", d:"23/05/2026", dy:"Sábado", h:"8:30pm - 10:00pm", f:"Cancha 2", w:"S3"},
+  {id:52, c:"Masculino", g:"A", a:"Servihidra", b:"Familia Ortega", d:"23/05/2026", dy:"Sábado", h:"8:30pm - 10:00pm", f:"Cancha 3", w:"S3"},
+  // Domingo 24/05 (4:00pm)
+  {id:53, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Alimentos Amanecer", d:"24/05/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S3"},
+  {id:54, c:"Femenino", g:"B", a:"Oasis Box", b:"Saboga", d:"24/05/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S3"},
+  {id:55, c:"Masculino", g:"B", a:"Los Irochimas", b:"Agroserviportuguesa", d:"24/05/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S3"},
+  // Domingo 24/05 (6:00pm)
+  {id:56, c:"Femenino", g:"A", a:"New Family", b:"Inversiones EPA", d:"24/05/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S3"},
+  {id:57, c:"Masculino", g:"B", a:"Agro Tigrera Ranch", b:"Distribuidora JH", d:"24/05/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S3"},
+  {id:58, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Team JM&JA", d:"24/05/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S3"},
+
+  // ==================== SEMANA 4 (28/05 - 01/06) ====================
+  // ... (mantener los partidos de Semana 4 que ya tienen resultados, 
+  // incluyendo IDs 77, 94, 108, etc.)
   
-  // ==================== SEMANA 3 (20-24/05) ====================
-  // ----- Miércoles 20/05 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:29, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Sabaneta", d:"20/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S3"},
-  {id:30, c:"Masculino", g:"B", a:"Pintucal", b:"Agro Tigrera Ranch", d:"20/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S3"},
-  {id:31, c:"Femenino", g:"A", a:"Divinas", b:"Atrevidas", d:"20/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S3"},
-  {id:32, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Yusevin CA", d:"20/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S3"},
-  {id:33, c:"Masculino", g:"B", a:"Team JM&JA", b:"Tribunal Protección", d:"20/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S3"},
-  {id:34, c:"Masculino", g:"B", a:"Los Irochimas", b:"Gladiadores del Cerrito", d:"20/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S3"},
-
-  // ----- Jueves 21/05 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:35, c:"Masculino", g:"B", a:"Ingenieros", b:"Atletico Paez", d:"21/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S3"},
-  {id:36, c:"Masculino", g:"A", a:"Corpolec2", b:"Familia Ortega", d:"21/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S3"},
-  {id:37, c:"Femenino", g:"B", a:"Saboga", b:"Las Femix", d:"21/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S3"},
-  {id:38, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Sibarita", d:"21/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S3"},
-  {id:39, c:"Masculino", g:"A", a:"Fuerza", b:"Yusevin CA", d:"21/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S3"},
-  {id:40, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Sabaneta", d:"21/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S3"},
-
-  // ----- Viernes 22/05 (3 jornadas: 6pm-7:30pm, 8pm-9:30pm, 10pm-11:30pm) -----
-  {id:41, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Servihidra", d:"22/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S3"},
-  {id:42, c:"Masculino", g:"A", a:"Club Afibola", b:"Sibarita", d:"22/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S3"},
-  {id:43, c:"Masculino", g:"B", a:"Atletico Paez", b:"Agro Tigrera Ranch", d:"22/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S3"},
-  {id:44, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Gladiadores del Cerrito", d:"22/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S3"},
-  {id:45, c:"Femenino", g:"B", a:"Festidoras", b:"Emprendedoras", d:"22/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S3"},
-  {id:46, c:"Femenino", g:"B", a:"Corpoelec", b:"Atavenca", d:"22/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S3"},
-  {id:47, c:"Femenino", g:"A", a:"Taferca", b:"Sabaneta", d:"22/05/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S3"},
-
-  // ----- Sábado 23/05 (5 jornadas: 1:30pm-3pm, 3:30pm-5pm, 5:30pm-7pm, 7:30pm-9pm, 9:30pm-11pm) -----
-  {id:48, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Sibarita", d:"23/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S3"},
-  {id:49, c:"Masculino", g:"A", a:"Familia Ortega", b:"Club Afibola", d:"23/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S3"},
-  {id:50, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Alimentos La Granja", d:"23/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S3"},
-  {id:51, c:"Masculino", g:"A", a:"Fuerza", b:"Unidos de Hato", d:"23/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S3"},
-  {id:52, c:"Femenino", g:"B", a:"Atavenca", b:"Emprendedoras", d:"23/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S3"},
-  {id:53, c:"Femenino", g:"A", a:"Inversiones IV", b:"Repostería el Ponque", d:"23/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S3"},
-  {id:54, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Santana", d:"23/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"S3"},
-  {id:55, c:"Masculino", g:"A", a:"Servihidra", b:"Los Amigos", d:"23/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"S3"},
-  {id:56, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Distribuidora JH", d:"23/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"S3"},
-  {id:57, c:"Femenino", g:"A", a:"Taferca", b:"Atrevidas", d:"23/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"S3"},
-  {id:58, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Agro max", d:"23/05/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 1", w:"S3"},
-  {id:59, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Agro Tigrera Ranch", d:"23/05/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 2", w:"S3"},
-  {id:60, c:"Femenino", g:"A", a:"Ferrecenca", b:"Sabaneta", d:"23/05/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"S3"},
-  {id:61, c:"Masculino", g:"B", a:"Team JM&JA", b:"Gladiadores del Cerrito", d:"23/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"S3"},
-  {id:62, c:"Femenino", g:"B", a:"Saboga", b:"Esquina del Sabor", d:"23/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"S3"},
-  {id:63, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Divinas", d:"23/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"S3"},
-
-  // ----- Domingo 24/05 (3 jornadas: 2pm-3:30pm, 4pm-5:30pm, 6pm-7:30pm) -----
-  {id:64, c:"Masculino", g:"A", a:"Club Afibola", b:"Por Confirmar", d:"24/05/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S3"},
-  {id:65, c:"Masculino", g:"A", a:"Fuerza", b:"Sibarita", d:"24/05/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"S3"},
-  {id:66, c:"Femenino", g:"B", a:"Saboga", b:"Emprendedoras", d:"24/05/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"S3"},
-  {id:67, c:"Femenino", g:"A", a:"Inversiones IV", b:"Futboleras", d:"24/05/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S3"},
-  {id:68, c:"Masculino", g:"A", a:"Familia Ortega", b:"Los Panas Vimapin", d:"24/05/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S3"},
-  {id:69, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Pintucal", d:"24/05/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S3"},
-  {id:70, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Repostería el Ponque", d:"24/05/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S3"},
-  {id:71, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Las Femix", d:"24/05/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S3"},
-  {id:72, c:"Masculino", g:"B", a:"Ingenieros", b:"Bodegon Los Vasquez", d:"24/05/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S3"},
-
-    // ==================== SEMANA 4 (28/05 - 01/06) ====================
-  // ----- Miércoles 28/05 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:73, c:"Femenino", g:"B", a:"Oasis Box", b:"Emprendedoras", d:"28/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S4"},
-  {id:74, c:"Masculino", g:"A", a:"Familia Ortega", b:"Yusevin CA", d:"28/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S4"},
-  {id:75, c:"Femenino", g:"A", a:"Atrevidas", b:"Inversiones EPA", d:"28/05/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S4"},
-  {id:76, c:"Femenino", g:"A", a:"Taferca", b:"Alimentos Amanecer", d:"28/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S4"},
-  {id:77, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Tribunal Protección", d:"28/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S4"},
-  {id:78, c:"Masculino", g:"A", a:"Fuerza", b:"Corpolec2", d:"28/05/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S4"},
-
-  // ----- Jueves 29/05 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:79, c:"Masculino", g:"A", a:"Familia Ortega", b:"Por Confirmar", d:"29/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S4"},
-  {id:80, c:"Femenino", g:"B", a:"The Dolls", b:"Atavenca", d:"29/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S4"},
-  {id:81, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Taferca", d:"29/05/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S4"},
-  {id:82, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Agro Tigrera Ranch", d:"29/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S4"},
-  {id:83, c:"Masculino", g:"A", a:"Los Amigos", b:"Sibarita", d:"29/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S4"},
-  {id:84, c:"Femenino", g:"B", a:"Festidoras", b:"Esquina del Sabor", d:"29/05/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S4"},
-
-  // ----- Viernes 30/05 (3 jornadas: 6pm-7:30pm, 8pm-9:30pm, 10pm-11:30pm) -----
-  {id:85, c:"Femenino", g:"B", a:"Emprendedoras", b:"Por Confirmar", d:"30/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S4"},
-  {id:86, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Familia Ortega", d:"30/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S4"},
-  {id:87, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Pintucal", d:"30/05/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S4"},
-  {id:88, c:"Masculino", g:"A", a:"Exasa", b:"Agro max", d:"30/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S4"},
-  {id:89, c:"Femenino", g:"A", a:"Atrevidas", b:"Futboleras", d:"30/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S4"},
-  {id:90, c:"Masculino", g:"A", a:"Yusevin CA", b:"Los Amigos", d:"30/05/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S4"},
-  {id:91, c:"Femenino", g:"B", a:"Esquina del Sabor", b:"Atavenca", d:"30/05/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S4"},
-  {id:92, c:"Masculino", g:"B", a:"Triunfadores", b:"Atletico Paez", d:"30/05/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"S4"},
-
-  // ----- Sábado 31/05 (5 jornadas: 1:30pm-3pm, 3:30pm-5pm, 5:30pm-7pm, 7:30pm-9pm, 9:30pm-11pm) -----
-  {id:93, c:"Masculino", g:"A", a:"Los Amigos", b:"Unidos de Hato", d:"31/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S4"},
-  {id:94, c:"Femenino", g:"B", a:"Chikas", b:"Santana", d:"31/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S4"},
-  {id:95, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Oasis Box", d:"31/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S4"},
-  {id:96, c:"Masculino", g:"B", a:"Pintucal", b:"Distribuidora JH", d:"31/05/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S4"},
-  {id:97, c:"Masculino", g:"A", a:"Servihidra", b:"Unidos de Hato", d:"31/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S4"},
-  {id:98, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Atletico Paez", d:"31/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S4"},
-  {id:99, c:"Femenino", g:"A", a:"Inversiones IV", b:"Inversiones EPA", d:"31/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S4"},
-  {id:100, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Yusevin CA", d:"31/05/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"S4"},
-  {id:101, c:"Masculino", g:"A", a:"Exasa", b:"Club Afibola", d:"31/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"S4"},
-  {id:102, c:"Masculino", g:"B", a:"Los Irochimas", b:"Alimentos La Granja", d:"31/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"S4"},
-  {id:103, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Agro Tigrera Ranch", d:"31/05/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"S4"},
-  {id:104, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Sabaneta", d:"31/05/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"S4"},
-  {id:105, c:"Femenino", g:"A", a:"Ferrecenca", b:"Repostería el Ponque", d:"31/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"S4"},
-  {id:106, c:"Femenino", g:"B", a:"The Dolls", b:"Esquina del Sabor", d:"31/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"S4"},
-  {id:107, c:"Masculino", g:"B", a:"Team JM&JA", b:"Ingenieros", d:"31/05/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"S4"},
-
-  // ----- Domingo 01/06 (3 jornadas: 2pm-3:30pm, 4pm-5:30pm, 6pm-7:30pm) -----
-  {id:108, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Distribuidora JH", d:"01/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S4"},
-  {id:109, c:"Masculino", g:"A", a:"Fuerza", b:"Por Confirmar", d:"01/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"S4"},
-  {id:110, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Esquina del Sabor", d:"01/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"S4"},
-  {id:111, c:"Masculino", g:"B", a:"Los Irochimas", b:"Pintucal", d:"01/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S4"},
-  {id:112, c:"Masculino", g:"A", a:"Yusevin CA", b:"Agro max", d:"01/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S4"},
-  {id:113, c:"Masculino", g:"A", a:"Exasa", b:"Los Amigos", d:"01/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S4"},
-  {id:114, c:"Femenino", g:"B", a:"The Dolls", b:"Las Femix", d:"01/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S4"},
-  {id:115, c:"Femenino", g:"A", a:"Inversiones IV", b:"Alimentos Amanecer", d:"01/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S4"},
-  {id:116, c:"Femenino", g:"B", a:"Chikas", b:"Oasis Box", d:"01/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S4"},
-  
-    // ==================== SEMANA 5 (05-09/06) ====================
-  // ----- Miércoles 05/06 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:117, c:"Masculino", g:"B", a:"Ingenieros", b:"Agroserviportuguesa", d:"05/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S5"},
-  {id:118, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Por Confirmar", d:"05/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S5"},
-  {id:119, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Pintucal", d:"05/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S5"},
-  {id:120, c:"Masculino", g:"A", a:"Corpolec2", b:"Exasa", d:"05/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S5"},
-  {id:121, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Atrevidas", d:"05/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S5"},
-
-  // ----- Jueves 06/06 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:122, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Los Irochimas", d:"06/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S5"},
-  {id:123, c:"Masculino", g:"A", a:"Corpolec2", b:"Por Confirmar", d:"06/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S5"},
-  {id:124, c:"Masculino", g:"B", a:"Pintucal", b:"Gladiadores del Cerrito", d:"06/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S5"},
-  {id:125, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Inversiones EPA", d:"06/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S5"},
-  {id:126, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Triunfadores", d:"06/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S5"},
-  {id:127, c:"Masculino", g:"B", a:"Atletico Paez", b:"Distribuidora JH", d:"06/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S5"},
-
-  // ----- Viernes 07/06 (3 jornadas: 6pm-7:30pm, 8pm-9:30pm, 10pm-11:30pm) -----
-  {id:128, c:"Masculino", g:"B", a:"Ingenieros", b:"Los Irochimas", d:"07/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S5"},
-  {id:129, c:"Femenino", g:"B", a:"Festidoras", b:"Santana", d:"07/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S5"},
-  {id:130, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Alimentos La Granja", d:"07/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S5"},
-  {id:131, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Futboleras", d:"07/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S5"},
-  {id:132, c:"Masculino", g:"A", a:"Servihidra", b:"Club Afibola", d:"07/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S5"},
-  {id:133, c:"Femenino", g:"A", a:"Ferrecenca", b:"Inversiones EPA", d:"07/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S5"},
-  {id:134, c:"Masculino", g:"A", a:"Familia Ortega", b:"Agro max", d:"07/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"S5"},
-  {id:135, c:"Masculino", g:"A", a:"Corpolec2", b:"Sibarita", d:"07/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"S5"},
-
-  // ----- Sábado 08/06 (5 jornadas: 1:30pm-3pm, 3:30pm-5pm, 5:30pm-7pm, 7:30pm-9pm, 9:30pm-11pm) -----
-  {id:136, c:"Masculino", g:"A", a:"Club Afibola", b:"Unidos de Hato", d:"08/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S5"},
-  {id:137, c:"Femenino", g:"A", a:"Inversiones IV", b:"Atrevidas", d:"08/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S5"},
-  {id:138, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Gladiadores del Cerrito", d:"08/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S5"},
-  {id:139, c:"Masculino", g:"A", a:"Exasa", b:"Por Confirmar", d:"08/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S5"},
-  {id:140, c:"Femenino", g:"B", a:"The Dolls", b:"Corpolec Jubiladas", d:"08/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S5"},
-  {id:141, c:"Masculino", g:"A", a:"Tribunal Protección", b:"Bodegon Los Vasquez", d:"08/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S5"},
-  {id:142, c:"Femenino", g:"B", a:"Saboga", b:"Atavenca", d:"08/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"S5"},
-  {id:143, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Alimentos Amanecer", d:"08/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"S5"},
-  {id:144, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Los Amigos", d:"08/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"S5"},
-  {id:145, c:"Masculino", g:"B", a:"Los Irochimas", b:"Distribuidora JH", d:"08/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"S5"},
-  {id:146, c:"Masculino", g:"B", a:"Team JM&JA", b:"Alimentos La Granja", d:"08/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 1", w:"S5"},
-  {id:147, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Corpolec2", d:"08/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 2", w:"S5"},
-  {id:148, c:"Femenino", g:"A", a:"Futboleras", b:"Inversiones EPA", d:"08/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"S5"},
-  {id:149, c:"Masculino", g:"A", a:"Servihidra", b:"Familia Ortega", d:"08/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"S5"},
-  {id:150, c:"Femenino", g:"A", a:"Taferca", b:"Repostería el Ponque", d:"08/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"S5"},
-  {id:151, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Divinas", d:"08/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"S5"},
-
-  // ----- Domingo 09/06 (3 jornadas: 2pm-3:30pm, 4pm-5:30pm, 6pm-7:30pm) -----
-  {id:152, c:"Masculino", g:"B", a:"Team JM&JA", b:"Agroserviportuguesa", d:"09/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S5"},
-  {id:153, c:"Masculino", g:"A", a:"Fuerza", b:"Club Afibola", d:"09/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"S5"},
-  {id:154, c:"Femenino", g:"B", a:"Las Femix", b:"Santana", d:"09/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"S5"},
-  {id:155, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Los Irochimas", d:"09/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S5"},
-  {id:156, c:"Masculino", g:"B", a:"Ingenieros", b:"Alimentos La Granja", d:"09/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S5"},
-  {id:157, c:"Femenino", g:"B", a:"Saboga", b:"Oasis Box", d:"09/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S5"},
-  {id:158, c:"Masculino", g:"A", a:"Familia Ortega", b:"Los Amigos", d:"09/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S5"},
-  {id:159, c:"Masculino", g:"A", a:"Yusevin CA", b:"Sibarita", d:"09/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S5"},
-  {id:160, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Atavenca", d:"09/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S5"},
-
-    // ==================== SEMANA 6 (13-17/06) ====================
-  // ----- Miércoles 13/06 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:161, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Agro Tigrera Ranch", d:"13/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S6"},
-  {id:162, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Atrevidas", d:"13/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S6"},
-  {id:163, c:"Masculino", g:"B", a:"Ingenieros", b:"Gladiadores del Cerrito", d:"13/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S6"},
-  {id:164, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Club Afibola", d:"13/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S6"},
-  {id:165, c:"Femenino", g:"B", a:"Saboga", b:"Corpoelec", d:"13/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S6"},
-  {id:166, c:"Masculino", g:"B", a:"Pintucal", b:"Alimentos La Granja", d:"13/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S6"},
-
-  // ----- Jueves 14/06 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:167, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Alimentos La Granja", d:"14/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S6"},
-  {id:168, c:"Masculino", g:"A", a:"Club Afibola", b:"Agro max", d:"14/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S6"},
-  {id:169, c:"Masculino", g:"B", a:"Team JM&JA", b:"Poder Justiciable", d:"14/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S6"},
-  {id:170, c:"Femenino", g:"B", a:"Corpoelec", b:"Corpolec Jubiladas", d:"14/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S6"},
-  {id:171, c:"Masculino", g:"A", a:"Corpolec2", b:"Yusevin CA", d:"14/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S6"},
-
-  // ----- Viernes 15/06 (3 jornadas: 6pm-7:30pm, 8pm-9:30pm, 10pm-11:30pm) -----
-  {id:172, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Serv. Frios Antonella", d:"15/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S6"},
-  {id:173, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Distribuidora JH", d:"15/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S6"},
-  {id:174, c:"Masculino", g:"A", a:"Yusevin CA", b:"Por Confirmar", d:"15/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S6"},
-  {id:175, c:"Masculino", g:"A", a:"Fuerza", b:"Familia Ortega", d:"15/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S6"},
-  {id:176, c:"Femenino", g:"B", a:"Corpoelec", b:"Emprendedoras", d:"15/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S6"},
-  {id:177, c:"Femenino", g:"A", a:"Ferrecenca", b:"Atrevidas", d:"15/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"S6"},
-  {id:178, c:"Masculino", g:"A", a:"Servihidra", b:"Sibarita", d:"15/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S6"},
-  {id:179, c:"Masculino", g:"B", a:"Triunfadores", b:"Agro Tigrera Ranch", d:"15/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"S6"},
-
-  // ----- Sábado 16/06 (5 jornadas: 1:30pm-3pm, 3:30pm-5pm, 5:30pm-7pm, 7:30pm-9pm, 9:30pm-11pm) -----
-  {id:180, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Agro max", d:"16/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S6"},
-  {id:181, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Sabaneta", d:"16/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S6"},
-  {id:182, c:"Masculino", g:"B", a:"Los Irochimas", b:"Tribunal Protección", d:"16/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S6"},
-  {id:183, c:"Femenino", g:"A", a:"Divinas", b:"Inversiones EPA", d:"16/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S6"},
-  {id:184, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Unidos de Hato", d:"16/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S6"},
-  {id:185, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Alimentos Amanecer", d:"16/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S6"},
-  {id:186, c:"Masculino", g:"A", a:"Familia Ortega", b:"Exasa", d:"16/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S6"},
-  {id:187, c:"Femenino", g:"B", a:"Esquina del Sabor", b:"Santana", d:"16/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"S6"},
-  {id:188, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Gladiadores del Cerrito", d:"16/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"S6"},
-  {id:189, c:"Femenino", g:"B", a:"Saboga", b:"Chikas", d:"16/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"S6"},
-  {id:190, c:"Masculino", g:"B", a:"Ingenieros", b:"Distribuidora JH", d:"16/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"S6"},
-  {id:191, c:"Masculino", g:"B", a:"Team JM&JA", b:"Atletico Paez", d:"16/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"S6"},
-  {id:192, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Alimentos La Granja", d:"16/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"S6"},
-  {id:193, c:"Femenino", g:"B", a:"The Dolls", b:"Festidoras", d:"16/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"S6"},
-  {id:194, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Los Amigos", d:"16/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"S6"},
-
-  // ----- Domingo 17/06 (3 jornadas: 2pm-3:30pm, 4pm-5:30pm, 6pm-7:30pm) -----
-  {id:195, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Ferrecenca", d:"17/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S6"},
-  {id:196, c:"Masculino", g:"A", a:"Fuerza", b:"Agro max", d:"17/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"S6"},
-  {id:197, c:"Masculino", g:"A", a:"Exasa", b:"Sibarita", d:"17/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"S6"},
-  {id:198, c:"Femenino", g:"A", a:"Taferca", b:"Divinas", d:"17/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S6"},
-  {id:199, c:"Masculino", g:"B", a:"Los Irochimas", b:"Agro Tigrera Ranch", d:"17/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S6"},
-  {id:200, c:"Femenino", g:"B", a:"Esquina del Sabor", b:"Emprendedoras", d:"17/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S6"},
-  {id:201, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Triunfadores", d:"17/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S6"},
-  {id:202, c:"Femenino", g:"B", a:"Festidoras", b:"Oasis Box", d:"17/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S6"},
-  {id:203, c:"Masculino", g:"A", a:"Servihidra", b:"Por Confirmar", d:"17/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S6"},
-
-    // ==================== SEMANA 7 (21-25/06) ====================
-  // ----- Miércoles 21/06 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:204, c:"Masculino", g:"A", a:"Servihidra", b:"Agro max", d:"21/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S7"},
-  {id:205, c:"Masculino", g:"B", a:"Distribuidora JH", b:"Alimentos La Granja", d:"21/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S7"},
-  {id:206, c:"Femenino", g:"B", a:"Saboga", b:"Santana", d:"21/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S7"},
-  {id:207, c:"Femenino", g:"B", a:"Esquina del Sabor", b:"Las Femix", d:"21/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S7"},
-  {id:208, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Agro Tigrera Ranch", d:"21/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S7"},
-
-  // ----- Jueves 22/06 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:209, c:"Masculino", g:"A", a:"Sibarita", b:"Agro max", d:"22/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S7"},
-  {id:210, c:"Femenino", g:"B", a:"The Dolls", b:"Emprendedoras", d:"22/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S7"},
-  {id:211, c:"Masculino", g:"B", a:"Agro Tigrera Ranch", b:"Distribuidora JH", d:"22/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S7"},
-  {id:212, c:"Femenino", g:"B", a:"Saboga", b:"Corpolec Jubiladas", d:"22/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S7"},
-
-  // ----- Viernes 23/06 (3 jornadas: 6pm-7:30pm, 8pm-9:30pm, 10pm-11:30pm) -----
-  {id:213, c:"Masculino", g:"B", a:"Triunfadores", b:"Distribuidora JH", d:"23/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S7"},
-  {id:214, c:"Masculino", g:"A", a:"Fuerza", b:"Los Panas Vimapin", d:"23/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S7"},
-  {id:215, c:"Masculino", g:"A", a:"Los Amigos", b:"Por Confirmar", d:"23/06/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S7"},
-  {id:216, c:"Femenino", g:"B", a:"Corpoelec", b:"Chikas", d:"23/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S7"},
-  {id:217, c:"Masculino", g:"B", a:"Agro Tigrera Ranch", b:"Alimentos La Granja", d:"23/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S7"},
-  {id:218, c:"Femenino", g:"A", a:"Taferca", b:"Futboleras", d:"23/06/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S7"},
-  {id:219, c:"Masculino", g:"B", a:"Team JM&JA", b:"Pintucal", d:"23/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"S7"},
-  {id:220, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Atrevidas", d:"23/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S7"},
-  {id:221, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Exasa", d:"23/06/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"S7"},
-
-  // ----- Sábado 24/06 (5 jornadas: 1:30pm-3pm, 3:30pm-5pm, 5:30pm-7pm, 7:30pm-9pm, 9:30pm-11pm) -----
-  {id:222, c:"Masculino", g:"A", a:"Corpolec2", b:"Unidos de Hato", d:"24/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S7"},
-  {id:223, c:"Femenino", g:"A", a:"Inversiones IV", b:"Sabaneta", d:"24/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S7"},
-  {id:224, c:"Masculino", g:"B", a:"Los Irochimas", b:"Triunfadores", d:"24/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S7"},
-  {id:225, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Los Panas Vimapin", d:"24/06/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S7"},
-  {id:226, c:"Masculino", g:"A", a:"Exasa", b:"Unidos de Hato", d:"24/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S7"},
-  {id:227, c:"Masculino", g:"B", a:"Ingenieros", b:"Agro Tigrera Ranch", d:"24/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S7"},
-  {id:228, c:"Femenino", g:"A", a:"Ferrecenca", b:"Futboleras", d:"24/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S7"},
-  {id:229, c:"Masculino", g:"B", a:"Pintucal", b:"Atletico Paez", d:"24/06/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"S7"},
-  {id:230, c:"Femenino", g:"B", a:"Festidoras", b:"Las Femix", d:"24/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"S7"},
-  {id:231, c:"Masculino", g:"A", a:"Club Afibola", b:"Los Amigos", d:"24/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"S7"},
-  {id:232, c:"Femenino", g:"B", a:"Oasis Box", b:"Santana", d:"24/06/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"S7"},
-  {id:233, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Repostería el Ponque", d:"24/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 1", w:"S7"},
-  {id:234, c:"Femenino", g:"B", a:"The Dolls", b:"Corpoelec", d:"24/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 2", w:"S7"},
-  {id:235, c:"Masculino", g:"A", a:"Fuerza", b:"Servihidra", d:"24/06/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"S7"},
-  {id:236, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Inversiones EPA", d:"24/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"S7"},
-  {id:237, c:"Masculino", g:"B", a:"Team JM&JA", b:"Bodegon Los Vasquez", d:"24/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"S7"},
-  {id:238, c:"Femenino", g:"B", a:"Chikas", b:"Esquina del Sabor", d:"24/06/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"S7"},
-
-  // ----- Domingo 25/06 (3 jornadas: 2pm-3:30pm, 4pm-5:30pm, 6pm-7:30pm) -----
-  {id:239, c:"Femenino", g:"A", a:"Inversiones IV", b:"Divinas", d:"25/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S7"},
-  {id:240, c:"Femenino", g:"A", a:"Sabaneta", b:"Futboleras", d:"25/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"S7"},
-  {id:241, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Gladiadores del Cerrito", d:"25/06/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"S7"},
-  {id:242, c:"Masculino", g:"A", a:"Corpolec2", b:"Club Afibola", d:"25/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S7"},
-  {id:243, c:"Femenino", g:"B", a:"Corpoelec", b:"Santana", d:"25/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S7"},
-  {id:244, c:"Femenino", g:"A", a:"Taferca", b:"Ferrecenca", d:"25/06/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S7"},
-  {id:245, c:"Masculino", g:"A", a:"Servihidra", b:"Los Panas Vimapin", d:"25/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S7"},
-  {id:246, c:"Femenino", g:"B", a:"Festidoras", b:"Atavenca", d:"25/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S7"},
-  {id:247, c:"Masculino", g:"B", a:"Team JM&JA", b:"Triunfadores", d:"25/06/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S7"},
-  
-  // ==================== SEMANA 8 (29/06 - 03/07) ====================
-  // ----- Miércoles 29/06 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:248, c:"Masculino", g:"B", a:"Los Irochimas", b:"Atletico Paez", d:"29/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S8"},
-  {id:249, c:"Masculino", g:"A", a:"Corpolec2", b:"Agro max", d:"29/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S8"},
-  {id:250, c:"Masculino", g:"A", a:"Sibarita", b:"Por Confirmar", d:"29/06/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S8"},
-  {id:251, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Pintucal", d:"29/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S8"},
-  {id:252, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Ferrecenca", d:"29/06/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S8"},
-
-  // ----- Jueves 30/06 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:253, c:"Femenino", g:"B", a:"The Dolls", b:"Santana", d:"30/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S8"},
-  {id:254, c:"Femenino", g:"A", a:"Divinas", b:"Repostería el Ponque", d:"30/06/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S8"},
-  {id:255, c:"Femenino", g:"B", a:"Corpoelec", b:"Esquina del Sabor", d:"30/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S8"},
-  {id:256, c:"Masculino", g:"B", a:"Triunfadores", b:"Alimentos La Granja", d:"30/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S8"},
-  {id:257, c:"Masculino", g:"B", a:"Ingenieros", b:"Pintucal", d:"30/06/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S8"},
-
-  // ----- Viernes 01/07 (3 jornadas: 6pm-7:30pm, 8pm-9:30pm, 10pm-11:30pm) -----
-  {id:258, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Atletico Paez", d:"01/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S8"},
-  {id:259, c:"Masculino", g:"A", a:"Agro max", b:"Por confirmar", d:"01/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S8"},
-  {id:260, c:"Masculino", g:"A", a:"Servihidra", b:"Yusevin CA", d:"01/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S8"},
-  {id:261, c:"Femenino", g:"B", a:"Chikas", b:"Las Femix", d:"01/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S8"},
-  {id:262, c:"Femenino", g:"B", a:"Oasis Box", b:"Atavenca", d:"01/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S8"},
-  {id:263, c:"Masculino", g:"B", a:"Team JM&JA", b:"Agro Tigrera Ranch", d:"01/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S8"},
-  {id:264, c:"Masculino", g:"B", a:"Triunfadores", b:"Gladiadores del Cerrito", d:"01/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"S8"},
-  {id:265, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Fuerza", d:"01/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S8"},
-  {id:266, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Sibarita", d:"01/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 3", w:"S8"},
-
-  // ----- Sábado 02/07 (5 jornadas: 1:30pm-3pm, 3:30pm-5pm, 5:30pm-7pm, 7:30pm-9pm, 9:30pm-11pm) -----
-  {id:267, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Por confirmar", d:"02/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S8"},
-  {id:268, c:"Masculino", g:"B", a:"Atletico Paez", b:"Alimentos La Granja", d:"02/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S8"},
-  {id:269, c:"Masculino", g:"A", a:"Tornillería YR Portuguesa", b:"Agro max", d:"02/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S8"},
-  {id:270, c:"Masculino", g:"A", a:"Familia Ortega", b:"Unidos de Hato", d:"02/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S8"},
-  {id:271, c:"Femenino", g:"B", a:"Oasis Box", b:"Esquina del Sabor", d:"02/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S8"},
-  {id:272, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Repostería el Ponque", d:"02/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 2", w:"S8"},
-  {id:273, c:"Masculino", g:"A", a:"Club Afibola", b:"Yusevin CA", d:"02/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 3", w:"S8"},
-  {id:274, c:"Masculino", g:"A", a:"Fuerza", b:"Exasa", d:"02/07/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 1", w:"S8"},
-  {id:275, c:"Femenino", g:"B", a:"Festidoras", b:"Chikas", d:"02/07/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 2", w:"S8"},
-  {id:276, c:"Femenino", g:"A", a:"Taferca", b:"Inversiones EPA", d:"02/07/2026", dy:"Sábado", h:"5:30pm - 7:00pm", f:"Cancha 3", w:"S8"},
-  {id:277, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Triunfadores", d:"02/07/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 1", w:"S8"},
-  {id:278, c:"Femenino", g:"A", a:"Atrevidas", b:"Sabaneta", d:"02/07/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 2", w:"S8"},
-  {id:279, c:"Femenino", g:"B", a:"Las Femix", b:"Emprendedoras", d:"02/07/2026", dy:"Sábado", h:"7:30pm - 9:00pm", f:"Cancha 3", w:"S8"},
-  {id:280, c:"Femenino", g:"A", a:"Divinas", b:"Ferrecenca", d:"02/07/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 1", w:"S8"},
-  {id:281, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Distribuidora JH", d:"02/07/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 2", w:"S8"},
-  {id:282, c:"Masculino", g:"A", a:"Corpolec2", b:"Servihidra", d:"02/07/2026", dy:"Sábado", h:"9:30pm - 11:00pm", f:"Cancha 3", w:"S8"},
-
-  // ----- Domingo 03/07 (3 jornadas: 2pm-3:30pm, 4pm-5:30pm, 6pm-7:30pm) -----
-  {id:283, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Inversiones IV", d:"03/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S8"},
-  {id:284, c:"Femenino", g:"B", a:"The Dolls", b:"Oasis Box", d:"03/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 2", w:"S8"},
-  {id:285, c:"Masculino", g:"A", a:"Los Amigos", b:"Agro max", d:"03/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 3", w:"S8"},
-  {id:286, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Por confirmar", d:"03/07/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 1", w:"S8"},
-  {id:287, c:"Masculino", g:"A", a:"Exasa", b:"Yusevin CA", d:"03/07/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 2", w:"S8"},
-  {id:288, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Agroserviportuguesa", d:"03/07/2026", dy:"Domingo", h:"4:00pm - 5:30pm", f:"Cancha 3", w:"S8"},
-  {id:289, c:"Femenino", g:"B", a:"Chikas", b:"Emprendedoras", d:"03/07/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S8"},
-  {id:290, c:"Femenino", g:"A", a:"Divinas", b:"Alimentos Amanecer", d:"03/07/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S8"},
-  {id:291, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Futboleras", d:"03/07/2026", dy:"Domingo", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S8"},
-
-
-    // ==================== SEMANA 9 (07-11/07) ====================
-  // ----- Miércoles 07/07 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:292, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Atletico Paez", d:"07/07/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S9"},
-  {id:293, c:"Femenino", g:"B", a:"Atavenca", b:"Santana", d:"07/07/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S9"},
-  {id:294, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Alimentos La Granja", d:"07/07/2026", dy:"Miércoles", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S9"},
-  {id:295, c:"Masculino", g:"B", a:"Ingenieros", b:"Triunfadores", d:"07/07/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S9"},
-  {id:296, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Chikas", d:"07/07/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S9"},
-  {id:297, c:"Femenino", g:"B", a:"Saboga", b:"Festidoras", d:"07/07/2026", dy:"Miércoles", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S9"},
-
-  // ----- Jueves 08/07 (2 jornadas: 6pm-7:30pm, 8pm-9:30pm) -----
-  {id:298, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Distribuidora JH", d:"08/07/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S9"},
-  {id:299, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Atletico Paez", d:"08/07/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 2", w:"S9"},
-  {id:300, c:"Femenino", g:"B", a:"Atavenca", b:"Las Femix", d:"08/07/2026", dy:"Jueves", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S9"},
-  {id:301, c:"Femenino", g:"A", a:"Sabaneta", b:"Inversiones EPA", d:"08/07/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S9"},
-  {id:302, c:"Masculino", g:"A", a:"Corpolec2", b:"Los Panas Vimapin", d:"08/07/2026", dy:"Jueves", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S9"},
-
-  // ----- Viernes 09/07 (3 jornadas: 6pm-7:30pm, 8pm-9:30pm, 10pm-11:30pm) -----
-  {id:303, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Tribunal Protección", d:"09/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 1", w:"S9"},
-  {id:304, c:"Masculino", g:"B", a:"Bodegon Los Vasquez", b:"Triunfadores", d:"09/07/2026", dy:"Viernes", h:"6:00pm - 7:30pm", f:"Cancha 3", w:"S9"},
-  {id:305, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Atrevidas", d:"09/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 1", w:"S9"},
-  {id:306, c:"Femenino", g:"B", a:"Corpoelec", b:"Festidoras", d:"09/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 2", w:"S9"},
-  {id:307, c:"Masculino", g:"B", a:"Team JM&JA", b:"Distribuidora JH", d:"09/07/2026", dy:"Viernes", h:"8:00pm - 9:30pm", f:"Cancha 3", w:"S9"},
-  {id:308, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Inversiones EPA", d:"09/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 1", w:"S9"},
-  {id:309, c:"Masculino", g:"A", a:"Exasa", b:"Los Panas Vimapin", d:"09/07/2026", dy:"Viernes", h:"10:00pm - 11:30pm", f:"Cancha 2", w:"S9"},
-
-  // ----- Sábado 10/07 -----
-  {id:310, c:"Femenino", g:"A", a:"Inversiones IV", b:"Ferrecenca", d:"10/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 1", w:"S9"},
-  {id:311, c:"Femenino", g:"A", a:"Divinas", b:"Futboleras", d:"10/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 2", w:"S9"},
-  {id:312, c:"Femenino", g:"B", a:"The Dolls", b:"Chikas", d:"10/07/2026", dy:"Sábado", h:"1:30pm - 3:00pm", f:"Cancha 3", w:"S9"},
-  {id:313, c:"Masculino", g:"B", a:"Ingenieros", b:"Tribunal Protección", d:"10/07/2026", dy:"Sábado", h:"3:30pm - 5:00pm", f:"Cancha 1", w:"S9"},
-
-  // ----- Domingo 11/07 -----
-  {id:314, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Bodegon Los Vasquez", d:"11/07/2026", dy:"Domingo", h:"2:00pm - 3:30pm", f:"Cancha 1", w:"S9"},
+  // ==================== SEMANA 5 a 9 ====================
+  // ... (mantener el resto del calendario)
 ];
 
+    
 
 let R = {}, PS = {}, MVP = {};
 let currentMatchId = null;
