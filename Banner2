@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .banner {
+    width: 2560px;
+    height: 1440px;
+    background: linear-gradient(rgba(26, 26, 46, 0.85), rgba(15, 52, 96, 0.9)), 
+                url('https://images.unsplash.com/photo-1531415074968-036ba1b3da5a?w=2560&h=1440&fit=crop');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(26,26,46,0.9) 0%, rgba(15,52,96,0.8) 100%);
+  }
+  
+  .content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 150px;
+  }
+  
+  .left {
+    text-align: left;
+  }
+  
+  .right {
+    text-align: right;
+  }
+  
+  .badge {
+    background: #c0392b;
+    color: white;
+    font-size: 24px;
+    padding: 8px 25px;
+    border-radius: 50px;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  h1 {
+    font-size: 90px;
+    color: #e8b84b;
+    margin: 0;
+    line-height: 1.1;
+    text-shadow: 4px 4px 0 #1a1a2e;
+  }
+  
+  .sub {
+    font-size: 35px;
+    color: #f0e6d3;
+    margin-top: 15px;
+  }
+  
+  .feature {
+    background: rgba(232, 184, 75, 0.15);
+    border-left: 4px solid #e8b84b;
+    padding: 15px 30px;
+    margin: 20px 0;
+  }
+  
+  .feature p {
+    font-size: 22px;
+    color: #f0e6d3;
+    margin: 5px 0;
+  }
+  
+  .social {
+    margin-top: 40px;
+  }
+  
+  .social span {
+    font-size: 28px;
+    margin: 0 10px;
+    background: #0f3460;
+    padding: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .stats {
+    background: rgba(0,0,0,0.5);
+    border-radius: 20px;
+    padding: 30px 40px;
+    margin-top: 30px;
+  }
+  
+  .stats div {
+    font-size: 28px;
+    color: #e8b84b;
+    font-weight: bold;
+  }
+  
+  .stats small {
+    font-size: 16px;
+    color: #8899aa;
+  }
+  
+  @media (max-width: 768px) {
+    .content { padding: 0 50px; flex-direction: column; justify-content: center; text-align: center; }
+    .left, .right { text-align: center; }
+    h1 { font-size: 48px; }
+    .sub { font-size: 20px; }
+    .feature p { font-size: 14px; }
+    .stats div { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="banner">
+  <div class="overlay"></div>
+  <div class="content">
+    <div class="left">
+      <div class="badge">🏆 OFICIAL</div>
+      <h1>SIBARITA<br>SPORT CLUB</h1>
+      <div class="sub">2do Campeonato 2026</div>
+      <div class="feature">
+        <p>🔴 EN VIVO todos los partidos</p>
+        <p>🎬 Resúmenes y mejores jugadas</p>
+        <p>🏅 MVP y entrevistas exclusivas</p>
+      </div>
+    </div>
+    <div class="right">
+      <div class="stats">
+        <div>10+ <small>EQUIPOS</small></div>
+        <div>300+ <small>JUGADORES</small></div>
+        <div>100+ <small>PARTIDOS</small></div>
+      </div>
+      <div class="social">
+        <span>📺</span>
+        <span>🎵</span>
+        <span>📱</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
