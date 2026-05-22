@@ -1025,7 +1025,31 @@ function searchPlayer(q) { F.aQ = q; rA(); }
 function rA() { const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp); const players = []; tl.forEach(t => { t.p.forEach(p => { const k = t.n + '|' + p; const ps = PS[k] || {}; if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return; const arrB = ps.arr_b || 0; const arrTotal = ps.total_arr || 0; const bocB = ps.boc_b || 0; const bocTotal = ps.total_boc || 0; const efec = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : (bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0); const partidos = ps.partidos || 0; players.push({ name: p, team: t.n, arrB, arrTotal, bocB, bocTotal, efec, partidos }); }); }); players.sort((a,b) => b.efec - a.efec); g('a-list').innerHTML = !players.length ? '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin estadísticas registradas aún</div>' : players.map((p,i) => `<div class="ar"><div style="width:20px;text-align:center;font-size:10px;color:#8899aa;font-weight:bold;">${i+1}</div><div style="flex:1;min-width:0;"><div style="font-size:11px;color:#f0e6d3;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</div><div style="font-size:9px;color:#8899aa;">${p.team}</div></div><div style="display:flex;gap:6px;"><div style="min-width:26px;text-align:center;"><div class="av">${p.partidos}</div><div class="al">PJ</div></div><div style="min-width:50px;text-align:center;"><div class="av">${p.arrB}/${p.arrTotal}</div><div class="al">ARR</div></div><div style="min-width:50px;text-align:center;"><div class="av">${p.bocB}/${p.bocTotal}</div><div class="al">BOC</div></div><div style="min-width:32px;text-align:center;"><div class="av" style="color:#2ecc71;">${p.efec}%</div><div class="al">EFEC</div></div></div></div>`).join(''); }
 
 // ==================== VIDEOS Y STREAMING ====================
+// ==================== VIDEOS Y STREAMING MEJORADO ====================
 let currentVideoType = 'live';
+let youtubeAPIKey = ''; // Opcional: puedes agregar tu API Key de YouTube
+
+// Playlists predefinidas
+const PLAYLISTS = [
+    {
+        id: 'PL_EJEMPLO_1',
+        title: '⚡ Partidos Femenino Grupo A',
+        thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg',
+        videoCount: 12
+    },
+    {
+        id: 'PL_EJEMPLO_2',
+        title: '💪 Partidos Masculino Grupo A',
+        thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg',
+        videoCount: 8
+    },
+    {
+        id: 'PL_EJEMPLO_3',
+        title: '🏆 Mejores Jugadas - Todos los Grupos',
+        thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg',
+        videoCount: 15
+    }
+];
 
 function setVideoType(type) {
     currentVideoType = type;
@@ -1034,50 +1058,150 @@ function setVideoType(type) {
     document.getElementById('btn-live').classList.toggle('on', type === 'live');
     document.getElementById('btn-highlights').classList.toggle('on', type === 'highlights');
     document.getElementById('btn-tiktok').classList.toggle('on', type === 'tiktok');
+    document.getElementById('btn-playlist')?.classList.toggle('on', type === 'playlist');
     
     // Mostrar/ocultar contenedores
     document.getElementById('live-container').style.display = type === 'live' ? 'block' : 'none';
     document.getElementById('highlights-container').style.display = type === 'highlights' ? 'block' : 'none';
     document.getElementById('tiktok-container').style.display = type === 'tiktok' ? 'block' : 'none';
+    const playlistContainer = document.getElementById('playlist-container');
+    if (playlistContainer) playlistContainer.style.display = type === 'playlist' ? 'block' : 'none';
     
-    // Si es highlights, cargar videos de YouTube
-    if (type === 'highlights') {
+    // Cargar contenido según tipo
+    if (type === 'live') {
+        verificarStreamEnVivo();
+        mostrarProximosPartidos();
+    } else if (type === 'highlights') {
         cargarVideosYouTube();
+    } else if (type === 'playlist') {
+        cargarPlaylists();
     }
 }
 
-// Configuración de YouTube (API Key - necesitas obtenerla gratis)
-// Por ahora usamos videos de ejemplo, pero puedes integrar tu canal
+// Verificar si hay stream en vivo (simulado - puedes conectar con YouTube API)
+function verificarStreamEnVivo() {
+    const liveStatusDiv = document.getElementById('live-status');
+    const liveTitleDiv = document.getElementById('live-title');
+    const liveSubtitleDiv = document.getElementById('live-subtitle');
+    const livePlayerDiv = document.getElementById('live-player');
+    
+    // Buscar el próximo partido para saber si debería haber stream
+    const proximo = getProximoPartido();
+    const hoy = new Date();
+    const fechaProximo = proximo ? new Date(proximo.d.split('/').reverse().join('-')) : null;
+    const horasDiff = fechaProximo ? (fechaProximo - hoy) / (1000 * 60 * 60) : null;
+    
+    // Si hay un partido en las próximas 24 horas, mostrar "Próximamente"
+    if (proximo && horasDiff <= 24 && horasDiff > 0) {
+        liveStatusDiv.innerHTML = '⏰';
+        liveTitleDiv.innerHTML = `Próximamente: ${proximo.a} vs ${proximo.b}`;
+        liveSubtitleDiv.innerHTML = `📅 ${proximo.d} ${proximo.h} · ${proximo.f}`;
+        livePlayerDiv.style.display = 'none';
+    } 
+    // Si hay un partido ahora (en vivo)
+    else if (proximo && horasDiff <= 0 && horasDiff > -2) {
+        liveStatusDiv.innerHTML = '🔴';
+        liveTitleDiv.innerHTML = `¡EN VIVO! ${proximo.a} vs ${proximo.b}`;
+        liveSubtitleDiv.innerHTML = `Transmitiendo ahora desde ${proximo.f}`;
+        livePlayerDiv.style.display = 'block';
+        document.getElementById('live-iframe').src = 'https://www.youtube.com/embed/live_stream?channel=UC_EJEMPLO';
+    }
+    else {
+        liveStatusDiv.innerHTML = '📡';
+        liveTitleDiv.innerHTML = 'No hay transmisión activa';
+        liveSubtitleDiv.innerHTML = 'Los streams comienzan 15 minutos antes de cada partido';
+        livePlayerDiv.style.display = 'none';
+    }
+}
+
+// Mostrar próximos partidos en la sección en vivo
+function mostrarProximosPartidos() {
+    const hoy = new Date();
+    const partidosFuturos = MATCHES.filter(m => {
+        const fechaPartido = new Date(m.d.split('/').reverse().join('-'));
+        return fechaPartido >= hoy && (!R[m.id] || R[m.id].status !== 'done');
+    }).sort((a,b) => new Date(a.d) - new Date(b.d)).slice(0, 4);
+    
+    const container = document.getElementById('proximos-partidos');
+    if (!container) return;
+    
+    if (partidosFuturos.length === 0) {
+        container.innerHTML = '<div class="error-message">No hay partidos programados próximamente</div>';
+        return;
+    }
+    
+    container.innerHTML = `
+        <div class="video-section-title" style="margin-top: 10px;">
+            <span>⏰ PRÓXIMOS PARTIDOS</span>
+            <span class="video-badge">${partidosFuturos.length} pendientes</span>
+        </div>
+        ${partidosFuturos.map(m => {
+            const fecha = new Date(m.d.split('/').reverse().join('-'));
+            const diffDays = Math.ceil((fecha - hoy) / (1000 * 60 * 60 * 24));
+            let etiqueta = '';
+            let color = '#8899aa';
+            if (diffDays === 0) { etiqueta = '🔥 HOY'; color = '#e8b84b'; }
+            else if (diffDays === 1) { etiqueta = '⭐ MAÑANA'; color = '#f39c12'; }
+            else { etiqueta = `📅 En ${diffDays} días`; }
+            
+            return `
+                <div class="video-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                        <span style="font-size: 10px; color: ${color}; font-weight: bold;">${etiqueta}</span>
+                        <span style="font-size: 9px; color: #8899aa;">${m.d} · ${m.h}</span>
+                    </div>
+                    <div style="font-size: 12px; font-weight: bold; text-align: center; margin: 5px 0;">
+                        ${m.a} <span style="color: #e8b84b;">VS</span> ${m.b}
+                    </div>
+                    <div style="font-size: 9px; color: #8899aa; text-align: center;">📍 ${m.f} · ${m.c} Grupo ${m.g}</div>
+                </div>
+            `;
+        }).join('')}
+    `;
+}
+
+// Cargar videos de YouTube mejorado
 function cargarVideosYouTube() {
-    // Lista de videos destacados (ejemplo - reemplazar con IDs reales)
+    const grid = document.getElementById('youtube-grid');
+    if (!grid) return;
+    
+    // Mostrar loading
+    grid.innerHTML = '<div class="loading-spinner">🎬 Cargando videos...</div>';
+    
+    // Lista de videos destacados (reemplazar con IDs reales de YouTube)
     const videos = [
         {
-            id: 'dQw4w9WgXcQ',  // Reemplazar con ID real de YouTube
+            id: 'dQw4w9WgXcQ',
             title: 'Ferrecenca vs Alimentos Amanecer',
             date: '14/05/2026',
-            resultado: '6-15',
-            mvp: 'Graciela Febres'
+            resultado: 'Final 6-15',
+            mvp: 'Graciela Febres',
+            duration: '1:24:30',
+            views: '234'
         },
         {
-            id: '9bZkp7q19f0',  // Reemplazar con ID real
-            title: 'Serv. Frios Antonella vs Atrevidas',
-            date: '15/05/2026',
-            resultado: 'Pendiente',
-            mvp: ''
+            id: '9bZkp7q19f0',
+            title: 'The Dolls vs Saboga',
+            date: '14/05/2026',
+            resultado: 'Final 3-18',
+            mvp: '',
+            duration: '1:15:22',
+            views: '189'
         },
         {
-            id: 'JGwWNGJdvx8',  // Reemplazar con ID real
-            title: 'Resumen Semana 2',
+            id: 'JGwWNGJdvx8',
+            title: 'Resumen Semana 2 - Mejores Jugadas',
             date: '17/05/2026',
-            resultado: 'Mejores jugadas',
-            mvp: ''
+            resultado: 'Highlights',
+            mvp: '',
+            duration: '12:45',
+            views: '567'
         }
     ];
     
-    const grid = document.getElementById('youtube-grid');
-    if (grid) {
+    setTimeout(() => {
         grid.innerHTML = videos.map(v => `
-            <div class="card" style="padding: 8px;">
+            <div class="video-card">
                 <div class="video-wrapper">
                     <iframe 
                         src="https://www.youtube.com/embed/${v.id}" 
@@ -1086,45 +1210,70 @@ function cargarVideosYouTube() {
                         allowfullscreen>
                     </iframe>
                 </div>
-                <div style="margin-top: 8px; font-size: 12px; font-weight: bold; color: #e8b84b;">${v.title}</div>
-                <div style="font-size: 10px; color: #8899aa;">📅 ${v.date} | ${v.resultado} ${v.mvp ? '| 🏅 ' + v.mvp : ''}</div>
+                <div class="video-title">${v.title}</div>
+                <div class="video-meta">
+                    <span>📅 ${v.date}</span>
+                    <span>⏱️ ${v.duration}</span>
+                    <span>👁️ ${v.views} vistas</span>
+                </div>
+                <div class="video-meta">
+                    ${v.resultado ? `<span>🏆 ${v.resultado}</span>` : ''}
+                    ${v.mvp ? `<span>🏅 MVP: ${v.mvp}</span>` : ''}
+                </div>
             </div>
         `).join('');
-    }
+    }, 300);
 }
 
-// Función para actualizar el link del stream en vivo
-function actualizarStreamEnVivo() {
-    // Puedes cambiar este link según el partido actual
-    const streamLink = document.getElementById('live-link');
-    if (streamLink) {
-        // Ejemplo: link de YouTube en vivo
-        streamLink.href = 'https://www.youtube.com/@SibaritaSC/live';
-        
-        // Detectar próximo partido para mostrar información
-        const proximoPartido = getProximoPartido();
-        if (proximoPartido) {
-            const infoDiv = document.querySelector('#live-container .card div:last-child');
-            if (infoDiv) {
-                infoDiv.innerHTML = `⏰ Próximo partido: ${proximoPartido.d} ${proximoPartido.h} - ${proximoPartido.a} vs ${proximoPartido.b}`;
-            }
-        }
-    }
-}
-
-// Obtener el próximo partido del calendario
-function getProximoPartido() {
-    const hoy = new Date();
-    const partidosFuturos = MATCHES.filter(m => {
-        const fechaPartido = new Date(m.d.split('/').reverse().join('-'));
-        return fechaPartido >= hoy && (!R[m.id] || R[m.id].status !== 'done');
-    }).sort((a,b) => new Date(a.d) - new Date(b.d));
+// Cargar playlists
+function cargarPlaylists() {
+    const grid = document.getElementById('playlist-grid');
+    if (!grid) return;
     
-    return partidosFuturos[0] || null;
+    grid.innerHTML = PLAYLISTS.map(playlist => `
+        <div class="video-card" onclick="abrirPlaylist('${playlist.id}')" style="cursor: pointer;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <div style="width: 80px; height: 45px; background: #0f3460; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 24px;">📋</span>
+                </div>
+                <div style="flex: 1;">
+                    <div class="video-title" style="font-size: 11px;">${playlist.title}</div>
+                    <div class="video-meta">🎬 ${playlist.videoCount} videos</div>
+                </div>
+                <div style="color: #8899aa;">▶️</div>
+            </div>
+        </div>
+    `).join('');
 }
 
-// Modificar la función showTab existente para inicializar videos
-// Busca la función showTab y modifícala para que cuando se seleccione la pestaña "videos", se actualice el contenido
+// Abrir playlist en YouTube
+function abrirPlaylist(playlistId) {
+    window.open(`https://www.youtube.com/playlist?list=${playlistId}`, '_blank');
+}
+
+// Función para compartir videos
+function compartirVideos() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'Sibarita Sport Club - Videos del Torneo',
+            text: 'Mira los partidos y highlights del campeonato',
+            url: window.location.href
+        }).catch(() => {});
+    } else {
+        // Fallback - copiar al portapapeles
+        navigator.clipboard.writeText(window.location.href);
+        mostrarEstado('✅ Enlace copiado al portapapeles');
+    }
+}
+
+// Actualizar el stream en vivo (llamado periódicamente)
+function actualizarStreamEnVivo() {
+    verificarStreamEnVivo();
+}
+
+// Modificar la función showTab existente
+// Ya está modificada en tu código, solo asegurar que llame a las funciones correctas
+
     
 function openStatsModal(matchId) { const match = MATCHES.find(m => m.id === matchId); if (!match) return; currentMatchId = matchId; g('stats-modal-title').innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`; const body = g('stats-modal-body'); let html = ''; const savedStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {}; const teamA = TEAMS.find(t => t.n === match.a); if (teamA) { html += `<div class="lbl" style="margin-top:10px;">🏆 ${match.a}</div>`; teamA.p.forEach(player => { if (player !== 'Por Cargar') { const saved = savedStats[player] || { arr_b: 0, arr_total: 0, boc_b: 0, boc_total: 0 }; html += getPlayerStatsHTML(player, saved); } }); } const teamB = TEAMS.find(t => t.n === match.b); if (teamB) { html += `<div class="lbl" style="margin-top:10px;">🏆 ${match.b}</div>`; teamB.p.forEach(player => { if (player !== 'Por Cargar') { const saved = savedStats[player] || { arr_b: 0, arr_total: 0, boc_b: 0, boc_total: 0 }; html += getPlayerStatsHTML(player, saved); } }); } body.innerHTML = html; g('stats-modal').style.display = 'block'; }
 
