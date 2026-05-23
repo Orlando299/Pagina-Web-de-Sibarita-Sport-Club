@@ -1,5 +1,5 @@
 {
-  "ultimaActualizacion": "2026-05-23T22:48:44.299Z",
+  "ultimaActualizacion": "2026-05-23T23:43:03.378Z",
   "resultados": {
     "1": {
       "scoreA": 12,
@@ -100,6 +100,31 @@
       "scoreB": 20,
       "status": "done"
     },
+    "39": {
+      "scoreA": 12,
+      "scoreB": 20,
+      "status": "done"
+    },
+    "40": {
+      "scoreA": 11,
+      "scoreB": 20,
+      "status": "done"
+    },
+    "41": {
+      "scoreA": 17,
+      "scoreB": 19,
+      "status": "done"
+    },
+    "42": {
+      "scoreA": 19,
+      "scoreB": 20,
+      "status": "done"
+    },
+    "43": {
+      "scoreA": 15,
+      "scoreB": 11,
+      "status": "done"
+    },
     "44": {
       "scoreA": 0,
       "scoreB": 0,
@@ -169,6 +194,31 @@
       "team": "Repostería el Ponque",
       "efec": 58
     },
+    "39": {
+      "name": "Diana Oropeza",
+      "team": "Atavenca",
+      "efec": 65
+    },
+    "40": {
+      "name": "Luis Arrieta",
+      "team": "Triunfadores",
+      "efec": 55
+    },
+    "41": {
+      "name": "Berly Salazar",
+      "team": "Emprendedoras",
+      "efec": 0
+    },
+    "42": {
+      "name": "Elvis Valera",
+      "team": "Gladiadores del Cerrito",
+      "efec": 53
+    },
+    "43": {
+      "name": "Juan Carlos Caro",
+      "team": "Pintucal",
+      "efec": 69
+    },
     "NaN": {
       "name": "pw / 2",
       "team": "290",
@@ -176,6 +226,111 @@
     }
   },
   "estadisticas": {
+    "Oasis Box|Carolina Arocha": {
+      "arr_b": 29,
+      "total_arr": 54,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 2
+    },
+    "Oasis Box|Luisamar Peña": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 2
+    },
+    "Oasis Box|Mirelys Mendoza": {
+      "arr_b": 23,
+      "total_arr": 51,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 2
+    },
+    "Oasis Box|Romi Arapé": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 2
+    },
+    "Oasis Box|Karla Reyes": {
+      "arr_b": 5,
+      "total_arr": 31,
+      "boc_b": 3,
+      "total_boc": 5,
+      "partidos": 2
+    },
+    "Oasis Box|Sheila Montesinos": {
+      "arr_b": 7,
+      "total_arr": 17,
+      "boc_b": 10,
+      "total_boc": 30,
+      "partidos": 2
+    },
+    "Oasis Box|Nilda Almeida": {
+      "arr_b": 4,
+      "total_arr": 10,
+      "boc_b": 4,
+      "total_boc": 9,
+      "partidos": 2
+    },
+    "Oasis Box|Josmayfe Alvarado": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 2
+    },
+    "Corpoelec|Adela Guedez": {
+      "arr_b": 4,
+      "total_arr": 8,
+      "boc_b": 1,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Corpoelec|Nitza Zabaleta": {
+      "arr_b": 0,
+      "total_arr": 5,
+      "boc_b": 11,
+      "total_boc": 20,
+      "partidos": 1
+    },
+    "Corpoelec|Yuli Alvarez": {
+      "arr_b": 8,
+      "total_arr": 16,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Cesar Denny": {
+      "arr_b": 4,
+      "total_arr": 12,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Yunibel Rodriguez": {
+      "arr_b": 13,
+      "total_arr": 23,
+      "boc_b": 2,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Corpoelec|Diolanda Carrillo": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Nicholle Colmenarez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
     "Ferrecenca|Maria Carreño": {
       "arr_b": 3,
       "total_arr": 11,
@@ -317,11 +472,11 @@
       "partidos": 1
     },
     "The Dolls|Juliana Lopez": {
-      "arr_b": 1,
-      "total_arr": 5,
+      "arr_b": 2,
+      "total_arr": 11,
       "boc_b": 0,
       "total_boc": 0,
-      "partidos": 1
+      "partidos": 2
     },
     "The Dolls|Maria Parra": {
       "arr_b": 0,
@@ -331,11 +486,11 @@
       "partidos": 1
     },
     "The Dolls|Saydimar Pipitone": {
-      "arr_b": 2,
-      "total_arr": 4,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
+      "arr_b": 14,
+      "total_arr": 26,
+      "boc_b": 1,
+      "total_boc": 2,
+      "partidos": 2
     },
     "The Dolls|Adona Gonzalez": {
       "arr_b": 0,
@@ -363,63 +518,63 @@
       "total_arr": 0,
       "boc_b": 0,
       "total_boc": 0,
-      "partidos": 1
+      "partidos": 2
     },
     "Atavenca|Yadira Torrez": {
-      "arr_b": 4,
-      "total_arr": 5,
-      "boc_b": 13,
-      "total_boc": 16,
-      "partidos": 1
+      "arr_b": 8,
+      "total_arr": 15,
+      "boc_b": 27,
+      "total_boc": 42,
+      "partidos": 2
     },
     "Atavenca|Diana Oropeza": {
-      "arr_b": 0,
-      "total_arr": 0,
+      "arr_b": 22,
+      "total_arr": 34,
       "boc_b": 0,
       "total_boc": 0,
-      "partidos": 1
+      "partidos": 2
     },
     "Atavenca|Julia Escalona": {
-      "arr_b": 4,
-      "total_arr": 7,
-      "boc_b": 6,
-      "total_boc": 13,
-      "partidos": 1
+      "arr_b": 10,
+      "total_arr": 19,
+      "boc_b": 16,
+      "total_boc": 32,
+      "partidos": 2
     },
     "Atavenca|María Elcy Noriega": {
       "arr_b": 3,
-      "total_arr": 6,
+      "total_arr": 12,
       "boc_b": 0,
       "total_boc": 0,
-      "partidos": 1
+      "partidos": 2
     },
     "Atavenca|Esmeralda Mercado": {
-      "arr_b": 19,
-      "total_arr": 29,
+      "arr_b": 28,
+      "total_arr": 45,
       "boc_b": 0,
       "total_boc": 0,
-      "partidos": 1
+      "partidos": 2
     },
     "Atavenca|Erika Rodriguez": {
       "arr_b": 0,
       "total_arr": 0,
       "boc_b": 0,
       "total_boc": 0,
-      "partidos": 1
+      "partidos": 2
     },
     "Atavenca|Yankelis Tambo": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
+      "arr_b": 1,
+      "total_arr": 2,
+      "boc_b": 1,
+      "total_boc": 5,
+      "partidos": 2
     },
     "Atavenca|María Delgado": {
-      "arr_b": 0,
-      "total_arr": 0,
+      "arr_b": 3,
+      "total_arr": 8,
       "boc_b": 0,
       "total_boc": 0,
-      "partidos": 1
+      "partidos": 2
     },
     "Chikas|Yusbelis Gonzalez": {
       "arr_b": 0,
@@ -487,111 +642,6 @@
     "Chikas|Gilian Rengifo": {
       "arr_b": 4,
       "total_arr": 14,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Carolina Arocha": {
-      "arr_b": 16,
-      "total_arr": 26,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Luisamar Peña": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Mirelys Mendoza": {
-      "arr_b": 12,
-      "total_arr": 23,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Romi Arapé": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Karla Reyes": {
-      "arr_b": 2,
-      "total_arr": 18,
-      "boc_b": 2,
-      "total_boc": 4,
-      "partidos": 1
-    },
-    "Oasis Box|Sheila Montesinos": {
-      "arr_b": 5,
-      "total_arr": 11,
-      "boc_b": 5,
-      "total_boc": 14,
-      "partidos": 1
-    },
-    "Oasis Box|Nilda Almeida": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Josmayfe Alvarado": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Corpoelec|Adela Guedez": {
-      "arr_b": 4,
-      "total_arr": 8,
-      "boc_b": 1,
-      "total_boc": 2,
-      "partidos": 1
-    },
-    "Corpoelec|Nitza Zabaleta": {
-      "arr_b": 0,
-      "total_arr": 5,
-      "boc_b": 11,
-      "total_boc": 20,
-      "partidos": 1
-    },
-    "Corpoelec|Yuli Alvarez": {
-      "arr_b": 8,
-      "total_arr": 16,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Corpoelec|Cesar Denny": {
-      "arr_b": 4,
-      "total_arr": 12,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Corpoelec|Yunibel Rodriguez": {
-      "arr_b": 13,
-      "total_arr": 23,
-      "boc_b": 2,
-      "total_boc": 2,
-      "partidos": 1
-    },
-    "Corpoelec|Diolanda Carrillo": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Corpoelec|Nicholle Colmenarez": {
-      "arr_b": 0,
-      "total_arr": 0,
       "boc_b": 0,
       "total_boc": 0,
       "partidos": 1
@@ -895,6 +945,433 @@
       "total_arr": 7,
       "boc_b": 12,
       "total_boc": 23,
+      "partidos": 1
+    },
+    "Los Irochimas|Toribio Torrealba": {
+      "arr_b": 6,
+      "total_arr": 14,
+      "boc_b": 1,
+      "total_boc": 4,
+      "partidos": 1
+    },
+    "Los Irochimas|Wilfredo Perez": {
+      "arr_b": 2,
+      "total_arr": 5,
+      "boc_b": 13,
+      "total_boc": 27,
+      "partidos": 1
+    },
+    "Los Irochimas|Nelson Nadal": {
+      "arr_b": 9,
+      "total_arr": 14,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Los Irochimas|Ronald Nadal": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Los Irochimas|Roland Nadal": {
+      "arr_b": 4,
+      "total_arr": 6,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Los Irochimas|Jose Nadal": {
+      "arr_b": 9,
+      "total_arr": 23,
+      "boc_b": 1,
+      "total_boc": 8,
+      "partidos": 1
+    },
+    "Los Irochimas|Alfredo Gonzalez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Gladiadores del Cerrito|Carlos Silva": {
+      "arr_b": 3,
+      "total_arr": 12,
+      "boc_b": 10,
+      "total_boc": 19,
+      "partidos": 1
+    },
+    "Gladiadores del Cerrito|Carlos Linarez": {
+      "arr_b": 10,
+      "total_arr": 28,
+      "boc_b": 1,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Gladiadores del Cerrito|Elvis Valera": {
+      "arr_b": 17,
+      "total_arr": 32,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Gladiadores del Cerrito|Yunior Linarez": {
+      "arr_b": 2,
+      "total_arr": 10,
+      "boc_b": 10,
+      "total_boc": 22,
+      "partidos": 1
+    },
+    "Gladiadores del Cerrito|Yilber Barrios": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Gladiadores del Cerrito|Yordani Villegas": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Gladiadores del Cerrito|Alexander Vega": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Gladiadores del Cerrito|René Tona": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Agro Tigrera Ranch|Felix Rumbos": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Agro Tigrera Ranch|Carlos Araujo": {
+      "arr_b": 5,
+      "total_arr": 15,
+      "boc_b": 7,
+      "total_boc": 17,
+      "partidos": 1
+    },
+    "Agro Tigrera Ranch|Jonathan Silva": {
+      "arr_b": 6,
+      "total_arr": 18,
+      "boc_b": 0,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Agro Tigrera Ranch|Junior Guedez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Agro Tigrera Ranch|Jorge Zambrano": {
+      "arr_b": 15,
+      "total_arr": 34,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Agro Tigrera Ranch|Carlos Torrealba": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Agro Tigrera Ranch|Wenceslao Paez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Agro Tigrera Ranch|Javier Diaz": {
+      "arr_b": 1,
+      "total_arr": 7,
+      "boc_b": 0,
+      "total_boc": 5,
+      "partidos": 1
+    },
+    "Agro Tigrera Ranch|Pedro Diaz": {
+      "arr_b": 9,
+      "total_arr": 27,
+      "boc_b": 2,
+      "total_boc": 5,
+      "partidos": 1
+    },
+    "Triunfadores|Mire Sail": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 1,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Triunfadores|Luis Segura": {
+      "arr_b": 4,
+      "total_arr": 12,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Triunfadores|Seixorn Ferrer": {
+      "arr_b": 6,
+      "total_arr": 13,
+      "boc_b": 9,
+      "total_boc": 15,
+      "partidos": 1
+    },
+    "Triunfadores|Serus Hernandez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Triunfadores|Brillermo Leal": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Triunfadores|Luis Arrieta": {
+      "arr_b": 3,
+      "total_arr": 5,
+      "boc_b": 14,
+      "total_boc": 26,
+      "partidos": 1
+    },
+    "Triunfadores|Eduardo Arrieta": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Triunfadores|Yormann Vasquez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Triunfadores|Surgen Vasquez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Triunfadores|Antony Gonzalez": {
+      "arr_b": 11,
+      "total_arr": 22,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Triunfadores|Hector Larvalial": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 2,
+      "total_boc": 9,
+      "partidos": 1
+    },
+    "Triunfadores|Luis Rodríguez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Emprendedoras|Ana Zapata": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Emprendedoras|Vanessa Lugo": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Emprendedoras|Yanee Vetancourt": {
+      "arr_b": 1,
+      "total_arr": 18,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Emprendedoras|Miriam Serres": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Emprendedoras|Ana Hernandes": {
+      "arr_b": 0,
+      "total_arr": 2,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Emprendedoras|Berly Salazar": {
+      "arr_b": 0,
+      "total_arr": 4,
+      "boc_b": 9,
+      "total_boc": 14,
+      "partidos": 1
+    },
+    "Emprendedoras|Karelis Aguilar": {
+      "arr_b": 1,
+      "total_arr": 5,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Emprendedoras|Luisa Arrieta": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 9,
+      "total_boc": 19,
+      "partidos": 1
+    },
+    "Emprendedoras|Yusbelis Chirinos": {
+      "arr_b": 13,
+      "total_arr": 26,
+      "boc_b": 0,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Emprendedoras|Cresky Perez": {
+      "arr_b": 9,
+      "total_arr": 18,
+      "boc_b": 2,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Pintucal|Carlos Caro": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 1,
+      "total_boc": 3,
+      "partidos": 1
+    },
+    "Pintucal|Juan Figueroa": {
+      "arr_b": 1,
+      "total_arr": 2,
+      "boc_b": 5,
+      "total_boc": 19,
+      "partidos": 1
+    },
+    "Pintucal|Angel Figueroa": {
+      "arr_b": 2,
+      "total_arr": 5,
+      "boc_b": 1,
+      "total_boc": 6,
+      "partidos": 1
+    },
+    "Pintucal|Roberto Martinez": {
+      "arr_b": 13,
+      "total_arr": 22,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Pintucal|Mackiver Sanchez": {
+      "arr_b": 6,
+      "total_arr": 15,
+      "boc_b": 0,
+      "total_boc": 1,
+      "partidos": 1
+    },
+    "Pintucal|Yolber Suarez": {
+      "arr_b": 2,
+      "total_arr": 6,
+      "boc_b": 2,
+      "total_boc": 4,
+      "partidos": 1
+    },
+    "Pintucal|Juan Carlos Caro": {
+      "arr_b": 22,
+      "total_arr": 32,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Pintucal|Amilcar Garrido": {
+      "arr_b": 2,
+      "total_arr": 4,
+      "boc_b": 1,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "The Dolls|Erika Perez Ramones": {
+      "arr_b": 2,
+      "total_arr": 6,
+      "boc_b": 0,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "The Dolls|Cilia Aldana": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "The Dolls|Maria Doriana Parra": {
+      "arr_b": 0,
+      "total_arr": 4,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "The Dolls|Adona Maria Gonzalez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "The Dolls|Ana Katiuska Parra": {
+      "arr_b": 11,
+      "total_arr": 26,
+      "boc_b": 3,
+      "total_boc": 5,
+      "partidos": 1
+    },
+    "The Dolls|Maria Castellanos": {
+      "arr_b": 5,
+      "total_arr": 16,
+      "boc_b": 7,
+      "total_boc": 12,
+      "partidos": 1
+    },
+    "The Dolls|Deysi Guedez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
       "partidos": 1
     }
   }
