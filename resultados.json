@@ -1,5 +1,5 @@
 {
-  "ultimaActualizacion": "2026-05-22T15:33:08.918Z",
+  "ultimaActualizacion": "2026-05-23T22:48:44.299Z",
   "resultados": {
     "1": {
       "scoreA": 12,
@@ -31,6 +31,12 @@
       "scoreB": 0,
       "status": "suspended",
       "razon": "Equipo Las Femix retirados"
+    },
+    "8": {
+      "scoreA": 0,
+      "scoreB": 0,
+      "status": "suspended",
+      "razon": "equipo futboleras retirado"
     },
     "9": {
       "scoreA": 4,
@@ -89,6 +95,23 @@
       "scoreB": 8,
       "status": "forfait"
     },
+    "38": {
+      "scoreA": 9,
+      "scoreB": 20,
+      "status": "done"
+    },
+    "44": {
+      "scoreA": 0,
+      "scoreB": 0,
+      "status": "suspended",
+      "razon": "equipo inversiones IV retirado"
+    },
+    "47": {
+      "scoreA": 0,
+      "scoreB": 0,
+      "status": "suspended",
+      "razon": "equipo ferrecenca retirado"
+    },
     "77": {
       "scoreA": 20,
       "scoreB": 6,
@@ -141,6 +164,11 @@
       "team": "Servihidra",
       "efec": 0
     },
+    "38": {
+      "name": "Lisbeth Vasquez",
+      "team": "Repostería el Ponque",
+      "efec": 58
+    },
     "NaN": {
       "name": "pw / 2",
       "team": "290",
@@ -148,111 +176,6 @@
     }
   },
   "estadisticas": {
-    "Oasis Box|Carolina Arocha": {
-      "arr_b": 16,
-      "total_arr": 26,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Luisamar Peña": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Mirelys Mendoza": {
-      "arr_b": 12,
-      "total_arr": 23,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Romi Arapé": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Karla Reyes": {
-      "arr_b": 2,
-      "total_arr": 18,
-      "boc_b": 2,
-      "total_boc": 4,
-      "partidos": 1
-    },
-    "Oasis Box|Sheila Montesinos": {
-      "arr_b": 5,
-      "total_arr": 11,
-      "boc_b": 5,
-      "total_boc": 14,
-      "partidos": 1
-    },
-    "Oasis Box|Nilda Almeida": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Oasis Box|Josmayfe Alvarado": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Corpoelec|Adela Guedez": {
-      "arr_b": 4,
-      "total_arr": 8,
-      "boc_b": 1,
-      "total_boc": 2,
-      "partidos": 1
-    },
-    "Corpoelec|Nitza Zabaleta": {
-      "arr_b": 0,
-      "total_arr": 5,
-      "boc_b": 11,
-      "total_boc": 20,
-      "partidos": 1
-    },
-    "Corpoelec|Yuli Alvarez": {
-      "arr_b": 8,
-      "total_arr": 16,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Corpoelec|Cesar Denny": {
-      "arr_b": 4,
-      "total_arr": 12,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Corpoelec|Yunibel Rodriguez": {
-      "arr_b": 13,
-      "total_arr": 23,
-      "boc_b": 2,
-      "total_boc": 2,
-      "partidos": 1
-    },
-    "Corpoelec|Diolanda Carrillo": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Corpoelec|Nicholle Colmenarez": {
-      "arr_b": 0,
-      "total_arr": 0,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
     "Ferrecenca|Maria Carreño": {
       "arr_b": 3,
       "total_arr": 11,
@@ -568,6 +491,111 @@
       "total_boc": 0,
       "partidos": 1
     },
+    "Oasis Box|Carolina Arocha": {
+      "arr_b": 16,
+      "total_arr": 26,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Luisamar Peña": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Mirelys Mendoza": {
+      "arr_b": 12,
+      "total_arr": 23,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Romi Arapé": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Karla Reyes": {
+      "arr_b": 2,
+      "total_arr": 18,
+      "boc_b": 2,
+      "total_boc": 4,
+      "partidos": 1
+    },
+    "Oasis Box|Sheila Montesinos": {
+      "arr_b": 5,
+      "total_arr": 11,
+      "boc_b": 5,
+      "total_boc": 14,
+      "partidos": 1
+    },
+    "Oasis Box|Nilda Almeida": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Oasis Box|Josmayfe Alvarado": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Adela Guedez": {
+      "arr_b": 4,
+      "total_arr": 8,
+      "boc_b": 1,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Corpoelec|Nitza Zabaleta": {
+      "arr_b": 0,
+      "total_arr": 5,
+      "boc_b": 11,
+      "total_boc": 20,
+      "partidos": 1
+    },
+    "Corpoelec|Yuli Alvarez": {
+      "arr_b": 8,
+      "total_arr": 16,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Cesar Denny": {
+      "arr_b": 4,
+      "total_arr": 12,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Yunibel Rodriguez": {
+      "arr_b": 13,
+      "total_arr": 23,
+      "boc_b": 2,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Corpoelec|Diolanda Carrillo": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpoelec|Nicholle Colmenarez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
     "Los Panas Vimapin|Victor Pinto": {
       "arr_b": 1,
       "total_arr": 8,
@@ -741,6 +769,132 @@
       "total_arr": 13,
       "boc_b": 2,
       "total_boc": 6,
+      "partidos": 1
+    },
+    "Sabaneta|Yanacia Gómez": {
+      "arr_b": 7,
+      "total_arr": 20,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Sabaneta|Beatriz Gómez": {
+      "arr_b": 8,
+      "total_arr": 17,
+      "boc_b": 0,
+      "total_boc": 3,
+      "partidos": 1
+    },
+    "Sabaneta|Donaliz Daza": {
+      "arr_b": 11,
+      "total_arr": 22,
+      "boc_b": 3,
+      "total_boc": 8,
+      "partidos": 1
+    },
+    "Sabaneta|Ana Juana Mendoza": {
+      "arr_b": 0,
+      "total_arr": 6,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Sabaneta|Hayra Benavides": {
+      "arr_b": 2,
+      "total_arr": 12,
+      "boc_b": 2,
+      "total_boc": 4,
+      "partidos": 1
+    },
+    "Sabaneta|Yorgelis Colina": {
+      "arr_b": 2,
+      "total_arr": 6,
+      "boc_b": 5,
+      "total_boc": 14,
+      "partidos": 1
+    },
+    "Sabaneta|Iris Zambrano": {
+      "arr_b": 1,
+      "total_arr": 8,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Sabaneta|Isabel Fontela": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Repostería el Ponque|Lisbeth Vasquez": {
+      "arr_b": 14,
+      "total_arr": 24,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Repostería el Ponque|Nayeska Vasquez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Repostería el Ponque|Vicmaig Gomez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Repostería el Ponque|Francia Medina": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Repostería el Ponque|Yamiletsi Colina": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Repostería el Ponque|Anabelis Guedez": {
+      "arr_b": 4,
+      "total_arr": 12,
+      "boc_b": 6,
+      "total_boc": 17,
+      "partidos": 1
+    },
+    "Repostería el Ponque|Yajaira Martinez": {
+      "arr_b": 2,
+      "total_arr": 6,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Repostería el Ponque|Amada Perez": {
+      "arr_b": 11,
+      "total_arr": 30,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Repostería el Ponque|Magaly Parra": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Repostería el Ponque|Nayelis Valera": {
+      "arr_b": 3,
+      "total_arr": 7,
+      "boc_b": 12,
+      "total_boc": 23,
       "partidos": 1
     }
   }
