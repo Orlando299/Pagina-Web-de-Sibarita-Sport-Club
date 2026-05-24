@@ -1185,7 +1185,7 @@ function saveMatchStats() {
   
   const stats = {};
   
-  [match.a, match.b].forEach(teamName => {
+  [match.a, match.b].forEach(teamName) => {
     const team = TEAMS.find(t => t.n === teamName);
     if (team) {
       team.p.forEach(player => {
@@ -1196,11 +1196,11 @@ function saveMatchStats() {
           const boc_b = parseInt(document.getElementById(`boc_b_${safeKey}`)?.value) || 0;
           const total_boc = parseInt(document.getElementById(`total_boc_${safeKey}`)?.value) || 0;
           
-          // Guardar SIEMPRE todos los jugadores (aunque sean 0)
+          // Guardar SIEMPRE con el formato "Equipo|Jugador"
           const fullKey = `${teamName}|${player}`;
           stats[fullKey] = { arr_b, total_arr, boc_b, total_boc };
           
-          // Actualizar estadísticas globales...
+          // Actualizar estadísticas globales
           const psKey = `${teamName}|${player}`;
           if (!PS[psKey]) PS[psKey] = {};
           PS[psKey].arr_b = (PS[psKey].arr_b || 0) + arr_b;
@@ -1211,12 +1211,14 @@ function saveMatchStats() {
         }
       });
     }
-  });
+  };
   
-  // Guardar con el formato completo "Equipo|Jugador"
+  // Guardar en localStorage
   localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats));
   
+  // Guardar globales
   save();
+  
   closeStatsModal();
   alert('✅ Estadísticas guardadas correctamente');
   rA();
