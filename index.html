@@ -1048,18 +1048,28 @@ function openStatsModal(matchId) {
   if (!match) return;
   currentMatchId = matchId;
   
+  // Cargar estadísticas específicas de ESTE partido
+  const matchStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {};
+  
+  // ==== CONSOLE.LOG PARA DEPURAR ====
+  console.log(`🔍 ===== PARTIDO ${matchId} =====`);
+  console.log(`Equipos: ${match.a} vs ${match.b}`);
+  console.log(`Estadísticas guardadas en localStorage:`);
+  console.log(matchStats);
+  console.log(`Claves disponibles:`, Object.keys(matchStats));
+  // =================================
+  
   document.getElementById('stats-modal-title').innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`;
   const body = document.getElementById('stats-modal-body');
   let html = '';
   
-  // Cargar estadísticas específicas de ESTE partido
-  const matchStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {};
-  
   function getStatsForPlayer(teamName, playerName) {
     // Buscar PRIMERO en las estadísticas del partido actual
     if (matchStats[playerName]) {
+      console.log(`✅ Encontrado: ${playerName}`, matchStats[playerName]);
       return matchStats[playerName];
     }
+    console.log(`❌ No encontrado: ${playerName}`);
     return { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0 };
   }
   
