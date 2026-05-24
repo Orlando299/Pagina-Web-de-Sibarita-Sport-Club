@@ -17,7 +17,7 @@
     "19": {"scoreA": 20, "scoreB": 3, "status": "done"},
     "20": {"scoreA": 10, "scoreB": 16, "status": "done"},
     "21": {"scoreA": 20, "scoreB": 8, "status": "done"},
-    "22": {"scoreA": 6, "scoreB": 20, "status": "done"},
+    "22": {"scoreA": 20, "scoreB": 6, "status": "done"},
     "25": {"scoreA": 0, "scoreB": 8, "status": "forfeit"},
     "29": {"scoreA": 17, "scoreB": 15, "status": "done"},
     "31": {"scoreA": 8, "scoreB": 0, "status": "forfeit"},
