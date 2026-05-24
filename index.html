@@ -1054,15 +1054,16 @@ function openStatsModal(matchId) {
   let html = '';
   
   // Función para obtener estadísticas de un jugador desde PS (datos acumulados del JSON)
-  function getStatsForPlayer(teamName, playerName) {
-    const key = `${teamName}|${playerName}`;
-    // Buscar en PS (cargado desde resultados.json)
-    if (PS[key]) {
-      return PS[key];
-    }
-    // Si no hay datos acumulados, retornar vacío
-    return { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0 };
+function getStatsForPlayer(teamName, playerName) {
+  const key = `${teamName}|${playerName}`;
+  console.log(`🔍 Buscando estadísticas para: ${key}`, PS[key]); // 👈 LÍNEA AGREGADA
+  // Buscar en PS (cargado desde resultados.json)
+  if (PS[key]) {
+    return PS[key];
   }
+  // Si no hay datos acumulados, retornar vacío
+  return { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0 };
+}
   
   const teamA = TEAMS.find(t => t.n === match.a);
   if (teamA) {
@@ -1091,9 +1092,36 @@ function openStatsModal(matchId) {
 }
     
     
-    function getPlayerStatsHTML(playerName, saved) { const safeKey = playerName.replace(/[^a-zA-Z0-9]/g, '_'); return `<div class="player-stats-row"><div class="player-name">${playerName}</div><div class="stats-grid"><div class="stat-item"><div class="stat-label">🎯 Arrime Buenos (A azul)</div><input type="number" class="stat-input" id="arr_b_${safeKey}" value="${saved.arr_b || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">📊 Total Arrime</div><input type="number" class="stat-input" id="arr_total_${safeKey}" value="${saved.arr_total || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">💥 Boche Buenos (B azul)</div><input type="number" class="stat-input" id="boc_b_${safeKey}" value="${saved.boc_b || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">📊 Total Boche</div><input type="number" class="stat-input" id="boc_total_${safeKey}" value="${saved.boc_total || 0}" min="0" max="50"></div></div></div>`; }
-
-
+    function getPlayerStatsHTML(playerName, saved) {
+  const safeKey = playerName.replace(/[^a-zA-Z0-9]/g, '_');
+  // Asegurar que los valores existan
+  const arr_b = saved.arr_b || 0;
+  const total_arr = saved.total_arr || 0;
+  const boc_b = saved.boc_b || 0;
+  const total_boc = saved.total_boc || 0;
+  
+  return `<div class="player-stats-row">
+            <div class="player-name">${playerName}</div>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-label">🎯 Arrime Buenos</div>
+                <input type="number" class="stat-input" id="arr_b_${safeKey}" value="${arr_b}" min="0" max="50">
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">📊 Total Arrime</div>
+                <input type="number" class="stat-input" id="total_arr_${safeKey}" value="${total_arr}" min="0" max="50">
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">💥 Boche Buenos</div>
+                <input type="number" class="stat-input" id="boc_b_${safeKey}" value="${boc_b}" min="0" max="50">
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">📊 Total Boche</div>
+                <input type="number" class="stat-input" id="total_boc_${safeKey}" value="${total_boc}" min="0" max="50">
+              </div>
+            </div>
+          </div>`;
+}
 
 
     
