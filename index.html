@@ -1052,17 +1052,16 @@ function openStatsModal(matchId) {
   const body = document.getElementById('stats-modal-body');
   let html = '';
   
-  // Función para obtener estadísticas de un jugador desde PS (datos acumulados del JSON)
-function getStatsForPlayer(teamName, playerName) {
-  const key = `${teamName}|${playerName}`;
-  console.log(`🔍 Buscando estadísticas para: ${key}`, PS[key]); // 👈 LÍNEA AGREGADA
-  // Buscar en PS (cargado desde resultados.json)
-  if (PS[key]) {
-    return PS[key];
+  // Cargar estadísticas específicas de ESTE partido
+  const matchStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {};
+  
+  function getStatsForPlayer(teamName, playerName) {
+    // Buscar PRIMERO en las estadísticas del partido actual
+    if (matchStats[playerName]) {
+      return matchStats[playerName];
+    }
+    return { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0 };
   }
-  // Si no hay datos acumulados, retornar vacío
-  return { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0 };
-}
   
   const teamA = TEAMS.find(t => t.n === match.a);
   if (teamA) {
@@ -1173,6 +1172,8 @@ function saveMatchStats() {
   const match = MATCHES.find(m => m.id === currentMatchId);
   if (!match) return;
   
+  const stats = {};
+  
   [match.a, match.b].forEach(teamName => {
     const team = TEAMS.find(t => t.n === teamName);
     if (team) {
@@ -1180,31 +1181,95 @@ function saveMatchStats() {
         if (player !== 'Por Cargar') {
           const safeKey = player.replace(/[^a-zA-Z0-9]/g, '_');
           const arr_b = parseInt(document.getElementById(`arr_b_${safeKey}`)?.value) || 0;
-          const arr_total = parseInt(document.getElementById(`arr_total_${safeKey}`)?.value) || 0;
+          const total_arr = parseInt(document.getElementById(`total_arr_${safeKey}`)?.value) || 0;
           const boc_b = parseInt(document.getElementById(`boc_b_${safeKey}`)?.value) || 0;
-          const boc_total = parseInt(document.getElementById(`boc_total_${safeKey}`)?.value) || 0;
+          const total_boc = parseInt(document.getElementById(`total_boc_${safeKey}`)?.value) || 0;
           
+          // Guardar estadísticas de ESTE partido
+          stats[player] = { arr_b, total_arr, boc_b, total_boc };
+          
+          // ACTUALIZAR estadísticas GLOBALES del jugador (PS)
           const psKey = `${teamName}|${player}`;
           if (!PS[psKey]) PS[psKey] = {};
           
-          // Acumular estadísticas (sumar a lo que ya existe)
           PS[psKey].arr_b = (PS[psKey].arr_b || 0) + arr_b;
-          PS[psKey].total_arr = (PS[psKey].total_arr || 0) + arr_total;
+          PS[psKey].total_arr = (PS[psKey].total_arr || 0) + total_arr;
           PS[psKey].boc_b = (PS[psKey].boc_b || 0) + boc_b;
-          PS[psKey].total_boc = (PS[psKey].total_boc || 0) + boc_total;
+          PS[psKey].total_boc = (PS[psKey].total_boc || 0) + total_boc;
           PS[psKey].partidos = (PS[psKey].partidos || 0) + 1;
         }
       });
     }
   });
   
-  // Guardar en localStorage
+  // Guardar estadísticas de ESTE partido en localStorage
+  localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats));
+  
+  // Guardar estadísticas globales
   save();
   
   closeStatsModal();
   alert('✅ Estadísticas guardadas correctamente');
-  rA(); // Actualizar vista de estadísticas
-  rT(); // Actualizar vista de equipos
+  rA();
+  rT();
+}
+
+    function recalcularMVP(id) {
+  const match = MATCHES.find(m => m.id === id);
+  if (!match) return;
+  
+  const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
+  const r = R[id];
+  
+  if (!r || r.status !== 'done') {
+    alert('⚠️ Primero debes guardar el resultado del partido');
+    return;
+  }
+  
+  let equipoGanador = '';
+  if (r.scoreA > r.scoreB) {
+    equipoGanador = match.a;
+  } else if (r.scoreB > r.scoreA) {
+    equipoGanador = match.b;
+  } else {
+    alert('⚠️ Empate. No hay MVP.');
+    return;
+  }
+  
+  const teamGanador = TEAMS.find(t => t.n === equipoGanador);
+  if (!teamGanador) return;
+  
+  let mejorJugador = null;
+  let mejorEfec = -1;
+  
+  teamGanador.p.forEach(player => {
+    const stats = matchStats[player];
+    if (stats && (stats.total_arr > 0 || stats.total_boc > 0)) {
+      const totalBuenos = (stats.arr_b || 0) + (stats.boc_b || 0);
+      const totalIntentos = (stats.total_arr || 0) + (stats.total_boc || 0);
+      const efec = totalIntentos > 0 ? Math.round((totalBuenos / totalIntentos) * 100) : 0;
+      
+      if (efec > mejorEfec) {
+        mejorEfec = efec;
+        mejorJugador = { name: player, team: equipoGanador, efec: efec };
+      }
+    }
+  });
+  
+  if (mejorJugador) {
+    MVP[id] = mejorJugador;
+    save();
+    rM();
+    alert(`🏅 MVP: ${mejorJugador.name} (${mejorJugador.team}) con ${mejorJugador.efec}%`);
+  } else {
+    const nm = prompt(`No hay estadísticas. Nombre del MVP de ${equipoGanador}:`);
+    if (nm && nm.trim()) {
+      MVP[id] = { name: nm.trim(), team: equipoGanador, efec: 0 };
+      save();
+      rM();
+      alert(`✅ MVP asignado: ${nm.trim()}`);
+    }
+  }
 }
     
     
@@ -1219,22 +1284,33 @@ async function cargarResultadosDesdeGitHub() {
     if (!response.ok) throw new Error('No se pudo cargar el archivo');
     const data = await response.json();
     
+    // Cargar resultados
     if (data.resultados) {
       for (const [id, datos] of Object.entries(data.resultados)) {
         R[id] = datos;
       }
     }
     
+    // Cargar MVP
     if (data.mvp) {
       for (const [id, datos] of Object.entries(data.mvp)) {
         MVP[id] = datos;
       }
     }
     
+    // Cargar estadísticas GLOBALES (acumuladas)
     if (data.estadisticas) {
       for (const [key, datos] of Object.entries(data.estadisticas)) {
         PS[key] = datos;
       }
+    }
+    
+    // Cargar estadísticas por partido
+    if (data.estadisticasPorPartido) {
+      for (const [matchId, stats] of Object.entries(data.estadisticasPorPartido)) {
+        localStorage.setItem(`match_stats_${matchId}`, JSON.stringify(stats));
+      }
+      console.log(`✅ Cargadas estadísticas de ${Object.keys(data.estadisticasPorPartido).length} partidos`);
     }
     
     save();
@@ -1250,13 +1326,23 @@ async function cargarResultadosDesdeGitHub() {
 }
 
 function exportarResultadosAJSON() {
+  // Recolectar todas las estadísticas por partido guardadas en localStorage
+  const matchStats = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('match_stats_')) {
+      const matchId = key.replace('match_stats_', '');
+      matchStats[matchId] = JSON.parse(localStorage.getItem(key));
+    }
+  }
+  
   const datos = {
     ultimaActualizacion: new Date().toISOString(),
     resultados: R,
     mvp: MVP,
-    estadisticas: PS
+    estadisticas: PS,
+    estadisticasPorPartido: matchStats
   };
-
   
   const jsonStr = JSON.stringify(datos, null, 2);
   const blob = new Blob([jsonStr], { type: 'application/json' });
@@ -1267,9 +1353,8 @@ function exportarResultadosAJSON() {
   a.click();
   URL.revokeObjectURL(url);
   
-  mostrarEstado('✅ JSON exportado. Súbelo a GitHub como "resultados.json"');
+  mostrarEstado('✅ JSON exportado con estadísticas por partido');
 }
-
   function mostrarBotonesAdmin() {
   const pass = prompt('🔐 Contraseña de administrador:');
   if (pass === 'sibarita2026') {
