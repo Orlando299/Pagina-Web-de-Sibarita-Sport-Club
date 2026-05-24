@@ -1,5 +1,5 @@
 {
-  "ultimaActualizacion": "2026-05-24T23:30:00.000Z",
+  "ultimaActualizacion": "2026-05-24T23:59:00.000Z",
   "resultados": {
     "1": {"scoreA": 12, "scoreB": 11, "status": "done"},
     "2": {"scoreA": 6, "scoreB": 15, "status": "done"},
@@ -132,10 +132,35 @@
     "Emprendedoras|Karelis Aguilar": {"arr_b": 0, "total_arr": 6, "boc_b": 0, "total_boc": 0, "partidos": 1},
     "Emprendedoras|Luisa Arrieta": {"arr_b": 0, "total_arr": 1, "boc_b": 1, "total_boc": 8, "partidos": 1},
     "Emprendedoras|Yusbelis Chirinos": {"arr_b": 7, "total_arr": 16, "boc_b": 0, "total_boc": 0, "partidos": 1},
-    "Emprendedoras|Cresky Perez": {"arr_b": 5, "total_arr": 10, "boc_b": 0, "total_boc": 0, "partidos": 1}
+    "Emprendedoras|Cresky Perez": {"arr_b": 5, "total_arr": 10, "boc_b": 0, "total_boc": 0, "partidos": 1},
+    "Servihidra|Henry Pacheco": {"arr_b": 0, "total_arr": 1, "boc_b": 0, "total_boc": 0, "partidos": 1},
+    "Servihidra|Jose Rodriguez": {"arr_b": 22, "total_arr": 40, "boc_b": 0, "total_boc": 0, "partidos": 2},
+    "Servihidra|Atahualpa Melendez": {"arr_b": 15, "total_arr": 31, "boc_b": 0, "total_boc": 0, "partidos": 1},
+    "Servihidra|Gustavo Orozco": {"arr_b": 2, "total_arr": 9, "boc_b": 10, "total_boc": 16, "partidos": 2},
+    "Servihidra|Theoscar Vicent": {"arr_b": 25, "total_arr": 30, "boc_b": 0, "total_boc": 0, "partidos": 1},
+    "Servihidra|Jose Cordero": {"arr_b": 4, "total_arr": 10, "boc_b": 0, "total_boc": 0, "partidos": 1},
+    "Servihidra|Numan Dudamel": {"arr_b": 10, "total_arr": 21, "boc_b": 1, "total_boc": 1, "partidos": 1},
+    "Servihidra|Nelson Suarez": {"arr_b": 1, "total_arr": 6, "boc_b": 32, "total_boc": 56, "partidos": 2},
+    "Servihidra|Giovanni Gonzalez": {"arr_b": 9, "total_arr": 21, "boc_b": 8, "total_boc": 20, "partidos": 2},
+    "Exasa|Jorge Sierralta": {"arr_b": 18, "total_arr": 25, "boc_b": 0, "total_boc": 0, "partidos": 1},
+    "Exasa|Orlando Rodriguez": {"arr_b": 6, "total_arr": 11, "boc_b": 2, "total_boc": 3, "partidos": 1},
+    "Exasa|Adder Matute": {"arr_b": 2, "total_arr": 3, "boc_b": 15, "total_boc": 19, "partidos": 1},
+    "Exasa|Hector Reyes": {"arr_b": 9, "total_arr": 13, "boc_b": 3, "total_boc": 9, "partidos": 1}
   },
   "estadisticasPorPartido": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
     "5": {
+      "Atavenca|Yadira Torrez": {"arr_b": 4, "total_arr": 5, "boc_b": 13, "total_boc": 16},
+      "Atavenca|Diana Oropeza": {"arr_b": 0, "total_arr": 0, "boc_b": 0, "total_boc": 0},
+      "Atavenca|Julia Escalona": {"arr_b": 4, "total_arr": 7, "boc_b": 6, "total_boc": 13},
+      "Atavenca|María Elcy Noriega": {"arr_b": 3, "total_arr": 6, "boc_b": 0, "total_boc": 0},
+      "Atavenca|Esmeralda Mercado": {"arr_b": 19, "total_arr": 29, "boc_b": 0, "total_boc": 0},
+      "Atavenca|Erika Rodriguez": {"arr_b": 0, "total_arr": 0, "boc_b": 0, "total_boc": 0},
+      "Atavenca|Yankelis Tambo": {"arr_b": 0, "total_arr": 0, "boc_b": 0, "total_boc": 0},
+      "Atavenca|María Delgado": {"arr_b": 0, "total_arr": 0, "boc_b": 0, "total_boc": 0},
       "Chikas|Yusbelis Gonzalez": {"arr_b": 0, "total_arr": 1, "boc_b": 2, "total_boc": 3},
       "Chikas|Natalia Garcia": {"arr_b": 3, "total_arr": 4, "boc_b": 0, "total_boc": 2},
       "Chikas|Krisandar Soteldo": {"arr_b": 6, "total_arr": 7, "boc_b": 14, "total_boc": 20},
@@ -160,6 +185,13 @@
       "Emprendedoras|Yusbelis Chirinos": {"arr_b": 7, "total_arr": 16, "boc_b": 0, "total_boc": 0},
       "Emprendedoras|Cresky Perez": {"arr_b": 5, "total_arr": 10, "boc_b": 0, "total_boc": 0}
     },
+    "10": {},
+    "12": {},
+    "13": {},
+    "19": {},
+    "20": {},
+    "21": {},
+    "22": {},
     "29": {
       "Chikas|Yusbelis Gonzalez": {"arr_b": 0, "total_arr": 0, "boc_b": 0, "total_boc": 2},
       "Chikas|Natalia Garcia": {"arr_b": 2, "total_arr": 6, "boc_b": 0, "total_boc": 1},
@@ -178,6 +210,22 @@
       "Santana|Erika Yamilet Rodriguez": {"arr_b": 6, "total_arr": 15, "boc_b": 8, "total_boc": 15},
       "Santana|Yenny Vargas": {"arr_b": 11, "total_arr": 17, "boc_b": 0, "total_boc": 0},
       "Santana|Yaritza Caruci": {"arr_b": 1, "total_arr": 4, "boc_b": 0, "total_boc": 0}
-    }
+    },
+    "38": {},
+    "39": {},
+    "40": {},
+    "41": {},
+    "42": {},
+    "43": {},
+    "45": {},
+    "46": {},
+    "48": {},
+    "49": {},
+    "50": {},
+    "51": {},
+    "52": {},
+    "77": {},
+    "94": {},
+    "108": {}
   }
 }
