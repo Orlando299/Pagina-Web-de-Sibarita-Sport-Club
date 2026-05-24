@@ -1185,7 +1185,7 @@ function saveMatchStats() {
   
   const stats = {};
   
-  [match.a, match.b].forEach(teamName) => {
+  [match.a, match.b].forEach(teamName => {
     const team = TEAMS.find(t => t.n === teamName);
     if (team) {
       team.p.forEach(player => {
@@ -1211,7 +1211,7 @@ function saveMatchStats() {
         }
       });
     }
-  };
+  });
   
   // Guardar en localStorage
   localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats));
