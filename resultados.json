@@ -162,7 +162,24 @@
       "scoreB": 19,
       "status": "done"
     }
+
+  "51": {
+    "scoreA": 14,
+    "scoreB": 20,
+    "status": "done"
+  }
+
+  "48": {
+    "scoreA": 20,
+    "scoreB": 4,
+    "status": "done"
+  }
+
+//////--------- Introduce aqui mas datos de resultados de los partidos
+    
   },
+
+
   "mvp": {
     "1": {
       "name": "Carolina Arocha",
@@ -224,6 +241,25 @@
       "team": "290",
       "efec": 0
     }
+
+//////--------- Introduce aqui mas datos de resultados de los MVP
+
+
+      "51": {
+    "name": "Rosandrys Yepez",
+    "team": "Divinas",
+    "efec": 90
+  },
+
+  "48": {
+    "name": "Adder Matute",
+    "team": "Exasa",
+    "efec": 77
+  }
+
+
+
+    
   },
   "estadisticas": {
     "Oasis Box|Carolina Arocha": {
@@ -1373,6 +1409,159 @@
       "boc_b": 0,
       "total_boc": 0,
       "partidos": 1
-    }
+    },
+
+    //////--------- Introduce aqui mas datos de resultados de estadisticas
+
+  "Jujure (Educadoras)|Leudini Torres": {
+    "arr_b": 4,
+    "total_arr": 7,
+    "boc_b": 5,
+    "total_boc": 11,
+    "partidos": 1
+  },
+  "Jujure (Educadoras)|Maria Vivas": {
+    "arr_b": 13,
+    "total_arr": 26,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Jujure (Educadoras)|Irene De Vicent": {
+    "arr_b": 2,
+    "total_arr": 3,
+    "boc_b": 13,
+    "total_boc": 25,
+    "partidos": 1
+  },
+  "Jujure (Educadoras)|Keila Valderrama": {
+    "arr_b": 12,
+    "total_arr": 28,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Jujure (Educadoras)|Marbelys Sira": {
+    "arr_b": 1,
+    "total_arr": 4,
+    "boc_b": 1,
+    "total_boc": 7,
+    "partidos": 1
+  },
+
+      "Divinas|Dagmary Juarez": {
+    "arr_b": 9,
+    "total_arr": 14,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Divinas|Nancy Moreno": {
+    "arr_b": 1,
+    "total_arr": 2,
+    "boc_b": 2,
+    "total_boc": 4,
+    "partidos": 1
+  },
+  "Divinas|Mar Suarez": {
+    "arr_b": 14,
+    "total_arr": 28,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Divinas|Rosandrys Yepez": {
+    "arr_b": 9,
+    "total_arr": 10,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Divinas|Tania Perez": {
+    "arr_b": 1,
+    "total_arr": 4,
+    "boc_b": 8,
+    "total_boc": 13,
+    "partidos": 1
+  },
+  "Divinas|Karla Rodriguez": {
+    "arr_b": 1,
+    "total_arr": 2,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Divinas|Tabata Arduo": {
+    "arr_b": 0,
+    "total_arr": 2,
+    "boc_b": 10,
+    "total_boc": 23,
+    "partidos": 1
+  },
+
+      "Exasa|Jorge Sierralta": {
+    "arr_b": 18,
+    "total_arr": 25,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Exasa|Orlando Rodriguez": {
+    "arr_b": 6,
+    "total_arr": 11,
+    "boc_b": 2,
+    "total_boc": 3,
+    "partidos": 1
+  },
+  "Exasa|Adder Matute": {
+    "arr_b": 2,
+    "total_arr": 3,
+    "boc_b": 15,
+    "total_boc": 19,
+    "partidos": 1
+  },
+  "Exasa|Hector Reyes": {
+    "arr_b": 9,
+    "total_arr": 13,
+    "boc_b": 3,
+    "total_boc": 9,
+    "partidos": 1
+  },
+
+      "Los Panas Vimapin|Victor Pinto": {
+    "arr_b": 9,
+    "total_arr": 21,
+    "boc_b": 0,
+    "total_boc": 1,
+    "partidos": 1
+  },
+  "Los Panas Vimapin|Marco Rodriguez": {
+    "arr_b": 8,
+    "total_arr": 23,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Los Panas Vimapin|Neptali Torrez": {
+    "arr_b": 5,
+    "total_arr": 7,
+    "boc_b": 9,
+    "total_boc": 18,
+    "partidos": 1
+  },
+  "Los Panas Vimapin|Freuman Perez": {
+    "arr_b": 9,
+    "total_arr": 13,
+    "boc_b": 0,
+    "total_boc": 5,
+    "partidos": 1
+  }
+
+    
   }
 }
+
+
+
+
+
