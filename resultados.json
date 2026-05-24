@@ -90,11 +90,26 @@
       "scoreB": 20,
       "status": "done"
     },
+
+    
     "25": {
       "scoreA": 0,
       "scoreB": 8,
       "status": "forfeit"
     },
+
+      "29": {
+    "scoreA": 17,
+    "scoreB": 15,
+    "status": "done"
+  },
+
+      "31": {
+    "scoreA": 8,
+    "scoreB": 0,
+    "status": "forfeit"
+  },
+    
     "38": {
       "scoreA": 9,
       "scoreB": 20,
@@ -219,6 +234,13 @@
       "team": "Servihidra",
       "efec": 0
     },
+    
+  "29": {
+    "name": "Gilian Rengifo",
+    "team": "Chikas",
+    "efec": 64
+  },
+    
     "38": {
       "name": "Lisbeth Vasquez",
       "team": "Repostería el Ponque",
@@ -2043,5 +2065,136 @@
       "total_boc": 0,
       "partidos": 1
     }
+
+  "Chikas|Yusbelis Gonzalez": {
+    "arr_b": 0,
+    "total_arr": 0,
+    "boc_b": 0,
+    "total_boc": 2,
+    "partidos": 1
+  },
+  "Chikas|Natalia Garcia": {
+    "arr_b": 2,
+    "total_arr": 6,
+    "boc_b": 0,
+    "total_boc": 1,
+    "partidos": 1
+  },
+  "Chikas|Marianni Torres": {
+    "arr_b": 0,
+    "total_arr": 2,
+    "boc_b": 1,
+    "total_boc": 1,
+    "partidos": 1
+  },
+  "Chikas|Krisandar Soteldo": {
+    "arr_b": 1,
+    "total_arr": 5,
+    "boc_b": 20,
+    "total_boc": 29,
+    "partidos": 1
+  },
+  "Chikas|Eloisa Gonzalez": {
+    "arr_b": 6,
+    "total_arr": 15,
+    "boc_b": 1,
+    "total_boc": 3,
+    "partidos": 1
+  },
+  "Chikas|Alejandra Mesa": {
+    "arr_b": 1,
+    "total_arr": 6,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Chikas|Marbella Suarez": {
+    "arr_b": 5,
+    "total_arr": 10,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Chikas|Kerangelit Mendez": {
+    "arr_b": 6,
+    "total_arr": 13,
+    "boc_b": 0,
+    "total_boc": 1,
+    "partidos": 1
+  },
+  "Chikas|Maria Escalante": {
+    "arr_b": 5,
+    "total_arr": 10,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Chikas|Gilian Rengifo": {
+    "arr_b": 16,
+    "total_arr": 25,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+
+  "Santana|Luz Escalona": {
+    "arr_b": 0,
+    "total_arr": 4,
+    "boc_b": 16,
+    "total_boc": 29,
+    "partidos": 1
+  },
+  "Santana|Tibisay Ramirez": {
+    "arr_b": 14,
+    "total_arr": 19,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Santana|Ana Luisa Ramirez": {
+    "arr_b": 0,
+    "total_arr": 0,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Santana|Ana Varela": {
+    "arr_b": 8,
+    "total_arr": 21,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Santana|Camelia Suarez": {
+    "arr_b": 3,
+    "total_arr": 6,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Santana|Erika Yamilet Rodriguez": {
+    "arr_b": 6,
+    "total_arr": 15,
+    "boc_b": 8,
+    "total_boc": 15,
+    "partidos": 1
+  },
+  "Santana|Yenny Vargas": {
+    "arr_b": 11,
+    "total_arr": 17,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+  "Santana|Yaritza Caruci": {
+    "arr_b": 1,
+    "total_arr": 4,
+    "boc_b": 0,
+    "total_boc": 0,
+    "partidos": 1
+  },
+
+
+    
   }
 }
