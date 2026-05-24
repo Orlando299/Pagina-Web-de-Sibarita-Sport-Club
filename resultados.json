@@ -8,7 +8,7 @@
     "5": {"scoreA": 10, "scoreB": 14, "status": "done"},
     "6": {"scoreA": 0, "scoreB": 0, "status": "suspended", "razon": "Equipo Las Femix retirados"},
     "8": {"scoreA": 0, "scoreB": 0, "status": "suspended", "razon": "equipo futboleras retirado"},
-    "9": {"scoreA": 20, "scoreB": 4, "status": "done"},
+    "9": {"scoreA": 4, "scoreB": 20, "status": "done"},
     "10": {"scoreA": 20, "scoreB": 6, "status": "done"},
     "11": {"scoreA": 0, "scoreB": 0, "status": "suspended", "razon": "Equipo Atrevidas retirado"},
     "12": {"scoreA": 18, "scoreB": 12, "status": "done"},
