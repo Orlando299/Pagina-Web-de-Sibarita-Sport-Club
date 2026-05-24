@@ -1,5 +1,5 @@
 {
-  "ultimaActualizacion": "2026-05-24T00:00:00.000Z",
+  "ultimaActualizacion": "2026-05-24T22:00:00.000Z",
   "resultados": {
     "1": {
       "scoreA": 12,
@@ -131,6 +131,16 @@
       "status": "suspended",
       "razon": "equipo inversiones IV retirado"
     },
+    "45": {
+      "scoreA": 14,
+      "scoreB": 18,
+      "status": "done"
+    },
+    "46": {
+      "scoreA": 3,
+      "scoreB": 20,
+      "status": "done"
+    },
     "47": {
       "scoreA": 0,
       "scoreB": 0,
@@ -142,9 +152,24 @@
       "scoreB": 4,
       "status": "done"
     },
+    "49": {
+      "scoreA": 15,
+      "scoreB": 16,
+      "status": "done"
+    },
+    "50": {
+      "scoreA": 10,
+      "scoreB": 14,
+      "status": "done"
+    },
     "51": {
       "scoreA": 14,
       "scoreB": 20,
+      "status": "done"
+    },
+    "52": {
+      "scoreA": 20,
+      "scoreB": 19,
       "status": "done"
     },
     "77": {
@@ -224,15 +249,40 @@
       "team": "Pintucal",
       "efec": 69
     },
+    "45": {
+      "name": "Oscar De Santis",
+      "team": "Tribunal Protección",
+      "efec": 54
+    },
+    "46": {
+      "name": "Wilmer Xavier Rodriguez Camacho",
+      "team": "Unidos de Hato",
+      "efec": 54
+    },
     "48": {
       "name": "Adder Matute",
       "team": "Exasa",
       "efec": 77
     },
+    "49": {
+      "name": "Wilmer Xavier Rodriguez Camacho",
+      "team": "Unidos de Hato",
+      "efec": 62
+    },
+    "50": {
+      "name": "Magalys Legon",
+      "team": "Corpolec Jubiladas",
+      "efec": 54
+    },
     "51": {
       "name": "Rosandrys Yepez",
       "team": "Divinas",
       "efec": 90
+    },
+    "52": {
+      "name": "Esteban Aguilar",
+      "team": "Familia Ortega",
+      "efec": 68
     }
   },
   "estadisticas": {
@@ -777,65 +827,65 @@
     },
     "Servihidra|Henry Pacheco": {
       "arr_b": 0,
-      "total_arr": 0,
+      "total_arr": 1,
       "boc_b": 0,
       "total_boc": 0,
       "partidos": 1
     },
     "Servihidra|Jose Rodriguez": {
-      "arr_b": 7,
-      "total_arr": 14,
+      "arr_b": 15,
+      "total_arr": 26,
       "boc_b": 0,
       "total_boc": 0,
       "partidos": 1
     },
     "Servihidra|Atahualpa Melendez": {
-      "arr_b": 0,
-      "total_arr": 0,
+      "arr_b": 15,
+      "total_arr": 31,
       "boc_b": 0,
       "total_boc": 0,
       "partidos": 1
     },
     "Servihidra|Gustavo Orozco": {
       "arr_b": 1,
-      "total_arr": 4,
-      "boc_b": 3,
-      "total_boc": 4,
+      "total_arr": 5,
+      "boc_b": 7,
+      "total_boc": 12,
       "partidos": 1
     },
     "Servihidra|Theoscar Vicent": {
-      "arr_b": 25,
-      "total_arr": 30,
-      "boc_b": 0,
-      "total_boc": 0,
-      "partidos": 1
-    },
-    "Servihidra|Jose Cordero": {
       "arr_b": 0,
       "total_arr": 0,
       "boc_b": 0,
       "total_boc": 0,
       "partidos": 1
     },
+    "Servihidra|Jose Cordero": {
+      "arr_b": 4,
+      "total_arr": 10,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
     "Servihidra|Numan Dudamel": {
-      "arr_b": 10,
-      "total_arr": 21,
-      "boc_b": 1,
-      "total_boc": 1,
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
       "partidos": 1
     },
     "Servihidra|Nelson Suarez": {
-      "arr_b": 1,
-      "total_arr": 4,
+      "arr_b": 0,
+      "total_arr": 2,
       "boc_b": 16,
-      "total_boc": 22,
+      "total_boc": 34,
       "partidos": 1
     },
     "Servihidra|Giovanni Gonzalez": {
-      "arr_b": 5,
-      "total_arr": 13,
-      "boc_b": 2,
-      "total_boc": 6,
+      "arr_b": 4,
+      "total_arr": 8,
+      "boc_b": 6,
+      "total_boc": 14,
       "partidos": 1
     },
     "Sabaneta|Yanacia Gómez": {
@@ -1508,6 +1558,489 @@
       "total_arr": 2,
       "boc_b": 1,
       "total_boc": 5,
+      "partidos": 1
+    },
+    "Poder Justiciable|Daniel Roman": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 1,
+      "partidos": 1
+    },
+    "Poder Justiciable|Honorio Peroza": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Poder Justiciable|Tony Perez": {
+      "arr_b": 5,
+      "total_arr": 17,
+      "boc_b": 1,
+      "total_boc": 3,
+      "partidos": 1
+    },
+    "Poder Justiciable|Alfonzo Delgado": {
+      "arr_b": 9,
+      "total_arr": 18,
+      "boc_b": 4,
+      "total_boc": 14,
+      "partidos": 1
+    },
+    "Poder Justiciable|Jhonatan Cedeño": {
+      "arr_b": 16,
+      "total_arr": 34,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Poder Justiciable|Jhonny Oviedo": {
+      "arr_b": 5,
+      "total_arr": 11,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Poder Justiciable|Ruben Montero": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Poder Justiciable|Javier Torrealba": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Poder Justiciable|Julio Colmenarez": {
+      "arr_b": 3,
+      "total_arr": 8,
+      "boc_b": 10,
+      "total_boc": 24,
+      "partidos": 1
+    },
+    "Tribunal Protección|Wilder Quintero": {
+      "arr_b": 2,
+      "total_arr": 6,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Tribunal Protección|Renny Rivas": {
+      "arr_b": 4,
+      "total_arr": 8,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Tribunal Protección|Oscar De Santis": {
+      "arr_b": 15,
+      "total_arr": 28,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Tribunal Protección|Enyer Umbria": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Tribunal Protección|Isaac Garcia": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Tribunal Protección|Yhogerson Guedez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Tribunal Protección|Jose Benavides": {
+      "arr_b": 10,
+      "total_arr": 21,
+      "boc_b": 6,
+      "total_boc": 10,
+      "partidos": 1
+    },
+    "Tribunal Protección|Jose D. Fernandez": {
+      "arr_b": 2,
+      "total_arr": 8,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Tribunal Protección|Jose V. Fernandez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Tribunal Protección|Carlos Laya": {
+      "arr_b": 8,
+      "total_arr": 16,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Tribunal Protección|Jose Escalona": {
+      "arr_b": 3,
+      "total_arr": 6,
+      "boc_b": 14,
+      "total_boc": 28,
+      "partidos": 1
+    },
+    "Agro max|José Bielma": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Agro max|Jorge Riera": {
+      "arr_b": 6,
+      "total_arr": 8,
+      "boc_b": 4,
+      "total_boc": 6,
+      "partidos": 1
+    },
+    "Agro max|Miguel Cordova": {
+      "arr_b": 0,
+      "total_arr": 3,
+      "boc_b": 2,
+      "total_boc": 5,
+      "partidos": 1
+    },
+    "Agro max|José Cordova": {
+      "arr_b": 12,
+      "total_arr": 23,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Agro max|Jesús Sala": {
+      "arr_b": 5,
+      "total_arr": 8,
+      "boc_b": 2,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Agro max|Manuel Andrades": {
+      "arr_b": 8,
+      "total_arr": 22,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Agro max|Abran Sanchez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Agro max|Keily Sanchez": {
+      "arr_b": 2,
+      "total_arr": 4,
+      "boc_b": 7,
+      "total_boc": 10,
+      "partidos": 1
+    },
+    "Fuerza|Ademar Tua": {
+      "arr_b": 11,
+      "total_arr": 27,
+      "boc_b": 4,
+      "total_boc": 11,
+      "partidos": 1
+    },
+    "Fuerza|Pedro Yepez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Fuerza|Pedro Noguera": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Fuerza|Clemente Perez": {
+      "arr_b": 3,
+      "total_arr": 3,
+      "boc_b": 15,
+      "total_boc": 34,
+      "partidos": 1
+    },
+    "Fuerza|Luis Barco": {
+      "arr_b": 6,
+      "total_arr": 19,
+      "boc_b": 9,
+      "total_boc": 19,
+      "partidos": 1
+    },
+    "Fuerza|Miguel Segura": {
+      "arr_b": 13,
+      "total_arr": 35,
+      "boc_b": 2,
+      "total_boc": 3,
+      "partidos": 1
+    },
+    "Fuerza|Ramon Perdomo": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Fuerza|Eduardo Rivero": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Fuerza|Danny Tua": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Saboga|Virgilia Mendez": {
+      "arr_b": 7,
+      "total_arr": 20,
+      "boc_b": 5,
+      "total_boc": 7,
+      "partidos": 1
+    },
+    "Saboga|Isvelia Cordero": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Saboga|Roxana Pacheco": {
+      "arr_b": 23,
+      "total_arr": 30,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Saboga|Maryeris Daza": {
+      "arr_b": 0,
+      "total_arr": 2,
+      "boc_b": 13,
+      "total_boc": 26,
+      "partidos": 1
+    },
+    "Saboga|Celateresa Sira": {
+      "arr_b": 7,
+      "total_arr": 28,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Saboga|Ligia Sosa": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Saboga|Leslie Farfan": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpolec Jubiladas|Ana Urdaneta": {
+      "arr_b": 1,
+      "total_arr": 8,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpolec Jubiladas|Crisalida Juarez": {
+      "arr_b": 15,
+      "total_arr": 28,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpolec Jubiladas|Edith Gallardo": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 3,
+      "total_boc": 8,
+      "partidos": 1
+    },
+    "Corpolec Jubiladas|Marielen Colmenarez": {
+      "arr_b": 0,
+      "total_arr": 6,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpolec Jubiladas|Maribel Garcia": {
+      "arr_b": 14,
+      "total_arr": 26,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpolec Jubiladas|Maribel Goyo": {
+      "arr_b": 5,
+      "total_arr": 7,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpolec Jubiladas|Magalys Legon": {
+      "arr_b": 2,
+      "total_arr": 2,
+      "boc_b": 12,
+      "total_boc": 24,
+      "partidos": 1
+    },
+    "Corpolec Jubiladas|Lucila Escudero": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Corpolec Jubiladas|Yacelis Timaure": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Familia Ortega|Freddy Alvarado": {
+      "arr_b": 1,
+      "total_arr": 4,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Familia Ortega|Yoiber Oviedo": {
+      "arr_b": 11,
+      "total_arr": 21,
+      "boc_b": 4,
+      "total_boc": 8,
+      "partidos": 1
+    },
+    "Familia Ortega|Eiderzon Nelo": {
+      "arr_b": 18,
+      "total_arr": 36,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Familia Ortega|Gonzalo Palacio": {
+      "arr_b": 8,
+      "total_arr": 30,
+      "boc_b": 2,
+      "total_boc": 2,
+      "partidos": 1
+    },
+    "Familia Ortega|Gabriel Betancourt": {
+      "arr_b": 1,
+      "total_arr": 8,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Familia Ortega|Esteban Aguilar": {
+      "arr_b": 0,
+      "total_arr": 1,
+      "boc_b": 23,
+      "total_boc": 33,
+      "partidos": 1
+    },
+    "Familia Ortega|Angel Herrera": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Unidos de Hato|Leider Alexander Alvarado Moreno": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Unidos de Hato|Edinson Antonio Valera Camacho": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Unidos de Hato|Jesus Enrique Orta Gil": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Unidos de Hato|Carlos Luis Valera Palencia": {
+      "arr_b": 2,
+      "total_arr": 12,
+      "boc_b": 4,
+      "total_boc": 11,
+      "partidos": 1
+    },
+    "Unidos de Hato|Alfredo Ramon Alvarez Ojeda": {
+      "arr_b": 4,
+      "total_arr": 13,
+      "boc_b": 0,
+      "total_boc": 1,
+      "partidos": 1
+    },
+    "Unidos de Hato|Wilmer Xavier Rodriguez Camacho": {
+      "arr_b": 13,
+      "total_arr": 24,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Unidos de Hato|Juan Carlos Valera Camacho": {
+      "arr_b": 3,
+      "total_arr": 7,
+      "boc_b": 6,
+      "total_boc": 17,
+      "partidos": 1
+    },
+    "Unidos de Hato|Brando Daniel Rojas Fernandez": {
+      "arr_b": 0,
+      "total_arr": 0,
+      "boc_b": 0,
+      "total_boc": 0,
+      "partidos": 1
+    },
+    "Unidos de Hato|Euclides Yolimar Torrealba Torin": {
+      "arr_b": 2,
+      "total_arr": 10,
+      "boc_b": 0,
+      "total_boc": 0,
       "partidos": 1
     }
   }
