@@ -1053,16 +1053,15 @@ function openStatsModal(matchId) {
   const body = document.getElementById('stats-modal-body');
   let html = '';
   
-  // Función para obtener estadísticas de un jugador
+  // Función para obtener estadísticas de un jugador desde PS (datos acumulados del JSON)
   function getStatsForPlayer(teamName, playerName) {
     const key = `${teamName}|${playerName}`;
-    // Primero buscar en PS (cargado desde JSON)
+    // Buscar en PS (cargado desde resultados.json)
     if (PS[key]) {
       return PS[key];
     }
-    // Si no, buscar en localStorage
-    const savedStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {};
-    return savedStats[playerName] || { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0 };
+    // Si no hay datos acumulados, retornar vacío
+    return { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0 };
   }
   
   const teamA = TEAMS.find(t => t.n === match.a);
@@ -1090,7 +1089,9 @@ function openStatsModal(matchId) {
   body.innerHTML = html;
   document.getElementById('stats-modal').style.display = 'block';
 }
-function getPlayerStatsHTML(playerName, saved) { const safeKey = playerName.replace(/[^a-zA-Z0-9]/g, '_'); return `<div class="player-stats-row"><div class="player-name">${playerName}</div><div class="stats-grid"><div class="stat-item"><div class="stat-label">🎯 Arrime Buenos (A azul)</div><input type="number" class="stat-input" id="arr_b_${safeKey}" value="${saved.arr_b || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">📊 Total Arrime</div><input type="number" class="stat-input" id="arr_total_${safeKey}" value="${saved.arr_total || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">💥 Boche Buenos (B azul)</div><input type="number" class="stat-input" id="boc_b_${safeKey}" value="${saved.boc_b || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">📊 Total Boche</div><input type="number" class="stat-input" id="boc_total_${safeKey}" value="${saved.boc_total || 0}" min="0" max="50"></div></div></div>`; }
+    
+    
+    function getPlayerStatsHTML(playerName, saved) { const safeKey = playerName.replace(/[^a-zA-Z0-9]/g, '_'); return `<div class="player-stats-row"><div class="player-name">${playerName}</div><div class="stats-grid"><div class="stat-item"><div class="stat-label">🎯 Arrime Buenos (A azul)</div><input type="number" class="stat-input" id="arr_b_${safeKey}" value="${saved.arr_b || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">📊 Total Arrime</div><input type="number" class="stat-input" id="arr_total_${safeKey}" value="${saved.arr_total || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">💥 Boche Buenos (B azul)</div><input type="number" class="stat-input" id="boc_b_${safeKey}" value="${saved.boc_b || 0}" min="0" max="50"></div><div class="stat-item"><div class="stat-label">📊 Total Boche</div><input type="number" class="stat-input" id="boc_total_${safeKey}" value="${saved.boc_total || 0}" min="0" max="50"></div></div></div>`; }
 
 
 
@@ -1145,8 +1146,6 @@ function saveMatchStats() {
   const match = MATCHES.find(m => m.id === currentMatchId);
   if (!match) return;
   
-  const stats = {};
-  
   [match.a, match.b].forEach(teamName => {
     const team = TEAMS.find(t => t.n === teamName);
     if (team) {
@@ -1158,10 +1157,10 @@ function saveMatchStats() {
           const boc_b = parseInt(document.getElementById(`boc_b_${safeKey}`)?.value) || 0;
           const boc_total = parseInt(document.getElementById(`boc_total_${safeKey}`)?.value) || 0;
           
-          stats[player] = { arr_b, arr_total, boc_b, boc_total };
-          
           const psKey = `${teamName}|${player}`;
           if (!PS[psKey]) PS[psKey] = {};
+          
+          // Acumular estadísticas (sumar a lo que ya existe)
           PS[psKey].arr_b = (PS[psKey].arr_b || 0) + arr_b;
           PS[psKey].total_arr = (PS[psKey].total_arr || 0) + arr_total;
           PS[psKey].boc_b = (PS[psKey].boc_b || 0) + boc_b;
@@ -1172,10 +1171,7 @@ function saveMatchStats() {
     }
   });
   
-  // Guardar en localStorage para este partido específico
-  localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats));
-  
-  // Guardar en el objeto PS general
+  // Guardar en localStorage
   save();
   
   closeStatsModal();
@@ -1183,6 +1179,8 @@ function saveMatchStats() {
   rA(); // Actualizar vista de estadísticas
   rT(); // Actualizar vista de equipos
 }
+    
+    
     function closeStatsModal() { g('stats-modal').style.display = 'none'; currentMatchId = null; }
 
 // ==================== GITHUB SYNC ====================
