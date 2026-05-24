@@ -1063,15 +1063,16 @@ function openStatsModal(matchId) {
   const body = document.getElementById('stats-modal-body');
   let html = '';
   
-  function getStatsForPlayer(teamName, playerName) {
-    // Buscar PRIMERO en las estadísticas del partido actual
-    if (matchStats[playerName]) {
-      console.log(`✅ Encontrado: ${playerName}`, matchStats[playerName]);
-      return matchStats[playerName];
-    }
-    console.log(`❌ No encontrado: ${playerName}`);
-    return { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0 };
+function getStatsForPlayer(teamName, playerName) {
+  // Buscar con el formato "Equipo|Jugador"
+  const fullKey = `${teamName}|${playerName}`;
+  if (matchStats[fullKey]) {
+    console.log(`✅ Encontrado: ${fullKey}`, matchStats[fullKey]);
+    return matchStats[fullKey];
   }
+  console.log(`❌ No encontrado: ${fullKey}`);
+  return { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0 };
+}
   
   const teamA = TEAMS.find(t => t.n === match.a);
   if (teamA) {
@@ -1195,13 +1196,13 @@ function saveMatchStats() {
           const boc_b = parseInt(document.getElementById(`boc_b_${safeKey}`)?.value) || 0;
           const total_boc = parseInt(document.getElementById(`total_boc_${safeKey}`)?.value) || 0;
           
-          // Guardar estadísticas de ESTE partido
-          stats[player] = { arr_b, total_arr, boc_b, total_boc };
+          // Guardar SIEMPRE todos los jugadores (aunque sean 0)
+          const fullKey = `${teamName}|${player}`;
+          stats[fullKey] = { arr_b, total_arr, boc_b, total_boc };
           
-          // ACTUALIZAR estadísticas GLOBALES del jugador (PS)
+          // Actualizar estadísticas globales...
           const psKey = `${teamName}|${player}`;
           if (!PS[psKey]) PS[psKey] = {};
-          
           PS[psKey].arr_b = (PS[psKey].arr_b || 0) + arr_b;
           PS[psKey].total_arr = (PS[psKey].total_arr || 0) + total_arr;
           PS[psKey].boc_b = (PS[psKey].boc_b || 0) + boc_b;
@@ -1212,12 +1213,10 @@ function saveMatchStats() {
     }
   });
   
-  // Guardar estadísticas de ESTE partido en localStorage
+  // Guardar con el formato completo "Equipo|Jugador"
   localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats));
   
-  // Guardar estadísticas globales
   save();
-  
   closeStatsModal();
   alert('✅ Estadísticas guardadas correctamente');
   rA();
