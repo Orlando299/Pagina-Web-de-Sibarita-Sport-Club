@@ -22,6 +22,7 @@
     "22": {"scoreA": 20, "scoreB": 6, "status": "done"},
     "24": {"scoreA": 7, "scoreB": 20, "status": "done"},
     "25": {"scoreA": 0, "scoreB": 8, "status": "forfeit"},
+    "28": {"scoreA": 15, "scoreB": 20, "status": "done"},
     "29": {"scoreA": 17, "scoreB": 15, "status": "done"},
     "31": {"scoreA": 8, "scoreB": 0, "status": "forfeit"},
     "38": {"scoreA": 9, "scoreB": 20, "status": "done"},
