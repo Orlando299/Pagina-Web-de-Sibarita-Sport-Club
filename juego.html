@@ -377,16 +377,11 @@
         const gs = stateRef.current;
         
         // Verificar si es el turno correcto según la regla de "bola más lejana"
-        if (!isValidTurn(gs)) {
-          if (!gs.repeatThrowAvailable) {
-            addMessage(`❌ ¡No es tu turno! Debe tirar quien tiene la bola MÁS LEJANA al Mingo.`, true);
-            gs.repeatThrowAvailable = true;
-            refreshUi();
-            return;
-          } else {
-            addMessage(`🔄 Tiro repetido permitido (no eras el más lejano)`, false);
-          }
-        } else {
+        // TEMPORAL: desactivar validación de turno para pruebas
+// if (!isValidTurn(gs)) {
+if (false && !isValidTurn(gs)) {
+  if (!gs.repeatThrowAvailable) {
+    addMessage(`❌ ¡No es tu turno!...`); else {
           gs.repeatThrowAvailable = false;
         }
         
