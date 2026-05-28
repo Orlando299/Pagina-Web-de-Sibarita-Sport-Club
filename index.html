@@ -764,7 +764,8 @@ function setMVP(id) {
     return;
   }
   
-  const equipoPerdedor = equipoGanador === m.a ? m.b : m.a;
+  // Cargar estadísticas específicas de ESTE partido
+  const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
   
   // Buscar jugadores SOLO del equipo ganador con estadísticas
   const cands = [];
@@ -773,17 +774,16 @@ function setMVP(id) {
   if (teamGanador) {
     teamGanador.p.forEach(player => {
       if (player !== 'Por Cargar') {
-        const k = equipoGanador + '|' + player;
-        const ps = PS[k] || {};
-        // Buscar estadísticas específicas de este partido
-        const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
-        const stats = matchStats[player] || {};
+        // Buscar con formato "Equipo|Jugador"
+        const fullKey = `${equipoGanador}|${player}`;
+        const stats = matchStats[fullKey] || {};
         
         const arrB = stats.arr_b || 0;
-        const arrTotal = stats.arr_total || 0;
+        const arrTotal = stats.total_arr || 0;
         const bocB = stats.boc_b || 0;
-        const bocTotal = stats.boc_total || 0;
+        const bocTotal = stats.total_boc || 0;
         
+        // Cálculo TOTAL (arrime + boche)
         const totalBuenos = arrB + bocB;
         const totalIntentos = arrTotal + bocTotal;
         const efec = totalIntentos > 0 ? Math.round((totalBuenos / totalIntentos) * 100) : 0;
@@ -795,20 +795,20 @@ function setMVP(id) {
     });
   }
   
-  // Si hay candidatos, sugerir el de mayor efectividad
+  // Si hay candidatos, sugerir el de mayor efectividad TOTAL
   if (cands.length > 0) {
     cands.sort((a,b) => b.efec - a.efec);
     const best = cands[0];
-    if (confirm(`🏅 MVP sugerido para ${equipoGanador}:\n${best.name}\nEfectividad: ${best.efec}%\n\n¿Confirmar?`)) {
+    if (confirm(`🏅 MVP sugerido para ${equipoGanador}:\n${best.name}\nEfectividad TOTAL: ${best.efec}% (Arrime+Boche)\n\n¿Confirmar?`)) {
       MVP[id] = best;
       save();
       rM();
-      alert(`✅ MVP asignado: ${best.name} (${equipoGanador})`);
+      alert(`✅ MVP asignado: ${best.name} (${equipoGanador}) con ${best.efec}%`);
       return;
     }
   }
   
-  // Si no hay estadísticas o no se confirma, pedir manual (pero limitado al equipo ganador)
+  // Si no hay estadísticas o no se confirma, pedir manual (limitado al equipo ganador)
   const nm = prompt(`MVP del equipo ganador (${equipoGanador}):\n\nIngresa el nombre del jugador:`);
   if (nm && nm.trim()) {
     MVP[id] = { name: nm.trim(), team: equipoGanador, efec: 0 };
@@ -816,7 +816,6 @@ function setMVP(id) {
     rM();
     alert(`✅ MVP asignado manualmente: ${nm.trim()} (${equipoGanador})`);
   }
-  
 }
   
 function delMVP(id) { delete MVP[id]; save(); rM(); }
