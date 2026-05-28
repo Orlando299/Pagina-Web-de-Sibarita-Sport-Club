@@ -206,7 +206,7 @@
           if (nextPlayer !== gs.turn) {
             gs.turn = nextPlayer;
             gs.repeatThrowAvailable = false;
-            const msg = gs.turn === 1 ? "🔴 Turno del Jugador Rojo (tiene la bola más lejana)" : "🟢 Turno del Jugador Verde (tiene la bola más lejana)";
+            const msg = gs.turn === 1 ? "🔴 Turno del Rojo (tiene la bola más lejana)" : "🟢 Turno del Verde (tiene la bola más lejana)";
             addMessage(msg);
           } else {
             gs.repeatThrowAvailable = false;
@@ -214,6 +214,7 @@
           gs.phase = "aim";
           refreshUi();
           
+          // SOLO IA si está en modo VS computadora Y es turno de la IA (jugador 2)
           if (gameMode.current === "pvc" && gs.turn === 2) {
             setTimeout(() => aiThrow(), 800);
           }
@@ -375,9 +376,10 @@
       const throwBall = React.useCallback((fromX, fromY, toX, toY) => {
         const gs = stateRef.current;
         
+        // Verificar si es el turno correcto según la regla de "bola más lejana"
         if (!isValidTurn(gs)) {
           if (!gs.repeatThrowAvailable) {
-            addMessage(`❌ ¡No es tu turno! Debe tirar quien tiene la bola MÁS LEJANA al Mingo. Puedes repetir el tiro.`, true);
+            addMessage(`❌ ¡No es tu turno! Debe tirar quien tiene la bola MÁS LEJANA al Mingo.`, true);
             gs.repeatThrowAvailable = true;
             refreshUi();
             return;
@@ -388,6 +390,7 @@
           gs.repeatThrowAvailable = false;
         }
         
+        // Buscar la siguiente bola sin jugar del jugador actual
         const unplayed = gs.balls.filter(b => b.owner === gs.turn && !b.played);
         if (!unplayed.length) return;
         const b = unplayed[0];
@@ -614,9 +617,13 @@
         if (!aimRef.current.active || gs.phase !== "aim") return;
         aimRef.current.active = false;
         const { startX, startY, endX, endY } = aimRef.current;
+        
         if (!gs.mingoThrown) {
+          // Lanzar el Mingo
           throwMingo(startX, startY, endX, endY);
         } else {
+          // En modo PVP: ambos jugadores lanzan manualmente
+          // En modo PVC: el jugador 2 lanza por IA (ya se maneja en endOfThrow)
           throwBall(startX, startY, endX, endY);
         }
       }, [throwMingo, throwBall]);
@@ -640,7 +647,7 @@
       const toggleGameMode = () => {
         gameMode.current = gameMode.current === "pvp" ? "pvc" : "pvp";
         resetGame();
-        addMessage(gameMode.current === "pvp" ? "👥 Modo 2 Jugadores" : "🤖 Modo VS Computadora");
+        addMessage(gameMode.current === "pvp" ? "👥 Modo 2 Jugadores - Turnos alternados" : "🤖 Modo VS Computadora");
       };
 
       React.useEffect(() => {
