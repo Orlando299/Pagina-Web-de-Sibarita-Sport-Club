@@ -23,7 +23,6 @@
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    // ── CANCHA: lanzamiento desde abajo, rojas izquierda, verdes derecha ────────────
     const W = 800, H = 500;
     const MINGO_R = 10;
     const BOLA_R = 16;
@@ -34,8 +33,8 @@
     const WALL_PENALTY_DIST = 25;
 
     const COLORS = {
-      p1: ["#e63946", "#c1121f", "#ff6b6b", "#ff9a9e"],  // Rojos (izquierda)
-      p2: ["#2ecc71", "#27ae60", "#58d68d", "#82e0aa"],  // Verdes (derecha)
+      p1: ["#e63946", "#c1121f", "#ff6b6b", "#ff9a9e"],
+      p2: ["#2ecc71", "#27ae60", "#58d68d", "#82e0aa"],
     };
 
     function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
@@ -128,14 +127,12 @@
       return {
         mingo: { x: W / 2, y: H / 3, vx: 0, vy: 0, r: MINGO_R, color: "#f4d03f", id: "mingo" },
         balls: [
-          // Player 1 (Rojo) - IZQUIERDA (x = 60 + índice)
           ...Array.from({ length: BALLS_PER_PLAYER }, (_, i) => ({
             id: `p1_${i}`, owner: 1, r: BOLA_R,
             x: 60 + i * (BOLA_R * 2 + 6), 
             y: H - 40,
             vx: 0, vy: 0, color: COLORS.p1[i], played: false, wallHit: false, boched: false
           })),
-          // Player 2 (Verde) - DERECHA (x = W - 60 - índice)
           ...Array.from({ length: BALLS_PER_PLAYER }, (_, i) => ({
             id: `p2_${i}`, owner: 2, r: BOLA_R,
             x: W - 60 - i * (BOLA_R * 2 + 6),
@@ -187,7 +184,7 @@
         const lastBall = gs.balls.filter(b => b.played && !b.wallHit).pop();
         if (lastBall && checkWallHit(lastBall)) {
           lastBall.wallHit = true;
-          addMessage(`⚠️ Bola tocó la pared ¡ANULADA! No suma puntos`, true);
+          addMessage(`⚠️ Bola tocó la pared ¡ANULADA!`, true);
         }
         
         const unplayed = gs.balls.filter(b => !b.played);
@@ -206,7 +203,7 @@
           if (nextPlayer !== gs.turn) {
             gs.turn = nextPlayer;
             gs.repeatThrowAvailable = false;
-            const msg = gs.turn === 1 ? "🔴 Turno del Rojo (tiene la bola más lejana)" : "🟢 Turno del Verde (tiene la bola más lejana)";
+            const msg = gs.turn === 1 ? "🔴 Turno del Rojo" : "🟢 Turno del Verde";
             addMessage(msg);
           } else {
             gs.repeatThrowAvailable = false;
@@ -214,7 +211,6 @@
           gs.phase = "aim";
           refreshUi();
           
-          // SOLO IA si está en modo VS computadora Y es turno de la IA (jugador 2)
           if (gameMode.current === "pvc" && gs.turn === 2) {
             setTimeout(() => aiThrow(), 800);
           }
@@ -243,7 +239,7 @@
           gs.scores[2] += pts;
           addMessage(`✅ Ronda ${gs.round}: Verde gana +${pts} punto(s)`);
         } else {
-          addMessage(`🤝 Ronda ${gs.round}: Empate - Nadie gana puntos`);
+          addMessage(`🤝 Ronda ${gs.round}: Empate`);
         }
         
         if (gs.round >= gs.maxRounds) {
@@ -251,7 +247,7 @@
           gs.phase = "end";
           gs.winner = winner;
           refreshUi();
-          addMessage(winner === 0 ? "¡EMPATE!" : `🏆 ${winner === 1 ? "Rojo" : "Verde"} gana el juego!`);
+          addMessage(winner === 0 ? "¡EMPATE!" : `🏆 ${winner === 1 ? "Rojo" : "Verde"} gana!`);
         } else {
           const next = initState();
           next.scores = gs.scores;
@@ -260,7 +256,7 @@
           next.maxRounds = gs.maxRounds;
           stateRef.current = next;
           refreshUi();
-          addMessage(`🎲 Ronda ${next.round} - Comienza ${roundWinner ? (roundWinner === 1 ? "Rojo" : "Verde") : "el ganador de la ronda anterior"}`);
+          addMessage(`🎲 Ronda ${next.round}`);
         }
       }, []);
 
@@ -338,13 +334,13 @@
                 if (!ballA.boched) {
                   applyBoche(ballA, ballB);
                   ballA.boched = true;
-                  addMessage(`💥 ¡BOCHE! Bola ${ballA.owner === 1 ? "Roja" : "Verde"} fue desplazada`);
+                  addMessage(`💥 ¡BOCHE! Bola ${ballA.owner === 1 ? "Roja" : "Verde"}`);
                 }
               } else {
                 if (!ballB.boched) {
                   applyBoche(ballB, ballA);
                   ballB.boched = true;
-                  addMessage(`💥 ¡BOCHE! Bola ${ballB.owner === 1 ? "Roja" : "Verde"} fue desplazada`);
+                  addMessage(`💥 ¡BOCHE! Bola ${ballB.owner === 1 ? "Roja" : "Verde"}`);
                 }
               }
             }
@@ -373,25 +369,28 @@
         addMessage("🎯 Lanzando Mingo...");
       }, []);
 
+      // FUNCIÓN CORREGIDA
       const throwBall = React.useCallback((fromX, fromY, toX, toY) => {
         const gs = stateRef.current;
         
-        // Verificar si es el turno correcto según la regla de "bola más lejana"
-        // TEMPORAL: desactivar validación de turno para pruebas
-// if (!isValidTurn(gs)) {
-if (false && !isValidTurn(gs)) {
-  if (!gs.repeatThrowAvailable) {
-    addMessage(`❌ ¡No es tu turno!...`); else {
+        if (!isValidTurn(gs)) {
+          if (!gs.repeatThrowAvailable) {
+            addMessage(`❌ ¡No es tu turno! Debe tirar quien tiene la bola MÁS LEJANA`, true);
+            gs.repeatThrowAvailable = true;
+            refreshUi();
+            return;
+          } else {
+            addMessage(`🔄 Tiro repetido permitido`, false);
+          }
+        } else {
           gs.repeatThrowAvailable = false;
         }
         
-        // Buscar la siguiente bola sin jugar del jugador actual
         const unplayed = gs.balls.filter(b => b.owner === gs.turn && !b.played);
         if (!unplayed.length) return;
         const b = unplayed[0];
         const bankIdx = parseInt(b.id.split("_")[1]);
         
-        // Posición según el dueño (izquierda para rojo, derecha para verde)
         if (b.owner === 1) {
           b.x = 60 + bankIdx * (BOLA_R * 2 + 6);
           b.y = H - 40;
@@ -420,7 +419,6 @@ if (false && !isValidTurn(gs)) {
         const gs = stateRef.current;
         const aim = aimRef.current;
 
-        // Fondo de cancha
         const grad = ctx.createLinearGradient(0, 0, W, H);
         grad.addColorStop(0, "#8B6914");
         grad.addColorStop(0.5, "#C4A35A");
@@ -428,7 +426,6 @@ if (false && !isValidTurn(gs)) {
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, W, H);
         
-        // Líneas de perspectiva (desde abajo hacia arriba)
         ctx.strokeStyle = "rgba(255,255,255,0.1)";
         ctx.lineWidth = 1;
         for (let i = 0; i < H; i += 40) {
@@ -438,14 +435,12 @@ if (false && !isValidTurn(gs)) {
           ctx.stroke();
         }
         
-        // Zona de pared (zona prohibida cerca de bordes)
         ctx.strokeStyle = "#ff0000aa";
         ctx.lineWidth = 2;
         ctx.setLineDash([5, 5]);
         ctx.strokeRect(WALL_PENALTY_DIST, WALL_PENALTY_DIST, W - WALL_PENALTY_DIST * 2, H - WALL_PENALTY_DIST * 2);
         ctx.setLineDash([]);
         
-        // Círculos de puntuación alrededor del Mingo
         if (gs.mingoThrown) {
           [30, 50, 80, 120].forEach((radius, idx) => {
             ctx.beginPath();
@@ -460,7 +455,6 @@ if (false && !isValidTurn(gs)) {
           });
         }
         
-        // Borde de la cancha
         ctx.strokeStyle = "#5C4010";
         ctx.lineWidth = 10;
         ctx.strokeRect(4, 4, W - 8, H - 8);
@@ -468,7 +462,6 @@ if (false && !isValidTurn(gs)) {
         ctx.lineWidth = 2;
         ctx.strokeRect(8, 8, W - 16, H - 16);
         
-        // Línea central vertical
         ctx.setLineDash([12, 8]);
         ctx.strokeStyle = "rgba(255,255,255,0.3)";
         ctx.lineWidth = 2;
@@ -478,7 +471,6 @@ if (false && !isValidTurn(gs)) {
         ctx.stroke();
         ctx.setLineDash([]);
         
-        // Dibujar Mingo
         if (gs.mingoThrown) {
           const m = gs.mingo;
           const mg = ctx.createRadialGradient(m.x - 3, m.y - 3, 1, m.x, m.y, m.r);
@@ -491,7 +483,6 @@ if (false && !isValidTurn(gs)) {
           ctx.fillText("⚜️", m.x, m.y + 4);
         }
 
-        // Dibujar bolas jugadas
         gs.balls.forEach(b => {
           if (!b.played) return;
           if (b.wallHit) {
@@ -510,7 +501,6 @@ if (false && !isValidTurn(gs)) {
           ctx.fillText(parseInt(b.id.split("_")[1]) + 1, b.x, b.y + 4);
         });
 
-        // Dibujar bolas sin jugar (en la línea inferior)
         gs.balls.forEach(b => {
           if (b.played) return;
           let bx, by;
@@ -532,7 +522,6 @@ if (false && !isValidTurn(gs)) {
           ctx.fillText(bankIdx + 1, bx, by + 4);
         });
 
-        // Línea de apuntado
         if (aim.active && gs.phase === "aim") {
           const dx = aim.endX - aim.startX, dy = aim.endY - aim.startY;
           const len = Math.hypot(dx, dy);
@@ -547,7 +536,6 @@ if (false && !isValidTurn(gs)) {
           ctx.stroke();
           ctx.setLineDash([]);
           
-          // Barra de poder
           const barW = 140, barH = 14;
           const barX = aim.startX - barW / 2, barY = aim.startY + 35;
           ctx.fillStyle = "rgba(0,0,0,0.7)";
@@ -565,7 +553,6 @@ if (false && !isValidTurn(gs)) {
           ctx.fillText(`⚡ POTENCIA ${Math.round(pct * 100)}%`, aim.startX, barY + barH + 18);
         }
 
-        // Mostrar distancias al Mingo
         if (gs.mingoThrown && gs.phase !== "rolling") {
           const m = gs.mingo;
           let closestP1 = null, closestP2 = null, minD1 = Infinity, minD2 = Infinity;
@@ -614,11 +601,8 @@ if (false && !isValidTurn(gs)) {
         const { startX, startY, endX, endY } = aimRef.current;
         
         if (!gs.mingoThrown) {
-          // Lanzar el Mingo
           throwMingo(startX, startY, endX, endY);
         } else {
-          // En modo PVP: ambos jugadores lanzan manualmente
-          // En modo PVC: el jugador 2 lanza por IA (ya se maneja en endOfThrow)
           throwBall(startX, startY, endX, endY);
         }
       }, [throwMingo, throwBall]);
@@ -636,13 +620,13 @@ if (false && !isValidTurn(gs)) {
       const resetGame = () => {
         stateRef.current = initState();
         refreshUi();
-        addMessage("🔄 Nueva partida - Lanzamiento desde abajo");
+        addMessage("🔄 Nueva partida");
       };
 
       const toggleGameMode = () => {
         gameMode.current = gameMode.current === "pvp" ? "pvc" : "pvp";
         resetGame();
-        addMessage(gameMode.current === "pvp" ? "👥 Modo 2 Jugadores - Turnos alternados" : "🤖 Modo VS Computadora");
+        addMessage(gameMode.current === "pvp" ? "👥 Modo 2 Jugadores" : "🤖 Modo VS Computadora");
       };
 
       React.useEffect(() => {
