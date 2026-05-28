@@ -825,8 +825,67 @@ function rSt() { const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp);
 
 function searchPlayer(q) { F.aQ = q; rA(); }
 
-function rA() { const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp); const players = []; tl.forEach(t => { t.p.forEach(p => { const k = t.n + '|' + p; const ps = PS[k] || {}; if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return; const arrB = ps.arr_b || 0; const arrTotal = ps.total_arr || 0; const bocB = ps.boc_b || 0; const bocTotal = ps.total_boc || 0; const efec = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : (bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0); const partidos = ps.partidos || 0; players.push({ name: p, team: t.n, arrB, arrTotal, bocB, bocTotal, efec, partidos }); }); }); players.sort((a,b) => b.efec - a.efec); g('a-list').innerHTML = !players.length ? '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin estadísticas registradas aún</div>' : players.map((p,i) => `<div class="ar"><div style="width:20px;text-align:center;font-size:10px;color:#8899aa;font-weight:bold;">${i+1}</div><div style="flex:1;min-width:0;"><div style="font-size:11px;color:#f0e6d3;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</div><div style="font-size:9px;color:#8899aa;">${p.team}</div></div><div style="display:flex;gap:6px;"><div style="min-width:26px;text-align:center;"><div class="av">${p.partidos}</div><div class="al">PJ</div></div><div style="min-width:50px;text-align:center;"><div class="av">${p.arrB}/${p.arrTotal}</div><div class="al">ARR</div></div><div style="min-width:50px;text-align:center;"><div class="av">${p.bocB}/${p.bocTotal}</div><div class="al">BOC</div></div><div style="min-width:32px;text-align:center;"><div class="av" style="color:#2ecc71;">${p.efec}%</div><div class="al">EFEC</div></div></div></div>`).join(''); }
-
+function rA() {
+  const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp);
+  const players = [];
+  tl.forEach(t => {
+    t.p.forEach(p => {
+      const k = t.n + '|' + p;
+      const ps = PS[k] || {};
+      if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return;
+      const arrB = ps.arr_b || 0;
+      const arrTotal = ps.total_arr || 0;
+      const bocB = ps.boc_b || 0;
+      const bocTotal = ps.total_boc || 0;
+      
+      // Cálculos separados
+      const efecArr = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : 0;
+      const efecBoc = bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0;
+      const totalBuenos = arrB + bocB;
+      const totalIntentos = arrTotal + bocTotal;
+      const efecTotal = totalIntentos > 0 ? Math.round((totalBuenos / totalIntentos) * 100) : 0;
+      
+      const partidos = ps.partidos || 0;
+      players.push({ 
+        name: p, team: t.n, 
+        arrB, arrTotal, 
+        bocB, bocTotal, 
+        efecArr, efecBoc, efecTotal,
+        partidos 
+      });
+    });
+  });
+  
+  // Ordenar por EFEC TOTAL (puedes cambiar a efecArr o efecBoc)
+  players.sort((a,b) => b.efecTotal - a.efecTotal);
+  
+  g('a-list').innerHTML = !players.length ? 
+    '<div style="color:#8899aa;text-align:center;padding:20px;font-size:12px;">Sin estadísticas registradas aún</div>' : 
+    `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;margin-bottom:5px;">
+       <div style="width:20px"></div>
+       <div style="flex:1;font-size:8px;color:#8899aa;">JUGADOR / EQUIPO</div>
+       <div class="scols">
+         <div class="sc sh">PJ</div>
+         <div class="sc sh">ARR%</div>
+         <div class="sc sh">BOC%</div>
+         <div class="sc sh">TOT%</div>
+       </div>
+     </div>` + 
+    players.map((p,i) => `<div class="ar">
+      <div style="width:20px;text-align:center;font-size:10px;color:#8899aa;font-weight:bold;">${i+1}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:11px;color:#f0e6d3;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</div>
+        <div style="font-size:9px;color:#8899aa;">${p.team}</div>
+      </div>
+      <div class="scols">
+        <div class="sc"><div class="av">${p.partidos}</div><div class="al">PJ</div></div>
+        <div class="sc"><div class="av" style="color:#e8b84b;">${p.efecArr}%</div><div class="al">${p.arrB}/${p.arrTotal}</div></div>
+        <div class="sc"><div class="av" style="color:#f39c12;">${p.efecBoc}%</div><div class="al">${p.bocB}/${p.bocTotal}</div></div>
+        <div class="sc"><div class="av" style="color:#2ecc71;">${p.efecTotal}%</div><div class="al">${p.arrB+p.bocB}/${p.arrTotal+p.bocTotal}</div></div>
+      </div>
+    </div>`).join('');
+}
+    
 // ==================== VIDEOS Y STREAMING ====================
 // ==================== VIDEOS Y STREAMING MEJORADO ====================
 let currentVideoType = 'live';
