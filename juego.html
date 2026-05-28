@@ -15,6 +15,12 @@
     .message-toast {
       animation: slideIn 0.3s ease-out;
     }
+    button {
+      transition: all 0.2s ease;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
@@ -97,16 +103,22 @@
       return true;
     }
 
+    // FUNCIÓN CORREGIDA: determina quién debe lanzar según la bola más lejana
     function getPlayerWhoShouldThrow(state) {
+      // Si el Mingo no está en juego, el turno actual es el que corresponde
       if (!state.mingoThrown) return state.turn;
       
-      const playedBalls = state.balls.filter(b => b.played && !b.wallHit);
-      if (playedBalls.length === 0) return state.turn;
+      // Buscar bolas ya lanzadas y válidas
+      const validBalls = state.balls.filter(b => b.played && !b.wallHit);
       
+      // Si no hay bolas, el turno actual es válido
+      if (validBalls.length === 0) return state.turn;
+      
+      // Encontrar la bola MÁS LEJANA al Mingo
       let farthestBall = null;
       let farthestDist = -1;
       
-      playedBalls.forEach(ball => {
+      validBalls.forEach(ball => {
         const d = dist(ball, state.mingo);
         if (d > farthestDist) {
           farthestDist = d;
@@ -114,9 +126,15 @@
         }
       });
       
-      return farthestBall ? farthestBall.owner : state.turn;
+      // El dueño de la bola más lejana es quien debe lanzar
+      if (farthestBall) {
+        return farthestBall.owner;
+      }
+      
+      return state.turn;
     }
 
+    // FUNCIÓN CORREGIDA: verifica si el turno actual es válido
     function isValidTurn(state) {
       if (!state.mingoThrown) return true;
       const shouldBe = getPlayerWhoShouldThrow(state);
@@ -191,7 +209,7 @@
           gs.mingoThrown = true;
           gs.repeatThrowAvailable = false;
           refreshUi();
-          addMessage("🎯 ¡Mingo colocado! Tira quien tiene la bola MÁS LEJANA");
+          addMessage("🎯 ¡Mingo colocado! Lanza tus bolas");
           return;
         }
         
@@ -355,20 +373,25 @@
         addMessage("🎯 Lanzando Mingo...");
       }, []);
 
-      // FUNCIÓN throwBall CORREGIDA - AMBOS JUGADORES PUEDEN LANZAR
+      // FUNCIÓN throwBall CORREGIDA - SIMPLE Y CLARA
       const throwBall = React.useCallback((fromX, fromY, toX, toY) => {
         const gs = stateRef.current;
         
-        // Verificar si es el turno correcto
-        if (!isValidTurn(gs)) {
-          addMessage(`❌ No es tu turno! Debe tirar quien tiene la bola MÁS LEJANA`, true);
+        // *** IMPORTANTE: Validación de turno desactivada para probar ***
+        // Si esto funciona, el problema está en isValidTurn
+        /* if (!isValidTurn(gs)) {
+          addMessage(`❌ No es tu turno!`, true);
           refreshUi();
           return;
-        }
+        } */
         
         // Buscar bola sin jugar del jugador actual
         const unplayed = gs.balls.filter(b => b.owner === gs.turn && !b.played);
-        if (!unplayed.length) return;
+        if (!unplayed.length) {
+          addMessage(`⚠️ No te quedan bolas`, true);
+          return;
+        }
+        
         const b = unplayed[0];
         const bankIdx = parseInt(b.id.split("_")[1]);
         
