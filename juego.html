@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Bolas Criollas - Perspectiva Rotada 90°</title>
+  <title>Bolas Criollas - Lanzamiento desde abajo</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0d0d0d;font-family:'Segoe UI',Arial,sans-serif;}
@@ -23,19 +23,19 @@
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    // ── CANCHA CON PERSPECTIVA ROTADA 90° (jugadores izquierda/derecha) ────────────
-    const W = 800, H = 400;
-    const MOCHE_R = 10;
-    const BOLA_R = 18;
+    // ── CANCHA: lanzamiento desde abajo, rojas izquierda, verdes derecha ────────────
+    const W = 800, H = 500;
+    const MINGO_R = 10;
+    const BOLA_R = 16;
     const FRICTION = 0.985;
     const MIN_SPEED = 0.08;
-    const MAX_POWER = 18;
+    const MAX_POWER = 16;
     const BALLS_PER_PLAYER = 4;
-    const WALL_PENALTY_DIST = 20;
+    const WALL_PENALTY_DIST = 25;
 
     const COLORS = {
-      p1: ["#e63946", "#c1121f", "#ff6b6b", "#ff9a9e"],  // Rojos (derecha)
-      p2: ["#2ecc71", "#27ae60", "#58d68d", "#82e0aa"],  // Verdes (izquierda)
+      p1: ["#e63946", "#c1121f", "#ff6b6b", "#ff9a9e"],  // Rojos (izquierda)
+      p2: ["#2ecc71", "#27ae60", "#58d68d", "#82e0aa"],  // Verdes (derecha)
     };
 
     function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
@@ -90,7 +90,7 @@
 
     function applyBoche(targetBall, sourceBall) {
       const angle = Math.atan2(targetBall.y - sourceBall.y, targetBall.x - sourceBall.x);
-      const displacement = 45;
+      const displacement = 40;
       targetBall.x += Math.cos(angle) * displacement;
       targetBall.y += Math.sin(angle) * displacement;
       targetBall.x = clamp(targetBall.x, WALL_PENALTY_DIST + targetBall.r, W - WALL_PENALTY_DIST - targetBall.r);
@@ -99,7 +99,7 @@
     }
 
     function getPlayerWhoShouldThrow(state) {
-      if (!state.mocheThrown) return state.turn;
+      if (!state.mingoThrown) return state.turn;
       
       const playedBalls = state.balls.filter(b => b.played && !b.wallHit);
       if (playedBalls.length === 0) return state.turn;
@@ -108,7 +108,7 @@
       let farthestDist = -1;
       
       playedBalls.forEach(ball => {
-        const d = dist(ball, state.moche);
+        const d = dist(ball, state.mingo);
         if (d > farthestDist) {
           farthestDist = d;
           farthestBall = ball;
@@ -119,27 +119,27 @@
     }
 
     function isValidTurn(state) {
-      if (!state.mocheThrown) return true;
+      if (!state.mingoThrown) return true;
       const shouldBe = getPlayerWhoShouldThrow(state);
       return state.turn === shouldBe;
     }
 
     function initState() {
       return {
-        moche: { x: W / 2, y: H / 2, vx: 0, vy: 0, r: MOCHE_R, color: "#f4d03f", id: "moche" },
+        mingo: { x: W / 2, y: H / 3, vx: 0, vy: 0, r: MINGO_R, color: "#f4d03f", id: "mingo" },
         balls: [
-          // Player 1 (Rojo) - DERECHA (x = W - 50)
+          // Player 1 (Rojo) - IZQUIERDA (x = 60 + índice)
           ...Array.from({ length: BALLS_PER_PLAYER }, (_, i) => ({
             id: `p1_${i}`, owner: 1, r: BOLA_R,
-            x: W - 50 - i * (BOLA_R * 2 + 5), 
-            y: H - 35,
+            x: 60 + i * (BOLA_R * 2 + 6), 
+            y: H - 40,
             vx: 0, vy: 0, color: COLORS.p1[i], played: false, wallHit: false, boched: false
           })),
-          // Player 2 (Verde) - IZQUIERDA (x = 50)
+          // Player 2 (Verde) - DERECHA (x = W - 60 - índice)
           ...Array.from({ length: BALLS_PER_PLAYER }, (_, i) => ({
             id: `p2_${i}`, owner: 2, r: BOLA_R,
-            x: 50 + i * (BOLA_R * 2 + 5),
-            y: H - 35,
+            x: W - 60 - i * (BOLA_R * 2 + 6),
+            y: H - 40,
             vx: 0, vy: 0, color: COLORS.p2[i], played: false, wallHit: false, boched: false
           })),
         ],
@@ -149,7 +149,7 @@
         round: 1,
         maxRounds: 3,
         winner: null,
-        mocheThrown: false,
+        mingoThrown: false,
         repeatThrowAvailable: false,
         currentThrowValid: true,
       };
@@ -160,7 +160,7 @@
       const stateRef = React.useRef(initState());
       const [ui, setUi] = React.useState({ 
         turn: 1, phase: "aim", scores: { 1: 0, 2: 0 }, round: 1, winner: null, 
-        mocheThrown: false, message: "", repeatAvailable: false, currentPlayerShouldThrow: true 
+        mingoThrown: false, message: "", repeatAvailable: false, currentPlayerShouldThrow: true 
       });
       const aimRef = React.useRef({ active: false, startX: 0, startY: 0, endX: 0, endY: 0 });
       const gameMode = React.useRef("pvp");
@@ -175,7 +175,7 @@
         const isValid = isValidTurn(gs);
         setUi({ 
           turn: gs.turn, phase: gs.phase, scores: { ...gs.scores }, 
-          round: gs.round, winner: gs.winner, mocheThrown: gs.mocheThrown, 
+          round: gs.round, winner: gs.winner, mingoThrown: gs.mingoThrown, 
           message: ui.message, repeatAvailable: gs.repeatThrowAvailable,
           currentPlayerShouldThrow: isValid
         });
@@ -192,12 +192,12 @@
         
         const unplayed = gs.balls.filter(b => !b.played);
         
-        if (!gs.mocheThrown) {
+        if (!gs.mingoThrown) {
           gs.phase = "aim";
-          gs.mocheThrown = true;
+          gs.mingoThrown = true;
           gs.repeatThrowAvailable = false;
           refreshUi();
-          addMessage("🎯 ¡Moche colocado! Ahora lanza tus bolas. Recuerda: tira quien tiene la bola MÁS LEJANA");
+          addMessage("🎯 ¡Mingo colocado! Lanza tus bolas. Tira quien tiene la bola MÁS LEJANA");
           return;
         }
         
@@ -206,7 +206,7 @@
           if (nextPlayer !== gs.turn) {
             gs.turn = nextPlayer;
             gs.repeatThrowAvailable = false;
-            const msg = gs.turn === 1 ? "🔴 Turno de Jugador Rojo (tiene la bola más lejana)" : "🟢 Turno de Jugador Verde (tiene la bola más lejana)";
+            const msg = gs.turn === 1 ? "🔴 Turno del Jugador Rojo (tiene la bola más lejana)" : "🟢 Turno del Jugador Verde (tiene la bola más lejana)";
             addMessage(msg);
           } else {
             gs.repeatThrowAvailable = false;
@@ -220,7 +220,7 @@
           return;
         }
         
-        const m = gs.moche;
+        const m = gs.mingo;
         const validBalls = gs.balls.filter(b => b.played && !b.wallHit);
         
         let d1 = Infinity, d2 = Infinity;
@@ -235,12 +235,12 @@
           roundWinner = 1;
           const pts = validBalls.filter(b => b.owner === 1 && dist(b, m) < d2).length;
           gs.scores[1] += pts;
-          addMessage(`✅ Ronda ${gs.round}: Jugador Rojo gana +${pts} punto(s)`);
+          addMessage(`✅ Ronda ${gs.round}: Rojo gana +${pts} punto(s)`);
         } else if (d2 < d1 && d2 !== Infinity) {
           roundWinner = 2;
           const pts = validBalls.filter(b => b.owner === 2 && dist(b, m) < d1).length;
           gs.scores[2] += pts;
-          addMessage(`✅ Ronda ${gs.round}: Jugador Verde gana +${pts} punto(s)`);
+          addMessage(`✅ Ronda ${gs.round}: Verde gana +${pts} punto(s)`);
         } else {
           addMessage(`🤝 Ronda ${gs.round}: Empate - Nadie gana puntos`);
         }
@@ -250,7 +250,7 @@
           gs.phase = "end";
           gs.winner = winner;
           refreshUi();
-          addMessage(winner === 0 ? "¡EMPATE!" : `🏆 ¡Jugador ${winner === 1 ? "Rojo" : "Verde"} gana el juego!`);
+          addMessage(winner === 0 ? "¡EMPATE!" : `🏆 ${winner === 1 ? "Rojo" : "Verde"} gana el juego!`);
         } else {
           const next = initState();
           next.scores = gs.scores;
@@ -259,7 +259,7 @@
           next.maxRounds = gs.maxRounds;
           stateRef.current = next;
           refreshUi();
-          addMessage(`🎲 Ronda ${next.round} - Comienza ${roundWinner ? `Jugador ${roundWinner === 1 ? "Rojo" : "Verde"}` : "el ganador de la ronda anterior"}`);
+          addMessage(`🎲 Ronda ${next.round} - Comienza ${roundWinner ? (roundWinner === 1 ? "Rojo" : "Verde") : "el ganador de la ronda anterior"}`);
         }
       }, []);
 
@@ -268,7 +268,7 @@
         if (gs.phase !== "aim" || gs.turn !== 2) return;
         
         if (!isValidTurn(gs)) {
-          addMessage("🤖 IA: No es mi turno (tengo bola más cercana)", true);
+          addMessage("🤖 IA: No es mi turno", true);
           return;
         }
         
@@ -276,17 +276,17 @@
         if (!unplayed.length) return;
         const b = unplayed[0];
         
-        let tx = gs.moche.x + (Math.random() - 0.5) * 50;
-        let ty = gs.moche.y + (Math.random() - 0.5) * 50;
-        tx = clamp(tx, 60, W - 60);
+        let tx = gs.mingo.x + (Math.random() - 0.5) * 70;
+        let ty = gs.mingo.y + (Math.random() - 0.5) * 70;
+        tx = clamp(tx, 50, W - 50);
         ty = clamp(ty, 60, H - 60);
         
         const bankIdx = parseInt(b.id.split("_")[1]);
-        const startX = 50 + bankIdx * (BOLA_R * 2 + 5);
-        const startY = H - 35;
+        const startX = W - 60 - bankIdx * (BOLA_R * 2 + 6);
+        const startY = H - 40;
         const dx = tx - startX, dy = ty - startY;
         const len = Math.hypot(dx, dy);
-        const power = clamp(len / 28, 5, MAX_POWER * 0.8);
+        const power = clamp(len / 22, 4, MAX_POWER);
         b.vx = (dx / len) * power;
         b.vy = (dy / len) * power;
         b.x = startX; b.y = startY;
@@ -303,8 +303,8 @@
         let anyMoving = false;
         const movingBalls = [];
         
-        if (gs.moche.vx !== 0 || gs.moche.vy !== 0) {
-          movingBalls.push(gs.moche);
+        if (gs.mingo.vx !== 0 || gs.mingo.vy !== 0) {
+          movingBalls.push(gs.mingo);
         }
         
         gs.balls.forEach(ball => {
@@ -317,10 +317,10 @@
           b.x += b.vx; b.y += b.vy;
           b.vx *= FRICTION; b.vy *= FRICTION;
           
-          if (b.x - b.r < 20) { b.x = 20 + b.r; b.vx *= -0.5; }
-          if (b.x + b.r > W - 20) { b.x = W - 20 - b.r; b.vx *= -0.5; }
-          if (b.y - b.r < 20) { b.y = 20 + b.r; b.vy *= -0.5; }
-          if (b.y + b.r > H - 20) { b.y = H - 20 - b.r; b.vy *= -0.5; }
+          if (b.x - b.r < 15) { b.x = 15 + b.r; b.vx *= -0.5; }
+          if (b.x + b.r > W - 15) { b.x = W - 15 - b.r; b.vx *= -0.5; }
+          if (b.y - b.r < 15) { b.y = 15 + b.r; b.vy *= -0.5; }
+          if (b.y + b.r > H - 15) { b.y = H - 15 - b.r; b.vy *= -0.5; }
           
           if (Math.abs(b.vx) < MIN_SPEED) b.vx = 0;
           if (Math.abs(b.vy) < MIN_SPEED) b.vy = 0;
@@ -350,7 +350,7 @@
           }
         }
         
-        const allMoving = [gs.moche, ...playedBalls];
+        const allMoving = [gs.mingo, ...playedBalls];
         for (let i = 0; i < allMoving.length; i++)
           for (let j = i + 1; j < allMoving.length; j++)
             if (dist(allMoving[i], allMoving[j]) < allMoving[i].r + allMoving[j].r)
@@ -359,17 +359,17 @@
         if (!anyMoving) endOfThrow();
       }, [endOfThrow]);
 
-      const throwMoche = React.useCallback((fromX, fromY, toX, toY) => {
+      const throwMingo = React.useCallback((fromX, fromY, toX, toY) => {
         const gs = stateRef.current;
         const dx = toX - fromX, dy = toY - fromY;
         const len = Math.hypot(dx, dy) || 1;
-        const power = clamp(len / 3, 3, MAX_POWER * 0.7);
-        gs.moche.x = fromX; gs.moche.y = fromY;
-        gs.moche.vx = (dx / len) * power;
-        gs.moche.vy = (dy / len) * power;
+        const power = clamp(len / 4, 2, MAX_POWER * 0.7);
+        gs.mingo.x = fromX; gs.mingo.y = fromY;
+        gs.mingo.vx = (dx / len) * power;
+        gs.mingo.vy = (dy / len) * power;
         gs.phase = "rolling";
         refreshUi();
-        addMessage("🎯 Lanzando moche...");
+        addMessage("🎯 Lanzando Mingo...");
       }, []);
 
       const throwBall = React.useCallback((fromX, fromY, toX, toY) => {
@@ -377,7 +377,7 @@
         
         if (!isValidTurn(gs)) {
           if (!gs.repeatThrowAvailable) {
-            addMessage(`❌ ¡No es tu turno! Debe tirar quien tiene la bola MÁS LEJANA al moche. Puedes repetir el tiro.`, true);
+            addMessage(`❌ ¡No es tu turno! Debe tirar quien tiene la bola MÁS LEJANA al Mingo. Puedes repetir el tiro.`, true);
             gs.repeatThrowAvailable = true;
             refreshUi();
             return;
@@ -393,13 +393,13 @@
         const b = unplayed[0];
         const bankIdx = parseInt(b.id.split("_")[1]);
         
-        // Posición según el dueño (derecha/izquierda)
+        // Posición según el dueño (izquierda para rojo, derecha para verde)
         if (b.owner === 1) {
-          b.x = W - 50 - bankIdx * (BOLA_R * 2 + 5);
-          b.y = H - 35;
+          b.x = 60 + bankIdx * (BOLA_R * 2 + 6);
+          b.y = H - 40;
         } else {
-          b.x = 50 + bankIdx * (BOLA_R * 2 + 5);
-          b.y = H - 35;
+          b.x = W - 60 - bankIdx * (BOLA_R * 2 + 6);
+          b.y = H - 40;
         }
         
         const dx = toX - fromX, dy = toY - fromY;
@@ -412,7 +412,7 @@
         b.boched = false;
         gs.phase = "rolling";
         refreshUi();
-        addMessage(`🎳 Jugador ${gs.turn === 1 ? "Rojo" : "Verde"} lanzó bola ${bankIdx + 1}`);
+        addMessage(`🎳 ${gs.turn === 1 ? "Rojo" : "Verde"} lanzó bola ${bankIdx + 1}`);
       }, []);
 
       const draw = React.useCallback(() => {
@@ -422,7 +422,7 @@
         const gs = stateRef.current;
         const aim = aimRef.current;
 
-        // Fondo con perspectiva rotada (líneas diagonales simulando profundidad)
+        // Fondo de cancha
         const grad = ctx.createLinearGradient(0, 0, W, H);
         grad.addColorStop(0, "#8B6914");
         grad.addColorStop(0.5, "#C4A35A");
@@ -430,32 +430,28 @@
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, W, H);
         
-        // Líneas de perspectiva rotadas 45° para dar sensación de giro
+        // Líneas de perspectiva (desde abajo hacia arriba)
         ctx.strokeStyle = "rgba(255,255,255,0.1)";
         ctx.lineWidth = 1;
-        for (let i = -H; i < W + H; i += 40) {
-          ctx.beginPath();
-          ctx.moveTo(i, 0);
-          ctx.lineTo(i + H, H);
-          ctx.stroke();
+        for (let i = 0; i < H; i += 40) {
           ctx.beginPath();
           ctx.moveTo(0, i);
-          ctx.lineTo(W, i - W);
+          ctx.lineTo(W, i);
           ctx.stroke();
         }
         
-        // Zona de pared
+        // Zona de pared (zona prohibida cerca de bordes)
         ctx.strokeStyle = "#ff0000aa";
         ctx.lineWidth = 2;
         ctx.setLineDash([5, 5]);
         ctx.strokeRect(WALL_PENALTY_DIST, WALL_PENALTY_DIST, W - WALL_PENALTY_DIST * 2, H - WALL_PENALTY_DIST * 2);
         ctx.setLineDash([]);
         
-        // Círculos de puntuación alrededor del moche
-        if (gs.mocheThrown) {
+        // Círculos de puntuación alrededor del Mingo
+        if (gs.mingoThrown) {
           [30, 50, 80, 120].forEach((radius, idx) => {
             ctx.beginPath();
-            ctx.ellipse(gs.moche.x, gs.moche.y, radius, radius * 0.8, 0, 0, Math.PI * 2);
+            ctx.arc(gs.mingo.x, gs.mingo.y, radius, 0, Math.PI * 2);
             ctx.strokeStyle = `rgba(244, 208, 63, ${0.3 - idx * 0.05})`;
             ctx.lineWidth = 1.5;
             ctx.stroke();
@@ -466,7 +462,7 @@
           });
         }
         
-        // Borde de la cancha con efecto 3D
+        // Borde de la cancha
         ctx.strokeStyle = "#5C4010";
         ctx.lineWidth = 10;
         ctx.strokeRect(4, 4, W - 8, H - 8);
@@ -474,7 +470,7 @@
         ctx.lineWidth = 2;
         ctx.strokeRect(8, 8, W - 16, H - 16);
         
-        // Línea central (vertical, dividiendo izquierda/derecha)
+        // Línea central vertical
         ctx.setLineDash([12, 8]);
         ctx.strokeStyle = "rgba(255,255,255,0.3)";
         ctx.lineWidth = 2;
@@ -484,18 +480,9 @@
         ctx.stroke();
         ctx.setLineDash([]);
         
-        // Texto de jugadores en los extremos
-        ctx.font = "bold 16px 'Segoe UI'";
-        ctx.shadowBlur = 0;
-        ctx.fillStyle = "#e63946";
-        ctx.textAlign = "center";
-        ctx.fillText("🔴 JUGADOR ROJO", W - 60, H / 2);
-        ctx.fillStyle = "#2ecc71";
-        ctx.fillText("🟢 JUGADOR VERDE", 60, H / 2);
-        
-        // Dibujar moche
-        if (gs.mocheThrown) {
-          const m = gs.moche;
+        // Dibujar Mingo
+        if (gs.mingoThrown) {
+          const m = gs.mingo;
           const mg = ctx.createRadialGradient(m.x - 3, m.y - 3, 1, m.x, m.y, m.r);
           mg.addColorStop(0, "#ffe169"); mg.addColorStop(1, "#f0a500");
           ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
@@ -525,17 +512,17 @@
           ctx.fillText(parseInt(b.id.split("_")[1]) + 1, b.x, b.y + 4);
         });
 
-        // Dibujar bolas sin jugar (en la línea de fondo)
+        // Dibujar bolas sin jugar (en la línea inferior)
         gs.balls.forEach(b => {
           if (b.played) return;
           let bx, by;
           const bankIdx = parseInt(b.id.split("_")[1]);
           if (b.owner === 1) {
-            bx = W - 50 - bankIdx * (BOLA_R * 2 + 5);
-            by = H - 35;
+            bx = 60 + bankIdx * (BOLA_R * 2 + 6);
+            by = H - 40;
           } else {
-            bx = 50 + bankIdx * (BOLA_R * 2 + 5);
-            by = H - 35;
+            bx = W - 60 - bankIdx * (BOLA_R * 2 + 6);
+            by = H - 40;
           }
           const bg = ctx.createRadialGradient(bx - 4, by - 4, 1, bx, by, BOLA_R - 2);
           bg.addColorStop(0, lighten(b.color)); bg.addColorStop(1, b.color);
@@ -580,9 +567,9 @@
           ctx.fillText(`⚡ POTENCIA ${Math.round(pct * 100)}%`, aim.startX, barY + barH + 18);
         }
 
-        // Mostrar distancias al moche
-        if (gs.mocheThrown && gs.phase !== "rolling") {
-          const m = gs.moche;
+        // Mostrar distancias al Mingo
+        if (gs.mingoThrown && gs.phase !== "rolling") {
+          const m = gs.mingo;
           let closestP1 = null, closestP2 = null, minD1 = Infinity, minD2 = Infinity;
           gs.balls.forEach(b => {
             if (!b.played || b.wallHit) return;
@@ -627,12 +614,12 @@
         if (!aimRef.current.active || gs.phase !== "aim") return;
         aimRef.current.active = false;
         const { startX, startY, endX, endY } = aimRef.current;
-        if (!gs.mocheThrown) {
-          throwMoche(startX, startY, endX, endY);
+        if (!gs.mingoThrown) {
+          throwMingo(startX, startY, endX, endY);
         } else {
           throwBall(startX, startY, endX, endY);
         }
-      }, [throwMoche, throwBall]);
+      }, [throwMingo, throwBall]);
 
       const getTouch = (e) => {
         const rect = canvasRef.current.getBoundingClientRect();
@@ -647,7 +634,7 @@
       const resetGame = () => {
         stateRef.current = initState();
         refreshUi();
-        addMessage("🔄 Nueva partida - Cancha con perspectiva rotada 90°");
+        addMessage("🔄 Nueva partida - Lanzamiento desde abajo");
       };
 
       const toggleGameMode = () => {
@@ -668,7 +655,7 @@
       return React.createElement("div", { style: { minHeight: "100vh", background: "#0d0d0d", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontFamily: "'Segoe UI', Arial, sans-serif", padding: "16px", gap: "16px" } },
         React.createElement("div", { style: { textAlign: "center" } },
           React.createElement("h1", { style: { fontSize: "clamp(24px, 5vw, 42px)", fontWeight: "900", letterSpacing: "2px", background: "linear-gradient(135deg, #f4d03f, #e67e22, #f4d03f)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", margin: 0 } }, "🎯 BOLAS CRIOLLAS"),
-          React.createElement("p", { style: { color: "#888", fontSize: "13px", margin: "4px 0 0", letterSpacing: "4px" } }, "PERSPECTIVA ROTADA · REGLAS REALES")
+          React.createElement("p", { style: { color: "#888", fontSize: "13px", margin: "4px 0 0", letterSpacing: "4px" } }, "LANZAMIENTO DESDE ABAJO · MINGO")
         ),
         React.createElement("div", { style: { display: "flex", gap: "12px", marginBottom: "8px" } },
           React.createElement("button", { onClick: toggleGameMode, style: { background: gameMode.current === "pvp" ? "rgba(46,204,113,0.3)" : "rgba(241,196,15,0.3)", border: `1px solid ${gameMode.current === "pvp" ? "#2ecc71" : "#f1c40f"}`, borderRadius: "8px", padding: "6px 12px", color: gameMode.current === "pvp" ? "#2ecc71" : "#f1c40f", fontSize: "11px", fontWeight: "bold", cursor: "pointer" } }, gameMode.current === "pvp" ? "👥 2 Jugadores" : "🤖 VS Computadora")
@@ -676,7 +663,7 @@
         React.createElement("div", { style: { display: "flex", gap: "20px", alignItems: "center", background: "rgba(255,255,255,0.05)", borderRadius: "12px", padding: "10px 24px", border: "1px solid rgba(255,255,255,0.1)" } },
           React.createElement("div", { style: { textAlign: "center" } },
             React.createElement("div", { style: { color: "#e63946", fontWeight: "900", fontSize: "28px" } }, scores[1]),
-            React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "ROJO (DERECHA)"),
+            React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "ROJO"),
             turn === 1 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: "#e63946" } }, currentPlayerShouldThrow ? "◀ TURNO" : "⏸ ESPERA")
           ),
           React.createElement("div", { style: { color: "#555", fontSize: "14px", textAlign: "center" } },
@@ -685,26 +672,26 @@
           ),
           React.createElement("div", { style: { textAlign: "center" } },
             React.createElement("div", { style: { color: "#2ecc71", fontWeight: "900", fontSize: "28px" } }, scores[2]),
-            React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "VERDE (IZQUIERDA)"),
+            React.createElement("div", { style: { color: "#aaa", fontSize: "11px", letterSpacing: "1px" } }, "VERDE"),
             turn === 2 && phase !== "end" && React.createElement("div", { style: { fontSize: "8px", color: "#2ecc71" } }, currentPlayerShouldThrow ? "TURNO ▶" : "⏸ ESPERA")
           )
         ),
         React.createElement("div", { style: { position: "relative", borderRadius: "12px", overflow: "hidden", boxShadow: "0 0 40px rgba(244,208,63,0.2), 0 20px 60px rgba(0,0,0,0.8)", border: "2px solid rgba(244,208,63,0.3)", width: "min(800px, 96vw)" } },
           React.createElement("canvas", { ref: canvasRef, width: W, height: H, style: { display: "block", width: "100%", cursor: phase === "aim" ? "crosshair" : "default" }, onMouseDown: handleMouseDown, onMouseMove: handleMouseMove, onMouseUp: handleMouseUp, onTouchStart: handleTouchStart, onTouchMove: handleTouchMove, onTouchEnd: handleTouchEnd }),
           phase === "end" && React.createElement("div", { style: { position: "absolute", inset: 0, background: "rgba(0,0,0,0.85)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px" } },
-            React.createElement("div", { style: { fontSize: "clamp(24px,6vw,48px)", textAlign: "center", fontWeight: "bold" } }, winner === 0 ? "🤝 ¡EMPATE!" : `🏆 JUGADOR ${winner === 1 ? "ROJO" : "VERDE"} GANA`),
+            React.createElement("div", { style: { fontSize: "clamp(24px,6vw,48px)", textAlign: "center", fontWeight: "bold" } }, winner === 0 ? "🤝 ¡EMPATE!" : `🏆 ${winner === 1 ? "ROJO" : "VERDE"} GANA`),
             React.createElement("div", { style: { color: "#ccc", fontSize: "18px" } }, `Final: ${scores[1]} — ${scores[2]}`),
             React.createElement("button", { onClick: resetGame, style: { background: "linear-gradient(135deg, #f4d03f, #e67e22)", border: "none", borderRadius: "8px", padding: "12px 32px", fontSize: "16px", fontWeight: "bold", cursor: "pointer", color: "#1a0a00", letterSpacing: "1px" } }, "🔄 NUEVA PARTIDA")
           )
         ),
         React.createElement("div", { style: { background: "rgba(255,255,255,0.04)", borderRadius: "10px", padding: "12px 20px", border: "1px solid rgba(255,255,255,0.08)", maxWidth: "800px", width: "96vw" } },
-          React.createElement("div", { style: { color: "#f4d03f", fontSize: "12px", fontWeight: "bold", marginBottom: "6px", letterSpacing: "2px" } }, "📖 REGLAS REALES · PERSPECTIVA ROTADA"),
+          React.createElement("div", { style: { color: "#f4d03f", fontSize: "12px", fontWeight: "bold", marginBottom: "6px", letterSpacing: "2px" } }, "📖 REGLAS · MINGO"),
           React.createElement("div", { style: { color: "#999", fontSize: "11px", lineHeight: "1.6", display: "flex", gap: "16px", flexWrap: "wrap" } },
             React.createElement("span", null, "✅ Tira quien tiene bola MÁS LEJANA"),
             React.createElement("span", null, "⚠️ Bola que toca pared → ANULADA"),
             React.createElement("span", null, "💥 BOCHE → bola rival es desplazada"),
             React.createElement("span", null, "🔄 Si no eras el más lejano, puedes repetir"),
-            React.createElement("span", null, "🎨 Perspectiva rotada 90° (jugadores: Rojo→Derecha, Verde←Izquierda)")
+            React.createElement("span", null, "🎨 Rojas izquierda · Verdes derecha · Lanzan desde abajo")
           )
         ),
         message && React.createElement("div", { className: "message-toast", style: { position: "fixed", bottom: "20px", right: "20px", background: message.includes("❌") || message.includes("⚠️") ? "rgba(231,76,60,0.95)" : "rgba(244,208,63,0.95)", color: "#1a0a00", padding: "12px 20px", borderRadius: "10px", fontSize: "13px", fontWeight: "bold", maxWidth: "320px", zIndex: 1000, backdropFilter: "blur(4px)", boxShadow: "0 4px 12px rgba(0,0,0,0.3)" } }, message),
