@@ -102,7 +102,7 @@
   let particles = [];
   let impactWaves = [];
   
-  // Bola actual en la mano (para mostrar visualmente)
+  // Bola actual que está en la mano (para mostrar visualmente)
   let currentBallInHand = null;
   
   function mostrarMensaje(msg, error = false) {
@@ -330,16 +330,19 @@
     mingo.vy = 0;
     mingoPlanted = true;
     gamePhase = 'aim';
+    actualizarBolaEnMano();
     mostrarMensaje('🎯 Mingo colocado. ¡Arrastra para lanzar tus bolas!');
     actualizarUI();
     dibujar();
   }
   
-  // Actualizar la bola que aparece en la mano
   function actualizarBolaEnMano() {
     const bolasRestantes = balls.filter(b => b.owner === currentTurn && !b.played);
     if (bolasRestantes.length > 0) {
       currentBallInHand = bolasRestantes[0];
+      // Poner la bola en la mano visualmente (solo para mostrar, no para física)
+      currentBallInHand.x = CENTER_X;
+      currentBallInHand.y = LAUNCH_Y;
     } else {
       currentBallInHand = null;
     }
@@ -512,6 +515,7 @@
     const bola = currentBallInHand;
     const idx = bola.numero - 1;
     
+    // Posicionar la bola en el centro antes de lanzar
     bola.x = CENTER_X;
     bola.y = LAUNCH_Y;
     
@@ -650,6 +654,7 @@
       ctx.fillText('🖐️ ARRASTRA PARA COLOCAR EL MINGO', W/2, H/2-40);
     }
     
+    // Dibujar bolas jugadas (las que están en la cancha)
     balls.forEach(b => {
       if (!b.played || b.x < 0) return;
       if (b.wallHit) {
@@ -674,12 +679,11 @@
     drawParticles();
     drawImpactWaves();
     
-    // Mostrar la bola en la mano si existe
+    // Mostrar la bola en la mano si existe y no se está arrastrando
     if (currentBallInHand && mingoPlanted && gamePhase === 'aim' && !dragging) {
       const manoX = CENTER_X;
       const manoY = LAUNCH_Y;
       
-      // Dibujar mano
       ctx.beginPath();
       ctx.ellipse(manoX, manoY, 12, 16, 0, 0, Math.PI*2);
       ctx.fillStyle = '#f5cba0';
@@ -688,7 +692,6 @@
       ctx.lineWidth = 1;
       ctx.stroke();
       
-      // Dibujar bola en la mano
       ctx.beginPath();
       ctx.arc(manoX, manoY - 5, BOLA_R - 2, 0, Math.PI*2);
       ctx.fillStyle = currentBallInHand.color;
@@ -697,7 +700,6 @@
       ctx.font = `bold ${(BOLA_R-4)*0.7}px serif`;
       ctx.fillText(currentBallInHand.numero, manoX, manoY - 3);
       
-      // Texto indicador
       ctx.fillStyle = '#e8b84b';
       ctx.font = 'bold 8px sans-serif';
       ctx.fillText(`👆 ${currentTurn === 1 ? 'ROJO' : 'VERDE'}`, manoX, manoY - 18);
@@ -728,7 +730,6 @@
       ctx.fillStyle = '#f5cba0';
       ctx.fill();
       
-      // Dibujar bola durante el arrastre
       if (currentBallInHand) {
         ctx.beginPath();
         ctx.arc(manoX, manoY - 5, BOLA_R - 2, 0, Math.PI*2);
@@ -760,7 +761,7 @@
       ctx.fillStyle = 'white';
       ctx.font = '8px monospace';
       ctx.fillText(`⚡ ${Math.round(pct*100)}%`, dragStart.x, barY+barH+10);
-    } else if (gamePhase === 'aim' && !dragging && mingoPlanted) {
+    } else if (gamePhase === 'aim' && !dragging && mingoPlanted && !currentBallInHand) {
       const manoX = CENTER_X;
       const manoY = LAUNCH_Y;
       ctx.beginPath();
@@ -805,6 +806,7 @@
   function onDown(e) {
     e.preventDefault();
     if (gamePhase !== 'aim') return;
+    
     if (!mingoPlanted) {
       const p = getCoords(e);
       dragging = true;
