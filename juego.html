@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Bolas Criollas - Lanzamiento desde el centro</title>
+  <title>Bolas Criollas - Bolas en costados</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;user-select:none;}
     body{background:#0a0a0a;min-height:100vh;display:flex;justify-content:center;align-items:center;font-family:'Segoe UI',Arial,sans-serif;}
@@ -23,6 +23,9 @@
     .round-box{text-align:center;background:rgba(244,208,63,0.15);padding:8px 20px;border-radius:40px;border:1px solid #f4d03f;}
     .round-label{font-size:10px;color:#f4d03f;letter-spacing:2px;}
     .round-number{font-size:28px;font-weight:bold;color:#f4d03f;}
+    .remaining-balls{display:flex;justify-content:space-between;margin-top:8px;padding:5px 10px;background:rgba(0,0,0,0.4);border-radius:20px;font-size:10px;}
+    .remaining-red{color:#e63946;}
+    .remaining-green{color:#2ecc71;}
     button{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);padding:8px 20px;border-radius:30px;color:white;font-weight:bold;cursor:pointer;transition:all 0.2s;margin:0 5px;}
     button:active{transform:scale(0.95);}
     .controls{display:flex;gap:10px;justify-content:center;margin-top:15px;}
@@ -65,7 +68,6 @@
   canvas.width = W;
   canvas.height = H;
   
-  // Constantes ajustadas para nueva escala
   const MINGO_R = 8;
   const BOLA_R = 12;
   const FRICTION = 0.985;
@@ -76,6 +78,11 @@
   const BOCHE_DIST = 30;
   const CENTER_X = W / 2;
   const LAUNCH_Y = H - 45;
+  
+  // Posiciones de las bolas en los costados
+  const RED_START_X = 15;
+  const GREEN_START_X = W - 27;
+  const BALLS_Y = H - 45;
   
   const NULL_BALL_X = -60;
   const NULL_BALL_Y = -60;
@@ -101,7 +108,6 @@
   let animFrame = null;
   let particles = [];
   let impactWaves = [];
-  
   let currentBallInHand = null;
   
   function mostrarMensaje(msg, error = false) {
@@ -290,7 +296,7 @@
     for (let i = 0; i < BALLS_PER_PLAYER; i++) {
       balls.push({
         id: `r${i}`, owner: 1, r: BOLA_R,
-        x: NULL_BALL_X, y: NULL_BALL_Y,
+        x: RED_START_X, y: BALLS_Y - i * 13,
         vx: 0, vy: 0, color: RED_COLORS[i],
         played: false, wallHit: false, boched: false,
         numero: i + 1
@@ -299,7 +305,7 @@
     for (let i = 0; i < BALLS_PER_PLAYER; i++) {
       balls.push({
         id: `g${i}`, owner: 2, r: BOLA_R,
-        x: NULL_BALL_X, y: NULL_BALL_Y,
+        x: GREEN_START_X, y: BALLS_Y - i * 13,
         vx: 0, vy: 0, color: GREEN_COLORS[i],
         played: false, wallHit: false, boched: false,
         numero: i + 1
@@ -339,8 +345,6 @@
     const bolasRestantes = balls.filter(b => b.owner === currentTurn && !b.played);
     if (bolasRestantes.length > 0) {
       currentBallInHand = bolasRestantes[0];
-      currentBallInHand.x = CENTER_X;
-      currentBallInHand.y = LAUNCH_Y;
     } else {
       currentBallInHand = null;
     }
@@ -348,15 +352,18 @@
   
   function finTurno() {
     const ultimaBola = balls.filter(b => b.played && !b.wallHit && b.x > 0).pop();
-    if (ultimaBola && verificarPared(ultimaBola)) anularBola(ultimaBola, 'Tocó la pared');
+    if (ultimaBola && verificarPared(ultimaBola)) {
+      anularBola(ultimaBola, 'Tocó la pared');
+    }
+    
     const sinJugar = balls.filter(b => !b.played);
     
     if (sinJugar.length > 0) {
       const quienDebeTirar = obtenerQuienDebeTirar();
       if (quienDebeTirar !== currentTurn) {
         currentTurn = quienDebeTirar;
-        actualizarBolaEnMano();
       }
+      actualizarBolaEnMano();
       mostrarMensaje(currentTurn === 1 ? '🔴 Turno del ROJO' : '🟢 Turno del VERDE');
       gamePhase = 'aim';
       actualizarUI();
@@ -384,7 +391,9 @@
       const puntos = bolasValidas.filter(b => b.owner === 2 && distancia(b, mingo) < mejorDistRoja).length;
       scores[2] += puntos;
       mostrarMensaje(`✅ Ronda ${currentRound}: Verde gana +${puntos}`);
-    } else mostrarMensaje(`🤝 Ronda ${currentRound}: Empate`);
+    } else {
+      mostrarMensaje(`🤝 Ronda ${currentRound}: Empate`);
+    }
     
     actualizarUI();
     
@@ -402,7 +411,7 @@
     for (let i = 0; i < BALLS_PER_PLAYER; i++) {
       nuevasBolas.push({
         id: `r${i}`, owner: 1, r: BOLA_R,
-        x: NULL_BALL_X, y: NULL_BALL_Y,
+        x: RED_START_X, y: BALLS_Y - i * 13,
         vx: 0, vy: 0, color: RED_COLORS[i],
         played: false, wallHit: false, boched: false,
         numero: i + 1
@@ -411,7 +420,7 @@
     for (let i = 0; i < BALLS_PER_PLAYER; i++) {
       nuevasBolas.push({
         id: `g${i}`, owner: 2, r: BOLA_R,
-        x: NULL_BALL_X, y: NULL_BALL_Y,
+        x: GREEN_START_X, y: BALLS_Y - i * 13,
         vx: 0, vy: 0, color: GREEN_COLORS[i],
         played: false, wallHit: false, boched: false,
         numero: i + 1
@@ -651,6 +660,30 @@
       ctx.fillText('🖐️ ARRASTRA PARA COLOCAR EL MINGO', W/2, H/2-40);
     }
     
+    // ==================== BOLAS NO JUGADAS EN LOS COSTADOS ====================
+    balls.forEach(b => {
+      if (!b.played) {
+        let bx, by;
+        if (b.owner === 1) {
+          const index = balls.filter(ball => ball.owner === 1 && !ball.played && ball.numero <= b.numero).length - 1;
+          bx = RED_START_X;
+          by = BALLS_Y - index * 13;
+        } else {
+          const index = balls.filter(ball => ball.owner === 2 && !ball.played && ball.numero <= b.numero).length - 1;
+          bx = GREEN_START_X;
+          by = BALLS_Y - index * 13;
+        }
+        ctx.beginPath();
+        ctx.arc(bx, by, b.r - 1, 0, Math.PI*2);
+        ctx.fillStyle = b.color;
+        ctx.fill();
+        ctx.fillStyle = 'white';
+        ctx.font = `bold ${b.r-4}px serif`;
+        ctx.fillText(b.numero, bx, by+3);
+      }
+    });
+    
+    // ==================== BOLAS JUGADAS EN LA CANCHA ====================
     balls.forEach(b => {
       if (!b.played || b.x < 0) return;
       if (b.wallHit) {
@@ -675,6 +708,7 @@
     drawParticles();
     drawImpactWaves();
     
+    // ==================== MANO CON LA BOLA ACTUAL ====================
     if (currentBallInHand && mingoPlanted && gamePhase === 'aim' && !dragging) {
       const manoX = CENTER_X;
       const manoY = LAUNCH_Y;
@@ -767,6 +801,15 @@
       ctx.font = 'bold 14px sans-serif';
       ctx.fillText('🖐️', manoX-3, manoY+5);
     }
+    
+    // ==================== CONTADOR DE BOLAS RESTANTES ====================
+    const rojasRestantes = balls.filter(b => b.owner === 1 && !b.played).length;
+    const verdesRestantes = balls.filter(b => b.owner === 2 && !b.played).length;
+    ctx.font = 'bold 10px sans-serif';
+    ctx.fillStyle = '#e63946';
+    ctx.fillText(`🔴 ${'●'.repeat(rojasRestantes)}`, 10, 20);
+    ctx.fillStyle = '#2ecc71';
+    ctx.fillText(`🟢 ${'●'.repeat(verdesRestantes)}`, W - 50, 20);
     
     if (gamePhase === 'end' && gameWinner) {
       ctx.fillStyle = 'rgba(0,0,0,0.85)';
