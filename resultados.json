@@ -70,7 +70,7 @@
     "218": {"scoreA": 5, "scoreB": 20, "status": "done"},
     "219": {"scoreA": 20, "scoreB": 13, "status": "done"},
     "220": {"scoreA": 14, "scoreB": 20, "status": "done"},
-    "221": {"scoreA": 8, "scoreB": 0, "status": "done"},
+    "221": {"scoreA": 8, "scoreB": 0, "status": "forfeit"},
     "222": {"scoreA": 7, "scoreB": 20, "status": "done"},
     "223": {"scoreA": 19, "scoreB": 16, "status": "done"},
     "224": {"scoreA": 7, "scoreB": 20, "status": "done"},
