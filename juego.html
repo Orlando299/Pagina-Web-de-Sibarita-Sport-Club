@@ -3,30 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Bolas Criollas - Cancha Pequeña</title>
+  <title>Bolas Criollas - Mingo se anula en pared</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;user-select:none;}
     body{background:#0a0a0a;min-height:100vh;display:flex;justify-content:center;align-items:center;font-family:'Segoe UI',Arial,sans-serif;}
-    .game-container{background:#1a1a2e;border-radius:24px;padding:15px;box-shadow:0 20px 40px rgba(0,0,0,0.5);}
+    .game-container{background:#1a1a2e;border-radius:24px;padding:20px;box-shadow:0 20px 40px rgba(0,0,0,0.5);}
     canvas{display:block;margin:0 auto;border-radius:16px;box-shadow:0 0 20px rgba(244,208,63,0.3);cursor:crosshair;touch-action:none;}
-    .info-panel{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:15px;padding:10px 20px;background:rgba(0,0,0,0.6);border-radius:60px;backdrop-filter:blur(10px);}
-    .player{text-align:center;padding:5px 20px;border-radius:40px;transition:all 0.3s;}
+    .info-panel{display:flex;justify-content:space-between;align-items:center;gap:40px;margin-bottom:20px;padding:15px 30px;background:rgba(0,0,0,0.6);border-radius:60px;backdrop-filter:blur(10px);}
+    .player{text-align:center;padding:8px 30px;border-radius:40px;transition:all 0.3s;}
     .player.red{background:linear-gradient(135deg,rgba(230,57,70,0.2),rgba(230,57,70,0.05));border:1px solid #e63946;}
     .player.green{background:linear-gradient(135deg,rgba(46,204,113,0.2),rgba(46,204,113,0.05));border:1px solid #2ecc71;}
     .player.active{transform:scale(1.05);box-shadow:0 0 20px currentColor;}
     .player.red.active{border-color:#e63946;box-shadow:0 0 15px #e63946;}
     .player.green.active{border-color:#2ecc71;box-shadow:0 0 15px #2ecc71;}
-    .score{font-size:32px;font-weight:bold;line-height:1;}
+    .score{font-size:42px;font-weight:bold;line-height:1;}
     .player.red .score{color:#e63946;}
     .player.green .score{color:#2ecc71;}
-    .player-name{font-size:11px;letter-spacing:2px;margin-top:3px;}
-    .round-box{text-align:center;background:rgba(244,208,63,0.15);padding:5px 15px;border-radius:40px;border:1px solid #f4d03f;}
-    .round-label{font-size:8px;color:#f4d03f;letter-spacing:2px;}
-    .round-number{font-size:22px;font-weight:bold;color:#f4d03f;}
-    button{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);padding:6px 15px;border-radius:30px;color:white;font-weight:bold;cursor:pointer;transition:all 0.2s;margin:0 5px;font-size:11px;}
+    .player-name{font-size:14px;letter-spacing:2px;margin-top:5px;}
+    .round-box{text-align:center;background:rgba(244,208,63,0.15);padding:8px 20px;border-radius:40px;border:1px solid #f4d03f;}
+    .round-label{font-size:10px;color:#f4d03f;letter-spacing:2px;}
+    .round-number{font-size:28px;font-weight:bold;color:#f4d03f;}
+    button{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);padding:8px 20px;border-radius:30px;color:white;font-weight:bold;cursor:pointer;transition:all 0.2s;margin:0 5px;}
     button:active{transform:scale(0.95);}
-    .controls{display:flex;gap:10px;justify-content:center;margin-top:12px;}
-    .toast{position:fixed;bottom:20px;right:20px;background:#f4d03f;color:#1a0a00;padding:8px 16px;border-radius:40px;font-weight:bold;font-size:11px;animation:slideIn 0.3s ease;z-index:1000;}
+    .controls{display:flex;gap:10px;justify-content:center;margin-top:15px;}
+    .toast{position:fixed;bottom:30px;right:30px;background:#f4d03f;color:#1a0a00;padding:12px 24px;border-radius:40px;font-weight:bold;animation:slideIn 0.3s ease;z-index:1000;}
     @keyframes slideIn{from{transform:translateX(100%);opacity:0;}to{transform:translateX(0);opacity:1;}}
   </style>
 </head>
@@ -65,7 +65,7 @@
   canvas.width = W;
   canvas.height = H;
   
-  // Constantes ajustadas para nueva escala
+  // Constantes
   const MINGO_R = 8;
   const BOLA_R = 12;
   const FRICTION = 0.985;
@@ -153,6 +153,16 @@
     bola.vx = 0;
     bola.vy = 0;
     mostrarMensaje(`⚠️ Bola ${bola.owner === 1 ? 'Roja' : 'Verde'} ANULADA`, true);
+  }
+  
+  // NUEVA: Anular Mingo y reiniciar la partida
+  function anularMingo() {
+    mingoPlanted = false;
+    gamePhase = 'end';
+    mostrarMensaje('💀 ¡MINGO ANULADO! Tocó la pared. Reiniciando partida...', true);
+    setTimeout(() => {
+      resetGame();
+    }, 2000);
   }
   
   function addParticles(x, y, color) {
@@ -299,24 +309,29 @@
     impactWaves = [];
     actualizarUI();
     dibujar();
-    mostrarMensaje('🎯 Arrastra para lanzar el MINGO');
+    mostrarMensaje('🖐️ Arrastra para COLOCAR el MINGO donde quieras');
+  }
+  
+  function colocarMingo(posX, posY) {
+    let newX = posX;
+    let newY = posY;
+    newX = clamp(newX, WALL_PENALTY + MINGO_R, W - WALL_PENALTY - MINGO_R);
+    newY = clamp(newY, WALL_PENALTY + MINGO_R, H - WALL_PENALTY - MINGO_R);
+    mingo.x = newX;
+    mingo.y = newY;
+    mingo.vx = 0;
+    mingo.vy = 0;
+    mingoPlanted = true;
+    gamePhase = 'aim';
+    mostrarMensaje('🎯 Mingo colocado. ¡Arrastra para lanzar tus bolas!');
+    actualizarUI();
+    dibujar();
   }
   
   function finTurno() {
     const ultimaBola = balls.filter(b => b.played && !b.wallHit && b.x > 0).pop();
     if (ultimaBola && verificarPared(ultimaBola)) anularBola(ultimaBola, 'Tocó la pared');
     const sinJugar = balls.filter(b => !b.played);
-    
-    if (!mingoPlanted) {
-      gamePhase = 'aim';
-      mingoPlanted = true;
-      currentTurn = 1;
-      primeraRondaActiva = true;
-      actualizarUI();
-      mostrarMensaje('🎯 Mingo plantado. Turno del ROJO');
-      dibujar();
-      return;
-    }
     
     if (sinJugar.length > 0) {
       const quienDebeTirar = obtenerQuienDebeTirar();
@@ -386,7 +401,7 @@
     gamePhase = 'aim';
     primeraRondaActiva = true;
     actualizarUI();
-    mostrarMensaje(`🎲 RONDA ${currentRound} - Empieza ${currentTurn === 1 ? 'Rojo' : 'Verde'}`);
+    mostrarMensaje(`🎲 RONDA ${currentRound} - Coloca el MINGO`);
     dibujar();
   }
   
@@ -403,16 +418,38 @@
       o.y += o.vy;
       o.vx *= FRICTION;
       o.vy *= FRICTION;
-      if (o.x - o.r < 0) { o.x = o.r; o.vx *= -0.5; }
-      if (o.x + o.r > W) { o.x = W - o.r; o.vx *= -0.5; }
-      if (o.y - o.r < 0) { o.y = o.r; o.vy *= -0.5; }
-      if (o.y + o.r > H) { o.y = H - o.r; o.vy *= -0.5; }
+      
+      // Si es bola y toca pared, anular inmediatamente
+      if (o !== mingo && verificarPared(o)) {
+        anularBola(o, 'Tocó la pared');
+        return;
+      }
+      
+      // Si el Mingo toca pared, anular y reiniciar partida
+      if (o === mingo && verificarPared(o)) {
+        anularMingo();
+        return;
+      }
+      
       if (Math.abs(o.vx) < MIN_SPEED) o.vx = 0;
       if (Math.abs(o.vy) < MIN_SPEED) o.vy = 0;
       if (o.vx !== 0 || o.vy !== 0) moviendo = true;
     });
     
     const bolasJugadas = balls.filter(b => b.played && !b.wallHit);
+    
+    // Colisiones entre bolas del MISMO equipo (solo rebote)
+    for (let i = 0; i < bolasJugadas.length; i++) {
+      for (let j = i + 1; j < bolasJugadas.length; j++) {
+        const bolaA = bolasJugadas[i];
+        const bolaB = bolasJugadas[j];
+        if (bolaA.owner === bolaB.owner && distancia(bolaA, bolaB) < bolaA.r + bolaB.r) {
+          resolverColision(bolaA, bolaB);
+        }
+      }
+    }
+    
+    // Colisiones entre bolas de DIFERENTE equipo (BOCHE)
     for (let i = 0; i < bolasJugadas.length; i++) {
       for (let j = i + 1; j < bolasJugadas.length; j++) {
         const bolaA = bolasJugadas[i];
@@ -431,9 +468,11 @@
       }
     }
     
-    for (let i = 0; i < objetos.length; i++) {
-      for (let j = i + 1; j < objetos.length; j++) {
-        if (distancia(objetos[i], objetos[j]) < objetos[i].r + objetos[j].r) resolverColision(objetos[i], objetos[j]);
+    // Colisiones con el Mingo
+    for (let i = 0; i < bolasJugadas.length; i++) {
+      const bola = bolasJugadas[i];
+      if (distancia(bola, mingo) < bola.r + mingo.r) {
+        resolverColision(bola, mingo);
       }
     }
     
@@ -441,21 +480,6 @@
     updateImpactWaves();
     if (!moviendo && objetos.length > 0) finTurno();
     dibujar();
-  }
-  
-  function lanzarMingo(fromX, fromY, toX, toY) {
-    const dx = toX - fromX, dy = toY - fromY;
-    const len = Math.hypot(dx, dy);
-    if (len === 0) return;
-    const power = Math.min(len / 2.8, MAX_POWER * 0.8);
-    mingo.x = fromX;
-    mingo.y = fromY;
-    mingo.vx = (dx / len) * power;
-    mingo.vy = (dy / len) * power;
-    gamePhase = 'rolling';
-    addParticles(fromX, fromY, '#f4d03f');
-    actualizarUI();
-    mostrarMensaje('🎯 Lanzando Mingo...');
   }
   
   function lanzarBola(fromX, fromY, toX, toY) {
@@ -512,6 +536,29 @@
     addParticles(bola.x, bola.y, bola.color);
     actualizarUI();
     mostrarMensaje('🤖 IA lanzando...');
+  }
+  
+  function drawParticles() {
+    particles.forEach(p => {
+      ctx.globalAlpha = p.life;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2, 0, Math.PI*2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    });
+  }
+  
+  function drawImpactWaves() {
+    impactWaves.forEach(w => {
+      ctx.globalAlpha = w.life;
+      ctx.beginPath();
+      ctx.arc(w.x, w.y, w.radius, 0, Math.PI*2);
+      ctx.strokeStyle = '#f4d03f';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    });
   }
   
   function dibujar() {
@@ -571,8 +618,8 @@
       ctx.fillText('⚜️', mingo.x, mingo.y+3);
     } else if (!mingoPlanted && gamePhase === 'aim') {
       ctx.font = 'bold 10px sans-serif';
-      ctx.fillStyle = 'rgba(244,208,63,0.7)';
-      ctx.fillText('⬅️ ARRASTRA PARA LANZAR EL MINGO ➡️', W/2, H/2-40);
+      ctx.fillStyle = 'rgba(244,208,63,0.8)';
+      ctx.fillText('🖐️ ARRASTRA PARA COLOCAR EL MINGO', W/2, H/2-40);
     }
     
     balls.forEach(b => {
@@ -583,6 +630,9 @@
         ctx.strokeStyle = '#ff0000';
         ctx.lineWidth = 1.5;
         ctx.stroke();
+        ctx.fillStyle = '#ff0000';
+        ctx.font = 'bold 8px sans-serif';
+        ctx.fillText('✘', b.x-3, b.y-8);
       }
       ctx.beginPath();
       ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
@@ -676,29 +726,6 @@
     }
   }
   
-  function drawParticles() {
-    particles.forEach(p => {
-      ctx.globalAlpha = p.life;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 2, 0, Math.PI*2);
-      ctx.fillStyle = p.color;
-      ctx.fill();
-      ctx.globalAlpha = 1;
-    });
-  }
-  
-  function drawImpactWaves() {
-    impactWaves.forEach(w => {
-      ctx.globalAlpha = w.life;
-      ctx.beginPath();
-      ctx.arc(w.x, w.y, w.radius, 0, Math.PI*2);
-      ctx.strokeStyle = '#f4d03f';
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-      ctx.globalAlpha = 1;
-    });
-  }
-  
   function getCoords(e) {
     const rect = canvas.getBoundingClientRect();
     const scaleX = W/rect.width, scaleY = H/rect.height;
@@ -742,14 +769,14 @@
     e.preventDefault();
     dragging = false;
     if (!mingoPlanted) {
-      lanzarMingo(dragStart.x, dragStart.y, dragEnd.x, dragEnd.y);
+      colocarMingo(dragEnd.x, dragEnd.y);
     } else {
       lanzarBola(dragStart.x, dragStart.y, dragEnd.x, dragEnd.y);
     }
     dibujar();
   }
   
-  function reset() {
+  function resetGame() {
     if (animFrame) cancelAnimationFrame(animFrame);
     iniciarJuego();
     animFrame = requestAnimationFrame(function loop() {
@@ -760,7 +787,7 @@
   
   function toggleModo() {
     isIA = !isIA;
-    reset();
+    resetGame();
     const btn = document.getElementById('modeBtn');
     btn.textContent = isIA ? '🤖 VS COMPUTADORA' : '👥 MODO 2 JUGADORES';
     mostrarMensaje(isIA ? 'Modo VS Computadora' : 'Modo 2 Jugadores');
@@ -772,7 +799,7 @@
   canvas.addEventListener('touchstart', onDown);
   canvas.addEventListener('touchmove', onMove);
   canvas.addEventListener('touchend', onUp);
-  document.getElementById('resetBtn').addEventListener('click', reset);
+  document.getElementById('resetBtn').addEventListener('click', resetGame);
   document.getElementById('modeBtn').addEventListener('click', toggleModo);
   
   iniciarJuego();
