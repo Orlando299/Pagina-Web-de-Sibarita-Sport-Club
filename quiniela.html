@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Quiniela Mundial 2026 - Sibarita Sport Club</title>
+    <link rel="stylesheet" href="quiniela.css">
+</head>
+<body>
+    <div class="topbar">
+        <img src="https://i.imgur.com/placeholder-logo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
+        <h1>🏆 QUINIELA MUNDIAL 2026 🏆</h1>
+        <div class="user-info" id="userInfo">
+            <span id="userNameDisplay"></span>
+            <button id="logoutBtn" class="logout-btn">✖</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Botón Volver al Torneo -->
+        <button class="fb" onclick="location.href='index.html'" style="margin-bottom: 20px;">
+            ← Volver al Torneo de Bolas Criollas
+        </button>
+
+        <!-- Panel de Registro/Login Simplificado -->
+        <div id="loginPanel" class="card">
+            <h2>📝 Registro Rápido</h2>
+            <p>Ingresa tu nombre para participar en la quiniela</p>
+            <input type="text" id="userName" placeholder="Tu nombre" maxlength="30">
+            <input type="email" id="userEmail" placeholder="Email (opcional)">
+            <button id="registerBtn" class="nb">🎯 Participar</button>
+            <small>⚠️ Solo se guardará tu nombre y puntaje en este navegador</small>
+        </div>
+
+        <!-- Panel Principal (visible después del registro) -->
+        <div id="mainPanel" style="display: none;">
+            <!-- Ranking en vivo -->
+            <div class="card">
+                <h2>📊 RANKING EN VIVO</h2>
+                <div class="ranking-container">
+                    <table id="rankingTable" class="ranking-table">
+                        <thead>
+                            <tr><th>Pos</th><th>Participante</th><th>Puntos</th></tr>
+                        </thead>
+                        <tbody id="rankingBody">
+                            <tr><td colspan="3">Cargando...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Filtros de partidos -->
+            <div class="card">
+                <h2>📅 CALENDARIO DE PARTIDOS</h2>
+                <div class="filters">
+                    <select id="faseFilter">
+                        <option value="todos">Todas las fases</option>
+                        <option value="grupos">Fase de Grupos</option>
+                        <option value="octavos">Octavos de Final</option>
+                        <option value="cuartos">Cuartos de Final</option>
+                        <option value="semis">Semifinales</option>
+                        <option value="final">Final</option>
+                    </select>
+                    <select id="grupoFilter">
+                        <option value="todos">Todos los grupos</option>
+                        <option value="A">Grupo A</option>
+                        <option value="B">Grupo B</option>
+                        <option value="C">Grupo C</option>
+                        <option value="D">Grupo D</option>
+                        <option value="E">Grupo E</option>
+                        <option value="F">Grupo F</option>
+                        <option value="G">Grupo G</option>
+                        <option value="H">Grupo H</option>
+                    </select>
+                    <button id="resetFiltersBtn" class="secondary-btn">Limpiar filtros</button>
+                </div>
+                
+                <div id="partidosContainer" class="partidos-grid"></div>
+            </div>
+
+            <!-- Botón compartir WhatsApp -->
+            <div class="share-container">
+                <button id="shareWhatsAppBtn" class="whatsapp-btn">
+                    📱 Compartir por WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Sibarita Sport Club - Quiniela Mundial 2026</p>
+        <p>⚽ ¡Adivina los resultados y gana la gloria eterna! ⚽</p>
+    </footer>
+
+    <script src="quiniela.js"></script>
+</body>
+</html>
