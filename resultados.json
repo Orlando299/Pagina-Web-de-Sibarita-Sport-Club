@@ -162,12 +162,6 @@
     "235": {"name": "René Tona", "team": "Gladiadores del Cerrito", "efec": 77},
     "236": {"name": "Ronald Nadal", "team": "Los Irochimas", "efec": 50}
   },
-
-
-  //////------Agregar MVP arriba-------//////
-
-
-/////-----Sustituir por estadisticas actuales-----/////
   
 "estadisticas": {
   "Oasis Box|Carolina Arocha": {"arr_b": 61, "total_arr": 111, "boc_b": 0, "total_boc": 0, "partidos": 4},
@@ -465,8 +459,6 @@
   "Team JM&JA|José Requena": {"arr_b": 1, "total_arr": 4, "boc_b": 28, "total_boc": 35, "partidos": 2},
   "Team JM&JA|Joel Hernandez": {"arr_b": 0, "total_arr": 0, "boc_b": 0, "total_boc": 0, "partidos": 2}
 },
-  
-  /////------Ingresar estadisticas por partido nuevos------//////
   
   "estadisticasPorPartido": {
     "1": {
@@ -1069,7 +1061,6 @@
       "Team JM&JA|José Requena": {"arr_b": 0, "total_arr": 0, "boc_b": 10, "total_boc": 10},
       "Team JM&JA|Joel Hernandez": {"arr_b": 0, "total_arr": 0, "boc_b": 0, "total_boc": 0}
     },
-
 "201": {
   "Corpolec|Adela Guedez": {"arr_b": 6, "total_arr": 11, "boc_b": 0, "total_boc": 0},
   "Corpolec|Nitza Zabaleta": {"arr_b": 2, "total_arr": 4, "boc_b": 12, "total_boc": 17},
@@ -1811,13 +1802,7 @@
   "Poder Justiciable|Javier Torrealba": {"arr_b": 0, "total_arr": 0, "boc_b": 0, "total_boc": 0},
   "Poder Justiciable|Julio Colmenarez": {"arr_b": 0, "total_arr": 0, "boc_b": 7, "total_boc": 12}
           },
-
-  
-      }
-    }
-  
-
-/////espacio para trabajar y luego borrrar/////
-
+            }
+              }
 
   
