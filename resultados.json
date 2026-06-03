@@ -161,8 +161,7 @@
     "234": {"name": "Jorge Sierralta", "team": "Exasa", "efec": 53},
     "235": {"name": "René Tona", "team": "Gladiadores del Cerrito", "efec": 77},
     "236": {"name": "Ronald Nadal", "team": "Los Irochimas", "efec": 50}
-  },
-  
+  },  
 "estadisticas": {
   "Oasis Box|Carolina Arocha": {"arr_b": 61, "total_arr": 111, "boc_b": 0, "total_boc": 0, "partidos": 4},
   "Oasis Box|Luisamar Peña": {"arr_b": 1, "total_arr": 2, "boc_b": 0, "total_boc": 0, "partidos": 3},
@@ -459,7 +458,6 @@
   "Team JM&JA|José Requena": {"arr_b": 1, "total_arr": 4, "boc_b": 28, "total_boc": 35, "partidos": 2},
   "Team JM&JA|Joel Hernandez": {"arr_b": 0, "total_arr": 0, "boc_b": 0, "total_boc": 0, "partidos": 2}
 },
-  
   "estadisticasPorPartido": {
     "1": {
       "Oasis Box|Carolina Arocha": {"arr_b": 16, "total_arr": 26, "boc_b": 0, "total_boc": 0},
@@ -1804,5 +1802,3 @@
           },
             }
               }
-
-  
