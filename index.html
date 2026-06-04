@@ -1427,53 +1427,49 @@ function saveMatchStats() {
 
 // ==================== GITHUB SYNC ====================
 
-async function cargarResultadosDesdeGitHub() {
+async function cargarResultadosDesdeFirebase() {
   try {
-    mostrarEstado('🔄 Cargando resultados desde GitHub...');
-    const response = await fetch('resultados.json?v=' + Date.now());
-    if (!response.ok) throw new Error('No se pudo cargar el archivo');
-    const data = await response.json();
+    mostrarEstado('🔄 Cargando resultados desde Firebase...');
+    
+    const resultados = await window.cargarResultadosFirebase();
+    const mvp = await window.cargarMVPFirebase();
+    const estadisticas = await window.cargarEstadisticasFirebase();
+    const estadisticasPorPartido = await window.cargarEstadisticasPorPartidoFirebase();
     
     // Cargar resultados
-    if (data.resultados) {
-      for (const [id, datos] of Object.entries(data.resultados)) {
-        R[id] = datos;
-      }
+    for (const [id, datos] of Object.entries(resultados)) {
+      R[id] = datos;
     }
     
     // Cargar MVP
-    if (data.mvp) {
-      for (const [id, datos] of Object.entries(data.mvp)) {
-        MVP[id] = datos;
-      }
+    for (const [id, datos] of Object.entries(mvp)) {
+      MVP[id] = datos;
     }
     
-    // Cargar estadísticas GLOBALES (acumuladas)
-    if (data.estadisticas) {
-      for (const [key, datos] of Object.entries(data.estadisticas)) {
-        PS[key] = datos;
-      }
+    // Cargar estadísticas acumuladas
+    for (const [key, datos] of Object.entries(estadisticas)) {
+      PS[key] = datos;
     }
     
     // Cargar estadísticas por partido
-    if (data.estadisticasPorPartido) {
-      for (const [matchId, stats] of Object.entries(data.estadisticasPorPartido)) {
-        localStorage.setItem(`match_stats_${matchId}`, JSON.stringify(stats));
-      }
-      console.log(`✅ Cargadas estadísticas de ${Object.keys(data.estadisticasPorPartido).length} partidos`);
+    for (const [matchId, stats] of Object.entries(estadisticasPorPartido)) {
+      localStorage.setItem(`match_stats_${matchId}`, JSON.stringify(stats));
     }
     
     save();
-    mostrarEstado('✅ Resultados cargados desde GitHub');
+    mostrarEstado('✅ Datos cargados desde Firebase');
     rM();
     rSt();
     rA();
     rT();
   } catch (error) {
     console.error(error);
-    mostrarEstado('⚠️ Usando datos locales. Crea el archivo resultados.json en GitHub.', true);
+    mostrarEstado('⚠️ Error cargando desde Firebase. Usando datos locales.', true);
   }
 }
+
+// Al cargar la página, usar Firebase en lugar de GitHub
+cargarResultadosDesdeFirebase();
 
 function exportarResultadosAJSON() {
   // Recolectar todas las estadísticas por partido guardadas en localStorage
@@ -1701,5 +1697,154 @@ function generatePDF() {
 // Cargar datos desde GitHub al iniciar
 cargarResultadosDesdeGitHub();
 </script>
+
+<!-- Firebase SDKs y configuración -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+  // Tu configuración de Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyDqwbgPuD6-pl90xyVdFV64HM-kvuIZV-I",
+    authDomain: "sibarita-torneo-bolas-criollas.firebaseapp.com",
+    projectId: "sibarita-torneo-bolas-criollas",
+    storageBucket: "sibarita-torneo-bolas-criollas.firebasestorage.app",
+    messagingSenderId: "466460618853",
+    appId: "1:466460618853:web:52660cd99bba610d6e568c"
+  };
+
+  // Inicializar Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ========== FUNCIONES PARA TRABAJAR CON FIREBASE ==========
+
+  // Cargar todos los resultados desde Firebase
+  window.cargarResultadosFirebase = async function() {
+    try {
+      const resultadosRef = collection(db, "resultados");
+      const snapshot = await getDocs(resultadosRef);
+      const resultados = {};
+      snapshot.forEach(doc => {
+        resultados[doc.id] = doc.data();
+      });
+      console.log("✅ Resultados cargados desde Firebase:", Object.keys(resultados).length);
+      return resultados;
+    } catch (error) {
+      console.error("Error cargando resultados:", error);
+      return {};
+    }
+  };
+
+  // Guardar un resultado específico
+  window.guardarResultadoFirebase = async function(matchId, data) {
+    try {
+      const resultadoRef = doc(db, "resultados", matchId.toString());
+      await setDoc(resultadoRef, data);
+      console.log("✅ Resultado guardado en Firebase:", matchId);
+      return true;
+    } catch (error) {
+      console.error("Error guardando:", error);
+      return false;
+    }
+  };
+
+  // Cargar MVP desde Firebase
+  window.cargarMVPFirebase = async function() {
+    try {
+      const mvpRef = collection(db, "mvp");
+      const snapshot = await getDocs(mvpRef);
+      const mvp = {};
+      snapshot.forEach(doc => {
+        mvp[doc.id] = doc.data();
+      });
+      console.log("✅ MVP cargados desde Firebase:", Object.keys(mvp).length);
+      return mvp;
+    } catch (error) {
+      console.error("Error cargando MVP:", error);
+      return {};
+    }
+  };
+
+  // Guardar MVP
+  window.guardarMVPFirebase = async function(matchId, data) {
+    try {
+      const mvpRef = doc(db, "mvp", matchId.toString());
+      await setDoc(mvpRef, data);
+      console.log("✅ MVP guardado en Firebase:", matchId);
+      return true;
+    } catch (error) {
+      console.error("Error guardando MVP:", error);
+      return false;
+    }
+  };
+
+  // Cargar estadísticas desde Firebase
+  window.cargarEstadisticasFirebase = async function() {
+    try {
+      const statsRef = collection(db, "estadisticas");
+      const snapshot = await getDocs(statsRef);
+      const estadisticas = {};
+      snapshot.forEach(doc => {
+        estadisticas[doc.id] = doc.data();
+      });
+      console.log("✅ Estadísticas cargadas desde Firebase:", Object.keys(estadisticas).length);
+      return estadisticas;
+    } catch (error) {
+      console.error("Error cargando estadísticas:", error);
+      return {};
+    }
+  };
+
+  // Guardar estadísticas de un jugador
+  window.guardarEstadisticasFirebase = async function(jugadorKey, data) {
+    try {
+      const statsRef = doc(db, "estadisticas", jugadorKey);
+      await setDoc(statsRef, data);
+      console.log("✅ Estadísticas guardadas en Firebase:", jugadorKey);
+      return true;
+    } catch (error) {
+      console.error("Error guardando estadísticas:", error);
+      return false;
+    }
+  };
+
+  // Cargar estadísticas por partido desde Firebase
+  window.cargarEstadisticasPorPartidoFirebase = async function() {
+    try {
+      const statsPPRef = collection(db, "estadisticasPorPartido");
+      const snapshot = await getDocs(statsPPRef);
+      const estadisticasPorPartido = {};
+      snapshot.forEach(doc => {
+        estadisticasPorPartido[doc.id] = doc.data();
+      });
+      console.log("✅ Estadísticas por partido cargadas:", Object.keys(estadisticasPorPartido).length);
+      return estadisticasPorPartido;
+    } catch (error) {
+      console.error("Error cargando estadísticas por partido:", error);
+      return {};
+    }
+  };
+
+  // Guardar estadísticas por partido
+  window.guardarEstadisticasPorPartidoFirebase = async function(matchId, data) {
+    try {
+      const statsPPRef = doc(db, "estadisticasPorPartido", matchId.toString());
+      await setDoc(statsPPRef, data);
+      console.log("✅ Estadísticas por partido guardadas:", matchId);
+      return true;
+    } catch (error) {
+      console.error("Error guardando estadísticas por partido:", error);
+      return false;
+    }
+  };
+
+  console.log("🔥 Firebase conectado correctamente");
+
+    
+</script>
+
+
+    
 </body>
 </html>
