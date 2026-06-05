@@ -9,7 +9,7 @@
 <title>Sibarita Sport Club - Resultados Oficiales</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-/* ========== ESTILOS (exactamente igual a tu versión funcional) ========== */
+/* ========== ESTILOS ========== */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 ::-webkit-scrollbar{display:none;}
 body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;max-width:430px;margin:0 auto;min-height:100vh;}
@@ -262,19 +262,18 @@ const TEAMS = [
   {n:"Los Lugo", c:"Masculino", g:"A", p:["Alexander Benitez","Robert Gomez","Renny Parra","Terry Parra","Javier Lugo","Ivan Lugo","Jorge Lugo","Andres Marquez","Yunier Lugo","Eduardo Riera","Francisco Medina","Gustavo Sivada"]},
 ];
 
-  const PLAYLISTS = [
-    { id: "PLNGr4rVFi_Mgq1yVGYN_98bi11PQeUkvt", title: "⚡ Partidos Femenino Grupo A", videoCount: 12 },
-    { id: "PLNGr4rVFi_MinnJt71a6JxLjaxxxVsbGS", title: "💪 Partidos Masculino Grupo A", videoCount: 8 },
-    { id: "PLNGr4rVFi_MgXw97f6b4p3HJz6qVCBI9D", title: "⚡ Partidos Femenino Grupo B", videoCount: 12 },
-    { id: "PLNGr4rVFi_MicT7OORCIvTF2vB7KGxCbq", title: "💪 Partidos Masculino Grupo B", videoCount: 8 },
-    { id: "PLNGr4rVFi_MiZuaAWkQlqRcqT9X0tRJX_", title: "🏆 Mejores Jugadas - Todos los Grupos", videoCount: 15 }
+const PLAYLISTS = [
+  { id: "PLNGr4rVFi_Mgq1yVGYN_98bi11PQeUkvt", title: "⚡ Partidos Femenino Grupo A", videoCount: 12 },
+  { id: "PLNGr4rVFi_MinnJt71a6JxLjaxxxVsbGS", title: "💪 Partidos Masculino Grupo A", videoCount: 8 },
+  { id: "PLNGr4rVFi_MgXw97f6b4p3HJz6qVCBI9D", title: "⚡ Partidos Femenino Grupo B", videoCount: 12 },
+  { id: "PLNGr4rVFi_MicT7OORCIvTF2vB7KGxCbq", title: "💪 Partidos Masculino Grupo B", videoCount: 8 },
+  { id: "PLNGr4rVFi_MiZuaAWkQlqRcqT9X0tRJX_", title: "🏆 Mejores Jugadas - Todos los Grupos", videoCount: 15 }
 ];
 
 const MATCHES = [
-  // ==================== SEMANA 1 (08/05) ====================
+  // ==================== SEMANA 1 ====================
   {id:1, c:"Femenino", g:"B", a:"Oasis Box", b:"Corpoelec", d:"08/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S1"},
-
-  // ==================== SEMANA 2 (14-17/05) ====================
+  // ==================== SEMANA 2 ====================
   {id:2, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Jujure (Educadoras)", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S2"},
   {id:3, c:"Femenino", g:"A", a:"The Dolls", b:"Saboga", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 2", w:"S2"},
   {id:4, c:"Masculino", g:"A", a:"Corpolec2", b:"Los Amigos", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 3", w:"S2"},
@@ -294,7 +293,7 @@ const MATCHES = [
   {id:26, c:"Femenino", g:"B", a:"Festidoras", b:"Corpolec Jubiladas", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S2"},
   {id:28, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Atlético Páez", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S2"},
 
-  // ==================== SEMANA 3 (20-24/05) ====================
+  // ==================== SEMANA 3 ====================
   {id:29, c:"Femenino", g:"B", a:"Chikas", b:"Santana", d:"20/05/2026", dy:"Miércoles", h:"6:30pm", f:"Cancha 1", w:"S3"},
   {id:30, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Distribuidora JH", d:"20/05/2026", dy:"Miércoles", h:"6:30pm", f:"Cancha 2", w:"S3"},
   {id:31, c:"Masculino", g:"A", a:"Corpolec2", b:"Agro max", d:"20/05/2026", dy:"Miércoles", h:"6:30pm", f:"Cancha 3", w:"S3"},
@@ -393,7 +392,6 @@ const MATCHES = [
   {id:266, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Triunfadores", d:"07/06/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S5"}    
 ];
 
-
 // ==================== VARIABLES GLOBALES ====================
 let R = {}, PS = {}, MVP = {};
 let currentMatchId = null;
@@ -402,7 +400,7 @@ let F = {tCat:'Femenino', tGrp:'A', mCat:'Femenino', mGrp:'A', mWk:'Todos', sCat
 function g(id) { return document.getElementById(id); }
 function save() { try { localStorage.setItem('bc26r', JSON.stringify(R)); localStorage.setItem('bc26p', JSON.stringify(PS)); localStorage.setItem('bc26m', JSON.stringify(MVP)); } catch(e) {} }
 
-// ==================== FUNCIONES DE INTERFAZ COMPLETAS ====================
+// ==================== FUNCIONES DE INTERFAZ ====================
 function setF(k, v) { F[k] = v; const maps = { tCat: {Femenino:'btn-tFem', Masculino:'btn-tMas'}, tGrp: {A:'btn-tGa', B:'btn-tGb'}, mCat: {Femenino:'btn-mFem', Masculino:'btn-mMas'}, mGrp: {A:'btn-mGa', B:'btn-mGb'}, sCat: {Femenino:'btn-sFem', Masculino:'btn-sMas'}, sGrp: {A:'btn-sGa', B:'btn-sGb'}, aCat: {Femenino:'btn-aFem', Masculino:'btn-aMas'}, aGrp: {A:'btn-aGa', B:'btn-aGb'} }; const m = maps[k]; if (m) { Object.keys(m).forEach(val => { const el = g(m[val]); if (el) el.classList.toggle('on', val === v); }); } if (k[0] === 't') rT(); else if (k[0] === 'm') rM(); else if (k[0] === 's') rSt(); else rA(); }
 function showTab(id, btn) { document.querySelectorAll('.scr').forEach(s => s.classList.remove('on')); document.querySelectorAll('.nb').forEach(b => b.classList.remove('on')); g('s-' + id).classList.add('on'); btn.classList.add('on'); if (id === 'matches') rM(); else if (id === 'standings') rSt(); else if (id === 'stats') rA(); else if (id === 'videos') { verificarStreamEnVivo(); mostrarProximosPartidos(); } else rT(); }
 function setWeek(w) { F.mWk = w; rM(); }
@@ -428,7 +426,7 @@ function cargarPlaylists() { const grid = document.getElementById('playlist-grid
 function abrirPlaylist(id) { window.open(`https://www.youtube.com/playlist?list=${id}`, '_blank'); }
 function compartirVideos() { if(navigator.share) navigator.share({title:'Sibarita Sport Club', url:location.href}); else navigator.clipboard.writeText(location.href); }
 function openStatsModal(matchId) { const match = MATCHES.find(m => m.id == matchId); if(!match) return; currentMatchId = matchId; const matchStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {}; document.getElementById('stats-modal-title').innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`; const body = document.getElementById('stats-modal-body'); let html = ''; function getStatsForPlayer(teamName, playerName) { const key = `${teamName}|${playerName}`; return matchStats[key] || { arr_b:0, total_arr:0, boc_b:0, total_boc:0 }; } const teamA = TEAMS.find(t => t.n === match.a); if(teamA) { html += `<div class="lbl">🏆 ${match.a}</div>`; teamA.p.forEach(p => { const stats = getStatsForPlayer(match.a, p); html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid"><div class="stat-item"><label>🎯 arr_b</label><input type="number" class="stat-input" id="arr_b_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.arr_b}"></div><div class="stat-item"><label>📊 total_arr</label><input type="number" class="stat-input" id="total_arr_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.total_arr}"></div><div class="stat-item"><label>💥 boc_b</label><input type="number" class="stat-input" id="boc_b_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.boc_b}"></div><div class="stat-item"><label>📊 total_boc</label><input type="number" class="stat-input" id="total_boc_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.total_boc}"></div></div></div>`; }); } const teamB = TEAMS.find(t => t.n === match.b); if(teamB) { html += `<div class="lbl">🏆 ${match.b}</div>`; teamB.p.forEach(p => { const stats = getStatsForPlayer(match.b, p); html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid"><div class="stat-item"><label>🎯 arr_b</label><input type="number" class="stat-input" id="arr_b_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.arr_b}"></div><div class="stat-item"><label>📊 total_arr</label><input type="number" class="stat-input" id="total_arr_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.total_arr}"></div><div class="stat-item"><label>💥 boc_b</label><input type="number" class="stat-input" id="boc_b_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.boc_b}"></div><div class="stat-item"><label>📊 total_boc</label><input type="number" class="stat-input" id="total_boc_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.total_boc}"></div></div></div>`; }); } body.innerHTML = html; document.getElementById('stats-modal').style.display = 'block'; }
-function saveMatchStats() { const match = MATCHES.find(m => m.id === currentMatchId); if(!match) return; const stats = {}; [match.a, match.b].forEach(teamName => { const team = TEAMS.find(t => t.n === teamName); if(team) { team.p.forEach(player => { const safeKey = player.replace(/[^a-zA-Z0-9]/g,'_'); const arr_b = parseInt(document.getElementById(`arr_b_${safeKey}`)?.value) || 0; const total_arr = parseInt(document.getElementById(`total_arr_${safeKey}`)?.value) || 0; const boc_b = parseInt(document.getElementById(`boc_b_${safeKey}`)?.value) || 0; const total_boc = parseInt(document.getElementById(`total_boc_${safeKey}`)?.value) || 0; const fullKey = `${teamName}|${player}`; stats[fullKey] = { arr_b, total_arr, boc_b, total_boc }; const psKey = fullKey; if(!PS[psKey]) PS[psKey] = { arr_b:0, total_arr:0, boc_b:0, total_boc:0, partidos:0 }; PS[psKey].arr_b += arr_b; PS[psKey].total_arr += total_arr; PS[psKey].boc_b += boc_b; PS[psKey].total_boc += total_boc; PS[psKey].partidos += 1; }); } }); localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats)); save(); closeStatsModal(); if(window.guardarEstadisticasPorPartidoFirebase) window.guardarEstadisticasPorPartidoFirebase(currentMatchId, stats); // también actualizar globales en Firebase for(const key in stats) { const st = stats[key]; const psKey = key; const current = PS[psKey]; if(window.guardarEstadisticasFirebase) window.guardarEstadisticasFirebase(psKey, current); } alert('✅ Estadísticas guardadas'); rA(); rT(); }
+function saveMatchStats() { const match = MATCHES.find(m => m.id === currentMatchId); if(!match) return; const stats = {}; [match.a, match.b].forEach(teamName => { const team = TEAMS.find(t => t.n === teamName); if(team) { team.p.forEach(player => { const safeKey = player.replace(/[^a-zA-Z0-9]/g,'_'); const arr_b = parseInt(document.getElementById(`arr_b_${safeKey}`)?.value) || 0; const total_arr = parseInt(document.getElementById(`total_arr_${safeKey}`)?.value) || 0; const boc_b = parseInt(document.getElementById(`boc_b_${safeKey}`)?.value) || 0; const total_boc = parseInt(document.getElementById(`total_boc_${safeKey}`)?.value) || 0; const fullKey = `${teamName}|${player}`; stats[fullKey] = { arr_b, total_arr, boc_b, total_boc }; const psKey = fullKey; if(!PS[psKey]) PS[psKey] = { arr_b:0, total_arr:0, boc_b:0, total_boc:0, partidos:0 }; PS[psKey].arr_b += arr_b; PS[psKey].total_arr += total_arr; PS[psKey].boc_b += boc_b; PS[psKey].total_boc += total_boc; PS[psKey].partidos += 1; }); } }); localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats)); save(); closeStatsModal(); if(window.guardarEstadisticasPorPartidoFirebase) window.guardarEstadisticasPorPartidoFirebase(currentMatchId, stats); for(const key in stats) { const st = stats[key]; const psKey = key; const current = PS[psKey]; if(window.guardarEstadisticasFirebase) window.guardarEstadisticasFirebase(psKey, current); } alert('✅ Estadísticas guardadas'); rA(); rT(); }
 function suspenderJuego(id) { const pass = prompt('🔐 Contraseña de organizador:'); if(pass !== 'sibarita2026') { alert('❌ Incorrecta'); return; } const m = MATCHES.find(x=>x.id===id); if(!m) return; const razon = prompt('Motivo de suspensión:', 'Clima'); if(razon===null) return; R[id] = { scoreA:0, scoreB:0, status:'suspended', razon }; save(); rM(); rSt(); if(window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); alert('Partido suspendido'); }
 function reanudarJuego(id) { const pass = prompt('🔐 Contraseña de organizador:'); if(pass !== 'sibarita2026') { alert('❌ Incorrecta'); return; } if(confirm('¿Reanudar? Se borrará suspensión')) { delete R[id]; save(); rM(); rSt(); if(window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, null); alert('Reanudado'); } }
 function closeStatsModal() { document.getElementById('stats-modal').style.display = 'none'; currentMatchId = null; }
@@ -440,7 +438,7 @@ let pdfMode='week'; function togglePdfPanel() { const p = document.getElementByI
 function generatePDF() { alert("Función PDF: se puede implementar más tarde."); }
 function cargarResultadosDesdeGitHub() { mostrarEstado('Función legacy, ya no se usa.'); }
 
-// ==================== IMPORTAR JSON DE JUEZ (CON FIREBASE) ====================
+// ==================== IMPORTAR JSON DE JUEZ ====================
 async function importarJSONJuez() {
     const pass = prompt('🔐 Contraseña de administrador:');
     if (pass !== 'sibarita2026') { alert('❌ Contraseña incorrecta'); return; }
@@ -463,9 +461,7 @@ async function importarJSONJuez() {
                 for (const id of ids) {
                     const p = partidos[id];
                     if (p.puntosA === undefined || p.puntosB === undefined) { errores.push(`ID ${id}: faltan puntos`); continue; }
-                    // Guardar resultado en Firebase
                     await window.guardarResultadoFirebase(id, { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' });
-                    // Procesar estadísticas por partido y globales
                     const statsPorPartido = {};
                     const statsTemp = {};
                     for (const [team, jugadores] of Object.entries(p.estadisticas || {})) {
@@ -481,7 +477,6 @@ async function importarJSONJuez() {
                         }
                     }
                     await window.guardarEstadisticasPorPartidoFirebase(id, statsPorPartido);
-                    // Actualizar estadísticas globales (acumuladas) en Firebase y localmente
                     for (const [key, st] of Object.entries(statsTemp)) {
                         let current = PS[key] || { arr_b:0, total_arr:0, boc_b:0, total_boc:0, partidos:0 };
                         current.arr_b += st.arr_b;
@@ -492,7 +487,6 @@ async function importarJSONJuez() {
                         await window.guardarEstadisticasFirebase(key, current);
                         PS[key] = current;
                     }
-                    // MVP del equipo ganador
                     let ganador = null;
                     if (p.puntosA > p.puntosB) ganador = p.equipoA;
                     else if (p.puntosB > p.puntosA) ganador = p.equipoB;
@@ -522,9 +516,17 @@ async function importarJSONJuez() {
 // ==================== INICIALIZACIÓN ====================
 setF('tCat','Femenino'); setF('tGrp','A'); setF('mCat','Femenino'); setF('mGrp','A'); setF('sCat','Femenino'); setF('sGrp','A'); setF('aCat','Femenino'); setF('aGrp','A');
 rT(); rM(); rSt(); rA();
+
+// Exponer funciones necesarias para el módulo de Firebase
+window.save = save;
+window.rM = rM;
+window.rSt = rSt;
+window.rA = rA;
+window.rT = rT;
+window.mostrarEstado = mostrarEstado;
 </script>
 
-<!-- Firebase módulo (debe ir después de las funciones globales) -->
+<!-- Firebase módulo -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
   import { getFirestore, doc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
@@ -552,7 +554,6 @@ rT(); rM(); rSt(); rA();
   window.guardarEstadisticasPorPartidoFirebase = async function(matchId, data) { try { await setDoc(doc(db, "estadisticasPorPartido", matchId.toString()), data); console.log("✅ Estadísticas por partido guardadas:", matchId); return true; } catch(e) { return false; } };
   console.log("🔥 Firebase conectado");
 
-  // Cargar datos desde Firebase al iniciar
   window.cargarResultadosDesdeFirebase = async function() {
     try {
       const resultados = await window.cargarResultadosFirebase();
@@ -568,8 +569,8 @@ rT(); rM(); rSt(); rA();
       if (window.rSt) window.rSt();
       if (window.rA) window.rA();
       if (window.rT) window.rT();
-      mostrarEstado('✅ Datos cargados desde Firebase');
-    } catch(e) { console.error(e); mostrarEstado('⚠️ Error cargando desde Firebase', true); }
+      window.mostrarEstado('✅ Datos cargados desde Firebase');
+    } catch(e) { console.error(e); window.mostrarEstado('⚠️ Error cargando desde Firebase', true); }
   };
   window.cargarResultadosDesdeFirebase();
 </script>
