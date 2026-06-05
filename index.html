@@ -422,21 +422,17 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 <div id="stats-modal" class="modal-stats"><div class="modal-content"><div class="modal-header"><div class="modal-title" id="stats-modal-title">Registrar Estadísticas</div><button class="modal-close" onclick="closeStatsModal()">✕</button></div><div id="stats-modal-body"></div><button class="btn-save-stats" onclick="saveMatchStats()">💾 Guardar Estadísticas del Partido</button></div></div>
 
 <script>
-// ==================== TEAMS (PON AQUÍ TU ARRAY DE EQUIPOS) ====================
+// ==================== TEAMS ====================
 const TEAMS = [
   {n:"Jujure (Educadoras)", c:"Femenino", g:"A", p:["Karina Morles","Leudini Torres","Maria Vivas","Irene De Vicent","Keila Valderrama","Lisbeth Barco","Marbelys Sira","Dulcely Torrealba","Dairismar Almao","Jannelys Dudamel"]},
   {n:"Serv. Frios Antonella", c:"Femenino", g:"A", p:["Yusbeli Rodriguez","Luz Maria Paez","Michel Beaz","Yipzi Carmona","Ana Tovar","Marlin Carpio","Liliana Gutierrez","Keila Molina","Yaidth Cedeño"]},
-  // ======{n:"Inversiones IV",c:"Femenino",g:"A",p:["Por Cargar"]},
   {n:"Taferca", c:"Femenino", g:"A", p:["Carmen González","Nancy Rodríguez","Judhit Lugo","Omaira Dorante","Omari Arias","Enriqueta Jiménez","Olga Pérez","Eydi Colmenares","Neida Ramos"]},
   {n:"Divinas", c:"Femenino", g:"A", p:["Sandra Delgado","Dagmary Juarez","Tabata Arduo","Ida Guevara","Nancy Moreno","Mar Suarez","Rosandrys Yepez","Tania Perez","Karla Rodriguez","Celia Lucero de Rodriguez","Gregoria Avancin"]},
   {n:"Alimentos Amanecer",c:"Femenino",g:"A",p:["Petra Almao","Hilda Gimenez","Deyanira Yustiz","Aura Yustiz","Graciela Febres","Florinda Hernandez","María del Pilar Sanchez","Nelis Cadevilla","Gloria Mendez"]},
-  // ======{n:"Ferrecenca",c:"Femenino",g:"A",p:["Maria Carreño","Dudamel Nubia","Xiomara Dudamel","Maria Gomez","Deysi Guedez","Milagro Moran","Maria Sira","Yumaira Salazar","Yolanda Sira"]},
   {n:"Repostería el Ponque", c:"Femenino", g:"A", p:["Lisbeth Vasquez","Nayeska Vasquez","Vicmaig Gomez","Francia Medina","Yamiletsi Colina","Anabelis Guedez","Yajaira Martinez","Amada Perez","Magaly Parra","Nayelis Valera"]},
-  // ======{n:"Atrevidas", c:"Femenino", g:"A", p:["Delia Mirelis Borjas","Yulisbeth Gonzalez","Maria Luisa Aranguren","Yoraima Duran","Risbely Linarez","Beatriz Peraza","Lenny Rodriguez","Marianela Aparicio","Marisela Linares"]},
   {n:"Sabaneta",c:"Femenino",g:"A",p:["Yanacia Gómez","Beatriz Gómez","Donaliz Daza","Ana Juana Mendoza","Hayra Benavides","Yorgelis Colina","Iris Zambrano","Isabel Fontela"]},
   {n:"Inversiones EPA",c:"Femenino",g:"A",p:["Marisela Alvarado","Geilis Rodríguez","Arelis Amaya","Lenny Rodríguez","Marbelis Pagua","Roxelis Pagua","Rosangela Torres","Yoglis Rojas","Marianglis Hernández"]},
   {n:"New Family", c:"Femenino", g:"A", p:["Sara Menoni","Maria Rodriguez","Yusbelis Valenzuela","Nair Herrera","Carolina Jaimes","Maria Carreno","Sol Rodriguez"]},
-  // ======{n:"Futboleras",c:"Femenino",g:"A",p:["Rosa de Marzitelli","Reina Castillo","Olimariana Avendaño","Osmarlys Suarez","Rosbely Garcia","Nancy Rodriguez","Adan Orlys","María Fernanda Troconis"]},
   {n:"Saboga", c:"Femenino", g:"B", p:["Virgilia Mendez","Isvelia Cordero","Roxana Pacheco","Maryeris Daza","Celateresa Sira","Ligia Sosa","Leslie Farfan","Vicky Mendez"]},
   {n:"The Dolls", c:"Femenino", g:"B", p:["Erika Perez Ramones","Cilia Aldana","Juliana Lopez","Maria Doriana Parra","Saydimar Pipitone","Adona Maria Gonzalez","Ana Katiuska Parra","Maria Castellanos","Ana Silva","Deysi Guedez"]},
   {n:"Corpoelec",c:"Femenino",g:"B",p:["Adela Guedez","Nitza Zabaleta","Yuli Alvarez","Cesar Denny","Yunibel Rodriguez","Diolanda Carrillo","Nicholle Colmenarez"]},
@@ -444,14 +440,11 @@ const TEAMS = [
   {n:"Corpolec Jubiladas", c:"Femenino", g:"B", p:["Ana Urdaneta","Crisalida Juarez","Edith Gallardo","Marielen Colmenarez","Maribel Garcia","Maribel Goyo","Magalys Legon","Lucila Escudero","Yacelis Timaure"]},
   {n:"Chikas",c:"Femenino",g:"B",p:["Yusbelis Gonzalez","Natalia Garcia","Marianni Torres","Krisandar Soteldo","Eloisa Gonzalez","Alejandra Mesa","Marbella Suarez","Kerangelit Mendez","Maria Escalante","Gilian Rengifo"]},
   {n:"Oasis Box",c:"Femenino",g:"B",p:["Carolina Arocha","Luisamar Peña","Mirelys Mendoza","Romi Arapé","Karla Reyes","Sheila Montesinos","Nilda Almeida","Josmayfe Alvarado"]},
-  // ======{n:"Esquina del Sabor",c:"Femenino",g:"B",p:["Por Cargar"]},
   {n:"Atavenca",c:"Femenino",g:"B",p:["Yadira Torrez","Diana Oropeza","Julia Escalona","María Elcy Noriega","Esmeralda Mercado","Yankelis Tambo","María Delgado"]},
-  // ======{n:"Las Femix",c:"Femenino",g:"B",p:["Por Cargar"]},
   {n:"Emprendedoras", c:"Femenino", g:"B", p:["Ana Zapata","Vanessa Lugo","Yanee Vetancourt","Miriam Serres","Ana Hernandes","Berly Salazar","Karelis Aguilar","Luisa Arrieta","Yusbelis Chirinos","Cresky Perez"]},
   {n:"Santana", c:"Femenino", g:"B", p:["Luz Escalona","Tibisay Ramirez","Ana Luisa Ramirez","Ana Varela","Camelia Suarez","Erika Yamilet Rodriguez","Yenny Vargas","Yaritza Caruci"]},
    //Equipos Masculinos A
   {n:"Micro PC", c:"Masculino", g:"B", p:["Arturo Tovar","Jesus Soteldo","Oscar Paredes","David Chávez","Rafael Valderrama","Victor Escalona","José Jiménez","Samuel Canelon","Luis Mendoza","Pedro Aguilar"]},
-  // ======{n:"Tornillería YR Portuguesa",c:"Masculino",g:"A",p:["Por Cargar"]},
   {n:"Fuerza", c:"Masculino", g:"A", p:["Ademar Tua","Pedro Yepez","Pedro Noguera","Clemente Perez","Luis Barco","Miguel Segura","Ramon Perdomo","Eduardo Rivero","Danny Tua"]},
   {n:"Corpolec2", c:"Masculino", g:"A", p:["José Narváez","Marcos Franco","Richard Blanco","Jairo López","Asdrubal Gomez","Angel Perez","Manuel Alvarez","Jorge Luis Rojas","Antonio Rosario","Ali Parra"]},
   {n:"Servihidra",c:"Masculino",g:"A",p:["Henry Pacheco","Jose Rodriguez","Atahualpa Melendez","Gustavo Orozco","Theoscar Vicent","Jose Cordero","Numan Dudamel","Nelson Suarez","Giovanni Gonzalez","Leonardo Colmenares"]},
@@ -461,7 +454,6 @@ const TEAMS = [
   {n:"Yusevin CA", c:"Masculino", g:"A", p:["Pedro Orellana","Juan C. Rodriguez","Juan Sira","Ricardo Ochoa","Rafael Mosquera","Reinaldo Mendoza","Jorge Ochoa","Jose Gomez","Jhonny De La Hoz","David Anza","Enmanuel Aguiar","Jorge Gutierrez"]},
   {n:"Los Amigos",c:"Masculino",g:"A",p:["Carlos Silva","Gregorio Linares","Luis Escobar","Efrén Cabrera","Omar Alvarado","Cornelio Escalona","José Escalona","Wuilfredo Guedez","Luis Ramos","Fernando"]},
   {n:"Unidos de Hato", c:"Masculino", g:"A", p:["Leider Alexander Alvarado Moreno","Edinson Antonio Valera Camacho","Jesus Enrique Orta Gil","Carlos Luis Valera Palencia","Alfredo Ramon Alvarez Ojeda","Wilmer Xavier Rodriguez Camacho","Juan Carlos Valera Camacho","Brando Daniel Rojas Fernandez","Euclides Yolimar Torrealba Torin"]},
-  // ======{n:"Sibarita",c:"Masculino",g:"A",p:["Por Cargar"]},
   {n:"Agro max", c:"Masculino", g:"A", p:["José Bielma","Jorge Riera","Miguel Cordova","José Cordova","Jesús Sala","Manuel Andrades","Abran Sanchez","Keily Sanchez"]},
  {n:"Familia Ortega", c:"Masculino", g:"A", p:["Freddy Alvarado","Yoiber Oviedo","Eiderzon Nelo","Gonzalo Palacio","Gabriel Betancourt","Esteban Aguilar","Angel Herrera"]},
   {n:"Alimentos La Granja", c:"Masculino", g:"A", p:["Yuris Alfredo Peraza","Efren Dario Rosales Gonzalez","Wilmer Bolivar","Luis Falcon","Jorge Rafael Torres Gutierrez","Robert Antonio Aguero","Juan Alberto Almao Sequera","Rene Chirinos","Alcides Alvarado","Juan Carlos Hernandez","Fran Daniel Diaz","Miguel Jose Bonilla Duran"]},
@@ -472,7 +464,6 @@ const TEAMS = [
   {n:"Agroserviportuguesa", c:"Masculino", g:"B", p:["Oswaldo Soto","Jean Vasquez","William Rodriguez","Alfredo Rodriguez","Salvador Pipitone","Lino Caruci","Jose Gregorio Torres Escobar","Henry Eliezer Soto","Jose Luis Rodriguez"]},
   {n:"Los Irochimas", c:"Masculino", g:"B", p:["Toribio Torrealba","Wilfredo Perez","Nelson Nadal","Ronald Nadal","Roland Nadal","Jose Nadal","Alfredo Gonzalez"]},
   {n:"Tribunal Protección", c:"Masculino", g:"B", p:["Wilder Quintero","Renny Rivas","Oscar De Santis","Enyer Umbria","Isaac Garcia","Yhogerson Guedez","Jose Benavides","Jose D. Fernandez","Jose V. Fernandez","Carlos Laya","Jose Escalona"]},
-  // ======{n:"Bodegon Los Vasquez",c:"Masculino",g:"B",p:["Por Cargar"]},
   {n:"Triunfadores", c:"Masculino", g:"B", p:["Mire Sail","Luis Segura","Seixorn Ferrer","Serus Hernandez","Brillermo Leal","Luis Arrieta","Eduardo Arrieta","Yormann Vasquez","Surgen Vasquez","Antony Gonzalez","Hector Larvalial","Luis Rodríguez"]},
   {n:"Pintucal", c:"Masculino", g:"B", p:["Carlos Caro","Juan Figueroa","Angel Figueroa","Roberto Martinez","Mackiver Sanchez","Yolber Suarez","Juan Carlos Caro","Amilcar Garrido"]},
   {n:"Gladiadores del Cerrito", c:"Masculino", g:"B", p:["Carlos Silva","Carlos Linarez","Elvis Valera","Yunior Linarez","Yilber Barrios","Yordani Villegas","Alexander Vega","René Tona"]},
@@ -487,77 +478,48 @@ const MATCHES = [
   {id:1, c:"Femenino", g:"B", a:"Oasis Box", b:"Corpoelec", d:"08/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S1"},
 
   // ==================== SEMANA 2 (14-17/05) ====================
-  // Jueves 14/05
   {id:2, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Jujure (Educadoras)", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S2"},
   {id:3, c:"Femenino", g:"A", a:"The Dolls", b:"Saboga", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 2", w:"S2"},
   {id:4, c:"Masculino", g:"A", a:"Corpolec2", b:"Los Amigos", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 3", w:"S2"},
   {id:5, c:"Femenino", g:"B", a:"Atavenca", b:"Chikas", d:"14/05/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 1", w:"S2"},
-  // Oasis Box vs Las Femix (Eliminado - Las Femix retirado)
   {id:7, c:"Masculino", g:"B", a:"Los Irochimas", b:"Tribunal Protección", d:"14/05/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 3", w:"S2"},
-
-  // Viernes 15/05
-  // Futboleras vs Repostería el Ponque (Eliminado - Futboleras retirado)
   {id:9, c:"Femenino", g:"B", a:"Emprendedoras", b:"Santana", d:"15/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 2", w:"S2"},
   {id:10, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Tribunal Protección", d:"15/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 3", w:"S2"},
-  // Serv. Frios Antonella vs Atrevidas (Eliminado - Atrevidas retirado)
   {id:12, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Ingenieros", d:"15/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 2", w:"S2"},
   {id:13, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Club Afibola", d:"15/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 3", w:"S2"},
-
-  // Sábado 16/05
   {id:14, c:"Femenino", g:"A", a:"Sabaneta", b:"Divinas", d:"16/05/2026", dy:"Sábado", h:"3:30pm", f:"Cancha 1", w:"S2"},
   {id:15, c:"Masculino", g:"A", a:"Team JM&JA", b:"Los Irochimas", d:"16/05/2026", dy:"Sábado", h:"3:30pm", f:"Cancha 2", w:"S2"},
-  // Unidos de Hato vs Tornillería YR Portuguesa (Eliminado - Tornillería retirado)
-  // Inversiones IV vs Jujure (Eliminado - Inversiones IV retirado)
-  // Corpoelec vs Las Femix (Eliminado - Las Femix retirado)
   {id:19, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Yusevin CA", d:"16/05/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 3", w:"S2"},
   {id:20, c:"Femenino", g:"A", a:"Taferca", b:"Serv. Frios Antonella", d:"16/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 1", w:"S2"},
   {id:21, c:"Masculino", g:"A", a:"Servihidra", b:"Exasa", d:"16/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 2", w:"S2"},
   {id:22, c:"Masculino", g:"B", a:"Pintucal", b:"Triunfadores", d:"16/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 3", w:"S2"},
-
-  // Domingo 17/05
-  // Futboleras vs Alimentos Amanecer (Eliminado - Futboleras retirado)
   {id:24, c:"Masculino", g:"A", a:"Fuerza", b:"Los Amigos", d:"17/05/2026", dy:"Domingo", h:"3:30pm", f:"Cancha 2", w:"S2"},
-  // Poder Justiciable vs Bodegon Los Vasquez (Eliminado - Bodegon retirado)
   {id:26, c:"Femenino", g:"B", a:"Festidoras", b:"Corpolec Jubiladas", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S2"},
-  // Sibarita vs Familia Ortega (Eliminado - Sibarita retirado)
-{id:28, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Atlético Páez", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S2"},
-  // Gladiadores del Cerrito vs Atlético Páez  (Eliminado - Atlético Páez  retirado)
+  {id:28, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Atlético Páez", d:"17/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S2"},
 
   // ==================== SEMANA 3 (20-24/05) ====================
-  // Miércoles 20/05
   {id:29, c:"Femenino", g:"B", a:"Chikas", b:"Santana", d:"20/05/2026", dy:"Miércoles", h:"6:30pm", f:"Cancha 1", w:"S3"},
   {id:30, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Distribuidora JH", d:"20/05/2026", dy:"Miércoles", h:"6:30pm", f:"Cancha 2", w:"S3"},
   {id:31, c:"Masculino", g:"A", a:"Corpolec2", b:"Agro max", d:"20/05/2026", dy:"Miércoles", h:"6:30pm", f:"Cancha 3", w:"S3"},
-
-  // Jueves 21/05
   {id:32, c:"Femenino", g:"B", a:"Corpoelec", b:"Festidoras", d:"21/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S3"},
   {id:33, c:"Femenino", g:"A", a:"Divinas", b:"Inversiones EPA", d:"21/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 2", w:"S3"},
   {id:34, c:"Masculino", g:"B", a:"Ingenieros", b:"Team JM&JA", d:"21/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 3", w:"S3"},
   {id:35, c:"Femenino", g:"B", a:"Alimentos Amanecer", b:"Jujure (Educadoras)", d:"21/05/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 1", w:"S3"},
   {id:36, c:"Masculino", g:"A", a:"Servihidra", b:"Los Amigos", d:"21/05/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 2", w:"S3"},
   {id:37, c:"Masculino", g:"A", a:"Familia Ortega", b:"Exasa", d:"21/05/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 3", w:"S3"},
-
-  // Viernes 22/05
   {id:38, c:"Femenino", g:"A", a:"Sabaneta", b:"Repostería el Ponque", d:"22/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 1", w:"S3"},
   {id:39, c:"Femenino", g:"B", a:"The Dolls", b:"Atavenca", d:"22/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 2", w:"S3"},
   {id:40, c:"Masculino", g:"B", a:"Agro Tigrera Ranch", b:"Triunfadores", d:"22/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 3", w:"S3"},
   {id:41, c:"Femenino", g:"B", a:"Oasis Box", b:"Emprendedoras", d:"22/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 1", w:"S3"},
   {id:42, c:"Masculino", g:"B", a:"Los Irochimas", b:"Gladiadores del Cerrito", d:"22/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 2", w:"S3"},
   {id:43, c:"Masculino", g:"B", a:"Pintucal", b:"Atlético Páez", d:"23/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 2", w:"S3"},  
-  // Pintucal vs Atlético Páez  (Eliminado - Atlético Páez  retirado)
-
-  // Sábado 23/05
-  // Serv. Frios Antonella vs Inversiones IV (Eliminado - Inversiones IV retirado)
   {id:45, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Tribunal Protección", d:"23/05/2026", dy:"Sábado", h:"4:00pm", f:"Cancha 2", w:"S3"},
   {id:46, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Agro max", d:"23/05/2026", dy:"Sábado", h:"4:00pm", f:"Cancha 3", w:"S3"},
-  // Taferca vs Ferrecenca (Eliminado - Ferrecenca retirado)
   {id:48, c:"Masculino", g:"A", a:"Exasa", b:"Los Panas Vimapin", d:"23/05/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 2", w:"S3"},
   {id:49, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Fuerza", d:"23/05/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 3", w:"S3"},
   {id:50, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Saboga", d:"23/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 1", w:"S3"},
   {id:51, c:"Femenino", g:"A", a:"Jujure (Educadoras)", b:"Divinas", d:"23/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 2", w:"S3"},
   {id:52, c:"Masculino", g:"A", a:"Servihidra", b:"Familia Ortega", d:"23/05/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 3", w:"S3"},
-
-  // Domingo 24/05
   {id:53, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Alimentos Amanecer", d:"24/05/2026", dy:"Domingo", h:"4:00pm", f:"Cancha 1", w:"S3"},
   {id:54, c:"Femenino", g:"B", a:"Oasis Box", b:"Saboga", d:"24/05/2026", dy:"Domingo", h:"4:00pm", f:"Cancha 2", w:"S3"},
   {id:55, c:"Masculino", g:"B", a:"Los Irochimas", b:"Agroserviportuguesa", d:"24/05/2026", dy:"Domingo", h:"4:00pm", f:"Cancha 3", w:"S3"},
@@ -565,35 +527,25 @@ const MATCHES = [
   {id:57, c:"Masculino", g:"B", a:"Agro Tigrera Ranch", b:"Distribuidora JH", d:"24/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 2", w:"S3"},
   {id:58, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Team JM&JA", d:"24/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 3", w:"S3"},
 
-  
-  // ==================== SEMANA 5 a 9 ====================
-  // ... (mantener el resto del calendario
-
-  // ---------- Miércoles 27/05 ----------
+  // ==================== SEMANA 4 ====================
   {id:201, c:"Femenino", g:"B", a:"Corpolec", b:"Festidoras", d:"27/05/2026", dy:"Miércoles", h:"6:00pm", f:"Cancha 1", w:"S4"},
   {id:202, c:"Femenino", g:"A", a:"Divinas", b:"Inversiones EPA", d:"27/05/2026", dy:"Miércoles", h:"6:00pm", f:"Cancha 2", w:"S4"},
   {id:203, c:"Masculino", g:"B", a:"Ingenieros", b:"Team JM&JA", d:"27/05/2026", dy:"Miércoles", h:"6:00pm", f:"Cancha 3", w:"S4"},
   {id:204, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Jujure (Educadoras)", d:"27/05/2026", dy:"Miércoles", h:"8:30pm", f:"Cancha 1", w:"S4"},
   {id:205, c:"Masculino", g:"A", a:"Servihidra", b:"Los Amigos", d:"27/05/2026", dy:"Miércoles", h:"8:30pm", f:"Cancha 2", w:"S4"},
   {id:206, c:"Masculino", g:"A", a:"Familia Ortega", b:"Exasa", d:"27/05/2026", dy:"Miércoles", h:"8:30pm", f:"Cancha 3", w:"S4"},
-
-  // ---------- Jueves 28/05 ----------
   {id:207, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Sabaneta", d:"28/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S4"},
   {id:208, c:"Femenino", g:"B", a:"Oasis Box", b:"Corpolec", d:"28/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 2", w:"S4"},
   {id:209, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Ingenieros", d:"28/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 3", w:"S4"},
   {id:210, c:"Femenino", g:"A", a:"New Family", b:"Jujure (Educadoras)", d:"28/05/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 1", w:"S4"},
   {id:211, c:"Femenino", g:"B", a:"Chikas", b:"Festidoras", d:"28/05/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 2", w:"S4"},
   {id:212, c:"Masculino", g:"B", a:"Triunfadores", b:"Poder Justiciable", d:"28/05/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 3", w:"S4"},
-
-  // ---------- Viernes 29/05 ----------
   {id:213, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Sabaneta", d:"29/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 1", w:"S4"},
   {id:214, c:"Masculino", g:"B", a:"Distribuidora JH", b:"Ingenieros", d:"29/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 2", w:"S4"},
   {id:215, c:"Masculino", g:"B", a:"Micro PC", b:"Pintucal", d:"29/05/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 3", w:"S4"},
   {id:216, c:"Femenino", g:"A", a:"Serv. Frios Antonella", b:"Divinas", d:"29/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 1", w:"S4"},
   {id:217, c:"Femenino", g:"B", a:"Atavenca", b:"Santana", d:"29/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 2", w:"S4"},
   {id:218, c:"Masculino", g:"A", a:"Yusevin CA", b:"Agro max", d:"29/05/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 3", w:"S4"},
-
-  // ---------- Sábado 30/05 ----------
   {id:219, c:"Femenino", g:"B", a:"Corpolec Jubiladas", b:"Emprendedoras", d:"30/05/2026", dy:"Sábado", h:"2:00pm", f:"Cancha 1", w:"S4"},
   {id:220, c:"Masculino", g:"A", a:"Los Lugos", b:"Fuerza", d:"30/05/2026", dy:"Sábado", h:"2:00pm", f:"Cancha 2", w:"S4"},
   {id:221, c:"Masculino", g:"B", a:"Los Irochimas", b:"Atlético Páez", d:"30/05/2026", dy:"Sábado", h:"2:00pm", f:"Cancha 3", w:"S4"},
@@ -603,8 +555,6 @@ const MATCHES = [
   {id:225, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Inversiones EPA", d:"30/05/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 1", w:"S4"},
   {id:226, c:"Masculino", g:"A", a:"Los Panas Vimapin", b:"Agro max", d:"30/05/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 2", w:"S4"},
   {id:227, c:"Masculino", g:"A", a:"Familia Ortega", b:"Alimentos La Granja", d:"30/05/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 3", w:"S4"},
-
-  // ---------- Domingo 31/05 ----------
   {id:228, c:"Masculino", g:"B", a:"Agro Tigrera Ranch", b:"Agroserviportuguesa", d:"31/05/2026", dy:"Domingo", h:"2:00pm", f:"Cancha 1", w:"S4"},
   {id:229, c:"Masculino", g:"A", a:"Club Afibola", b:"Alimentos La Granja", d:"31/05/2026", dy:"Domingo", h:"2:00pm", f:"Cancha 2", w:"S4"},
   {id:230, c:"Masculino", g:"B", a:"Micro PC", b:"Atlético Páez", d:"31/05/2026", dy:"Domingo", h:"2:00pm", f:"Cancha 3", w:"S4"},
@@ -614,40 +564,37 @@ const MATCHES = [
   {id:234, c:"Masculino", g:"A", a:"Los Amigos", b:"Exasa", d:"31/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S4"},
   {id:235, c:"Masculino", g:"B", a:"Gladiadores del Cerrito", b:"Team JM&JA", d:"31/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 2", w:"S4"},
   {id:236, c:"Masculino", g:"B", a:"Los Irochimas", b:"Poder Justiciable", d:"31/05/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 3", w:"S4"},
-
-    {id:237, c:"Femenino", g:"B", a:"Santana", b:"Festidoras", d:"03/06/2026", dy:"Miércoles", h:"7:00pm", f:"Cancha 1", w:"S5"},
-{id:238, c:"Masculino", g:"A", a:"Los Lugo", b:"Agroserviportuguesa", d:"03/06/2026", dy:"Miércoles", h:"7:00pm", f:"Cancha 1", w:"S5"},
-{id:239, c:"Masculino", g:"B", a:"Team JM&JA", b:"Por Definir", d:"03/06/2026", dy:"Miércoles", h:"7:00pm", f:"Cancha 1", w:"S5"},
-{id:240, c:"Femenino", g:"B", a:"Emprendedoras", b:"Corpolec", d:"04/06/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S5"},
-{id:241, c:"Masculino", g:"B", a:"Distribuidora JH", b:"Gladiadores del Cerrito", d:"04/06/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S5"},
-{id:242, c:"Masculino", g:"A", a:"Alimentos La Granja", b:"Agro max", d:"04/06/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S5"},
-{id:243, c:"Masculino", g:"B", a:"Ingenieros", b:"Micro PC", d:"04/06/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 1", w:"S5"},
-{id:244, c:"Masculino", g:"A", a:"Yusevin CA", b:"Corpolec2", d:"04/06/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 1", w:"S5"},
-{id:245, c:"Masculino", g:"B", a:"Agro Tigrera Ranch", b:"Team JM&JA", d:"04/06/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 1", w:"S5"},
-{id:246, c:"Femenino", g:"B", a:"Saboga", b:"Chikas", d:"05/06/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 1", w:"S5"},
-{id:247, c:"Masculino", g:"B", a:"Pintucal", b:"Poder Justiciable", d:"05/06/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 1", w:"S5"},
-{id:248, c:"Masculino", g:"A", a:"Los Amigos", b:"Los Lugo", d:"05/06/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 1", w:"S5"},
-{id:249, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Divinas", d:"05/06/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 1", w:"S5"},
-{id:250, c:"Femenino", g:"B", a:"Atavenca", b:"Corpolec Jubiladas", d:"05/06/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 1", w:"S5"},
-{id:251, c:"Masculino", g:"A", a:"Exasa", b:"Club Afibola", d:"05/06/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 1", w:"S5"},
-{id:252, c:"Femenino", g:"A", a:"Sabaneta", b:"Jujure", d:"06/06/2026", dy:"Sábado", h:"4:00pm", f:"Cancha 1", w:"S5"},
-{id:253, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Gladiadores del Cerrito", d:"06/06/2026", dy:"Sábado", h:"4:00pm", f:"Cancha 1", w:"S5"},
-{id:254, c:"Masculino", g:"B", a:"Los Irochimas", b:"Triunfadores", d:"06/06/2026", dy:"Sábado", h:"4:00pm", f:"Cancha 1", w:"S5"},
-{id:255, c:"Masculino", g:"B", a:"Pintucal", b:"Tribunal Protección", d:"06/06/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 1", w:"S5"},
-{id:256, c:"Masculino", g:"A", a:"Yusevin CA", b:"Servihidra", d:"06/06/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 1", w:"S5"},
-{id:257, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Familia Ortega", d:"06/06/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 1", w:"S5"},
-{id:258, c:"Femenino", g:"B", a:"The Dolls", b:"Oasis Box", d:"06/06/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 1", w:"S5"},
-{id:259, c:"Masculino", g:"B", a:"Distribuidora JH", b:"Micro PC", d:"06/06/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 1", w:"S5"},
-{id:260, c:"Masculino", g:"A", a:"Familia Ortega", b:"Fuerza", d:"06/06/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 1", w:"S5"},
-{id:261, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Serv. Frios Antonella", d:"07/06/2026", dy:"Domingo", h:"4:00pm", f:"Cancha 1", w:"S5"},
-{id:262, c:"Masculino", g:"A", a:"Alimentos La Granja", b:"Fuerza", d:"07/06/2026", dy:"Domingo", h:"4:00pm", f:"Cancha 1", w:"S5"},
-{id:263, c:"Masculino", g:"B", a:"Los Irochimas", b:"Tribunal Protección", d:"07/06/2026", dy:"Domingo", h:"4:00pm", f:"Cancha 1", w:"S5"},
-{id:264, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Taferca", d:"07/06/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S5"},
-{id:265, c:"Femenino", g:"A", a:"Inversiones EPA", b:"New Family", d:"07/06/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S5"},
-{id:266, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Triunfadores", d:"07/06/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S5"}    
+  {id:237, c:"Femenino", g:"B", a:"Santana", b:"Festidoras", d:"03/06/2026", dy:"Miércoles", h:"7:00pm", f:"Cancha 1", w:"S5"},
+  {id:238, c:"Masculino", g:"A", a:"Los Lugo", b:"Agroserviportuguesa", d:"03/06/2026", dy:"Miércoles", h:"7:00pm", f:"Cancha 1", w:"S5"},
+  {id:239, c:"Masculino", g:"B", a:"Team JM&JA", b:"Por Definir", d:"03/06/2026", dy:"Miércoles", h:"7:00pm", f:"Cancha 1", w:"S5"},
+  {id:240, c:"Femenino", g:"B", a:"Emprendedoras", b:"Corpolec", d:"04/06/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S5"},
+  {id:241, c:"Masculino", g:"B", a:"Distribuidora JH", b:"Gladiadores del Cerrito", d:"04/06/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S5"},
+  {id:242, c:"Masculino", g:"A", a:"Alimentos La Granja", b:"Agro max", d:"04/06/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S5"},
+  {id:243, c:"Masculino", g:"B", a:"Ingenieros", b:"Micro PC", d:"04/06/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 1", w:"S5"},
+  {id:244, c:"Masculino", g:"A", a:"Yusevin CA", b:"Corpolec2", d:"04/06/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 1", w:"S5"},
+  {id:245, c:"Masculino", g:"B", a:"Agro Tigrera Ranch", b:"Team JM&JA", d:"04/06/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 1", w:"S5"},
+  {id:246, c:"Femenino", g:"B", a:"Saboga", b:"Chikas", d:"05/06/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 1", w:"S5"},
+  {id:247, c:"Masculino", g:"B", a:"Pintucal", b:"Poder Justiciable", d:"05/06/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 1", w:"S5"},
+  {id:248, c:"Masculino", g:"A", a:"Los Amigos", b:"Los Lugo", d:"05/06/2026", dy:"Viernes", h:"6:00pm", f:"Cancha 1", w:"S5"},
+  {id:249, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Divinas", d:"05/06/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 1", w:"S5"},
+  {id:250, c:"Femenino", g:"B", a:"Atavenca", b:"Corpolec Jubiladas", d:"05/06/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 1", w:"S5"},
+  {id:251, c:"Masculino", g:"A", a:"Exasa", b:"Club Afibola", d:"05/06/2026", dy:"Viernes", h:"8:30pm", f:"Cancha 1", w:"S5"},
+  {id:252, c:"Femenino", g:"A", a:"Sabaneta", b:"Jujure", d:"06/06/2026", dy:"Sábado", h:"4:00pm", f:"Cancha 1", w:"S5"},
+  {id:253, c:"Masculino", g:"B", a:"Poder Justiciable", b:"Gladiadores del Cerrito", d:"06/06/2026", dy:"Sábado", h:"4:00pm", f:"Cancha 1", w:"S5"},
+  {id:254, c:"Masculino", g:"B", a:"Los Irochimas", b:"Triunfadores", d:"06/06/2026", dy:"Sábado", h:"4:00pm", f:"Cancha 1", w:"S5"},
+  {id:255, c:"Masculino", g:"B", a:"Pintucal", b:"Tribunal Protección", d:"06/06/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 1", w:"S5"},
+  {id:256, c:"Masculino", g:"A", a:"Yusevin CA", b:"Servihidra", d:"06/06/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 1", w:"S5"},
+  {id:257, c:"Masculino", g:"A", a:"Unidos de Hato", b:"Familia Ortega", d:"06/06/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 1", w:"S5"},
+  {id:258, c:"Femenino", g:"B", a:"The Dolls", b:"Oasis Box", d:"06/06/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 1", w:"S5"},
+  {id:259, c:"Masculino", g:"B", a:"Distribuidora JH", b:"Micro PC", d:"06/06/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 1", w:"S5"},
+  {id:260, c:"Masculino", g:"A", a:"Familia Ortega", b:"Fuerza", d:"06/06/2026", dy:"Sábado", h:"8:30pm", f:"Cancha 1", w:"S5"},
+  {id:261, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Serv. Frios Antonella", d:"07/06/2026", dy:"Domingo", h:"4:00pm", f:"Cancha 1", w:"S5"},
+  {id:262, c:"Masculino", g:"A", a:"Alimentos La Granja", b:"Fuerza", d:"07/06/2026", dy:"Domingo", h:"4:00pm", f:"Cancha 1", w:"S5"},
+  {id:263, c:"Masculino", g:"B", a:"Los Irochimas", b:"Tribunal Protección", d:"07/06/2026", dy:"Domingo", h:"4:00pm", f:"Cancha 1", w:"S5"},
+  {id:264, c:"Femenino", g:"A", a:"Repostería el Ponque", b:"Taferca", d:"07/06/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S5"},
+  {id:265, c:"Femenino", g:"A", a:"Inversiones EPA", b:"New Family", d:"07/06/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S5"},
+  {id:266, c:"Masculino", g:"B", a:"Agroserviportuguesa", b:"Triunfadores", d:"07/06/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S5"}    
 ];
-
-    
 
 let R = {}, PS = {}, MVP = {};
 let currentMatchId = null;
@@ -677,7 +624,6 @@ function showTab(id, btn) {
     else rT(); 
 }
 
-    
 function setWeek(w) { F.mWk = w; rM(); }
 
 function searchTeams(q) { const sr = g('srch-res'), tw = g('teams-wrap'); if (!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; } sr.style.display = 'block'; tw.style.display = 'none'; const ql = q.toLowerCase(); let h = ''; TEAMS.forEach(t => { const pm = t.p.filter(p => p.toLowerCase().includes(ql)); if (t.n.toLowerCase().includes(ql) || pm.length) { h += `<div class="card" style="margin-bottom:7px;"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`; pm.forEach(p => { h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`; }); h += '</div>'; } }); sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;font-size:12px;">Sin resultados</div>'; }
@@ -787,7 +733,6 @@ function setMVP(id) {
     return;
   }
   
-  // Determinar equipo ganador
   let equipoGanador = '';
   if (r.scoreA > r.scoreB) {
     equipoGanador = m.a;
@@ -798,38 +743,27 @@ function setMVP(id) {
     return;
   }
   
-  // Cargar estadísticas específicas de ESTE partido
   const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
-  
-  // Buscar jugadores SOLO del equipo ganador con estadísticas
   const cands = [];
   const teamGanador = TEAMS.find(x => x.n === equipoGanador);
   
   if (teamGanador) {
     teamGanador.p.forEach(player => {
       if (player !== 'Por Cargar') {
-        // Buscar con formato "Equipo|Jugador"
         const fullKey = `${equipoGanador}|${player}`;
         const stats = matchStats[fullKey] || {};
-        
         const arrB = stats.arr_b || 0;
         const arrTotal = stats.total_arr || 0;
         const bocB = stats.boc_b || 0;
         const bocTotal = stats.total_boc || 0;
-        
-        // Cálculo TOTAL (arrime + boche)
         const totalBuenos = arrB + bocB;
         const totalIntentos = arrTotal + bocTotal;
         const efec = totalIntentos > 0 ? Math.round((totalBuenos / totalIntentos) * 100) : 0;
-        
-        if (totalIntentos > 0) {
-          cands.push({ name: player, team: equipoGanador, efec: efec });
-        }
+        if (totalIntentos > 0) cands.push({ name: player, team: equipoGanador, efec: efec });
       }
     });
   }
   
-  // Si hay candidatos, sugerir el de mayor efectividad TOTAL
   if (cands.length > 0) {
     cands.sort((a,b) => b.efec - a.efec);
     const best = cands[0];
@@ -842,7 +776,6 @@ function setMVP(id) {
     }
   }
   
-  // Si no hay estadísticas o no se confirma, pedir manual (limitado al equipo ganador)
   const nm = prompt(`MVP del equipo ganador (${equipoGanador}):\n\nIngresa el nombre del jugador:`);
   if (nm && nm.trim()) {
     MVP[id] = { name: nm.trim(), team: equipoGanador, efec: 0 };
@@ -871,7 +804,6 @@ function rA() {
       const bocB = ps.boc_b || 0;
       const bocTotal = ps.total_boc || 0;
       
-      // Cálculos separados
       const efecArr = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : 0;
       const efecBoc = bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0;
       const totalBuenos = arrB + bocB;
@@ -889,7 +821,6 @@ function rA() {
     });
   });
   
-  // Ordenar por EFEC TOTAL (puedes cambiar a efecArr o efecBoc)
   players.sort((a,b) => b.efecTotal - a.efecTotal);
   
   g('a-list').innerHTML = !players.length ? 
@@ -920,62 +851,28 @@ function rA() {
 }
     
 // ==================== VIDEOS Y STREAMING ====================
-// ==================== VIDEOS Y STREAMING MEJORADO ====================
 let currentVideoType = 'live';
-let youtubeAPIKey = ''; // Opcional: puedes agregar tu API Key de YouTube
+let youtubeAPIKey = '';
 
-// Playlists predefinidas
 const PLAYLISTS = [
-    {
-        id: 'PLNGr4rVFi_Mgq1yVGYN_98bi11PQeUkvt',
-        title: '⚡ Partidos Femenino Grupo A',
-        thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg',
-        videoCount: 12
-    },
-    {
-        id: 'PLNGr4rVFi_MinnJt71a6JxLjaxxxVsbGS',
-        title: '💪 Partidos Masculino Grupo A',
-        thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg',
-        videoCount: 8
-    },
- {
-        id: 'PLNGr4rVFi_MgXw97f6b4p3HJz6qVCBI9D',
-        title: '⚡ Partidos Femenino Grupo B',
-        thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg',
-        videoCount: 12
-    },
-    {
-        id: 'PLNGr4rVFi_MicT7OORCIvTF2vB7KGxCbq',
-        title: '💪 Partidos Masculino Grupo B',
-        thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg',
-        videoCount: 8
-    },
-    
-    {
-        id: 'PLNGr4rVFi_MiZuaAWkQlqRcqT9X0tRJX_',
-        title: '🏆 Mejores Jugadas - Todos los Grupos',
-        thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg',
-        videoCount: 15
-    }
+    { id: 'PLNGr4rVFi_Mgq1yVGYN_98bi11PQeUkvt', title: '⚡ Partidos Femenino Grupo A', thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg', videoCount: 12 },
+    { id: 'PLNGr4rVFi_MinnJt71a6JxLjaxxxVsbGS', title: '💪 Partidos Masculino Grupo A', thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg', videoCount: 8 },
+    { id: 'PLNGr4rVFi_MgXw97f6b4p3HJz6qVCBI9D', title: '⚡ Partidos Femenino Grupo B', thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg', videoCount: 12 },
+    { id: 'PLNGr4rVFi_MicT7OORCIvTF2vB7KGxCbq', title: '💪 Partidos Masculino Grupo B', thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg', videoCount: 8 },
+    { id: 'PLNGr4rVFi_MiZuaAWkQlqRcqT9X0tRJX_', title: '🏆 Mejores Jugadas - Todos los Grupos', thumbnail: 'https://img.youtube.com/vi/default/mqdefault.jpg', videoCount: 15 }
 ];
 
 function setVideoType(type) {
     currentVideoType = type;
-    
-    // Actualizar botones
     document.getElementById('btn-live').classList.toggle('on', type === 'live');
     document.getElementById('btn-highlights').classList.toggle('on', type === 'highlights');
     document.getElementById('btn-tiktok').classList.toggle('on', type === 'tiktok');
     document.getElementById('btn-playlist')?.classList.toggle('on', type === 'playlist');
-    
-    // Mostrar/ocultar contenedores
     document.getElementById('live-container').style.display = type === 'live' ? 'block' : 'none';
     document.getElementById('highlights-container').style.display = type === 'highlights' ? 'block' : 'none';
     document.getElementById('tiktok-container').style.display = type === 'tiktok' ? 'block' : 'none';
     const playlistContainer = document.getElementById('playlist-container');
     if (playlistContainer) playlistContainer.style.display = type === 'playlist' ? 'block' : 'none';
-    
-    // Cargar contenido según tipo
     if (type === 'live') {
         verificarStreamEnVivo();
         mostrarProximosPartidos();
@@ -986,35 +883,27 @@ function setVideoType(type) {
     }
 }
 
-// Verificar si hay stream en vivo (simulado - puedes conectar con YouTube API)
 function verificarStreamEnVivo() {
     const liveStatusDiv = document.getElementById('live-status');
     const liveTitleDiv = document.getElementById('live-title');
     const liveSubtitleDiv = document.getElementById('live-subtitle');
     const livePlayerDiv = document.getElementById('live-player');
-    
-    // Buscar el próximo partido para saber si debería haber stream
     const proximo = getProximoPartido();
     const hoy = new Date();
     const fechaProximo = proximo ? new Date(proximo.d.split('/').reverse().join('-')) : null;
     const horasDiff = fechaProximo ? (fechaProximo - hoy) / (1000 * 60 * 60) : null;
-    
-    // Si hay un partido en las próximas 24 horas, mostrar "Próximamente"
     if (proximo && horasDiff <= 24 && horasDiff > 0) {
         liveStatusDiv.innerHTML = '⏰';
         liveTitleDiv.innerHTML = `Próximamente: ${proximo.a} vs ${proximo.b}`;
         liveSubtitleDiv.innerHTML = `📅 ${proximo.d} ${proximo.h} · ${proximo.f}`;
         livePlayerDiv.style.display = 'none';
-    } 
-    // Si hay un partido ahora (en vivo)
-    else if (proximo && horasDiff <= 0 && horasDiff > -2) {
+    } else if (proximo && horasDiff <= 0 && horasDiff > -2) {
         liveStatusDiv.innerHTML = '🔴';
         liveTitleDiv.innerHTML = `¡EN VIVO! ${proximo.a} vs ${proximo.b}`;
         liveSubtitleDiv.innerHTML = `Transmitiendo ahora desde ${proximo.f}`;
         livePlayerDiv.style.display = 'block';
         document.getElementById('live-iframe').src = 'https://www.youtube.com/embed/live_stream?channel=UC_EJEMPLO';
-    }
-    else {
+    } else {
         liveStatusDiv.innerHTML = '📡';
         liveTitleDiv.innerHTML = 'No hay transmisión activa';
         liveSubtitleDiv.innerHTML = 'Los streams comienzan 15 minutos antes de cada partido';
@@ -1022,22 +911,27 @@ function verificarStreamEnVivo() {
     }
 }
 
-// Mostrar próximos partidos en la sección en vivo
+function getProximoPartido() {
+    const hoy = new Date();
+    const partidosFuturos = MATCHES.filter(m => {
+        const fechaPartido = new Date(m.d.split('/').reverse().join('-'));
+        return fechaPartido >= hoy && (!R[m.id] || R[m.id].status !== 'done');
+    }).sort((a,b) => new Date(a.d) - new Date(b.d));
+    return partidosFuturos[0];
+}
+
 function mostrarProximosPartidos() {
     const hoy = new Date();
     const partidosFuturos = MATCHES.filter(m => {
         const fechaPartido = new Date(m.d.split('/').reverse().join('-'));
         return fechaPartido >= hoy && (!R[m.id] || R[m.id].status !== 'done');
     }).sort((a,b) => new Date(a.d) - new Date(b.d)).slice(0, 4);
-    
     const container = document.getElementById('proximos-partidos');
     if (!container) return;
-    
     if (partidosFuturos.length === 0) {
         container.innerHTML = '<div class="error-message">No hay partidos programados próximamente</div>';
         return;
     }
-    
     container.innerHTML = `
         <div class="video-section-title" style="margin-top: 10px;">
             <span>⏰ PRÓXIMOS PARTIDOS</span>
@@ -1051,7 +945,6 @@ function mostrarProximosPartidos() {
             if (diffDays === 0) { etiqueta = '🔥 HOY'; color = '#e8b84b'; }
             else if (diffDays === 1) { etiqueta = '⭐ MAÑANA'; color = '#f39c12'; }
             else { etiqueta = `📅 En ${diffDays} días`; }
-            
             return `
                 <div class="video-card">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
@@ -1068,143 +961,70 @@ function mostrarProximosPartidos() {
     `;
 }
 
-// Cargar videos de YouTube mejorado
 function cargarVideosYouTube() {
     const grid = document.getElementById('youtube-grid');
     if (!grid) return;
-    
-    // Mostrar loading
     grid.innerHTML = '<div class="loading-spinner">🎬 Cargando videos...</div>';
-    
-    // Lista de videos destacados (reemplazar con IDs reales de YouTube)
     const videos = [
-        {
-            id: 'dQw4w9WgXcQ',
-            title: 'Ferrecenca vs Alimentos Amanecer',
-            date: '14/05/2026',
-            resultado: 'Final 6-15',
-            mvp: 'Graciela Febres',
-            duration: '1:24:30',
-            views: '234'
-        },
-        {
-            id: '9bZkp7q19f0',
-            title: 'The Dolls vs Saboga',
-            date: '14/05/2026',
-            resultado: 'Final 3-18',
-            mvp: '',
-            duration: '1:15:22',
-            views: '189'
-        },
-        {
-            id: 'JGwWNGJdvx8',
-            title: 'Resumen Semana 2 - Mejores Jugadas',
-            date: '17/05/2026',
-            resultado: 'Highlights',
-            mvp: '',
-            duration: '12:45',
-            views: '567'
-        }
+        { id: 'dQw4w9WgXcQ', title: 'Ferrecenca vs Alimentos Amanecer', date: '14/05/2026', resultado: 'Final 6-15', mvp: 'Graciela Febres', duration: '1:24:30', views: '234' },
+        { id: '9bZkp7q19f0', title: 'The Dolls vs Saboga', date: '14/05/2026', resultado: 'Final 3-18', mvp: '', duration: '1:15:22', views: '189' },
+        { id: 'JGwWNGJdvx8', title: 'Resumen Semana 2 - Mejores Jugadas', date: '17/05/2026', resultado: 'Highlights', mvp: '', duration: '12:45', views: '567' }
     ];
-    
     setTimeout(() => {
         grid.innerHTML = videos.map(v => `
             <div class="video-card">
                 <div class="video-wrapper">
-                    <iframe 
-                        src="https://www.youtube.com/embed/${v.id}" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
+                    <iframe src="https://www.youtube.com/embed/${v.id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <div class="video-title">${v.title}</div>
-                <div class="video-meta">
-                    <span>📅 ${v.date}</span>
-                    <span>⏱️ ${v.duration}</span>
-                    <span>👁️ ${v.views} vistas</span>
-                </div>
-                <div class="video-meta">
-                    ${v.resultado ? `<span>🏆 ${v.resultado}</span>` : ''}
-                    ${v.mvp ? `<span>🏅 MVP: ${v.mvp}</span>` : ''}
-                </div>
+                <div class="video-meta"><span>📅 ${v.date}</span><span>⏱️ ${v.duration}</span><span>👁️ ${v.views} vistas</span></div>
+                <div class="video-meta">${v.resultado ? `<span>🏆 ${v.resultado}</span>` : ''}${v.mvp ? `<span>🏅 MVP: ${v.mvp}</span>` : ''}</div>
             </div>
         `).join('');
     }, 300);
 }
 
-// Cargar playlists
 function cargarPlaylists() {
     const grid = document.getElementById('playlist-grid');
     if (!grid) return;
-    
     grid.innerHTML = PLAYLISTS.map(playlist => `
         <div class="video-card" onclick="abrirPlaylist('${playlist.id}')" style="cursor: pointer;">
             <div style="display: flex; gap: 10px; align-items: center;">
-                <div style="width: 80px; height: 45px; background: #0f3460; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
-                    <span style="font-size: 24px;">📋</span>
-                </div>
-                <div style="flex: 1;">
-                    <div class="video-title" style="font-size: 11px;">${playlist.title}</div>
-                    <div class="video-meta">🎬 ${playlist.videoCount} videos</div>
-                </div>
+                <div style="width: 80px; height: 45px; background: #0f3460; border-radius: 6px; display: flex; align-items: center; justify-content: center;"><span style="font-size: 24px;">📋</span></div>
+                <div style="flex: 1;"><div class="video-title" style="font-size: 11px;">${playlist.title}</div><div class="video-meta">🎬 ${playlist.videoCount} videos</div></div>
                 <div style="color: #8899aa;">▶️</div>
             </div>
         </div>
     `).join('');
 }
 
-// Abrir playlist en YouTube
-function abrirPlaylist(playlistId) {
-    window.open(`https://www.youtube.com/playlist?list=${playlistId}`, '_blank');
-}
+function abrirPlaylist(playlistId) { window.open(`https://www.youtube.com/playlist?list=${playlistId}`, '_blank'); }
 
-// Función para compartir videos
 function compartirVideos() {
     if (navigator.share) {
-        navigator.share({
-            title: 'Sibarita Sport Club - Videos del Torneo',
-            text: 'Mira los partidos y highlights del campeonato',
-            url: window.location.href
-        }).catch(() => {});
+        navigator.share({ title: 'Sibarita Sport Club - Videos del Torneo', text: 'Mira los partidos y highlights del campeonato', url: window.location.href }).catch(() => {});
     } else {
-        // Fallback - copiar al portapapeles
         navigator.clipboard.writeText(window.location.href);
         mostrarEstado('✅ Enlace copiado al portapapeles');
     }
 }
 
-// Actualizar el stream en vivo (llamado periódicamente)
-function actualizarStreamEnVivo() {
-    verificarStreamEnVivo();
-}
-
-// Modificar la función showTab existente
-// Ya está modificada en tu código, solo asegurar que llame a las funciones correctas
-
-    
 function openStatsModal(matchId) {
   const match = MATCHES.find(m => m.id === matchId);
   if (!match) return;
   currentMatchId = matchId;
   
-  // Cargar estadísticas específicas de ESTE partido
   const matchStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {};
-  
-  // ==== CONSOLE.LOG PARA DEPURAR ====
   console.log(`🔍 ===== PARTIDO ${matchId} =====`);
   console.log(`Equipos: ${match.a} vs ${match.b}`);
-  console.log(`Estadísticas guardadas en localStorage:`);
-  console.log(matchStats);
+  console.log(`Estadísticas guardadas en localStorage:`, matchStats);
   console.log(`Claves disponibles:`, Object.keys(matchStats));
-  // =================================
   
   document.getElementById('stats-modal-title').innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`;
   const body = document.getElementById('stats-modal-body');
   let html = '';
   
 function getStatsForPlayer(teamName, playerName) {
-  // Buscar con el formato "Equipo|Jugador"
   const fullKey = `${teamName}|${playerName}`;
   if (matchStats[fullKey]) {
     console.log(`✅ Encontrado: ${fullKey}`, matchStats[fullKey]);
@@ -1241,74 +1061,40 @@ function getStatsForPlayer(teamName, playerName) {
 }
     
     
-    function getPlayerStatsHTML(playerName, saved) {
+function getPlayerStatsHTML(playerName, saved) {
   const safeKey = playerName.replace(/[^a-zA-Z0-9]/g, '_');
-  // Asegurar que los valores existan
   const arr_b = saved.arr_b || 0;
   const total_arr = saved.total_arr || 0;
   const boc_b = saved.boc_b || 0;
   const total_boc = saved.total_boc || 0;
-  
   return `<div class="player-stats-row">
             <div class="player-name">${playerName}</div>
             <div class="stats-grid">
-              <div class="stat-item">
-                <div class="stat-label">🎯 Arrime Buenos</div>
-                <input type="number" class="stat-input" id="arr_b_${safeKey}" value="${arr_b}" min="0" max="50">
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">📊 Total Arrime</div>
-                <input type="number" class="stat-input" id="total_arr_${safeKey}" value="${total_arr}" min="0" max="50">
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">💥 Boche Buenos</div>
-                <input type="number" class="stat-input" id="boc_b_${safeKey}" value="${boc_b}" min="0" max="50">
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">📊 Total Boche</div>
-                <input type="number" class="stat-input" id="total_boc_${safeKey}" value="${total_boc}" min="0" max="50">
-              </div>
+              <div class="stat-item"><div class="stat-label">🎯 Arrime Buenos</div><input type="number" class="stat-input" id="arr_b_${safeKey}" value="${arr_b}" min="0" max="50"></div>
+              <div class="stat-item"><div class="stat-label">📊 Total Arrime</div><input type="number" class="stat-input" id="total_arr_${safeKey}" value="${total_arr}" min="0" max="50"></div>
+              <div class="stat-item"><div class="stat-label">💥 Boche Buenos</div><input type="number" class="stat-input" id="boc_b_${safeKey}" value="${boc_b}" min="0" max="50"></div>
+              <div class="stat-item"><div class="stat-label">📊 Total Boche</div><input type="number" class="stat-input" id="total_boc_${safeKey}" value="${total_boc}" min="0" max="50"></div>
             </div>
           </div>`;
 }
 
-
-    
 function suspenderJuego(id) {
   const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-  if (!esOrganizador) {
-    alert('⚠️ Solo el organizador puede suspender juegos.');
-    return;
-  }
-  
+  if (!esOrganizador) { alert('⚠️ Solo el organizador puede suspender juegos.'); return; }
   const m = MATCHES.find(x => x.id === id);
-  if (!m) {
-    alert('Error: Partido no encontrado');
-    return;
-  }
-  
+  if (!m) { alert('Error: Partido no encontrado'); return; }
   const razon = prompt('📋 Motivo de la suspensión:\n(Clima, falta de jugadores, etc.)', 'Clima');
   if (razon === null) return;
-  
-  R[id] = { 
-    scoreA: 0, 
-    scoreB: 0, 
-    status: 'suspended',
-    razon: razon || 'Sin especificar'
-  };
+  R[id] = { scoreA: 0, scoreB: 0, status: 'suspended', razon: razon || 'Sin especificar' };
   save();
   rM();
   rSt();
   alert(`⚠️ Partido suspendido por: ${razon || 'Sin especificar'}\n\nPuedes reprogramarlo más tarde.`);
 }    
 
-    function reanudarJuego(id) {
+function reanudarJuego(id) {
   const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-  if (!esOrganizador) {
-    alert('⚠️ Solo el organizador puede reanudar juegos.');
-    return;
-  }
-  
+  if (!esOrganizador) { alert('⚠️ Solo el organizador puede reanudar juegos.'); return; }
   if (confirm('¿Reanudar este partido? Se borrará el estado "Suspendido" y podrás cargar el resultado normalmente.')) {
     delete R[id];
     save();
@@ -1318,13 +1104,10 @@ function suspenderJuego(id) {
   }
 }
 
-    
 function saveMatchStats() {
   const match = MATCHES.find(m => m.id === currentMatchId);
   if (!match) return;
-  
   const stats = {};
-  
   [match.a, match.b].forEach(teamName => {
     const team = TEAMS.find(t => t.n === teamName);
     if (team) {
@@ -1335,12 +1118,8 @@ function saveMatchStats() {
           const total_arr = parseInt(document.getElementById(`total_arr_${safeKey}`)?.value) || 0;
           const boc_b = parseInt(document.getElementById(`boc_b_${safeKey}`)?.value) || 0;
           const total_boc = parseInt(document.getElementById(`total_boc_${safeKey}`)?.value) || 0;
-          
-          // Guardar SIEMPRE con el formato "Equipo|Jugador"
           const fullKey = `${teamName}|${player}`;
           stats[fullKey] = { arr_b, total_arr, boc_b, total_boc };
-          
-          // Actualizar estadísticas globales
           const psKey = `${teamName}|${player}`;
           if (!PS[psKey]) PS[psKey] = {};
           PS[psKey].arr_b = (PS[psKey].arr_b || 0) + arr_b;
@@ -1352,111 +1131,55 @@ function saveMatchStats() {
       });
     }
   });
-  
-  // Guardar en localStorage
   localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats));
-  
-  // Guardar globales
   save();
-  
   closeStatsModal();
   alert('✅ Estadísticas guardadas correctamente');
   rA();
   rT();
 }
 
-    function recalcularMVP(id) {
+function recalcularMVP(id) {
   const match = MATCHES.find(m => m.id === id);
   if (!match) return;
-  
   const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
   const r = R[id];
-  
-  if (!r || r.status !== 'done') {
-    alert('⚠️ Primero debes guardar el resultado del partido');
-    return;
-  }
-  
+  if (!r || r.status !== 'done') { alert('⚠️ Primero debes guardar el resultado del partido'); return; }
   let equipoGanador = '';
-  if (r.scoreA > r.scoreB) {
-    equipoGanador = match.a;
-  } else if (r.scoreB > r.scoreA) {
-    equipoGanador = match.b;
-  } else {
-    alert('⚠️ Empate. No hay MVP.');
-    return;
-  }
-  
+  if (r.scoreA > r.scoreB) equipoGanador = match.a;
+  else if (r.scoreB > r.scoreA) equipoGanador = match.b;
+  else { alert('⚠️ Empate. No hay MVP.'); return; }
   const teamGanador = TEAMS.find(t => t.n === equipoGanador);
   if (!teamGanador) return;
-  
   let mejorJugador = null;
   let mejorEfec = -1;
-  
   teamGanador.p.forEach(player => {
     const stats = matchStats[player];
     if (stats && (stats.total_arr > 0 || stats.total_boc > 0)) {
       const totalBuenos = (stats.arr_b || 0) + (stats.boc_b || 0);
       const totalIntentos = (stats.total_arr || 0) + (stats.total_boc || 0);
       const efec = totalIntentos > 0 ? Math.round((totalBuenos / totalIntentos) * 100) : 0;
-      
-      if (efec > mejorEfec) {
-        mejorEfec = efec;
-        mejorJugador = { name: player, team: equipoGanador, efec: efec };
-      }
+      if (efec > mejorEfec) { mejorEfec = efec; mejorJugador = { name: player, team: equipoGanador, efec: efec }; }
     }
   });
-  
-  if (mejorJugador) {
-    MVP[id] = mejorJugador;
-    save();
-    rM();
-    alert(`🏅 MVP: ${mejorJugador.name} (${mejorJugador.team}) con ${mejorJugador.efec}%`);
-  } else {
-    const nm = prompt(`No hay estadísticas. Nombre del MVP de ${equipoGanador}:`);
-    if (nm && nm.trim()) {
-      MVP[id] = { name: nm.trim(), team: equipoGanador, efec: 0 };
-      save();
-      rM();
-      alert(`✅ MVP asignado: ${nm.trim()}`);
-    }
-  }
+  if (mejorJugador) { MVP[id] = mejorJugador; save(); rM(); alert(`🏅 MVP: ${mejorJugador.name} (${mejorJugador.team}) con ${mejorJugador.efec}%`); }
+  else { const nm = prompt(`No hay estadísticas. Nombre del MVP de ${equipoGanador}:`); if (nm && nm.trim()) { MVP[id] = { name: nm.trim(), team: equipoGanador, efec: 0 }; save(); rM(); alert(`✅ MVP asignado: ${nm.trim()}`); } }
 }
     
-    
-    function closeStatsModal() { g('stats-modal').style.display = 'none'; currentMatchId = null; }
+function closeStatsModal() { g('stats-modal').style.display = 'none'; currentMatchId = null; }
 
-// ==================== GITHUB SYNC ====================
-
+// ==================== FIREBASE SYNC (corregido) ====================
 async function cargarResultadosDesdeFirebase() {
   try {
     mostrarEstado('🔄 Cargando resultados desde Firebase...');
-    
     const resultados = await window.cargarResultadosFirebase();
     const mvp = await window.cargarMVPFirebase();
     const estadisticas = await window.cargarEstadisticasFirebase();
     const estadisticasPorPartido = await window.cargarEstadisticasPorPartidoFirebase();
-    
-    // Cargar resultados
-    for (const [id, datos] of Object.entries(resultados)) {
-      R[id] = datos;
-    }
-    
-    // Cargar MVP
-    for (const [id, datos] of Object.entries(mvp)) {
-      MVP[id] = datos;
-    }
-    
-    // Cargar estadísticas acumuladas
-    for (const [key, datos] of Object.entries(estadisticas)) {
-      PS[key] = datos;
-    }
-    
-    // Cargar estadísticas por partido
-    for (const [matchId, stats] of Object.entries(estadisticasPorPartido)) {
-      localStorage.setItem(`match_stats_${matchId}`, JSON.stringify(stats));
-    }
-    
+    for (const [id, datos] of Object.entries(resultados)) { R[id] = datos; }
+    for (const [id, datos] of Object.entries(mvp)) { MVP[id] = datos; }
+    for (const [key, datos] of Object.entries(estadisticas)) { PS[key] = datos; }
+    for (const [matchId, stats] of Object.entries(estadisticasPorPartido)) { localStorage.setItem(`match_stats_${matchId}`, JSON.stringify(stats)); }
     save();
     mostrarEstado('✅ Datos cargados desde Firebase');
     rM();
@@ -1469,11 +1192,7 @@ async function cargarResultadosDesdeFirebase() {
   }
 }
 
-// Al cargar la página, usar Firebase en lugar de GitHub
-cargarResultadosDesdeFirebase();
-
 function exportarResultadosAJSON() {
-  // Recolectar todas las estadísticas por partido guardadas en localStorage
   const matchStats = {};
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
@@ -1482,15 +1201,7 @@ function exportarResultadosAJSON() {
       matchStats[matchId] = JSON.parse(localStorage.getItem(key));
     }
   }
-  
-  const datos = {
-    ultimaActualizacion: new Date().toISOString(),
-    resultados: R,
-    mvp: MVP,
-    estadisticas: PS,
-    estadisticasPorPartido: matchStats
-  };
-  
+  const datos = { ultimaActualizacion: new Date().toISOString(), resultados: R, mvp: MVP, estadisticas: PS, estadisticasPorPartido: matchStats };
   const jsonStr = JSON.stringify(datos, null, 2);
   const blob = new Blob([jsonStr], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -1499,32 +1210,24 @@ function exportarResultadosAJSON() {
   a.download = `resultados_${new Date().toISOString().slice(0,19)}.json`;
   a.click();
   URL.revokeObjectURL(url);
-  
   mostrarEstado('✅ JSON exportado con estadísticas por partido');
 }
-  function mostrarBotonesAdmin() {
+
+function mostrarBotonesAdmin() {
   const pass = prompt('🔐 Contraseña de administrador:');
   if (pass === 'sibarita2026') {
     const adminDiv = document.getElementById('admin-buttons');
-    if (adminDiv) {
-      adminDiv.style.display = 'flex';
-      mostrarEstado('✅ Modo administrador activado');
-    }
-  } else {
-    alert('❌ Contraseña incorrecta');
-  }
+    if (adminDiv) { adminDiv.style.display = 'flex'; mostrarEstado('✅ Modo administrador activado'); }
+  } else { alert('❌ Contraseña incorrecta'); }
 }
-
 
 function exportarEstadisticasACSV() {
   let csv = "Jugador,Equipo,Categoría,Grupo,Partidos,Arrime_Buenos,Arrime_Total,Arrime_Efectividad,Boche_Buenos,Boche_Total,Boche_Efectividad\n";
-  
   TEAMS.forEach(team => {
     team.p.forEach(player => {
       if (player === 'Por Cargar') return;
       const psKey = `${team.n}|${player}`;
       const ps = PS[psKey] || {};
-      
       const arrB = ps.arr_b || 0;
       const arrTotal = ps.total_arr || 0;
       const arrEfec = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : 0;
@@ -1532,11 +1235,9 @@ function exportarEstadisticasACSV() {
       const bocTotal = ps.total_boc || 0;
       const bocEfec = bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0;
       const partidos = ps.partidos || 0;
-      
       csv += `"${player}","${team.n}","${team.c}","${team.g}",${partidos},${arrB},${arrTotal},${arrEfec},${bocB},${bocTotal},${bocEfec}\n`;
     });
   });
-  
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -1557,11 +1258,7 @@ function mostrarEstado(mensaje, esError = false) {
   }
   estadoDiv.innerHTML = mensaje;
   estadoDiv.classList.toggle('error', esError);
-  if (!esError) {
-    setTimeout(() => {
-      if (estadoDiv.innerHTML === mensaje) estadoDiv.innerHTML = '';
-    }, 4000);
-  }
+  if (!esError) { setTimeout(() => { if (estadoDiv.innerHTML === mensaje) estadoDiv.innerHTML = ''; }, 4000); }
 }
 
 let pdfMode = 'week';
@@ -1581,10 +1278,7 @@ function generatePDF() {
 
   if (pdfMode === 'all') {
     const semanaSeleccionada = F.mWk;
-    if (semanaSeleccionada === 'Todos') {
-      alert('⚠️ Para generar PDF de "Todas las Categorías", primero selecciona una semana específica (Sem 1, Sem 2, etc.) en la pestaña Partidos.');
-      return;
-    }
+    if (semanaSeleccionada === 'Todos') { alert('⚠️ Para generar PDF de "Todas las Categorías", primero selecciona una semana específica (Sem 1, Sem 2, etc.) en la pestaña Partidos.'); return; }
     list = MATCHES.filter(m => m.w === semanaSeleccionada);
     if (list.length === 0) { alert(`No hay partidos en ${semanaSeleccionada}`); return; }
     const semanaNombre = { S1:'Semana 1', S2:'Semana 2', S3:'Semana 3', S4:'Semana 4', S5:'Semana 5', S6:'Semana 6', S7:'Semana 7', S8:'Semana 8', S9:'Semana 9' };
@@ -1695,16 +1389,15 @@ function generatePDF() {
   doc.save(fname); togglePdfPanel();
 }
 
-// Cargar datos desde GitHub al iniciar
-cargarResultadosDesdeGitHub();
+// NOTA: la función cargarResultadosDesdeGitHub ya no se usa; se eliminó la llamada.
+// La carga se realiza dentro del módulo de Firebase.
 </script>
 
 <!-- Firebase SDKs y configuración -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+  import { getFirestore, doc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-  // Tu configuración de Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyDXIPkeLn5oVn_q-NO1Xm7tc9E6MPfU-cU",
     authDomain: "sibarita-torneo-bolas-criollas.firebaseapp.com",
@@ -1714,21 +1407,15 @@ cargarResultadosDesdeGitHub();
     appId: "1:466460618853:web:52660cd99bba610d6e568c"
   };
 
-  // Inicializar Firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // ========== FUNCIONES PARA TRABAJAR CON FIREBASE ==========
-
-  // Cargar todos los resultados desde Firebase
   window.cargarResultadosFirebase = async function() {
     try {
       const resultadosRef = collection(db, "resultados");
       const snapshot = await getDocs(resultadosRef);
       const resultados = {};
-      snapshot.forEach(doc => {
-        resultados[doc.id] = doc.data();
-      });
+      snapshot.forEach(doc => { resultados[doc.id] = doc.data(); });
       console.log("✅ Resultados cargados desde Firebase:", Object.keys(resultados).length);
       return resultados;
     } catch (error) {
@@ -1737,7 +1424,6 @@ cargarResultadosDesdeGitHub();
     }
   };
 
-  // Guardar un resultado específico
   window.guardarResultadoFirebase = async function(matchId, data) {
     try {
       const resultadoRef = doc(db, "resultados", matchId.toString());
@@ -1750,15 +1436,12 @@ cargarResultadosDesdeGitHub();
     }
   };
 
-  // Cargar MVP desde Firebase
   window.cargarMVPFirebase = async function() {
     try {
       const mvpRef = collection(db, "mvp");
       const snapshot = await getDocs(mvpRef);
       const mvp = {};
-      snapshot.forEach(doc => {
-        mvp[doc.id] = doc.data();
-      });
+      snapshot.forEach(doc => { mvp[doc.id] = doc.data(); });
       console.log("✅ MVP cargados desde Firebase:", Object.keys(mvp).length);
       return mvp;
     } catch (error) {
@@ -1767,7 +1450,6 @@ cargarResultadosDesdeGitHub();
     }
   };
 
-  // Guardar MVP
   window.guardarMVPFirebase = async function(matchId, data) {
     try {
       const mvpRef = doc(db, "mvp", matchId.toString());
@@ -1780,15 +1462,12 @@ cargarResultadosDesdeGitHub();
     }
   };
 
-  // Cargar estadísticas desde Firebase
   window.cargarEstadisticasFirebase = async function() {
     try {
       const statsRef = collection(db, "estadisticas");
       const snapshot = await getDocs(statsRef);
       const estadisticas = {};
-      snapshot.forEach(doc => {
-        estadisticas[doc.id] = doc.data();
-      });
+      snapshot.forEach(doc => { estadisticas[doc.id] = doc.data(); });
       console.log("✅ Estadísticas cargadas desde Firebase:", Object.keys(estadisticas).length);
       return estadisticas;
     } catch (error) {
@@ -1797,7 +1476,6 @@ cargarResultadosDesdeGitHub();
     }
   };
 
-  // Guardar estadísticas de un jugador
   window.guardarEstadisticasFirebase = async function(jugadorKey, data) {
     try {
       const statsRef = doc(db, "estadisticas", jugadorKey);
@@ -1810,15 +1488,12 @@ cargarResultadosDesdeGitHub();
     }
   };
 
-  // Cargar estadísticas por partido desde Firebase
   window.cargarEstadisticasPorPartidoFirebase = async function() {
     try {
       const statsPPRef = collection(db, "estadisticasPorPartido");
       const snapshot = await getDocs(statsPPRef);
       const estadisticasPorPartido = {};
-      snapshot.forEach(doc => {
-        estadisticasPorPartido[doc.id] = doc.data();
-      });
+      snapshot.forEach(doc => { estadisticasPorPartido[doc.id] = doc.data(); });
       console.log("✅ Estadísticas por partido cargadas:", Object.keys(estadisticasPorPartido).length);
       return estadisticasPorPartido;
     } catch (error) {
@@ -1827,7 +1502,6 @@ cargarResultadosDesdeGitHub();
     }
   };
 
-  // Guardar estadísticas por partido
   window.guardarEstadisticasPorPartidoFirebase = async function(matchId, data) {
     try {
       const statsPPRef = doc(db, "estadisticasPorPartido", matchId.toString());
@@ -1842,10 +1516,9 @@ cargarResultadosDesdeGitHub();
 
   console.log("🔥 Firebase conectado correctamente");
 
-    
+  // ==== CORRECCIÓN: cargar datos DESPUÉS de definir las funciones ====
+  cargarResultadosDesdeFirebase();
 </script>
 
-
-    
 </body>
 </html>
