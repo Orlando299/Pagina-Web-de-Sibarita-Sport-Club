@@ -554,25 +554,40 @@ window.mostrarEstado = mostrarEstado;
   window.guardarEstadisticasPorPartidoFirebase = async function(matchId, data) { try { await setDoc(doc(db, "estadisticasPorPartido", matchId.toString()), data); console.log("✅ Estadísticas por partido guardadas:", matchId); return true; } catch(e) { return false; } };
   console.log("🔥 Firebase conectado");
 
-  window.cargarResultadosDesdeFirebase = async function() {
-    try {
-      const resultados = await window.cargarResultadosFirebase();
-      const mvp = await window.cargarMVPFirebase();
-      const estadisticas = await window.cargarEstadisticasFirebase();
-      const statsPP = await window.cargarEstadisticasPorPartidoFirebase();
-      for (const [id, d] of Object.entries(resultados)) if (window.R) window.R[id] = d;
-      for (const [id, d] of Object.entries(mvp)) if (window.MVP) window.MVP[id] = d;
-      for (const [k, d] of Object.entries(estadisticas)) if (window.PS) window.PS[k] = d;
-      for (const [mid, s] of Object.entries(statsPP)) localStorage.setItem(`match_stats_${mid}`, JSON.stringify(s));
-      if (window.save) window.save();
-      if (window.rM) window.rM();
-      if (window.rSt) window.rSt();
-      if (window.rA) window.rA();
-      if (window.rT) window.rT();
-      window.mostrarEstado('✅ Datos cargados desde Firebase');
-    } catch(e) { console.error(e); window.mostrarEstado('⚠️ Error cargando desde Firebase', true); }
-  };
-  window.cargarResultadosDesdeFirebase();
+window.cargarResultadosDesdeFirebase = async function() {
+  try {
+    const resultados = await window.cargarResultadosFirebase();
+    const mvp = await window.cargarMVPFirebase();
+    const estadisticas = await window.cargarEstadisticasFirebase();
+    const statsPP = await window.cargarEstadisticasPorPartidoFirebase();
+
+    // Limpiar objetos globales (opcional, pero asegura datos frescos)
+    for (let k in R) delete R[k];
+    for (let k in MVP) delete MVP[k];
+    for (let k in PS) delete PS[k];
+
+    // Asignar directamente (sin usar window. para mayor claridad)
+    for (const [id, d] of Object.entries(resultados)) R[id] = d;
+    for (const [id, d] of Object.entries(mvp)) MVP[id] = d;
+    for (const [k, d] of Object.entries(estadisticas)) PS[k] = d;
+    for (const [mid, s] of Object.entries(statsPP)) localStorage.setItem(`match_stats_${mid}`, JSON.stringify(s));
+
+    // Guardar en localStorage
+    save();
+
+    // Refrescar la interfaz
+    rM();
+    rSt();
+    rA();
+    rT();
+
+    mostrarEstado(`✅ Datos cargados: ${Object.keys(R).length} resultados, ${Object.keys(MVP).length} MVP, ${Object.keys(PS).length} estadísticas`);
+  } catch(e) {
+    console.error(e);
+    mostrarEstado('⚠️ Error cargando desde Firebase', true);
+  }
+};
+  //// window.cargarResultadosDesdeFirebase();
 </script>
 </body>
 </html>
