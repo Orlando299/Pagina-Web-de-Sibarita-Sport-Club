@@ -9,6 +9,7 @@
 <title>Sibarita Sport Club - Resultados Oficiales</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
+/* ========== ESTILOS (exactamente igual a tu versión funcional) ========== */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 ::-webkit-scrollbar{display:none;}
 body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;max-width:430px;margin:0 auto;min-height:100vh;}
@@ -117,23 +118,19 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 <body>
 <div class="hdr">
   <div class="hdr-top">
-    <div class="logo">
-      <img src="https://i.imgur.com/HbKo42m.png" alt="Logo Sibarita Sport Club">
-      <div><div class="logo-t">Sibarita Sport Club</div><div class="logo-s">2do Campeonato 2026 "Categoría B"</div></div>
-    </div>
+    <div class="logo"><img src="https://i.imgur.com/HbKo42m.png" alt="Logo"><div><div class="logo-t">Sibarita Sport Club</div><div class="logo-s">2do Campeonato 2026 "Categoría B"</div></div></div>
     <div class="badge">RESULTADOS OFICIALES</div>
   </div>
-  
-<div class="nav">
-  <button class="nb on" onclick="showTab('teams',this)"><span>👥</span>Equipos</button>
-  <button class="nb" onclick="showTab('matches',this)"><span>🎯</span>Partidos</button>
-  <button class="nb" onclick="showTab('standings',this)"><span>🏆</span>Tabla</button>
-  <button class="nb" onclick="showTab('stats',this)"><span>📊</span>Average</button>
-  <button class="nb" onclick="showTab('videos',this)"><span>📺</span>Videos</button>
-  <button class="nb" onclick="showTab('game',this)"><span>🎮</span>Jugar</button>
-  <button class="nb" onclick="location.href='quiniela.html'"><span>🏆</span>Quiniela</button>
+  <div class="nav">
+    <button class="nb on" onclick="showTab('teams',this)"><span>👥</span>Equipos</button>
+    <button class="nb" onclick="showTab('matches',this)"><span>🎯</span>Partidos</button>
+    <button class="nb" onclick="showTab('standings',this)"><span>🏆</span>Tabla</button>
+    <button class="nb" onclick="showTab('stats',this)"><span>📊</span>Average</button>
+    <button class="nb" onclick="showTab('videos',this)"><span>📺</span>Videos</button>
+    <button class="nb" onclick="showTab('game',this)"><span>🎮</span>Jugar</button>
+    <button class="nb" onclick="location.href='quiniela.html'"><span>🏆</span>Quiniela</button>
+  </div>
 </div>
-  
 <div class="body">
 
 <div id="s-videos" class="scr">
@@ -144,21 +141,21 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
     <button class="fb" id="btn-tiktok" onclick="setVideoType('tiktok')">🎵 TIKTOK</button>
     <button class="fb" id="btn-playlist" onclick="setVideoType('playlist')">📋 PLAYLISTS</button>
   </div>
-  <div id="live-container" class="video-container"><div class="card" style="text-align:center;padding:15px;"><div id="live-status" style="font-size:48px;margin-bottom:10px;">📡</div><div id="live-title" style="font-size:14px;color:#e8b84b;margin-bottom:5px;font-weight:bold;">Verificando transmisiones...</div><div id="live-subtitle" style="font-size:11px;color:#8899aa;margin-bottom:15px;">Buscando streams activos</div><div id="live-player" style="display:none;"><div class="video-wrapper"><iframe id="live-iframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div><div id="proximos-partidos" style="margin-top:15px;"></div><div class="channel-link"><span style="font-size:11px;">📺 ¿Quieres ver transmisiones anteriores?</span><a href="https://www.youtube.com/@SibaritaSC" target="_blank" class="channel-btn">🔴 Visitar Canal de YouTube</a></div></div></div>
-  <div id="highlights-container" class="video-container" style="display:none;"><div class="video-section-title"><span>🎥 ÚLTIMOS PARTIDOS</span><span class="video-badge">Actualizado semanalmente</span></div><div id="youtube-grid" style="display:grid;grid-template-columns:1fr;gap:12px;"></div><div style="text-align:center;margin-top:10px;"><a href="https://www.youtube.com/@SibaritaSC/videos" target="_blank" style="color:#e8b84b;font-size:11px;text-decoration:none;">📺 Ver todos los videos en YouTube →</a></div></div>
-  <div id="playlist-container" class="video-container" style="display:none;"><div class="video-section-title">📋 PLAYLISTS POR CATEGORÍA</div><div id="playlist-grid" style="display:grid;grid-template-columns:1fr;gap:10px;"></div></div>
-  <div id="tiktok-container" class="video-container" style="display:none;"><div class="video-section-title">🎵 CLIPS CORTOS</div><div id="tiktok-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div class="card" style="text-align:center;padding:20px;"><div style="font-size:36px;">🎬</div><div style="font-size:11px;margin-top:8px;">Síguenos en TikTok para clips exclusivos</div><a href="https://www.tiktok.com/@sibaritasc" target="_blank" style="display:inline-block;background:#000000;color:white;padding:8px 16px;border-radius:8px;text-decoration:none;margin-top:10px;font-size:12px;">@sibaritasc</a></div></div></div>
-  <div class="channel-link" style="margin-top:8px;justify-content:center;"><span style="font-size:10px;">📢 ¡Comparte los videos del torneo!</span><a href="#" onclick="compartirVideos()" style="color:#e8b84b;font-size:11px;text-decoration:none;">📤 Compartir</a></div>
-  <div class="ibox" style="margin-top:8px;">💡 <b>¿Quieres aparecer en los videos?</b> Envía tus clips destacados al WhatsApp de la organización.</div>
+  <div id="live-container" class="video-container"><div class="card" style="text-align:center;padding:15px;"><div id="live-status" style="font-size:48px;margin-bottom:10px;">📡</div><div id="live-title" style="font-size:14px;color:#e8b84b;margin-bottom:5px;font-weight:bold;">Verificando transmisiones...</div><div id="live-subtitle" style="font-size:11px;color:#8899aa;margin-bottom:15px;">Buscando streams activos</div><div id="live-player" style="display:none;"><div class="video-wrapper"><iframe id="live-iframe" src=""></iframe></div></div><div id="proximos-partidos" style="margin-top:15px;"></div><div class="channel-link"><span>📺 ¿Quieres ver transmisiones anteriores?</span><a href="https://www.youtube.com/@SibaritaSC" target="_blank" class="channel-btn">🔴 Visitar Canal</a></div></div></div>
+  <div id="highlights-container" class="video-container" style="display:none;"><div class="video-section-title"><span>🎥 ÚLTIMOS PARTIDOS</span><span class="video-badge">Actualizado</span></div><div id="youtube-grid" style="display:grid;grid-template-columns:1fr;gap:12px;"></div><div style="text-align:center;margin-top:10px;"><a href="https://www.youtube.com/@SibaritaSC/videos" target="_blank" style="color:#e8b84b;font-size:11px;">📺 Ver todos en YouTube</a></div></div>
+  <div id="playlist-container" class="video-container" style="display:none;"><div class="video-section-title">📋 PLAYLISTS</div><div id="playlist-grid" style="display:grid;grid-template-columns:1fr;gap:10px;"></div></div>
+  <div id="tiktok-container" class="video-container" style="display:none;"><div class="video-section-title">🎵 CLIPS CORTOS</div><div id="tiktok-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div class="card" style="text-align:center;padding:20px;"><div style="font-size:36px;">🎬</div><div style="font-size:11px;">Síguenos en TikTok</div><a href="https://www.tiktok.com/@sibaritasc" target="_blank" style="background:#000;color:white;padding:8px 16px;border-radius:8px;display:inline-block;margin-top:10px;">@sibaritasc</a></div></div></div>
+  <div class="channel-link" style="justify-content:center;"><span>📢 ¡Comparte los videos!</span><a href="#" onclick="compartirVideos()" style="color:#e8b84b;">📤 Compartir</a></div>
+  <div class="ibox">💡 ¿Quieres aparecer en los videos? Envía tus clips al WhatsApp de la organización.</div>
 </div>
 
 <div id="s-game" class="scr">
-  <div class="lbl" style="margin-bottom:8px;">🎮 BOLAS CRIOLLAS - JUEGO INTERACTIVO</div>
-  <div id="game-container" style="background:#0d0d0d;border-radius:12px;overflow:hidden;border:1px solid #e8b84b33;"><iframe src="juego.html" style="width:100%;height:650px;border:none;" title="Juego Bolas Criollas"></iframe></div>
-  <div class="ibox" style="margin-top:8px;">📖 <b>Cómo jugar:</b> Haz clic y arrastra para lanzar. Primero lanza el moche (bola dorada), luego tus bolas. ¡Gana quien más se acerque!</div>
+  <div class="lbl">🎮 BOLAS CRIOLLAS - JUEGO INTERACTIVO</div>
+  <div id="game-container" style="background:#0d0d0d;border-radius:12px;overflow:hidden;border:1px solid #e8b84b33;"><iframe src="juego.html" style="width:100%;height:650px;border:none;"></iframe></div>
+  <div class="ibox">📖 Cómo jugar: Haz clic y arrastra para lanzar. Primero lanza el moche (bola dorada), luego tus bolas. ¡Gana quien más se acerque!</div>
 </div>
 
-<a href="instructivo.html" target="_blank" class="fb" style="background:#3498db33;border-color:#3498db;color:#3498db;text-decoration:none;display:inline-block;text-align:center;">📖 Instructivo Jugadores</a>
+<a href="instructivo.html" target="_blank" class="fb" style="background:#3498db33;border-color:#3498db;color:#3498db;text-decoration:none;display:inline-block;">📖 Instructivo Jugadores</a>
 
 <div id="s-teams" class="scr on">
   <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar equipo o jugador..." oninput="searchTeams(this.value)"></div>
@@ -169,7 +166,7 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
     <div class="lbl" id="t-cnt"></div>
     <div id="t-list"></div>
   </div>
-  <div id="t-detail" style="display:none"><button class="back" onclick="closeDetail()">← Volver</button><div class="card" id="t-dhead" style="border:1px solid #e8b84b44;margin-bottom:12px;"></div><div class="lbl">Plantilla</div><div id="t-dplayers"></div></div>
+  <div id="t-detail" style="display:none"><button class="back" onclick="closeDetail()">← Volver</button><div class="card" id="t-dhead"></div><div class="lbl">Plantilla</div><div id="t-dplayers"></div></div>
 </div>
 
 <div id="s-matches" class="scr">
@@ -185,7 +182,7 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
     <button class="fb" onclick="exportarResultadosAJSON()" style="background:#f39c1233;border-color:#f39c12;color:#f39c12;">📦 Exportar JSON</button>
     <button class="fb" onclick="importarJSONJuez()" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;">📂 Importar JSON de Juez</button>
   </div>
-  <div class="pdf-panel" id="pdf-panel"><div style="font-size:11px;color:#e8b84b;font-weight:bold;margin-bottom:8px;letter-spacing:.06em;">DESCARGAR CALENDARIO EN PDF</div><div class="frow"><button class="fb on" id="pdf-btn-week" onclick="setPdfMode('week')">📅 Por Semana</button><button class="fb" id="pdf-btn-team" onclick="setPdfMode('team')">👥 Por Equipo</button><button class="fb" id="pdf-btn-all" onclick="setPdfMode('all')">🌍 Semana (Todas Categorías)</button></div><div id="pdf-week-wrap"><select id="pdf-week-sel" class="pdf-sel"><option value="Todos">Todas las Semanas</option><option value="S1">Semana 1</option><option value="S2">Semana 2</option><option value="S3">Semana 3</option><option value="S4">Semana 4</option><option value="S5">Semana 5</option><option value="S6">Semana 6</option><option value="S7">Semana 7</option><option value="S8">Semana 8</option><option value="S9">Semana 9</option></select></div><div id="pdf-team-wrap" style="display:none;"><select id="pdf-team-sel" class="pdf-sel"></select></div><button class="pdf-gen-btn" onclick="generatePDF()">⬇️ Generar y Descargar PDF</button><button class="pdf-cancel-btn" onclick="togglePdfPanel()">Cancelar</button></div>
+  <div class="pdf-panel" id="pdf-panel"><div style="font-size:11px;color:#e8b84b;margin-bottom:8px;">DESCARGAR CALENDARIO EN PDF</div><div class="frow"><button class="fb on" id="pdf-btn-week" onclick="setPdfMode('week')">📅 Por Semana</button><button class="fb" id="pdf-btn-team" onclick="setPdfMode('team')">👥 Por Equipo</button><button class="fb" id="pdf-btn-all" onclick="setPdfMode('all')">🌍 Todas Categorías</button></div><div id="pdf-week-wrap"><select id="pdf-week-sel" class="pdf-sel"><option value="Todos">Todas</option><option value="S1">Sem 1</option><option value="S2">Sem 2</option><option value="S3">Sem 3</option><option value="S4">Sem 4</option><option value="S5">Sem 5</option><option value="S6">Sem 6</option><option value="S7">Sem 7</option><option value="S8">Sem 8</option><option value="S9">Sem 9</option></select></div><div id="pdf-team-wrap" style="display:none;"><select id="pdf-team-sel" class="pdf-sel"></select></div><button class="pdf-gen-btn" onclick="generatePDF()">⬇️ Generar PDF</button><button class="pdf-cancel-btn" onclick="togglePdfPanel()">Cancelar</button></div>
   <div class="lbl" id="m-cnt"></div>
   <div id="m-list"></div>
 </div>
@@ -194,35 +191,29 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
   <div class="frow"><button class="fb on" id="btn-sFem" onclick="setF('sCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-sMas" onclick="setF('sCat','Masculino')">👨 Masculino</button></div>
   <div class="frow"><button class="fb on" id="btn-sGa" onclick="setF('sGrp','A')">Grupo A</button><button class="fb" id="btn-sGb" onclick="setF('sGrp','B')">Grupo B</button></div>
   <div id="st-list"></div>
-  <div class="ibox">📌 <b>Victoria:</b> 3 pts | <b>Derrota:</b> 0 pts<br>📌 Gana quien llegue a <b>20 tantos</b>. A las 2h gana quien tenga ≥12 (60%).<br>📌 <b>AVG</b> = (TF - TC) / PJ</div>
+  <div class="ibox">📌 Victoria: 3 pts | Derrota: 0 pts<br>📌 Gana quien llegue a 20 tantos.<br>📌 AVG = (TF - TC) / PJ</div>
 </div>
 
 <div id="s-stats" class="scr">
   <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)"></div>
   <div class="frow"><button class="fb on" id="btn-aFem" onclick="setF('aCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-aMas" onclick="setF('aCat','Masculino')">👨 Masculino</button></div>
   <div class="frow"><button class="fb on" id="btn-aGa" onclick="setF('aGrp','A')">Grupo A</button><button class="fb" id="btn-aGb" onclick="setF('aGrp','B')">Grupo B</button></div>
-  <div class="frow"><button class="fb" onclick="exportarEstadisticasACSV()" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;">📊 Exportar Estadísticas</button></div>
-  <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;margin-bottom:6px;"><div style="width:20px"></div><div style="flex:1;font-size:9px;color:#8899aa;">JUGADOR</div><div style="display:flex;gap:6px;"><div style="min-width:26px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">PJ</div><div style="min-width:50px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">ARR(B/T)</div><div style="min-width:50px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">BOC(B/T)</div><div style="min-width:32px;text-align:center;font-size:8px;color:#e8b84b;font-weight:bold;">EFEC%</div></div></div>
+  <div class="frow"><button class="fb" onclick="exportarEstadisticasACSV()" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;">📊 Exportar CSV</button></div>
+  <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;">JUGADOR</div><div class="scols"><div class="sc sh">PJ</div><div class="sc sh">ARR%</div><div class="sc sh">BOC%</div><div class="sc sh">TOT%</div></div></div>
   <div id="a-list"></div>
-  <div class="ibox">📌 <b>ARR:</b> Arrime Buenos/Total | <b>BOC:</b> Boche Buenos/Total | <b>EFEC%:</b> Efectividad</div>
+  <div class="ibox">📌 ARR% = Arrimes Buenos/Total | BOC% = Boches Buenos/Total | TOT% = (Arr+Boc) / Total</div>
 </div>
 
-<div style="margin-top:30px;padding:15px;border-top:1px solid #0f3460;text-align:center;font-size:10px;color:#8899aa;">
-  <a href="legal.html" style="color:#8899aa;text-decoration:none;margin:0 8px;">📜 Aviso Legal</a> |
-  <a href="privacidad.html" style="color:#8899aa;text-decoration:none;margin:0 8px;">🔒 Privacidad</a> |
-  <a href="cookies.html" style="color:#8899aa;text-decoration:none;margin:0 8px;">🍪 Cookies</a><br><br>
-  © 2026 Sibarita Sport Club - 2do Campeonato Bolas Criollas
+<div style="margin-top:30px;padding:15px;border-top:1px solid #0f3460;text-align:center;font-size:10px;">
+  <a href="legal.html" style="color:#8899aa;">📜 Aviso Legal</a> | <a href="privacidad.html" style="color:#8899aa;">🔒 Privacidad</a> | <a href="cookies.html" style="color:#8899aa;">🍪 Cookies</a><br>© 2026 Sibarita Sport Club
 </div>
-
 </div> <!-- .body -->
 </div> <!-- .hdr -->
 
-<div id="stats-modal" class="modal-stats"><div class="modal-content"><div class="modal-header"><div class="modal-title" id="stats-modal-title">Registrar Estadísticas</div><button class="modal-close" onclick="closeStatsModal()">✕</button></div><div id="stats-modal-body"></div><button class="btn-save-stats" onclick="saveMatchStats()">💾 Guardar Estadísticas del Partido</button></div></div>
+<div id="stats-modal" class="modal-stats"><div class="modal-content"><div class="modal-header"><div class="modal-title" id="stats-modal-title">Registrar Estadísticas</div><button class="modal-close" onclick="closeStatsModal()">✕</button></div><div id="stats-modal-body"></div><button class="btn-save-stats" onclick="saveMatchStats()">💾 Guardar Estadísticas</button></div></div>
 
 <script>
-  
-  
-  // ==================== TEAMS ====================
+// ==================== TEAMS (completo) ====================
 const TEAMS = [
   {n:"Jujure (Educadoras)", c:"Femenino", g:"A", p:["Karina Morles","Leudini Torres","Maria Vivas","Irene De Vicent","Keila Valderrama","Lisbeth Barco","Marbelys Sira","Dulcely Torrealba","Dairismar Almao","Jannelys Dudamel"]},
   {n:"Serv. Frios Antonella", c:"Femenino", g:"A", p:["Yusbeli Rodriguez","Luz Maria Paez","Michel Beaz","Yipzi Carmona","Ana Tovar","Marlin Carpio","Liliana Gutierrez","Keila Molina","Yaidth Cedeño"]},
@@ -243,7 +234,6 @@ const TEAMS = [
   {n:"Atavenca",c:"Femenino",g:"B",p:["Yadira Torrez","Diana Oropeza","Julia Escalona","María Elcy Noriega","Esmeralda Mercado","Yankelis Tambo","María Delgado"]},
   {n:"Emprendedoras", c:"Femenino", g:"B", p:["Ana Zapata","Vanessa Lugo","Yanee Vetancourt","Miriam Serres","Ana Hernandes","Berly Salazar","Karelis Aguilar","Luisa Arrieta","Yusbelis Chirinos","Cresky Perez"]},
   {n:"Santana", c:"Femenino", g:"B", p:["Luz Escalona","Tibisay Ramirez","Ana Luisa Ramirez","Ana Varela","Camelia Suarez","Erika Yamilet Rodriguez","Yenny Vargas","Yaritza Caruci"]},
-   //Equipos Masculinos A
   {n:"Micro PC", c:"Masculino", g:"B", p:["Arturo Tovar","Jesus Soteldo","Oscar Paredes","David Chávez","Rafael Valderrama","Victor Escalona","José Jiménez","Samuel Canelon","Luis Mendoza","Pedro Aguilar"]},
   {n:"Fuerza", c:"Masculino", g:"A", p:["Ademar Tua","Pedro Yepez","Pedro Noguera","Clemente Perez","Luis Barco","Miguel Segura","Ramon Perdomo","Eduardo Rivero","Danny Tua"]},
   {n:"Corpolec2", c:"Masculino", g:"A", p:["José Narváez","Marcos Franco","Richard Blanco","Jairo López","Asdrubal Gomez","Angel Perez","Manuel Alvarez","Jorge Luis Rojas","Antonio Rosario","Ali Parra"]},
@@ -257,7 +247,6 @@ const TEAMS = [
   {n:"Agro max", c:"Masculino", g:"A", p:["José Bielma","Jorge Riera","Miguel Cordova","José Cordova","Jesús Sala","Manuel Andrades","Abran Sanchez","Keily Sanchez"]},
  {n:"Familia Ortega", c:"Masculino", g:"A", p:["Freddy Alvarado","Yoiber Oviedo","Eiderzon Nelo","Gonzalo Palacio","Gabriel Betancourt","Esteban Aguilar","Angel Herrera"]},
   {n:"Alimentos La Granja", c:"Masculino", g:"A", p:["Yuris Alfredo Peraza","Efren Dario Rosales Gonzalez","Wilmer Bolivar","Luis Falcon","Jorge Rafael Torres Gutierrez","Robert Antonio Aguero","Juan Alberto Almao Sequera","Rene Chirinos","Alcides Alvarado","Juan Carlos Hernandez","Fran Daniel Diaz","Miguel Jose Bonilla Duran"]},
-    //Equipos Masculinos B
   {n:"Team JM&JA", c:"Masculino", g:"B", p:["José Hernández","Marcos Sánchez","Jesus Pérez","Miguel Duque","Saúl Fonseca","Alexis Martinez","Juan José Alvarado","José Requena","Joel Hernandez"]},
   {n:"Poder Justiciable",c:"Masculino",g:"B",p:["Daniel Roman","Honorio Peroza","Tony Perez","Alfonzo Delgado","Jhonatan Cedeño","Jhonny Oviedo","Ruben Montero","Javier Torrealba","Julio Colmenarez"]},
   {n:"Ingenieros", c:"Masculino", g:"B", p:["Jose Rafael Serrada Diaz","Dayan Ricardo Galindez Muños","Williams Martinez","Arturo Mendez","Jhonny Reina","Carlos Martinez","Alirio Perdomo","Raul Acosta","Diego Piña","Yowerty Ballester","Jose Leonardo Briceño","Alexander Chirinos Alvarado"]},
@@ -271,7 +260,7 @@ const TEAMS = [
   {n:"Agro Tigrera Ranch", c:"Masculino", g:"B", p:["Felix Rumbos","Carlos Araujo","Jonathan Silva","Junior Guedez","Jorge Zambrano","Carlos Torrealba","Wenceslao Paez","Javier Diaz","Pedro Diaz"]},
   {n:"Distribuidora JH", c:"Masculino", g:"B", p:["Jose Galindez","Reinaldo Torrez","Dixon Torcate","Robertthi Perdomo","Wilmer Linarez","Roseliano Garcia","Cristian Perdomo","Juan Hernandez","Juan Hernandez","Oscar Daniel Mogollon Alvarado","Frank David Torrelles"]},
   {n:"Los Lugo", c:"Masculino", g:"A", p:["Alexander Benitez","Robert Gomez","Renny Parra","Terry Parra","Javier Lugo","Ivan Lugo","Jorge Lugo","Andres Marquez","Yunier Lugo","Eduardo Riera","Francisco Medina","Gustavo Sivada"]},
-  ];
+];
 
 const MATCHES = [
   // ==================== SEMANA 1 (08/05) ====================
@@ -405,652 +394,45 @@ let F = {tCat:'Femenino', tGrp:'A', mCat:'Femenino', mGrp:'A', mWk:'Todos', sCat
 function g(id) { return document.getElementById(id); }
 function save() { try { localStorage.setItem('bc26r', JSON.stringify(R)); localStorage.setItem('bc26p', JSON.stringify(PS)); localStorage.setItem('bc26m', JSON.stringify(MVP)); } catch(e) {} }
 
-// ==================== FUNCIONES DE INTERFAZ ====================
-function setF(k, v) {
-  F[k] = v;
-  const maps = { tCat: {Femenino:'btn-tFem', Masculino:'btn-tMas'}, tGrp: {A:'btn-tGa', B:'btn-tGb'}, mCat: {Femenino:'btn-mFem', Masculino:'btn-mMas'}, mGrp: {A:'btn-mGa', B:'btn-mGb'}, sCat: {Femenino:'btn-sFem', Masculino:'btn-sMas'}, sGrp: {A:'btn-sGa', B:'btn-sGb'}, aCat: {Femenino:'btn-aFem', Masculino:'btn-aMas'}, aGrp: {A:'btn-aGa', B:'btn-aGb'} };
-  const m = maps[k]; if (m) { Object.keys(m).forEach(val => { const el = g(m[val]); if (el) el.classList.toggle('on', val === v); }); }
-  if (k[0] === 't') rT(); else if (k[0] === 'm') rM(); else if (k[0] === 's') rSt(); else rA();
-}
-
-function showTab(id, btn) {
-  document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
-  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
-  g('s-' + id).classList.add('on');
-  btn.classList.add('on');
-  if (id === 'matches') rM(); else if (id === 'standings') rSt(); else if (id === 'stats') rA(); else if (id === 'videos') { verificarStreamEnVivo(); mostrarProximosPartidos(); } else rT();
-}
-
+// ==================== FUNCIONES DE INTERFAZ COMPLETAS ====================
+function setF(k, v) { F[k] = v; const maps = { tCat: {Femenino:'btn-tFem', Masculino:'btn-tMas'}, tGrp: {A:'btn-tGa', B:'btn-tGb'}, mCat: {Femenino:'btn-mFem', Masculino:'btn-mMas'}, mGrp: {A:'btn-mGa', B:'btn-mGb'}, sCat: {Femenino:'btn-sFem', Masculino:'btn-sMas'}, sGrp: {A:'btn-sGa', B:'btn-sGb'}, aCat: {Femenino:'btn-aFem', Masculino:'btn-aMas'}, aGrp: {A:'btn-aGa', B:'btn-aGb'} }; const m = maps[k]; if (m) { Object.keys(m).forEach(val => { const el = g(m[val]); if (el) el.classList.toggle('on', val === v); }); } if (k[0] === 't') rT(); else if (k[0] === 'm') rM(); else if (k[0] === 's') rSt(); else rA(); }
+function showTab(id, btn) { document.querySelectorAll('.scr').forEach(s => s.classList.remove('on')); document.querySelectorAll('.nb').forEach(b => b.classList.remove('on')); g('s-' + id).classList.add('on'); btn.classList.add('on'); if (id === 'matches') rM(); else if (id === 'standings') rSt(); else if (id === 'stats') rA(); else if (id === 'videos') { verificarStreamEnVivo(); mostrarProximosPartidos(); } else rT(); }
 function setWeek(w) { F.mWk = w; rM(); }
-
-function searchTeams(q) {
-  const sr = g('srch-res'), tw = g('teams-wrap');
-  if (!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; }
-  sr.style.display = 'block'; tw.style.display = 'none';
-  const ql = q.toLowerCase(); let h = '';
-  TEAMS.forEach(t => {
-    const pm = t.p.filter(p => p.toLowerCase().includes(ql));
-    if (t.n.toLowerCase().includes(ql) || pm.length) {
-      h += `<div class="card"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`;
-      pm.forEach(p => h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`);
-      h += '</div>';
-    }
-  });
-  sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;">Sin resultados</div>';
-}
-
-function rT() {
-  const list = TEAMS.filter(t => t.c === F.tCat && t.g === F.tGrp);
-  g('t-cnt').textContent = list.length + ' EQUIPOS — ' + F.tCat + ' Grupo ' + F.tGrp;
-  g('t-list').innerHTML = list.map(t => `<div class="tc" onclick="openTeam('${t.n.replace(/'/g, "\\'")}')"><div><div style="font-size:13px;font-weight:bold;">${t.n}</div><div style="font-size:10px;color:#8899aa;">${t.p.length} jugadores · Gr.${t.g}</div></div><div style="font-size:18px;">›</div></div>`).join('');
-  g('t-detail').style.display = 'none'; g('teams-wrap').style.display = 'block';
-}
-
-function openTeam(name) {
-  const t = TEAMS.find(x => x.n === name); if (!t) return;
-  g('teams-wrap').style.display = 'none'; g('t-detail').style.display = 'block';
-  g('t-dhead').innerHTML = `<div style="font-size:15px;font-weight:bold;color:#e8b84b;">${t.n}</div><div style="font-size:10px;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`;
-  g('t-dplayers').innerHTML = t.p.map((p,i) => {
-    const k = t.n + '|' + p; const ps = PS[k] || {};
-    const arrDisplay = ps.total_arr ? `${ps.arr_b || 0}/${ps.total_arr}` : '0/0';
-    const bocDisplay = ps.total_boc ? `${ps.boc_b || 0}/${ps.total_boc}` : '0/0';
-    const totalBuenos = (ps.arr_b||0)+(ps.boc_b||0);
-    const totalIntentos = (ps.total_arr||0)+(ps.total_boc||0);
-    const efec = totalIntentos ? Math.round((totalBuenos/totalIntentos)*100) : 0;
-    return `<div class="pi"><div class="pn">${i+1}</div><div style="flex:1;"><div style="font-size:12px;font-weight:bold;">${p}</div><div style="font-size:9px;color:#8899aa;">ARR: ${arrDisplay} · BOC: ${bocDisplay} · EFEC: ${efec}%</div></div></div>`;
-  }).join('');
-}
+function searchTeams(q) { const sr = g('srch-res'), tw = g('teams-wrap'); if (!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; } sr.style.display = 'block'; tw.style.display = 'none'; const ql = q.toLowerCase(); let h = ''; TEAMS.forEach(t => { const pm = t.p.filter(p => p.toLowerCase().includes(ql)); if (t.n.toLowerCase().includes(ql) || pm.length) { h += `<div class="card"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`; pm.forEach(p => h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`); h += '</div>'; } }); sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;">Sin resultados</div>'; }
+function rT() { const list = TEAMS.filter(t => t.c === F.tCat && t.g === F.tGrp); g('t-cnt').textContent = list.length + ' EQUIPOS — ' + F.tCat + ' Grupo ' + F.tGrp; g('t-list').innerHTML = list.map(t => `<div class="tc" onclick="openTeam('${t.n.replace(/'/g, "\\'")}')"><div><div style="font-size:13px;font-weight:bold;">${t.n}</div><div style="font-size:10px;color:#8899aa;">${t.p.length} jugadores · Gr.${t.g}</div></div><div style="font-size:18px;">›</div></div>`).join(''); g('t-detail').style.display = 'none'; g('teams-wrap').style.display = 'block'; }
+function openTeam(name) { const t = TEAMS.find(x => x.n === name); if (!t) return; g('teams-wrap').style.display = 'none'; g('t-detail').style.display = 'block'; g('t-dhead').innerHTML = `<div style="font-size:15px;font-weight:bold;color:#e8b84b;">${t.n}</div><div style="font-size:10px;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`; g('t-dplayers').innerHTML = t.p.map((p,i) => { const k = t.n + '|' + p; const ps = PS[k] || {}; const arrDisplay = ps.total_arr ? `${ps.arr_b || 0}/${ps.total_arr}` : '0/0'; const bocDisplay = ps.total_boc ? `${ps.boc_b || 0}/${ps.total_boc}` : '0/0'; const totalBuenos = (ps.arr_b||0)+(ps.boc_b||0); const totalIntentos = (ps.total_arr||0)+(ps.total_boc||0); const efec = totalIntentos ? Math.round((totalBuenos/totalIntentos)*100) : 0; return `<div class="pi"><div class="pn">${i+1}</div><div style="flex:1;"><div style="font-size:12px;font-weight:bold;">${p}</div><div style="font-size:9px;color:#8899aa;">ARR: ${arrDisplay} · BOC: ${bocDisplay} · EFEC: ${efec}%</div></div></div>`; }).join(''); }
 function closeDetail() { g('teams-wrap').style.display = 'block'; g('t-detail').style.display = 'none'; }
-
-function rM() {
-  const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9'];
-  const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9'};
-  g('m-weeks').innerHTML = wks.map(w => `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`).join('');
-  let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk));
-  g('m-cnt').textContent = list.length + ' PARTIDOS';
-  if (!list.length) { g('m-list').innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;">Sin partidos</div>'; return; }
-  g('m-list').innerHTML = list.map(m => {
-    const r = R[m.id];
-    const done = r && r.status === 'done';
-    const forf = r && r.status === 'forfeit';
-    const suspended = r && r.status === 'suspended';
-    const wA = done && r.scoreA > r.scoreB;
-    const wB = done && r.scoreB > r.scoreA;
-    const mv = MVP[m.id];
-    let inner = '';
-    if (suspended) {
-      inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">JUEGO SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div><div style="margin-top:6px;"><button onclick="reanudarJuego(${m.id})" style="background:#3498db;border:none;border-radius:5px;color:#fff;font-size:9px;padding:3px 8px;">🔄 Reanudar</button><button onclick="delRes(${m.id})" style="background:#c0392b;border:none;border-radius:5px;color:#fff;font-size:9px;padding:3px 8px;">✕ Borrar</button></div></div>`;
-    } else if (done || forf) {
-      inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span><button onclick="delRes(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;">✕</button></div>${mv?`<div class="mvp-box"><span style="font-size:16px;">🏅</span><div style="flex:1;"><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div><button onclick="delMVP(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:14px;">✕</button></div>`:'<button class="mvp-btn" onclick="setMVP('+m.id+')">🏅 Jugador del Partido</button>'}<button class="stats-btn" onclick="openStatsModal(${m.id})">📋 ${done || forf ? 'Editar Stats' : 'Registrar Stats'}</button>`;
-    } else {
-      inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="saveRes(${m.id})">💾 Guardar</button><button class="fbtn" onclick="forfRes(${m.id})">⚠️ Forfeit/WO</button><button class="fbtn" onclick="suspenderJuego(${m.id})" style="border-color:#e67e22;color:#e67e22;">⏸️ Suspender</button><button class="stats-btn" onclick="openStatsModal(${m.id})">📋 Registrar Stats</button>`;
-    }
-    let estadoTag = '';
-    if (suspended) estadoTag = '<span class="wtag" style="background:#e67e2233;color:#e67e22;">⏸️ Suspendido</span>';
-    else if (done) estadoTag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>';
-    else if (forf) estadoTag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
-    else estadoTag = '<span class="wtag" style="background:#0f3460;">⏳ Pendiente</span>';
-    return `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div><div class="mteams"><div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div></div></div>`;
-  }).join('');
-}
-
-async function saveRes(id) {
-  const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-  if (!esOrganizador) { alert('⚠️ Solo el organizador puede guardar resultados.'); return; }
-  const inputA = g('sA' + id); const inputB = g('sB' + id);
-  if (!inputA || !inputB) { alert('Error'); return; }
-  const a = parseInt(inputA.value); const b = parseInt(inputB.value);
-  if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; }
-  R[id] = { scoreA: a, scoreB: b, status: 'done' };
-  await window.guardarResultadoFirebase(id, R[id]);
-  save(); rM(); rSt();
-  alert('✅ Resultado guardado en Firebase.');
-}
-
-function forfRes(id) { /* similar a saveRes pero con forfeit */ }
-function delRes(id) { if (confirm('¿Borrar?')) { delete R[id]; save(); rM(); rSt(); } }
-function setMVP(id) { /* (ya implementada con efectividad total) */ }
+function rM() { const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9']; const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9'}; g('m-weeks').innerHTML = wks.map(w => `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`).join(''); let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk)); g('m-cnt').textContent = list.length + ' PARTIDOS'; if (!list.length) { g('m-list').innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;">Sin partidos</div>'; return; } g('m-list').innerHTML = list.map(m => { const r = R[m.id]; const done = r && r.status === 'done'; const forf = r && r.status === 'forfeit'; const suspended = r && r.status === 'suspended'; const wA = done && r.scoreA > r.scoreB; const wB = done && r.scoreB > r.scoreA; const mv = MVP[m.id]; let inner = ''; if (suspended) { inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">JUEGO SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div><div style="margin-top:6px;"><button onclick="reanudarJuego(${m.id})" style="background:#3498db;border:none;border-radius:5px;color:#fff;font-size:9px;padding:3px 8px;">🔄 Reanudar</button><button onclick="delRes(${m.id})" style="background:#c0392b;border:none;border-radius:5px;color:#fff;font-size:9px;padding:3px 8px;">✕ Borrar</button></div></div>`; } else if (done || forf) { inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span><button onclick="delRes(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;">✕</button></div>${mv?`<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div><button onclick="delMVP(${m.id})" style="background:transparent;border:none;color:#8899aa;">✕</button></div>`:'<button class="mvp-btn" onclick="setMVP('+m.id+')">🏅 Jugador del Partido</button>'}<button class="stats-btn" onclick="openStatsModal(${m.id})">📋 ${done || forf ? 'Editar Stats' : 'Registrar Stats'}</button>`; } else { inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="saveRes(${m.id})">💾 Guardar</button><button class="fbtn" onclick="forfRes(${m.id})">⚠️ Forfeit/WO</button><button class="fbtn" onclick="suspenderJuego(${m.id})" style="border-color:#e67e22;color:#e67e22;">⏸️ Suspender</button><button class="stats-btn" onclick="openStatsModal(${m.id})">📋 Registrar Stats</button>`; } let estadoTag = ''; if (suspended) estadoTag = '<span class="wtag" style="background:#e67e2233;color:#e67e22;">⏸️ Suspendido</span>'; else if (done) estadoTag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>'; else if (forf) estadoTag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>'; else estadoTag = '<span class="wtag" style="background:#0f3460;">⏳ Pendiente</span>'; return `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div><div class="mteams"><div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div></div></div>`; }).join(''); }
+function saveRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede guardar resultados.'); return; } const inputA = g('sA' + id); const inputB = g('sB' + id); if (!inputA || !inputB) { alert('Error'); return; } const a = parseInt(inputA.value); const b = parseInt(inputB.value); if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; } R[id] = { scoreA: a, scoreB: b, status: 'done' }; save(); rM(); rSt(); if (window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); alert('✅ Resultado guardado.'); }
+function forfRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede registrar forfeit.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) return; const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`); if (ans === '1') { R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' }; save(); rM(); rSt(); if (window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); } else if (ans === '2') { R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' }; save(); rM(); rSt(); if (window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); } else alert('Opción inválida.'); }
+function delRes(id) { if (confirm('¿Borrar resultado?')) { delete R[id]; save(); rM(); rSt(); } }
+function setMVP(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede designar MVP.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) return; const r = R[id]; if (!r || r.status !== 'done') { alert('⚠️ Primero debes guardar el resultado del partido'); return; } let equipoGanador = r.scoreA > r.scoreB ? m.a : (r.scoreB > r.scoreA ? m.b : null); if (!equipoGanador) { alert('Empate. No se asigna MVP.'); return; } const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {}; const cands = []; const teamGanador = TEAMS.find(x => x.n === equipoGanador); if (teamGanador) { teamGanador.p.forEach(player => { const fullKey = `${equipoGanador}|${player}`; const stats = matchStats[fullKey] || {}; const totalBuenos = (stats.arr_b||0)+(stats.boc_b||0); const totalIntentos = (stats.total_arr||0)+(stats.total_boc||0); const efec = totalIntentos ? Math.round((totalBuenos/totalIntentos)*100) : 0; if (totalIntentos > 0) cands.push({ name: player, team: equipoGanador, efec: efec }); }); } if (cands.length) { cands.sort((a,b) => b.efec - a.efec); const best = cands[0]; if (confirm(`🏅 MVP sugerido: ${best.name} (${best.efec}%). ¿Confirmar?`)) { MVP[id] = best; save(); rM(); if (window.guardarMVPFirebase) window.guardarMVPFirebase(id, best); alert(`✅ MVP: ${best.name}`); return; } } const nm = prompt(`Nombre del MVP de ${equipoGanador}:`); if (nm) { MVP[id] = { name: nm, team: equipoGanador, efec: 0 }; save(); rM(); if (window.guardarMVPFirebase) window.guardarMVPFirebase(id, MVP[id]); alert(`✅ MVP asignado: ${nm}`); } }
 function delMVP(id) { delete MVP[id]; save(); rM(); }
-
-function rSt() {
-  const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp);
-  const tb = {};
-  tl.forEach(t => { tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; });
-  MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => {
-    const r = R[m.id]; if (!r || r.status === 'suspended') return;
-    if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; }
-    if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; }
-    if (r.scoreA > r.scoreB) { if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; } if (tb[m.b]) tb[m.b].pp++; }
-    else if (r.scoreB > r.scoreA) { if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; } if (tb[m.a]) tb[m.a].pp++; }
-  });
-  const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf);
-  const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn';
-  g('st-list').innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;">EQUIPO</div><div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div></div>` +
-    sorted.map((t,i) => { const dif = t.tf - t.tc; const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0'; return `<div class="sr ${rc(i+1)}"><div class="rb ${rc(i+1)}">${i+1}</div><div style="flex:1;font-size:11px;font-weight:bold;">${t.n}</div><div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div></div>`; }).join('');
-}
-
+function rSt() { const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp); const tb = {}; tl.forEach(t => { tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; }); MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => { const r = R[m.id]; if (!r || r.status === 'suspended') return; if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; } if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; } if (r.scoreA > r.scoreB) { if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; } if (tb[m.b]) tb[m.b].pp++; } else if (r.scoreB > r.scoreA) { if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; } if (tb[m.a]) tb[m.a].pp++; } }); const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf); const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn'; g('st-list').innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;">EQUIPO</div><div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div></div>` + sorted.map((t,i) => { const dif = t.tf - t.tc; const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0'; return `<div class="sr ${rc(i+1)}"><div class="rb ${rc(i+1)}">${i+1}</div><div style="flex:1;font-size:11px;font-weight:bold;">${t.n}</div><div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div></div>`; }).join(''); }
 function searchPlayer(q) { F.aQ = q; rA(); }
-
-function rA() {
-  const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp);
-  const players = [];
-  tl.forEach(t => {
-    t.p.forEach(p => {
-      const ps = PS[t.n + '|' + p] || {};
-      if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return;
-      const arrB = ps.arr_b || 0, arrTotal = ps.total_arr || 0;
-      const bocB = ps.boc_b || 0, bocTotal = ps.total_boc || 0;
-      const efecArr = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : 0;
-      const efecBoc = bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0;
-      const totalBuenos = arrB + bocB;
-      const totalIntentos = arrTotal + bocTotal;
-      const efecTotal = totalIntentos > 0 ? Math.round((totalBuenos / totalIntentos) * 100) : 0;
-      players.push({ name: p, team: t.n, partidos: ps.partidos || 0, arrB, arrTotal, bocB, bocTotal, efecArr, efecBoc, efecTotal });
-    });
-  });
-  players.sort((a,b) => b.efecTotal - a.efecTotal);
-  g('a-list').innerHTML = !players.length ? '<div style="color:#8899aa;text-align:center;padding:20px;">Sin estadísticas</div>' :
-    `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;">JUGADOR / EQUIPO</div><div class="scols"><div class="sc sh">PJ</div><div class="sc sh">ARR%</div><div class="sc sh">BOC%</div><div class="sc sh">TOT%</div></div></div>` +
-    players.map((p,i) => `<div class="ar"><div style="width:20px;text-align:center;">${i+1}</div><div style="flex:1;"><div style="font-size:11px;font-weight:bold;">${p.name}</div><div style="font-size:9px;">${p.team}</div></div><div class="scols"><div class="sc"><div class="av">${p.partidos}</div><div class="al">PJ</div></div><div class="sc"><div class="av" style="color:#e8b84b;">${p.efecArr}%</div><div class="al">${p.arrB}/${p.arrTotal}</div></div><div class="sc"><div class="av" style="color:#f39c12;">${p.efecBoc}%</div><div class="al">${p.bocB}/${p.bocTotal}</div></div><div class="sc"><div class="av" style="color:#2ecc71;">${p.efecTotal}%</div><div class="al">${p.arrB+p.bocB}/${p.arrTotal+p.bocTotal}</div></div></div></div>`).join('');
-}
-
-// ==================== VIDEOS Y STREAMING ====================
-let currentVideoType = 'live';
-let youtubeAPIKey = '';
-
-const PLAYLISTS = [
-    { id: 'PLNGr4rVFi_Mgq1yVGYN_98bi11PQeUkvt', title: '⚡ Partidos Femenino Grupo A', thumbnail: '', videoCount: 12 },
-    { id: 'PLNGr4rVFi_MinnJt71a6JxLjaxxxVsbGS', title: '💪 Partidos Masculino Grupo A', thumbnail: '', videoCount: 8 },
-    { id: 'PLNGr4rVFi_MgXw97f6b4p3HJz6qVCBI9D', title: '⚡ Partidos Femenino Grupo B', thumbnail: '', videoCount: 12 },
-    { id: 'PLNGr4rVFi_MicT7OORCIvTF2vB7KGxCbq', title: '💪 Partidos Masculino Grupo B', thumbnail: '', videoCount: 8 },
-    { id: 'PLNGr4rVFi_MiZuaAWkQlqRcqT9X0tRJX_', title: '🏆 Mejores Jugadas - Todos los Grupos', thumbnail: '', videoCount: 15 }
-];
-
-function setVideoType(type) {
-    currentVideoType = type;
-    document.getElementById('btn-live').classList.toggle('on', type === 'live');
-    document.getElementById('btn-highlights').classList.toggle('on', type === 'highlights');
-    document.getElementById('btn-tiktok').classList.toggle('on', type === 'tiktok');
-    document.getElementById('btn-playlist')?.classList.toggle('on', type === 'playlist');
-    document.getElementById('live-container').style.display = type === 'live' ? 'block' : 'none';
-    document.getElementById('highlights-container').style.display = type === 'highlights' ? 'block' : 'none';
-    document.getElementById('tiktok-container').style.display = type === 'tiktok' ? 'block' : 'none';
-    const playlistContainer = document.getElementById('playlist-container');
-    if (playlistContainer) playlistContainer.style.display = type === 'playlist' ? 'block' : 'none';
-    if (type === 'live') {
-        verificarStreamEnVivo();
-        mostrarProximosPartidos();
-    } else if (type === 'highlights') {
-        cargarVideosYouTube();
-    } else if (type === 'playlist') {
-        cargarPlaylists();
-    }
-}
-
-function verificarStreamEnVivo() {
-    const liveStatusDiv = document.getElementById('live-status');
-    const liveTitleDiv = document.getElementById('live-title');
-    const liveSubtitleDiv = document.getElementById('live-subtitle');
-    const livePlayerDiv = document.getElementById('live-player');
-    const proximo = getProximoPartido();
-    const hoy = new Date();
-    const fechaProximo = proximo ? new Date(proximo.d.split('/').reverse().join('-')) : null;
-    const horasDiff = fechaProximo ? (fechaProximo - hoy) / (1000 * 60 * 60) : null;
-    if (proximo && horasDiff <= 24 && horasDiff > 0) {
-        liveStatusDiv.innerHTML = '⏰';
-        liveTitleDiv.innerHTML = `Próximamente: ${proximo.a} vs ${proximo.b}`;
-        liveSubtitleDiv.innerHTML = `📅 ${proximo.d} ${proximo.h} · ${proximo.f}`;
-        livePlayerDiv.style.display = 'none';
-    } else if (proximo && horasDiff <= 0 && horasDiff > -2) {
-        liveStatusDiv.innerHTML = '🔴';
-        liveTitleDiv.innerHTML = `¡EN VIVO! ${proximo.a} vs ${proximo.b}`;
-        liveSubtitleDiv.innerHTML = `Transmitiendo ahora desde ${proximo.f}`;
-        livePlayerDiv.style.display = 'block';
-        document.getElementById('live-iframe').src = 'https://www.youtube.com/embed/live_stream?channel=UC_EJEMPLO';
-    } else {
-        liveStatusDiv.innerHTML = '📡';
-        liveTitleDiv.innerHTML = 'No hay transmisión activa';
-        liveSubtitleDiv.innerHTML = 'Los streams comienzan 15 minutos antes de cada partido';
-        livePlayerDiv.style.display = 'none';
-    }
-}
-
-function getProximoPartido() {
-    const hoy = new Date();
-    const partidosFuturos = MATCHES.filter(m => {
-        const fechaPartido = new Date(m.d.split('/').reverse().join('-'));
-        return fechaPartido >= hoy && (!R[m.id] || R[m.id].status !== 'done');
-    }).sort((a,b) => new Date(a.d) - new Date(b.d));
-    return partidosFuturos[0];
-}
-
-function mostrarProximosPartidos() {
-    const hoy = new Date();
-    const partidosFuturos = MATCHES.filter(m => {
-        const fechaPartido = new Date(m.d.split('/').reverse().join('-'));
-        return fechaPartido >= hoy && (!R[m.id] || R[m.id].status !== 'done');
-    }).sort((a,b) => new Date(a.d) - new Date(b.d)).slice(0, 4);
-    const container = document.getElementById('proximos-partidos');
-    if (!container) return;
-    if (partidosFuturos.length === 0) {
-        container.innerHTML = '<div class="error-message">No hay partidos programados próximamente</div>';
-        return;
-    }
-    container.innerHTML = `
-        <div class="video-section-title" style="margin-top: 10px;">
-            <span>⏰ PRÓXIMOS PARTIDOS</span>
-            <span class="video-badge">${partidosFuturos.length} pendientes</span>
-        </div>
-        ${partidosFuturos.map(m => {
-            const fecha = new Date(m.d.split('/').reverse().join('-'));
-            const diffDays = Math.ceil((fecha - hoy) / (1000 * 60 * 60 * 24));
-            let etiqueta = '', color = '#8899aa';
-            if (diffDays === 0) { etiqueta = '🔥 HOY'; color = '#e8b84b'; }
-            else if (diffDays === 1) { etiqueta = '⭐ MAÑANA'; color = '#f39c12'; }
-            else { etiqueta = `📅 En ${diffDays} días`; }
-            return `
-                <div class="video-card">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-                        <span style="font-size: 10px; color: ${color}; font-weight: bold;">${etiqueta}</span>
-                        <span style="font-size: 9px; color: #8899aa;">${m.d} · ${m.h}</span>
-                    </div>
-                    <div style="font-size: 12px; font-weight: bold; text-align: center; margin: 5px 0;">
-                        ${m.a} <span style="color: #e8b84b;">VS</span> ${m.b}
-                    </div>
-                    <div style="font-size: 9px; color: #8899aa; text-align: center;">📍 ${m.f} · ${m.c} Grupo ${m.g}</div>
-                </div>
-            `;
-        }).join('')}
-    `;
-}
-
-function cargarVideosYouTube() {
-    const grid = document.getElementById('youtube-grid');
-    if (!grid) return;
-    grid.innerHTML = '<div class="loading-spinner">🎬 Cargando videos...</div>';
-    const videos = [
-        { id: 'dQw4w9WgXcQ', title: 'Ferrecenca vs Alimentos Amanecer', date: '14/05/2026', resultado: 'Final 6-15', mvp: 'Graciela Febres', duration: '1:24:30', views: '234' },
-        { id: '9bZkp7q19f0', title: 'The Dolls vs Saboga', date: '14/05/2026', resultado: 'Final 3-18', mvp: '', duration: '1:15:22', views: '189' },
-        { id: 'JGwWNGJdvx8', title: 'Resumen Semana 2 - Mejores Jugadas', date: '17/05/2026', resultado: 'Highlights', mvp: '', duration: '12:45', views: '567' }
-    ];
-    setTimeout(() => {
-        grid.innerHTML = videos.map(v => `
-            <div class="video-card">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/${v.id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <div class="video-title">${v.title}</div>
-                <div class="video-meta">
-                    <span>📅 ${v.date}</span>
-                    <span>⏱️ ${v.duration}</span>
-                    <span>👁️ ${v.views} vistas</span>
-                </div>
-                <div class="video-meta">${v.resultado ? `<span>🏆 ${v.resultado}</span>` : ''}${v.mvp ? `<span>🏅 MVP: ${v.mvp}</span>` : ''}</div>
-            </div>
-        `).join('');
-    }, 300);
-}
-
-function cargarPlaylists() {
-    const grid = document.getElementById('playlist-grid');
-    if (!grid) return;
-    grid.innerHTML = PLAYLISTS.map(playlist => `
-        <div class="video-card" onclick="abrirPlaylist('${playlist.id}')" style="cursor: pointer;">
-            <div style="display: flex; gap: 10px; align-items: center;">
-                <div style="width: 80px; height: 45px; background: #0f3460; border-radius: 6px; display: flex; align-items: center; justify-content: center;"><span style="font-size: 24px;">📋</span></div>
-                <div style="flex: 1;"><div class="video-title" style="font-size: 11px;">${playlist.title}</div><div class="video-meta">🎬 ${playlist.videoCount} videos</div></div>
-                <div style="color: #8899aa;">▶️</div>
-            </div>
-        </div>
-    `).join('');
-}
-
-function abrirPlaylist(playlistId) { window.open(`https://www.youtube.com/playlist?list=${playlistId}`, '_blank'); }
-function compartirVideos() { if (navigator.share) navigator.share({ title: 'Sibarita Sport Club', url: location.href }); else navigator.clipboard.writeText(location.href); }
-
-// ==================== MODAL DE ESTADÍSTICAS ====================
-function openStatsModal(matchId) {
-    const match = MATCHES.find(m => m.id == matchId);
-    if (!match) return;
-    currentMatchId = matchId;
-    const matchStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {};
-    document.getElementById('stats-modal-title').innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`;
-    const body = document.getElementById('stats-modal-body');
-    let html = '';
-    function getStatsForPlayer(teamName, playerName) {
-        const fullKey = `${teamName}|${playerName}`;
-        if (matchStats[fullKey]) return matchStats[fullKey];
-        return { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0 };
-    }
-    const teamA = TEAMS.find(t => t.n === match.a);
-    if (teamA) {
-        html += `<div class="lbl" style="margin-top:10px;">🏆 ${match.a}</div>`;
-        teamA.p.forEach(player => {
-            const stats = getStatsForPlayer(match.a, player);
-            html += getPlayerStatsHTML(player, stats);
-        });
-    }
-    const teamB = TEAMS.find(t => t.n === match.b);
-    if (teamB) {
-        html += `<div class="lbl" style="margin-top:10px;">🏆 ${match.b}</div>`;
-        teamB.p.forEach(player => {
-            const stats = getStatsForPlayer(match.b, player);
-            html += getPlayerStatsHTML(player, stats);
-        });
-    }
-    body.innerHTML = html;
-    document.getElementById('stats-modal').style.display = 'block';
-}
-
-function getPlayerStatsHTML(playerName, saved) {
-    const safeKey = playerName.replace(/[^a-zA-Z0-9]/g, '_');
-    return `<div class="player-stats-row">
-        <div class="player-name">${playerName}</div>
-        <div class="stats-grid">
-            <div class="stat-item"><div class="stat-label">🎯 Arrime Buenos</div><input type="number" class="stat-input" id="arr_b_${safeKey}" value="${saved.arr_b || 0}" min="0" max="50"></div>
-            <div class="stat-item"><div class="stat-label">📊 Total Arrime</div><input type="number" class="stat-input" id="total_arr_${safeKey}" value="${saved.total_arr || 0}" min="0" max="50"></div>
-            <div class="stat-item"><div class="stat-label">💥 Boche Buenos</div><input type="number" class="stat-input" id="boc_b_${safeKey}" value="${saved.boc_b || 0}" min="0" max="50"></div>
-            <div class="stat-item"><div class="stat-label">📊 Total Boche</div><input type="number" class="stat-input" id="total_boc_${safeKey}" value="${saved.total_boc || 0}" min="0" max="50"></div>
-        </div>
-    </div>`;
-}
-
-function saveMatchStats() {
-    const match = MATCHES.find(m => m.id === currentMatchId);
-    if (!match) return;
-    const stats = {};
-    [match.a, match.b].forEach(teamName => {
-        const team = TEAMS.find(t => t.n === teamName);
-        if (team) {
-            team.p.forEach(player => {
-                const safeKey = player.replace(/[^a-zA-Z0-9]/g, '_');
-                const arr_b = parseInt(document.getElementById(`arr_b_${safeKey}`)?.value) || 0;
-                const total_arr = parseInt(document.getElementById(`total_arr_${safeKey}`)?.value) || 0;
-                const boc_b = parseInt(document.getElementById(`boc_b_${safeKey}`)?.value) || 0;
-                const total_boc = parseInt(document.getElementById(`total_boc_${safeKey}`)?.value) || 0;
-                const fullKey = `${teamName}|${player}`;
-                stats[fullKey] = { arr_b, total_arr, boc_b, total_boc };
-                const psKey = fullKey;
-                if (!PS[psKey]) PS[psKey] = { arr_b:0, total_arr:0, boc_b:0, total_boc:0, partidos:0 };
-                PS[psKey].arr_b += arr_b;
-                PS[psKey].total_arr += total_arr;
-                PS[psKey].boc_b += boc_b;
-                PS[psKey].total_boc += total_boc;
-                PS[psKey].partidos += 1;
-            });
-        }
-    });
-    localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats));
-    save();
-    closeStatsModal();
-    alert('✅ Estadísticas guardadas correctamente');
-    rA(); rT();
-}
-
-function suspenderJuego(id) {
-    const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-    if (!esOrganizador) { alert('⚠️ Solo el organizador puede suspender juegos.'); return; }
-    const m = MATCHES.find(x => x.id === id);
-    if (!m) { alert('Error: Partido no encontrado'); return; }
-    const razon = prompt('📋 Motivo de la suspensión:', 'Clima');
-    if (razon === null) return;
-    R[id] = { scoreA: 0, scoreB: 0, status: 'suspended', razon: razon || 'Sin especificar' };
-    save();
-    rM(); rSt();
-    alert(`⚠️ Partido suspendido por: ${razon || 'Sin especificar'}`);
-}
-
-function reanudarJuego(id) {
-    const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-    if (!esOrganizador) { alert('⚠️ Solo el organizador puede reanudar juegos.'); return; }
-    if (confirm('¿Reanudar este partido? Se borrará el estado "Suspendido" y podrás cargar el resultado normalmente.')) {
-        delete R[id];
-        save();
-        rM(); rSt();
-        alert('✅ Partido reanudado.');
-    }
-}
-
-function recalcularMVP(id) {
-    const match = MATCHES.find(m => m.id === id);
-    if (!match) return;
-    const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
-    const r = R[id];
-    if (!r || r.status !== 'done') { alert('⚠️ Primero debes guardar el resultado del partido'); return; }
-    let equipoGanador = '';
-    if (r.scoreA > r.scoreB) equipoGanador = match.a;
-    else if (r.scoreB > r.scoreA) equipoGanador = match.b;
-    else { alert('⚠️ Empate. No hay MVP.'); return; }
-    const teamGanador = TEAMS.find(t => t.n === equipoGanador);
-    if (!teamGanador) return;
-    let mejorJugador = null, mejorEfec = -1;
-    teamGanador.p.forEach(player => {
-        const stats = matchStats[player];
-        if (stats && (stats.total_arr > 0 || stats.total_boc > 0)) {
-            const totalBuenos = (stats.arr_b||0)+(stats.boc_b||0);
-            const totalIntentos = (stats.total_arr||0)+(stats.total_boc||0);
-            const efec = totalIntentos ? Math.round((totalBuenos/totalIntentos)*100) : 0;
-            if (efec > mejorEfec) { mejorEfec = efec; mejorJugador = { name: player, team: equipoGanador, efec: efec }; }
-        }
-    });
-    if (mejorJugador) { MVP[id] = mejorJugador; save(); rM(); alert(`🏅 MVP: ${mejorJugador.name} (${mejorJugador.team}) con ${mejorJugador.efec}%`); }
-    else { const nm = prompt(`No hay estadísticas. Nombre del MVP de ${equipoGanador}:`); if (nm) { MVP[id] = { name: nm, team: equipoGanador, efec: 0 }; save(); rM(); alert(`✅ MVP asignado: ${nm}`); } }
-}
-
+function rA() { const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp); const players = []; tl.forEach(t => { t.p.forEach(p => { const ps = PS[t.n + '|' + p] || {}; if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return; const arrB = ps.arr_b || 0, arrTotal = ps.total_arr || 0; const bocB = ps.boc_b || 0, bocTotal = ps.total_boc || 0; const efecArr = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : 0; const efecBoc = bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0; const totalBuenos = arrB + bocB; const totalIntentos = arrTotal + bocTotal; const efecTotal = totalIntentos > 0 ? Math.round((totalBuenos / totalIntentos) * 100) : 0; players.push({ name: p, team: t.n, partidos: ps.partidos || 0, arrB, arrTotal, bocB, bocTotal, efecArr, efecBoc, efecTotal }); }); }); players.sort((a,b) => b.efecTotal - a.efecTotal); g('a-list').innerHTML = !players.length ? '<div style="color:#8899aa;text-align:center;padding:20px;">Sin estadísticas</div>' : `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;">JUGADOR / EQUIPO</div><div class="scols"><div class="sc sh">PJ</div><div class="sc sh">ARR%</div><div class="sc sh">BOC%</div><div class="sc sh">TOT%</div></div></div>` + players.map((p,i) => `<div class="ar"><div style="width:20px;text-align:center;">${i+1}</div><div style="flex:1;"><div style="font-size:11px;font-weight:bold;">${p.name}</div><div style="font-size:9px;">${p.team}</div></div><div class="scols"><div class="sc"><div class="av">${p.partidos}</div><div class="al">PJ</div></div><div class="sc"><div class="av" style="color:#e8b84b;">${p.efecArr}%</div><div class="al">${p.arrB}/${p.arrTotal}</div></div><div class="sc"><div class="av" style="color:#f39c12;">${p.efecBoc}%</div><div class="al">${p.bocB}/${p.bocTotal}</div></div><div class="sc"><div class="av" style="color:#2ecc71;">${p.efecTotal}%</div><div class="al">${p.arrB+p.bocB}/${p.arrTotal+p.bocTotal}</div></div></div></div>`).join(''); }
+function verificarStreamEnVivo() { const proximo = getProximoPartido(); const hoy = new Date(); const fecha = proximo ? new Date(proximo.d.split('/').reverse().join('-')) : null; const diff = fecha ? (fecha - hoy) / (1000*60*60) : null; const liveDiv = document.getElementById('live-status'); const titleDiv = document.getElementById('live-title'); const subDiv = document.getElementById('live-subtitle'); const playerDiv = document.getElementById('live-player'); if (proximo && diff <= 24 && diff > 0) { liveDiv.innerHTML = '⏰'; titleDiv.innerHTML = `Próximamente: ${proximo.a} vs ${proximo.b}`; subDiv.innerHTML = `📅 ${proximo.d} ${proximo.h} · ${proximo.f}`; playerDiv.style.display = 'none'; } else if (proximo && diff <= 0 && diff > -2) { liveDiv.innerHTML = '🔴'; titleDiv.innerHTML = `¡EN VIVO! ${proximo.a} vs ${proximo.b}`; subDiv.innerHTML = `Transmitiendo ahora desde ${proximo.f}`; playerDiv.style.display = 'block'; } else { liveDiv.innerHTML = '📡'; titleDiv.innerHTML = 'No hay transmisión activa'; subDiv.innerHTML = 'Los streams comienzan 15 minutos antes'; playerDiv.style.display = 'none'; } }
+function getProximoPartido() { return MATCHES.find(m => (!R[m.id] || R[m.id].status !== 'done') && new Date(m.d.split('/').reverse().join('-')) >= new Date()); }
+function mostrarProximosPartidos() { const hoy = new Date(); const futuros = MATCHES.filter(m => new Date(m.d.split('/').reverse().join('-')) >= hoy && (!R[m.id] || R[m.id].status !== 'done')).sort((a,b)=>new Date(a.d)-new Date(b.d)).slice(0,4); const cont = document.getElementById('proximos-partidos'); if (!cont) return; if (!futuros.length) { cont.innerHTML = '<div class="error-message">No hay partidos próximos</div>'; return; } cont.innerHTML = `<div class="video-section-title"><span>⏰ PRÓXIMOS PARTIDOS</span><span class="video-badge">${futuros.length} pendientes</span></div>` + futuros.map(m => { const diff = Math.ceil((new Date(m.d.split('/').reverse().join('-')) - hoy) / (1000*60*60*24)); let etiqueta = diff===0?'🔥 HOY':diff===1?'⭐ MAÑANA':`📅 En ${diff} días`; return `<div class="video-card"><div style="display:flex;justify-content:space-between;"><span style="font-size:10px;color:#e8b84b;">${etiqueta}</span><span style="font-size:9px;">${m.d} · ${m.h}</span></div><div style="font-size:12px;font-weight:bold;text-align:center;">${m.a} <span style="color:#e8b84b;">VS</span> ${m.b}</div><div style="font-size:9px;text-align:center;">📍 ${m.f} · ${m.c} Gr.${m.g}</div></div>`; }).join(''); }
+function setVideoType(type) { document.getElementById('live-container').style.display = type==='live'?'block':'none'; document.getElementById('highlights-container').style.display = type==='highlights'?'block':'none'; document.getElementById('tiktok-container').style.display = type==='tiktok'?'block':'none'; document.getElementById('playlist-container').style.display = type==='playlist'?'block':'none'; if(type==='highlights') cargarVideosYouTube(); if(type==='playlist') cargarPlaylists(); }
+function cargarVideosYouTube() { const grid = document.getElementById('youtube-grid'); if(grid) grid.innerHTML = '<div class="loading-spinner">🎬 Cargando...</div>'; setTimeout(() => { if(grid) grid.innerHTML = `<div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe></div><div class="video-title">Ferrecenca vs Alimentos A</div><div class="video-meta">📅 14/05/2026 ⏱️ 1:24:30</div></div><div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/9bZkp7q19f0" allowfullscreen></iframe></div><div class="video-title">The Dolls vs Saboga</div><div class="video-meta">📅 14/05/2026 ⏱️ 1:15:22</div></div>`; }, 300); }
+function cargarPlaylists() { const grid = document.getElementById('playlist-grid'); if(grid) grid.innerHTML = PLAYLISTS.map(p => `<div class="video-card" onclick="abrirPlaylist('${p.id}')"><div style="display:flex;gap:10px;"><div style="width:80px;background:#0f3460;border-radius:6px;display:flex;align-items:center;justify-content:center;"><span>📋</span></div><div><div class="video-title">${p.title}</div><div class="video-meta">🎬 ${p.videoCount} videos</div></div></div></div>`).join(''); }
+function abrirPlaylist(id) { window.open(`https://www.youtube.com/playlist?list=${id}`, '_blank'); }
+function compartirVideos() { if(navigator.share) navigator.share({title:'Sibarita Sport Club', url:location.href}); else navigator.clipboard.writeText(location.href); }
+function openStatsModal(matchId) { const match = MATCHES.find(m => m.id == matchId); if(!match) return; currentMatchId = matchId; const matchStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {}; document.getElementById('stats-modal-title').innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`; const body = document.getElementById('stats-modal-body'); let html = ''; function getStatsForPlayer(teamName, playerName) { const key = `${teamName}|${playerName}`; return matchStats[key] || { arr_b:0, total_arr:0, boc_b:0, total_boc:0 }; } const teamA = TEAMS.find(t => t.n === match.a); if(teamA) { html += `<div class="lbl">🏆 ${match.a}</div>`; teamA.p.forEach(p => { const stats = getStatsForPlayer(match.a, p); html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid"><div class="stat-item"><label>🎯 arr_b</label><input type="number" class="stat-input" id="arr_b_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.arr_b}"></div><div class="stat-item"><label>📊 total_arr</label><input type="number" class="stat-input" id="total_arr_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.total_arr}"></div><div class="stat-item"><label>💥 boc_b</label><input type="number" class="stat-input" id="boc_b_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.boc_b}"></div><div class="stat-item"><label>📊 total_boc</label><input type="number" class="stat-input" id="total_boc_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.total_boc}"></div></div></div>`; }); } const teamB = TEAMS.find(t => t.n === match.b); if(teamB) { html += `<div class="lbl">🏆 ${match.b}</div>`; teamB.p.forEach(p => { const stats = getStatsForPlayer(match.b, p); html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid"><div class="stat-item"><label>🎯 arr_b</label><input type="number" class="stat-input" id="arr_b_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.arr_b}"></div><div class="stat-item"><label>📊 total_arr</label><input type="number" class="stat-input" id="total_arr_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.total_arr}"></div><div class="stat-item"><label>💥 boc_b</label><input type="number" class="stat-input" id="boc_b_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.boc_b}"></div><div class="stat-item"><label>📊 total_boc</label><input type="number" class="stat-input" id="total_boc_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.total_boc}"></div></div></div>`; }); } body.innerHTML = html; document.getElementById('stats-modal').style.display = 'block'; }
+function saveMatchStats() { const match = MATCHES.find(m => m.id === currentMatchId); if(!match) return; const stats = {}; [match.a, match.b].forEach(teamName => { const team = TEAMS.find(t => t.n === teamName); if(team) { team.p.forEach(player => { const safeKey = player.replace(/[^a-zA-Z0-9]/g,'_'); const arr_b = parseInt(document.getElementById(`arr_b_${safeKey}`)?.value) || 0; const total_arr = parseInt(document.getElementById(`total_arr_${safeKey}`)?.value) || 0; const boc_b = parseInt(document.getElementById(`boc_b_${safeKey}`)?.value) || 0; const total_boc = parseInt(document.getElementById(`total_boc_${safeKey}`)?.value) || 0; const fullKey = `${teamName}|${player}`; stats[fullKey] = { arr_b, total_arr, boc_b, total_boc }; const psKey = fullKey; if(!PS[psKey]) PS[psKey] = { arr_b:0, total_arr:0, boc_b:0, total_boc:0, partidos:0 }; PS[psKey].arr_b += arr_b; PS[psKey].total_arr += total_arr; PS[psKey].boc_b += boc_b; PS[psKey].total_boc += total_boc; PS[psKey].partidos += 1; }); } }); localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats)); save(); closeStatsModal(); if(window.guardarEstadisticasPorPartidoFirebase) window.guardarEstadisticasPorPartidoFirebase(currentMatchId, stats); // también actualizar globales en Firebase for(const key in stats) { const st = stats[key]; const psKey = key; const current = PS[psKey]; if(window.guardarEstadisticasFirebase) window.guardarEstadisticasFirebase(psKey, current); } alert('✅ Estadísticas guardadas'); rA(); rT(); }
+function suspenderJuego(id) { const pass = prompt('🔐 Contraseña de organizador:'); if(pass !== 'sibarita2026') { alert('❌ Incorrecta'); return; } const m = MATCHES.find(x=>x.id===id); if(!m) return; const razon = prompt('Motivo de suspensión:', 'Clima'); if(razon===null) return; R[id] = { scoreA:0, scoreB:0, status:'suspended', razon }; save(); rM(); rSt(); if(window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); alert('Partido suspendido'); }
+function reanudarJuego(id) { const pass = prompt('🔐 Contraseña de organizador:'); if(pass !== 'sibarita2026') { alert('❌ Incorrecta'); return; } if(confirm('¿Reanudar? Se borrará suspensión')) { delete R[id]; save(); rM(); rSt(); if(window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, null); alert('Reanudado'); } }
 function closeStatsModal() { document.getElementById('stats-modal').style.display = 'none'; currentMatchId = null; }
+function exportarResultadosAJSON() { const matchStats = {}; for(let i=0;i<localStorage.length;i++){ const key=localStorage.key(i); if(key && key.startsWith('match_stats_')) matchStats[key.replace('match_stats_','')] = JSON.parse(localStorage.getItem(key)); } const datos = { ultimaActualizacion: new Date().toISOString(), resultados:R, mvp:MVP, estadisticas:PS, estadisticasPorPartido:matchStats }; const blob = new Blob([JSON.stringify(datos,null,2)], {type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`resultados_${new Date().toISOString().slice(0,19)}.json`; a.click(); URL.revokeObjectURL(a.href); mostrarEstado('✅ JSON exportado'); }
+function mostrarBotonesAdmin() { const pass = prompt('🔐 Contraseña de administrador:'); if(pass === 'sibarita2026') { document.getElementById('admin-buttons').style.display = 'flex'; mostrarEstado('✅ Modo admin'); } else alert('❌ Incorrecta'); }
+function exportarEstadisticasACSV() { let csv = "Jugador,Equipo,Categoría,Grupo,Partidos,Arrime_B,Arrime_T,Arrime_%,Boche_B,Boche_T,Boche_%\n"; TEAMS.forEach(team => { team.p.forEach(player => { const ps = PS[`${team.n}|${player}`] || {}; const arrB = ps.arr_b||0, arrT = ps.total_arr||0, arrP = arrT?Math.round((arrB/arrT)*100):0; const bocB = ps.boc_b||0, bocT = ps.total_boc||0, bocP = bocT?Math.round((bocB/bocT)*100):0; csv += `"${player}","${team.n}","${team.c}","${team.g}",${ps.partidos||0},${arrB},${arrT},${arrP},${bocB},${bocT},${bocP}\n`; }); }); const blob = new Blob([csv], {type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`estadisticas_${new Date().toISOString().slice(0,19)}.csv`; a.click(); URL.revokeObjectURL(a.href); mostrarEstado('✅ CSV exportado'); }
+function mostrarEstado(mensaje, esError=false) { let div = document.getElementById('sync-status'); if(!div) { div = document.createElement('div'); div.id='sync-status'; div.className='sync-status'; document.querySelector('.body').prepend(div); } div.innerHTML = mensaje; div.classList.toggle('error', esError); setTimeout(()=>{ if(div.innerHTML === mensaje) div.innerHTML=''; },4000); }
+let pdfMode='week'; function togglePdfPanel() { const p = document.getElementById('pdf-panel'); p.classList.toggle('open'); if(p.classList.contains('open')) populateTeamSel(); } function setPdfMode(mode) { pdfMode=mode; document.getElementById('pdf-week-wrap').style.display = mode==='week'?'block':'none'; document.getElementById('pdf-team-wrap').style.display = mode==='team'?'block':'none'; } function populateTeamSel() { const sel = document.getElementById('pdf-team-sel'); const teams = TEAMS.filter(t => t.c === F.mCat && t.g === F.mGrp); sel.innerHTML = teams.map(t=>`<option value="${t.n}">${t.n}</option>`).join(''); }
+function generatePDF() { alert("Función PDF: se puede implementar más tarde."); }
+function cargarResultadosDesdeGitHub() { mostrarEstado('Función legacy, ya no se usa.'); }
 
-// ==================== EXPORTACIÓN E IMPORTACIÓN ====================
-function exportarResultadosAJSON() {
-    const matchStats = {};
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith('match_stats_')) {
-            const matchId = key.replace('match_stats_', '');
-            matchStats[matchId] = JSON.parse(localStorage.getItem(key));
-        }
-    }
-    const datos = {
-        ultimaActualizacion: new Date().toISOString(),
-        resultados: R,
-        mvp: MVP,
-        estadisticas: PS,
-        estadisticasPorPartido: matchStats
-    };
-    const blob = new Blob([JSON.stringify(datos, null, 2)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `resultados_${new Date().toISOString().slice(0,19)}.json`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-    mostrarEstado('✅ JSON exportado');
-}
-
-function exportarEstadisticasACSV() {
-    let csv = "Jugador,Equipo,Categoría,Grupo,Partidos,Arrime_Buenos,Arrime_Total,Arrime_Efectividad,Boche_Buenos,Boche_Total,Boche_Efectividad\n";
-    TEAMS.forEach(team => {
-        team.p.forEach(player => {
-            const ps = PS[`${team.n}|${player}`] || {};
-            const arrB = ps.arr_b || 0;
-            const arrTotal = ps.total_arr || 0;
-            const arrEfec = arrTotal ? Math.round((arrB/arrTotal)*100) : 0;
-            const bocB = ps.boc_b || 0;
-            const bocTotal = ps.total_boc || 0;
-            const bocEfec = bocTotal ? Math.round((bocB/bocTotal)*100) : 0;
-            const partidos = ps.partidos || 0;
-            csv += `"${player}","${team.n}","${team.c}","${team.g}",${partidos},${arrB},${arrTotal},${arrEfec},${bocB},${bocTotal},${bocEfec}\n`;
-        });
-    });
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `estadisticas_${new Date().toISOString().slice(0,19)}.csv`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-    mostrarEstado('✅ CSV exportado');
-}
-
-function forfRes(id) {
-    const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-    if (!esOrganizador) { alert('⚠️ Solo el organizador puede registrar forfeit.'); return; }
-    const m = MATCHES.find(x => x.id === id);
-    if (!m) { alert('Error: Partido no encontrado'); return; }
-    const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
-    if (ans === '1') { R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' }; save(); rM(); rSt(); }
-    else if (ans === '2') { R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' }; save(); rM(); rSt(); }
-    else alert('Opción inválida.');
-}
-
-function setMVP(id) {
-    const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-    if (!esOrganizador) { alert('⚠️ Solo el organizador puede designar MVP.'); return; }
-    const m = MATCHES.find(x => x.id === id);
-    if (!m) return;
-    const r = R[id];
-    if (!r || r.status !== 'done') { alert('⚠️ Primero debes guardar el resultado del partido'); return; }
-    let equipoGanador = r.scoreA > r.scoreB ? m.a : (r.scoreB > r.scoreA ? m.b : null);
-    if (!equipoGanador) { alert('Empate. No se asigna MVP.'); return; }
-    const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
-    const cands = [];
-    const teamGanador = TEAMS.find(x => x.n === equipoGanador);
-    if (teamGanador) {
-        teamGanador.p.forEach(player => {
-            const fullKey = `${equipoGanador}|${player}`;
-            const stats = matchStats[fullKey] || {};
-            const totalBuenos = (stats.arr_b||0)+(stats.boc_b||0);
-            const totalIntentos = (stats.total_arr||0)+(stats.total_boc||0);
-            const efec = totalIntentos ? Math.round((totalBuenos/totalIntentos)*100) : 0;
-            if (totalIntentos > 0) cands.push({ name: player, team: equipoGanador, efec: efec });
-        });
-    }
-    if (cands.length) {
-        cands.sort((a,b) => b.efec - a.efec);
-        const best = cands[0];
-        if (confirm(`🏅 MVP sugerido: ${best.name} (${best.efec}%). ¿Confirmar?`)) {
-            MVP[id] = best; save(); rM(); alert(`✅ MVP: ${best.name}`);
-            return;
-        }
-    }
-    const nm = prompt(`Nombre del MVP de ${equipoGanador}:`);
-    if (nm) { MVP[id] = { name: nm, team: equipoGanador, efec: 0 }; save(); rM(); alert(`✅ MVP asignado: ${nm}`); }
-}
-
-// ==================== PDF ====================
-function generatePDF() {
-    if (typeof window.jspdf === 'undefined') { alert('Librería PDF no disponible.'); return; }
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-    const pw = 210, mg = 12;
-    let y = 20;
-    let list = [];
-    let filterLabel = '';
-    let fname = '';
-    if (pdfMode === 'all') {
-        const semanaSeleccionada = F.mWk;
-        if (semanaSeleccionada === 'Todos') { alert('⚠️ Selecciona una semana específica en Partidos'); return; }
-        list = MATCHES.filter(m => m.w === semanaSeleccionada);
-        if (!list.length) { alert(`No hay partidos en ${semanaSeleccionada}`); return; }
-        const semanaNombre = { S1:'Semana 1', S2:'Semana 2', S3:'Semana 3', S4:'Semana 4', S5:'Semana 5', S6:'Semana 6', S7:'Semana 7', S8:'Semana 8', S9:'Semana 9' };
-        filterLabel = `${semanaNombre[semanaSeleccionada]} - TODAS LAS CATEGORÍAS`;
-        fname = `Calendario_${semanaSeleccionada}_Todas_Categorias.pdf`;
-        const grupos = { 'Femenino - Grupo A': [], 'Femenino - Grupo B': [], 'Masculino - Grupo A': [], 'Masculino - Grupo B': [] };
-        list.forEach(m => { const key = `${m.c} - Grupo ${m.g}`; if (grupos[key]) grupos[key].push(m); });
-        doc.setFillColor(26,26,46); doc.rect(0,0,pw,38,'F');
-        doc.setTextColor(232,184,75); doc.setFontSize(16); doc.text('SIBARITA SPORT CLUB', pw/2,12,{align:'center'});
-        doc.setFontSize(11); doc.setTextColor(240,230,211);
-        doc.text('2do Campeonato Bolas Criollas 2026 - Categoría B', pw/2,20,{align:'center'});
-        doc.setFontSize(13); doc.setTextColor(232,184,75);
-        doc.text(semanaNombre[semanaSeleccionada], pw/2,28,{align:'center'});
-        doc.setFontSize(9); doc.setTextColor(136,153,170);
-        doc.text('TODAS LAS CATEGORÍAS (Femenino A/B + Masculino A/B)', pw/2,35,{align:'center'});
-        y = 45;
-        const colores = { 'Femenino - Grupo A':[232,184,75], 'Femenino - Grupo B':[255,159,64], 'Masculino - Grupo A':[52,152,219], 'Masculino - Grupo B':[46,204,113] };
-        Object.keys(grupos).forEach(grupo => {
-            const partidos = grupos[grupo];
-            if (!partidos.length) return;
-            if (y > 250) { doc.addPage(); y = 20; }
-            const color = colores[grupo] || [100,100,100];
-            doc.setFillColor(color[0],color[1],color[2]); doc.rect(mg,y,pw-mg*2,9,'F');
-            doc.setTextColor(255,255,255); doc.setFontSize(10); doc.text(grupo, mg+3, y+6.5); y += 13;
-            doc.setFillColor(22,33,62); doc.rect(mg,y,pw-mg*2,6,'F');
-            doc.setTextColor(232,184,75); doc.setFontSize(7);
-            doc.text('FECHA', mg+3, y+4.5); doc.text('HORA', mg+35, y+4.5); doc.text('CANCHA', mg+55, y+4.5);
-            doc.text('EQUIPO A', mg+80, y+4.5); doc.text('VS', mg+130, y+4.5); doc.text('EQUIPO B', mg+145, y+4.5); doc.text('RES', mg+185, y+4.5);
-            y += 9;
-            partidos.forEach((m,idx) => {
-                if (y > 270) { doc.addPage(); y = 20; }
-                const r = R[m.id]; const resultado = r ? `${r.scoreA}-${r.scoreB}` : 'Pend.';
-                doc.setFillColor(idx%2===0?22:28, idx%2===0?33:40, idx%2===0?62:70);
-                doc.rect(mg,y,pw-mg*2,7,'F');
-                doc.setTextColor(240,230,211); doc.setFontSize(7.5);
-                doc.text(m.d.substring(8,10)+'/'+m.d.substring(5,7), mg+3, y+5);
-                doc.text(m.h, mg+35, y+5); doc.text(m.f, mg+55, y+5);
-                doc.text(m.a.length>18?m.a.substring(0,16)+'..':m.a, mg+80, y+5);
-                doc.text('vs', mg+130, y+5);
-                doc.text(m.b.length>18?m.b.substring(0,16)+'..':m.b, mg+145, y+5);
-                doc.setTextColor(232,184,75); doc.text(resultado, mg+185, y+5);
-                y += 7;
-            });
-            y += 5;
-        });
-    } else if (pdfMode === 'week') {
-        const wk = document.getElementById('pdf-week-sel').value;
-        const wlbls = { Todos:'Todas las Semanas', S1:'Semana 1', S2:'Semana 2', S3:'Semana 3', S4:'Semana 4', S5:'Semana 5', S6:'Semana 6', S7:'Semana 7', S8:'Semana 8', S9:'Semana 9' };
-        list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (wk === 'Todos' || m.w === wk));
-        filterLabel = `${F.mCat} · Grupo ${F.mGrp} · ${wlbls[wk] || wk}`;
-        fname = `Calendario_${F.mCat}_Gr${F.mGrp}_${wk}.pdf`;
-    } else {
-        const tn = document.getElementById('pdf-team-sel').value;
-        list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (m.a === tn || m.b === tn));
-        filterLabel = `${F.mCat} · Grupo ${F.mGrp} · Equipo: ${tn}`;
-        fname = `Calendario_${tn.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
-    }
-    if (!list.length) { alert('No hay partidos para este filtro.'); return; }
-    doc.setFillColor(26,26,46); doc.rect(0,0,pw,32,'F');
-    doc.setTextColor(232,184,75); doc.setFontSize(15); doc.text('SIBARITA SPORT CLUB', pw/2,11,{align:'center'});
-    doc.setFontSize(10); doc.setTextColor(240,230,211);
-    doc.text('2do Campeonato Bolas Criollas 2026 - Categoría B', pw/2,18,{align:'center'});
-    doc.setFontSize(9); doc.setTextColor(136,153,170);
-    doc.text(filterLabel, pw/2,25,{align:'center'});
-    y = 38;
-    const groups = {}; list.forEach(m => { if (!groups[m.w]) groups[m.w] = []; groups[m.w].push(m); });
-    const wlbls2 = { S1:'SEMANA 1', S2:'SEMANA 2', S3:'SEMANA 3', S4:'SEMANA 4', S5:'SEMANA 5', S6:'SEMANA 6', S7:'SEMANA 7', S8:'SEMANA 8', S9:'SEMANA 9' };
-    const wrgb = { S1:[46,204,113], S2:[52,152,219], S3:[155,89,182], S4:[230,126,34], S5:[192,57,43], S6:[26,188,156], S7:[233,30,99], S8:[96,125,139], S9:[241,196,15] };
-    Object.keys(groups).sort().forEach(wk => {
-        const ms = groups[wk]; const rgb = wrgb[wk] || [100,100,100];
-        if (y > 255) { doc.addPage(); y = 15; }
-        doc.setFillColor(rgb[0],rgb[1],rgb[2]); doc.rect(mg,y,pw-mg*2,8,'F');
-        doc.setTextColor(255,255,255); doc.setFontSize(9); doc.text(wlbls2[wk]||wk, mg+3, y+5.5); y += 11;
-        ms.forEach(m => {
-            if (y > 265) { doc.addPage(); y = 15; }
-            const r = R[m.id]; const result = r ? `${r.scoreA} — ${r.scoreB}${r.status==='forfeit'?' (FF)':''}` : 'Pendiente';
-            const mv = MVP[m.id];
-            doc.setFillColor(22,33,62); doc.rect(mg,y,pw-mg*2,13,'F');
-            doc.setDrawColor(15,52,96); doc.rect(mg,y,pw-mg*2,13,'S');
-            doc.setTextColor(136,153,170); doc.setFontSize(7);
-            doc.text(`${m.d} ${m.dy} · ${m.h} · ${m.f}`, mg+3, y+4);
-            const colorA = r && r.scoreA > r.scoreB ? [232,184,75] : [240,230,211];
-            doc.setTextColor(colorA[0],colorA[1],colorA[2]); doc.setFontSize(8.5);
-            doc.text(m.a.length>22?m.a.substring(0,21)+'.':m.a, mg+3, y+10);
-            doc.setTextColor(232,184,75); doc.setFontSize(9); doc.text(result, pw/2, y+10, {align:'center'});
-            const colorB = r && r.scoreB > r.scoreA ? [232,184,75] : [240,230,211];
-            doc.setTextColor(colorB[0],colorB[1],colorB[2]);
-            doc.text(m.b.length>22?m.b.substring(0,21)+'.':m.b, pw-mg-3, y+10, {align:'right'});
-            if (mv) { doc.setTextColor(232,184,75); doc.setFontSize(6); doc.text(`🏅 ${mv.name} (${mv.team})`, mg+3, y+4); }
-            y += 15;
-        });
-        y += 2;
-    });
-    doc.setTextColor(136,153,170); doc.setFontSize(7);
-    doc.text(`Generado: ${new Date().toLocaleDateString('es-VE')} · Sibarita Sport Club`, pw/2, 290, {align:'center'});
-    doc.save(fname);
-    togglePdfPanel();
-}
-
-function cargarResultadosDesdeGitHub() {
-    alert('Esta función ha sido reemplazada por Firebase. Los datos se cargan automáticamente.');
-}
-  
-// ==================== IMPORTAR JSON DE JUEZ ====================
+// ==================== IMPORTAR JSON DE JUEZ (CON FIREBASE) ====================
 async function importarJSONJuez() {
     const pass = prompt('🔐 Contraseña de administrador:');
     if (pass !== 'sibarita2026') { alert('❌ Contraseña incorrecta'); return; }
@@ -1067,13 +449,15 @@ async function importarJSONJuez() {
                 if (!data.partidos) throw new Error('Estructura inválida: falta "partidos"');
                 const partidos = data.partidos;
                 const ids = Object.keys(partidos);
-                if (ids.length === 0) { alert('No hay partidos en el JSON.'); return; }
+                if (!ids.length) { alert('No hay partidos'); return; }
                 if (!confirm(`Importar ${ids.length} partidos a Firebase?`)) return;
                 let importados = 0, errores = [];
                 for (const id of ids) {
                     const p = partidos[id];
-                    if (p.puntosA === undefined || p.puntosB === undefined) { errores.push(`Partido ${id}: faltan puntos.`); continue; }
+                    if (p.puntosA === undefined || p.puntosB === undefined) { errores.push(`ID ${id}: faltan puntos`); continue; }
+                    // Guardar resultado en Firebase
                     await window.guardarResultadoFirebase(id, { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' });
+                    // Procesar estadísticas por partido y globales
                     const statsPorPartido = {};
                     const statsTemp = {};
                     for (const [team, jugadores] of Object.entries(p.estadisticas || {})) {
@@ -1089,6 +473,7 @@ async function importarJSONJuez() {
                         }
                     }
                     await window.guardarEstadisticasPorPartidoFirebase(id, statsPorPartido);
+                    // Actualizar estadísticas globales (acumuladas) en Firebase y localmente
                     for (const [key, st] of Object.entries(statsTemp)) {
                         let current = PS[key] || { arr_b:0, total_arr:0, boc_b:0, total_boc:0, partidos:0 };
                         current.arr_b += st.arr_b;
@@ -1099,6 +484,7 @@ async function importarJSONJuez() {
                         await window.guardarEstadisticasFirebase(key, current);
                         PS[key] = current;
                     }
+                    // MVP del equipo ganador
                     let ganador = null;
                     if (p.puntosA > p.puntosB) ganador = p.equipoA;
                     else if (p.puntosB > p.puntosA) ganador = p.equipoB;
@@ -1107,16 +493,16 @@ async function importarJSONJuez() {
                         for (const j of p.estadisticas[ganador]) {
                             const totalBuenos = (j.arr_b||0)+(j.boc_b||0);
                             const totalIntentos = (j.total_arr||0)+(j.total_boc||0);
-                            const efec = totalIntentos>0 ? Math.round((totalBuenos/totalIntentos)*100) : 0;
+                            const efec = totalIntentos ? Math.round((totalBuenos/totalIntentos)*100) : 0;
                             if (efec > mejorEfec) { mejorEfec = efec; mejor = { name: j.nombre, team: ganador, efec: efec }; }
                         }
                         if (mejor) { await window.guardarMVPFirebase(id, mejor); MVP[id] = mejor; }
                     }
                     importados++;
                 }
+                save();
                 if (errores.length) alert(`Importación con errores:\n${errores.join('\n')}\nImportados: ${importados}`);
-                else alert(`🎉 Importación completada: ${importados} partidos.`);
-                await cargarResultadosDesdeFirebase();
+                else alert(`🎉 Importación completada: ${importados} partidos guardados en Firebase.`);
                 rM(); rSt(); rA(); rT();
             } catch(err) { console.error(err); alert('Error: '+err.message); }
         };
@@ -1125,12 +511,12 @@ async function importarJSONJuez() {
     input.click();
 }
 
-// Inicialización
+// ==================== INICIALIZACIÓN ====================
 setF('tCat','Femenino'); setF('tGrp','A'); setF('mCat','Femenino'); setF('mGrp','A'); setF('sCat','Femenino'); setF('sGrp','A'); setF('aCat','Femenino'); setF('aGrp','A');
 rT(); rM(); rSt(); rA();
 </script>
 
-<!-- Firebase SDKs y configuración (módulo) -->
+<!-- Firebase módulo (debe ir después de las funciones globales) -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
   import { getFirestore, doc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
@@ -1147,9 +533,9 @@ rT(); rM(); rSt(); rA();
   const db = getFirestore(app);
 
   window.cargarResultadosFirebase = async function() {
-    try { const ref = collection(db, "resultados"); const snap = await getDocs(ref); const res = {}; snap.forEach(doc => res[doc.id] = doc.data()); console.log("✅ Resultados cargados:", Object.keys(res).length); return res; } catch(e) { console.error(e); return {}; }
+    try { const ref = collection(db, "resultados"); const snap = await getDocs(ref); const res = {}; snap.forEach(doc => res[doc.id] = doc.data()); console.log("✅ Resultados cargados:", Object.keys(res).length); return res; } catch(e) { return {}; }
   };
-  window.guardarResultadoFirebase = async function(matchId, data) { try { await setDoc(doc(db, "resultados", matchId.toString()), data); console.log("✅ Resultado guardado:", matchId); return true; } catch(e) { console.error(e); return false; } };
+  window.guardarResultadoFirebase = async function(matchId, data) { try { await setDoc(doc(db, "resultados", matchId.toString()), data); console.log("✅ Resultado guardado:", matchId); return true; } catch(e) { return false; } };
   window.cargarMVPFirebase = async function() { try { const ref = collection(db, "mvp"); const snap = await getDocs(ref); const res = {}; snap.forEach(doc => res[doc.id] = doc.data()); console.log("✅ MVP cargados:", Object.keys(res).length); return res; } catch(e) { return {}; } };
   window.guardarMVPFirebase = async function(matchId, data) { try { await setDoc(doc(db, "mvp", matchId.toString()), data); console.log("✅ MVP guardado:", matchId); return true; } catch(e) { return false; } };
   window.cargarEstadisticasFirebase = async function() { try { const ref = collection(db, "estadisticas"); const snap = await getDocs(ref); const res = {}; snap.forEach(doc => res[doc.id] = doc.data()); console.log("✅ Estadísticas cargadas:", Object.keys(res).length); return res; } catch(e) { return {}; } };
@@ -1157,6 +543,8 @@ rT(); rM(); rSt(); rA();
   window.cargarEstadisticasPorPartidoFirebase = async function() { try { const ref = collection(db, "estadisticasPorPartido"); const snap = await getDocs(ref); const res = {}; snap.forEach(doc => res[doc.id] = doc.data()); console.log("✅ Estadísticas por partido cargadas:", Object.keys(res).length); return res; } catch(e) { return {}; } };
   window.guardarEstadisticasPorPartidoFirebase = async function(matchId, data) { try { await setDoc(doc(db, "estadisticasPorPartido", matchId.toString()), data); console.log("✅ Estadísticas por partido guardadas:", matchId); return true; } catch(e) { return false; } };
   console.log("🔥 Firebase conectado");
+
+  // Cargar datos desde Firebase al iniciar
   window.cargarResultadosDesdeFirebase = async function() {
     try {
       const resultados = await window.cargarResultadosFirebase();
@@ -1179,7 +567,3 @@ rT(); rM(); rSt(); rA();
 </script>
 </body>
 </html>
-
-
-
-
