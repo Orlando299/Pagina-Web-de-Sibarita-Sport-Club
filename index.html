@@ -442,12 +442,22 @@ function cargarResultadosDesdeGitHub() { mostrarEstado('Función legacy, ya no s
 async function importarJSONJuez() {
     const pass = prompt('🔐 Contraseña de administrador:');
     if (pass !== 'sibarita2026') { alert('❌ Contraseña incorrecta'); return; }
+    
+    console.log("✅ Contraseña correcta. Creando input file...");
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'application/json';
+    input.style.display = 'none'; // Oculto
+    document.body.appendChild(input); // Agregar al DOM
+    
     input.onchange = async (e) => {
         const file = e.target.files[0];
-        if (!file) return;
+        if (!file) {
+            console.log("No se seleccionó archivo");
+            document.body.removeChild(input);
+            return;
+        }
+        console.log("Archivo seleccionado:", file.name);
         const reader = new FileReader();
         reader.onload = async (ev) => {
             try {
@@ -507,10 +517,12 @@ async function importarJSONJuez() {
                 else alert(`🎉 Importación completada: ${importados} partidos guardados en Firebase.`);
                 rM(); rSt(); rA(); rT();
             } catch(err) { console.error(err); alert('Error: '+err.message); }
+            document.body.removeChild(input);
         };
         reader.readAsText(file);
     };
-    input.click();
+    
+    input.click(); // Abrir selector de archivos
 }
 
 // ==================== INICIALIZACIÓN ====================
