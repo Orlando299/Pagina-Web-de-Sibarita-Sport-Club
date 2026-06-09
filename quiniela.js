@@ -12,22 +12,15 @@ let datosQuiniela = {
 
 let usuarioActual = null;
 let esAdmin = false;
-let adminPassword = "sibarita2026";   // Cambia esta contraseña por la que quieras
+let adminPassword = "sibarita2026";   // Cambia esta contraseña
 
 // ------------------- PUBLICIDAD LOCAL (CONFIGURABLE) -------------------
-// Cada anuncio puede tener:
-// - id: identificador único
-// - texto: texto que se muestra (opcional si usas imagen)
-// - imagen: URL de la imagen (opcional)
-// - link: destino al hacer clic
-// - posicion: 'top', 'before-ranking', 'after-ranking', 'footer'
-// - activo: true (mostrar) / false (ocultar)
 const publicidadConfig = {
     anuncios: [
         {
             id: "panaderia",
             texto: "🍞 Panadería La Especial - Desayunos y meriendas",
-            imagen: "https://via.placeholder.com/600x80?text=Panaderia+La+Especial",   // Cambia por tu imagen local
+            imagen: "https://via.placeholder.com/600x80?text=Panaderia+La+Especial",
             link: "https://wa.me/123456789",
             posicion: "top",
             activo: true
@@ -59,12 +52,13 @@ const publicidadConfig = {
     ]
 };
 
-// ------------------- CARGA Y GUARDADO DE DATOS -------------------
+// ------------------- CARGA Y GUARDADO -------------------
 async function cargarDatos() {
     try {
         const response = await fetch('quiniela.json');
         const data = await response.json();
         datosQuiniela.partidos = data.partidos;
+        console.log('✅ Partidos cargados');
     } catch (error) {
         console.error('Error cargando quiniela.json:', error);
         datosQuiniela.partidos = [];
@@ -121,7 +115,7 @@ function registrarParticipante(nombre, email) {
 
     mostrarRanking();
     mostrarPartidos();
-    cargarPublicidad();     // Inyectar publicidad al mostrar el panel
+    cargarPublicidad();     // refrescar publicidad
     return true;
 }
 
@@ -135,7 +129,7 @@ function cerrarSesion() {
     document.getElementById('userEmail').value = '';
 }
 
-// ------------------- SISTEMA DE PUNTUACIÓN -------------------
+// ------------------- PUNTUACIÓN -------------------
 function calcularPuntos(prediccion, resultadoReal) {
     if (!resultadoReal || resultadoReal.resultadoA === null) return 0;
     if (prediccion.golesA === resultadoReal.resultadoA && prediccion.golesB === resultadoReal.resultadoB) return 3;
@@ -170,13 +164,13 @@ function mostrarRanking() {
     tbody.innerHTML = datosQuiniela.participantes.slice(0, 20).map((p, index) => `
         <tr>
             <td>${index + 1}</td>
-            <td>${p.nombre}</td>
+            <td>${p.nombre}${p.email ? `<br><small>${p.email}</small>` : ''}</td>
             <td><strong>${p.puntos}</strong></td>
         </tr>
     `).join('');
 }
 
-// ------------------- MOSTRAR PARTIDOS Y PREDICCIONES -------------------
+// ------------------- PARTIDOS Y PREDICCIONES -------------------
 function mostrarPartidos() {
     const container = document.getElementById('partidosContainer');
     if (!container) return;
@@ -270,8 +264,9 @@ function compartirWhatsApp() {
 function cargarPublicidad() {
     const posiciones = ['top', 'before-ranking', 'after-ranking', 'footer'];
     posiciones.forEach(pos => {
-        const contenedorId = `ad${pos.charAt(0).toUpperCase() + pos.slice(1).replace(/-./g, x => x[1].toUpperCase())}`;
-        const contenedor = document.getElementById(contenedorId);
+        // Convertir "before-ranking" a "beforeRanking", etc.
+        let id = 'ad' + pos.split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('');
+        const contenedor = document.getElementById(id);
         if (!contenedor) return;
 
         const anunciosPos = publicidadConfig.anuncios.filter(anuncio => anuncio.posicion === pos && anuncio.activo === true);
@@ -479,8 +474,9 @@ document.addEventListener('DOMContentLoaded', () => {
         mostrarRanking();
         if (usuarioActual) {
             mostrarPartidos();
-            cargarPublicidad();
         }
+        // Cargar publicidad siempre (incluso antes de registrarse)
+        cargarPublicidad();
     });
 
     document.getElementById('registerBtn')?.addEventListener('click', () => {
@@ -499,7 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Exponer funciones globales necesarias
+// Funciones globales
 window.guardarPrediccion = guardarPrediccion;
 window.actualizarResultadoAdmin = actualizarResultadoAdmin;
 window.editarResultadoAdmin = editarResultadoAdmin;
