@@ -19,8 +19,8 @@ const publicidadConfig = {
     anuncios: [
         {
             id: "logo1",
-            texto: "Centro Profesional",
-            imagen: "logo_ingenierosp.webp",
+            texto: "Sibarita Sport Club",
+            imagen: "logo sibarita.jpg",
             link: "https://wa.me/123456789",
             posicion: "top",
             activo: true
@@ -28,7 +28,7 @@ const publicidadConfig = {
      
         {
             id: "logo3",
-            texto: "Pizzería El Hornito",
+            texto: "CEINPORT",
             imagen: "logo_ingenierosp.webp",
             link: "tel:+549111234567",
             posicion: "top",
