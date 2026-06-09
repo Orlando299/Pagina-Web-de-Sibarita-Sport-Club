@@ -16,11 +16,12 @@
     </div>
 
     <div class="container">
+        <!-- Botón Volver al Torneo -->
         <button class="fb" onclick="location.href='index.html'" style="margin-bottom: 20px;">
             ← Volver al Torneo de Bolas Criollas
         </button>
 
-        <!-- PUBLICIDAD TOP -->
+        <!-- PUBLICIDAD TOP (arriba del todo) -->
         <div class="ad-container ad-top" id="adTop"></div>
 
         <!-- Panel de Registro -->
@@ -33,7 +34,7 @@
             <small>⚠️ Solo se guardará tu nombre y puntaje</small>
         </div>
 
-        <!-- Panel Principal -->
+        <!-- Panel Principal (oculto hasta registrarse) -->
         <div id="mainPanel" style="display: none;">
             
             <!-- PUBLICIDAD ANTES DEL RANKING -->
@@ -44,13 +45,19 @@
                 <h2>📊 RANKING EN VIVO</h2>
                 <div class="ranking-container">
                     <table id="rankingTable" class="ranking-table">
-                        <thead><tr><th>Pos</th><th>Participante</th><th>Puntos</th></tr></thead>
-                        <tbody id="rankingBody"><tr><td colspan="3">Cargando...</td></tr></tbody>
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Participante</th>
+                                <th>Puntos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rankingBody">
+                            <tr><td colspan="3">Cargando...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
-
-            
 
             <!-- PUBLICIDAD DESPUÉS DEL RANKING -->
             <div class="ad-container ad-after-ranking" id="adAfterRanking"></div>
@@ -65,25 +72,31 @@
                     </select>
                     <select id="grupoFilter">
                         <option value="todos">Todos los grupos</option>
-                        <option value="A">Grupo A</option><option value="B">Grupo B</option>
-                        <option value="C">Grupo C</option><option value="D">Grupo D</option>
-                        <option value="E">Grupo E</option><option value="F">Grupo F</option>
-                        <option value="G">Grupo G</option><option value="H">Grupo H</option>
-                        <option value="I">Grupo I</option><option value="J">Grupo J</option>
-                        <option value="K">Grupo K</option><option value="L">Grupo L</option>
+                        <option value="A">Grupo A</option>
+                        <option value="B">Grupo B</option>
+                        <option value="C">Grupo C</option>
+                        <option value="D">Grupo D</option>
+                        <option value="E">Grupo E</option>
+                        <option value="F">Grupo F</option>
+                        <option value="G">Grupo G</option>
+                        <option value="H">Grupo H</option>
+                        <option value="I">Grupo I</option>
+                        <option value="J">Grupo J</option>
+                        <option value="K">Grupo K</option>
+                        <option value="L">Grupo L</option>
                     </select>
                     <button id="resetFiltersBtn" class="secondary-btn">Limpiar filtros</button>
                 </div>
                 <div id="partidosContainer" class="partidos-grid"></div>
             </div>
 
-            <!-- Contenedor botones Admin + WhatsApp -->
+            <!-- Contenedor para botones Admin + Compartir WhatsApp -->
             <div class="share-container">
                 <button id="shareWhatsAppBtn" class="whatsapp-btn">📱 Compartir por WhatsApp</button>
             </div>
         </div>
 
-        <!-- PUBLICIDAD FOOTER -->
+        <!-- PUBLICIDAD FOOTER (después de todo, antes del footer) -->
         <div class="ad-container ad-footer" id="adFooter"></div>
     </div>
 
