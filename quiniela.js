@@ -101,24 +101,59 @@ function guardarDatos() {
 }
 
 // ------------------- REGISTRO -------------------
-function registrarParticipante(nombre, email) {
+function registrarParticipante(nombre, cedula) {
+    // Validar nombre
     if (!nombre || nombre.trim() === '') {
-        alert('⚠️ Ingresa un nombre');
+        alert('⚠️ Ingresa un nombre válido');
         return false;
     }
 
-    let participante = datosQuiniela.participantes.find(p => p.nombre.toLowerCase() === nombre.toLowerCase());
-    if (!participante) {
-        participante = {
-            id: Date.now(),
-            nombre: nombre.trim(),
-            email: email || '',
-            puntos: 0
-        };
-        datosQuiniela.participantes.push(participante);
+    // Validar cédula (no vacía)
+    if (!cedula || cedula.trim() === '') {
+        alert('⚠️ La cédula es obligatoria');
+        return false;
     }
 
-    usuarioActual = participante;
+    // Normalizar cédula (eliminar espacios, convertir a mayúsculas si hay letras)
+    let cedulaNormalizada = cedula.trim().toUpperCase();
+    
+    // Validación básica de formato (puedes ajustar según tu país)
+    // Ejemplo: permite números, letras, guiones (para cédulas como V-12345678)
+    const cedulaRegex = /^[A-Z0-9\-]{5,20}$/i;
+    if (!cedulaRegex.test(cedulaNormalizada)) {
+        alert('⚠️ Formato de cédula inválido. Solo números, letras y guiones (ej: 12345678 o V-12345678)');
+        return false;
+    }
+
+    // Verificar si ya existe un participante con la MISMA cédula
+    let participanteExistente = datosQuiniela.participantes.find(p => p.cedula === cedulaNormalizada);
+    if (participanteExistente) {
+        // Si ya existe, preguntar si quiere cargar sus datos
+        const confirmar = confirm(`La cédula ${cedulaNormalizada} ya está registrada a nombre de "${participanteExistente.nombre}". ¿Deseas iniciar sesión como ese participante?`);
+        if (confirmar) {
+            usuarioActual = participanteExistente;
+            guardarDatos();
+            document.getElementById('userNameDisplay').innerText = usuarioActual.nombre;
+            document.getElementById('loginPanel').style.display = 'none';
+            document.getElementById('mainPanel').style.display = 'block';
+            document.getElementById('userInfo').style.display = 'flex';
+            mostrarRanking();
+            mostrarPartidos();
+            cargarPublicidad();
+            alert(`✅ Bienvenido de nuevo, ${usuarioActual.nombre}`);
+        }
+        return false;
+    }
+
+    // Crear nuevo participante
+    const nuevoParticipante = {
+        id: Date.now(),
+        nombre: nombre.trim(),
+        cedula: cedulaNormalizada,
+        puntos: 0
+    };
+    datosQuiniela.participantes.push(nuevoParticipante);
+    usuarioActual = nuevoParticipante;
     guardarDatos();
 
     document.getElementById('userNameDisplay').innerText = usuarioActual.nombre;
@@ -128,7 +163,8 @@ function registrarParticipante(nombre, email) {
 
     mostrarRanking();
     mostrarPartidos();
-    cargarPublicidad();     // refrescar publicidad
+    cargarPublicidad();
+    alert(`✅ Registro exitoso. ¡Bienvenido ${usuarioActual.nombre}!`);
     return true;
 }
 
