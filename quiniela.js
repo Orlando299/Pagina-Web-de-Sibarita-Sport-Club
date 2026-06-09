@@ -17,36 +17,40 @@ let adminPassword = "sibarita2026";   // Cambia esta contraseña
 // ------------------- PUBLICIDAD LOCAL (CONFIGURABLE) -------------------
 const publicidadConfig = {
     anuncios: [
+        // LOGO 1 (izquierda)
         {
-            id: "panaderia",
-            texto: "🍞 Panadería La Especial - Desayunos y meriendas",
-            imagen: "https://via.placeholder.com/600x80?text=Panaderia+La+Especial",
+            id: "logo1",
+            texto: "Panadería La Especial",
+            imagen: "imagenes/panaderia.png",   // ruta de tu imagen
             link: "https://wa.me/123456789",
             posicion: "top",
             activo: true
         },
+        // LOGO 2 (izquierda)
         {
-            id: "ferreteria",
-            texto: "🔧 Ferretería El Martillo - Todo para tu hogar",
-            imagen: "https://via.placeholder.com/600x80?text=Ferreteria+El+Martillo",
+            id: "logo2",
+            texto: "Ferretería El Martillo",
+            imagen: "imagenes/ferreteria.png",
             link: "https://goo.gl/maps/ejemplo",
-            posicion: "before-ranking",
+            posicion: "top",
             activo: true
         },
+        // LOGO 3 (derecha)
         {
-            id: "pizzeria",
-            texto: "🍕 Pizzería El Hornito - 2x1 los jueves",
-            imagen: "https://via.placeholder.com/600x80?text=Pizzeria+El+Hornito",
+            id: "logo3",
+            texto: "Pizzería El Hornito",
+            imagen: "imagenes/pizzeria.png",
             link: "tel:+549111234567",
-            posicion: "after-ranking",
+            posicion: "top",
             activo: true
         },
+        // LOGO 4 (derecha)
         {
-            id: "gimnasio",
-            texto: "💪 Gimnasio FuerteFit - Promo quiniela: 30% off",
-            imagen: "https://via.placeholder.com/600x80?text=Gimnasio+FuerteFit",
+            id: "logo4",
+            texto: "Gimnasio FuerteFit",
+            imagen: "imagenes/gimnasio.png",
             link: "https://instagram.com/fuertefit",
-            posicion: "footer",
+            posicion: "top",
             activo: true
         }
     ]
@@ -260,11 +264,10 @@ function compartirWhatsApp() {
     window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 
-// ------------------- PUBLICIDAD LOCAL -------------------
+// ------------------- PUBLICIDAD LOCAL (CON DISTRIBUCIÓN IZQUIERDA/DERECHA) -------------------
 function cargarPublicidad() {
     const posiciones = ['top', 'before-ranking', 'after-ranking', 'footer'];
     posiciones.forEach(pos => {
-        // Convertir "before-ranking" a "beforeRanking", etc.
         let id = 'ad' + pos.split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('');
         const contenedor = document.getElementById(id);
         if (!contenedor) return;
@@ -275,12 +278,36 @@ function cargarPublicidad() {
             return;
         }
         contenedor.style.display = 'block';
-        contenedor.innerHTML = anunciosPos.map(anuncio => `
-            <a href="${anuncio.link}" target="_blank" rel="noopener noreferrer" class="ad-link">
-                ${anuncio.imagen ? `<img src="${anuncio.imagen}" alt="${anuncio.texto}" class="ad-img">` : ''}
-                ${anuncio.texto ? `<div class="ad-text">${anuncio.texto}</div>` : ''}
-            </a>
-        `).join('');
+
+        // Dividir en dos grupos: izquierda (primeros) y derecha (restantes)
+        const mitad = Math.ceil(anunciosPos.length / 2);
+        const izquierda = anunciosPos.slice(0, mitad);
+        const derecha = anunciosPos.slice(mitad);
+
+        contenedor.innerHTML = `
+            <div class="ad-flex-container">
+                <div class="ad-group-left">
+                    ${izquierda.map(anuncio => `
+                        <div class="ad-item">
+                            <a href="${anuncio.link}" target="_blank" rel="noopener noreferrer" class="ad-link">
+                                ${anuncio.imagen ? `<img src="${anuncio.imagen}" alt="${anuncio.texto}" class="ad-img">` : ''}
+                                ${anuncio.texto ? `<div class="ad-text">${anuncio.texto}</div>` : ''}
+                            </a>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="ad-group-right">
+                    ${derecha.map(anuncio => `
+                        <div class="ad-item">
+                            <a href="${anuncio.link}" target="_blank" rel="noopener noreferrer" class="ad-link">
+                                ${anuncio.imagen ? `<img src="${anuncio.imagen}" alt="${anuncio.texto}" class="ad-img">` : ''}
+                                ${anuncio.texto ? `<div class="ad-text">${anuncio.texto}</div>` : ''}
+                            </a>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
     });
 }
 
