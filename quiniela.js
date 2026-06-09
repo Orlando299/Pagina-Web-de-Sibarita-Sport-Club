@@ -19,16 +19,16 @@ const publicidadConfig = {
     anuncios: [
         {
             id: "logo1",
-            texto: "Centro Profesional",
-            imagen: "logo_ingenieros.webp",
+            texto: "SIBARITA SPORT CLUB",
+            imagen: "logo sibarita.jpg",
             link: "https://wa.me/123456789",
             posicion: "top",
             activo: true
         },
         {
             id: "logo2",
-            texto: "Ferretería El Martillo",
-            imagen: "imagenes/ferreteria.png",
+            texto: "CEINPORT",
+            imagen: "logo_ingenierosp.webp",
             link: "https://goo.gl/maps/ejemplo",
             posicion: "top",
             activo: true
