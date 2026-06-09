@@ -1,3 +1,301 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #1a472a 0%, #0d2818 100%);
+    font-family: 'Segoe UI', 'Poppins', 'Arial', sans-serif;
+    color: #f5e6d3;
+    min-height: 100vh;
+    padding-bottom: 80px;
+}
+
+.topbar {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-bottom: 3px solid #ffd700;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.topbar h1 {
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    flex-grow: 1;
+    text-align: center;
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,215,0,0.2);
+    padding: 5px 12px;
+    border-radius: 25px;
+}
+
+.logout-btn {
+    background: #dc3545;
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s;
+}
+
+.logout-btn:hover {
+    background: #c82333;
+    transform: scale(1.1);
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Botones */
+.nb, .fb, .secondary-btn, .whatsapp-btn, .admin-btn {
+    background: linear-gradient(180deg, #ffd700 0%, #ffb347 100%);
+    border: none;
+    padding: 12px 24px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #1a472a;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.nb:hover, .fb:hover, .secondary-btn:hover, .whatsapp-btn:hover, .admin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.fb {
+    background: linear-gradient(180deg, #2e7d32 0%, #1b5e20 100%);
+    color: #ffd700;
+}
+
+.secondary-btn {
+    background: linear-gradient(180deg, #455a64 0%, #263238 100%);
+    color: white;
+}
+
+.whatsapp-btn {
+    background: linear-gradient(180deg, #25D366 0%, #128C7E 100%);
+    color: white;
+}
+
+/* Cards */
+.card {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255,215,0,0.3);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.card h2 {
+    color: #ffd700;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    border-left: 4px solid #ffd700;
+    padding-left: 15px;
+}
+
+/* Formulario registro */
+#loginPanel input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.9);
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+#loginPanel input:focus {
+    outline: none;
+    border-color: #ffb347;
+    box-shadow: 0 0 5px #ffd700;
+}
+
+/* Ranking */
+.ranking-container {
+    overflow-x: auto;
+}
+
+.ranking-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(0,0,0,0.5);
+    border-radius: 10px;
+}
+
+.ranking-table th, .ranking-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,215,0,0.3);
+}
+
+.ranking-table th {
+    background: #ffd700;
+    color: #1a472a;
+    font-weight: bold;
+}
+
+.ranking-table tr:hover {
+    background: rgba(255,215,0,0.1);
+}
+
+/* Filtros */
+.filters {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.filters select {
+    padding: 10px;
+    border-radius: 8px;
+    background: #2c2c2c;
+    color: white;
+    border: 1px solid #ffd700;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/* Grid de partidos */
+.partidos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.partido-card {
+    background: rgba(30,30,30,0.9);
+    border-radius: 15px;
+    padding: 15px;
+    transition: all 0.3s;
+    border-left: 4px solid #ffd700;
+}
+
+.partido-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.partido-header {
+    font-size: 0.8rem;
+    color: #ffd700;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.partido-equipos {
+    font-weight: bold;
+    font-size: 1rem;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.partido-fecha {
+    font-size: 0.75rem;
+    color: #aaa;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.prediccion-inputs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.prediccion-inputs input {
+    width: 70px;
+    padding: 8px;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid #ffd700;
+    background: white;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.prediccion-inputs input:disabled {
+    background: #ddd;
+    cursor: not-allowed;
+}
+
+.resultado-real {
+    text-align: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,215,0,0.3);
+    font-size: 0.85rem;
+    color: #4caf50;
+}
+
+.puntos-obtenidos {
+    text-align: center;
+    margin-top: 8px;
+    font-weight: bold;
+    color: #ffd700;
+}
+
+.guardar-prediccion {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.guardar-prediccion:hover {
+    background: #1b5e20;
+}
+
+.guardar-prediccion:disabled {
+    background: #666;
+    cursor: not-allowed;
+}
+
+/* Compartir */
+.share-container {
+    text-align: center;
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
 /* ========== PUBLICIDAD LOCAL ========== */
 .ad-container {
     margin: 20px 0;
@@ -8,40 +306,103 @@
     border: 1px solid rgba(255, 215, 0, 0.4);
     transition: transform 0.3s;
 }
+
 .ad-container:hover {
     transform: scale(1.01);
     background: rgba(0, 0, 0, 0.8);
 }
+
 .ad-img {
     max-width: 100%;
     height: auto;
     border-radius: 10px;
     margin-bottom: 8px;
 }
+
 .ad-text {
     font-size: 0.9rem;
     color: #ffd700;
     margin-top: 5px;
 }
+
 .ad-link {
     text-decoration: none;
     display: inline-block;
     width: 100%;
 }
+
 .ad-link:hover .ad-img {
     opacity: 0.9;
 }
-/* diferentes alturas opcionales */
+
 .ad-top, .ad-footer {
     min-height: 90px;
 }
+
 .ad-before-ranking, .ad-after-ranking {
     min-height: 80px;
 }
+
+/* Panel Administrador */
+.admin-panel {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+}
+
+.admin-partido-card input {
+    background: white;
+    color: black;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0,0,0,0.8);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 0.8rem;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
+    .topbar {
+        flex-direction: column;
+        text-align: center;
+    }
+    .topbar h1 {
+        font-size: 1.2rem;
+    }
+    .container {
+        padding: 15px;
+    }
+    .partidos-grid {
+        grid-template-columns: 1fr;
+    }
+    .filters {
+        flex-direction: column;
+    }
+    .card h2 {
+        font-size: 1.2rem;
+    }
     .ad-container {
         padding: 10px;
         margin: 15px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .prediccion-inputs input {
+        width: 55px;
+    }
+    .ranking-table th, .ranking-table td {
+        padding: 8px;
+        font-size: 0.8rem;
     }
 }
