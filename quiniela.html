@@ -26,12 +26,12 @@
 
         <!-- Panel de Registro -->
         <div id="loginPanel" class="card">
-            <h2>📝 Registro Rápido</h2>
-            <p>Ingresa tu nombre para participar</p>
-            <input type="text" id="userName" placeholder="Tu nombre" maxlength="30">
-            <input type="email" id="userEmail" placeholder="Email (opcional)">
-            <button id="registerBtn" class="nb">🎯 Participar</button>
-            <small>⚠️ Solo se guardará tu nombre y puntaje</small>
+           <h2>📝 Registro Rápido</h2>
+<p>Ingresa tu nombre y número de cédula (documento de identidad)</p>
+<input type="text" id="userName" placeholder="Nombre completo" maxlength="50" required>
+<input type="text" id="userCedula" placeholder="Cédula (ej: 12345678)" maxlength="20" required>
+<button id="registerBtn" class="nb">🎯 Participar</button>
+<small>⚠️ La cédula es única por participante y será usada para identificar al ganador.</small>
         </div>
 
         <!-- Panel Principal (oculto hasta registrarse) -->
