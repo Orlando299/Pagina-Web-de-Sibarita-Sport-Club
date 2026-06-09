@@ -40,6 +40,22 @@
             <!-- PUBLICIDAD ANTES DEL RANKING -->
             <div class="ad-container ad-before-ranking" id="adBeforeRanking"></div>
 
+            <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 15px; flex-wrap: wrap;">
+    <label style="display: flex; align-items: center; gap: 5px;">
+        <span>🏆 Ranking:</span>
+        <select id="tipoRanking" style="padding: 5px; border-radius: 8px;">
+            <option value="total">General</option>
+            <option value="semanal">Semanal</option>
+        </select>
+    </label>
+    <label style="display: flex; align-items: center; gap: 5px;" id="semanaLabel">
+        <span>📅 Semana:</span>
+        <select id="semanaSelector" style="padding: 5px; border-radius: 8px; display: none;">
+            <option value="">Selecciona semana</option>
+        </select>
+    </label>
+</div>
+
             <!-- Ranking -->
             <div class="card">
                 <h2>📊 RANKING EN VIVO</h2>
