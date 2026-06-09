@@ -19,21 +19,21 @@ const publicidadConfig = {
     anuncios: [
         {
             id: "logo1",
-            texto: "Sibarita Sport Club",
-            imagen: "logo sibarita.jpg",
+            texto: "Centro Profesional",
+            imagen: "logo_ingenieros.webp",
             link: "https://wa.me/123456789",
             posicion: "top",
             activo: true
         },
-     
         {
-            id: "logo3",
-            texto: "CEINPORT",
-            imagen: "logo_ingenierosp.webp",
-            link: "tel:+549111234567",
+            id: "logo2",
+            texto: "Ferretería El Martillo",
+            imagen: "imagenes/ferreteria.png",
+            link: "https://goo.gl/maps/ejemplo",
             posicion: "top",
             activo: true
-        },
+        }
+        // Agrega aquí más anuncios si lo deseas
     ]
 };
 
@@ -54,13 +54,28 @@ async function cargarDatos() {
     if (storedParticipantes) datosQuiniela.participantes = JSON.parse(storedParticipantes);
     if (storedPredicciones) datosQuiniela.predicciones = JSON.parse(storedPredicciones);
 
+    // ========== VALIDACIÓN ROBUSTA DEL USUARIO ACTUAL ==========
     const storedUsuario = localStorage.getItem('quiniela_usuario_actual');
     if (storedUsuario) {
-        usuarioActual = JSON.parse(storedUsuario);
-        document.getElementById('userNameDisplay').innerText = usuarioActual.nombre;
-        document.getElementById('loginPanel').style.display = 'none';
-        document.getElementById('mainPanel').style.display = 'block';
-        document.getElementById('userInfo').style.display = 'flex';
+        try {
+            const parsed = JSON.parse(storedUsuario);
+            // Verificar que es un objeto con la propiedad 'nombre' (no vacía)
+            if (parsed && typeof parsed === 'object' && parsed.nombre && typeof parsed.nombre === 'string') {
+                usuarioActual = parsed;
+                document.getElementById('userNameDisplay').innerText = usuarioActual.nombre;
+                document.getElementById('loginPanel').style.display = 'none';
+                document.getElementById('mainPanel').style.display = 'block';
+                document.getElementById('userInfo').style.display = 'flex';
+            } else {
+                // Datos inválidos, limpiar localStorage
+                console.warn('Datos de usuario inválidos en localStorage. Eliminando...');
+                localStorage.removeItem('quiniela_usuario_actual');
+            }
+        } catch(e) {
+            // Error al parsear JSON, también limpiar
+            console.error('Error parseando storedUsuario', e);
+            localStorage.removeItem('quiniela_usuario_actual');
+        }
     } else {
         document.getElementById('userInfo').style.display = 'none';
     }
