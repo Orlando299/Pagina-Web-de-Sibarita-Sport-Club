@@ -20,7 +20,7 @@ const publicidadConfig = {
         {
             id: "logo1",
             texto: "SIBARITA SPORT CLUB",
-            imagen: "logo sibarita.jpg",
+            imagen: "logo_sibarita.jpg",   // ← SIN ESPACIOS (renombra el archivo)
             link: "https://wa.me/123456789",
             posicion: "top",
             activo: true
@@ -33,12 +33,12 @@ const publicidadConfig = {
             posicion: "top",
             activo: true
         }
-        // Agrega aquí más anuncios si lo deseas
     ]
 };
 
-// ------------------- CARGA Y GUARDADO -------------------
+// ------------------- CARGA Y GUARDADO (CON SANEAMIENTO TOTAL) -------------------
 async function cargarDatos() {
+    // 1. Cargar partidos (sin errores fatales)
     try {
         const response = await fetch('quiniela.json');
         const data = await response.json();
@@ -49,17 +49,21 @@ async function cargarDatos() {
         datosQuiniela.partidos = [];
     }
 
-    const storedParticipantes = localStorage.getItem('quiniela_participantes');
-    const storedPredicciones = localStorage.getItem('quiniela_predicciones');
-    if (storedParticipantes) datosQuiniela.participantes = JSON.parse(storedParticipantes);
-    if (storedPredicciones) datosQuiniela.predicciones = JSON.parse(storedPredicciones);
+    // 2. Cargar participantes y predicciones
+    try {
+        const storedParticipantes = localStorage.getItem('quiniela_participantes');
+        const storedPredicciones = localStorage.getItem('quiniela_predicciones');
+        if (storedParticipantes) datosQuiniela.participantes = JSON.parse(storedParticipantes);
+        if (storedPredicciones) datosQuiniela.predicciones = JSON.parse(storedPredicciones);
+    } catch(e) {
+        console.warn("Error al cargar participantes/predicciones", e);
+    }
 
-    // ========== VALIDACIÓN ROBUSTA DEL USUARIO ACTUAL ==========
-    const storedUsuario = localStorage.getItem('quiniela_usuario_actual');
-    if (storedUsuario) {
-        try {
+    // 3. Limpiar usuario corrupto y cargar si es válido
+    try {
+        const storedUsuario = localStorage.getItem('quiniela_usuario_actual');
+        if (storedUsuario) {
             const parsed = JSON.parse(storedUsuario);
-            // Verificar que es un objeto con la propiedad 'nombre' (no vacía)
             if (parsed && typeof parsed === 'object' && parsed.nombre && typeof parsed.nombre === 'string') {
                 usuarioActual = parsed;
                 document.getElementById('userNameDisplay').innerText = usuarioActual.nombre;
@@ -67,24 +71,33 @@ async function cargarDatos() {
                 document.getElementById('mainPanel').style.display = 'block';
                 document.getElementById('userInfo').style.display = 'flex';
             } else {
-                // Datos inválidos, limpiar localStorage
-                console.warn('Datos de usuario inválidos en localStorage. Eliminando...');
                 localStorage.removeItem('quiniela_usuario_actual');
+                usuarioActual = null;
+                document.getElementById('userInfo').style.display = 'none';
             }
-        } catch(e) {
-            // Error al parsear JSON, también limpiar
-            console.error('Error parseando storedUsuario', e);
-            localStorage.removeItem('quiniela_usuario_actual');
+        } else {
+            document.getElementById('userInfo').style.display = 'none';
         }
-    } else {
+    } catch(e) {
+        console.error("Error crítico con usuario actual", e);
+        localStorage.removeItem('quiniela_usuario_actual');
+        usuarioActual = null;
         document.getElementById('userInfo').style.display = 'none';
     }
+
+    // 4. 🔥 PUBLICIDAD: se carga SIEMPRE, incluso si hay errores arriba
+    cargarPublicidad();
 }
 
 function guardarDatos() {
     localStorage.setItem('quiniela_participantes', JSON.stringify(datosQuiniela.participantes));
     localStorage.setItem('quiniela_predicciones', JSON.stringify(datosQuiniela.predicciones));
-    localStorage.setItem('quiniela_usuario_actual', JSON.stringify(usuarioActual));
+    // Solo guardar usuario si es válido
+    if (usuarioActual && typeof usuarioActual === 'object' && usuarioActual.nombre) {
+        localStorage.setItem('quiniela_usuario_actual', JSON.stringify(usuarioActual));
+    } else {
+        localStorage.removeItem('quiniela_usuario_actual');
+    }
 }
 
 // ------------------- REGISTRO -------------------
@@ -127,6 +140,7 @@ function cerrarSesion() {
     document.getElementById('userInfo').style.display = 'none';
     document.getElementById('userName').value = '';
     document.getElementById('userEmail').value = '';
+    cargarPublicidad(); // asegurar que la publicidad se vea tras cerrar sesión
 }
 
 // ------------------- PUNTUACIÓN -------------------
@@ -260,7 +274,7 @@ function compartirWhatsApp() {
     window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 
-// ------------------- PUBLICIDAD LOCAL (CON DISTRIBUCIÓN IZQUIERDA/DERECHA) -------------------
+// ------------------- PUBLICIDAD LOCAL (DISTRIBUCIÓN IZQUIERDA/DERECHA) -------------------
 function cargarPublicidad() {
     console.log("cargarPublicidad() ejecutándose");
     const posiciones = ['top', 'before-ranking', 'after-ranking', 'footer'];
@@ -280,7 +294,6 @@ function cargarPublicidad() {
         }
         contenedor.style.display = 'block';
 
-        // Dividir en dos grupos: izquierda (primeros) y derecha (restantes)
         const mitad = Math.ceil(anunciosPos.length / 2);
         const izquierda = anunciosPos.slice(0, mitad);
         const derecha = anunciosPos.slice(mitad);
@@ -504,8 +517,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (usuarioActual) {
             mostrarPartidos();
         }
-        // Cargar publicidad siempre (incluso antes de registrarse)
-        cargarPublicidad();
+    }).catch(err => {
+        console.error("Error en cargarDatos, pero publicidad ya se cargó internamente", err);
     });
 
     document.getElementById('registerBtn')?.addEventListener('click', () => {
@@ -530,4 +543,4 @@ window.actualizarResultadoAdmin = actualizarResultadoAdmin;
 window.editarResultadoAdmin = editarResultadoAdmin;
 window.confirmarResetearQuiniela = confirmarResetearQuiniela;
 window.cerrarAdminPanel = cerrarAdminPanel;
-window.cargarPublicidad = cargarPublicidad;  // Para pruebas manuales
+window.cargarPublicidad = cargarPublicidad;
