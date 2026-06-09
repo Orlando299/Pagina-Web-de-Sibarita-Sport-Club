@@ -20,35 +20,20 @@ const publicidadConfig = {
         {
             id: "logo1",
             texto: "Centro Profesional",
-            imagen: "logo_ingenieros.webp",
+            imagen: "logo_ingenierospeq.webp",
             link: "https://wa.me/123456789",
             posicion: "top",
             activo: true
         },
-        {
-            id: "logo2",
-            texto: "Ferretería El Martillo",
-            imagen: "imagenes/ferreteria.png",
-            link: "https://goo.gl/maps/ejemplo",
-            posicion: "top",
-            activo: true
-        },
+     
         {
             id: "logo3",
             texto: "Pizzería El Hornito",
-            imagen: "imagenes/pizzeria.png",
+            imagen: "logo_ingenierospeq.webp",
             link: "tel:+549111234567",
             posicion: "top",
             activo: true
         },
-        {
-            id: "logo4",
-            texto: "Gimnasio FuerteFit",
-            imagen: "imagenes/gimnasio.png",
-            link: "https://instagram.com/fuertefit",
-            posicion: "top",
-            activo: true
-        }
     ]
 };
 
