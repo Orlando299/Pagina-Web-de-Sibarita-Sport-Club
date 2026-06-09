@@ -20,7 +20,7 @@ const publicidadConfig = {
         {
             id: "logo1",
             texto: "Centro Profesional",
-            imagen: "logo_ingenierospeq.webp",
+            imagen: "logo_ingenierosp.webp",
             link: "https://wa.me/123456789",
             posicion: "top",
             activo: true
@@ -29,7 +29,7 @@ const publicidadConfig = {
         {
             id: "logo3",
             texto: "Pizzería El Hornito",
-            imagen: "logo_ingenierospeq.webp",
+            imagen: "logo_ingenierosp.webp",
             link: "tel:+549111234567",
             posicion: "top",
             activo: true
