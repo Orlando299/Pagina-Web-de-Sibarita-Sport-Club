@@ -20,8 +20,8 @@ const publicidadConfig = {
         // LOGO 1 (izquierda)
         {
             id: "logo1",
-            texto: "Panadería La Especial",
-            imagen: "imagenes/panaderia.png",   // ruta de tu imagen
+            texto: "Centro Profesional",
+            imagen: "logo_ingenieros.webp",   // ruta de tu imagen
             link: "https://wa.me/123456789",
             posicion: "top",
             activo: true
