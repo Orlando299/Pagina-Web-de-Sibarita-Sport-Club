@@ -521,6 +521,21 @@ function confirmarResetearQuiniela() {
 }
 
 // ------------------- INICIALIZACIÓN -------------------
+
+function cargarSemanasDisponibles() {
+    const semanasSet = new Set();
+    datosQuiniela.partidos.forEach(partido => {
+        const semana = obtenerSemanaDesdeFecha(partido.fecha);
+        if (semana > 0) semanasSet.add(`semana_${semana}`);
+    });
+    const semanas = Array.from(semanasSet).sort();
+    const selector = document.getElementById('semanaSelector');
+    if (selector) {
+        selector.innerHTML = '<option value="">-- Selecciona semana --</option>' +
+            semanas.map(sem => `<option value="${sem}">${sem.replace('semana_', 'Semana ')}</option>`).join('');
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM cargado, inicializando...");
     cargarDatos().then(() => {
