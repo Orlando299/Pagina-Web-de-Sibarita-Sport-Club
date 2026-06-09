@@ -8,7 +8,6 @@
 </head>
 <body>
     <div class="topbar">
-        <img src="https://i.imgur.com/placeholder-logo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
         <h1>🏆 QUINIELA MUNDIAL 2026 🏆</h1>
         <div class="user-info" id="userInfo">
             <span id="userNameDisplay"></span>
@@ -17,74 +16,73 @@
     </div>
 
     <div class="container">
-        <!-- Botón Volver al Torneo -->
         <button class="fb" onclick="location.href='index.html'" style="margin-bottom: 20px;">
             ← Volver al Torneo de Bolas Criollas
         </button>
 
-        <!-- Panel de Registro/Login Simplificado -->
+        <!-- PUBLICIDAD TOP -->
+        <div class="ad-container ad-top" id="adTop"></div>
+
+        <!-- Panel de Registro -->
         <div id="loginPanel" class="card">
             <h2>📝 Registro Rápido</h2>
-            <p>Ingresa tu nombre para participar en la quiniela</p>
+            <p>Ingresa tu nombre para participar</p>
             <input type="text" id="userName" placeholder="Tu nombre" maxlength="30">
             <input type="email" id="userEmail" placeholder="Email (opcional)">
             <button id="registerBtn" class="nb">🎯 Participar</button>
-            <small>⚠️ Solo se guardará tu nombre y puntaje en este navegador</small>
+            <small>⚠️ Solo se guardará tu nombre y puntaje</small>
         </div>
 
-        <!-- Panel Principal (visible después del registro) -->
+        <!-- Panel Principal -->
         <div id="mainPanel" style="display: none;">
-            <!-- Ranking en vivo -->
+            
+            <!-- PUBLICIDAD ANTES DEL RANKING -->
+            <div class="ad-container ad-before-ranking" id="adBeforeRanking"></div>
+
+            <!-- Ranking -->
             <div class="card">
                 <h2>📊 RANKING EN VIVO</h2>
                 <div class="ranking-container">
                     <table id="rankingTable" class="ranking-table">
-                        <thead>
-                            <tr><th>Pos</th><th>Participante</th><th>Puntos</th></tr>
-                        </thead>
-                        <tbody id="rankingBody">
-                            <tr><td colspan="3">Cargando...</td></tr>
-                        </tbody>
+                        <thead><tr><th>Pos</th><th>Participante</th><th>Puntos</th></tr></thead>
+                        <tbody id="rankingBody"><tr><td colspan="3">Cargando...</td></tr></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Filtros de partidos -->
+            <!-- PUBLICIDAD DESPUÉS DEL RANKING -->
+            <div class="ad-container ad-after-ranking" id="adAfterRanking"></div>
+
+            <!-- Filtros y partidos -->
             <div class="card">
                 <h2>📅 CALENDARIO DE PARTIDOS</h2>
                 <div class="filters">
                     <select id="faseFilter">
                         <option value="todos">Todas las fases</option>
                         <option value="grupos">Fase de Grupos</option>
-                        <option value="octavos">Octavos de Final</option>
-                        <option value="cuartos">Cuartos de Final</option>
-                        <option value="semis">Semifinales</option>
-                        <option value="final">Final</option>
                     </select>
                     <select id="grupoFilter">
                         <option value="todos">Todos los grupos</option>
-                        <option value="A">Grupo A</option>
-                        <option value="B">Grupo B</option>
-                        <option value="C">Grupo C</option>
-                        <option value="D">Grupo D</option>
-                        <option value="E">Grupo E</option>
-                        <option value="F">Grupo F</option>
-                        <option value="G">Grupo G</option>
-                        <option value="H">Grupo H</option>
+                        <option value="A">Grupo A</option><option value="B">Grupo B</option>
+                        <option value="C">Grupo C</option><option value="D">Grupo D</option>
+                        <option value="E">Grupo E</option><option value="F">Grupo F</option>
+                        <option value="G">Grupo G</option><option value="H">Grupo H</option>
+                        <option value="I">Grupo I</option><option value="J">Grupo J</option>
+                        <option value="K">Grupo K</option><option value="L">Grupo L</option>
                     </select>
                     <button id="resetFiltersBtn" class="secondary-btn">Limpiar filtros</button>
                 </div>
-                
                 <div id="partidosContainer" class="partidos-grid"></div>
             </div>
 
-            <!-- Botón compartir WhatsApp -->
+            <!-- Contenedor botones Admin + WhatsApp -->
             <div class="share-container">
-                <button id="shareWhatsAppBtn" class="whatsapp-btn">
-                    📱 Compartir por WhatsApp
-                </button>
+                <button id="shareWhatsAppBtn" class="whatsapp-btn">📱 Compartir por WhatsApp</button>
             </div>
         </div>
+
+        <!-- PUBLICIDAD FOOTER -->
+        <div class="ad-container ad-footer" id="adFooter"></div>
     </div>
 
     <footer>
