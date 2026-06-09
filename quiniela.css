@@ -311,9 +311,13 @@ body {
     background: rgba(0, 0, 0, 0.8);
 }
 
+/* Imágenes de publicidad */
 .ad-img {
     max-width: 100%;
+    max-height: 100px;   /* Altura máxima para que no desborden */
+    width: auto;
     height: auto;
+    object-fit: contain; /* No deforma la imagen */
     border-radius: 10px;
     margin-bottom: 8px;
 }
@@ -337,41 +341,35 @@ body {
 /* ========== DISTRIBUCIÓN DE LOGOS IZQUIERDA Y DERECHA ========== */
 .ad-flex-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-between;  /* Empuja izquierda a la izquierda y derecha a la derecha */
     align-items: center;
+    flex-wrap: wrap;
     gap: 20px;
-}
-
-.ad-item {
-    flex: 1 1 auto;
-    min-width: 120px;
-    text-align: center;
 }
 
 .ad-group-left {
     display: flex;
     gap: 20px;
-    justify-content: flex-start;
+    justify-content: flex-start;  /* Los elementos se alinean a la izquierda */
     flex-wrap: wrap;
 }
 
 .ad-group-right {
     display: flex;
     gap: 20px;
-    justify-content: flex-end;
+    justify-content: flex-end;     /* Los elementos se alinean a la derecha */
     flex-wrap: wrap;
 }
 
-/* En móviles, todo se centra y apila */
-@media (max-width: 768px) {
-    .ad-flex-container {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .ad-group-left, .ad-group-right {
-        justify-content: center;
-    }
+/* Si solo hay un anuncio en el grupo izquierdo o derecho, que se centre (opcional) */
+.ad-group-left:only-child,
+.ad-group-right:only-child {
+    justify-content: center;
+}
+
+/* Si no hay grupo derecho (solo izquierda), que ocupe todo el ancho */
+.ad-flex-container:has(.ad-group-left:only-child) {
+    justify-content: center;
 }
 
 .ad-top, .ad-footer {
@@ -433,6 +431,13 @@ footer {
     .ad-container {
         padding: 10px;
         margin: 15px 0;
+    }
+    .ad-flex-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .ad-group-left, .ad-group-right {
+        justify-content: center;
     }
 }
 
