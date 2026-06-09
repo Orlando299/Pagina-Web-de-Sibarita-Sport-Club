@@ -19,8 +19,8 @@ const publicidadConfig = {
     anuncios: [
         {
             id: "logo1",
-            texto: "Panadería La Especial",
-            imagen: "imagenes/panaderia.png",
+            texto: "Centro Profesional",
+            imagen: "logo_ingenieros.webp",
             link: "https://wa.me/123456789",
             posicion: "top",
             activo: true
