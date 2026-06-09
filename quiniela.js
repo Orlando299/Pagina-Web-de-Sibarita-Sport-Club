@@ -17,16 +17,14 @@ let adminPassword = "sibarita2026";   // Cambia esta contraseña
 // ------------------- PUBLICIDAD LOCAL (CONFIGURABLE) -------------------
 const publicidadConfig = {
     anuncios: [
-        // LOGO 1 (izquierda)
         {
             id: "logo1",
-            texto: "Centro Profesional",
-            imagen: "logo_ingenieros.webp",   // ruta de tu imagen
+            texto: "Panadería La Especial",
+            imagen: "imagenes/panaderia.png",
             link: "https://wa.me/123456789",
             posicion: "top",
             activo: true
         },
-        // LOGO 2 (izquierda)
         {
             id: "logo2",
             texto: "Ferretería El Martillo",
@@ -35,7 +33,6 @@ const publicidadConfig = {
             posicion: "top",
             activo: true
         },
-        // LOGO 3 (derecha)
         {
             id: "logo3",
             texto: "Pizzería El Hornito",
@@ -44,7 +41,6 @@ const publicidadConfig = {
             posicion: "top",
             activo: true
         },
-        // LOGO 4 (derecha)
         {
             id: "logo4",
             texto: "Gimnasio FuerteFit",
@@ -266,15 +262,20 @@ function compartirWhatsApp() {
 
 // ------------------- PUBLICIDAD LOCAL (CON DISTRIBUCIÓN IZQUIERDA/DERECHA) -------------------
 function cargarPublicidad() {
+    console.log("cargarPublicidad() ejecutándose");
     const posiciones = ['top', 'before-ranking', 'after-ranking', 'footer'];
     posiciones.forEach(pos => {
         let id = 'ad' + pos.split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('');
         const contenedor = document.getElementById(id);
-        if (!contenedor) return;
+        if (!contenedor) {
+            console.log(`No se encontró el contenedor con id ${id}`);
+            return;
+        }
 
         const anunciosPos = publicidadConfig.anuncios.filter(anuncio => anuncio.posicion === pos && anuncio.activo === true);
         if (anunciosPos.length === 0) {
             contenedor.style.display = 'none';
+            console.log(`No hay anuncios activos para la posición ${pos}`);
             return;
         }
         contenedor.style.display = 'block';
@@ -497,6 +498,7 @@ function confirmarResetearQuiniela() {
 
 // ------------------- INICIALIZACIÓN -------------------
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM cargado, inicializando...");
     cargarDatos().then(() => {
         mostrarRanking();
         if (usuarioActual) {
@@ -528,3 +530,4 @@ window.actualizarResultadoAdmin = actualizarResultadoAdmin;
 window.editarResultadoAdmin = editarResultadoAdmin;
 window.confirmarResetearQuiniela = confirmarResetearQuiniela;
 window.cerrarAdminPanel = cerrarAdminPanel;
+window.cargarPublicidad = cargarPublicidad;  // Para pruebas manuales
