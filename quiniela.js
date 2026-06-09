@@ -541,6 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarDatos().then(() => {
         mostrarRanking();
         if (usuarioActual) mostrarPartidos();
+       cargarSemanasDisponibles();  
     }).catch(err => console.error(err));
 
     document.getElementById('registerBtn')?.addEventListener('click', () => {
