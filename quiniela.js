@@ -429,6 +429,7 @@ function mostrarPanelAdmin() {
     document.getElementById('mostrarSoloPendientes').addEventListener('change', cargarAdminPartidos);
     document.getElementById('exportarDatosBtn').addEventListener('click', exportarDatosQuiniela);
     cargarAdminPartidos();
+    setTimeout(() => mostrarListaParticipantes(), 100);
 }
 
 function cerrarAdminPanel() {
@@ -439,6 +440,55 @@ function cerrarAdminPanel() {
     if (btn) { btn.style.background = '#dc3545'; btn.innerHTML = '👑 Admin'; }
 }
 
+function mostrarListaParticipantes() {
+    if (!esAdmin) return;
+
+    // Buscar o crear el contenedor para la lista
+    let listaContainer = document.getElementById('listaParticipantesContainer');
+    if (!listaContainer) {
+        const adminContainer = document.getElementById('adminPartidosContainer');
+        if (!adminContainer) return;
+        
+        listaContainer = document.createElement('div');
+        listaContainer.id = 'listaParticipantesContainer';
+        listaContainer.style.marginTop = '20px';
+        listaContainer.style.paddingTop = '15px';
+        listaContainer.style.borderTop = '1px solid #ff0000';
+        adminContainer.appendChild(listaContainer);
+    }
+
+    if (datosQuiniela.participantes.length === 0) {
+        listaContainer.innerHTML = '<p style="color:#ffd700;">📭 Aún no hay participantes registrados.</p>';
+        return;
+    }
+
+    listaContainer.innerHTML = `
+        <h3 style="color:#ffd700; margin-bottom:10px;">👥 PARTICIPANTES REGISTRADOS (${datosQuiniela.participantes.length})</h3>
+        <div style="max-height: 300px; overflow-y: auto;">
+            <table style="width:100%; border-collapse: collapse; background:#222; border-radius:8px;">
+                <thead>
+                    <tr style="background:#ffd700; color:#1a472a;">
+                        <th style="padding:8px;">#</th>
+                        <th style="padding:8px;">Nombre</th>
+                        <th style="padding:8px;">Cédula</th>
+                        <th style="padding:8px;">Puntos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${datosQuiniela.participantes.map((p, idx) => `
+                        <tr style="border-bottom:1px solid #444;">
+                            <td style="padding:8px; text-align:center;">${idx+1}</td>
+                            <td style="padding:8px;">${p.nombre}</td>
+                            <td style="padding:8px;">${p.cedula || '—'}</td>
+                            <td style="padding:8px; text-align:center; font-weight:bold;">${p.puntos}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
 function cargarAdminPartidos() {
     const container = document.getElementById('adminPartidosContainer');
     if (!container) return;
@@ -446,6 +496,8 @@ function cargarAdminPartidos() {
     let partidosFiltrados = soloPendientes ? datosQuiniela.partidos.filter(p => p.resultadoA === null) : datosQuiniela.partidos;
     if (partidosFiltrados.length === 0) { container.innerHTML = '<p>📭 No hay partidos pendientes.</p>'; return; }
     container.innerHTML = partidosFiltrados.map(partido => `
+    // Dentro de cargarAdminPartidos(), al final
+mostrarListaParticipantes();
         <div style="background:#222; padding:10px; margin:10px 0;">
             <strong>${partido.equipoA} vs ${partido.equipoB}</strong> (${partido.fecha})<br>
             ${partido.resultadoA !== null ? `✅ Resultado: ${partido.resultadoA} - ${partido.resultadoB} <button onclick="editarResultadoAdmin(${partido.id})">Editar</button>` : `
@@ -468,6 +520,7 @@ window.actualizarResultadoAdmin = function(partidoId) {
         partido.resultadoB = gB;
         actualizarPuntos();
         guardarDatos();
+        if (esAdmin) mostrarListaParticipantes();
         mostrarRanking();
         mostrarPartidos();
         cargarAdminPartidos();
