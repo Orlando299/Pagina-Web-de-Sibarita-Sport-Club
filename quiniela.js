@@ -1,8 +1,23 @@
 // ============================================
 // QUINIELA MUNDIAL 2026 - SIBARITA SPORT CLUB
-// CON PUNTUACIÓN SEMANAL
+// CON FIREBASE (DATOS EN LA NUBE)
 // ============================================
 
+// ------------------- CONFIGURACIÓN DE FIREBASE -------------------
+const firebaseConfig = {
+    apiKey: "AIzaSyDqwbgPuD6-pl90xyVdFV64HM-kvuIZV-I",
+    authDomain: "sibarita-torneo-bolas-criollas.firebaseapp.com",
+    projectId: "sibarita-torneo-bolas-criollas",
+    storageBucket: "sibarita-torneo-bolas-criollas.firebasestorage.app",
+    messagingSenderId: "466460618853",
+    appId: "1:466460618853:web:b24f848eb8bb794b6e568c"
+};
+
+// Inicializar Firebase (versión compat)
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// ------------------- DATOS GLOBALES -------------------
 let datosQuiniela = {
     ultimaActualizacion: new Date().toISOString(),
     participantes: [],
@@ -36,25 +51,56 @@ const publicidadConfig = {
     ]
 };
 
-// ------------------- UTILIDAD: OBTENER SEMANA DESDE FECHA (dd/mm/aaaa) -------------------
-function obtenerSemanaDesdeFecha(fechaStr) {
-    // fechaStr formato "12/06/2026"
-    const partes = fechaStr.split('/');
-    if (partes.length !== 3) return 0;
-    const dia = parseInt(partes[0]);
-    const mes = parseInt(partes[1]) - 1;
-    const anio = parseInt(partes[2]);
-    const fecha = new Date(anio, mes, dia);
-    
-    // Calcular semana según la primera semana del año (ISO)
-    const primerDiaAnio = new Date(anio, 0, 1);
-    const dias = Math.floor((fecha - primerDiaAnio) / (24 * 60 * 60 * 1000));
-    const semana = Math.ceil((dias + primerDiaAnio.getDay() + 1) / 7);
-    return semana;
+// ------------------- FUNCIONES DE FIREBASE -------------------
+async function cargarParticipantesFirebase() {
+    try {
+        const snapshot = await db.collection('quiniela_participantes').get();
+        datosQuiniela.participantes = [];
+        snapshot.forEach(doc => {
+            datosQuiniela.participantes.push(doc.data());
+        });
+        console.log(`✅ Cargados ${datosQuiniela.participantes.length} participantes desde Firebase`);
+    } catch (error) {
+        console.error("Error cargando participantes:", error);
+        datosQuiniela.participantes = [];
+    }
 }
 
-// ------------------- CARGA Y GUARDADO -------------------
-async function cargarDatos() {
+async function guardarParticipanteFirebase(participante) {
+    try {
+        await db.collection('quiniela_participantes').doc(participante.cedula).set(participante);
+        console.log("✅ Participante guardado en Firebase");
+    } catch (error) {
+        console.error("Error guardando participante:", error);
+    }
+}
+
+async function cargarPrediccionesFirebase() {
+    try {
+        const snapshot = await db.collection('quiniela_predicciones').get();
+        datosQuiniela.predicciones = [];
+        snapshot.forEach(doc => {
+            datosQuiniela.predicciones.push(doc.data());
+        });
+        console.log(`✅ Cargadas ${datosQuiniela.predicciones.length} predicciones desde Firebase`);
+    } catch (error) {
+        console.error("Error cargando predicciones:", error);
+        datosQuiniela.predicciones = [];
+    }
+}
+
+async function guardarPrediccionFirebase(prediccion) {
+    try {
+        const id = `${prediccion.usuario_id}_${prediccion.partido_id}`;
+        await db.collection('quiniela_predicciones').doc(id).set(prediccion);
+        console.log("✅ Predicción guardada en Firebase");
+    } catch (error) {
+        console.error("Error guardando predicción:", error);
+    }
+}
+
+// ------------------- CARGA DE PARTIDOS (JSON LOCAL) -------------------
+async function cargarPartidos() {
     try {
         const response = await fetch('quiniela.json');
         const data = await response.json();
@@ -64,30 +110,29 @@ async function cargarDatos() {
         console.error('Error cargando quiniela.json:', error);
         datosQuiniela.partidos = [];
     }
+}
 
-    const storedParticipantes = localStorage.getItem('quiniela_participantes');
-    const storedPredicciones = localStorage.getItem('quiniela_predicciones');
-    if (storedParticipantes) {
-        datosQuiniela.participantes = JSON.parse(storedParticipantes);
-        // Asegurar que cada participante tenga puntosPorSemana
-        datosQuiniela.participantes.forEach(p => {
-            if (!p.puntosPorSemana) p.puntosPorSemana = {};
-        });
-    }
-    if (storedPredicciones) datosQuiniela.predicciones = JSON.parse(storedPredicciones);
-
-    // Validar usuario actual
+// ------------------- CARGA COMPLETA -------------------
+async function cargarDatos() {
+    await cargarPartidos();
+    await cargarParticipantesFirebase();
+    await cargarPrediccionesFirebase();
+    actualizarPuntos();
+    mostrarRanking();
+    cargarPublicidad();
+    
+    // Verificar si hay usuario actual en localStorage
     const storedUsuario = localStorage.getItem('quiniela_usuario_actual');
     if (storedUsuario) {
         try {
             const parsed = JSON.parse(storedUsuario);
-            if (parsed && typeof parsed === 'object' && parsed.nombre && typeof parsed.nombre === 'string') {
+            if (parsed && parsed.cedula) {
                 usuarioActual = parsed;
-                if (!usuarioActual.puntosPorSemana) usuarioActual.puntosPorSemana = {};
                 document.getElementById('userNameDisplay').innerText = usuarioActual.nombre;
                 document.getElementById('loginPanel').style.display = 'none';
                 document.getElementById('mainPanel').style.display = 'block';
                 document.getElementById('userInfo').style.display = 'flex';
+                mostrarPartidos();
             } else {
                 localStorage.removeItem('quiniela_usuario_actual');
             }
@@ -97,108 +142,10 @@ async function cargarDatos() {
     } else {
         document.getElementById('userInfo').style.display = 'none';
     }
-
-    cargarPublicidad();
 }
 
-function guardarDatos() {
-    localStorage.setItem('quiniela_participantes', JSON.stringify(datosQuiniela.participantes));
-    localStorage.setItem('quiniela_predicciones', JSON.stringify(datosQuiniela.predicciones));
-    if (usuarioActual && usuarioActual.nombre) {
-        localStorage.setItem('quiniela_usuario_actual', JSON.stringify(usuarioActual));
-    } else {
-        localStorage.removeItem('quiniela_usuario_actual');
-    }
-}
-
-// ------------------- PUNTUACIÓN (TOTAL Y SEMANAL) -------------------
-function calcularPuntos(prediccion, resultadoReal) {
-    if (!resultadoReal || resultadoReal.resultadoA === null) return 0;
-    if (prediccion.golesA === resultadoReal.resultadoA && prediccion.golesB === resultadoReal.resultadoB) return 3;
-    if ((prediccion.golesA - prediccion.golesB) === (resultadoReal.resultadoA - resultadoReal.resultadoB)) return 1;
-    return 0;
-}
-
-function actualizarPuntos() {
-    // Reiniciar puntos totales y semanales
-    datosQuiniela.participantes.forEach(p => {
-        p.puntos = 0;
-        p.puntosPorSemana = {};
-    });
-
-    datosQuiniela.predicciones.forEach(pred => {
-        const partido = datosQuiniela.partidos.find(p => p.id === pred.partido_id);
-        if (partido && partido.resultadoA !== null) {
-            const puntos = calcularPuntos(pred, partido);
-            pred.puntos = puntos;
-
-            // Puntos totales
-            const participante = datosQuiniela.participantes.find(p => p.id === pred.usuario_id);
-            if (participante) {
-                participante.puntos += puntos;
-
-                // Puntos semanales
-                const semana = obtenerSemanaDesdeFecha(partido.fecha);
-                if (semana > 0) {
-                    const claveSemana = `semana_${semana}`;
-                    if (!participante.puntosPorSemana[claveSemana]) {
-                        participante.puntosPorSemana[claveSemana] = 0;
-                    }
-                    participante.puntosPorSemana[claveSemana] += puntos;
-                }
-            }
-        }
-    });
-
-    // Ordenar participantes por puntos totales
-    datosQuiniela.participantes.sort((a, b) => b.puntos - a.puntos);
-    guardarDatos();
-}
-
-// ------------------- RANKING (TOTAL O SEMANAL) -------------------
-function mostrarRanking() {
-    const tipoRanking = document.getElementById('tipoRanking')?.value || 'total';
-    const semanaSeleccionada = document.getElementById('semanaSelector')?.value || '';
-
-    actualizarPuntos();
-
-    let listaParticipantes = [...datosQuiniela.participantes];
-    if (tipoRanking === 'semanal' && semanaSeleccionada) {
-        // Ordenar por puntos en esa semana
-        listaParticipantes.sort((a, b) => {
-            const puntosA = a.puntosPorSemana?.[semanaSeleccionada] || 0;
-            const puntosB = b.puntosPorSemana?.[semanaSeleccionada] || 0;
-            return puntosB - puntosA;
-        });
-    } else {
-        listaParticipantes.sort((a, b) => b.puntos - a.puntos);
-    }
-
-    const tbody = document.getElementById('rankingBody');
-    if (!tbody) return;
-
-    if (listaParticipantes.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3">📭 Aún no hay participantes. ¡Sé el primero!</td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = listaParticipantes.slice(0, 20).map((p, index) => {
-        let puntosMostrar = p.puntos;
-        if (tipoRanking === 'semanal' && semanaSeleccionada) {
-            puntosMostrar = p.puntosPorSemana?.[semanaSeleccionada] || 0;
-        }
-        return `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${p.nombre}<br><small style="font-size:0.7rem; color:#aaa;">${p.cedula || ''}</small></td>
-                <td><strong>${puntosMostrar}</strong></td>
-            </tr>
-        `;
-    }).join('');
-}
-
-// ------------------- REGISTRO CON CÉDULA -------------------
-function registrarParticipante(nombre, cedula) {
+// ------------------- REGISTRO (CON FIREBASE) -------------------
+async function registrarParticipante(nombre, cedula) {
     if (!nombre || nombre.trim() === '') {
         alert('⚠️ Ingresa un nombre válido');
         return false;
@@ -207,6 +154,7 @@ function registrarParticipante(nombre, cedula) {
         alert('⚠️ La cédula es obligatoria');
         return false;
     }
+    
     let cedulaNormalizada = cedula.trim().toUpperCase();
     const cedulaRegex = /^[A-Z0-9\-]{5,20}$/i;
     if (!cedulaRegex.test(cedulaNormalizada)) {
@@ -214,12 +162,14 @@ function registrarParticipante(nombre, cedula) {
         return false;
     }
 
-    let participanteExistente = datosQuiniela.participantes.find(p => p.cedula === cedulaNormalizada);
-    if (participanteExistente) {
+    // Verificar si ya existe en Firebase
+    const docRef = await db.collection('quiniela_participantes').doc(cedulaNormalizada).get();
+    if (docRef.exists) {
+        const participanteExistente = docRef.data();
         const confirmar = confirm(`La cédula ${cedulaNormalizada} ya está registrada a nombre de "${participanteExistente.nombre}". ¿Deseas iniciar sesión?`);
         if (confirmar) {
             usuarioActual = participanteExistente;
-            guardarDatos();
+            localStorage.setItem('quiniela_usuario_actual', JSON.stringify(usuarioActual));
             document.getElementById('userNameDisplay').innerText = usuarioActual.nombre;
             document.getElementById('loginPanel').style.display = 'none';
             document.getElementById('mainPanel').style.display = 'block';
@@ -239,9 +189,11 @@ function registrarParticipante(nombre, cedula) {
         puntos: 0,
         puntosPorSemana: {}
     };
+    
+    await guardarParticipanteFirebase(nuevoParticipante);
     datosQuiniela.participantes.push(nuevoParticipante);
     usuarioActual = nuevoParticipante;
-    guardarDatos();
+    localStorage.setItem('quiniela_usuario_actual', JSON.stringify(usuarioActual));
 
     document.getElementById('userNameDisplay').innerText = usuarioActual.nombre;
     document.getElementById('loginPanel').style.display = 'none';
@@ -255,7 +207,48 @@ function registrarParticipante(nombre, cedula) {
     return true;
 }
 
-// ------------------- MOSTRAR PARTIDOS (sin cambios relevantes) -------------------
+// ------------------- PUNTUACIÓN -------------------
+function calcularPuntos(prediccion, resultadoReal) {
+    if (!resultadoReal || resultadoReal.resultadoA === null) return 0;
+    if (prediccion.golesA === resultadoReal.resultadoA && prediccion.golesB === resultadoReal.resultadoB) return 3;
+    if ((prediccion.golesA - prediccion.golesB) === (resultadoReal.resultadoA - resultadoReal.resultadoB)) return 1;
+    return 0;
+}
+
+function actualizarPuntos() {
+    datosQuiniela.participantes.forEach(p => p.puntos = 0);
+    datosQuiniela.predicciones.forEach(pred => {
+        const partido = datosQuiniela.partidos.find(p => p.id === pred.partido_id);
+        if (partido && partido.resultadoA !== null) {
+            const puntos = calcularPuntos(pred, partido);
+            pred.puntos = puntos;
+            const participante = datosQuiniela.participantes.find(p => p.id === pred.usuario_id);
+            if (participante) participante.puntos += puntos;
+        }
+    });
+    datosQuiniela.participantes.sort((a, b) => b.puntos - a.puntos);
+}
+
+// ------------------- RANKING -------------------
+function mostrarRanking() {
+    const tbody = document.getElementById('rankingBody');
+    if (!tbody) return;
+    
+    if (datosQuiniela.participantes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3">📭 Aún no hay participantes. ¡Sé el primero!</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = datosQuiniela.participantes.slice(0, 20).map((p, index) => `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${p.nombre}<br><small style="font-size:0.7rem;">${p.cedula}</small></td>
+            <td><strong>${p.puntos}</strong></td>
+        </tr>
+    `).join('');
+}
+
+// ------------------- PARTIDOS Y PREDICCIONES -------------------
 function mostrarPartidos() {
     const container = document.getElementById('partidosContainer');
     if (!container) return;
@@ -297,7 +290,7 @@ function mostrarPartidos() {
     }).join('');
 }
 
-function guardarPrediccion(partidoId) {
+async function guardarPrediccion(partidoId) {
     if (!usuarioActual) {
         alert('📝 Debes registrarte primero');
         return;
@@ -314,29 +307,37 @@ function guardarPrediccion(partidoId) {
         prediccion.golesA = golesA;
         prediccion.golesB = golesB;
     } else {
-        datosQuiniela.predicciones.push({
+        prediccion = {
             usuario_id: usuarioActual.id,
             partido_id: partidoId,
             golesA: golesA,
             golesB: golesB,
             puntos: 0
-        });
+        };
+        datosQuiniela.predicciones.push(prediccion);
     }
-    guardarDatos();
+    
+    await guardarPrediccionFirebase(prediccion);
     actualizarPuntos();
     mostrarRanking();
     mostrarPartidos();
 }
 
-// ------------------- COMPARTIR WHATSAPP -------------------
-function compartirWhatsApp() {
-    if (!usuarioActual) {
-        alert('📝 Regístrate primero para compartir');
-        return;
-    }
-    const url = window.location.href;
-    const mensaje = `🎯 ¡${usuarioActual.nombre} te invita a la Quiniela del Mundial 2026! 🏆\nParticipa: ${url}`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
+function resetearFiltros() {
+    document.getElementById('faseFilter').value = 'todos';
+    document.getElementById('grupoFilter').value = 'todos';
+    mostrarPartidos();
+}
+
+function cerrarSesion() {
+    usuarioActual = null;
+    localStorage.removeItem('quiniela_usuario_actual');
+    document.getElementById('loginPanel').style.display = 'block';
+    document.getElementById('mainPanel').style.display = 'none';
+    document.getElementById('userInfo').style.display = 'none';
+    document.getElementById('userName').value = '';
+    document.getElementById('userCedula').value = '';
+    cargarPublicidad();
 }
 
 // ------------------- PUBLICIDAD -------------------
@@ -384,7 +385,18 @@ function cargarPublicidad() {
     });
 }
 
-// ------------------- ADMIN (RESTO DE FUNCIONES) -------------------
+// ------------------- COMPARTIR WHATSAPP -------------------
+function compartirWhatsApp() {
+    if (!usuarioActual) {
+        alert('📝 Regístrate primero para compartir');
+        return;
+    }
+    const url = window.location.href;
+    const mensaje = `🎯 ¡${usuarioActual.nombre} te invita a la Quiniela del Mundial 2026! 🏆\nParticipa: ${url}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
+}
+
+// ------------------- ADMIN (PANEL SIMPLIFICADO) -------------------
 function agregarBotonAdmin() {
     const shareContainer = document.querySelector('.share-container');
     if (!shareContainer || document.getElementById('adminBtn')) return;
@@ -414,113 +426,55 @@ function mostrarPanelAdmin() {
     panel.id = 'adminPanel';
     panel.className = 'card admin-panel';
     panel.style.border = '2px solid #ff0000';
+    panel.style.background = 'rgba(0,0,0,0.95)';
     panel.innerHTML = `
-        <div style="display:flex; justify-content:space-between;"><h2 style="color:#ff0000;">👑 ADMIN</h2><button id="cerrarAdminPanelBtn" style="background:#dc3545; border:none; color:white; cursor:pointer;">✖</button></div>
-        <p>⚡ Actualiza resultados</p>
-        <div><label><input type="checkbox" id="mostrarSoloPendientes" checked> Solo pendientes</label></div>
+        <div style="display:flex; justify-content:space-between;">
+            <h2 style="color:#ff0000;">👑 ADMIN</h2>
+            <button id="cerrarAdminPanelBtn" style="background:#dc3545; border:none; color:white; cursor:pointer;">✖</button>
+        </div>
         <div id="adminPartidosContainer"></div>
-        <div><button id="cerrarAdminPanel" style="background:#dc3545;">Cerrar</button>
-        <button id="exportarDatosBtn" style="background:#2196f3;">Exportar</button>
-        <button id="resetearQuinielaBtn" style="background:#ff9800;" onclick="confirmarResetearQuiniela()">Resetear</button></div>
+        <div style="margin-top:15px;"><button id="cerrarAdminPanel" style="background:#dc3545;">Cerrar</button>
+        <button id="exportarDatosBtn" style="background:#2196f3;">Exportar</button></div>
     `;
     mainPanel.insertBefore(panel, mainPanel.firstChild);
-    document.getElementById('cerrarAdminPanel').addEventListener('click', cerrarAdminPanel);
-    document.getElementById('cerrarAdminPanelBtn').addEventListener('click', cerrarAdminPanel);
-    document.getElementById('mostrarSoloPendientes').addEventListener('change', cargarAdminPartidos);
-    document.getElementById('exportarDatosBtn').addEventListener('click', exportarDatosQuiniela);
+    document.getElementById('cerrarAdminPanel').addEventListener('click', () => panel.remove());
+    document.getElementById('cerrarAdminPanelBtn').addEventListener('click', () => panel.remove());
+    document.getElementById('exportarDatosBtn').addEventListener('click', () => {
+        const dataStr = JSON.stringify(datosQuiniela, null, 2);
+        const blob = new Blob([dataStr], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `quiniela_backup_${Date.now()}.json`;
+        a.click();
+    });
     cargarAdminPartidos();
-    setTimeout(() => mostrarListaParticipantes(), 100);
-}
-
-function cerrarAdminPanel() {
-    const panel = document.getElementById('adminPanel');
-    if (panel) panel.remove();
-    esAdmin = false;
-    const btn = document.getElementById('adminBtn');
-    if (btn) { btn.style.background = '#dc3545'; btn.innerHTML = '👑 Admin'; }
-}
-
-function mostrarListaParticipantes() {
-    if (!esAdmin) return;
-
-    // Buscar o crear el contenedor para la lista
-    let listaContainer = document.getElementById('listaParticipantesContainer');
-    if (!listaContainer) {
-        const adminContainer = document.getElementById('adminPartidosContainer');
-        if (!adminContainer) return;
-        
-        listaContainer = document.createElement('div');
-        listaContainer.id = 'listaParticipantesContainer';
-        listaContainer.style.marginTop = '20px';
-        listaContainer.style.paddingTop = '15px';
-        listaContainer.style.borderTop = '1px solid #ff0000';
-        adminContainer.appendChild(listaContainer);
-    }
-
-    if (datosQuiniela.participantes.length === 0) {
-        listaContainer.innerHTML = '<p style="color:#ffd700;">📭 Aún no hay participantes registrados.</p>';
-        return;
-    }
-
-    listaContainer.innerHTML = `
-        <h3 style="color:#ffd700; margin-bottom:10px;">👥 PARTICIPANTES REGISTRADOS (${datosQuiniela.participantes.length})</h3>
-        <div style="max-height: 300px; overflow-y: auto;">
-            <table style="width:100%; border-collapse: collapse; background:#222; border-radius:8px;">
-                <thead>
-                    <tr style="background:#ffd700; color:#1a472a;">
-                        <th style="padding:8px;">#</th>
-                        <th style="padding:8px;">Nombre</th>
-                        <th style="padding:8px;">Cédula</th>
-                        <th style="padding:8px;">Puntos</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${datosQuiniela.participantes.map((p, idx) => `
-                        <tr style="border-bottom:1px solid #444;">
-                            <td style="padding:8px; text-align:center;">${idx+1}</td>
-                            <td style="padding:8px;">${p.nombre}</td>
-                            <td style="padding:8px;">${p.cedula || '—'}</td>
-                            <td style="padding:8px; text-align:center; font-weight:bold;">${p.puntos}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        </div>
-    `;
 }
 
 function cargarAdminPartidos() {
     const container = document.getElementById('adminPartidosContainer');
     if (!container) return;
-    const soloPendientes = document.getElementById('mostrarSoloPendientes').checked;
-    let partidosFiltrados = soloPendientes ? datosQuiniela.partidos.filter(p => p.resultadoA === null) : datosQuiniela.partidos;
-    if (partidosFiltrados.length === 0) { container.innerHTML = '<p>📭 No hay partidos pendientes.</p>'; return; }
-    container.innerHTML = partidosFiltrados.map(partido => `
-    // Dentro de cargarAdminPartidos(), al final
-mostrarListaParticipantes();
-        <div style="background:#222; padding:10px; margin:10px 0;">
+    const partidosPendientes = datosQuiniela.partidos.filter(p => p.resultadoA === null);
+    container.innerHTML = partidosPendientes.map(partido => `
+        <div style="background:#222; margin:10px 0; padding:10px;">
             <strong>${partido.equipoA} vs ${partido.equipoB}</strong> (${partido.fecha})<br>
-            ${partido.resultadoA !== null ? `✅ Resultado: ${partido.resultadoA} - ${partido.resultadoB} <button onclick="editarResultadoAdmin(${partido.id})">Editar</button>` : `
-                <input type="number" id="admin_gA_${partido.id}" placeholder="${partido.equipoA}" style="width:80px;"> -
-                <input type="number" id="admin_gB_${partido.id}" placeholder="${partido.equipoB}" style="width:80px;">
-                <button onclick="actualizarResultadoAdmin(${partido.id})">Guardar</button>
-            `}
+            <input type="number" id="admin_gA_${partido.id}" placeholder="Goles A" style="width:80px;"> -
+            <input type="number" id="admin_gB_${partido.id}" placeholder="Goles B" style="width:80px;">
+            <button onclick="actualizarResultadoAdmin(${partido.id})">Guardar</button>
         </div>
     `).join('');
 }
 
-window.actualizarResultadoAdmin = function(partidoId) {
+window.actualizarResultadoAdmin = async function(partidoId) {
     if (!esAdmin) return;
     const gA = parseInt(document.getElementById(`admin_gA_${partidoId}`).value);
     const gB = parseInt(document.getElementById(`admin_gB_${partidoId}`).value);
-    if (isNaN(gA) || isNaN(gB)) return;
     const partido = datosQuiniela.partidos.find(p => p.id === partidoId);
-    if (partido) {
+    if (partido && !isNaN(gA) && !isNaN(gB)) {
         partido.resultadoA = gA;
         partido.resultadoB = gB;
         actualizarPuntos();
-        guardarDatos();
-        if (esAdmin) mostrarListaParticipantes();
+        await cargarPrediccionesFirebase();
         mostrarRanking();
         mostrarPartidos();
         cargarAdminPartidos();
@@ -528,120 +482,24 @@ window.actualizarResultadoAdmin = function(partidoId) {
     }
 };
 
-window.editarResultadoAdmin = function(partidoId) {
-    if (!esAdmin) return;
-    const partido = datosQuiniela.partidos.find(p => p.id === partidoId);
-    if (!partido) return;
-    const nuevosA = prompt(`Goles ${partido.equipoA}:`, partido.resultadoA);
-    const nuevosB = prompt(`Goles ${partido.equipoB}:`, partido.resultadoB);
-    if (nuevosA !== null && nuevosB !== null) {
-        partido.resultadoA = parseInt(nuevosA);
-        partido.resultadoB = parseInt(nuevosB);
-        actualizarPuntos();
-        guardarDatos();
-        mostrarRanking();
-        mostrarPartidos();
-        cargarAdminPartidos();
-        alert('✅ Actualizado');
-    }
-};
-
-function exportarDatosQuiniela() {
-    if (!esAdmin) return;
-    const dataStr = JSON.stringify(datosQuiniela, null, 2);
-    const blob = new Blob([dataStr], {type: 'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `quiniela_backup_${Date.now()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-
-function confirmarResetearQuiniela() {
-    if (!esAdmin) return;
-    if (confirm('¿Resetear todo?')) {
-        if (prompt('Escribe RESET') === 'RESET') {
-            datosQuiniela.participantes = [];
-            datosQuiniela.predicciones = [];
-            datosQuiniela.partidos.forEach(p => { p.resultadoA = null; p.resultadoB = null; });
-            guardarDatos();
-            usuarioActual = null;
-            localStorage.removeItem('quiniela_usuario_actual');
-            location.reload();
-        }
-    }
-}
-
 // ------------------- INICIALIZACIÓN -------------------
-
-function cargarSemanasDisponibles() {
-    const semanasSet = new Set();
-    datosQuiniela.partidos.forEach(partido => {
-        const semana = obtenerSemanaDesdeFecha(partido.fecha);
-        if (semana > 0) semanasSet.add(`semana_${semana}`);
-    });
-    const semanas = Array.from(semanasSet).sort();
-    const selector = document.getElementById('semanaSelector');
-    if (selector) {
-        selector.innerHTML = '<option value="">-- Selecciona semana --</option>' +
-            semanas.map(sem => `<option value="${sem}">${sem.replace('semana_', 'Semana ')}</option>`).join('');
-    }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM cargado, inicializando...");
-    cargarDatos().then(() => {
-        mostrarRanking();
-        if (usuarioActual) mostrarPartidos();
-       cargarSemanasDisponibles();  
-    }).catch(err => console.error(err));
-
+    cargarDatos();
+    
     document.getElementById('registerBtn')?.addEventListener('click', () => {
-        registrarParticipante(document.getElementById('userName').value, document.getElementById('userCedula').value);
+        const nombre = document.getElementById('userName').value;
+        const cedula = document.getElementById('userCedula').value;
+        registrarParticipante(nombre, cedula);
     });
     document.getElementById('logoutBtn')?.addEventListener('click', cerrarSesion);
     document.getElementById('faseFilter')?.addEventListener('change', mostrarPartidos);
     document.getElementById('grupoFilter')?.addEventListener('change', mostrarPartidos);
     document.getElementById('resetFiltersBtn')?.addEventListener('click', resetearFiltros);
     document.getElementById('shareWhatsAppBtn')?.addEventListener('click', compartirWhatsApp);
-
-    // Selector de ranking (total/semanal)
-    const tipoRankingSelect = document.getElementById('tipoRanking');
-    const semanaSelect = document.getElementById('semanaSelector');
-    if (tipoRankingSelect) {
-        tipoRankingSelect.addEventListener('change', () => {
-            const esSemanal = tipoRankingSelect.value === 'semanal';
-            semanaSelect.style.display = esSemanal ? 'inline-block' : 'none';
-            mostrarRanking();
-        });
-    }
-    if (semanaSelect) {
-        semanaSelect.addEventListener('change', mostrarRanking);
-    }
-
+    
     setTimeout(() => agregarBotonAdmin(), 500);
 });
 
-function resetearFiltros() {
-    document.getElementById('faseFilter').value = 'todos';
-    document.getElementById('grupoFilter').value = 'todos';
-    mostrarPartidos();
-}
-
-function cerrarSesion() {
-    usuarioActual = null;
-    localStorage.removeItem('quiniela_usuario_actual');
-    document.getElementById('loginPanel').style.display = 'block';
-    document.getElementById('mainPanel').style.display = 'none';
-    document.getElementById('userInfo').style.display = 'none';
-    document.getElementById('userName').value = '';
-    document.getElementById('userCedula').value = '';
-    cargarPublicidad();
-}
-
 window.guardarPrediccion = guardarPrediccion;
 window.actualizarResultadoAdmin = actualizarResultadoAdmin;
-window.editarResultadoAdmin = editarResultadoAdmin;
-window.confirmarResetearQuiniela = confirmarResetearQuiniela;
-window.cerrarAdminPanel = cerrarAdminPanel;
