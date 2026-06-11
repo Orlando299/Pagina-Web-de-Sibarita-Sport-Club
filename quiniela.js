@@ -1,6 +1,6 @@
 // ============================================
 // QUINIELA MUNDIAL 2026 - SIBARITA SPORT CLUB
-// CON FIREBASE (DATOS EN LA NUBE)
+// CON FIREBASE Y 3 LOGOS CENTRADOS EN TOP
 // ============================================
 
 // ------------------- CONFIGURACIÓN DE FIREBASE -------------------
@@ -29,14 +29,14 @@ let usuarioActual = null;
 let esAdmin = false;
 let adminPassword = "sibarita2026";
 
-// ------------------- PUBLICIDAD (CONFIGURABLE) -------------------
+// ------------------- PUBLICIDAD (3 LOGOS EN TOP, CENTRADOS) -------------------
 const publicidadConfig = {
     anuncios: [
         {
             id: "logo1",
             texto: "SIBARITA SPORT CLUB",
             imagen: "logo_sibarita.jpg",
-            link: "https://wa.me/123456789",
+            link: "#",
             posicion: "top",
             activo: true
         },
@@ -44,7 +44,15 @@ const publicidadConfig = {
             id: "logo2",
             texto: "CEINPORT",
             imagen: "logo_ingenierosp.webp",
-            link: "https://goo.gl/maps/ejemplo",
+            link: "#",
+            posicion: "top",
+            activo: true
+        },
+        {
+            id: "logo3",
+            texto: "NUEVO PATROCINADOR",
+            imagen: "logo3.png",
+            link: "#",
             posicion: "top",
             activo: true
         }
@@ -121,7 +129,6 @@ async function cargarDatos() {
     mostrarRanking();
     cargarPublicidad();
     
-    // Verificar si hay usuario actual en localStorage
     const storedUsuario = localStorage.getItem('quiniela_usuario_actual');
     if (storedUsuario) {
         try {
@@ -144,7 +151,7 @@ async function cargarDatos() {
     }
 }
 
-// ------------------- REGISTRO (CON FIREBASE) -------------------
+// ------------------- REGISTRO -------------------
 async function registrarParticipante(nombre, cedula) {
     if (!nombre || nombre.trim() === '') {
         alert('⚠️ Ingresa un nombre válido');
@@ -162,7 +169,6 @@ async function registrarParticipante(nombre, cedula) {
         return false;
     }
 
-    // Verificar si ya existe en Firebase
     const docRef = await db.collection('quiniela_participantes').doc(cedulaNormalizada).get();
     if (docRef.exists) {
         const participanteExistente = docRef.data();
@@ -205,6 +211,17 @@ async function registrarParticipante(nombre, cedula) {
     cargarPublicidad();
     alert(`✅ Registro exitoso. ¡Bienvenido ${usuarioActual.nombre}!`);
     return true;
+}
+
+function cerrarSesion() {
+    usuarioActual = null;
+    localStorage.removeItem('quiniela_usuario_actual');
+    document.getElementById('loginPanel').style.display = 'block';
+    document.getElementById('mainPanel').style.display = 'none';
+    document.getElementById('userInfo').style.display = 'none';
+    document.getElementById('userName').value = '';
+    document.getElementById('userCedula').value = '';
+    cargarPublicidad();
 }
 
 // ------------------- PUNTUACIÓN -------------------
@@ -329,18 +346,7 @@ function resetearFiltros() {
     mostrarPartidos();
 }
 
-function cerrarSesion() {
-    usuarioActual = null;
-    localStorage.removeItem('quiniela_usuario_actual');
-    document.getElementById('loginPanel').style.display = 'block';
-    document.getElementById('mainPanel').style.display = 'none';
-    document.getElementById('userInfo').style.display = 'none';
-    document.getElementById('userName').value = '';
-    document.getElementById('userCedula').value = '';
-    cargarPublicidad();
-}
-
-// ------------------- PUBLICIDAD -------------------
+// ------------------- PUBLICIDAD (MODIFICADA: TOP CENTRADO, ENLACES COMENTADOS, 3 LOGOS) -------------------
 function cargarPublicidad() {
     console.log("cargarPublicidad() ejecutándose");
     const posiciones = ['top', 'before-ranking', 'after-ranking', 'footer'];
@@ -355,33 +361,45 @@ function cargarPublicidad() {
             return;
         }
         contenedor.style.display = 'block';
-        const mitad = Math.ceil(anunciosPos.length / 2);
-        const izquierda = anunciosPos.slice(0, mitad);
-        const derecha = anunciosPos.slice(mitad);
-        contenedor.innerHTML = `
-            <div class="ad-flex-container">
-                <div class="ad-group-left">
-                    ${izquierda.map(anuncio => `
-                        <div class="ad-item">
-                            <a href="${anuncio.link}" target="_blank" rel="noopener noreferrer" class="ad-link">
-                                ${anuncio.imagen ? `<img src="${anuncio.imagen}" alt="${anuncio.texto}" class="ad-img">` : ''}
-                                ${anuncio.texto ? `<div class="ad-text">${anuncio.texto}</div>` : ''}
-                            </a>
+
+        // Posición TOP: todos los logos centrados en fila
+        if (pos === 'top') {
+            contenedor.innerHTML = `
+                <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; align-items: center;">
+                    ${anunciosPos.map(anuncio => `
+                        <div style="text-align: center;">
+                            ${anuncio.imagen ? `<img src="${anuncio.imagen}" alt="${anuncio.texto}" class="ad-img" style="max-height: 80px;">` : ''}
+                            ${anuncio.texto ? `<div class="ad-text">${anuncio.texto}</div>` : ''}
                         </div>
                     `).join('')}
                 </div>
-                <div class="ad-group-right">
-                    ${derecha.map(anuncio => `
-                        <div class="ad-item">
-                            <a href="${anuncio.link}" target="_blank" rel="noopener noreferrer" class="ad-link">
+            `;
+        } else {
+            // Otras posiciones: distribución izquierda/derecha
+            const mitad = Math.ceil(anunciosPos.length / 2);
+            const izquierda = anunciosPos.slice(0, mitad);
+            const derecha = anunciosPos.slice(mitad);
+            contenedor.innerHTML = `
+                <div class="ad-flex-container">
+                    <div class="ad-group-left">
+                        ${izquierda.map(anuncio => `
+                            <div class="ad-item">
                                 ${anuncio.imagen ? `<img src="${anuncio.imagen}" alt="${anuncio.texto}" class="ad-img">` : ''}
                                 ${anuncio.texto ? `<div class="ad-text">${anuncio.texto}</div>` : ''}
-                            </a>
-                        </div>
-                    `).join('')}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="ad-group-right">
+                        ${derecha.map(anuncio => `
+                            <div class="ad-item">
+                                ${anuncio.imagen ? `<img src="${anuncio.imagen}" alt="${anuncio.texto}" class="ad-img">` : ''}
+                                ${anuncio.texto ? `<div class="ad-text">${anuncio.texto}</div>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
+        }
     });
 }
 
@@ -396,7 +414,7 @@ function compartirWhatsApp() {
     window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 
-// ------------------- ADMIN (PANEL SIMPLIFICADO) -------------------
+// ------------------- ADMIN -------------------
 function agregarBotonAdmin() {
     const shareContainer = document.querySelector('.share-container');
     if (!shareContainer || document.getElementById('adminBtn')) return;
@@ -455,6 +473,10 @@ function cargarAdminPartidos() {
     const container = document.getElementById('adminPartidosContainer');
     if (!container) return;
     const partidosPendientes = datosQuiniela.partidos.filter(p => p.resultadoA === null);
+    if (partidosPendientes.length === 0) {
+        container.innerHTML = '<p>📭 No hay partidos pendientes.</p>';
+        return;
+    }
     container.innerHTML = partidosPendientes.map(partido => `
         <div style="background:#222; margin:10px 0; padding:10px;">
             <strong>${partido.equipoA} vs ${partido.equipoB}</strong> (${partido.fecha})<br>
