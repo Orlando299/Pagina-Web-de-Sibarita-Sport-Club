@@ -458,7 +458,54 @@ function rM() { const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9
 function saveRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede guardar resultados.'); return; } const inputA = g('sA' + id); const inputB = g('sB' + id); if (!inputA || !inputB) { alert('Error'); return; } const a = parseInt(inputA.value); const b = parseInt(inputB.value); if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; } R[id] = { scoreA: a, scoreB: b, status: 'done' }; save(); rM(); rSt(); if (window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); alert('✅ Resultado guardado.'); }
 function forfRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede registrar forfeit.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) return; const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`); if (ans === '1') { R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' }; save(); rM(); rSt(); if (window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); } else if (ans === '2') { R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' }; save(); rM(); rSt(); if (window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); } else alert('Opción inválida.'); }
 function delRes(id) { if (confirm('¿Borrar resultado?')) { delete R[id]; save(); rM(); rSt(); } }
-function setMVP(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede designar MVP.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) return; const r = R[id]; if (!r || r.status !== 'done') { alert('⚠️ Primero debes guardar el resultado del partido'); return; } let equipoGanador = r.scoreA > r.scoreB ? m.a : (r.scoreB > r.scoreA ? m.b : null); if (!equipoGanador) { alert('Empate. No se asigna MVP.'); return; } const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {}; const cands = []; const teamGanador = TEAMS.find(x => x.n === equipoGanador); if (teamGanador) { teamGanador.p.forEach(player => { const fullKey = `${equipoGanador}|${player}`; const stats = matchStats[fullKey] || {}; const totalBuenos = (stats.arr_b||0)+(stats.boc_b||0); const totalIntentos = (stats.total_arr||0)+(stats.total_boc||0); const efec = totalIntentos ? Math.round((totalBuenos/totalIntentos)*100) : 0; if (totalIntentos > 0) cands.push({ name: player, team: equipoGanador, efec: efec }); }); } if (cands.length) { cands.sort((a,b) => b.efec - a.efec); const best = cands[0]; if (confirm(`🏅 MVP sugerido: ${best.name} (${best.efec}%). ¿Confirmar?`)) { MVP[id] = best; save(); rM(); if (window.guardarMVPFirebase) window.guardarMVPFirebase(id, best); alert(`✅ MVP: ${best.name}`); return; } } const nm = prompt(`Nombre del MVP de ${equipoGanador}:`); if (nm) { MVP[id] = { name: nm, team: equipoGanador, efec: 0 }; save(); rM(); if (window.guardarMVPFirebase) window.guardarMVPFirebase(id, MVP[id]); alert(`✅ MVP asignado: ${nm}`); } }
+
+  
+function setMVP(id) {
+  const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+  if (!esOrganizador) { alert('⚠️ Solo el organizador puede designar MVP.'); return; }
+  const m = MATCHES.find(x => x.id === id);
+  if (!m) return;
+  const r = R[id];
+  if (!r || r.status !== 'done') { alert('⚠️ Primero debes guardar el resultado del partido'); return; }
+  let equipoGanador = r.scoreA > r.scoreB ? m.a : (r.scoreB > r.scoreA ? m.b : null);
+  if (!equipoGanador) { alert('Empate. No se asigna MVP.'); return; }
+  const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
+  const cands = [];
+  const teamGanador = TEAMS.find(x => x.n === equipoGanador);
+  if (teamGanador) {
+    teamGanador.p.forEach(player => {
+      const fullKey = `${equipoGanador}|${player}`;
+      const stats = matchStats[fullKey] || {};
+      const totalBuenos = (stats.arr_b||0)+(stats.boc_b||0);
+      const totalIntentos = (stats.total_arr||0)+(stats.total_boc||0);
+      // Calcular efectividad (%) y puntuación (anotaciones * (efectividad/100))
+      const efectividad = totalIntentos ? (totalBuenos / totalIntentos) * 100 : 0;
+      const puntuacion = totalBuenos * (efectividad / 100);  // Opción 2
+      if (totalIntentos > 0) cands.push({ name: player, team: equipoGanador, puntuacion: puntuacion });
+    });
+  }
+  if (cands.length) {
+    cands.sort((a,b) => b.puntuacion - a.puntuacion);
+    const best = cands[0];
+    if (confirm(`🏅 MVP sugerido: ${best.name} (puntuación ${best.puntuacion.toFixed(2)}). ¿Confirmar?`)) {
+      MVP[id] = { name: best.name, team: best.team, efec: null, puntuacion: best.puntuacion };
+      save();
+      rM();
+      if (window.guardarMVPFirebase) window.guardarMVPFirebase(id, MVP[id]);
+      alert(`✅ MVP: ${best.name}`);
+      return;
+    }
+  }
+  const nm = prompt(`Nombre del MVP de ${equipoGanador}:`);
+  if (nm) {
+    MVP[id] = { name: nm, team: equipoGanador, efec: null, puntuacion: 0 };
+    save();
+    rM();
+    if (window.guardarMVPFirebase) window.guardarMVPFirebase(id, MVP[id]);
+    alert(`✅ MVP asignado: ${nm}`);
+  }
+}
+  
 function delMVP(id) { delete MVP[id]; save(); rM(); }
 function rSt() { const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp); const tb = {}; tl.forEach(t => { tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; }); MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => { const r = R[m.id]; if (!r || r.status === 'suspended') return; if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; } if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; } if (r.scoreA > r.scoreB) { if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; } if (tb[m.b]) tb[m.b].pp++; } else if (r.scoreB > r.scoreA) { if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; } if (tb[m.a]) tb[m.a].pp++; } }); const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf); const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn'; g('st-list').innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;">EQUIPO</div><div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div></div>` + sorted.map((t,i) => { const dif = t.tf - t.tc; const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0'; return `<div class="sr ${rc(i+1)}"><div class="rb ${rc(i+1)}">${i+1}</div><div style="flex:1;font-size:11px;font-weight:bold;">${t.n}</div><div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div></div>`; }).join(''); }
 function searchPlayer(q) { F.aQ = q; rA(); }
@@ -553,13 +600,14 @@ async function importarJSONJuez() {
                 if (p.puntosA > p.puntosB) ganador = p.equipoA;
                 else if (p.puntosB > p.puntosA) ganador = p.equipoB;
                 if (ganador && p.estadisticas && p.estadisticas[ganador]) {
-                    let mejor = null, mejorEfec = -1;
-                    for (const j of p.estadisticas[ganador]) {
-                        const totalBuenos = (j.arr_b||0)+(j.boc_b||0);
-                        const totalIntentos = (j.total_arr||0)+(j.total_boc||0);
-                        const efec = totalIntentos ? Math.round((totalBuenos/totalIntentos)*100) : 0;
-                        if (efec > mejorEfec) { mejorEfec = efec; mejor = { name: j.nombre, team: ganador, efec: efec }; }
-                    }
+                    let mejor = null, mejorPuntuacion = -1;
+                      for (const j of p.estadisticas[ganador]) {
+                      const totalBuenos = (j.arr_b||0)+(j.boc_b||0);
+                      const totalIntentos = (j.total_arr||0)+(j.total_boc||0);
+                      const efectividad = totalIntentos ? (totalBuenos / totalIntentos) * 100 : 0;
+                      const puntuacion = totalBuenos * (efectividad / 100);
+                          if (puntuacion > mejorPuntuacion) { mejorPuntuacion = puntuacion; mejor = { name: j.nombre, team: ganador, efec: null, puntuacion: puntuacion }; }
+                                  }
                     if (mejor) { await window.guardarMVPFirebase(id, mejor); MVP[id] = mejor; }
                 }
                 importados++;
