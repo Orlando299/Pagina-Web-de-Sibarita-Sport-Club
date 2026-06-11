@@ -50,8 +50,8 @@ const publicidadConfig = {
         },
         {
             id: "logo3",
-            texto: "NUEVO PATROCINADOR",
-            imagen: "logo3.png",
+            texto: "Scoobydoo Burguer",
+            imagen: "logo_scooby.jpg",
             link: "#",
             posicion: "top",
             activo: true
