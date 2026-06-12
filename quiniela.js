@@ -256,7 +256,8 @@ function mostrarRanking() {
         return;
     }
     
-    tbody.innerHTML = datosQuiniela.participantes.slice(0, 20).map((p, index) => `
+    // ✅ Sin slice(0,20) -> muestra TODOS
+    tbody.innerHTML = datosQuiniela.participantes.map((p, index) => `
         <tr>
             <td>${index + 1}</td>
             <td>${p.nombre}<br><small style="font-size:0.7rem;">${p.cedula}</small></td>
