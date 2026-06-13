@@ -56,7 +56,6 @@ const publicidadConfig = {
             posicion: "top",
             activo: true
         },
-        
         {
             id: "logo4",
             texto: "Sibarita Restaurant",
@@ -65,7 +64,6 @@ const publicidadConfig = {
             posicion: "top",
             activo: true
         },
-        
         {
             id: "logo5",
             texto: "Bunker Restobar",
