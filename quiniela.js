@@ -74,6 +74,42 @@ async function cargarParticipantesFirebase() {
     }
 }
 
+// ------------------- CARGA DE PARTIDOS CON FIREBASE -------------------
+async function cargarPartidosDesdeFirebase() {
+    try {
+        const snapshot = await db.collection('quiniela_partidos').get();
+        if (!snapshot.empty) {
+            datosQuiniela.partidos = [];
+            snapshot.forEach(doc => {
+                datosQuiniela.partidos.push(doc.data());
+            });
+            console.log("✅ Partidos cargados desde Firebase");
+        } else {
+            // Si no hay partidos en Firebase, cargar desde JSON y guardarlos
+            await cargarPartidosDesdeJSON();
+        }
+    } catch (error) {
+        console.error("Error cargando partidos desde Firebase:", error);
+        await cargarPartidosDesdeJSON();
+    }
+}
+
+async function cargarPartidosDesdeJSON() {
+    try {
+        const response = await fetch('quiniela.json');
+        const data = await response.json();
+        datosQuiniela.partidos = data.partidos;
+        // Guardar cada partido en Firebase (solo la primera vez)
+        for (const partido of datosQuiniela.partidos) {
+            await db.collection('quiniela_partidos').doc(partido.id.toString()).set(partido);
+        }
+        console.log("✅ Partidos iniciales guardados en Firebase");
+    } catch (error) {
+        console.error("Error cargando quiniela.json:", error);
+        datosQuiniela.partidos = [];
+    }
+}
+
 async function guardarParticipanteFirebase(participante) {
     try {
         await db.collection('quiniela_participantes').doc(participante.cedula).set(participante);
@@ -123,6 +159,7 @@ async function cargarPartidos() {
 // ------------------- CARGA COMPLETA -------------------
 async function cargarDatos() {
     await cargarPartidos();
+    await cargarPartidosDesdeFirebase();   
     await cargarParticipantesFirebase();
     await cargarPrediccionesFirebase();
     actualizarPuntos();
