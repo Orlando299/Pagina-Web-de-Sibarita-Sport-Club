@@ -143,23 +143,9 @@ async function guardarPrediccionFirebase(prediccion) {
     }
 }
 
-// ------------------- CARGA DE PARTIDOS (JSON LOCAL) -------------------
-async function cargarPartidos() {
-    try {
-        const response = await fetch('quiniela.json');
-        const data = await response.json();
-        datosQuiniela.partidos = data.partidos;
-        console.log('✅ Partidos cargados');
-    } catch (error) {
-        console.error('Error cargando quiniela.json:', error);
-        datosQuiniela.partidos = [];
-    }
-}
-
 // ------------------- CARGA COMPLETA -------------------
 async function cargarDatos() {
-    await cargarPartidos();
-    await cargarPartidosDesdeFirebase();   
+    await cargarPartidosDesdeFirebase();   // carga desde Firebase (o JSON si es primera vez)
     await cargarParticipantesFirebase();
     await cargarPrediccionesFirebase();
     actualizarPuntos();
@@ -345,7 +331,7 @@ function mostrarPartidos() {
     }).join('');
 }
 
-// ------------------- VALIDACIÓN DE PRONÓSTICOS -------------------
+// ------------------- VALIDACIÓN DE PRONÓSTICOS (1 HORA ANTES) -------------------
 function puedePronosticar(partido) {
     const [dia, mes, anio] = partido.fecha.split('/');
     const [hora, minuto] = partido.hora.split(':');
@@ -355,12 +341,30 @@ function puedePronosticar(partido) {
     return ahora < limite;
 }
 
-
+// ------------------- GUARDAR PREDICCIÓN -------------------
 async function guardarPrediccion(partidoId) {
     if (!usuarioActual) {
         alert('📝 Debes registrarte primero');
         return;
     }
+    const partido = datosQuiniela.partidos.find(p => p.id === partidoId);
+    if (!partido) {
+        alert('Partido no encontrado');
+        return;
+    }
+
+    // 🔥 Validación: prohibir predicciones 1 hora antes del partido
+    if (!puedePronosticar(partido)) {
+        alert(`⛔ Las predicciones se cierran 1 hora antes del inicio del partido (${partido.fecha} ${partido.hora}).`);
+        return;
+    }
+
+    // Si ya tiene resultado real cargado, bloquear
+    if (partido.resultadoA !== null && partido.resultadoB !== null) {
+        alert('⛔ Este partido ya finalizó, no se pueden modificar las predicciones');
+        return;
+    }
+
     const golesA = parseInt(document.getElementById(`golesA_${partidoId}`).value);
     const golesB = parseInt(document.getElementById(`golesB_${partidoId}`).value);
     if (isNaN(golesA) || isNaN(golesB) || golesA < 0 || golesB < 0) {
@@ -395,7 +399,7 @@ function resetearFiltros() {
     mostrarPartidos();
 }
 
-// ------------------- PUBLICIDAD (MODIFICADA: TOP CENTRADO, ENLACES COMENTADOS, 3 LOGOS) -------------------
+// ------------------- PUBLICIDAD (TOP CENTRADO, 3 LOGOS) -------------------
 function cargarPublicidad() {
     console.log("cargarPublicidad() ejecutándose");
     const posiciones = ['top', 'before-ranking', 'after-ranking', 'footer'];
@@ -411,7 +415,6 @@ function cargarPublicidad() {
         }
         contenedor.style.display = 'block';
 
-        // Posición TOP: todos los logos centrados en fila
         if (pos === 'top') {
             contenedor.innerHTML = `
                 <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; align-items: center;">
@@ -424,7 +427,6 @@ function cargarPublicidad() {
                 </div>
             `;
         } else {
-            // Otras posiciones: distribución izquierda/derecha
             const mitad = Math.ceil(anunciosPos.length / 2);
             const izquierda = anunciosPos.slice(0, mitad);
             const derecha = anunciosPos.slice(mitad);
@@ -463,7 +465,7 @@ function compartirWhatsApp() {
     window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 
-// ------------------- ADMIN -------------------
+// ------------------- ADMINISTRADOR -------------------
 function agregarBotonAdmin() {
     const shareContainer = document.querySelector('.share-container');
     if (!shareContainer || document.getElementById('adminBtn')) return;
@@ -500,8 +502,10 @@ function mostrarPanelAdmin() {
             <button id="cerrarAdminPanelBtn" style="background:#dc3545; border:none; color:white; cursor:pointer;">✖</button>
         </div>
         <div id="adminPartidosContainer"></div>
-        <div style="margin-top:15px;"><button id="cerrarAdminPanel" style="background:#dc3545;">Cerrar</button>
-        <button id="exportarDatosBtn" style="background:#2196f3;">Exportar</button></div>
+        <div style="margin-top:15px;">
+            <button id="cerrarAdminPanel" style="background:#dc3545;">Cerrar</button>
+            <button id="exportarDatosBtn" style="background:#2196f3;">Exportar</button>
+        </div>
     `;
     mainPanel.insertBefore(panel, mainPanel.firstChild);
     document.getElementById('cerrarAdminPanel').addEventListener('click', () => panel.remove());
@@ -536,20 +540,32 @@ function cargarAdminPartidos() {
     `).join('');
 }
 
+// 🔥 ACTUALIZAR RESULTADOS (GUARDA EN FIRESTORE)
 window.actualizarResultadoAdmin = async function(partidoId) {
     if (!esAdmin) return;
     const gA = parseInt(document.getElementById(`admin_gA_${partidoId}`).value);
     const gB = parseInt(document.getElementById(`admin_gB_${partidoId}`).value);
+    if (isNaN(gA) || isNaN(gB)) {
+        alert("Ingresa números válidos");
+        return;
+    }
     const partido = datosQuiniela.partidos.find(p => p.id === partidoId);
-    if (partido && !isNaN(gA) && !isNaN(gB)) {
+    if (partido) {
         partido.resultadoA = gA;
         partido.resultadoB = gB;
+        // Guardar en Firestore (merge para no borrar otros campos)
+        await db.collection('quiniela_partidos').doc(partidoId.toString()).set({
+            resultadoA: gA,
+            resultadoB: gB
+        }, { merge: true });
+        
         actualizarPuntos();
-        await cargarPrediccionesFirebase();
+        // Opcional: actualizar puntos en Firebase si tienes esa función
+        // await actualizarPuntosEnFirebase();
         mostrarRanking();
         mostrarPartidos();
-        cargarAdminPartidos();
-        alert(`✅ ${partido.equipoA} ${gA} - ${gB} ${partido.equipoB}`);
+        cargarAdminPartidos(); // refresca el panel
+        alert(`✅ Resultado guardado: ${partido.equipoA} ${gA} - ${gB} ${partido.equipoB}`);
     }
 };
 
