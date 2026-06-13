@@ -55,6 +55,24 @@ const publicidadConfig = {
             link: "#",
             posicion: "top",
             activo: true
+        },
+        
+        {
+            id: "logo4",
+            texto: "Sibarita Restaurant",
+            imagen: "logo_sibarita.png",
+            link: "#",
+            posicion: "top",
+            activo: true
+        },
+        
+        {
+            id: "logo5",
+            texto: "Bunker Restobar",
+            imagen: "logo_yusbelis.png",
+            link: "#",
+            posicion: "top",
+            activo: true
         }
     ]
 };
