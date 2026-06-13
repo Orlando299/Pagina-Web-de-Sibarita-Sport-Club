@@ -345,6 +345,17 @@ function mostrarPartidos() {
     }).join('');
 }
 
+// ------------------- VALIDACIÓN DE PRONÓSTICOS -------------------
+function puedePronosticar(partido) {
+    const [dia, mes, anio] = partido.fecha.split('/');
+    const [hora, minuto] = partido.hora.split(':');
+    const fechaPartido = new Date(anio, mes - 1, dia, hora, minuto);
+    const ahora = new Date();
+    const limite = new Date(fechaPartido.getTime() - 60 * 60 * 1000);
+    return ahora < limite;
+}
+
+
 async function guardarPrediccion(partidoId) {
     if (!usuarioActual) {
         alert('📝 Debes registrarte primero');
