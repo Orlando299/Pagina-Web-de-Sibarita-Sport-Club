@@ -285,6 +285,20 @@ function actualizarPuntos() {
     datosQuiniela.participantes.sort((a, b) => b.puntos - a.puntos);
 }
 
+function cargarSemanasDisponibles() {
+    const semanasSet = new Set();
+    datosQuiniela.partidos.forEach(partido => {
+        const semana = obtenerSemanaDesdeFecha(partido.fecha);
+        if (semana) semanasSet.add(`semana_${semana}`);
+    });
+    const semanas = Array.from(semanasSet).sort();
+    const selector = document.getElementById('semanaSelector');
+    if (selector) {
+        selector.innerHTML = '<option value="global">🔵 Puntos Globales</option>' +
+            semanas.map(sem => `<option value="${sem}">📅 ${sem.replace('semana_', 'Semana ')}</option>`).join('');
+    }
+}
+
 // ------------------- RANKING -------------------
 function mostrarRanking() {
     const tbody = document.getElementById('rankingBody');
