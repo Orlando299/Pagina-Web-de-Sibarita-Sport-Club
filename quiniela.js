@@ -332,20 +332,37 @@ function cargarSemanasDisponibles() {
 function mostrarRanking() {
     const tbody = document.getElementById('rankingBody');
     if (!tbody) return;
+
+    const tipoRanking = document.getElementById('semanaSelector')?.value || 'global';
     
     if (datosQuiniela.participantes.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3">📭 Aún no hay participantes. ¡Sé el primero!</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4">📭 Aún no hay participantes. ¡Sé el primero!</td></tr>';
         return;
     }
-    
-    // Mostrar TODOS los participantes (sin .slice)
-    tbody.innerHTML = datosQuiniela.participantes.map((p, index) => `
-        <tr>
-            <td>${index + 1}</td>
-            <td>${p.nombre}<br><small style="font-size:0.7rem;">${p.cedula}</small></td>
-            <td><strong>${p.puntos}</strong></td>
-        </tr>
-    `).join('');
+
+    // Copiar y ordenar según el tipo de ranking
+    let participantesOrdenados = [...datosQuiniela.participantes];
+    if (tipoRanking !== 'global') {
+        participantesOrdenados.sort((a, b) => (b.puntosPorSemana?.[tipoRanking] || 0) - (a.puntosPorSemana?.[tipoRanking] || 0));
+    } else {
+        participantesOrdenados.sort((a, b) => b.puntos - a.puntos);
+    }
+
+    tbody.innerHTML = participantesOrdenados.map((p, index) => {
+        const puntosGlobal = p.puntos;
+        let puntosSemana = '—';
+        if (tipoRanking !== 'global') {
+            puntosSemana = p.puntosPorSemana?.[tipoRanking] || 0;
+        }
+        return `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${p.nombre}<br><small style="font-size:0.7rem;">${p.cedula}</small></td>
+                <td><strong>${puntosGlobal}</strong> (Global)</td>
+                <td><strong>${puntosSemana}</strong> ${tipoRanking !== 'global' ? 'Semana' : ''}</td>
+            </tr>
+        `;
+    }).join('');
 }
 
 // ------------------- PARTIDOS Y PREDICCIONES -------------------
