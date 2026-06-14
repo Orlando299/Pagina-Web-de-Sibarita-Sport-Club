@@ -183,6 +183,20 @@ body {
     cursor: pointer;
 }
 
+.btn-concurso {
+    background: linear-gradient(180deg, #ff9800 0%, #f57c00 100%);
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+.btn-concurso:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
 /* Grid de partidos */
 .partidos-grid {
     display: grid;
