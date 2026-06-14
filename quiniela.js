@@ -1,6 +1,6 @@
 // ============================================
 // QUINIELA MUNDIAL 2026 - SIBARITA SPORT CLUB
-// CON FIREBASE Y 3 LOGOS CENTRADOS EN TOP
+// CON FIREBASE, 5 LOGOS CENTRADOS Y PUNTOS SEMANALES
 // ============================================
 
 // ------------------- CONFIGURACIÓN DE FIREBASE -------------------
@@ -29,7 +29,7 @@ let usuarioActual = null;
 let esAdmin = false;
 let adminPassword = "sibarita2026";
 
-// ------------------- PUBLICIDAD (3 LOGOS EN TOP, CENTRADOS) -------------------
+// ------------------- PUBLICIDAD (5 LOGOS EN TOP, CENTRADOS) -------------------
 const publicidadConfig = {
     anuncios: [
         {
@@ -81,7 +81,10 @@ async function cargarParticipantesFirebase() {
         const snapshot = await db.collection('quiniela_participantes').get();
         datosQuiniela.participantes = [];
         snapshot.forEach(doc => {
-            datosQuiniela.participantes.push(doc.data());
+            const data = doc.data();
+            // Asegurar que cada participante tenga puntosPorSemana
+            if (!data.puntosPorSemana) data.puntosPorSemana = {};
+            datosQuiniela.participantes.push(data);
         });
         console.log(`✅ Cargados ${datosQuiniela.participantes.length} participantes desde Firebase`);
     } catch (error) {
@@ -101,7 +104,6 @@ async function cargarPartidosDesdeFirebase() {
             });
             console.log("✅ Partidos cargados desde Firebase");
         } else {
-            // Si no hay partidos en Firebase, cargar desde JSON y guardarlos
             await cargarPartidosDesdeJSON();
         }
     } catch (error) {
@@ -115,7 +117,6 @@ async function cargarPartidosDesdeJSON() {
         const response = await fetch('quiniela.json');
         const data = await response.json();
         datosQuiniela.partidos = data.partidos;
-        // Guardar cada partido en Firebase (solo la primera vez)
         for (const partido of datosQuiniela.partidos) {
             await db.collection('quiniela_partidos').doc(partido.id.toString()).set(partido);
         }
@@ -159,9 +160,104 @@ async function guardarPrediccionFirebase(prediccion) {
     }
 }
 
+// ------------------- FUNCIONES PARA MANEJO DE SEMANAS -------------------
+function obtenerSemanaDesdeFecha(fechaStr) {
+    const [dia, mes, anio] = fechaStr.split('/');
+    const fecha = new Date(anio, mes - 1, dia);
+    const inicioAnio = new Date(anio, 0, 1);
+    const dias = Math.floor((fecha - inicioAnio) / (24 * 60 * 60 * 1000));
+    return Math.ceil((dias + inicioAnio.getDay() + 1) / 7);
+}
+
+function cargarSemanasDisponibles() {
+    const semanasSet = new Set();
+    datosQuiniela.partidos.forEach(partido => {
+        const semana = obtenerSemanaDesdeFecha(partido.fecha);
+        if (semana) semanasSet.add(`semana_${semana}`);
+    });
+    const semanas = Array.from(semanasSet).sort();
+    const selector = document.getElementById('semanaSelector');
+    if (selector) {
+        selector.innerHTML = '<option value="global">🔵 Puntos Globales</option>' +
+            semanas.map(sem => `<option value="${sem}">📅 ${sem.replace('semana_', 'Semana ')}</option>`).join('');
+    }
+}
+
+// ------------------- PUNTUACIÓN -------------------
+function calcularPuntos(prediccion, resultadoReal) {
+    if (!resultadoReal || resultadoReal.resultadoA === null) return 0;
+    if (prediccion.golesA === resultadoReal.resultadoA && prediccion.golesB === resultadoReal.resultadoB) return 3;
+    if ((prediccion.golesA - prediccion.golesB) === (resultadoReal.resultadoA - resultadoReal.resultadoB)) return 1;
+    return 0;
+}
+
+function actualizarPuntos() {
+    datosQuiniela.participantes.forEach(p => {
+        p.puntos = 0;
+        p.puntosPorSemana = {};
+    });
+
+    datosQuiniela.predicciones.forEach(pred => {
+        const partido = datosQuiniela.partidos.find(p => p.id === pred.partido_id);
+        if (partido && partido.resultadoA !== null) {
+            const puntos = calcularPuntos(pred, partido);
+            pred.puntos = puntos;
+
+            const participante = datosQuiniela.participantes.find(p => p.id === pred.usuario_id);
+            if (participante) {
+                participante.puntos += puntos;
+
+                const semana = obtenerSemanaDesdeFecha(partido.fecha);
+                if (semana) {
+                    const clave = `semana_${semana}`;
+                    participante.puntosPorSemana[clave] = (participante.puntosPorSemana[clave] || 0) + puntos;
+                }
+            }
+        }
+    });
+
+    datosQuiniela.participantes.sort((a, b) => b.puntos - a.puntos);
+}
+
+// ------------------- RANKING (4 COLUMNAS) -------------------
+function mostrarRanking() {
+    const tbody = document.getElementById('rankingBody');
+    if (!tbody) return;
+
+    const tipoRanking = document.getElementById('semanaSelector')?.value || 'global';
+    
+    if (datosQuiniela.participantes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4">📭 Aún no hay participantes. ¡Sé el primero!</td></tr>';
+        return;
+    }
+
+    let participantesOrdenados = [...datosQuiniela.participantes];
+    if (tipoRanking !== 'global') {
+        participantesOrdenados.sort((a, b) => (b.puntosPorSemana?.[tipoRanking] || 0) - (a.puntosPorSemana?.[tipoRanking] || 0));
+    } else {
+        participantesOrdenados.sort((a, b) => b.puntos - a.puntos);
+    }
+
+    tbody.innerHTML = participantesOrdenados.map((p, index) => {
+        const puntosGlobal = p.puntos;
+        let puntosSemana = '—';
+        if (tipoRanking !== 'global') {
+            puntosSemana = p.puntosPorSemana?.[tipoRanking] || 0;
+        }
+        return `
+            <tr>
+                <td style="padding: 8px; text-align: center;">${index + 1}</td>
+                <td style="padding: 8px;">${p.nombre}<br><small style="font-size:0.7rem; color:#aaa;">${p.cedula || ''}</small></td>
+                <td style="padding: 8px; text-align: center;"><strong>${puntosGlobal}</strong></td>
+                <td style="padding: 8px; text-align: center;"><strong>${puntosSemana}</strong></td>
+            </tr>
+        `;
+    }).join('');
+}
+
 // ------------------- CARGA COMPLETA -------------------
 async function cargarDatos() {
-    await cargarPartidosDesdeFirebase();   // carga desde Firebase (o JSON si es primera vez)
+    await cargarPartidosDesdeFirebase();
     await cargarParticipantesFirebase();
     await cargarPrediccionesFirebase();
     actualizarPuntos();
@@ -264,107 +360,6 @@ function cerrarSesion() {
     cargarPublicidad();
 }
 
-// ------------------- PUNTUACIÓN -------------------
-function calcularPuntos(prediccion, resultadoReal) {
-    if (!resultadoReal || resultadoReal.resultadoA === null) return 0;
-    if (prediccion.golesA === resultadoReal.resultadoA && prediccion.golesB === resultadoReal.resultadoB) return 3;
-    if ((prediccion.golesA - prediccion.golesB) === (resultadoReal.resultadoA - resultadoReal.resultadoB)) return 1;
-    return 0;
-}
-
-function actualizarPuntos() {
-    datosQuiniela.participantes.forEach(p => {
-        p.puntos = 0;
-        p.puntosPorSemana = {};   // ← INICIALIZAR
-    });
-
-    datosQuiniela.predicciones.forEach(pred => {
-        const partido = datosQuiniela.partidos.find(p => p.id === pred.partido_id);
-        if (partido && partido.resultadoA !== null) {
-            const puntos = calcularPuntos(pred, partido);
-            pred.puntos = puntos;
-
-            const participante = datosQuiniela.participantes.find(p => p.id === pred.usuario_id);
-            if (participante) {
-                participante.puntos += puntos;
-
-                // Puntos por semana
-                const semana = obtenerSemanaDesdeFecha(partido.fecha);
-                if (semana) {
-                    const claveSemana = `semana_${semana}`;
-                    if (!participante.puntosPorSemana[claveSemana]) {
-                        participante.puntosPorSemana[claveSemana] = 0;
-                    }
-                    participante.puntosPorSemana[claveSemana] += puntos;
-                }
-            }
-        }
-    });
-
-    datosQuiniela.participantes.sort((a, b) => b.puntos - a.puntos);
-}
-
-// ------------------- FUNCIONES PARA MANEJO DE SEMANAS -------------------
-function obtenerSemanaDesdeFecha(fechaStr) {
-    const [dia, mes, anio] = fechaStr.split('/');
-    const fecha = new Date(anio, mes - 1, dia);
-    const inicioAnio = new Date(anio, 0, 1);
-    const dias = Math.floor((fecha - inicioAnio) / (24 * 60 * 60 * 1000));
-    return Math.ceil((dias + inicioAnio.getDay() + 1) / 7);
-}
-
-function cargarSemanasDisponibles() {
-    const semanasSet = new Set();
-    datosQuiniela.partidos.forEach(partido => {
-        const semana = obtenerSemanaDesdeFecha(partido.fecha);
-        if (semana) semanasSet.add(`semana_${semana}`);
-    });
-    const semanas = Array.from(semanasSet).sort();
-    const selector = document.getElementById('semanaSelector');
-    if (selector) {
-        selector.innerHTML = '<option value="global">🔵 Puntos Globales</option>' +
-            semanas.map(sem => `<option value="${sem}">📅 ${sem.replace('semana_', 'Semana ')}</option>`).join('');
-    }
-}
-
-
-// ------------------- RANKING -------------------
-function mostrarRanking() {
-    const tbody = document.getElementById('rankingBody');
-    if (!tbody) return;
-
-    const tipoRanking = document.getElementById('semanaSelector')?.value || 'global';
-    
-    if (datosQuiniela.participantes.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4">📭 Aún no hay participantes. ¡Sé el primero!</td></tr>';
-        return;
-    }
-
-    // Copiar y ordenar según el tipo de ranking
-    let participantesOrdenados = [...datosQuiniela.participantes];
-    if (tipoRanking !== 'global') {
-        participantesOrdenados.sort((a, b) => (b.puntosPorSemana?.[tipoRanking] || 0) - (a.puntosPorSemana?.[tipoRanking] || 0));
-    } else {
-        participantesOrdenados.sort((a, b) => b.puntos - a.puntos);
-    }
-
-    tbody.innerHTML = participantesOrdenados.map((p, index) => {
-        const puntosGlobal = p.puntos;
-        let puntosSemana = '—';
-        if (tipoRanking !== 'global') {
-            puntosSemana = p.puntosPorSemana?.[tipoRanking] || 0;
-        }
-        return `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${p.nombre}<br><small style="font-size:0.7rem;">${p.cedula}</small></td>
-                <td><strong>${puntosGlobal}</strong> (Global)</td>
-                <td><strong>${puntosSemana}</strong> ${tipoRanking !== 'global' ? 'Semana' : ''}</td>
-            </tr>
-        `;
-    }).join('');
-}
-
 // ------------------- PARTIDOS Y PREDICCIONES -------------------
 function mostrarPartidos() {
     const container = document.getElementById('partidosContainer');
@@ -417,7 +412,6 @@ function puedePronosticar(partido) {
     return ahora < limite;
 }
 
-// ------------------- GUARDAR PREDICCIÓN -------------------
 async function guardarPrediccion(partidoId) {
     if (!usuarioActual) {
         alert('📝 Debes registrarte primero');
@@ -429,13 +423,11 @@ async function guardarPrediccion(partidoId) {
         return;
     }
 
-    // 🔥 Validación: prohibir predicciones 1 hora antes del partido
     if (!puedePronosticar(partido)) {
         alert(`⛔ Las predicciones se cierran 1 hora antes del inicio del partido (${partido.fecha} ${partido.hora}).`);
         return;
     }
 
-    // Si ya tiene resultado real cargado, bloquear
     if (partido.resultadoA !== null && partido.resultadoB !== null) {
         alert('⛔ Este partido ya finalizó, no se pueden modificar las predicciones');
         return;
@@ -475,7 +467,7 @@ function resetearFiltros() {
     mostrarPartidos();
 }
 
-// ------------------- PUBLICIDAD (TOP CENTRADO, 3 LOGOS) -------------------
+// ------------------- PUBLICIDAD (TOP CENTRADO) -------------------
 function cargarPublicidad() {
     console.log("cargarPublicidad() ejecutándose");
     const posiciones = ['top', 'before-ranking', 'after-ranking', 'footer'];
@@ -616,7 +608,6 @@ function cargarAdminPartidos() {
     `).join('');
 }
 
-// 🔥 ACTUALIZAR RESULTADOS (GUARDA EN FIRESTORE)
 window.actualizarResultadoAdmin = async function(partidoId) {
     if (!esAdmin) return;
     const gA = parseInt(document.getElementById(`admin_gA_${partidoId}`).value);
@@ -629,18 +620,15 @@ window.actualizarResultadoAdmin = async function(partidoId) {
     if (partido) {
         partido.resultadoA = gA;
         partido.resultadoB = gB;
-        // Guardar en Firestore (merge para no borrar otros campos)
         await db.collection('quiniela_partidos').doc(partidoId.toString()).set({
             resultadoA: gA,
             resultadoB: gB
         }, { merge: true });
         
         actualizarPuntos();
-        // Opcional: actualizar puntos en Firebase si tienes esa función
-        // await actualizarPuntosEnFirebase();
         mostrarRanking();
         mostrarPartidos();
-        cargarAdminPartidos(); // refresca el panel
+        cargarAdminPartidos();
         alert(`✅ Resultado guardado: ${partido.equipoA} ${gA} - ${gB} ${partido.equipoB}`);
     }
 };
@@ -661,8 +649,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('resetFiltersBtn')?.addEventListener('click', resetearFiltros);
     document.getElementById('shareWhatsAppBtn')?.addEventListener('click', compartirWhatsApp);
     document.getElementById('semanaSelector')?.addEventListener('change', () => {
-    mostrarRanking();
-});
+        mostrarRanking();
+    });
     
     setTimeout(() => agregarBotonAdmin(), 500);
 });
