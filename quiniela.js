@@ -166,6 +166,7 @@ async function cargarDatos() {
     await cargarPrediccionesFirebase();
     actualizarPuntos();
     mostrarRanking();
+    cargarSemanasDisponibles();
     cargarPublicidad();
     
     const storedUsuario = localStorage.getItem('quiniela_usuario_actual');
@@ -272,17 +273,44 @@ function calcularPuntos(prediccion, resultadoReal) {
 }
 
 function actualizarPuntos() {
-    datosQuiniela.participantes.forEach(p => p.puntos = 0);
+    datosQuiniela.participantes.forEach(p => {
+        p.puntos = 0;
+        p.puntosPorSemana = {};   // ← INICIALIZAR
+    });
+
     datosQuiniela.predicciones.forEach(pred => {
         const partido = datosQuiniela.partidos.find(p => p.id === pred.partido_id);
         if (partido && partido.resultadoA !== null) {
             const puntos = calcularPuntos(pred, partido);
             pred.puntos = puntos;
+
             const participante = datosQuiniela.participantes.find(p => p.id === pred.usuario_id);
-            if (participante) participante.puntos += puntos;
+            if (participante) {
+                participante.puntos += puntos;
+
+                // Puntos por semana
+                const semana = obtenerSemanaDesdeFecha(partido.fecha);
+                if (semana) {
+                    const claveSemana = `semana_${semana}`;
+                    if (!participante.puntosPorSemana[claveSemana]) {
+                        participante.puntosPorSemana[claveSemana] = 0;
+                    }
+                    participante.puntosPorSemana[claveSemana] += puntos;
+                }
+            }
         }
     });
+
     datosQuiniela.participantes.sort((a, b) => b.puntos - a.puntos);
+}
+
+// ------------------- FUNCIONES PARA MANEJO DE SEMANAS -------------------
+function obtenerSemanaDesdeFecha(fechaStr) {
+    const [dia, mes, anio] = fechaStr.split('/');
+    const fecha = new Date(anio, mes - 1, dia);
+    const inicioAnio = new Date(anio, 0, 1);
+    const dias = Math.floor((fecha - inicioAnio) / (24 * 60 * 60 * 1000));
+    return Math.ceil((dias + inicioAnio.getDay() + 1) / 7);
 }
 
 function cargarSemanasDisponibles() {
@@ -298,6 +326,7 @@ function cargarSemanasDisponibles() {
             semanas.map(sem => `<option value="${sem}">📅 ${sem.replace('semana_', 'Semana ')}</option>`).join('');
     }
 }
+
 
 // ------------------- RANKING -------------------
 function mostrarRanking() {
@@ -614,6 +643,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('grupoFilter')?.addEventListener('change', mostrarPartidos);
     document.getElementById('resetFiltersBtn')?.addEventListener('click', resetearFiltros);
     document.getElementById('shareWhatsAppBtn')?.addEventListener('click', compartirWhatsApp);
+    document.getElementById('semanaSelector')?.addEventListener('change', () => {
+    mostrarRanking();
+});
     
     setTimeout(() => agregarBotonAdmin(), 500);
 });
