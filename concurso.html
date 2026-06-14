@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Concurso Semanal - Quiniela Mundial 2026</title>
+    <link rel="stylesheet" href="quiniela.css">
+    <style>
+        .concurso-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .premio-card {
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #1a472a;
+            text-align: center;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+        }
+        .premio-card h2 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        .premio-card .premio {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .premio-card .patrocinador {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        .patrocinador-logo {
+            max-height: 60px;
+            margin-top: 10px;
+        }
+        .partidos-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .partido-item {
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .partido-fecha {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        .btn-volver {
+            display: inline-block;
+            background: #2e7d32;
+            color: #ffd700;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .reglas {
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .gracias {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <h1>🏆 CONCURSO SEMANAL 🏆</h1>
+        <div class="user-info"></div>
+    </div>
+
+    <div class="container concurso-container">
+        <button class="fb" onclick="location.href='quiniela.html'" style="margin-bottom: 20px;">
+            ← Volver a la Quiniela
+        </button>
+
+        <div class="premio-card">
+            <h2>🎁 PREMIO DE LA SEMANA</h2>
+            <div class="premio">🍔 2 Hamburguesas + Bebidas 🥤</div>
+            <div class="patrocinador">
+                🌟 Cortesía de <strong>Scooby Doo Burguer</strong> 🌟
+            </div>
+            <img src="logo_scooby.jpg" alt="Scooby Doo Burguer" class="patrocinador-logo" onerror="this.style.display='none'">
+            <p>📍 <strong>Canjeable en las canchas del Colegio de Ingenieros</strong></p>
+        </div>
+
+        <div class="reglas">
+            <h3>📅 Período válido</h3>
+            <p><strong>Lunes 15 de junio al Sábado 21 de junio de 2026</strong> (incluye jueves 18)</p>
+            
+            <h3>⚽ Partidos incluidos (28 partidos)</h3>
+            <div class="partidos-lista">
+                <div class="partido-item"><span class="partido-fecha">LUNES 15:</span><span>Bélgica vs Egipto, Irán vs Nueva Zelanda, España vs Cabo Verde, Arabia Saudita vs Uruguay</span></div>
+                <div class="partido-item"><span class="partido-fecha">MARTES 16:</span><span>Francia vs Senegal, Irak vs Noruega, Argentina vs Argelia</span></div>
+                <div class="partido-item"><span class="partido-fecha">MIÉRCOLES 17:</span><span>Austria vs Jordania, Portugal vs RD Congo, Uzbekistán vs Colombia, Inglaterra vs Croacia, Ghana vs Panamá</span></div>
+                <div class="partido-item"><span class="partido-fecha">JUEVES 18:</span><span>República Checa vs Sudáfrica, México vs Corea del Sur, Suiza vs Bosnia, Canadá vs Qatar</span></div>
+                <div class="partido-item"><span class="partido-fecha">VIERNES 19:</span><span>Escocia vs Marruecos, Brasil vs Haití, Turquía vs Paraguay, Estados Unidos vs Australia</span></div>
+                <div class="partido-item"><span class="partido-fecha">SÁBADO 20:</span><span>Alemania vs Costa de Marfil, Ecuador vs Curazao, Países Bajos vs Suecia, Túnez vs Japón</span></div>
+                <div class="partido-item"><span class="partido-fecha">DOMINGO 21:</span><span>Bélgica vs Irán, Nueva Zelanda vs Egipto, España vs Arabia Saudita, Uruguay vs Cabo Verde</span></div>
+            </div>
+        </div>
+
+        <div class="reglas">
+            <h3>🏆 ¿Cómo se gana?</h3>
+            <ul>
+                <li>Gana el participante que <strong>más puntos acumule</strong> en el TOTAL de estos 28 partidos.</li>
+                <li>Puntuación: <strong>3 puntos</strong> por resultado exacto, <strong>1 punto</strong> por diferencia correcta.</li>
+                <li>Los pronósticos deben estar registrados <strong>antes de cada partido</strong> (se cierran 1 hora antes del inicio).</li>
+                <li>El ranking semanal se actualiza en vivo en la página de la quiniela.</li>
+            </ul>
+        </div>
+
+        <div class="reglas">
+            <h3>📢 Anuncio del ganador</h3>
+            <p>El ganador se anunciará el <strong>DOMINGO 21 de junio por la noche</strong> (vía WhatsApp y en esta página).</p>
+            <p>El premio deberá ser reclamado en las canchas del Colegio de Ingenieros durante la semana siguiente.</p>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="quiniela.html" class="btn-volver">⚽ Ir a la Quiniela y participar ⚽</a>
+        </div>
+
+        <div class="gracias">
+            🧡 ¡Gracias a Scooby Doo Burguer por apoyar a nuestros participantes! 🧡
+        </div>
+    </div>
+
+    <footer>
+        <p>Sibarita Sport Club - Quiniela Mundial 2026</p>
+        <p>⚽ ¡Adivina los resultados y gana premios cada semana! ⚽</p>
+    </footer>
+</body>
+</html>
