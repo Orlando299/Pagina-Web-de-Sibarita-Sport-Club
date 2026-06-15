@@ -464,3 +464,46 @@ footer {
         font-size: 0.8rem;
     }
 }
+
+/* Botón Concurso Semanal */
+.btn-concurso {
+    background: linear-gradient(135deg, #ff6600, #ff3300);
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(255, 51, 0, 0.4);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.3);
+    animation: pulse-concurso 2s infinite;
+}
+
+.btn-concurso:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 51, 0, 0.6);
+    background: linear-gradient(135deg, #ff7700, #ff4400);
+}
+
+@keyframes pulse-concurso {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 51, 0, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 51, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 51, 0, 0);
+    }
+}
+
+@media (max-width: 768px) {
+    .btn-concurso {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        white-space: normal;
+        text-align: center;
+    }
+}
