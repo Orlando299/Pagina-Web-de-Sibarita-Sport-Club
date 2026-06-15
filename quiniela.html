@@ -21,49 +21,76 @@
             ← Volver al Torneo de Bolas Criollas
         </button>
 
-        <!-- PUBLICIDAD TOP (arriba del todo) -->
+        <!-- PUBLICIDAD TOP -->
         <div class="ad-container ad-top" id="adTop"></div>
 
         <!-- Panel de Registro -->
         <div id="loginPanel" class="card">
-           <h2>📝 Registro Rápido</h2>
-<p>Ingresa tu nombre y número de cédula (documento de identidad)</p>
-<input type="text" id="userName" placeholder="Nombre completo" maxlength="50" required>
-<input type="text" id="userCedula" placeholder="Cédula (ej: 12345678)" maxlength="20" required>
-<button id="registerBtn" class="nb">🎯 Participar</button>
-<small>⚠️ La cédula es única por participante y será usada para identificar al ganador.</small>
+            <h2>📝 Registro Rápido</h2>
+            <p>Ingresa tu nombre y número de cédula (documento de identidad)</p>
+            <input type="text" id="userName" placeholder="Nombre completo" maxlength="50" required>
+            <input type="text" id="userCedula" placeholder="Cédula (ej: 12345678)" maxlength="20" required>
+            <button id="registerBtn" class="nb">🎯 Participar</button>
+            <small>⚠️ La cédula es única por participante y será usada para identificar al ganador.</small>
+
+            <!-- SECCIÓN DE REGLAS DE LA QUINIELA (ACTUALIZADA) -->
+            <div style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 15px; border-left: 4px solid #ffd700;">
+                <h3 style="color: #ffd700; margin-bottom: 10px;">📜 REGLAS DE LA QUINIELA</h3>
+                
+                <p><strong>⚽ Sistema de puntuación:</strong></p>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>✅ <strong>3 puntos</strong> si aciertas el <strong>resultado exacto</strong> (goles de ambos equipos).</li>
+                    <li>✅ <strong>1 punto</strong> si aciertas el <strong>ganador</strong> (o empate), aunque no aciertes los goles exactos.</li>
+                    <li>❌ <strong>0 puntos</strong> si no aciertas ninguna de las anteriores.</li>
+                </ul>
+                
+                <p><strong>📝 Ejemplo:</strong> Si el partido termina <strong>México 2 - 0 Sudáfrica</strong>:</p>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>🔹 Pronosticar 2-0 → <strong>3 puntos</strong> (resultado exacto)</li>
+                    <li>🔹 Pronosticar 3-1 → <strong>1 punto</strong> (acertó ganador: México)</li>
+                    <li>🔹 Pronosticar 0-2 → <strong>0 puntos</strong> (no acertó ganador)</li>
+                </ul>
+                
+                <p><strong>⏰ Fecha límite para pronosticar:</strong></p>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>📅 Los pronósticos deben realizarse <strong>antes del inicio de cada partido</strong>.</li>
+                    <li>🔒 Las predicciones se cierran <strong>1 hora antes</strong> del inicio del partido.</li>
+                    <li>❌ Una vez que el partido comienza, <strong>no se pueden modificar ni registrar pronósticos</strong> para ese partido.</li>
+                </ul>
+                
+                <p><strong>⚠️ Importante para nuevos participantes:</strong></p>
+                <ul style="margin-left: 20px; margin-bottom: 5px;">
+                    <li>🕒 Si te registras <strong>después de que algunos partidos ya se jugaron</strong>, <strong>NO podrás sumar puntos por esos partidos pasados</strong>.</li>
+                    <li>🏆 Solo podrás pronosticar y sumar puntos en los <strong>partidos futuros</strong>.</li>
+                    <li>📊 En la página de partidos, verás los resultados reales de los partidos ya jugados, pero los campos de pronóstico estarán deshabilitados.</li>
+                </ul>
+                
+                <p style="margin-top: 15px; font-size: 0.8rem; color: #aaa; text-align: center;">
+                    ¡Entre más temprano te registres, más oportunidades de sumar puntos!
+                </p>
+            </div>
         </div>
 
-        <!-- Panel Principal (oculto hasta registrarse) -->
+        <!-- Panel Principal -->
         <div id="mainPanel" style="display: none;">
             
             <!-- PUBLICIDAD ANTES DEL RANKING -->
             <div class="ad-container ad-before-ranking" id="adBeforeRanking"></div>
 
-            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
-    <label style="display: flex; align-items: center; gap: 5px;">
-        <span>📅 Ranking semanal:</span>
-        <select id="semanaSelector" style="padding: 5px; border-radius: 8px;">
-            <option value="global">🔵 Puntos Globales</option>
-        </select>
-    </label>
-</div>
-
-            <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 15px; flex-wrap: wrap;">
-    <label style="display: flex; align-items: center; gap: 5px;">
-        <span>🏆 Ranking:</span>
-        <select id="tipoRanking" style="padding: 5px; border-radius: 8px;">
-            <option value="total">General</option>
-            <option value="semanal">Semanal</option>
-        </select>
-    </label>
-    <label style="display: flex; align-items: center; gap: 5px;" id="semanaLabel">
-        <span>📅 Semana:</span>
-        <select id="semanaSelector" style="padding: 5px; border-radius: 8px; display: none;">
-            <option value="">Selecciona semana</option>
-        </select>
-    </label>
-</div>
+            <!-- Selector de semanas y botón concurso -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <label style="display: flex; align-items: center; gap: 5px;">
+                        <span>📅 Ranking semanal:</span>
+                        <select id="semanaSelector" style="padding: 8px; border-radius: 8px; background: #2c2c2c; color: white; border: 1px solid #ffd700;">
+                            <option value="global">🔵 Puntos Globales</option>
+                        </select>
+                    </label>
+                </div>
+                <a href="concurso.html" class="nb" style="background: #ff9800; text-decoration: none; display: inline-block; padding: 10px 20px;">
+                    🍔 Concurso Semanal: 2 Hamburguesas + Bebidas
+                </a>
+            </div>
 
             <!-- Ranking -->
             <div class="card">
@@ -74,22 +101,16 @@
                             <tr>
                                 <th>Pos</th>
                                 <th>Participante</th>
-                                <th>Puntos</th>
+                                <th>Puntos Globales</th>
                                 <th>Puntos Semana</th>
                             </tr>
                         </thead>
                         <tbody id="rankingBody">
-                            <tr><td colspan="3">Cargando...</td></tr>
+                            <tr><td colspan="4">Cargando......<\/td><\/tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            <div style="text-align: center; margin: 20px 0;">
-    <a href="concurso.html" class="nb" style="background: #ff9800; text-decoration: none; display: inline-block; padding: 12px 24px;">
-        🎁 Ver Concurso Semanal (Lunes 15 a Sábado 21)
-    </a>
-</div>
 
             <!-- PUBLICIDAD DESPUÉS DEL RANKING -->
             <div class="ad-container ad-after-ranking" id="adAfterRanking"></div>
@@ -122,28 +143,24 @@
                 <div id="partidosContainer" class="partidos-grid"></div>
             </div>
 
-            <!-- Contenedor para botones Admin + Compartir WhatsApp -->
+            <!-- Contenedor botones Admin + WhatsApp -->
             <div class="share-container">
                 <button id="shareWhatsAppBtn" class="whatsapp-btn">📱 Compartir por WhatsApp</button>
             </div>
         </div>
 
-        <!-- PUBLICIDAD FOOTER (después de todo, antes del footer) -->
+        <!-- PUBLICIDAD FOOTER -->
         <div class="ad-container ad-footer" id="adFooter"></div>
     </div>
 
     <footer>
         <p>Sibarita Sport Club - Quiniela Mundial 2026</p>
-        <p>⚽ ¡Adivina los resultados y gana la gloria eterna! ⚽</p>
+        <p>⚽ ¡Adivina los resultados y gana premios cada semana! ⚽</p>
     </footer>
 
     <!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <!-- Firebase SDK (versión compat para proyectos HTML simples) -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="quiniela.js"></script>
 </body>
 </html>
