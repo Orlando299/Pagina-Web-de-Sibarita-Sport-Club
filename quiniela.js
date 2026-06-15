@@ -82,7 +82,6 @@ async function cargarParticipantesFirebase() {
         datosQuiniela.participantes = [];
         snapshot.forEach(doc => {
             const data = doc.data();
-            // Asegurar que cada participante tenga puntosPorSemana
             if (!data.puntosPorSemana) data.puntosPorSemana = {};
             datosQuiniela.participantes.push(data);
         });
@@ -183,11 +182,38 @@ function cargarSemanasDisponibles() {
     }
 }
 
-// ------------------- PUNTUACIÓN -------------------
+// ------------------- PUNTUACIÓN (NUEVA REGLA: 3 exacto / 1 ganador) -------------------
 function calcularPuntos(prediccion, resultadoReal) {
     if (!resultadoReal || resultadoReal.resultadoA === null) return 0;
-    if (prediccion.golesA === resultadoReal.resultadoA && prediccion.golesB === resultadoReal.resultadoB) return 3;
-    if ((prediccion.golesA - prediccion.golesB) === (resultadoReal.resultadoA - resultadoReal.resultadoB)) return 1;
+    
+    // 3 puntos: resultado exacto (goles) para TODOS los partidos
+    if (prediccion.golesA === resultadoReal.resultadoA && prediccion.golesB === resultadoReal.resultadoB) {
+        return 3;
+    }
+    
+    // Determinar si el partido es ANTES del 15 de junio de 2026
+    const [dia, mes, anio] = resultadoReal.fecha.split('/');
+    const fechaPartido = new Date(anio, mes - 1, dia);
+    const fechaCambio = new Date(2026, 5, 15); // 15 de junio de 2026
+    const esPartidoAntiguo = fechaPartido < fechaCambio;
+    
+    if (esPartidoAntiguo) {
+        // REGLA ANTERIOR: 1 punto por diferencia correcta
+        const difPronosticada = prediccion.golesA - prediccion.golesB;
+        const difReal = resultadoReal.resultadoA - resultadoReal.resultadoB;
+        if (difPronosticada === difReal) {
+            return 1;
+        }
+    } else {
+        // NUEVA REGLA: 1 punto por acertar el ganador (o empate)
+        const ganadorPronosticado = prediccion.golesA > prediccion.golesB ? 'A' : (prediccion.golesA < prediccion.golesB ? 'B' : 'empate');
+        const ganadorReal = resultadoReal.resultadoA > resultadoReal.resultadoB ? 'A' : (resultadoReal.resultadoA < resultadoReal.resultadoB ? 'B' : 'empate');
+        
+        if (ganadorPronosticado === ganadorReal) {
+            return 1;
+        }
+    }
+    
     return 0;
 }
 
