@@ -70,11 +70,24 @@
             border-radius: 15px;
             margin: 20px 0;
         }
+        .reglas ul {
+            margin-left: 20px;
+        }
+        .reglas li {
+            margin: 5px 0;
+        }
         .gracias {
             text-align: center;
             font-size: 0.9rem;
             margin-top: 20px;
             color: #aaa;
+        }
+        .puntuacion-ejemplo {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -119,10 +132,22 @@
             <h3>🏆 ¿Cómo se gana?</h3>
             <ul>
                 <li>Gana el participante que <strong>más puntos acumule</strong> en el TOTAL de estos 28 partidos.</li>
-                <li>Puntuación: <strong>3 puntos</strong> por resultado exacto, <strong>1 punto</strong> por diferencia correcta.</li>
+                <li><strong>⚽ Sistema de puntuación:</strong>
+                    <ul>
+                        <li>✅ <strong>3 puntos</strong> si aciertas el <strong>resultado exacto</strong> (goles de ambos equipos).</li>
+                        <li>✅ <strong>1 punto</strong> si aciertas el <strong>ganador</strong> (o empate), aunque no aciertes los goles exactos.</li>
+                        <li>❌ <strong>0 puntos</strong> si no aciertas ninguna de las anteriores.</li>
+                    </ul>
+                </li>
                 <li>Los pronósticos deben estar registrados <strong>antes de cada partido</strong> (se cierran 1 hora antes del inicio).</li>
                 <li>El ranking semanal se actualiza en vivo en la página de la quiniela.</li>
             </ul>
+            <div class="puntuacion-ejemplo">
+                <strong>📝 Ejemplo:</strong> Si el partido termina <strong>México 2 - 0 Sudáfrica</strong>:<br>
+                • Pronosticar 2-0 → <strong>3 puntos</strong> (resultado exacto)<br>
+                • Pronosticar 3-1 → <strong>1 punto</strong> (acertó ganador: México)<br>
+                • Pronosticar 0-2 → <strong>0 puntos</strong> (no acertó ganador)
+            </div>
         </div>
 
         <div class="reglas">
