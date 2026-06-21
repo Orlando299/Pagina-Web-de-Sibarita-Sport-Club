@@ -12,29 +12,66 @@
             padding: 20px;
         }
         .premio-card {
-            background: linear-gradient(135deg, #ffd700, #ffb347);
-            color: #1a472a;
+            background: linear-gradient(135deg, #7a1f1f, #a84343);
+            color: #fff;
             text-align: center;
-            padding: 20px;
+            padding: 25px 20px;
             border-radius: 20px;
             margin-bottom: 25px;
+            border: 2px solid #d4a017;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
         .premio-card h2 {
             margin: 0;
             font-size: 2rem;
+            color: #ffd700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
         .premio-card .premio {
             font-size: 1.8rem;
             font-weight: bold;
             margin: 10px 0;
+            color: #ffd700;
         }
         .premio-card .patrocinador {
             font-size: 1.2rem;
             margin-top: 10px;
+            color: #fff;
         }
-        .patrocinador-logo {
-            max-height: 60px;
-            margin-top: 10px;
+        .premio-card .patrocinador strong {
+            color: #ffd700;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .logo-container img {
+            max-height: 80px;
+            width: auto;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.9);
+            padding: 8px 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .instagram-banner {
+            background: linear-gradient(135deg, #c0392b, #d4a017);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+            text-decoration: none;
+            border: 1px solid #ffd700;
+        }
+        .instagram-banner:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
         }
         .partidos-lista {
             display: flex;
@@ -42,52 +79,75 @@
             gap: 10px;
         }
         .partido-item {
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             padding: 10px;
             border-radius: 10px;
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
+            gap: 5px;
+            border-left: 3px solid #d4a017;
+            color: #fff; /* Letra blanca para los partidos */
         }
         .partido-fecha {
-            color: #ffd700;
+            color: #ffd700; /* Dorado para las fechas */
             font-weight: bold;
         }
         .btn-volver {
             display: inline-block;
-            background: #2e7d32;
-            color: #ffd700;
+            background: #d4a017;
+            color: #1a472a;
             padding: 12px 24px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
             margin-top: 20px;
             text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .btn-volver:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            background: #e6b422;
         }
         .reglas {
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
             padding: 15px;
             border-radius: 15px;
             margin: 20px 0;
+            border: 1px solid #d4a017;
+        }
+        .reglas h3 {
+            color: #ffd700;
         }
         .reglas ul {
             margin-left: 20px;
         }
         .reglas li {
             margin: 5px 0;
+            color: #f5e6d3;
         }
         .gracias {
             text-align: center;
             font-size: 0.9rem;
             margin-top: 20px;
-            color: #aaa;
+            color: #ccc;
+        }
+        .gracias strong {
+            color: #ffd700;
         }
         .puntuacion-ejemplo {
-            background: rgba(0,0,0,0.3);
+            background: rgba(255,215,0,0.1);
             padding: 10px;
             border-radius: 10px;
             margin-top: 10px;
             font-size: 0.9rem;
+            border: 1px solid #d4a017;
+            color: #f5e6d3;
+        }
+        .puntuacion-ejemplo strong {
+            color: #ffd700;
         }
     </style>
 </head>
@@ -104,34 +164,50 @@
 
         <div class="premio-card">
             <h2>🎁 PREMIO DE LA SEMANA</h2>
-            <div class="premio">🍔 2 Hamburguesas + Bebidas 🥤</div>
-            <div class="patrocinador">
-                🌟 Cortesía de <strong>Scooby Doo Burguer</strong> 🌟
+            <div class="premio">🍗 1 Pollo a la Broster (para 2 personas) + Acompañamientos 🥗</div>
+            
+            <!-- LOGO DE SIBARITA RESTAURANTE -->
+            <div class="logo-container">
+                <img src="logo_sibarita.png" alt="Sibarita Restaurante">
             </div>
-            <img src="logo_scooby.jpg" alt="Scooby Doo Burguer" class="patrocinador-logo" onerror="this.style.display='none'">
-            <p>📍 <strong>Canjeable en las canchas del Colegio de Ingenieros</strong></p>
+            
+            <div class="patrocinador">
+                🌟 Cortesía de <strong>Sibarita Restaurante</strong> 🌟
+            </div>
+
+            <!-- BANNER DE INSTAGRAM -->
+            <a href="https://www.instagram.com/sibarita_restaurante" target="_blank" rel="noopener noreferrer" class="instagram-banner">
+                <span style="font-size: 2.5rem;">📸</span>
+                <div style="text-align: center;">
+                    <span style="font-size: 1.5rem; font-weight: bold; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">@sibarita_restaurante</span>
+                    <div style="font-size: 1rem; color: #ffd700; opacity: 0.9;">Síguenos en Instagram</div>
+                </div>
+                <span style="font-size: 2rem; color: white;">→</span>
+            </a>
+
+            <p style="color: #ffd700; font-weight: bold;">📍 Canjeable en las canchas del Colegio de Ingenieros</p>
         </div>
 
         <div class="reglas">
             <h3>📅 Período válido</h3>
-            <p><strong>Lunes 15 de junio al Sábado 21 de junio de 2026</strong> (incluye jueves 18)</p>
+            <p style="color: #f5e6d3;"><strong>Lunes 22 al Sábado 28 de junio de 2026</strong> (última jornada de la fase de grupos)</p>
             
-            <h3>⚽ Partidos incluidos (28 partidos)</h3>
+            <h3>⚽ Partidos incluidos (32 partidos)</h3>
             <div class="partidos-lista">
-                <div class="partido-item"><span class="partido-fecha">LUNES 15:</span><span>Bélgica vs Egipto, Irán vs Nueva Zelanda, España vs Cabo Verde, Arabia Saudita vs Uruguay</span></div>
-                <div class="partido-item"><span class="partido-fecha">MARTES 16:</span><span>Francia vs Senegal, Irak vs Noruega, Argentina vs Argelia</span></div>
-                <div class="partido-item"><span class="partido-fecha">MIÉRCOLES 17:</span><span>Austria vs Jordania, Portugal vs RD Congo, Uzbekistán vs Colombia, Inglaterra vs Croacia, Ghana vs Panamá</span></div>
-                <div class="partido-item"><span class="partido-fecha">JUEVES 18:</span><span>República Checa vs Sudáfrica, México vs Corea del Sur, Suiza vs Bosnia, Canadá vs Qatar</span></div>
-                <div class="partido-item"><span class="partido-fecha">VIERNES 19:</span><span>Escocia vs Marruecos, Brasil vs Haití, Turquía vs Paraguay, Estados Unidos vs Australia</span></div>
-                <div class="partido-item"><span class="partido-fecha">SÁBADO 20:</span><span>Alemania vs Costa de Marfil, Ecuador vs Curazao, Países Bajos vs Suecia, Túnez vs Japón</span></div>
-                <div class="partido-item"><span class="partido-fecha">DOMINGO 21:</span><span>Bélgica vs Irán, Nueva Zelanda vs Egipto, España vs Arabia Saudita, Uruguay vs Cabo Verde</span></div>
+                <div class="partido-item"><span class="partido-fecha">LUNES 22:</span><span>Francia vs Irak, Noruega vs Senegal, Argentina vs Austria, Jordania vs Argelia</span></div>
+                <div class="partido-item"><span class="partido-fecha">MARTES 23:</span><span>Portugal vs Uzbekistán, Colombia vs RD Congo, Inglaterra vs Ghana, Panamá vs Croacia</span></div>
+                <div class="partido-item"><span class="partido-fecha">MIÉRCOLES 24:</span><span>Rep. Checa vs México, Sudáfrica vs Corea del Sur, Suiza vs Canadá, Bosnia vs Qatar, Escocia vs Brasil, Marruecos vs Haití</span></div>
+                <div class="partido-item"><span class="partido-fecha">JUEVES 25:</span><span>Turquía vs Estados Unidos, Paraguay vs Australia, Ecuador vs Alemania, Curazao vs Costa de Marfil, Japón vs Suecia, Túnez vs Países Bajos</span></div>
+                <div class="partido-item"><span class="partido-fecha">VIERNES 26:</span><span>Egipto vs Irán, Nueva Zelanda vs Bélgica, Cabo Verde vs Arabia Saudita, Uruguay vs España, Noruega vs Francia, Senegal vs Irak</span></div>
+                <div class="partido-item"><span class="partido-fecha">SÁBADO 27:</span><span>Argelia vs Austria, Jordania vs Argentina, Colombia vs Portugal, RD Congo vs Uzbekistán, Panamá vs Inglaterra, Croacia vs Ghana</span></div>
             </div>
+            <p style="margin-top: 10px; font-size: 0.9rem; color: #aaa;">* Total: 32 partidos (última jornada de grupos)</p>
         </div>
 
         <div class="reglas">
             <h3>🏆 ¿Cómo se gana?</h3>
             <ul>
-                <li>Gana el participante que <strong>más puntos acumule</strong> en el TOTAL de estos 28 partidos.</li>
+                <li>Gana el participante que <strong>más puntos acumule</strong> en el TOTAL de estos 32 partidos.</li>
                 <li><strong>⚽ Sistema de puntuación:</strong>
                     <ul>
                         <li>✅ <strong>3 puntos</strong> si aciertas el <strong>resultado exacto</strong> (goles de ambos equipos).</li>
@@ -140,7 +216,7 @@
                     </ul>
                 </li>
                 <li>Los pronósticos deben estar registrados <strong>antes de cada partido</strong> (se cierran 1 hora antes del inicio).</li>
-                <li>El ranking semanal se actualiza en vivo en la página de la quiniela.</li>
+                <li>El ranking semanal se actualiza en vivo en la página de la quiniela (selector de semanas).</li>
             </ul>
             <div class="puntuacion-ejemplo">
                 <strong>📝 Ejemplo:</strong> Si el partido termina <strong>México 2 - 0 Sudáfrica</strong>:<br>
@@ -152,16 +228,16 @@
 
         <div class="reglas">
             <h3>📢 Anuncio del ganador</h3>
-            <p>El ganador se anunciará el <strong>DOMINGO 21 de junio por la noche</strong> (vía WhatsApp y en esta página).</p>
-            <p>El premio deberá ser reclamado en las canchas del Colegio de Ingenieros durante la semana siguiente.</p>
+            <p style="color: #f5e6d3;">El ganador se anunciará el <strong style="color: #ffd700;">DOMINGO 28 de junio por la noche</strong> (vía WhatsApp y en esta página).</p>
+            <p style="color: #f5e6d3;">El premio deberá ser reclamado en las canchas del Colegio de Ingenieros durante la semana siguiente.</p>
         </div>
 
-        <div style="text-align: center;">
+        <div style="text-align: center; margin-top: 20px;">
             <a href="quiniela.html" class="btn-volver">⚽ Ir a la Quiniela y participar ⚽</a>
         </div>
 
         <div class="gracias">
-            🧡 ¡Gracias a Scooby Doo Burguer por apoyar a nuestros participantes! 🧡
+            🧡 ¡Gracias a <strong>Sibarita Restaurante</strong> por apoyar a nuestros participantes! 🧡
         </div>
     </div>
 
