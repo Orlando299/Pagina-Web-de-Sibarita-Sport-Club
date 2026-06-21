@@ -33,38 +33,33 @@
             <button id="registerBtn" class="nb">🎯 Participar</button>
             <small>⚠️ La cédula es única por participante y será usada para identificar al ganador.</small>
 
-            <!-- SECCIÓN DE REGLAS DE LA QUINIELA (ACTUALIZADA) -->
+            <!-- Reglas -->
             <div style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 15px; border-left: 4px solid #ffd700;">
                 <h3 style="color: #ffd700; margin-bottom: 10px;">📜 REGLAS DE LA QUINIELA</h3>
-                
                 <p><strong>⚽ Sistema de puntuación:</strong></p>
                 <ul style="margin-left: 20px; margin-bottom: 15px;">
                     <li>✅ <strong>3 puntos</strong> si aciertas el <strong>resultado exacto</strong> (goles de ambos equipos).</li>
                     <li>✅ <strong>1 punto</strong> si aciertas el <strong>ganador</strong> (o empate), aunque no aciertes los goles exactos.</li>
                     <li>❌ <strong>0 puntos</strong> si no aciertas ninguna de las anteriores.</li>
                 </ul>
-                
                 <p><strong>📝 Ejemplo:</strong> Si el partido termina <strong>México 2 - 0 Sudáfrica</strong>:</p>
                 <ul style="margin-left: 20px; margin-bottom: 15px;">
                     <li>🔹 Pronosticar 2-0 → <strong>3 puntos</strong> (resultado exacto)</li>
                     <li>🔹 Pronosticar 3-1 → <strong>1 punto</strong> (acertó ganador: México)</li>
                     <li>🔹 Pronosticar 0-2 → <strong>0 puntos</strong> (no acertó ganador)</li>
                 </ul>
-                
                 <p><strong>⏰ Fecha límite para pronosticar:</strong></p>
                 <ul style="margin-left: 20px; margin-bottom: 15px;">
                     <li>📅 Los pronósticos deben realizarse <strong>antes del inicio de cada partido</strong>.</li>
                     <li>🔒 Las predicciones se cierran <strong>1 hora antes</strong> del inicio del partido.</li>
                     <li>❌ Una vez que el partido comienza, <strong>no se pueden modificar ni registrar pronósticos</strong> para ese partido.</li>
                 </ul>
-                
                 <p><strong>⚠️ Importante para nuevos participantes:</strong></p>
                 <ul style="margin-left: 20px; margin-bottom: 5px;">
                     <li>🕒 Si te registras <strong>después de que algunos partidos ya se jugaron</strong>, <strong>NO podrás sumar puntos por esos partidos pasados</strong>.</li>
                     <li>🏆 Solo podrás pronosticar y sumar puntos en los <strong>partidos futuros</strong>.</li>
                     <li>📊 En la página de partidos, verás los resultados reales de los partidos ya jugados, pero los campos de pronóstico estarán deshabilitados.</li>
                 </ul>
-                
                 <p style="margin-top: 15px; font-size: 0.8rem; color: #aaa; text-align: center;">
                     ¡Entre más temprano te registres, más oportunidades de sumar puntos!
                 </p>
@@ -77,7 +72,7 @@
             <!-- PUBLICIDAD ANTES DEL RANKING -->
             <div class="ad-container ad-before-ranking" id="adBeforeRanking"></div>
 
-            <!-- Selector de semanas y botón concurso (alineados a la derecha) -->
+            <!-- Selector de semanas y botón concurso -->
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px; gap: 10px;">
                 <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
                     <label style="display: flex; align-items: center; gap: 5px;">
@@ -87,9 +82,10 @@
                         </select>
                     </label>
                 </div>
-               <a href="concurso.html" class="btn-concurso" style="background: linear-gradient(135deg, #ff6600, #ff3300); color: white; text-decoration: none; display: inline-block; padding: 10px 25px; border-radius: 50px; font-weight: bold; font-size: 1rem; box-shadow: 0 4px 15px rgba(255, 51, 0, 0.4); transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.3);">
-    🍔🔥 CONCURSO SEMANAL: 2 HAMBURGUESAS + BEBIDAS 🔥🍔
-</a>
+                <!-- BOTÓN CONCURSO ACTUALIZADO (VERDE) -->
+                <a href="concurso.html" class="btn-concurso" style="background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; text-decoration: none; display: inline-block; padding: 10px 22px; border-radius: 50px; font-weight: bold; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4); transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.3); animation: pulse-concurso 2s infinite;">
+                    🍗 Concurso Semanal: 1 Pollo a la Broster + Acompañamientos
+                </a>
             </div>
 
             <!-- Ranking -->
@@ -106,7 +102,7 @@
                             </tr>
                         </thead>
                         <tbody id="rankingBody">
-                            <tr><td colspan="4">Cargando...<\/td><\/tr>
+                            <tr><td colspan="4">Cargando...</td></tr>
                         </tbody>
                     </table>
                 </div>
