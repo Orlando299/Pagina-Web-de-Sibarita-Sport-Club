@@ -65,8 +65,8 @@ body {
     padding: 20px;
 }
 
-/* Botones */
-.nb, .fb, .secondary-btn, .whatsapp-btn, .admin-btn {
+/* Botones generales */
+.nb, .fb, .secondary-btn, .whatsapp-btn {
     background: linear-gradient(180deg, #ffd700 0%, #ffb347 100%);
     border: none;
     padding: 12px 24px;
@@ -80,7 +80,7 @@ body {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-.nb:hover, .fb:hover, .secondary-btn:hover, .whatsapp-btn:hover, .admin-btn:hover {
+.nb:hover, .fb:hover, .secondary-btn:hover, .whatsapp-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
@@ -98,6 +98,31 @@ body {
 .whatsapp-btn {
     background: linear-gradient(180deg, #25D366 0%, #128C7E 100%);
     color: white;
+}
+
+/* Botón Concurso (verde esmeralda) */
+.btn-concurso {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.3);
+    animation: pulse-concurso 2s infinite;
+}
+.btn-concurso:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(46, 204, 113, 0.6);
+}
+@keyframes pulse-concurso {
+    0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
 }
 
 /* Cards */
@@ -181,20 +206,6 @@ body {
     border: 1px solid #ffd700;
     font-family: inherit;
     cursor: pointer;
-}
-
-.btn-concurso {
-    background: linear-gradient(180deg, #ff9800 0%, #f57c00 100%);
-    color: white;
-    text-decoration: none;
-    padding: 12px 24px;
-    border-radius: 50px;
-    font-weight: bold;
-    transition: all 0.3s;
-}
-.btn-concurso:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
 
 /* Grid de partidos */
@@ -310,7 +321,7 @@ body {
     flex-wrap: wrap;
 }
 
-/* ========== PUBLICIDAD LOCAL ========== */
+/* Publicidad */
 .ad-container {
     margin: 20px 0;
     padding: 15px;
@@ -319,92 +330,71 @@ body {
     border: 1px solid rgba(255, 215, 0, 0.4);
     transition: transform 0.3s;
 }
-
 .ad-container:hover {
     transform: scale(1.01);
     background: rgba(0, 0, 0, 0.8);
 }
-
-/* Imágenes de publicidad */
 .ad-img {
     max-width: 100%;
-    max-height: 100px;   /* Altura máxima para que no desborden */
+    max-height: 100px;
     width: auto;
     height: auto;
-    object-fit: contain; /* No deforma la imagen */
+    object-fit: contain;
     border-radius: 10px;
     margin-bottom: 8px;
 }
-
 .ad-text {
     font-size: 0.9rem;
     color: #ffd700;
     margin-top: 5px;
 }
-
 .ad-link {
     text-decoration: none;
     display: inline-block;
     width: 100%;
 }
-
 .ad-link:hover .ad-img {
     opacity: 0.9;
 }
-
-/* ========== DISTRIBUCIÓN DE LOGOS IZQUIERDA Y DERECHA ========== */
 .ad-flex-container {
     display: flex;
-    justify-content: space-between;  /* Empuja izquierda a la izquierda y derecha a la derecha */
+    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
 }
-
 .ad-group-left {
     display: flex;
     gap: 20px;
-    justify-content: flex-start;  /* Los elementos se alinean a la izquierda */
+    justify-content: flex-start;
     flex-wrap: wrap;
 }
-
 .ad-group-right {
     display: flex;
     gap: 20px;
-    justify-content: flex-end;     /* Los elementos se alinean a la derecha */
+    justify-content: flex-end;
     flex-wrap: wrap;
 }
-
-/* Si solo hay un anuncio en el grupo izquierdo o derecho, que se centre (opcional) */
 .ad-group-left:only-child,
 .ad-group-right:only-child {
     justify-content: center;
 }
-
-/* Si no hay grupo derecho (solo izquierda), que ocupe todo el ancho */
-.ad-flex-container:has(.ad-group-left:only-child) {
-    justify-content: center;
-}
-
 .ad-top, .ad-footer {
     min-height: 90px;
 }
-
 .ad-before-ranking, .ad-after-ranking {
     min-height: 80px;
 }
 
-/* Panel Administrador */
+/* Admin */
 .admin-panel {
     animation: pulse 2s infinite;
 }
-
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4); }
     70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
     100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
 }
-
 .admin-partido-card input {
     background: white;
     color: black;
@@ -421,7 +411,7 @@ footer {
     font-size: 0.8rem;
 }
 
-/* Responsive general */
+/* Responsive */
 @media (max-width: 768px) {
     .topbar {
         flex-direction: column;
@@ -454,7 +444,6 @@ footer {
         justify-content: center;
     }
 }
-
 @media (max-width: 480px) {
     .prediccion-inputs input {
         width: 55px;
@@ -462,48 +451,5 @@ footer {
     .ranking-table th, .ranking-table td {
         padding: 8px;
         font-size: 0.8rem;
-    }
-}
-
-/* Botón Concurso Semanal */
-.btn-concurso {
-    background: linear-gradient(135deg, #ff6600, #ff3300);
-    color: white;
-    text-decoration: none;
-    display: inline-block;
-    padding: 12px 28px;
-    border-radius: 50px;
-    font-weight: bold;
-    font-size: 1rem;
-    box-shadow: 0 4px 15px rgba(255, 51, 0, 0.4);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255,255,255,0.3);
-    animation: pulse-concurso 2s infinite;
-}
-
-.btn-concurso:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 51, 0, 0.6);
-    background: linear-gradient(135deg, #ff7700, #ff4400);
-}
-
-@keyframes pulse-concurso {
-    0% {
-        box-shadow: 0 0 0 0 rgba(255, 51, 0, 0.4);
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(255, 51, 0, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(255, 51, 0, 0);
-    }
-}
-
-@media (max-width: 768px) {
-    .btn-concurso {
-        padding: 8px 16px;
-        font-size: 0.85rem;
-        white-space: normal;
-        text-align: center;
     }
 }
