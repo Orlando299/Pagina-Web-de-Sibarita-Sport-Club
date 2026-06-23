@@ -651,92 +651,96 @@ function cargarResultadosDesdeGitHub() { mostrarEstado('Función legacy, ya no s
 
 // ==================== IMPORTAR JSON DE JUEZ ====================
 async function importarJSONJuez() {
-    // Crear input file sin mostrarlo todavía, pero con la promesa
+    const pass = prompt('🔐 Contraseña de administrador:');
+    if (pass !== 'sibarita2026') { alert('❌ Contraseña incorrecta'); return; }
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'application/json';
-    input.style.display = 'none';
-    document.body.appendChild(input);
-    
-    // Usamos una promesa para esperar la selección del archivo sin perder la activación
-    const file = await new Promise((resolve) => {
-        input.onchange = (e) => resolve(e.target.files[0]);
-        input.click(); // Esto sí tiene activación de usuario porque se llama directamente desde el click del botón
-    });
-    
-    document.body.removeChild(input);
-    
-    if (!file) return; // Usuario canceló
-    
-    // Ahora pedir la contraseña (ya con el archivo seleccionado)
-    const pass = prompt('🔐 Contraseña de administrador:');
-    if (pass !== 'sibarita2026') {
-        alert('❌ Contraseña incorrecta');
-        return;
-    }
-    
-    const reader = new FileReader();
-    reader.onload = async (ev) => {
-        try {
-            const data = JSON.parse(ev.target.result);
-            if (!data.partidos) throw new Error('Estructura inválida: falta "partidos"');
-            const partidos = data.partidos;
-            const ids = Object.keys(partidos);
-            if (!ids.length) { alert('No hay partidos'); return; }
-            if (!confirm(`Importar ${ids.length} partidos a Firebase?`)) return;
-            let importados = 0, errores = [];
-            for (const id of ids) {
-                const p = partidos[id];
-                if (p.puntosA === undefined || p.puntosB === undefined) { errores.push(`ID ${id}: faltan puntos`); continue; }
-                await window.guardarResultadoFirebase(id, { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' });
-                const statsPorPartido = {};
-                const statsTemp = {};
-                for (const [team, jugadores] of Object.entries(p.estadisticas || {})) {
-                    for (const j of jugadores) {
-                        const key = `${team}|${j.nombre}`;
-                        statsPorPartido[key] = { arr_b: j.arr_b||0, total_arr: j.total_arr||0, boc_b: j.boc_b||0, total_boc: j.total_boc||0 };
-                        if (!statsTemp[key]) statsTemp[key] = { arr_b:0, total_arr:0, boc_b:0, total_boc:0, partidos:0 };
-                        statsTemp[key].arr_b += j.arr_b||0;
-                        statsTemp[key].total_arr += j.total_arr||0;
-                        statsTemp[key].boc_b += j.boc_b||0;
-                        statsTemp[key].total_boc += j.total_boc||0;
-                        statsTemp[key].partidos += 1;
+    input.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async (ev) => {
+            try {
+                const data = JSON.parse(ev.target.result);
+                if (!data.partidos) throw new Error('Estructura inválida: falta "partidos"');
+                const partidos = data.partidos;
+                const ids = Object.keys(partidos);
+                if (!ids.length) { alert('No hay partidos'); return; }
+                if (!confirm(`Importar ${ids.length} partidos a Firebase?`)) return;
+                let importados = 0, errores = [];
+
+                for (const id of ids) {
+                    const p = partidos[id];
+                    if (p.puntosA === undefined || p.puntosB === undefined) { errores.push(`ID ${id}: faltan puntos`); continue; }
+                    // Guardar resultado en Firebase
+                    await window.guardarResultadoFirebase(id, { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' });
+
+                    // Guardar estadísticas por partido
+                    const statsPorPartido = {};
+                    for (const [team, jugadores] of Object.entries(p.estadisticas || {})) {
+                        for (const j of jugadores) {
+                            const key = `${team}|${j.nombre}`;
+                            statsPorPartido[key] = { arr_b: j.arr_b||0, total_arr: j.total_arr||0, boc_b: j.boc_b||0, total_boc: j.total_boc||0 };
+                        }
                     }
+                    await window.guardarEstadisticasPorPartidoFirebase(id, statsPorPartido);
+                    localStorage.setItem(`match_stats_${id}`, JSON.stringify(statsPorPartido));
+
+                    // --- RECALCULAR PARTIDOS DESPUÉS DE TODA LA IMPORTACIÓN ---
+                    // (lo haremos al final, no aquí)
+                    importados++;
                 }
-                await window.guardarEstadisticasPorPartidoFirebase(id, statsPorPartido);
-                for (const [key, st] of Object.entries(statsTemp)) {
-                    let current = PS[key] || { arr_b:0, total_arr:0, boc_b:0, total_boc:0, partidos:0 };
-                    current.arr_b += st.arr_b;
-                    current.total_arr += st.total_arr;
-                    current.boc_b += st.boc_b;
-                    current.total_boc += st.total_boc;
-                    current.partidos += st.partidos;
-                    await window.guardarEstadisticasFirebase(key, current);
-                    PS[key] = current;
-                }
-                let ganador = null;
-                if (p.puntosA > p.puntosB) ganador = p.equipoA;
-                else if (p.puntosB > p.puntosA) ganador = p.equipoB;
-                if (ganador && p.estadisticas && p.estadisticas[ganador]) {
-                    let mejor = null, mejorPuntuacion = -1;
-                      for (const j of p.estadisticas[ganador]) {
-                      const totalBuenos = (j.arr_b||0)+(j.boc_b||0);
-                      const totalIntentos = (j.total_arr||0)+(j.total_boc||0);
-                      const efectividad = totalIntentos ? (totalBuenos / totalIntentos) * 100 : 0;
-                      const puntuacion = totalBuenos * (efectividad / 100);
-                          if (puntuacion > mejorPuntuacion) { mejorPuntuacion = puntuacion; mejor = { name: j.nombre, team: ganador, efec: null, puntuacion: puntuacion }; }
-                                  }
-                    if (mejor) { await window.guardarMVPFirebase(id, mejor); MVP[id] = mejor; }
-                }
-                importados++;
-            }
-            save();
-            if (errores.length) alert(`Importación con errores:\n${errores.join('\n')}\nImportados: ${importados}`);
-            else alert(`🎉 Importación completada: ${importados} partidos guardados en Firebase.`);
-            rM(); rSt(); rA(); rT();
-        } catch(err) { console.error(err); alert('Error: '+err.message); }
+
+                // --- RECALCULAR PARTIDOS PARA TODOS LOS JUGADORES ---
+                await recalcularPartidosGlobales();
+
+                save();
+                if (errores.length) alert(`Importación con errores:\n${errores.join('\n')}\nImportados: ${importados}`);
+                else alert(`🎉 Importación completada: ${importados} partidos guardados en Firebase.`);
+                rM(); rSt(); rA(); rT();
+            } catch(err) { console.error(err); alert('Error: '+err.message); }
+        };
+        reader.readAsText(file);
     };
-    reader.readAsText(file);
+    input.click();
+}
+
+// Función auxiliar para recalcular partidos de todos los jugadores
+async function recalcularPartidosGlobales() {
+    // Limpiar partidos de todos los PS
+    for (const key of Object.keys(PS)) {
+        delete PS[key].partidos;
+    }
+
+    // Recorrer todas las estadísticas por partido
+    const allMatchStats = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('match_stats_')) {
+            const matchId = key.replace('match_stats_', '');
+            allMatchStats[matchId] = JSON.parse(localStorage.getItem(key));
+        }
+    }
+
+    for (const [matchId, matchStats] of Object.entries(allMatchStats)) {
+        for (const [fullKey, statsData] of Object.entries(matchStats)) {
+            if (!PS[fullKey]) PS[fullKey] = {};
+            PS[fullKey].partidos = (PS[fullKey].partidos || 0) + 1;
+            // Acumular stats
+            PS[fullKey].arr_b = (PS[fullKey].arr_b || 0) + statsData.arr_b;
+            PS[fullKey].total_arr = (PS[fullKey].total_arr || 0) + statsData.total_arr;
+            PS[fullKey].boc_b = (PS[fullKey].boc_b || 0) + statsData.boc_b;
+            PS[fullKey].total_boc = (PS[fullKey].total_boc || 0) + statsData.total_boc;
+        }
+    }
+
+    // Guardar en Firebase
+    for (const [fullKey, stats] of Object.entries(PS)) {
+        if (window.guardarEstadisticasFirebase) {
+            await window.guardarEstadisticasFirebase(fullKey, stats);
+        }
+    }
 }
 
 // ==================== INICIALIZACIÓN ====================
