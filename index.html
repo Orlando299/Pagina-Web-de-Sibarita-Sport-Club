@@ -553,7 +553,91 @@ function cargarPlaylists() { const grid = document.getElementById('playlist-grid
 function abrirPlaylist(id) { window.open(`https://www.youtube.com/playlist?list=${id}`, '_blank'); }
 function compartirVideos() { if(navigator.share) navigator.share({title:'Sibarita Sport Club', url:location.href}); else navigator.clipboard.writeText(location.href); }
 function openStatsModal(matchId) { const match = MATCHES.find(m => m.id == matchId); if(!match) return; currentMatchId = matchId; const matchStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {}; document.getElementById('stats-modal-title').innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`; const body = document.getElementById('stats-modal-body'); let html = ''; function getStatsForPlayer(teamName, playerName) { const key = `${teamName}|${playerName}`; return matchStats[key] || { arr_b:0, total_arr:0, boc_b:0, total_boc:0 }; } const teamA = TEAMS.find(t => t.n === match.a); if(teamA) { html += `<div class="lbl">🏆 ${match.a}</div>`; teamA.p.forEach(p => { const stats = getStatsForPlayer(match.a, p); html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid"><div class="stat-item"><label>🎯 arr_b</label><input type="number" class="stat-input" id="arr_b_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.arr_b}"></div><div class="stat-item"><label>📊 total_arr</label><input type="number" class="stat-input" id="total_arr_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.total_arr}"></div><div class="stat-item"><label>💥 boc_b</label><input type="number" class="stat-input" id="boc_b_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.boc_b}"></div><div class="stat-item"><label>📊 total_boc</label><input type="number" class="stat-input" id="total_boc_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.total_boc}"></div></div></div>`; }); } const teamB = TEAMS.find(t => t.n === match.b); if(teamB) { html += `<div class="lbl">🏆 ${match.b}</div>`; teamB.p.forEach(p => { const stats = getStatsForPlayer(match.b, p); html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid"><div class="stat-item"><label>🎯 arr_b</label><input type="number" class="stat-input" id="arr_b_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.arr_b}"></div><div class="stat-item"><label>📊 total_arr</label><input type="number" class="stat-input" id="total_arr_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.total_arr}"></div><div class="stat-item"><label>💥 boc_b</label><input type="number" class="stat-input" id="boc_b_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.boc_b}"></div><div class="stat-item"><label>📊 total_boc</label><input type="number" class="stat-input" id="total_boc_${p.replace(/[^a-zA-Z0-9]/g,'_')}" value="${stats.total_boc}"></div></div></div>`; }); } body.innerHTML = html; document.getElementById('stats-modal').style.display = 'block'; }
-function saveMatchStats() { const match = MATCHES.find(m => m.id === currentMatchId); if(!match) return; const stats = {}; [match.a, match.b].forEach(teamName => { const team = TEAMS.find(t => t.n === teamName); if(team) { team.p.forEach(player => { const safeKey = player.replace(/[^a-zA-Z0-9]/g,'_'); const arr_b = parseInt(document.getElementById(`arr_b_${safeKey}`)?.value) || 0; const total_arr = parseInt(document.getElementById(`total_arr_${safeKey}`)?.value) || 0; const boc_b = parseInt(document.getElementById(`boc_b_${safeKey}`)?.value) || 0; const total_boc = parseInt(document.getElementById(`total_boc_${safeKey}`)?.value) || 0; const fullKey = `${teamName}|${player}`; stats[fullKey] = { arr_b, total_arr, boc_b, total_boc }; const psKey = fullKey; if(!PS[psKey]) PS[psKey] = { arr_b:0, total_arr:0, boc_b:0, total_boc:0, partidos:0 }; PS[psKey].arr_b += arr_b; PS[psKey].total_arr += total_arr; PS[psKey].boc_b += boc_b; PS[psKey].total_boc += total_boc; PS[psKey].partidos += 1; }); } }); localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats)); save(); closeStatsModal(); if(window.guardarEstadisticasPorPartidoFirebase) window.guardarEstadisticasPorPartidoFirebase(currentMatchId, stats); for(const key in stats) { const st = stats[key]; const psKey = key; const current = PS[psKey]; if(window.guardarEstadisticasFirebase) window.guardarEstadisticasFirebase(psKey, current); } alert('✅ Estadísticas guardadas'); rA(); rT(); }
+function saveMatchStats() {
+    const match = MATCHES.find(m => m.id === currentMatchId);
+    if (!match) return;
+    const stats = {};
+    // Guardar estadísticas del partido
+    [match.a, match.b].forEach(teamName => {
+        const team = TEAMS.find(t => t.n === teamName);
+        if (team) {
+            team.p.forEach(player => {
+                if (player !== 'Por Cargar') {
+                    const safeKey = player.replace(/[^a-zA-Z0-9]/g, '_');
+                    const arr_b = parseInt(document.getElementById(`arr_b_${safeKey}`)?.value) || 0;
+                    const total_arr = parseInt(document.getElementById(`total_arr_${safeKey}`)?.value) || 0;
+                    const boc_b = parseInt(document.getElementById(`boc_b_${safeKey}`)?.value) || 0;
+                    const total_boc = parseInt(document.getElementById(`total_boc_${safeKey}`)?.value) || 0;
+                    const fullKey = `${teamName}|${player}`;
+                    stats[fullKey] = { arr_b, total_arr, boc_b, total_boc };
+                }
+            });
+        }
+    });
+
+    // Guardar en localStorage y Firebase
+    localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats));
+    if (window.guardarEstadisticasPorPartidoFirebase) {
+        window.guardarEstadisticasPorPartidoFirebase(currentMatchId, stats);
+    }
+
+    // --- RECALCULAR PARTIDOS DESDE CERO ---
+    // 1. Limpiar PS[fullKey].partidos para todos los jugadores del partido
+    const jugadoresAfectados = [];
+    [match.a, match.b].forEach(teamName => {
+        const team = TEAMS.find(t => t.n === teamName);
+        if (team) {
+            team.p.forEach(player => {
+                if (player !== 'Por Cargar') {
+                    const fullKey = `${teamName}|${player}`;
+                    jugadoresAfectados.push(fullKey);
+                    if (!PS[fullKey]) PS[fullKey] = {};
+                    // Eliminar partidos para recalcular
+                    delete PS[fullKey].partidos;
+                }
+            });
+        }
+    });
+
+    // 2. Recorrer TODAS las estadísticas por partido y contar apariciones
+    const allMatchStats = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('match_stats_')) {
+            const matchId = key.replace('match_stats_', '');
+            allMatchStats[matchId] = JSON.parse(localStorage.getItem(key));
+        }
+    }
+    // También contar desde Firebase (si ya se guardaron)
+    // (En esta versión contamos solo localStorage, pero puedes expandir)
+
+    for (const [matchId, matchStats] of Object.entries(allMatchStats)) {
+        for (const [fullKey, statsData] of Object.entries(matchStats)) {
+            if (jugadoresAfectados.includes(fullKey)) {
+                if (!PS[fullKey]) PS[fullKey] = {};
+                PS[fullKey].partidos = (PS[fullKey].partidos || 0) + 1;
+                // Acumular stats
+                PS[fullKey].arr_b = (PS[fullKey].arr_b || 0) + statsData.arr_b;
+                PS[fullKey].total_arr = (PS[fullKey].total_arr || 0) + statsData.total_arr;
+                PS[fullKey].boc_b = (PS[fullKey].boc_b || 0) + statsData.boc_b;
+                PS[fullKey].total_boc = (PS[fullKey].total_boc || 0) + statsData.total_boc;
+            }
+        }
+    }
+
+    // 3. Guardar las estadísticas globales en Firebase
+    for (const fullKey of jugadoresAfectados) {
+        if (window.guardarEstadisticasFirebase) {
+            window.guardarEstadisticasFirebase(fullKey, PS[fullKey]);
+        }
+    }
+
+    save();
+    closeStatsModal();
+    alert('✅ Estadísticas guardadas correctamente');
+    rA();
+    rT();
+}
 function suspenderJuego(id) { const pass = prompt('🔐 Contraseña de organizador:'); if(pass !== 'sibarita2026') { alert('❌ Incorrecta'); return; } const m = MATCHES.find(x=>x.id===id); if(!m) return; const razon = prompt('Motivo de suspensión:', 'Clima'); if(razon===null) return; R[id] = { scoreA:0, scoreB:0, status:'suspended', razon }; save(); rM(); rSt(); if(window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); alert('Partido suspendido'); }
 function reanudarJuego(id) { const pass = prompt('🔐 Contraseña de organizador:'); if(pass !== 'sibarita2026') { alert('❌ Incorrecta'); return; } if(confirm('¿Reanudar? Se borrará suspensión')) { delete R[id]; save(); rM(); rSt(); if(window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, null); alert('Reanudado'); } }
 function closeStatsModal() { document.getElementById('stats-modal').style.display = 'none'; currentMatchId = null; }
