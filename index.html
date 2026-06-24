@@ -180,8 +180,10 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
   <div id="admin-buttons" style="display: none; gap: 6px; margin-top: 8px;">
     <button class="fb" onclick="cargarResultadosDesdeGitHub()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Cargar de GitHub</button>
     <button class="fb" onclick="exportarResultadosAJSON()" style="background:#f39c1233;border-color:#f39c12;color:#f39c12;">📦 Exportar JSON</button>
-    <button class="fb" onclick="importarJSONJuez()" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;">📂 Importar JSON de Juez</button>
-  </div>
+    <label class="fb" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;cursor:pointer;display:inline-block;padding:5px 10px;border-radius:12px;border:1px solid #9b59b6;">
+    📂 Importar JSON de Juez
+    <input type="file" id="importJsonInput" accept=".json" style="display:none;">
+</label>  </div>
   <div class="pdf-panel" id="pdf-panel"><div style="font-size:11px;color:#e8b84b;margin-bottom:8px;">DESCARGAR CALENDARIO EN PDF</div><div class="frow"><button class="fb on" id="pdf-btn-week" onclick="setPdfMode('week')">📅 Por Semana</button><button class="fb" id="pdf-btn-team" onclick="setPdfMode('team')">👥 Por Equipo</button><button class="fb" id="pdf-btn-all" onclick="setPdfMode('all')">🌍 Todas Categorías</button></div><div id="pdf-week-wrap"><select id="pdf-week-sel" class="pdf-sel"><option value="Todos">Todas</option><option value="S1">Sem 1</option><option value="S2">Sem 2</option><option value="S3">Sem 3</option><option value="S4">Sem 4</option><option value="S5">Sem 5</option><option value="S6">Sem 6</option><option value="S7">Sem 7</option><option value="S8">Sem 8</option><option value="S9">Sem 9</option></select></div><div id="pdf-team-wrap" style="display:none;"><select id="pdf-team-sel" class="pdf-sel"></select></div><button class="pdf-gen-btn" onclick="generatePDF()">⬇️ Generar PDF</button><button class="pdf-cancel-btn" onclick="togglePdfPanel()">Cancelar</button></div>
   <div class="lbl" id="m-cnt"></div>
   <div id="m-list"></div>
@@ -683,104 +685,94 @@ function generatePDF() { alert("Función PDF: se puede implementar más tarde.")
 function cargarResultadosDesdeGitHub() { mostrarEstado('Función legacy, ya no se usa.'); }
 
 // ==================== IMPORTAR JSON DE JUEZ ====================
-async function importarJSONJuez() {
-    const pass = prompt('🔐 Contraseña de administrador:');
-    if (pass !== 'sibarita2026') {
-        alert('❌ Contraseña incorrecta');
+document.getElementById('importJsonInput')?.addEventListener('change', async function(e) {
+    const file = e.target.files[0];
+    if (!file) {
+        this.value = ''; // reset
         return;
     }
 
-    // Crear input y agregarlo al DOM
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'application/json';
-    input.style.display = 'none';
-    document.body.appendChild(input);
+    // Pedir contraseña AHORA (después de seleccionar el archivo)
+    const pass = prompt('🔐 Contraseña de administrador:');
+    if (pass !== 'sibarita2026') {
+        alert('❌ Contraseña incorrecta');
+        this.value = '';
+        return;
+    }
 
-    // El evento click se ejecuta inmediatamente (síncrono)
-    input.click();
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+        try {
+            const data = JSON.parse(ev.target.result);
+            if (!data.partidos) throw new Error('Estructura inválida: falta "partidos"');
+            const partidos = data.partidos;
+            const ids = Object.keys(partidos);
+            if (!ids.length) { alert('No hay partidos'); return; }
+            if (!confirm(`Importar ${ids.length} partidos a Firebase?`)) return;
 
-    // El resto del código se ejecuta cuando se selecciona un archivo
-    input.onchange = async (e) => {
-        const file = e.target.files[0];
-        if (!file) {
-            document.body.removeChild(input);
-            return;
-        }
+            let importados = 0, errores = [];
 
-        const reader = new FileReader();
-        reader.onload = async (ev) => {
-            try {
-                const data = JSON.parse(ev.target.result);
-                if (!data.partidos) throw new Error('Estructura inválida: falta "partidos"');
-                const partidos = data.partidos;
-                const ids = Object.keys(partidos);
-                if (!ids.length) { alert('No hay partidos'); return; }
-                if (!confirm(`Importar ${ids.length} partidos a Firebase?`)) return;
-
-                let importados = 0, errores = [];
-
-                for (const id of ids) {
-                    const p = partidos[id];
-                    if (p.puntosA === undefined || p.puntosB === undefined) {
-                        errores.push(`ID ${id}: faltan puntos`);
-                        continue;
-                    }
-                    await window.guardarResultadoFirebase(id, { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' });
-                    const statsPorPartido = {};
-                    for (const [team, jugadores] of Object.entries(p.estadisticas || {})) {
-                        for (const j of jugadores) {
-                            const key = `${team}|${j.nombre}`;
-                            statsPorPartido[key] = { arr_b: j.arr_b||0, total_arr: j.total_arr||0, boc_b: j.boc_b||0, total_boc: j.total_boc||0 };
-                        }
-                    }
-                    await window.guardarEstadisticasPorPartidoFirebase(id, statsPorPartido);
-                    localStorage.setItem(`match_stats_${id}`, JSON.stringify(statsPorPartido));
-                    importados++;
+            for (const id of ids) {
+                const p = partidos[id];
+                if (p.puntosA === undefined || p.puntosB === undefined) {
+                    errores.push(`ID ${id}: faltan puntos`);
+                    continue;
                 }
-
-                // Recalcular partidos
-                const allMatchStats = {};
-                for (let i = 0; i < localStorage.length; i++) {
-                    const key = localStorage.key(i);
-                    if (key && key.startsWith('match_stats_')) {
-                        const matchId = key.replace('match_stats_', '');
-                        allMatchStats[matchId] = JSON.parse(localStorage.getItem(key));
+                await window.guardarResultadoFirebase(id, { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' });
+                const statsPorPartido = {};
+                for (const [team, jugadores] of Object.entries(p.estadisticas || {})) {
+                    for (const j of jugadores) {
+                        const key = `${team}|${j.nombre}`;
+                        statsPorPartido[key] = { arr_b: j.arr_b||0, total_arr: j.total_arr||0, boc_b: j.boc_b||0, total_boc: j.total_boc||0 };
                     }
                 }
-                for (const key of Object.keys(PS)) {
-                    delete PS[key].partidos;
-                }
-                for (const [matchId, matchStats] of Object.entries(allMatchStats)) {
-                    for (const [fullKey, statsData] of Object.entries(matchStats)) {
-                        if (!PS[fullKey]) PS[fullKey] = {};
-                        PS[fullKey].partidos = (PS[fullKey].partidos || 0) + 1;
-                        PS[fullKey].arr_b = (PS[fullKey].arr_b || 0) + statsData.arr_b;
-                        PS[fullKey].total_arr = (PS[fullKey].total_arr || 0) + statsData.total_arr;
-                        PS[fullKey].boc_b = (PS[fullKey].boc_b || 0) + statsData.boc_b;
-                        PS[fullKey].total_boc = (PS[fullKey].total_boc || 0) + statsData.total_boc;
-                    }
-                }
-                for (const [fullKey, stats] of Object.entries(PS)) {
-                    if (window.guardarEstadisticasFirebase) {
-                        await window.guardarEstadisticasFirebase(fullKey, stats);
-                    }
-                }
-
-                save();
-                if (errores.length) alert(`Importación con errores:\n${errores.join('\n')}\nImportados: ${importados}`);
-                else alert(`🎉 Importación completada: ${importados} partidos guardados en Firebase.`);
-                rM(); rSt(); rA(); rT();
-
-            } catch(err) {
-                console.error(err);
-                alert('Error: ' + err.message);
+                await window.guardarEstadisticasPorPartidoFirebase(id, statsPorPartido);
+                localStorage.setItem(`match_stats_${id}`, JSON.stringify(statsPorPartido));
+                importados++;
             }
-            document.body.removeChild(input);
-        };
-        reader.readAsText(file);
+
+            // Recalcular partidos
+            const allMatchStats = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('match_stats_')) {
+                    const matchId = key.replace('match_stats_', '');
+                    allMatchStats[matchId] = JSON.parse(localStorage.getItem(key));
+                }
+            }
+            for (const key of Object.keys(PS)) {
+                delete PS[key].partidos;
+            }
+            for (const [matchId, matchStats] of Object.entries(allMatchStats)) {
+                for (const [fullKey, statsData] of Object.entries(matchStats)) {
+                    if (!PS[fullKey]) PS[fullKey] = {};
+                    PS[fullKey].partidos = (PS[fullKey].partidos || 0) + 1;
+                    PS[fullKey].arr_b = (PS[fullKey].arr_b || 0) + statsData.arr_b;
+                    PS[fullKey].total_arr = (PS[fullKey].total_arr || 0) + statsData.total_arr;
+                    PS[fullKey].boc_b = (PS[fullKey].boc_b || 0) + statsData.boc_b;
+                    PS[fullKey].total_boc = (PS[fullKey].total_boc || 0) + statsData.total_boc;
+                }
+            }
+            for (const [fullKey, stats] of Object.entries(PS)) {
+                if (window.guardarEstadisticasFirebase) {
+                    await window.guardarEstadisticasFirebase(fullKey, stats);
+                }
+            }
+
+            save();
+            if (errores.length) alert(`Importación con errores:\n${errores.join('\n')}\nImportados: ${importados}`);
+            else alert(`🎉 Importación completada: ${importados} partidos guardados en Firebase.`);
+            rM(); rSt(); rA(); rT();
+
+        } catch(err) {
+            console.error(err);
+            alert('Error: ' + err.message);
+        }
+        // Resetear input para permitir reimportar el mismo archivo
+        document.getElementById('importJsonInput').value = '';
     };
-}
+    reader.readAsText(file);
+});
 
 // Función auxiliar para recalcular partidos de todos los jugadores
 async function recalcularPartidosGlobales() {
