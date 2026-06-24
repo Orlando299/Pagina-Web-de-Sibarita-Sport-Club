@@ -652,15 +652,29 @@ function cargarResultadosDesdeGitHub() { mostrarEstado('Función legacy, ya no s
 // ==================== IMPORTAR JSON DE JUEZ ====================
 async function importarJSONJuez() {
     const pass = prompt('🔐 Contraseña de administrador:');
-    if (pass !== 'sibarita2026') { alert('❌ Contraseña incorrecta'); return; }
+    if (pass !== 'sibarita2026') {
+        alert('❌ Contraseña incorrecta');
+        return;
+    }
 
+    // Crear input y agregarlo al DOM
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'application/json';
-    document.body.appendChild(input); // Asegurar que esté en el DOM
+    input.style.display = 'none';
+    document.body.appendChild(input);
+
+    // El evento click se ejecuta inmediatamente (síncrono)
+    input.click();
+
+    // El resto del código se ejecuta cuando se selecciona un archivo
     input.onchange = async (e) => {
         const file = e.target.files[0];
-        if (!file) { document.body.removeChild(input); return; }
+        if (!file) {
+            document.body.removeChild(input);
+            return;
+        }
+
         const reader = new FileReader();
         reader.onload = async (ev) => {
             try {
@@ -670,15 +684,16 @@ async function importarJSONJuez() {
                 const ids = Object.keys(partidos);
                 if (!ids.length) { alert('No hay partidos'); return; }
                 if (!confirm(`Importar ${ids.length} partidos a Firebase?`)) return;
+
                 let importados = 0, errores = [];
 
                 for (const id of ids) {
                     const p = partidos[id];
-                    if (p.puntosA === undefined || p.puntosB === undefined) { errores.push(`ID ${id}: faltan puntos`); continue; }
-                    // Guardar resultado
+                    if (p.puntosA === undefined || p.puntosB === undefined) {
+                        errores.push(`ID ${id}: faltan puntos`);
+                        continue;
+                    }
                     await window.guardarResultadoFirebase(id, { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' });
-
-                    // Guardar estadísticas por partido
                     const statsPorPartido = {};
                     for (const [team, jugadores] of Object.entries(p.estadisticas || {})) {
                         for (const j of jugadores) {
@@ -691,8 +706,7 @@ async function importarJSONJuez() {
                     importados++;
                 }
 
-                // --- RECALCULAR PARTIDOS DESDE CERO (dentro de la misma función) ---
-                console.log("🔄 Recalculando partidos...");
+                // Recalcular partidos
                 const allMatchStats = {};
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
@@ -701,13 +715,9 @@ async function importarJSONJuez() {
                         allMatchStats[matchId] = JSON.parse(localStorage.getItem(key));
                     }
                 }
-
-                // Limpiar partidos de PS
                 for (const key of Object.keys(PS)) {
                     delete PS[key].partidos;
                 }
-
-                // Recalcular
                 for (const [matchId, matchStats] of Object.entries(allMatchStats)) {
                     for (const [fullKey, statsData] of Object.entries(matchStats)) {
                         if (!PS[fullKey]) PS[fullKey] = {};
@@ -718,8 +728,6 @@ async function importarJSONJuez() {
                         PS[fullKey].total_boc = (PS[fullKey].total_boc || 0) + statsData.total_boc;
                     }
                 }
-
-                // Guardar en Firebase
                 for (const [fullKey, stats] of Object.entries(PS)) {
                     if (window.guardarEstadisticasFirebase) {
                         await window.guardarEstadisticasFirebase(fullKey, stats);
@@ -730,15 +738,15 @@ async function importarJSONJuez() {
                 if (errores.length) alert(`Importación con errores:\n${errores.join('\n')}\nImportados: ${importados}`);
                 else alert(`🎉 Importación completada: ${importados} partidos guardados en Firebase.`);
                 rM(); rSt(); rA(); rT();
+
             } catch(err) {
                 console.error(err);
-                alert('Error: '+err.message);
+                alert('Error: ' + err.message);
             }
             document.body.removeChild(input);
         };
         reader.readAsText(file);
     };
-    input.click(); // Esto abre el selector de archivos
 }
 
 // Función auxiliar para recalcular partidos de todos los jugadores
