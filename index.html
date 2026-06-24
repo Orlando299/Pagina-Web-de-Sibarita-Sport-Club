@@ -688,11 +688,10 @@ function cargarResultadosDesdeGitHub() { mostrarEstado('Función legacy, ya no s
 document.getElementById('importJsonInput')?.addEventListener('change', async function(e) {
     const file = e.target.files[0];
     if (!file) {
-        this.value = ''; // reset
+        this.value = '';
         return;
     }
 
-    // Pedir contraseña AHORA (después de seleccionar el archivo)
     const pass = prompt('🔐 Contraseña de administrador:');
     if (pass !== 'sibarita2026') {
         alert('❌ Contraseña incorrecta');
@@ -708,22 +707,52 @@ document.getElementById('importJsonInput')?.addEventListener('change', async fun
             const partidos = data.partidos;
             const ids = Object.keys(partidos);
             if (!ids.length) { alert('No hay partidos'); return; }
-            if (!confirm(`Importar ${ids.length} partidos a Firebase?`)) return;
+
+            // Filtrar solo partidos con estado "finalizado" o "done"
+            const idsFinalizados = ids.filter(id => {
+                const p = partidos[id];
+                return p.estado === 'finalizado' || p.estado === 'done';
+            });
+
+            if (idsFinalizados.length === 0) {
+                alert('No hay partidos en estado "finalizado" para importar.');
+                this.value = '';
+                return;
+            }
+
+            if (!confirm(`Importar ${idsFinalizados.length} partidos finalizados a Firebase?`)) {
+                this.value = '';
+                return;
+            }
 
             let importados = 0, errores = [];
 
-            for (const id of ids) {
+            for (const id of idsFinalizados) {
                 const p = partidos[id];
-                if (p.puntosA === undefined || p.puntosB === undefined) {
+                // Validar que puntosA y puntosB sean números válidos (no solo 0 por defecto)
+                if (p.puntosA === undefined || p.puntosB === undefined || p.puntosA === null || p.puntosB === null) {
                     errores.push(`ID ${id}: faltan puntos`);
                     continue;
                 }
-                await window.guardarResultadoFirebase(id, { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' });
+
+                // Guardar resultado en Firebase
+                await window.guardarResultadoFirebase(id, {
+                    scoreA: p.puntosA,
+                    scoreB: p.puntosB,
+                    status: 'done'
+                });
+
+                // Guardar estadísticas por partido
                 const statsPorPartido = {};
                 for (const [team, jugadores] of Object.entries(p.estadisticas || {})) {
                     for (const j of jugadores) {
                         const key = `${team}|${j.nombre}`;
-                        statsPorPartido[key] = { arr_b: j.arr_b||0, total_arr: j.total_arr||0, boc_b: j.boc_b||0, total_boc: j.total_boc||0 };
+                        statsPorPartido[key] = {
+                            arr_b: j.arr_b || 0,
+                            total_arr: j.total_arr || 0,
+                            boc_b: j.boc_b || 0,
+                            total_boc: j.total_boc || 0
+                        };
                     }
                 }
                 await window.guardarEstadisticasPorPartidoFirebase(id, statsPorPartido);
@@ -731,7 +760,7 @@ document.getElementById('importJsonInput')?.addEventListener('change', async fun
                 importados++;
             }
 
-            // Recalcular partidos
+            // Recalcular partidos (para evitar duplicados en PJ)
             const allMatchStats = {};
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
@@ -760,15 +789,17 @@ document.getElementById('importJsonInput')?.addEventListener('change', async fun
             }
 
             save();
-            if (errores.length) alert(`Importación con errores:\n${errores.join('\n')}\nImportados: ${importados}`);
-            else alert(`🎉 Importación completada: ${importados} partidos guardados en Firebase.`);
+            if (errores.length) {
+                alert(`⚠️ Importación con errores:\n${errores.join('\n')}\n✅ Importados: ${importados}`);
+            } else {
+                alert(`🎉 Importación completada: ${importados} partidos guardados en Firebase.`);
+            }
             rM(); rSt(); rA(); rT();
 
         } catch(err) {
             console.error(err);
             alert('Error: ' + err.message);
         }
-        // Resetear input para permitir reimportar el mismo archivo
         document.getElementById('importJsonInput').value = '';
     };
     reader.readAsText(file);
