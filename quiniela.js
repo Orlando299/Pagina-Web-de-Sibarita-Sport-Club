@@ -1,6 +1,7 @@
 // ============================================
 // QUINIELA MUNDIAL 2026 - SIBARITA SPORT CLUB
 // CON FIREBASE, 5 LOGOS CENTRADOS Y PUNTOS SEMANALES
+// VERSIÓN CON ELIMINATORIAS (IDs 73-104)
 // ============================================
 
 // ------------------- CONFIGURACIÓN DE FIREBASE -------------------
@@ -116,10 +117,11 @@ async function cargarPartidosDesdeJSON() {
         const response = await fetch('quiniela.json');
         const data = await response.json();
         datosQuiniela.partidos = data.partidos;
-        for (const partido of datosQuiniela.partidos) {
-            await db.collection('quiniela_partidos').doc(partido.id.toString()).set(partido);
-        }
-        console.log("✅ Partidos iniciales guardados en Firebase");
+        // Opcional: guardar en Firebase si es la primera vez
+        // for (const partido of datosQuiniela.partidos) {
+        //     await db.collection('quiniela_partidos').doc(partido.id.toString()).set(partido);
+        // }
+        console.log("✅ Partidos cargados desde quiniela.json");
     } catch (error) {
         console.error("Error cargando quiniela.json:", error);
         datosQuiniela.partidos = [];
@@ -182,7 +184,7 @@ function cargarSemanasDisponibles() {
     }
 }
 
-// ------------------- PUNTUACIÓN (NUEVA REGLA: 3 exacto / 1 ganador) -------------------
+// ------------------- PUNTUACIÓN (3 exacto / 1 ganador) -------------------
 function calcularPuntos(prediccion, resultadoReal) {
     if (!resultadoReal || resultadoReal.resultadoA === null) return 0;
     
