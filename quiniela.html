@@ -24,44 +24,52 @@
         <!-- ============================================================ -->
         <!-- BANNER DE LUTO (cerrable y persistente)                       -->
         <!-- ============================================================ -->
-        <div id="lutoBanner" style="
-            background: #1a1a1a;
-            color: #ffffff;
-            text-align: center;
-            padding: 14px 20px;
-            margin: 10px 0 16px 0;
-            border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 1rem;
-            border-left: 6px solid #666;
-            position: relative;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        ">
-            <span style="font-size: 1.6rem; line-height: 1;">🕊️</span>
-            <span style="flex: 1; text-align: center; line-height: 1.5;">
-                <strong>En solidaridad con las víctimas del terremoto.</strong>
-                Nuestras más sentidas condolencias. <em>Paz a sus almas.</em>
-            </span>
-            <button onclick="cerrarLuto()" style="
-                background: none;
-                border: none;
-                color: #aaa;
-                font-size: 1.4rem;
-                cursor: pointer;
-                padding: 0 8px;
-                transition: color 0.2s;
-                position: absolute;
-                right: 12px;
-                top: 50%;
-                transform: translateY(-50%);
-            " onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">✕</button>
-        </div>
+       <!-- BANNER DE LUTO (cerrable y persistente) -->
+<div id="lutoBanner" style="
+    background: #1a1a1a;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 50px 14px 20px;  /* Espacio a la derecha para la X */
+    margin: 10px 0 16px 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    border-left: 6px solid #666;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+">
+    <!-- Palomita izquierda -->
+    <span style="font-size: 1.6rem; line-height: 1; flex-shrink: 0;">🕊️</span>
 
+    <!-- Texto centrado -->
+    <span style="flex: 1; text-align: center; line-height: 1.5;">
+        <strong>En solidaridad con las víctimas del terremoto.</strong>
+        Nuestras más sentidas condolencias. <em>Paz a sus almas.</em>
+    </span>
+
+    <!-- Palomita derecha -->
+    <span style="font-size: 1.6rem; line-height: 1; flex-shrink: 0;">🕊️</span>
+
+    <!-- Botón cerrar (X) fijo en la esquina derecha -->
+    <button onclick="cerrarLuto()" style="
+        background: none;
+        border: none;
+        color: #aaa;
+        font-size: 1.4rem;
+        cursor: pointer;
+        padding: 0 8px;
+        transition: color 0.2s;
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+    " onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">✕</button>
+</div>
         <script>
             // Función para cerrar el banner y recordar la preferencia en localStorage
             function cerrarLuto() {
