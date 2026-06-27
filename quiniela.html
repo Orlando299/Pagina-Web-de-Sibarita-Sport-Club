@@ -70,21 +70,22 @@
         transform: translateY(-50%);
     " onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">✕</button>
 </div>
-        <script>
-            // Función para cerrar el banner y recordar la preferencia en localStorage
-            function cerrarLuto() {
-                document.getElementById('lutoBanner').style.display = 'none';
-                localStorage.setItem('lutoOculto', 'true');
-            }
+        <!-- BANNER DE LUTO (quiniela) -->
+<div id="lutoBanner" style="..."> ... </div>
 
-            // Al cargar la página, si el usuario ya cerró el banner, lo ocultamos
-            document.addEventListener('DOMContentLoaded', function() {
-                if (localStorage.getItem('lutoOculto') === 'true') {
-                    const banner = document.getElementById('lutoBanner');
-                    if (banner) banner.style.display = 'none';
-                }
-            });
-        </script>
+<script>
+    function cerrarLuto() {
+        document.getElementById('lutoBanner').style.display = 'none';
+        localStorage.setItem('lutoOcultoQuiniela', 'true');   // <-- clave específica
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem('lutoOcultoQuiniela') === 'true') {
+            const banner = document.getElementById('lutoBanner');
+            if (banner) banner.style.display = 'none';
+        }
+    });
+</script>       
         <!-- ============================================================ -->
 
         <!-- PUBLICIDAD TOP -->
