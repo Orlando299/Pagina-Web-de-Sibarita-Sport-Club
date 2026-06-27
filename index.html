@@ -131,6 +131,61 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
     <button class="nb" onclick="location.href='quiniela.html'"><span>🏆</span>Quiniela</button>
   </div>
 </div>
+
+  <!-- BANNER DE LUTO (index) - Estilo elegante con dorado, clave independiente -->
+<div id="lutoBannerIndex" style="
+    background: #111;
+    color: #fff;
+    text-align: center;
+    padding: 16px 50px 16px 20px;
+    margin: 12px 0 20px 0;
+    border-radius: 10px;
+    border: 2px solid #b8860b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    position: relative;
+    box-shadow: 0 0 20px rgba(184, 134, 11, 0.2);
+">
+    <span style="font-size: 2rem; line-height: 1; flex-shrink: 0;">🕊️</span>
+    <span style="flex: 1; text-align: center; line-height: 1.5;">
+        <span style="color: #ffd700;">En solidaridad con las víctimas del terremoto.</span>
+        Nuestras más sentidas condolencias. <em style="color: #ccc;">Paz a sus almas.</em>
+    </span>
+    <span style="font-size: 2rem; line-height: 1; flex-shrink: 0;">🕊️</span>
+    <button onclick="cerrarLutoIndex()" style="
+        background: none;
+        border: none;
+        color: #888;
+        font-size: 1.6rem;
+        cursor: pointer;
+        padding: 0 8px;
+        transition: color 0.2s;
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+    " onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#888'">✕</button>
+</div>
+
+<script>
+    function cerrarLutoIndex() {
+        document.getElementById('lutoBannerIndex').style.display = 'none';
+        localStorage.setItem('lutoOcultoIndex', 'true');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem('lutoOcultoIndex') === 'true') {
+            const banner = document.getElementById('lutoBannerIndex');
+            if (banner) banner.style.display = 'none';
+        }
+    });
+</script>
+  
 <div class="body">
 
 <div id="s-videos" class="scr">
