@@ -21,6 +21,64 @@
             ← Volver al Torneo de Bolas Criollas
         </button>
 
+        <!-- ============================================================ -->
+        <!-- BANNER DE LUTO (cerrable y persistente)                       -->
+        <!-- ============================================================ -->
+        <div id="lutoBanner" style="
+            background: #1a1a1a;
+            color: #ffffff;
+            text-align: center;
+            padding: 14px 20px;
+            margin: 10px 0 16px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 1rem;
+            border-left: 6px solid #666;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        ">
+            <span style="font-size: 1.6rem; line-height: 1;">🕊️</span>
+            <span style="flex: 1; text-align: center; line-height: 1.5;">
+                <strong>En solidaridad con las víctimas del terremoto.</strong>
+                Nuestras más sentidas condolencias. <em>Paz a sus almas.</em>
+            </span>
+            <button onclick="cerrarLuto()" style="
+                background: none;
+                border: none;
+                color: #aaa;
+                font-size: 1.4rem;
+                cursor: pointer;
+                padding: 0 8px;
+                transition: color 0.2s;
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+            " onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">✕</button>
+        </div>
+
+        <script>
+            // Función para cerrar el banner y recordar la preferencia en localStorage
+            function cerrarLuto() {
+                document.getElementById('lutoBanner').style.display = 'none';
+                localStorage.setItem('lutoOculto', 'true');
+            }
+
+            // Al cargar la página, si el usuario ya cerró el banner, lo ocultamos
+            document.addEventListener('DOMContentLoaded', function() {
+                if (localStorage.getItem('lutoOculto') === 'true') {
+                    const banner = document.getElementById('lutoBanner');
+                    if (banner) banner.style.display = 'none';
+                }
+            });
+        </script>
+        <!-- ============================================================ -->
+
         <!-- PUBLICIDAD TOP -->
         <div class="ad-container ad-top" id="adTop"></div>
 
@@ -72,7 +130,7 @@
             <!-- PUBLICIDAD ANTES DEL RANKING -->
             <div class="ad-container ad-before-ranking" id="adBeforeRanking"></div>
 
-            <!-- Selector de semanas y botón concurso -->
+            <!-- Selector de ranking (semanas + fases) y botón concurso -->
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px; gap: 10px;">
                 <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
                     <label style="display: flex; align-items: center; gap: 5px;">
@@ -98,7 +156,7 @@
                                 <th>Pos</th>
                                 <th>Participante</th>
                                 <th>Puntos Globales</th>
-                                <th>Puntos Semana</th>
+                                <th>Puntos Semana / Fase</th>
                             </tr>
                         </thead>
                         <tbody id="rankingBody">
