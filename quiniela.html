@@ -141,37 +141,48 @@
 
            <!-- Selector de ranking (semanas + fases) y mensaje de campeón + nuevo concurso -->
             
-<!-- Selector de ranking (semanas + fases) y mensaje de campeón + nuevo concurso -->
-<!-- Selector de ranking (semanas + fases) y mensaje de campeón + nuevo concurso -->
+<!-- Selector de ranking + felicitación + nuevo concurso -->
 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px; gap: 15px; background: rgba(255,215,0,0.05); padding: 12px 20px; border-radius: 12px; border-left: 4px solid #ffd700;">
-    <!-- Mensaje de felicitación al campeón -->
+
+    <!-- Grupo izquierdo: selector de ranking -->
+    <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+        <label style="display: flex; align-items: center; gap: 5px;">
+            <span style="color: #fff;">📅 Ranking:</span>
+            <select id="semanaSelector" style="padding: 8px; border-radius: 8px; background: #2c2c2c; color: white; border: 1px solid #ffd700;">
+                <option value="global">🔵 Puntos Globales</option>
+            </select>
+        </label>
+    </div>
+
+    <!-- Grupo central: felicitación al campeón -->
     <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-        <span style="font-size: 2rem;">🏆</span>
+        <span style="font-size: 1.8rem;">🏆</span>
         <div>
-            <strong style="color: #ffd700; font-size: 1.1rem;">¡Felicidades a Omar Alvarado!</strong>
-            <span style="color: #aaa; margin: 0 8px;">|</span>
-            <span style="color: #fff; font-weight: bold;">29 puntos</span>
-            <span style="color: #aaa; margin: 0 8px;">|</span>
-            <span style="color: #aaa;">Ganador del Concurso Semana 26</span>
+            <strong style="color: #ffd700; font-size: 1rem;">¡Felicidades a Omar Alvarado!</strong>
+            <span style="color: #aaa; margin: 0 6px;">|</span>
+            <span style="color: #fff; font-weight: bold;">29 pts</span>
+            <span style="color: #aaa; margin: 0 6px;">|</span>
+            <span style="color: #aaa; font-size: 0.9rem;">Campeón</span>
         </div>
     </div>
 
-    <!-- Botón del nuevo concurso que lleva a concurso.html -->
+    <!-- Grupo derecho: botón nuevo concurso -->
     <a href="concurso.html" class="btn-nuevo-concurso" style="
         background: linear-gradient(135deg, #f1c40f, #f39c12);
         color: #1a1a1a;
         text-decoration: none;
         display: inline-block;
-        padding: 10px 22px;
+        padding: 8px 18px;
         border-radius: 50px;
         font-weight: bold;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         box-shadow: 0 4px 15px rgba(241, 196, 15, 0.4);
         transition: all 0.3s ease;
         border: 2px solid rgba(255,255,255,0.3);
         animation: pulse-concurso 2s infinite;
+        white-space: nowrap;
     ">
-        🍲 Nuevo Concurso: 2 sopas + bebidas (Bunker Restobar)
+        🍲 Nuevo Concurso: 16avos
     </a>
 </div>
             <!-- Ranking -->
