@@ -2,248 +2,282 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Concurso Semanal - Quiniela Mundial 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concurso 16avos - Quiniela Mundial 2026</title>
     <link rel="stylesheet" href="quiniela.css">
     <style>
+        /* Estilos adicionales para la página de concurso */
         .concurso-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
         }
-        .premio-card {
-            background: linear-gradient(135deg, #7a1f1f, #a84343);
-            color: #fff;
-            text-align: center;
-            padding: 25px 20px;
+        .card-concurso {
+            background: rgba(0, 0, 0, 0.85);
             border-radius: 20px;
-            margin-bottom: 25px;
-            border: 2px solid #d4a017;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        }
-        .premio-card h2 {
-            margin: 0;
-            font-size: 2rem;
-            color: #ffd700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        .premio-card .premio {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: 10px 0;
-            color: #ffd700;
-        }
-        .premio-card .patrocinador {
-            font-size: 1.2rem;
-            margin-top: 10px;
-            color: #fff;
-        }
-        .premio-card .patrocinador strong {
-            color: #ffd700;
-        }
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            margin: 10px 0;
-        }
-        .logo-container img {
-            max-height: 80px;
-            width: auto;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.9);
-            padding: 8px 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .instagram-banner {
-            background: linear-gradient(135deg, #c0392b, #d4a017);
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin: 15px 0;
-            text-decoration: none;
-            border: 1px solid #ffd700;
-        }
-        .instagram-banner:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-        }
-        .partidos-lista {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .partido-item {
-            background: rgba(0,0,0,0.6);
-            padding: 10px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 5px;
-            border-left: 3px solid #d4a017;
-            color: #fff; /* Letra blanca para los partidos */
-        }
-        .partido-fecha {
-            color: #ffd700; /* Dorado para las fechas */
-            font-weight: bold;
-        }
-        .btn-volver {
-            display: inline-block;
-            background: #d4a017;
-            color: #1a472a;
-            padding: 12px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 20px;
+            padding: 30px;
+            border: 1px solid #444;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            margin-bottom: 30px;
             text-align: center;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        .btn-volver:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            background: #e6b422;
+        .card-concurso h2 {
+            color: #ffd700;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .card-concurso .subtitulo {
+            color: #aaa;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        .premio-box {
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #ffd700;
+        }
+        .premio-box .premio {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        .premio-box .patrocinador {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-top: 10px;
+        }
+        .patrocinador-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .patrocinador-logo img {
+            max-height: 100px;
+            max-width: 200px;
+            border-radius: 10px;
+            background: #fff;
+            padding: 10px;
+        }
+        .patrocinador-logo .info {
+            color: #ccc;
+            font-size: 1rem;
+            text-align: left;
+        }
+        .patrocinador-logo .info a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .patrocinador-logo .info a:hover {
+            text-decoration: underline;
         }
         .reglas {
-            background: rgba(0,0,0,0.7);
-            padding: 15px;
-            border-radius: 15px;
+            text-align: left;
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 12px;
             margin: 20px 0;
-            border: 1px solid #d4a017;
+            border-left: 4px solid #ffd700;
         }
         .reglas h3 {
             color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
         }
         .reglas ul {
-            margin-left: 20px;
+            list-style: none;
+            padding: 0;
         }
-        .reglas li {
-            margin: 5px 0;
-            color: #f5e6d3;
+        .reglas ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+            color: #ddd;
         }
-        .gracias {
-            text-align: center;
-            font-size: 0.9rem;
-            margin-top: 20px;
-            color: #ccc;
+        .reglas ul li:last-child {
+            border-bottom: none;
         }
-        .gracias strong {
+        .reglas ul li::before {
+            content: "▸ ";
             color: #ffd700;
+            font-weight: bold;
         }
-        .puntuacion-ejemplo {
-            background: rgba(255,215,0,0.1);
+        .btn-ir-quiniela {
+            display: inline-block;
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            color: #1a1a1a;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(241, 196, 15, 0.5);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 20px 0 10px;
+            border: 2px solid rgba(255,255,255,0.3);
+            display: inline-block;
+        }
+        .btn-ir-quiniela:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 30px rgba(241, 196, 15, 0.7);
+        }
+        .btn-ir-quiniela i {
+            margin-right: 10px;
+        }
+        .fecha-concurso {
+            background: #222;
             padding: 10px;
             border-radius: 10px;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            border: 1px solid #d4a017;
-            color: #f5e6d3;
-        }
-        .puntuacion-ejemplo strong {
+            display: inline-block;
             color: #ffd700;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .footer-concurso {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 600px) {
+            .card-concurso h2 {
+                font-size: 1.6rem;
+            }
+            .premio-box .premio {
+                font-size: 1.5rem;
+            }
+            .btn-ir-quiniela {
+                padding: 14px 25px;
+                font-size: 1rem;
+            }
+            .patrocinador-logo {
+                flex-direction: column;
+                text-align: center;
+            }
+            .patrocinador-logo .info {
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="topbar">
-        <h1>🏆 CONCURSO SEMANAL 🏆</h1>
-        <div class="user-info"></div>
+        <h1>🏆 QUINIELA MUNDIAL 2026 🏆</h1>
+        <div class="user-info" id="userInfo">
+            <span id="userNameDisplay"></span>
+            <button id="logoutBtn" class="logout-btn" style="display:none;">✖</button>
+        </div>
     </div>
 
     <div class="container concurso-container">
+        <!-- Botón Volver -->
         <button class="fb" onclick="location.href='quiniela.html'" style="margin-bottom: 20px;">
             ← Volver a la Quiniela
         </button>
 
-        <div class="premio-card">
-            <h2>🎁 PREMIO DE LA SEMANA</h2>
-            <div class="premio">🍗 1 Pollo a la Broster (para 2 personas) + Acompañamientos 🥗</div>
-            
-            <!-- LOGO DE SIBARITA RESTAURANTE -->
-            <div class="logo-container">
-                <img src="logo_sibarita.png" alt="Sibarita Restaurante">
-            </div>
-            
-            <div class="patrocinador">
-                🌟 Cortesía de <strong>Sibarita Restaurante</strong> 🌟
+        <!-- Tarjeta principal del concurso -->
+        <div class="card-concurso">
+            <h2>🍲 CONCURSO 16AVOS DE FINAL</h2>
+            <div class="subtitulo">¡Pronostica y gana!</div>
+
+            <div class="fecha-concurso">
+                📅 Del 28 de junio al 3 de julio de 2026
             </div>
 
-            <!-- BANNER DE INSTAGRAM -->
-            <a href="https://www.instagram.com/sibarita_restaurante" target="_blank" rel="noopener noreferrer" class="instagram-banner">
-                <span style="font-size: 2.5rem;">📸</span>
-                <div style="text-align: center;">
-                    <span style="font-size: 1.5rem; font-weight: bold; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">@sibarita_restaurante</span>
-                    <div style="font-size: 1rem; color: #ffd700; opacity: 0.9;">Síguenos en Instagram</div>
+            <div class="premio-box">
+                <div class="premio">🎁 2 Sopas + Bebidas</div>
+                <div class="patrocinador">Patrocinado por <strong>Bunker Restobar</strong></div>
+            </div>
+
+            <!-- Patrocinador con logo e Instagram -->
+            <div class="patrocinador-logo">
+                <img src="logo_yusbelis.png" alt="Bunker Restobar" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="info" style="display: none;">
+                    <strong style="color:#fff;">Bunker Restobar</strong><br>
+                    <span style="color:#aaa;">📍 Dirección: Urb. Prados del Sol, Transversal 2, Entre Calles 3 y 4</span><br>
+                    <span>📸 <a href="https://instagram.com/bunker_restobar" target="_blank">@bunker_restobar</a></span>
                 </div>
-                <span style="font-size: 2rem; color: white;">→</span>
+                <div class="info">
+                    <strong style="color:#fff;">Bunker Restobar</strong><br>
+                    <span style="color:#aaa;">📍 Telefono. 04245044113</span><br>
+                    <span>📸 <a href="https://instagram.com/bunker_restobar" target="_blank">@bunker_restobar</a></span>
+                </div>
+            </div>
+
+            <!-- Botón principal -->
+            <a href="quiniela.html" class="btn-ir-quiniela">
+                ⚡ Ir a la Quiniela (16avos)
             </a>
 
-            <p style="color: #ffd700; font-weight: bold;">📍 Canjeable en las canchas del Colegio de Ingenieros</p>
-        </div>
-
-        <div class="reglas">
-            <h3>📅 Período válido</h3>
-            <p style="color: #f5e6d3;"><strong>Lunes 22 al Sábado 28 de junio de 2026</strong> (última jornada de la fase de grupos)</p>
-            
-            <h3>⚽ Partidos incluidos (32 partidos)</h3>
-            <div class="partidos-lista">
-                <div class="partido-item"><span class="partido-fecha">LUNES 22:</span><span>Francia vs Irak, Noruega vs Senegal, Argentina vs Austria, Jordania vs Argelia</span></div>
-                <div class="partido-item"><span class="partido-fecha">MARTES 23:</span><span>Portugal vs Uzbekistán, Colombia vs RD Congo, Inglaterra vs Ghana, Panamá vs Croacia</span></div>
-                <div class="partido-item"><span class="partido-fecha">MIÉRCOLES 24:</span><span>Rep. Checa vs México, Sudáfrica vs Corea del Sur, Suiza vs Canadá, Bosnia vs Qatar, Escocia vs Brasil, Marruecos vs Haití</span></div>
-                <div class="partido-item"><span class="partido-fecha">JUEVES 25:</span><span>Turquía vs Estados Unidos, Paraguay vs Australia, Ecuador vs Alemania, Curazao vs Costa de Marfil, Japón vs Suecia, Túnez vs Países Bajos</span></div>
-                <div class="partido-item"><span class="partido-fecha">VIERNES 26:</span><span>Egipto vs Irán, Nueva Zelanda vs Bélgica, Cabo Verde vs Arabia Saudita, Uruguay vs España, Noruega vs Francia, Senegal vs Irak</span></div>
-                <div class="partido-item"><span class="partido-fecha">SÁBADO 27:</span><span>Argelia vs Austria, Jordania vs Argentina, Colombia vs Portugal, RD Congo vs Uzbekistán, Panamá vs Inglaterra, Croacia vs Ghana</span></div>
+            <!-- Reglas específicas -->
+            <div class="reglas">
+                <h3>📜 Reglas del Concurso</h3>
+                <ul>
+                    <li><strong>Válido solo para los partidos de 16avos de final</strong> (del 28/06 al 03/07).</li>
+                    <li>El resultado se toma al final del <strong>tiempo reglamentario + tiempo extra</strong>. Los penales NO cuentan.</li>
+                    <li>Las predicciones se cierran <strong>1 hora antes</strong> del inicio de cada partido.</li>
+                    <li>Puntuación: <strong>3 puntos</strong> si aciertas el marcador exacto, <strong>1 punto</strong> si aciertas el ganador (o empate).</li>
+                    <li>Los nuevos participantes pueden registrarse y pronosticar los partidos que aún no han comenzado.</li>
+                    <li>El ganador será quien acumule más puntos en esta fase.</li>
+                    <li>El premio <strong>(2 sopas + bebidas)</strong> será entregado por <strong>Bunker Restobar</strong>.</li>
+                </ul>
             </div>
-            <p style="margin-top: 10px; font-size: 0.9rem; color: #aaa;">* Total: 32 partidos (última jornada de grupos)</p>
+
+            <p style="color: #888; font-size: 0.9rem; margin-top: 20px;">
+                ¡Aprovecha y demuestra tu habilidad para pronosticar!
+            </p>
         </div>
 
-        <div class="reglas">
-            <h3>🏆 ¿Cómo se gana?</h3>
-            <ul>
-                <li>Gana el participante que <strong>más puntos acumule</strong> en el TOTAL de estos 32 partidos.</li>
-                <li><strong>⚽ Sistema de puntuación:</strong>
-                    <ul>
-                        <li>✅ <strong>3 puntos</strong> si aciertas el <strong>resultado exacto</strong> (goles de ambos equipos).</li>
-                        <li>✅ <strong>1 punto</strong> si aciertas el <strong>ganador</strong> (o empate), aunque no aciertes los goles exactos.</li>
-                        <li>❌ <strong>0 puntos</strong> si no aciertas ninguna de las anteriores.</li>
-                    </ul>
-                </li>
-                <li>Los pronósticos deben estar registrados <strong>antes de cada partido</strong> (se cierran 1 hora antes del inicio).</li>
-                <li>El ranking semanal se actualiza en vivo en la página de la quiniela (selector de semanas).</li>
-            </ul>
-            <div class="puntuacion-ejemplo">
-                <strong>📝 Ejemplo:</strong> Si el partido termina <strong>México 2 - 0 Sudáfrica</strong>:<br>
-                • Pronosticar 2-0 → <strong>3 puntos</strong> (resultado exacto)<br>
-                • Pronosticar 3-1 → <strong>1 punto</strong> (acertó ganador: México)<br>
-                • Pronosticar 0-2 → <strong>0 puntos</strong> (no acertó ganador)
-            </div>
-        </div>
+        <!-- PUBLICIDAD FOOTER (opcional) -->
+        <div class="ad-container ad-footer" id="adFooter"></div>
 
-        <div class="reglas">
-            <h3>📢 Anuncio del ganador</h3>
-            <p style="color: #f5e6d3;">El ganador se anunciará el <strong style="color: #ffd700;">DOMINGO 28 de junio por la noche</strong> (vía WhatsApp y en esta página).</p>
-            <p style="color: #f5e6d3;">El premio deberá ser reclamado en las canchas del Colegio de Ingenieros durante la semana siguiente.</p>
-        </div>
-
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="quiniela.html" class="btn-volver">⚽ Ir a la Quiniela y participar ⚽</a>
-        </div>
-
-        <div class="gracias">
-            🧡 ¡Gracias a <strong>Sibarita Restaurante</strong> por apoyar a nuestros participantes! 🧡
+        <div class="footer-concurso">
+            Sibarita Sport Club - Quiniela Mundial 2026
         </div>
     </div>
 
-    <footer>
-        <p>Sibarita Sport Club - Quiniela Mundial 2026</p>
-        <p>⚽ ¡Adivina los resultados y gana premios cada semana! ⚽</p>
-    </footer>
+    <!-- Firebase SDKs y scripts (para compatibilidad con el login) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script>
+        // Copia la configuración de Firebase desde tu quiniela.js
+        const firebaseConfig = {
+            apiKey: "AIzaSyDqwbgPuD6-pl90xyVdFV64HM-kvuIZV-I",
+            authDomain: "sibarita-torneo-bolas-criollas.firebaseapp.com",
+            projectId: "sibarita-torneo-bolas-criollas",
+            storageBucket: "sibarita-torneo-bolas-criollas.firebasestorage.app",
+            messagingSenderId: "466460618853",
+            appId: "1:466460618853:web:b24f848eb8bb794b6e568c"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Cargar usuario actual desde localStorage para mostrar nombre
+        document.addEventListener('DOMContentLoaded', function() {
+            const stored = localStorage.getItem('quiniela_usuario_actual');
+            if (stored) {
+                try {
+                    const user = JSON.parse(stored);
+                    document.getElementById('userNameDisplay').innerText = user.nombre || 'Usuario';
+                    document.getElementById('userInfo').style.display = 'flex';
+                    document.getElementById('logoutBtn').style.display = 'inline-block';
+                } catch(e) {
+                    // No hacer nada
+                }
+            }
+
+            // Botón cerrar sesión
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('quiniela_usuario_actual');
+                location.reload();
+            });
+        });
+    </script>
 </body>
 </html>
