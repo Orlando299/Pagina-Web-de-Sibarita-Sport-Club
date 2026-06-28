@@ -180,9 +180,14 @@ function cargarFasesDisponibles() {
         const semana = obtenerSemanaDesdeFecha(partido.fecha);
         if (semana) semanasSet.add(`semana_${semana}`);
     });
-    const semanas = Array.from(semanasSet).sort(); // Ej: ["semana_24", "semana_25", "semana_26"]
+    
+    // 2. Filtrar semanas no deseadas (27, 28, 29)
+    const semanasFiltradas = Array.from(semanasSet).filter(sem => {
+        const numSemana = parseInt(sem.replace('semana_', ''));
+        return numSemana !== 27 && numSemana !== 28 && numSemana !== 29;
+    }).sort();
 
-    // 2. Obtener fases únicas
+    // 3. Obtener fases únicas
     const fasesSet = new Set();
     datosQuiniela.partidos.forEach(partido => {
         if (partido.fase) fasesSet.add(partido.fase);
@@ -190,16 +195,16 @@ function cargarFasesDisponibles() {
     const ordenFases = ['grupos', '16avos', 'Octavos', 'Cuartos', 'Semifinales', 'Final', 'Tercer puesto'];
     const fases = Array.from(fasesSet).sort((a, b) => ordenFases.indexOf(a) - ordenFases.indexOf(b));
 
-    // 3. Construir el HTML del selector
+    // 4. Construir el HTML del selector
     let opciones = '<option value="global">🔵 Puntos Globales</option>';
 
-    // Agregar semanas (con su número legible)
-    semanas.forEach(sem => {
+    // Agregar semanas filtradas
+    semanasFiltradas.forEach(sem => {
         const numSemana = sem.replace('semana_', '');
         opciones += `<option value="${sem}">📅 Semana ${numSemana}</option>`;
     });
 
-    // Agregar fases (con su nombre en mayúscula inicial)
+    // Agregar fases
     fases.forEach(fase => {
         const nombreFase = fase.charAt(0).toUpperCase() + fase.slice(1);
         opciones += `<option value="${fase}">🏆 ${nombreFase}</option>`;
