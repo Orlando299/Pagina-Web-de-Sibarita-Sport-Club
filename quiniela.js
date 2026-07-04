@@ -174,37 +174,19 @@ function cargarFasesDisponibles() {
     const selector = document.getElementById('semanaSelector');
     if (!selector) return;
 
-    // 1. Obtener semanas únicas desde los partidos
-    const semanasSet = new Set();
-    datosQuiniela.partidos.forEach(partido => {
-        const semana = obtenerSemanaDesdeFecha(partido.fecha);
-        if (semana) semanasSet.add(`semana_${semana}`);
-    });
-    
-    // 2. Filtrar semanas no deseadas (27, 28, 29)
-    const semanasFiltradas = Array.from(semanasSet).filter(sem => {
-        const numSemana = parseInt(sem.replace('semana_', ''));
-        return numSemana !== 27 && numSemana !== 28 && numSemana !== 29;
-    }).sort();
-
-    // 3. Obtener fases únicas
     const fasesSet = new Set();
     datosQuiniela.partidos.forEach(partido => {
         if (partido.fase) fasesSet.add(partido.fase);
     });
-    const ordenFases = ['grupos', '16avos', 'Octavos', 'Cuartos', 'Semifinales', 'Final', 'Tercer puesto'];
-    const fases = Array.from(fasesSet).sort((a, b) => ordenFases.indexOf(a) - ordenFases.indexOf(b));
 
-    // 4. Construir el HTML del selector
+    // Excluir fases ya jugadas
+    const fasesExcluidas = ['grupos', '16avos'];
+    const fasesFiltradas = Array.from(fasesSet).filter(f => !fasesExcluidas.includes(f));
+
+    const ordenFases = ['Octavos', 'Cuartos', 'Semifinales', 'Final', 'Tercer puesto'];
+    const fases = fasesFiltradas.sort((a, b) => ordenFases.indexOf(a) - ordenFases.indexOf(b));
+
     let opciones = '<option value="global">🔵 Puntos Globales</option>';
-
-    // Agregar semanas filtradas
-    semanasFiltradas.forEach(sem => {
-        const numSemana = sem.replace('semana_', '');
-        opciones += `<option value="${sem}">📅 Semana ${numSemana}</option>`;
-    });
-
-    // Agregar fases
     fases.forEach(fase => {
         const nombreFase = fase.charAt(0).toUpperCase() + fase.slice(1);
         opciones += `<option value="${fase}">🏆 ${nombreFase}</option>`;
@@ -212,7 +194,6 @@ function cargarFasesDisponibles() {
 
     selector.innerHTML = opciones;
 }
-
 // ------------------- PUNTUACIÓN (NUEVA REGLA: 3 exacto / 1 ganador) -------------------
 function calcularPuntos(prediccion, resultadoReal) {
     if (!resultadoReal || resultadoReal.resultadoA === null) return 0;
