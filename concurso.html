@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concurso 16avos - Quiniela Mundial 2026</title>
+    <title>Concurso Octavos - Quiniela Mundial 2026</title>
     <link rel="stylesheet" href="quiniela.css">
     <style>
-        /* Estilos adicionales para la página de concurso */
         .concurso-container {
             max-width: 900px;
             margin: 0 auto;
@@ -127,12 +126,9 @@
             transform: scale(1.05);
             box-shadow: 0 6px 30px rgba(241, 196, 15, 0.7);
         }
-        .btn-ir-quiniela i {
-            margin-right: 10px;
-        }
         .fecha-concurso {
             background: #222;
-            padding: 10px;
+            padding: 10px 20px;
             border-radius: 10px;
             display: inline-block;
             color: #ffd700;
@@ -183,49 +179,49 @@
 
         <!-- Tarjeta principal del concurso -->
         <div class="card-concurso">
-            <h2>🍲 CONCURSO 16AVOS DE FINAL</h2>
+            <h2>🥟 CONCURSO OCTAVOS DE FINAL</h2>
             <div class="subtitulo">¡Pronostica y gana!</div>
 
             <div class="fecha-concurso">
-                📅 Del 28 de junio al 3 de julio de 2026
+                📅 Del 4 al 7 de julio de 2026
             </div>
 
             <div class="premio-box">
-                <div class="premio">🎁 2 Sopas + Bebidas</div>
-                <div class="patrocinador">Patrocinado por <strong>Bunker Restobar</strong></div>
+                <div class="premio">🎁 2 Empanadas Operadas + Bebidas</div>
+                <div class="patrocinador">Patrocinado por <strong>Sibarita Sport Club</strong></div>
             </div>
 
-            <!-- Patrocinador con logo e Instagram -->
+            <!-- Patrocinador con logo -->
             <div class="patrocinador-logo">
-                <img src="logo_yusbelis.png" alt="Bunker Restobar" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <img src="logo_sibarita.png" alt="Sibarita Sport Club" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <div class="info" style="display: none;">
-                    <strong style="color:#fff;">Bunker Restobar</strong><br>
-                    <span style="color:#aaa;">📍 Dirección: Urb. Prados del Sol, Transversal 2, Entre Calles 3 y 4</span><br>
-                    <span>📸 <a href="https://instagram.com/bunker_restobar" target="_blank">@bunker_restobar</a></span>
+                    <strong style="color:#fff;">Sibarita Sport Club</strong><br>
+                    <span style="color:#aaa;">📍 Av. Principal, Local 5</span><br>
+                    <span>📸 <a href="https://instagram.com/sibaritasportclub" target="_blank">@sibaritasportclub</a></span>
                 </div>
                 <div class="info">
-                    <strong style="color:#fff;">Bunker Restobar</strong><br>
-                    <span style="color:#aaa;">📍 Telefono. 04245044113</span><br>
-                    <span>📸 <a href="https://instagram.com/bunker_restobar" target="_blank">@bunker_restobar</a></span>
+                    <strong style="color:#fff;">Sibarita Sport Club</strong><br>
+                    <span style="color:#aaa;">📍 Av. Principal, Local 5</span><br>
+                    <span>📸 <a href="https://instagram.com/sibaritasportclub" target="_blank">@sibaritasportclub</a></span>
                 </div>
             </div>
 
             <!-- Botón principal -->
             <a href="quiniela.html" class="btn-ir-quiniela">
-                ⚡ Ir a la Quiniela (16avos)
+                ⚡ Ir a la Quiniela (Octavos)
             </a>
 
             <!-- Reglas específicas -->
             <div class="reglas">
                 <h3>📜 Reglas del Concurso</h3>
                 <ul>
-                    <li><strong>Válido solo para los partidos de 16avos de final</strong> (del 28/06 al 03/07).</li>
+                    <li><strong>Válido solo para los partidos de Octavos de final</strong> (del 4 al 7 de julio).</li>
                     <li>El resultado se toma al final del <strong>tiempo reglamentario + tiempo extra</strong>. Los penales NO cuentan.</li>
                     <li>Las predicciones se cierran <strong>1 hora antes</strong> del inicio de cada partido.</li>
                     <li>Puntuación: <strong>3 puntos</strong> si aciertas el marcador exacto, <strong>1 punto</strong> si aciertas el ganador (o empate).</li>
                     <li>Los nuevos participantes pueden registrarse y pronosticar los partidos que aún no han comenzado.</li>
                     <li>El ganador será quien acumule más puntos en esta fase.</li>
-                    <li>El premio <strong>(2 sopas + bebidas)</strong> será entregado por <strong>Bunker Restobar</strong>.</li>
+                    <li>El premio <strong>(2 empanadas operadas + bebidas)</strong> será entregado por <strong>Sibarita Sport Club</strong>.</li>
                 </ul>
             </div>
 
@@ -242,11 +238,10 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs y scripts (para compatibilidad con el login) -->
+    <!-- Firebase SDKs y scripts -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script>
-        // Copia la configuración de Firebase desde tu quiniela.js
         const firebaseConfig = {
             apiKey: "AIzaSyDqwbgPuD6-pl90xyVdFV64HM-kvuIZV-I",
             authDomain: "sibarita-torneo-bolas-criollas.firebaseapp.com",
@@ -258,7 +253,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Cargar usuario actual desde localStorage para mostrar nombre
         document.addEventListener('DOMContentLoaded', function() {
             const stored = localStorage.getItem('quiniela_usuario_actual');
             if (stored) {
@@ -267,12 +261,8 @@
                     document.getElementById('userNameDisplay').innerText = user.nombre || 'Usuario';
                     document.getElementById('userInfo').style.display = 'flex';
                     document.getElementById('logoutBtn').style.display = 'inline-block';
-                } catch(e) {
-                    // No hacer nada
-                }
+                } catch(e) {}
             }
-
-            // Botón cerrar sesión
             document.getElementById('logoutBtn').addEventListener('click', function() {
                 localStorage.removeItem('quiniela_usuario_actual');
                 location.reload();
