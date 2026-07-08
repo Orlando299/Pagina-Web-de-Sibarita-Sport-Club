@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concurso Octavos - Quiniela Mundial 2026</title>
+    <title>Concurso Cuartos - Quiniela Mundial 2026</title>
     <link rel="stylesheet" href="quiniela.css">
     <style>
         .concurso-container {
@@ -57,17 +57,10 @@
             flex-wrap: wrap;
             margin: 20px 0;
         }
-        .patrocinador-logo img {
-            max-height: 100px;
-            max-width: 200px;
-            border-radius: 10px;
-            background: #fff;
-            padding: 10px;
-        }
         .patrocinador-logo .info {
             color: #ccc;
             font-size: 1rem;
-            text-align: left;
+            text-align: center;
         }
         .patrocinador-logo .info a {
             color: #ffd700;
@@ -141,6 +134,11 @@
             padding: 20px;
             font-size: 0.9rem;
         }
+        .patrocinador-destacado {
+            font-size: 1.3rem;
+            color: #ffd700;
+            font-weight: bold;
+        }
         @media (max-width: 600px) {
             .card-concurso h2 {
                 font-size: 1.6rem;
@@ -156,9 +154,6 @@
                 flex-direction: column;
                 text-align: center;
             }
-            .patrocinador-logo .info {
-                text-align: center;
-            }
         }
     </style>
 </head>
@@ -172,56 +167,52 @@
     </div>
 
     <div class="container concurso-container">
-        <!-- Botón Volver -->
         <button class="fb" onclick="location.href='quiniela.html'" style="margin-bottom: 20px;">
             ← Volver a la Quiniela
         </button>
 
-        <!-- Tarjeta principal del concurso -->
         <div class="card-concurso">
-            <h2>🥟 CONCURSO OCTAVOS DE FINAL</h2>
-            <div class="subtitulo">¡Pronostica y gana!</div>
+            <h2>🍔 CONCURSO CUARTOS DE FINAL</h2>
+            <div class="subtitulo">¡Pronostica y gana una hamburguesa!</div>
 
             <div class="fecha-concurso">
-                📅 Del 4 al 7 de julio de 2026
+                📅 Del 9 al 11 de julio de 2026
             </div>
 
             <div class="premio-box">
-                <div class="premio">🎁 2 Empanadas Operadas + Bebidas</div>
-                <div class="patrocinador">Patrocinado por <strong>Sibarita Sport Club</strong></div>
+                <div class="premio">🍔 Hamburguesa Sibarita</div>
+                <div class="patrocinador">
+                    Patrocinado por <strong>Sr. Leon Salazar "El Mono"</strong><br>
+                    <span style="font-size: 0.9rem; color: #aaa;">Cortesía de El Pinchero</span>
+                </div>
             </div>
 
-            <!-- Patrocinador con logo -->
+            <!-- Patrocinador destacado -->
             <div class="patrocinador-logo">
-                <img src="logo_sibarita.png" alt="Sibarita Sport Club" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <div class="info" style="display: none;">
-                    <strong style="color:#fff;">Sibarita Sport Club</strong><br>
-                    <span style="color:#aaa;">📍 Av. Principal, Local 5</span><br>
-                    <span>📸 <a href="https://instagram.com/sibaritasportclub" target="_blank">@sibaritasportclub</a></span>
-                </div>
                 <div class="info">
-                    <strong style="color:#fff;">Sibarita Sport Club</strong><br>
-                    <span style="color:#aaa;">📍 Av. Principal, Local 5</span><br>
-                    <span>📸 <a href="https://instagram.com/sibaritasportclub" target="_blank">@sibaritasportclub</a></span>
+                    <div style="font-size: 2rem; margin-bottom: 5px;">👨‍🍳</div>
+                    <div class="patrocinador-destacado">Sr. Leon Salazar "El Mono"</div>
+                    <div style="color: #aaa; margin-top: 5px;">El Pinchero</div>
+                    <div style="color: #888; font-size: 0.9rem; margin-top: 5px;">
+                        📍 ¡Pregunta por la Hamburguesa Sibarita!
+                    </div>
                 </div>
             </div>
 
-            <!-- Botón principal -->
             <a href="quiniela.html" class="btn-ir-quiniela">
-                ⚡ Ir a la Quiniela (Octavos)
+                ⚡ Ir a la Quiniela (Cuartos)
             </a>
 
-            <!-- Reglas específicas -->
             <div class="reglas">
                 <h3>📜 Reglas del Concurso</h3>
                 <ul>
-                    <li><strong>Válido solo para los partidos de Octavos de final</strong> (del 4 al 7 de julio).</li>
+                    <li><strong>Válido solo para los partidos de Cuartos de final</strong> (del 9 al 11 de julio).</li>
                     <li>El resultado se toma al final del <strong>tiempo reglamentario + tiempo extra</strong>. Los penales NO cuentan.</li>
                     <li>Las predicciones se cierran <strong>1 hora antes</strong> del inicio de cada partido.</li>
                     <li>Puntuación: <strong>3 puntos</strong> si aciertas el marcador exacto, <strong>1 punto</strong> si aciertas el ganador (o empate).</li>
                     <li>Los nuevos participantes pueden registrarse y pronosticar los partidos que aún no han comenzado.</li>
                     <li>El ganador será quien acumule más puntos en esta fase.</li>
-                    <li>El premio <strong>(2 empanadas operadas + bebidas)</strong> será entregado por <strong>Sibarita Sport Club</strong>.</li>
+                    <li>El premio <strong>(Hamburguesa Sibarita)</strong> será entregado por el <strong>Sr. Leon Salazar "El Mono" - El Pinchero</strong>.</li>
                 </ul>
             </div>
 
@@ -230,15 +221,11 @@
             </p>
         </div>
 
-        <!-- PUBLICIDAD FOOTER (opcional) -->
-        <div class="ad-container ad-footer" id="adFooter"></div>
-
         <div class="footer-concurso">
             Sibarita Sport Club - Quiniela Mundial 2026
         </div>
     </div>
 
-    <!-- Firebase SDKs y scripts -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script>
@@ -251,7 +238,6 @@
             appId: "1:466460618853:web:b24f848eb8bb794b6e568c"
         };
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
 
         document.addEventListener('DOMContentLoaded', function() {
             const stored = localStorage.getItem('quiniela_usuario_actual');
