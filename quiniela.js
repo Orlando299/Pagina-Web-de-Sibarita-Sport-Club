@@ -29,7 +29,7 @@ let usuarioActual = null;
 let esAdmin = false;
 let adminPassword = "sibarita2026";
 
-// ------------------- PUBLICIDAD (5 LOGOS EN TOP, CENTRADOS) -------------------
+// ------------------- PUBLICIDAD (6 LOGOS EN TOP, CENTRADOS) -------------------
 const publicidadConfig = {
     anuncios: [
         {
@@ -68,6 +68,14 @@ const publicidadConfig = {
             id: "logo5",
             texto: "Bunker Restobar",
             imagen: "logo_yusbelis.png",
+            link: "#",
+            posicion: "top",
+            activo: true
+        },
+        {
+            id: "logo6",
+            texto: "Distribuidora los Andes",
+            imagen: "polar_fernando.jpg",
             link: "#",
             posicion: "top",
             activo: true
