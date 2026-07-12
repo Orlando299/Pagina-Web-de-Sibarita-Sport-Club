@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concurso Cuartos - Quiniela Mundial 2026</title>
+    <title>Concurso Fases Finales - Quiniela Mundial 2026</title>
     <link rel="stylesheet" href="quiniela.css">
     <style>
         .concurso-container {
@@ -57,10 +57,17 @@
             flex-wrap: wrap;
             margin: 20px 0;
         }
+        .patrocinador-logo img {
+            max-height: 100px;
+            max-width: 200px;
+            border-radius: 10px;
+            background: #fff;
+            padding: 10px;
+        }
         .patrocinador-logo .info {
             color: #ccc;
             font-size: 1rem;
-            text-align: center;
+            text-align: left;
         }
         .patrocinador-logo .info a {
             color: #ffd700;
@@ -134,11 +141,6 @@
             padding: 20px;
             font-size: 0.9rem;
         }
-        .patrocinador-destacado {
-            font-size: 1.3rem;
-            color: #ffd700;
-            font-weight: bold;
-        }
         @media (max-width: 600px) {
             .card-concurso h2 {
                 font-size: 1.6rem;
@@ -152,6 +154,9 @@
             }
             .patrocinador-logo {
                 flex-direction: column;
+                text-align: center;
+            }
+            .patrocinador-logo .info {
                 text-align: center;
             }
         }
@@ -172,48 +177,47 @@
         </button>
 
         <div class="card-concurso">
-            <h2>🍔 CONCURSO CUARTOS DE FINAL</h2>
-            <div class="subtitulo">¡Pronostica y gana una hamburguesa!</div>
+            <h2>🍻 CONCURSO FASES FINALES</h2>
+            <div class="subtitulo">¡Pronostica y gana!</div>
 
             <div class="fecha-concurso">
-                📅 Del 9 al 11 de julio de 2026
+                📅 Del 14 al 19 de julio de 2026
             </div>
 
             <div class="premio-box">
-                <div class="premio">🍔 Hamburguesa Sibarita</div>
-                <div class="patrocinador">
-                    Patrocinado por <strong>Sr. Leon Salazar "El Mono"</strong><br>
-                    <span style="font-size: 0.9rem; color: #aaa;">Cortesía de El Pinchero</span>
-                </div>
+                <div class="premio">🎁 1 Caja de Cervezas</div>
+                <div class="patrocinador">Patrocinado por <strong>Polar - Distribuidora los Andes</strong></div>
             </div>
 
-            <!-- Patrocinador destacado -->
+            <!-- Patrocinador con logo -->
             <div class="patrocinador-logo">
+                <img src="logo_polar.png" alt="Polar" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="info" style="display: none;">
+                    <strong style="color:#fff;">Polar - Distribuidora los Andes</strong><br>
+                    <span style="color:#aaa;">📍 Av. Principal, Local 5</span><br>
+                    <span>📸 <a href="https://instagram.com/polar_ve" target="_blank">@polar_ve</a></span>
+                </div>
                 <div class="info">
-                    <div style="font-size: 2rem; margin-bottom: 5px;">👨‍🍳</div>
-                    <div class="patrocinador-destacado">Sr. Leon Salazar "El Mono"</div>
-                    <div style="color: #aaa; margin-top: 5px;">El Pinchero</div>
-                    <div style="color: #888; font-size: 0.9rem; margin-top: 5px;">
-                        📍 ¡Pregunta por la Hamburguesa Sibarita!
-                    </div>
+                    <strong style="color:#fff;">Polar - Distribuidora los Andes</strong><br>
+                    <span style="color:#aaa;">📍 Av. Principal, Local 5</span><br>
+                    <span>📸 <a href="https://instagram.com/polar_ve" target="_blank">@polar_ve</a></span>
                 </div>
             </div>
 
             <a href="quiniela.html" class="btn-ir-quiniela">
-                ⚡ Ir a la Quiniela (Cuartos)
+                ⚡ Ir a la Quiniela (Fases Finales)
             </a>
 
             <div class="reglas">
                 <h3>📜 Reglas del Concurso</h3>
                 <ul>
-                    <li><strong>Válido solo para los partidos de Cuartos de final</strong> (del 9 al 11 de julio).</li>
+                    <li><strong>Válido para Semifinales, Final y Tercer puesto</strong> (del 14 al 19 de julio).</li>
                     <li>El resultado se toma al final del <strong>tiempo reglamentario + tiempo extra</strong>. Los penales NO cuentan.</li>
                     <li>Las predicciones se cierran <strong>1 hora antes</strong> del inicio de cada partido.</li>
                     <li>Puntuación: <strong>3 puntos</strong> si aciertas el marcador exacto, <strong>1 punto</strong> si aciertas el ganador (o empate).</li>
                     <li>Los nuevos participantes pueden registrarse y pronosticar los partidos que aún no han comenzado.</li>
                     <li>El ganador será quien acumule más puntos en esta fase.</li>
-                    <li>Si hay un empate! se sorteará el ganador.</li>
-                    <li>El premio <strong>(Hamburguesa Sibarita)</strong> será entregado por el <strong>Sr. Leon Salazar "El Mono" - El Pinchero</strong>.</li>
+                    <li>El premio <strong>(1 Caja de Cervezas)</strong> será entregado por <strong>Polar - Distribuidora los Andes</strong>.</li>
                 </ul>
             </div>
 
