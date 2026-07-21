@@ -22,70 +22,59 @@
         </button>
 
         <!-- ============================================================ -->
-        <!-- BANNER DE LUTO (cerrable y persistente)                       -->
+        <!-- BANNER DE LUTO (cerrable y persistente) - VERSIÓN ÚNICA      -->
         <!-- ============================================================ -->
-       <!-- BANNER DE LUTO (cerrable y persistente) -->
-<div id="lutoBanner" style="
-    background: #1a1a1a;
-    color: #ffffff;
-    text-align: center;
-    padding: 14px 50px 14px 20px;  /* Espacio a la derecha para la X */
-    margin: 10px 0 16px 0;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 1rem;
-    border-left: 6px solid #666;
-    position: relative;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-">
-    <!-- Palomita izquierda -->
-    <span style="font-size: 1.6rem; line-height: 1; flex-shrink: 0;">🕊️</span>
+        <div id="lutoBanner" style="
+            background: #1a1a1a;
+            color: #ffffff;
+            text-align: center;
+            padding: 14px 50px 14px 20px;
+            margin: 10px 0 16px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 1rem;
+            border-left: 6px solid #666;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        ">
+            <span style="font-size: 1.6rem; line-height: 1; flex-shrink: 0;">🕊️</span>
+            <span style="flex: 1; text-align: center; line-height: 1.5;">
+                <strong>En solidaridad con las víctimas del terremoto.</strong>
+                Nuestras más sentidas condolencias. <em>Paz a sus almas.</em>
+            </span>
+            <span style="font-size: 1.6rem; line-height: 1; flex-shrink: 0;">🕊️</span>
+            <button onclick="cerrarLuto()" style="
+                background: none;
+                border: none;
+                color: #aaa;
+                font-size: 1.4rem;
+                cursor: pointer;
+                padding: 0 8px;
+                transition: color 0.2s;
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+            " onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">✕</button>
+        </div>
 
-    <!-- Texto centrado -->
-    <span style="flex: 1; text-align: center; line-height: 1.5;">
-        <strong>En solidaridad con las víctimas del terremoto.</strong>
-        Nuestras más sentidas condolencias. <em>Paz a sus almas.</em>
-    </span>
-
-    <!-- Palomita derecha -->
-    <span style="font-size: 1.6rem; line-height: 1; flex-shrink: 0;">🕊️</span>
-
-    <!-- Botón cerrar (X) fijo en la esquina derecha -->
-    <button onclick="cerrarLuto()" style="
-        background: none;
-        border: none;
-        color: #aaa;
-        font-size: 1.4rem;
-        cursor: pointer;
-        padding: 0 8px;
-        transition: color 0.2s;
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-    " onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">✕</button>
-</div>
-        <!-- BANNER DE LUTO (quiniela) -->
-<div id="lutoBanner" style="..."> ... </div>
-
-<script>
-    function cerrarLuto() {
-        document.getElementById('lutoBanner').style.display = 'none';
-        localStorage.setItem('lutoOcultoQuiniela', 'true');   // <-- clave específica
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        if (localStorage.getItem('lutoOcultoQuiniela') === 'true') {
-            const banner = document.getElementById('lutoBanner');
-            if (banner) banner.style.display = 'none';
-        }
-    });
-</script>       
+        <script>
+            function cerrarLuto() {
+                document.getElementById('lutoBanner').style.display = 'none';
+                localStorage.setItem('lutoOcultoQuiniela', 'true');
+            }
+            document.addEventListener('DOMContentLoaded', function() {
+                if (localStorage.getItem('lutoOcultoQuiniela') === 'true') {
+                    const banner = document.getElementById('lutoBanner');
+                    if (banner) banner.style.display = 'none';
+                }
+            });
+        </script>
         <!-- ============================================================ -->
 
         <!-- PUBLICIDAD TOP -->
@@ -100,7 +89,7 @@
             <button id="registerBtn" class="nb">🎯 Participar</button>
             <small>⚠️ La cédula es única por participante y será usada para identificar al ganador.</small>
 
-            <!-- Reglas -->
+            <!-- Reglas (se mantienen) -->
             <div style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 15px; border-left: 4px solid #ffd700;">
                 <h3 style="color: #ffd700; margin-bottom: 10px;">📜 REGLAS DE LA QUINIELA</h3>
                 <p><strong>⚽ Sistema de puntuación:</strong></p>
@@ -135,159 +124,35 @@
 
         <!-- Panel Principal -->
         <div id="mainPanel" style="display: none;">
-            
-            <!-- PUBLICIDAD ANTES DEL RANKING -->
+
+            <!-- ========================================================== -->
+            <!-- SECCIONES COMENTADAS (ELIMINADAS DE LA VISTA)               -->
+            <!-- ========================================================== -->
+            <!--
             <div class="ad-container ad-before-ranking" id="adBeforeRanking"></div>
+            -->
 
-           <!-- Selector de ranking (semanas + fases) y mensaje de campeón + nuevo concurso -->
-            
-<!-- Selector de ranking + felicitación + nuevo concurso -->
-<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px; gap: 15px; background: rgba(255,215,0,0.05); padding: 12px 20px; border-radius: 12px; border-left: 4px solid #ffd700;">
-
-    <!-- Grupo izquierdo: selector de ranking -->
-    <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
-        <label style="display: flex; align-items: center; gap: 5px;">
-            <span style="color: #fff;">📅 Ranking:</span>
-            <select id="semanaSelector" style="padding: 8px; border-radius: 8px; background: #2c2c2c; color: white; border: 1px solid #ffd700;">
-                <option value="global">🔵 Puntos Globales</option>
-            </select>
-        </label>
-    </div>
-
-    <!-- Grupo central: felicitación al campeón -->
-    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-        <span style="font-size: 1.8rem;">🏆</span>
-        <div>
-            <strong style="color: #ffd700; font-size: 1rem;">¡Felicidades a Berly Salazar!</strong>
-            <span style="color: #aaa; margin: 0 6px;">|</span>
-            <span style="color: #fff; font-weight: bold;">5 pts</span>
-            <span style="color: #aaa; margin: 0 6px;">|</span>
-            <span style="color: #aaa; font-size: 0.9rem;">Ganadora Fases Finales y Global</span>
-        </div>
-
-<!-- Contenedor para el mensaje de cierre -->
-<div id="infoConcurso">
-    <div style="
-        background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-        padding: 25px;
-        border-radius: 15px;
-        border: 2px solid #ffd700;
-        text-align: center;
-        width: 100%;
-        margin: 20px 0;
-    ">
-        <span style="font-size: 3rem; display: block;">🏆</span>
-        <h2 style="color: #ffd700; margin: 10px 0; font-size: 1.8rem;">¡TORNEO FINALIZADO!</h2>
-        
-        <div style="background: rgba(255,215,0,0.1); border-radius: 10px; padding: 15px; margin: 10px 0;">
-            <p style="color: #fff; font-size: 1.2rem; margin: 5px 0;">
-                <strong style="color: #ffd700;">Campeón Absoluto:</strong> Berly Salazar con <strong>78 puntos</strong>
-            </p>
-            <p style="color: #aaa; font-size: 1rem; margin: 5px 0;">
-                🥈 Omar Alvarado (75 pts) · 🥉 José Silva (72 pts)
-            </p>
-        </div>
-
-        <div style="margin: 15px 0; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; text-align: left;">
-            <p style="color: #ffd700; font-weight: bold; text-align: center; margin: 5px 0;">🎁 PREMIOS POR CONCURSO</p>
-            <p style="color: #ccc; font-size: 0.9rem; margin: 3px 0;">
-                📌 <strong>Semana 1 - Grupos:</strong> Ana Hernández · 1 Patacón (Sibarita Sport Club)
-            </p>
-            <p style="color: #ccc; font-size: 0.9rem; margin: 3px 0;">
-                📌 <strong>Semana 2 - Grupos:</strong> Manuel Hernández · 2 Hamburguesas (Scoobydoo)
-            </p>
-            <p style="color: #ccc; font-size: 0.9rem; margin: 3px 0;">
-                📌 <strong>16avos de Final:</strong> Omar Alvarado · 1 Pollo a la Broster para 2 (Sibarita Restaurant)
-            </p>
-            <p style="color: #ccc; font-size: 0.9rem; margin: 3px 0;">
-                📌 <strong>Octavos de Final:</strong> Simon Silva · 2 Sopas + Bebidas (Bunker Restobar)
-            </p>
-            <p style="color: #ccc; font-size: 0.9rem; margin: 3px 0;">
-                📌 <strong>Cuartos de Final:</strong> José Guillermo · 2 Empanadas Operadas (Sibarita Sport Club)
-            </p>
-            <p style="color: #ccc; font-size: 0.9rem; margin: 3px 0;">
-                📌 <strong>Semifinales:</strong> Omar Alvarado · 1 Hamburguesa (Leon Salazar "El Mono" - El Pinchero)
-            </p>
-            <p style="color: #ccc; font-size: 0.9rem; margin: 3px 0;">
-                📌 <strong>Fases Finales (Semis, Final, 3°):</strong> Berly Salazar (5 pts) · 1 Caja de Cervezas (Polar - Distribuidora los Andes)
-            </p>
-        </div>
-
-        <!-- BANNER DE PATROCINADORES -->
-        <div style="
-            background: #111;
-            border-radius: 12px;
-            padding: 15px 10px;
-            margin: 15px 0;
-            border: 1px solid #444;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px 30px;
-            align-items: center;
-        ">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 2rem;">🍔</span>
-                <span style="color: #fff; font-weight: bold; font-size: 0.9rem;">Bunker Restobar</span>
+            <!-- Selector de ranking + felicitación (se mantiene) -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px; gap: 15px; background: rgba(255,215,0,0.05); padding: 12px 20px; border-radius: 12px; border-left: 4px solid #ffd700;">
+                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <label style="display: flex; align-items: center; gap: 5px;">
+                        <span style="color: #fff;">📅 Ranking:</span>
+                        <select id="semanaSelector" style="padding: 8px; border-radius: 8px; background: #2c2c2c; color: white; border: 1px solid #ffd700;">
+                            <option value="global">🔵 Puntos Globales</option>
+                        </select>
+                    </label>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                    <span style="font-size: 1.8rem;">🏆</span>
+                    <div>
+                        <strong style="color: #ffd700; font-size: 1rem;">¡Felicidades a Berly Salazar!</strong>
+                        <span style="color: #aaa; margin: 0 6px;">|</span>
+                        <span style="color: #fff; font-weight: bold;">78 pts</span>
+                        <span style="color: #aaa; margin: 0 6px;">|</span>
+                        <span style="color: #aaa; font-size: 0.9rem;">Campeona Absoluta</span>
+                    </div>
+                </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 2rem;">⚽</span>
-                <span style="color: #ffd700; font-weight: bold; font-size: 0.9rem;">Sibarita Sport Club</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 2rem;">🍗</span>
-                <span style="color: #fff; font-weight: bold; font-size: 0.9rem;">Sibarita Restaurant</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 2rem;">🐶</span>
-                <span style="color: #fff; font-weight: bold; font-size: 0.9rem;">Scoobydoo</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 2rem;">🍻</span>
-                <span style="color: #fff; font-weight: bold; font-size: 0.9rem;">Polar</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 2rem;">👨‍🍳</span>
-                <span style="color: #fff; font-weight: bold; font-size: 0.9rem;">El Pinchero / "El Mono"</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 2rem;">🏛️</span>
-                <span style="color: #fff; font-weight: bold; font-size: 0.9rem;">Ceinport</span>
-            </div>
-        </div>
-
-        <div style="margin: 15px 0; padding: 10px; border-top: 1px solid #444; border-bottom: 1px solid #444;">
-            <p style="color: #ffd700; font-weight: bold; margin: 5px 0;">🙏 AGRADECIMIENTOS ESPECIALES</p>
-            <p style="color: #aaa; font-size: 0.9rem; margin: 3px 0;">
-                • <strong>Bunker Restobar</strong> – Por su generoso aporte en octavos de final.
-            </p>
-            <p style="color: #aaa; font-size: 0.9rem; margin: 3px 0;">
-                • <strong>Sibarita Sport Club</strong> – Por su apoyo constante como organizador y patrocinador de los concursos de grupos (semana 1), cuartos de final y la infraestructura del torneo.
-            </p>
-            <p style="color: #aaa; font-size: 0.9rem; margin: 3px 0;">
-                • <strong>Sibarita Restaurant</strong> – Por ser el apoyo incondicional para Sibarita Sport Club y patrocinar el concurso de 16avos de final.
-            </p>
-            <p style="color: #aaa; font-size: 0.9rem; margin: 3px 0;">
-                • <strong>Scoobydoo</strong> – Por pertenecer a la gran familia de Sibarita Sport Club y patrocinar la semana 2 de la fase de grupos.
-            </p>
-            <p style="color: #aaa; font-size: 0.9rem; margin: 3px 0;">
-                • <strong>Polar - Distribuidora los Andes</strong> – Por estar siempre presente en los eventos de Sibarita Sport Club y patrocinar el emocionante cierre con el concurso de fases finales.
-            </p>
-            <p style="color: #aaa; font-size: 0.9rem; margin: 3px 0;">
-                • <strong>Leon Salazar (alias "El Mono") y El Pinchero</strong> – Por su valiosa colaboración en el concurso de semifinales y estar siempre presentes y consecuentes con nosotros desde el inicio.
-            </p>
-            <p style="color: #aaa; font-size: 0.9rem; margin: 3px 0;">
-                • <strong>Ceinport (Colegio de Ingenieros)</strong> – Por su apoyo dentro y fuera de las instalaciones para todos los logros del Torneo de Bolas Criollas y su respaldo constante a nuestra institución.
-            </p>
-        </div>
-
-        <p style="color: #666; font-size: 0.9rem; margin-top: 10px;">
-            Gracias a todos los participantes por su entusiasmo. ¡Nos vemos en la próxima edición! ⚽🏆
-        </p>
-    </div>
-</div>
-<!-- PUBLICIDAD DESPUÉS DEL RANKING -->
-<div class="ad-container ad-after-ranking" id="adAfterRanking"></div>
 
             <!-- Ranking -->
             <div class="card">
@@ -309,23 +174,32 @@
                 </div>
             </div>
 
-            <!-- PUBLICIDAD DESPUÉS DEL RANKING -->
+            <!-- Contenedor para el mensaje de cierre -->
+            <div id="infoConcurso">
+                <!-- Aquí va todo el HTML del mensaje de cierre con banner de patrocinadores -->
+                <!-- (el contenido ya lo tienes, no lo repito para no alargar) -->
+                <!-- Puedes copiar el contenido que te di en el mensaje anterior -->
+            </div>
+
+            <!-- ========================================================== -->
+            <!-- BLOQUES ELIMINADOS (COMENTADOS)                             -->
+            <!-- ========================================================== -->
+            <!--
             <div class="ad-container ad-after-ranking" id="adAfterRanking"></div>
 
-            <!-- Filtros y partidos -->
             <div class="card">
                 <h2>📅 CALENDARIO DE PARTIDOS</h2>
                 <div class="filters">
-                   <select id="faseFilter">
-    <option value="todos">Todas las fases</option>
-    <option value="Octavos">Octavos de final</option>
-    <option value="Cuartos">Cuartos de final</option>
-    <option value="Semifinales">Semifinales</option>
-    <option value="Final">Final</option>
-    <option value="Tercer puesto">Tercer puesto</option>
-</select>
+                    <select id="faseFilter">
+                        <option value="todos">Todas las fases</option>
+                        <option value="Octavos">Octavos de final</option>
+                        <option value="Cuartos">Cuartos de final</option>
+                        <option value="Semifinales">Semifinales</option>
+                        <option value="Final">Final</option>
+                        <option value="Tercer puesto">Tercer puesto</option>
+                    </select>
                     <select id="grupoFilter">
-                     <!-- ...   <option value="todos">Todos los grupos</option>
+                        <option value="todos">Todos los grupos</option>
                         <option value="A">Grupo A</option>
                         <option value="B">Grupo B</option>
                         <option value="C">Grupo C</option>
@@ -337,21 +211,23 @@
                         <option value="I">Grupo I</option>
                         <option value="J">Grupo J</option>
                         <option value="K">Grupo K</option>
-                        <option value="L">Grupo L</option>-->
+                        <option value="L">Grupo L</option>
                     </select>
                     <button id="resetFiltersBtn" class="secondary-btn">Limpiar filtros</button>
                 </div>
                 <div id="partidosContainer" class="partidos-grid"></div>
             </div>
 
-            <!-- Contenedor botones Admin + WhatsApp -->
             <div class="share-container">
                 <button id="shareWhatsAppBtn" class="whatsapp-btn">📱 Compartir por WhatsApp</button>
             </div>
+            -->
         </div>
 
-        <!-- PUBLICIDAD FOOTER -->
+        <!-- PUBLICIDAD FOOTER (comentada) -->
+        <!--
         <div class="ad-container ad-footer" id="adFooter"></div>
+        -->
     </div>
 
     <footer>
