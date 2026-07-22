@@ -118,9 +118,18 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 <body>
 <div class="hdr">
   <div class="hdr-top">
-    <div class="logo"><img src="https://i.imgur.com/HbKo42m.png" alt="Logo"><div><div class="logo-t">Sibarita Sport Club</div><div class="logo-s">2do Campeonato 2026 "Categoría B"</div></div></div>
-    <div class="badge">RESULTADOS OFICIALES</div>
+  <div class="logo">
+    <img src="https://i.imgur.com/HbKo42m.png" alt="Logo">
+    <div>
+      <div class="logo-t">Sibarita Sport Club</div>
+      <div class="logo-s">2do Campeonato 2026 "Categoría B"</div>
+    </div>
   </div>
+  <div style="display: flex; gap: 8px; align-items: center;">
+    <button class="badge" id="btnFase1" style="background: #e8b84b; color: #000; cursor: pointer; border: none; padding: 4px 12px; border-radius: 8px; font-weight: bold; font-size: 9px; text-transform: uppercase;">Fase 1</button>
+    <button class="badge" id="btnFase2" style="background: #c0392b; color: #fff; cursor: pointer; border: none; padding: 4px 12px; border-radius: 8px; font-weight: bold; font-size: 9px; text-transform: uppercase;">Fase 2</button>
+  </div>
+</div>
   <div class="nav">
     <button class="nb on" onclick="showTab('teams',this)"><span>👥</span>Equipos</button>
     <button class="nb" onclick="showTab('matches',this)"><span>🎯</span>Partidos</button>
