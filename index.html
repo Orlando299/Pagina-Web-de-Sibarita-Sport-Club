@@ -1097,6 +1097,33 @@ window.rSt = rSt;
 window.rA = rA;
 window.rT = rT;
 window.mostrarEstado = mostrarEstado;
+
+// ==================== BOTONES FASE 1 / FASE 2 ====================
+(function() {
+    var btn1 = document.getElementById('btnFase1');
+    var btn2 = document.getElementById('btnFase2');
+
+    if (btn1) {
+        btn1.addEventListener('click', function(e) {
+            e.preventDefault();
+            location.reload();
+        });
+        console.log('✅ Botón Fase 1 configurado');
+    } else {
+        console.warn('⚠️ No se encontró btnFase1');
+    }
+
+    if (btn2) {
+        btn2.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('🚧 En construcción.\nEsperando los resultados oficiales de la Fase 1.');
+        });
+        console.log('✅ Botón Fase 2 configurado');
+    } else {
+        console.warn('⚠️ No se encontró btnFase2');
+    }
+})();
+  
 </script>
 
 <!-- Firebase módulo -->
