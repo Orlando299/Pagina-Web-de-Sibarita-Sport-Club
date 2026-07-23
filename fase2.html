@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sibarita Sport Club - Fase 2</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #1a1a2e; font-family: 'Segoe UI', Arial, sans-serif; color: #f0e6d3; max-width: 430px; margin: 0 auto; min-height: 100vh; }
+        .hdr { background: linear-gradient(135deg, #16213e, #0f3460); padding: 10px 14px 0; border-bottom: 3px solid #e8b84b; position: sticky; top: 0; z-index: 100; }
+        .hdr-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .logo { display: flex; align-items: center; gap: 8px; }
+        .logo img { width: 38px; height: 38px; border-radius: 50%; border: 2px solid #e8b84b; object-fit: cover; }
+        .logo-t { font-size: 13px; font-weight: bold; color: #e8b84b; text-transform: uppercase; letter-spacing: .03em; line-height: 1.1; }
+        .logo-s { font-size: 9px; color: #8899aa; text-transform: uppercase; letter-spacing: .06em; }
+        .btn-fase { background: #c0392b; color: #fff; border: none; padding: 4px 12px; border-radius: 8px; font-weight: bold; font-size: 9px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .btn-fase.activo { background: #e8b84b; color: #000; }
+        .nav { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0; }
+        .nb { flex: 1; padding: 8px 2px; font-size: 9px; font-weight: bold; text-transform: uppercase; border: none; background: transparent; color: #8899aa; border-bottom: 3px solid transparent; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; font-family: inherit; min-width: 50px; }
+        .nb.on { color: #e8b84b; border-bottom: 3px solid #e8b84b; }
+        .nb span { font-size: 15px; }
+        .body { padding: 12px 12px 70px; }
+        .card { background: #16213e; border: 1px solid #0f3460; border-radius: 10px; padding: 10px; margin-bottom: 7px; }
+        .f2-tab { display: none; }
+        .f2-tab.on { display: block; }
+        .waiting-msg { text-align: center; padding: 40px 20px; }
+        .waiting-msg .icon { font-size: 48px; }
+        .waiting-msg .title { font-size: 16px; color: #e8b84b; margin-top: 10px; }
+        .waiting-msg .sub { font-size: 12px; color: #8899aa; margin-top: 6px; }
+        .frow { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+        .fb { padding: 5px 10px; border-radius: 12px; border: 1px solid #0f3460; background: transparent; color: #8899aa; font-weight: bold; cursor: pointer; font-size: 11px; font-family: inherit; white-space: nowrap; }
+        .fb.on { background: #e8b84b; border-color: #e8b84b; color: #000; }
+        .fb.inactivo { opacity: 0.5; pointer-events: none; }
+        .fscroll { display: flex; gap: 6px; margin-bottom: 8px; overflow-x: auto; padding-bottom: 3px; flex-wrap: nowrap; }
+        .ibox { font-size: 10px; color: #8899aa; padding: 12px 14px; background: #16213e; border-radius: 9px; border: 1px solid #0f3460; margin-top: 7px; line-height: 1.6; }
+        .ibox strong { color: #e8b84b; }
+        .ibox .titulo { font-size: 13px; font-weight: bold; color: #e8b84b; display: block; margin-bottom: 6px; letter-spacing: 0.06em; }
+        .ibox .subtitulo { font-size: 11px; font-weight: bold; color: #e8b84b; margin-top: 8px; margin-bottom: 2px; display: block; }
+        .ibox ul { padding-left: 16px; margin: 2px 0 4px 0; }
+        .ibox li { margin-bottom: 1px; font-size: 10px; color: #c8c0b0; }
+        .ibox .nota { font-size: 9px; color: #8899aa; margin-top: 6px; border-top: 1px solid #0f3460; padding-top: 6px; font-style: italic; }
+        .separador { border: none; border-top: 1px solid #0f3460; margin: 4px 0 6px 0; }
+        .lbl { font-size: 10px; color: #e8b84b; font-weight: bold; margin-bottom: 7px; margin-top: 4px; letter-spacing: .06em; }
+
+        /* ===== ESTILOS PARA EQUIPOS EN COLUMNAS ===== */
+        .equipos-grid {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .equipos-col {
+            flex: 1;
+            min-width: 140px;
+            max-width: 200px;
+            background: #16213e;
+            border: 1px solid #e8b84b33;
+            border-radius: 10px;
+            padding: 12px;
+        }
+        .equipos-col-header {
+            font-size: 12px;
+            font-weight: bold;
+            color: #e8b84b;
+            text-align: center;
+            border-bottom: 1px solid #0f3460;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+        }
+        .equipo-item {
+            padding: 4px 0;
+            border-bottom: 1px solid #0f346033;
+            font-size: 11px;
+            color: #f0e6d3;
+        }
+        .equipo-item .nombre {
+            margin-left: 0px;
+        }
+        .equipo-item.espera {
+            color: #e8b84b;
+            font-style: italic;
+        }
+        .equipo-item.espera .nombre {
+            color: #e8b84b;
+        }
+        .equipo-item .pos {
+            color: #8899aa;
+            font-weight: bold;
+            margin-right: 4px;
+        }
+        .reglas-mini {
+            background: #0f3460;
+            border-left: 4px solid #e8b84b;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-top: 12px;
+            font-size: 10px;
+            line-height: 1.5;
+            color: #c8c0b0;
+        }
+        .reglas-mini strong {
+            color: #e8b84b;
+        }
+        .reglas-mini .titulo {
+            font-weight: bold;
+            color: #e8b84b;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 11px;
+        }
+        .reglas-mini ul {
+            padding-left: 16px;
+            margin: 4px 0;
+        }
+        .reglas-mini li {
+            margin-bottom: 2px;
+        }
+        .reglas-mini .nota {
+            margin-top: 4px;
+            border-top: 1px solid #0f3460;
+            padding-top: 4px;
+            font-style: italic;
+            color: #8899aa;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+    <div class="hdr-top">
+        <div class="logo">
+            <img src="https://i.imgur.com/HbKo42m.png" alt="Logo">
+            <div>
+                <div class="logo-t">Sibarita Sport Club</div>
+                <div class="logo-s">Fase 2 - Clasificados Femeninos</div>
+            </div>
+        </div>
+        <div>
+            <button class="btn-fase" id="btnFase1" onclick="cambiarFase('fase1')">Fase 1</button>
+            <button class="btn-fase activo" id="btnFase2" onclick="cambiarFase('fase2')">Fase 2</button>
+        </div>
+    </div>
+</div>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="body">
+
+    <div id="fase2-container">
+        <!-- Pestañas de la Fase 2 (sin "Jugar") -->
+        <div class="nav">
+            <button class="nb on" onclick="showTabF2('f2-equipos', this)"><span>👥</span>Equipos</button>
+            <button class="nb" onclick="showTabF2('f2-partidos', this)"><span>🎯</span>Partidos</button>
+            <button class="nb" onclick="showTabF2('f2-tabla', this)"><span>🏆</span>Tabla</button>
+            <button class="nb" onclick="showTabF2('f2-stats', this)"><span>📊</span>Average</button>
+            <button class="nb" onclick="showTabF2('f2-videos', this)"><span>📺</span>Videos</button>
+        </div>
+
+        <!-- ==================== EQUIPOS (con columnas A/B + reglas) ==================== -->
+        <div id="f2-equipos" class="f2-tab on">
+            <!-- Botones de categoría (toggle) -->
+            <div class="frow" style="justify-content: center; gap: 12px; margin-bottom: 12px;">
+                <button id="btnEquiposFem" class="fb on" onclick="mostrarEquipos('femenino')" style="padding: 10px 24px; font-size: 14px;">
+                    👩 Femenino
+                </button>
+                <button id="btnEquiposMas" class="fb" onclick="mostrarEquipos('masculino')" style="padding: 10px 24px; font-size: 14px;">
+                    👨 Masculino
+                </button>
+            </div>
+
+            <!-- Contenedor de las dos columnas -->
+            <div id="equipos-columnas" class="equipos-grid">
+                <!-- Columna Grupo A -->
+                <div class="equipos-col">
+                    <div class="equipos-col-header">🏆 Grupo A</div>
+                    <div id="listaGrupoA"></div>
+                </div>
+                <!-- Columna Grupo B -->
+                <div class="equipos-col">
+                    <div class="equipos-col-header">🏆 Grupo B</div>
+                    <div id="listaGrupoB"></div>
+                </div>
+            </div>
+
+            <!-- ===== REGLAS RESUMIDAS (debajo de las columnas) ===== -->
+            <div class="reglas-mini">
+                <span class="titulo">📋 Resumen Fase 2</span>
+                <ul>
+                    <li><strong>Femenino:</strong> 6 clasificados por grupo. Cruzados A vs B (6 partidos c/u). Clasifican los <strong>4 mejores</strong> de cada grupo.</li>
+                    <li><strong>Masculino:</strong> 7 clasificados por grupo. Cruzados A vs B (7 partidos c/u). Clasifican los <strong>4 mejores</strong> de cada grupo.</li>
+                    <li><strong>Eliminatorias:</strong> Cuartos: 1A vs 4B · 1B vs 4A · 2A vs 3B · 2B vs 3A. Semifinales: sorteo (1 vs 4, 2 vs 3). Final y 3er lugar.</li>
+                </ul>
+                <div class="nota">📌 Los primeros 5 (Fem) y 7 (Mas) clasificados de Fase 1 pasarán a categoría A en futuros torneos.</div>
+            </div>
+
+            <!-- Mensaje de espera (oculto porque ya tenemos datos) -->
+            <div id="msgEsperaEquipos" class="waiting-msg card" style="margin-top: 12px; display: none;">
+                <div class="icon">⏳</div>
+                <div class="title">Esperando clasificados</div>
+                <div class="sub">Los equipos de la Fase 2 se mostrarán aquí cuando finalice la Fase 1.</div>
+            </div>
+        </div>
+
+        <!-- ==================== PARTIDOS ==================== -->
+        <div id="f2-partidos" class="f2-tab">
+            <div class="frow">
+                <button class="fb on" onclick="msgEspera()">👩 Femenino</button>
+                <button class="fb" onclick="msgEspera()">👨 Masculino</button>
+            </div>
+            <div class="frow">
+                <button class="fb on" onclick="msgEspera()">Grupo A</button>
+                <button class="fb" onclick="msgEspera()">Grupo B</button>
+            </div>
+            <div class="fscroll" id="f2-weeks">
+                <button class="fb on" onclick="msgEspera()">Sem 1</button>
+                <button class="fb" onclick="msgEspera()">Sem 2</button>
+                <button class="fb" onclick="msgEspera()">Sem 3</button>
+                <button class="fb" onclick="msgEspera()">Sem 4</button>
+                <button class="fb" onclick="msgEspera()">Sem 5</button>
+                <button class="fb" onclick="msgEspera()">Sem 6</button>
+            </div>
+            <div class="waiting-msg card">
+                <div class="icon">⏳</div>
+                <div class="title">Calendario Fase 2</div>
+                <div class="sub">Los partidos de la Fase 2 se generarán al tener todos los clasificados.</div>
+            </div>
+        </div>
+
+        <!-- ==================== TABLA ==================== -->
+        <div id="f2-tabla" class="f2-tab">
+            <div class="frow">
+                <button class="fb on" onclick="msgEspera()">👩 Femenino</button>
+                <button class="fb" onclick="msgEspera()">👨 Masculino</button>
+            </div>
+            <div class="frow">
+                <button class="fb on" onclick="msgEspera()">Grupo A</button>
+                <button class="fb" onclick="msgEspera()">Grupo B</button>
+            </div>
+            <div class="waiting-msg card">
+                <div class="icon">⏳</div>
+                <div class="title">Tabla de Posiciones</div>
+                <div class="sub">La clasificación de la Fase 2 se actualizará con los resultados.</div>
+            </div>
+        </div>
+
+        <!-- ==================== AVERAGE ==================== -->
+        <div id="f2-stats" class="f2-tab">
+            <div class="frow">
+                <button class="fb on" onclick="msgEspera()">👩 Femenino</button>
+                <button class="fb" onclick="msgEspera()">👨 Masculino</button>
+            </div>
+            <div class="frow">
+                <button class="fb on" onclick="msgEspera()">Grupo A</button>
+                <button class="fb" onclick="msgEspera()">Grupo B</button>
+            </div>
+            <div class="waiting-msg card">
+                <div class="icon">⏳</div>
+                <div class="title">Estadísticas Individuales</div>
+                <div class="sub">Los promedios y estadísticas se cargarán durante la Fase 2.</div>
+            </div>
+        </div>
+
+        <!-- ==================== VIDEOS ==================== -->
+        <div id="f2-videos" class="f2-tab">
+            <div class="waiting-msg card">
+                <div class="icon">📺</div>
+                <div class="title">Videos Fase 2</div>
+                <div class="sub">Pronto subiremos los mejores momentos de la Fase 2.</div>
+            </div>
+        </div>
+
+        <!-- Botón opcional a reglas completas (lo dejamos por si quieres ampliar) -->
+        <div style="text-align: center; margin-top: 16px; padding: 8px;">
+            <button onclick="window.open('reglas.html', '_blank')" style="
+                background: transparent;
+                color: #e8b84b;
+                border: 1px solid #e8b84b55;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-weight: bold;
+                font-size: 11px;
+                font-family: 'Segoe UI', Arial, sans-serif;
+                cursor: pointer;
+                transition: 0.2s;
+                width: 100%;
+                max-width: 250px;
+            "
+            onmouseover="this.style.background='#e8b84b22'"
+            onmouseout="this.style.background='transparent'"
+            >
+            📖 Ver reglas completas
+            </button>
+        </div>
+
+    </div> <!-- fin fase2-container -->
+
+</div> <!-- fin body -->
+
+<script>
+    // ==================== DATOS DE CLASIFICADOS (SIN ENUMERAR) ====================
+    const clasificadosFemenino = {
+        grupoA: [
+            { nombre: 'Inversiones EPA' },
+            { nombre: 'Serv. Frios Antonella' },
+            { nombre: 'Jujure (Educadoras)' },
+            { nombre: 'New Family' },
+            { nombre: 'Repostería el Ponque' },
+            { nombre: 'Divinas' }
+        ],
+        grupoB: [
+            { nombre: 'Chikas' },
+            { nombre: 'Saboga' },
+            { nombre: 'Atavenca' },
+            { nombre: 'Corpoelec' },
+            { nombre: 'Santana' },
+            { nombre: '⏳ En espera...', espera: true }
+        ]
+    };
+
+    // ==================== FUNCIONES DE NAVEGACIÓN ====================
+    function cambiarFase(fase) {
+        if (fase === 'fase1') {
+            alert('🔙 Volviendo a la Fase 1 (página principal)');
+            // location.href = 'index.html';
+        } else {
+            document.getElementById('btnFase1').classList.remove('activo');
+            document.getElementById('btnFase2').classList.add('activo');
+        }
+    }
+
+    function showTabF2(id, btn) {
+        document.querySelectorAll('.f2-tab').forEach(t => t.classList.remove('on'));
+        document.getElementById(id).classList.add('on');
+        document.querySelectorAll('#fase2-container .nav .nb').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+    }
+
+    // ==================== EQUIPOS: TOGGLE Y LLENADO (SIN NÚMEROS) ====================
+    let categoriaEquiposActual = 'femenino';
+
+    function mostrarEquipos(categoria) {
+        categoriaEquiposActual = categoria;
+        const btnFem = document.getElementById('btnEquiposFem');
+        const btnMas = document.getElementById('btnEquiposMas');
+        if (categoria === 'femenino') {
+            btnFem.classList.add('on');
+            btnMas.classList.remove('on');
+            llenarEquiposFemenino();
+        } else {
+            btnMas.classList.add('on');
+            btnFem.classList.remove('on');
+            // Cuando tengamos datos masculinos, llamar a llenarEquiposMasculino()
+            document.getElementById('listaGrupoA').innerHTML = '<div style="text-align:center;color:#8899aa;padding:16px 0;">⏳ Esperando clasificados (Masculino)</div>';
+            document.getElementById('listaGrupoB').innerHTML = '<div style="text-align:center;color:#8899aa;padding:16px 0;">⏳ Esperando clasificados (Masculino)</div>';
+        }
+    }
+
+    function llenarEquiposFemenino() {
+        const listaA = document.getElementById('listaGrupoA');
+        const listaB = document.getElementById('listaGrupoB');
+
+        let htmlA = '';
+        clasificadosFemenino.grupoA.forEach(eq => {
+            htmlA += `<div class="equipo-item"><span class="nombre">${eq.nombre}</span></div>`;
+        });
+        listaA.innerHTML = htmlA;
+
+        let htmlB = '';
+        clasificadosFemenino.grupoB.forEach(eq => {
+            const clase = eq.espera ? 'equipo-item espera' : 'equipo-item';
+            htmlB += `<div class="${clase}"><span class="nombre">${eq.nombre}</span></div>`;
+        });
+        listaB.innerHTML = htmlB;
+
+        // Ocultar mensaje de espera si estaba visible
+        const msg = document.getElementById('msgEsperaEquipos');
+        if (msg) msg.style.display = 'none';
+    }
+
+    // ==================== MENSAJE DE ESPERA ====================
+    function msgEspera() {
+        alert('⏳ Datos de la Fase 2 aún no disponibles.\nEsperando clasificados oficiales de la Fase 1.');
+    }
+
+    // ==================== INICIALIZACIÓN ====================
+    document.addEventListener('DOMContentLoaded', function() {
+        // Asegurar que la primera pestaña esté activa
+        const firstTab = document.querySelector('#fase2-container .nav .nb');
+        if (firstTab) firstTab.classList.add('on');
+        const firstContent = document.querySelector('.f2-tab');
+        if (firstContent) firstContent.classList.add('on');
+
+        // Cargar equipos femeninos por defecto
+        llenarEquiposFemenino();
+    });
+</script>
+
+</body>
+</html>
