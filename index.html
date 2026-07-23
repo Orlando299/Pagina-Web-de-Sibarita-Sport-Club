@@ -20,6 +20,8 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 .logo-t{font-size:13px;font-weight:bold;color:#e8b84b;text-transform:uppercase;letter-spacing:.03em;line-height:1.1;}
 .logo-s{font-size:9px;color:#8899aa;text-transform:uppercase;letter-spacing:.06em;}
 .badge{background:#c0392b;color:#fff;font-size:9px;font-weight:bold;padding:3px 7px;border-radius:8px;}
+.btn-fase{background:#c0392b;color:#fff;border:none;padding:4px 12px;border-radius:8px;font-weight:bold;font-size:9px;text-transform:uppercase;cursor:pointer;transition:0.3s;}
+.btn-fase.activo{background:#e8b84b;color:#000;}
 .nav{display:flex;}
 .nb{flex:1;padding:8px 2px;font-size:9px;font-weight:bold;text-transform:uppercase;border:none;background:transparent;color:#8899aa;border-bottom:3px solid transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;}
 .nb.on{color:#e8b84b;border-bottom:3px solid #e8b84b;}
@@ -113,23 +115,43 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 .whatsapp-btn{background:#25D366;}
 .loading-spinner{text-align:center;padding:20px;color:#8899aa;}
 .error-message{background:#c0392b33;border:1px solid #c0392b;border-radius:8px;padding:10px;text-align:center;color:#c0392b;font-size:11px;}
+
+/* ===== ESTILOS IFRAME FASE 2 ===== */
+#fase2-iframe-container {
+    padding: 0;
+    margin: 0;
+}
+#fase2-iframe {
+    display: block;
+    width: 100%;
+    min-height: 80vh;
+    border: none;
+    border-radius: 12px;
+    background: #1a1a2e;
+}
+@media (max-width: 430px) {
+    #fase2-iframe {
+        min-height: 90vh;
+        border-radius: 8px;
+    }
+}
 </style>
 </head>
 <body>
 <div class="hdr">
   <div class="hdr-top">
-  <div class="logo">
-    <img src="https://i.imgur.com/HbKo42m.png" alt="Logo">
-    <div>
-      <div class="logo-t">Sibarita Sport Club</div>
-      <div class="logo-s">2do Campeonato 2026 "Categoría B"</div>
+    <div class="logo">
+      <img src="https://i.imgur.com/HbKo42m.png" alt="Logo">
+      <div>
+        <div class="logo-t">Sibarita Sport Club</div>
+        <div class="logo-s">2do Campeonato 2026 "Categoría B"</div>
+      </div>
+    </div>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <button class="badge" id="btnFase1" onclick="cambiarFase('fase1')" style="background: #e8b84b; color: #000; cursor: pointer; border: none; padding: 4px 12px; border-radius: 8px; font-weight: bold; font-size: 9px; text-transform: uppercase;">Fase 1</button>
+      <button class="badge" id="btnFase2" onclick="cambiarFase('fase2')" style="background: #c0392b; color: #fff; cursor: pointer; border: none; padding: 4px 12px; border-radius: 8px; font-weight: bold; font-size: 9px; text-transform: uppercase;">Fase 2</button>
     </div>
   </div>
-  <div style="display: flex; gap: 8px; align-items: center;">
-    <button class="badge" id="btnFase1" style="background: #e8b84b; color: #000; cursor: pointer; border: none; padding: 4px 12px; border-radius: 8px; font-weight: bold; font-size: 9px; text-transform: uppercase;">Fase 1</button>
-    <button class="badge" id="btnFase2" style="background: #c0392b; color: #fff; cursor: pointer; border: none; padding: 4px 12px; border-radius: 8px; font-weight: bold; font-size: 9px; text-transform: uppercase;">Fase 2</button>
-  </div>
-</div>
   <div class="nav">
     <button class="nb on" onclick="showTab('teams',this)"><span>👥</span>Equipos</button>
     <button class="nb" onclick="showTab('matches',this)"><span>🎯</span>Partidos</button>
@@ -141,148 +163,100 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
   </div>
 </div>
 
-<!-- BANNER DE SOLIDARIDAD + REINICIO DEL TORNEO DE BOLAS -->
-<div id="lutoBanner" style="
-    background: #1a1a1a;
-    color: #ffffff;
-    text-align: center;
-    padding: 14px 50px 14px 20px;
-    margin: 10px 0 16px 0;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 1rem;
-    border-left: 6px solid #666;
-    position: relative;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-">
-    <!-- Palomita izquierda -->
-    <span style="font-size: 1.6rem; line-height: 1; flex-shrink: 0;">🕊️</span>
-
-    <!-- Texto centrado -->
-    <span style="flex: 1; text-align: center; line-height: 1.5;">
-        <strong>Nuestro respeto y solidaridad con los afectados por el terremoto.</strong>
-        🔥 ¡El Torneo de Bolas Criollas regresa esta semana! Prepárate.
-    </span>
-
-    <!-- Palomita derecha -->
-    <span style="font-size: 1.6rem; line-height: 1; flex-shrink: 0;">🕊️</span>
-
-    <!-- Botón cerrar (X) -->
-    <button onclick="cerrarLuto()" style="
-        background: none;
-        border: none;
-        color: #aaa;
-        font-size: 1.4rem;
-        cursor: pointer;
-        padding: 0 8px;
-        transition: color 0.2s;
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-    " onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">✕</button>
-</div>
-
-<script>
-    // Función para cerrar el banner y recordar la preferencia en localStorage
-    function cerrarLuto() {
-        document.getElementById('lutoBanner').style.display = 'none';
-        localStorage.setItem('lutoOcultoIndex', 'true');
-    }
-
-    // Al cargar la página, si el usuario ya cerró el banner, lo ocultamos
-    document.addEventListener('DOMContentLoaded', function() {
-        if (localStorage.getItem('lutoOcultoIndex') === 'true') {
-            const banner = document.getElementById('lutoBanner');
-            if (banner) banner.style.display = 'none';
-        }
-    });
-</script>  
 <div class="body">
 
-<div id="s-videos" class="scr">
-  <div class="lbl" style="margin-bottom:8px;">📺 EN VIVO Y DESTACADOS</div>
-  <div class="frow">
-    <button class="fb on" id="btn-live" onclick="setVideoType('live')">🔴 EN VIVO</button>
-    <button class="fb" id="btn-highlights" onclick="setVideoType('highlights')">🎬 DESTACADOS</button>
-    <button class="fb" id="btn-tiktok" onclick="setVideoType('tiktok')">🎵 TIKTOK</button>
-    <button class="fb" id="btn-playlist" onclick="setVideoType('playlist')">📋 PLAYLISTS</button>
+  <!-- ===== FASE 1: Contenido actual ===== -->
+  <div id="fase1-content">
+    <!-- Pestaña Equipos -->
+    <div id="s-teams" class="scr on">
+      <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar equipo o jugador..." oninput="searchTeams(this.value)"></div>
+      <div id="srch-res" style="display:none"></div>
+      <div id="teams-wrap">
+        <div class="frow"><button class="fb on" id="btn-tFem" onclick="setF('tCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-tMas" onclick="setF('tCat','Masculino')">👨 Masculino</button></div>
+        <div class="frow"><button class="fb on" id="btn-tGa" onclick="setF('tGrp','A')">Grupo A</button><button class="fb" id="btn-tGb" onclick="setF('tGrp','B')">Grupo B</button></div>
+        <div class="lbl" id="t-cnt"></div>
+        <div id="t-list"></div>
+      </div>
+      <div id="t-detail" style="display:none"><button class="back" onclick="closeDetail()">← Volver</button><div class="card" id="t-dhead"></div><div class="lbl">Plantilla</div><div id="t-dplayers"></div></div>
+    </div>
+
+    <!-- Pestaña Partidos -->
+    <div id="s-matches" class="scr">
+      <div class="frow"><button class="fb on" id="btn-mFem" onclick="setF('mCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-mMas" onclick="setF('mCat','Masculino')">👨 Masculino</button></div>
+      <div class="frow"><button class="fb on" id="btn-mGa" onclick="setF('mGrp','A')">Grupo A</button><button class="fb" id="btn-mGb" onclick="setF('mGrp','B')">Grupo B</button></div>
+      <div class="fscroll" id="m-weeks"></div>
+      <div class="frow">
+        <button class="fb" onclick="togglePdfPanel()" style="background:#c0392b33;border-color:#c0392b;color:#c0392b;">📄 Descargar PDF</button>
+        <button class="fb" onclick="mostrarBotonesAdmin()" style="background:#e67e2233;border-color:#e67e22;color:#e67e22;">🔑 Admin</button>
+      </div>
+      <div id="admin-buttons" style="display: none; gap: 6px; margin-top: 8px;">
+        <button class="fb" onclick="cargarResultadosDesdeGitHub()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Cargar de GitHub</button>
+        <button class="fb" onclick="exportarResultadosAJSON()" style="background:#f39c1233;border-color:#f39c12;color:#f39c12;">📦 Exportar JSON</button>
+        <label class="fb" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;cursor:pointer;display:inline-block;padding:5px 10px;border-radius:12px;border:1px solid #9b59b6;">
+        📂 Importar JSON de Juez
+        <input type="file" id="importJsonInput" accept=".json" style="display:none;">
+      </label>  </div>
+      <div class="pdf-panel" id="pdf-panel"><div style="font-size:11px;color:#e8b84b;margin-bottom:8px;">DESCARGAR CALENDARIO EN PDF</div><div class="frow"><button class="fb on" id="pdf-btn-week" onclick="setPdfMode('week')">📅 Por Semana</button><button class="fb" id="pdf-btn-team" onclick="setPdfMode('team')">👥 Por Equipo</button><button class="fb" id="pdf-btn-all" onclick="setPdfMode('all')">🌍 Todas Categorías</button></div><div id="pdf-week-wrap"><select id="pdf-week-sel" class="pdf-sel"><option value="Todos">Todas</option><option value="S1">Sem 1</option><option value="S2">Sem 2</option><option value="S3">Sem 3</option><option value="S4">Sem 4</option><option value="S5">Sem 5</option><option value="S6">Sem 6</option><option value="S7">Sem 7</option><option value="S8">Sem 8</option><option value="S9">Sem 9</option><option value="S10">Sem 10</option></select></div><div id="pdf-team-wrap" style="display:none;"><select id="pdf-team-sel" class="pdf-sel"></select></div><button class="pdf-gen-btn" onclick="generatePDF()">⬇️ Generar PDF</button><button class="pdf-cancel-btn" onclick="togglePdfPanel()">Cancelar</button></div>
+      <div class="lbl" id="m-cnt"></div>
+      <div id="m-list"></div>
+    </div>
+
+    <!-- Pestaña Tabla -->
+    <div id="s-standings" class="scr">
+      <div class="frow"><button class="fb on" id="btn-sFem" onclick="setF('sCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-sMas" onclick="setF('sCat','Masculino')">👨 Masculino</button></div>
+      <div class="frow"><button class="fb on" id="btn-sGa" onclick="setF('sGrp','A')">Grupo A</button><button class="fb" id="btn-sGb" onclick="setF('sGrp','B')">Grupo B</button></div>
+      <div id="st-list"></div>
+      <div class="ibox">📌 Victoria: 3 pts | Derrota: 0 pts<br>📌 Gana quien llegue a 20 tantos.<br>📌 AVG = (TF - TC) / PJ</div>
+    </div>
+
+    <!-- Pestaña Average -->
+    <div id="s-stats" class="scr">
+      <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)"></div>
+      <div class="frow"><button class="fb on" id="btn-aFem" onclick="setF('aCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-aMas" onclick="setF('aCat','Masculino')">👨 Masculino</button></div>
+      <div class="frow"><button class="fb on" id="btn-aGa" onclick="setF('aGrp','A')">Grupo A</button><button class="fb" id="btn-aGb" onclick="setF('aGrp','B')">Grupo B</button></div>
+      <div class="frow"><button class="fb" onclick="exportarEstadisticasACSV()" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;">📊 Exportar CSV</button></div>
+      <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;">JUGADOR</div><div class="scols"><div class="sc sh">PJ</div><div class="sc sh">ARR%</div><div class="sc sh">BOC%</div><div class="sc sh">TOT%</div></div></div>
+      <div id="a-list"></div>
+      <div class="ibox">📌 ARR% = Arrimes Buenos/Total | BOC% = Boches Buenos/Total | TOT% = (Arr+Boc) / Total</div>
+    </div>
+
+    <!-- Pestaña Videos -->
+    <div id="s-videos" class="scr">
+      <div class="lbl" style="margin-bottom:8px;">📺 EN VIVO Y DESTACADOS</div>
+      <div class="frow">
+        <button class="fb on" id="btn-live" onclick="setVideoType('live')">🔴 EN VIVO</button>
+        <button class="fb" id="btn-highlights" onclick="setVideoType('highlights')">🎬 DESTACADOS</button>
+        <button class="fb" id="btn-tiktok" onclick="setVideoType('tiktok')">🎵 TIKTOK</button>
+        <button class="fb" id="btn-playlist" onclick="setVideoType('playlist')">📋 PLAYLISTS</button>
+      </div>
+      <div id="live-container" class="video-container"><div class="card" style="text-align:center;padding:15px;"><div id="live-status" style="font-size:48px;margin-bottom:10px;">📡</div><div id="live-title" style="font-size:14px;color:#e8b84b;margin-bottom:5px;font-weight:bold;">Verificando transmisiones...</div><div id="live-subtitle" style="font-size:11px;color:#8899aa;margin-bottom:15px;">Buscando streams activos</div><div id="live-player" style="display:none;"><div class="video-wrapper"><iframe id="live-iframe" src=""></iframe></div></div><div id="proximos-partidos" style="margin-top:15px;"></div><div class="channel-link"><span>📺 ¿Quieres ver transmisiones anteriores?</span><a href="https://www.youtube.com/@SibaritaSC" target="_blank" class="channel-btn">🔴 Visitar Canal</a></div></div></div>
+      <div id="highlights-container" class="video-container" style="display:none;"><div class="video-section-title"><span>🎥 ÚLTIMOS PARTIDOS</span><span class="video-badge">Actualizado</span></div><div id="youtube-grid" style="display:grid;grid-template-columns:1fr;gap:12px;"></div><div style="text-align:center;margin-top:10px;"><a href="https://www.youtube.com/@SibaritaSC/videos" target="_blank" style="color:#e8b84b;font-size:11px;">📺 Ver todos en YouTube</a></div></div>
+      <div id="playlist-container" class="video-container" style="display:none;"><div class="video-section-title">📋 PLAYLISTS</div><div id="playlist-grid" style="display:grid;grid-template-columns:1fr;gap:10px;"></div></div>
+      <div id="tiktok-container" class="video-container" style="display:none;"><div class="video-section-title">🎵 CLIPS CORTOS</div><div id="tiktok-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div class="card" style="text-align:center;padding:20px;"><div style="font-size:36px;">🎬</div><div style="font-size:11px;">Síguenos en TikTok</div><a href="https://www.tiktok.com/@sibaritasc" target="_blank" style="background:#000;color:white;padding:8px 16px;border-radius:8px;display:inline-block;margin-top:10px;">@sibaritasc</a></div></div></div>
+      <div class="channel-link" style="justify-content:center;"><span>📢 ¡Comparte los videos!</span><a href="#" onclick="compartirVideos()" style="color:#e8b84b;">📤 Compartir</a></div>
+      <div class="ibox">💡 ¿Quieres aparecer en los videos? Envía tus clips al WhatsApp de la organización.</div>
+    </div>
+
+    <!-- Pestaña Jugar -->
+    <div id="s-game" class="scr">
+      <div class="lbl">🎮 BOLAS CRIOLLAS - JUEGO INTERACTIVO</div>
+      <div id="game-container" style="background:#0d0d0d;border-radius:12px;overflow:hidden;border:1px solid #e8b84b33;"><iframe src="juego.html" style="width:100%;height:650px;border:none;"></iframe></div>
+      <div class="ibox">📖 Cómo jugar: Haz clic y arrastra para lanzar. Primero lanza el moche (bola dorada), luego tus bolas. ¡Gana quien más se acerque!</div>
+    </div>
+
+    <a href="instructivo.html" target="_blank" class="fb" style="background:#3498db33;border-color:#3498db;color:#3498db;text-decoration:none;display:inline-block;">📖 Instructivo Jugadores</a>
+
+    <div style="margin-top:30px;padding:15px;border-top:1px solid #0f3460;text-align:center;font-size:10px;">
+      <a href="legal.html" style="color:#8899aa;">📜 Aviso Legal</a> | <a href="privacidad.html" style="color:#8899aa;">🔒 Privacidad</a> | <a href="cookies.html" style="color:#8899aa;">🍪 Cookies</a><br>© 2026 Sibarita Sport Club
+    </div>
+  </div> <!-- fin fase1-content -->
+
+  <!-- ===== FASE 2: Iframe ===== -->
+  <div id="fase2-iframe-container" style="display: none; width: 100%;">
+    <iframe id="fase2-iframe" src="fase2.html" style="width: 100%; min-height: 80vh; border: none; border-radius: 12px; background: #1a1a2e;"></iframe>
   </div>
-  <div id="live-container" class="video-container"><div class="card" style="text-align:center;padding:15px;"><div id="live-status" style="font-size:48px;margin-bottom:10px;">📡</div><div id="live-title" style="font-size:14px;color:#e8b84b;margin-bottom:5px;font-weight:bold;">Verificando transmisiones...</div><div id="live-subtitle" style="font-size:11px;color:#8899aa;margin-bottom:15px;">Buscando streams activos</div><div id="live-player" style="display:none;"><div class="video-wrapper"><iframe id="live-iframe" src=""></iframe></div></div><div id="proximos-partidos" style="margin-top:15px;"></div><div class="channel-link"><span>📺 ¿Quieres ver transmisiones anteriores?</span><a href="https://www.youtube.com/@SibaritaSC" target="_blank" class="channel-btn">🔴 Visitar Canal</a></div></div></div>
-  <div id="highlights-container" class="video-container" style="display:none;"><div class="video-section-title"><span>🎥 ÚLTIMOS PARTIDOS</span><span class="video-badge">Actualizado</span></div><div id="youtube-grid" style="display:grid;grid-template-columns:1fr;gap:12px;"></div><div style="text-align:center;margin-top:10px;"><a href="https://www.youtube.com/@SibaritaSC/videos" target="_blank" style="color:#e8b84b;font-size:11px;">📺 Ver todos en YouTube</a></div></div>
-  <div id="playlist-container" class="video-container" style="display:none;"><div class="video-section-title">📋 PLAYLISTS</div><div id="playlist-grid" style="display:grid;grid-template-columns:1fr;gap:10px;"></div></div>
-  <div id="tiktok-container" class="video-container" style="display:none;"><div class="video-section-title">🎵 CLIPS CORTOS</div><div id="tiktok-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div class="card" style="text-align:center;padding:20px;"><div style="font-size:36px;">🎬</div><div style="font-size:11px;">Síguenos en TikTok</div><a href="https://www.tiktok.com/@sibaritasc" target="_blank" style="background:#000;color:white;padding:8px 16px;border-radius:8px;display:inline-block;margin-top:10px;">@sibaritasc</a></div></div></div>
-  <div class="channel-link" style="justify-content:center;"><span>📢 ¡Comparte los videos!</span><a href="#" onclick="compartirVideos()" style="color:#e8b84b;">📤 Compartir</a></div>
-  <div class="ibox">💡 ¿Quieres aparecer en los videos? Envía tus clips al WhatsApp de la organización.</div>
-</div>
 
-<div id="s-game" class="scr">
-  <div class="lbl">🎮 BOLAS CRIOLLAS - JUEGO INTERACTIVO</div>
-  <div id="game-container" style="background:#0d0d0d;border-radius:12px;overflow:hidden;border:1px solid #e8b84b33;"><iframe src="juego.html" style="width:100%;height:650px;border:none;"></iframe></div>
-  <div class="ibox">📖 Cómo jugar: Haz clic y arrastra para lanzar. Primero lanza el moche (bola dorada), luego tus bolas. ¡Gana quien más se acerque!</div>
-</div>
-
-<a href="instructivo.html" target="_blank" class="fb" style="background:#3498db33;border-color:#3498db;color:#3498db;text-decoration:none;display:inline-block;">📖 Instructivo Jugadores</a>
-
-<div id="s-teams" class="scr on">
-  <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar equipo o jugador..." oninput="searchTeams(this.value)"></div>
-  <div id="srch-res" style="display:none"></div>
-  <div id="teams-wrap">
-    <div class="frow"><button class="fb on" id="btn-tFem" onclick="setF('tCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-tMas" onclick="setF('tCat','Masculino')">👨 Masculino</button></div>
-    <div class="frow"><button class="fb on" id="btn-tGa" onclick="setF('tGrp','A')">Grupo A</button><button class="fb" id="btn-tGb" onclick="setF('tGrp','B')">Grupo B</button></div>
-    <div class="lbl" id="t-cnt"></div>
-    <div id="t-list"></div>
-  </div>
-  <div id="t-detail" style="display:none"><button class="back" onclick="closeDetail()">← Volver</button><div class="card" id="t-dhead"></div><div class="lbl">Plantilla</div><div id="t-dplayers"></div></div>
-</div>
-
-<div id="s-matches" class="scr">
-  <div class="frow"><button class="fb on" id="btn-mFem" onclick="setF('mCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-mMas" onclick="setF('mCat','Masculino')">👨 Masculino</button></div>
-  <div class="frow"><button class="fb on" id="btn-mGa" onclick="setF('mGrp','A')">Grupo A</button><button class="fb" id="btn-mGb" onclick="setF('mGrp','B')">Grupo B</button></div>
-  <div class="fscroll" id="m-weeks"></div>
-  <div class="frow">
-    <button class="fb" onclick="togglePdfPanel()" style="background:#c0392b33;border-color:#c0392b;color:#c0392b;">📄 Descargar PDF</button>
-    <button class="fb" onclick="mostrarBotonesAdmin()" style="background:#e67e2233;border-color:#e67e22;color:#e67e22;">🔑 Admin</button>
-  </div>
-  <div id="admin-buttons" style="display: none; gap: 6px; margin-top: 8px;">
-    <button class="fb" onclick="cargarResultadosDesdeGitHub()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Cargar de GitHub</button>
-    <button class="fb" onclick="exportarResultadosAJSON()" style="background:#f39c1233;border-color:#f39c12;color:#f39c12;">📦 Exportar JSON</button>
-    <label class="fb" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;cursor:pointer;display:inline-block;padding:5px 10px;border-radius:12px;border:1px solid #9b59b6;">
-    📂 Importar JSON de Juez
-    <input type="file" id="importJsonInput" accept=".json" style="display:none;">
-</label>  </div>
-  <div class="pdf-panel" id="pdf-panel"><div style="font-size:11px;color:#e8b84b;margin-bottom:8px;">DESCARGAR CALENDARIO EN PDF</div><div class="frow"><button class="fb on" id="pdf-btn-week" onclick="setPdfMode('week')">📅 Por Semana</button><button class="fb" id="pdf-btn-team" onclick="setPdfMode('team')">👥 Por Equipo</button><button class="fb" id="pdf-btn-all" onclick="setPdfMode('all')">🌍 Todas Categorías</button></div><div id="pdf-week-wrap"><select id="pdf-week-sel" class="pdf-sel"><option value="Todos">Todas</option><option value="S1">Sem 1</option><option value="S2">Sem 2</option><option value="S3">Sem 3</option><option value="S4">Sem 4</option><option value="S5">Sem 5</option><option value="S6">Sem 6</option><option value="S7">Sem 7</option><option value="S8">Sem 8</option><option value="S9">Sem 9</option><option value="S10">Sem 10</option></select></div><div id="pdf-team-wrap" style="display:none;"><select id="pdf-team-sel" class="pdf-sel"></select></div><button class="pdf-gen-btn" onclick="generatePDF()">⬇️ Generar PDF</button><button class="pdf-cancel-btn" onclick="togglePdfPanel()">Cancelar</button></div>
-  <div class="lbl" id="m-cnt"></div>
-  <div id="m-list"></div>
-</div>
-
-<div id="s-standings" class="scr">
-  <div class="frow"><button class="fb on" id="btn-sFem" onclick="setF('sCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-sMas" onclick="setF('sCat','Masculino')">👨 Masculino</button></div>
-  <div class="frow"><button class="fb on" id="btn-sGa" onclick="setF('sGrp','A')">Grupo A</button><button class="fb" id="btn-sGb" onclick="setF('sGrp','B')">Grupo B</button></div>
-  <div id="st-list"></div>
-  <div class="ibox">📌 Victoria: 3 pts | Derrota: 0 pts<br>📌 Gana quien llegue a 20 tantos.<br>📌 AVG = (TF - TC) / PJ</div>
-</div>
-
-<div id="s-stats" class="scr">
-  <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)"></div>
-  <div class="frow"><button class="fb on" id="btn-aFem" onclick="setF('aCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-aMas" onclick="setF('aCat','Masculino')">👨 Masculino</button></div>
-  <div class="frow"><button class="fb on" id="btn-aGa" onclick="setF('aGrp','A')">Grupo A</button><button class="fb" id="btn-aGb" onclick="setF('aGrp','B')">Grupo B</button></div>
-  <div class="frow"><button class="fb" onclick="exportarEstadisticasACSV()" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;">📊 Exportar CSV</button></div>
-  <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;">JUGADOR</div><div class="scols"><div class="sc sh">PJ</div><div class="sc sh">ARR%</div><div class="sc sh">BOC%</div><div class="sc sh">TOT%</div></div></div>
-  <div id="a-list"></div>
-  <div class="ibox">📌 ARR% = Arrimes Buenos/Total | BOC% = Boches Buenos/Total | TOT% = (Arr+Boc) / Total</div>
-</div>
-
-<div style="margin-top:30px;padding:15px;border-top:1px solid #0f3460;text-align:center;font-size:10px;">
-  <a href="legal.html" style="color:#8899aa;">📜 Aviso Legal</a> | <a href="privacidad.html" style="color:#8899aa;">🔒 Privacidad</a> | <a href="cookies.html" style="color:#8899aa;">🍪 Cookies</a><br>© 2026 Sibarita Sport Club
-</div>
-</div> <!-- .body -->
-</div> <!-- .hdr -->
+</div> <!-- fin .body -->
 
 <div id="stats-modal" class="modal-stats"><div class="modal-content"><div class="modal-header"><div class="modal-title" id="stats-modal-title">Registrar Estadísticas</div><button class="modal-close" onclick="closeStatsModal()">✕</button></div><div id="stats-modal-body"></div><button class="btn-save-stats" onclick="saveMatchStats()">💾 Guardar Estadísticas</button></div></div>
 
@@ -348,7 +322,6 @@ const MATCHES = [
   // ==================== SEMANA 1 ====================
   {id:1, c:"Femenino", g:"B", a:"Oasis Box", b:"Corpoelec", d:"08/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S1"},
   // ==================== SEMANA 2 ====================
-  // ===== {id:2, c:"Femenino", g:"A", a:"Alimentos Amanecer", b:"Jujure (Educadoras)", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S2"},
   {id:3, c:"Femenino", g:"B", a:"The Dolls", b:"Saboga", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 2", w:"S2"},
   {id:4, c:"Masculino", g:"A", a:"Corpoelec2", b:"Los Amigos", d:"14/05/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 3", w:"S2"},
   {id:5, c:"Femenino", g:"B", a:"Atavenca", b:"Chikas", d:"14/05/2026", dy:"Jueves", h:"8:30pm", f:"Cancha 1", w:"S2"},
@@ -558,7 +531,7 @@ const MATCHES = [
 
 // ----- Jueves 25/06 6:00pm -----
 {id:335, c:"Masculino", g:"B", a:"Ingenieros", b:"Agro Tigrera Ranch", d:"25/06/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 1", w:"S8"},
-{id:336, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Gladiadores del Cerrito", d:"25/06/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 2", w:"S8"},  // ← CORREGIDO
+{id:336, c:"Masculino", g:"B", a:"Tribunal Protección", b:"Gladiadores del Cerrito", d:"25/06/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 2", w:"S8"},
 {id:337, c:"Masculino", g:"B", a:"Distribuidora JH", b:"Atlético Páez", d:"25/06/2026", dy:"Jueves", h:"6:00pm", f:"Cancha 3", w:"S8"},
 
 // ----- Jueves 25/06 8:30pm -----
@@ -714,8 +687,6 @@ const MATCHES = [
 // ----- Domingo 26/07 6:00pm -----
 {id:511, c:"Masculino", g:"B", a:"Triunfadores", b:"Tribunal Protección", d:"26/07/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 1", w:"S11"},
 {id:512, c:"Masculino", g:"B", a:"Pintucal", b:"Agroserviportuguesa", d:"26/07/2026", dy:"Domingo", h:"6:00pm", f:"Cancha 2", w:"S11"}
-
-  
 ];
 
 // ==================== VARIABLES GLOBALES ====================
@@ -791,9 +762,8 @@ function setMVP(id) {
       const stats = matchStats[fullKey] || {};
       const totalBuenos = (stats.arr_b||0)+(stats.boc_b||0);
       const totalIntentos = (stats.total_arr||0)+(stats.total_boc||0);
-      // Calcular efectividad (%) y puntuación (anotaciones * (efectividad/100))
       const efectividad = totalIntentos ? (totalBuenos / totalIntentos) * 100 : 0;
-      const puntuacion = totalBuenos * (efectividad / 100);  // Opción 2
+      const puntuacion = totalBuenos * (efectividad / 100);
       if (totalIntentos > 0) cands.push({ name: player, team: equipoGanador, puntuacion: puntuacion });
     });
   }
@@ -836,7 +806,6 @@ function saveMatchStats() {
     const match = MATCHES.find(m => m.id === currentMatchId);
     if (!match) return;
     const stats = {};
-    // Guardar estadísticas del partido
     [match.a, match.b].forEach(teamName => {
         const team = TEAMS.find(t => t.n === teamName);
         if (team) {
@@ -853,15 +822,10 @@ function saveMatchStats() {
             });
         }
     });
-
-    // Guardar en localStorage y Firebase
     localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats));
     if (window.guardarEstadisticasPorPartidoFirebase) {
         window.guardarEstadisticasPorPartidoFirebase(currentMatchId, stats);
     }
-
-    // --- RECALCULAR PARTIDOS DESDE CERO ---
-    // 1. Limpiar PS[fullKey].partidos para todos los jugadores del partido
     const jugadoresAfectados = [];
     [match.a, match.b].forEach(teamName => {
         const team = TEAMS.find(t => t.n === teamName);
@@ -871,14 +835,11 @@ function saveMatchStats() {
                     const fullKey = `${teamName}|${player}`;
                     jugadoresAfectados.push(fullKey);
                     if (!PS[fullKey]) PS[fullKey] = {};
-                    // Eliminar partidos para recalcular
                     delete PS[fullKey].partidos;
                 }
             });
         }
     });
-
-    // 2. Recorrer TODAS las estadísticas por partido y contar apariciones
     const allMatchStats = {};
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
@@ -887,15 +848,11 @@ function saveMatchStats() {
             allMatchStats[matchId] = JSON.parse(localStorage.getItem(key));
         }
     }
-    // También contar desde Firebase (si ya se guardaron)
-    // (En esta versión contamos solo localStorage, pero puedes expandir)
-
     for (const [matchId, matchStats] of Object.entries(allMatchStats)) {
         for (const [fullKey, statsData] of Object.entries(matchStats)) {
             if (jugadoresAfectados.includes(fullKey)) {
                 if (!PS[fullKey]) PS[fullKey] = {};
                 PS[fullKey].partidos = (PS[fullKey].partidos || 0) + 1;
-                // Acumular stats
                 PS[fullKey].arr_b = (PS[fullKey].arr_b || 0) + statsData.arr_b;
                 PS[fullKey].total_arr = (PS[fullKey].total_arr || 0) + statsData.total_arr;
                 PS[fullKey].boc_b = (PS[fullKey].boc_b || 0) + statsData.boc_b;
@@ -903,14 +860,11 @@ function saveMatchStats() {
             }
         }
     }
-
-    // 3. Guardar las estadísticas globales en Firebase
     for (const fullKey of jugadoresAfectados) {
         if (window.guardarEstadisticasFirebase) {
             window.guardarEstadisticasFirebase(fullKey, PS[fullKey]);
         }
     }
-
     save();
     closeStatsModal();
     alert('✅ Estadísticas guardadas correctamente');
@@ -935,14 +889,12 @@ document.getElementById('importJsonInput')?.addEventListener('change', async fun
         this.value = '';
         return;
     }
-
     const pass = prompt('🔐 Contraseña de administrador:');
     if (pass !== 'sibarita2026') {
         alert('❌ Contraseña incorrecta');
         this.value = '';
         return;
     }
-
     const reader = new FileReader();
     reader.onload = async (ev) => {
         try {
@@ -951,42 +903,31 @@ document.getElementById('importJsonInput')?.addEventListener('change', async fun
             const partidos = data.partidos;
             const ids = Object.keys(partidos);
             if (!ids.length) { alert('No hay partidos'); return; }
-
-            // Filtrar solo partidos con estado "finalizado" o "done"
             const idsFinalizados = ids.filter(id => {
                 const p = partidos[id];
                 return p.estado === 'finalizado' || p.estado === 'done';
             });
-
             if (idsFinalizados.length === 0) {
                 alert('No hay partidos en estado "finalizado" para importar.');
                 this.value = '';
                 return;
             }
-
             if (!confirm(`Importar ${idsFinalizados.length} partidos finalizados a Firebase?`)) {
                 this.value = '';
                 return;
             }
-
             let importados = 0, errores = [];
-
             for (const id of idsFinalizados) {
                 const p = partidos[id];
-                // Validar que puntosA y puntosB sean números válidos (no solo 0 por defecto)
                 if (p.puntosA === undefined || p.puntosB === undefined || p.puntosA === null || p.puntosB === null) {
                     errores.push(`ID ${id}: faltan puntos`);
                     continue;
                 }
-
-                // Guardar resultado en Firebase
                 await window.guardarResultadoFirebase(id, {
                     scoreA: p.puntosA,
                     scoreB: p.puntosB,
                     status: 'done'
                 });
-
-                // Guardar estadísticas por partido
                 const statsPorPartido = {};
                 for (const [team, jugadores] of Object.entries(p.estadisticas || {})) {
                     for (const j of jugadores) {
@@ -1003,8 +944,6 @@ document.getElementById('importJsonInput')?.addEventListener('change', async fun
                 localStorage.setItem(`match_stats_${id}`, JSON.stringify(statsPorPartido));
                 importados++;
             }
-
-            // Recalcular partidos (para evitar duplicados en PJ)
             const allMatchStats = {};
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
@@ -1031,7 +970,6 @@ document.getElementById('importJsonInput')?.addEventListener('change', async fun
                     await window.guardarEstadisticasFirebase(fullKey, stats);
                 }
             }
-
             save();
             if (errores.length) {
                 alert(`⚠️ Importación con errores:\n${errores.join('\n')}\n✅ Importados: ${importados}`);
@@ -1039,7 +977,6 @@ document.getElementById('importJsonInput')?.addEventListener('change', async fun
                 alert(`🎉 Importación completada: ${importados} partidos guardados en Firebase.`);
             }
             rM(); rSt(); rA(); rT();
-
         } catch(err) {
             console.error(err);
             alert('Error: ' + err.message);
@@ -1049,14 +986,10 @@ document.getElementById('importJsonInput')?.addEventListener('change', async fun
     reader.readAsText(file);
 });
 
-// Función auxiliar para recalcular partidos de todos los jugadores
 async function recalcularPartidosGlobales() {
-    // Limpiar partidos de todos los PS
     for (const key of Object.keys(PS)) {
         delete PS[key].partidos;
     }
-
-    // Recorrer todas las estadísticas por partido
     const allMatchStats = {};
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
@@ -1065,23 +998,47 @@ async function recalcularPartidosGlobales() {
             allMatchStats[matchId] = JSON.parse(localStorage.getItem(key));
         }
     }
-
     for (const [matchId, matchStats] of Object.entries(allMatchStats)) {
         for (const [fullKey, statsData] of Object.entries(matchStats)) {
             if (!PS[fullKey]) PS[fullKey] = {};
             PS[fullKey].partidos = (PS[fullKey].partidos || 0) + 1;
-            // Acumular stats
             PS[fullKey].arr_b = (PS[fullKey].arr_b || 0) + statsData.arr_b;
             PS[fullKey].total_arr = (PS[fullKey].total_arr || 0) + statsData.total_arr;
             PS[fullKey].boc_b = (PS[fullKey].boc_b || 0) + statsData.boc_b;
             PS[fullKey].total_boc = (PS[fullKey].total_boc || 0) + statsData.total_boc;
         }
     }
-
-    // Guardar en Firebase
     for (const [fullKey, stats] of Object.entries(PS)) {
         if (window.guardarEstadisticasFirebase) {
             await window.guardarEstadisticasFirebase(fullKey, stats);
+        }
+    }
+}
+
+// ==================== ALTERNAR FASE 1 / FASE 2 (IFRAME) ====================
+function cambiarFase(fase) {
+    const fase1Cont = document.getElementById('fase1-content');
+    const fase2Cont = document.getElementById('fase2-iframe-container');
+    const btn1 = document.getElementById('btnFase1');
+    const btn2 = document.getElementById('btnFase2');
+
+    if (fase === 'fase1') {
+        if (fase1Cont) fase1Cont.style.display = 'block';
+        if (fase2Cont) fase2Cont.style.display = 'none';
+        if (btn1) { btn1.style.background = '#e8b84b'; btn1.style.color = '#000'; }
+        if (btn2) { btn2.style.background = '#c0392b'; btn2.style.color = '#fff'; }
+        if (typeof rT === 'function') rT();
+        if (typeof rM === 'function') rM();
+        if (typeof rSt === 'function') rSt();
+        if (typeof rA === 'function') rA();
+    } else {
+        if (fase1Cont) fase1Cont.style.display = 'none';
+        if (fase2Cont) fase2Cont.style.display = 'block';
+        if (btn2) { btn2.style.background = '#e8b84b'; btn2.style.color = '#000'; }
+        if (btn1) { btn1.style.background = '#c0392b'; btn1.style.color = '#fff'; }
+        const iframe = document.getElementById('fase2-iframe');
+        if (iframe) {
+            iframe.src = iframe.src;
         }
     }
 }
@@ -1090,40 +1047,12 @@ async function recalcularPartidosGlobales() {
 setF('tCat','Femenino'); setF('tGrp','A'); setF('mCat','Femenino'); setF('mGrp','A'); setF('sCat','Femenino'); setF('sGrp','A'); setF('aCat','Femenino'); setF('aGrp','A');
 rT(); rM(); rSt(); rA();
 
-// Exponer funciones necesarias para el módulo de Firebase
 window.save = save;
 window.rM = rM;
 window.rSt = rSt;
 window.rA = rA;
 window.rT = rT;
 window.mostrarEstado = mostrarEstado;
-
-// ==================== BOTONES FASE 1 / FASE 2 ====================
-(function() {
-    var btn1 = document.getElementById('btnFase1');
-    var btn2 = document.getElementById('btnFase2');
-
-    if (btn1) {
-        btn1.addEventListener('click', function(e) {
-            e.preventDefault();
-            location.reload();
-        });
-        console.log('✅ Botón Fase 1 configurado');
-    } else {
-        console.warn('⚠️ No se encontró btnFase1');
-    }
-
-    if (btn2) {
-        btn2.addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('🚧 En construcción.\nEsperando los resultados oficiales de la Fase 1.');
-        });
-        console.log('✅ Botón Fase 2 configurado');
-    } else {
-        console.warn('⚠️ No se encontró btnFase2');
-    }
-})();
-  
 </script>
 
 <!-- Firebase módulo -->
@@ -1154,40 +1083,31 @@ window.mostrarEstado = mostrarEstado;
   window.guardarEstadisticasPorPartidoFirebase = async function(matchId, data) { try { await setDoc(doc(db, "estadisticasPorPartido", matchId.toString()), data); console.log("✅ Estadísticas por partido guardadas:", matchId); return true; } catch(e) { return false; } };
   console.log("🔥 Firebase conectado");
 
-window.cargarResultadosDesdeFirebase = async function() {
-  try {
-    const resultados = await window.cargarResultadosFirebase();
-    const mvp = await window.cargarMVPFirebase();
-    const estadisticas = await window.cargarEstadisticasFirebase();
-    const statsPP = await window.cargarEstadisticasPorPartidoFirebase();
-
-    // Limpiar objetos globales (opcional, pero asegura datos frescos)
-    for (let k in R) delete R[k];
-    for (let k in MVP) delete MVP[k];
-    for (let k in PS) delete PS[k];
-
-    // Asignar directamente (sin usar window. para mayor claridad)
-    for (const [id, d] of Object.entries(resultados)) R[id] = d;
-    for (const [id, d] of Object.entries(mvp)) MVP[id] = d;
-    for (const [k, d] of Object.entries(estadisticas)) PS[k] = d;
-    for (const [mid, s] of Object.entries(statsPP)) localStorage.setItem(`match_stats_${mid}`, JSON.stringify(s));
-
-    // Guardar en localStorage
-    save();
-
-    // Refrescar la interfaz
-    rM();
-    rSt();
-    rA();
-    rT();
-
-    mostrarEstado(`✅ Datos cargados: ${Object.keys(R).length} resultados, ${Object.keys(MVP).length} MVP, ${Object.keys(PS).length} estadísticas`);
-  } catch(e) {
-    console.error(e);
-    mostrarEstado('⚠️ Error cargando desde Firebase', true);
-  }
-};
- window.cargarResultadosDesdeFirebase();
+  window.cargarResultadosDesdeFirebase = async function() {
+    try {
+      const resultados = await window.cargarResultadosFirebase();
+      const mvp = await window.cargarMVPFirebase();
+      const estadisticas = await window.cargarEstadisticasFirebase();
+      const statsPP = await window.cargarEstadisticasPorPartidoFirebase();
+      for (let k in R) delete R[k];
+      for (let k in MVP) delete MVP[k];
+      for (let k in PS) delete PS[k];
+      for (const [id, d] of Object.entries(resultados)) R[id] = d;
+      for (const [id, d] of Object.entries(mvp)) MVP[id] = d;
+      for (const [k, d] of Object.entries(estadisticas)) PS[k] = d;
+      for (const [mid, s] of Object.entries(statsPP)) localStorage.setItem(`match_stats_${mid}`, JSON.stringify(s));
+      save();
+      rM();
+      rSt();
+      rA();
+      rT();
+      mostrarEstado(`✅ Datos cargados: ${Object.keys(R).length} resultados, ${Object.keys(MVP).length} MVP, ${Object.keys(PS).length} estadísticas`);
+    } catch(e) {
+      console.error(e);
+      mostrarEstado('⚠️ Error cargando desde Firebase', true);
+    }
+  };
+  window.cargarResultadosDesdeFirebase();
 </script>
 </body>
 </html>
