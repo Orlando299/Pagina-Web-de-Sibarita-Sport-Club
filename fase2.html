@@ -297,26 +297,24 @@
 </div> <!-- fin body -->
 
 <script>
-    // ==================== DATOS DE CLASIFICADOS (SIN ENUMERAR) ====================
     const clasificadosFemenino = {
-        grupoA: [
-            { nombre: 'Inversiones EPA' },
-            { nombre: 'Serv. Frios Antonella' },
-            { nombre: 'Jujure (Educadoras)' },
-            { nombre: 'New Family' },
-            { nombre: 'Repostería el Ponque' },
-            { nombre: 'Divinas' }
-        ],
-        grupoB: [
-            { nombre: 'Chikas' },
-            { nombre: 'Saboga' },
-            { nombre: 'Atavenca' },
-            { nombre: 'Corpoelec' },
-            { nombre: 'Santana' },
-            { nombre: '⏳ En espera...', espera: true }
-        ]
-    };
-
+    grupoA: [
+        { pos: 1, nombre: 'Jujure (Educadoras)' },
+        { pos: 2, nombre: 'Inversiones EPA' },
+        { pos: 3, nombre: 'Serv. Frios Antonella' },
+        { pos: 4, nombre: 'Repostería el Ponque' },
+        { pos: 5, nombre: 'New Family' },
+        { pos: 6, nombre: 'Divinas' }
+    ],
+    grupoB: [
+        { pos: 1, nombre: 'Chikas' },
+        { pos: 2, nombre: 'Saboga' },
+        { pos: 3, nombre: 'Atavenca' },
+        { pos: 4, nombre: 'Santana' },
+        { pos: 5, nombre: 'Corpoelec' },
+        { pos: 6, nombre: 'Emprendedoras' }
+    ]
+};
     // ==================== FUNCIONES DE NAVEGACIÓN ====================
     function cambiarFase(fase) {
         if (fase === 'fase1') {
