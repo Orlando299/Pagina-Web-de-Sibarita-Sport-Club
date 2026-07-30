@@ -122,6 +122,29 @@
             font-style: italic;
             color: #8899aa;
         }
+
+        /* ===== ESTILOS PARA PARTIDOS (reutilizados de Fase 1) ===== */
+        .mc { background: linear-gradient(135deg, #16213e, #0f3460); border: 1px solid #e8b84b33; border-radius: 10px; padding: 10px 12px; margin-bottom: 7px; }
+        .mm { font-size: 10px; color: #8899aa; margin-bottom: 7px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3px; }
+        .mteams { display: flex; align-items: center; justify-content: space-between; }
+        .tn { flex: 1; font-size: 11px; font-weight: bold; color: #f0e6d3; text-align: center; line-height: 1.3; }
+        .vb { text-align: center; flex-shrink: 0; padding: 0 5px; }
+        .ss { font-size: 24px; font-weight: bold; color: #e8b84b; min-width: 30px; text-align: center; }
+        .ss.l { color: #8899aa; }
+        .sep { font-size: 16px; color: #8899aa; font-weight: bold; }
+        .rtag { font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 7px; }
+        .done { background: #2ecc7133; color: #2ecc71; border: 1px solid #2ecc7122; }
+        .wtag { font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 7px; }
+        .mvp-box { background: linear-gradient(135deg, #e8b84b22, #f39c1222); border: 1px solid #e8b84b55; border-radius: 8px; padding: 6px 10px; margin-top: 6px; display: flex; align-items: center; gap: 8px; }
+        .mvp-name { font-size: 12px; color: #f0e6d3; font-weight: bold; }
+        .mvp-lbl { font-size: 9px; color: #e8b84b; font-weight: bold; letter-spacing: .06em; text-transform: uppercase; }
+        .mvp-detail { font-size: 9px; color: #8899aa; }
+        .mvp-btn { width: 100%; margin-top: 5px; padding: 5px; background: linear-gradient(90deg, #e8b84b22, #f39c1222); border: 1px solid #e8b84b55; border-radius: 7px; color: #e8b84b; font-size: 10px; cursor: pointer; font-family: inherit; font-weight: bold; }
+        .sinp { width: 46px; height: 34px; background: #0f3460; border: 1px solid #e8b84b55; border-radius: 7px; color: #e8b84b; font-size: 18px; font-weight: bold; text-align: center; font-family: inherit; -webkit-appearance: none; }
+        .sinp:focus { outline: none; border-color: #e8b84b; }
+        .srow { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; }
+        .sbtn { width: 100%; margin-top: 6px; padding: 6px; background: #2ecc71; border: none; border-radius: 7px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; font-family: inherit; }
+        .fbtn { width: 100%; margin-top: 4px; padding: 5px; background: transparent; border: 1px solid #c0392b55; border-radius: 7px; color: #c0392b; font-size: 10px; cursor: pointer; font-family: inherit; }
     </style>
 </head>
 <body>
@@ -147,12 +170,11 @@
 <div class="body">
 
     <div id="fase2-container">
-        <!-- Pestañas de la Fase 2 (sin "Jugar") -->
+        <!-- Pestañas de la Fase 2 (sin "Average") -->
         <div class="nav">
             <button class="nb on" onclick="showTabF2('f2-equipos', this)"><span>👥</span>Equipos</button>
             <button class="nb" onclick="showTabF2('f2-partidos', this)"><span>🎯</span>Partidos</button>
             <button class="nb" onclick="showTabF2('f2-tabla', this)"><span>🏆</span>Tabla</button>
-            <button class="nb" onclick="showTabF2('f2-stats', this)"><span>📊</span>Average</button>
             <button class="nb" onclick="showTabF2('f2-videos', this)"><span>📺</span>Videos</button>
         </div>
 
@@ -204,26 +226,18 @@
         <!-- ==================== PARTIDOS ==================== -->
         <div id="f2-partidos" class="f2-tab">
             <div class="frow">
-                <button class="fb on" onclick="msgEspera()">👩 Femenino</button>
-                <button class="fb" onclick="msgEspera()">👨 Masculino</button>
+                <button class="fb on" onclick="setSemanaF2('F2-S1')">👩 Femenino</button>
+                <!-- (Opcional: más categorías si se agregan) -->
             </div>
-            <div class="frow">
-                <button class="fb on" onclick="msgEspera()">Grupo A</button>
-                <button class="fb" onclick="msgEspera()">Grupo B</button>
+            <div class="fscroll" id="f2-week-buttons">
+                <button class="fb on" data-semana="F2-S1" onclick="setSemanaF2('F2-S1')">Sem 1</button>
+                <button class="fb" data-semana="F2-S2" onclick="setSemanaF2('F2-S2')">Sem 2</button>
+                <button class="fb" data-semana="F2-S3" onclick="setSemanaF2('F2-S3')">Sem 3</button>
+                <button class="fb" data-semana="F2-S4" onclick="setSemanaF2('F2-S4')">Sem 4</button>
+                <button class="fb" data-semana="F2-S5" onclick="setSemanaF2('F2-S5')">Sem 5</button>
+                <button class="fb" data-semana="F2-S6" onclick="setSemanaF2('F2-S6')">Sem 6</button>
             </div>
-            <div class="fscroll" id="f2-weeks">
-                <button class="fb on" onclick="msgEspera()">Sem 1</button>
-                <button class="fb" onclick="msgEspera()">Sem 2</button>
-                <button class="fb" onclick="msgEspera()">Sem 3</button>
-                <button class="fb" onclick="msgEspera()">Sem 4</button>
-                <button class="fb" onclick="msgEspera()">Sem 5</button>
-                <button class="fb" onclick="msgEspera()">Sem 6</button>
-            </div>
-            <div class="waiting-msg card">
-                <div class="icon">⏳</div>
-                <div class="title">Calendario Fase 2</div>
-                <div class="sub">Los partidos de la Fase 2 se generarán al tener todos los clasificados.</div>
-            </div>
+            <div id="f2-partidos-list"></div>
         </div>
 
         <!-- ==================== TABLA ==================== -->
@@ -243,23 +257,6 @@
             </div>
         </div>
 
-        <!-- ==================== AVERAGE ==================== -->
-        <div id="f2-stats" class="f2-tab">
-            <div class="frow">
-                <button class="fb on" onclick="msgEspera()">👩 Femenino</button>
-                <button class="fb" onclick="msgEspera()">👨 Masculino</button>
-            </div>
-            <div class="frow">
-                <button class="fb on" onclick="msgEspera()">Grupo A</button>
-                <button class="fb" onclick="msgEspera()">Grupo B</button>
-            </div>
-            <div class="waiting-msg card">
-                <div class="icon">⏳</div>
-                <div class="title">Estadísticas Individuales</div>
-                <div class="sub">Los promedios y estadísticas se cargarán durante la Fase 2.</div>
-            </div>
-        </div>
-
         <!-- ==================== VIDEOS ==================== -->
         <div id="f2-videos" class="f2-tab">
             <div class="waiting-msg card">
@@ -269,7 +266,7 @@
             </div>
         </div>
 
-        <!-- Botón opcional a reglas completas (lo dejamos por si quieres ampliar) -->
+        <!-- Botón opcional a reglas completas -->
         <div style="text-align: center; margin-top: 16px; padding: 8px;">
             <button onclick="window.open('reglas.html', '_blank')" style="
                 background: transparent;
@@ -297,24 +294,35 @@
 </div> <!-- fin body -->
 
 <script>
+    // ==================== REFERENCIAS A DATOS GLOBALES (desde el padre o local) ====================
+    // Buscar MATCHES, R, MVP en el ámbito global (padre) o local
+    const _MATCHES = (typeof window.parent !== 'undefined' && window.parent.MATCHES) ? window.parent.MATCHES : (typeof MATCHES !== 'undefined' ? MATCHES : []);
+    const _R = (typeof window.parent !== 'undefined' && window.parent.R) ? window.parent.R : (typeof R !== 'undefined' ? R : {});
+    const _MVP = (typeof window.parent !== 'undefined' && window.parent.MVP) ? window.parent.MVP : (typeof MVP !== 'undefined' ? MVP : {});
+
+    // ==================== DATOS DE CLASIFICADOS (Femenino) ====================
     const clasificadosFemenino = {
-    grupoA: [
-        { pos: 1, nombre: 'Jujure (Educadoras)' },
-        { pos: 2, nombre: 'Inversiones EPA' },
-        { pos: 3, nombre: 'Serv. Frios Antonella' },
-        { pos: 4, nombre: 'Repostería el Ponque' },
-        { pos: 5, nombre: 'New Family' },
-        { pos: 6, nombre: 'Divinas' }
-    ],
-    grupoB: [
-        { pos: 1, nombre: 'Chikas' },
-        { pos: 2, nombre: 'Saboga' },
-        { pos: 3, nombre: 'Atavenca' },
-        { pos: 4, nombre: 'Santana' },
-        { pos: 5, nombre: 'Corpoelec' },
-        { pos: 6, nombre: 'Emprendedoras' }
-    ]
-};
+        grupoA: [
+            { pos: 1, nombre: 'Jujure (Educadoras)' },
+            { pos: 2, nombre: 'Inversiones EPA' },
+            { pos: 3, nombre: 'Serv. Frios Antonella' },
+            { pos: 4, nombre: 'Repostería el Ponque' },
+            { pos: 5, nombre: 'New Family' },
+            { pos: 6, nombre: 'Divinas' }
+        ],
+        grupoB: [
+            { pos: 1, nombre: 'Chikas' },
+            { pos: 2, nombre: 'Saboga' },
+            { pos: 3, nombre: 'Atavenca' },
+            { pos: 4, nombre: 'Santana' },
+            { pos: 5, nombre: 'Corpoelec' },
+            { pos: 6, nombre: 'Emprendedoras' }
+        ]
+    };
+
+    // ==================== VARIABLES DE ESTADO ====================
+    let semanaF2Actual = 'F2-S1';
+
     // ==================== FUNCIONES DE NAVEGACIÓN ====================
     function cambiarFase(fase) {
         if (fase === 'fase1') {
@@ -331,9 +339,14 @@
         document.getElementById(id).classList.add('on');
         document.querySelectorAll('#fase2-container .nav .nb').forEach(b => b.classList.remove('on'));
         btn.classList.add('on');
+
+        // Si se selecciona la pestaña de partidos, mostrar los partidos de la semana actual
+        if (id === 'f2-partidos') {
+            mostrarPartidosFase2(semanaF2Actual);
+        }
     }
 
-    // ==================== EQUIPOS: TOGGLE Y LLENADO (SIN NÚMEROS) ====================
+    // ==================== EQUIPOS ====================
     let categoriaEquiposActual = 'femenino';
 
     function mostrarEquipos(categoria) {
@@ -347,7 +360,6 @@
         } else {
             btnMas.classList.add('on');
             btnFem.classList.remove('on');
-            // Cuando tengamos datos masculinos, llamar a llenarEquiposMasculino()
             document.getElementById('listaGrupoA').innerHTML = '<div style="text-align:center;color:#8899aa;padding:16px 0;">⏳ Esperando clasificados (Masculino)</div>';
             document.getElementById('listaGrupoB').innerHTML = '<div style="text-align:center;color:#8899aa;padding:16px 0;">⏳ Esperando clasificados (Masculino)</div>';
         }
@@ -370,9 +382,64 @@
         });
         listaB.innerHTML = htmlB;
 
-        // Ocultar mensaje de espera si estaba visible
         const msg = document.getElementById('msgEsperaEquipos');
         if (msg) msg.style.display = 'none';
+    }
+
+    // ==================== PARTIDOS FASE 2 ====================
+    function setSemanaF2(semana) {
+        semanaF2Actual = semana;
+        // Actualizar botones de semana (estilo "on")
+        document.querySelectorAll('#f2-week-buttons .fb').forEach(b => b.classList.remove('on'));
+        const btn = document.querySelector(`#f2-week-buttons .fb[data-semana="${semana}"]`);
+        if (btn) btn.classList.add('on');
+        mostrarPartidosFase2(semana);
+    }
+
+    function mostrarPartidosFase2(semana) {
+        const container = document.getElementById('f2-partidos-list');
+        if (!container) {
+            console.warn('⚠️ Contenedor #f2-partidos-list no encontrado.');
+            return;
+        }
+
+        // Filtrar partidos de la Fase 2 (Femenino) para la semana dada
+        const partidos = _MATCHES.filter(m => m.w === semana && m.c === 'Femenino' && m.g === 'Fase2');
+
+        if (partidos.length === 0) {
+            container.innerHTML = `<div class="card" style="text-align:center;padding:20px;color:#8899aa;">No hay partidos para la semana ${semana}.</div>`;
+            return;
+        }
+
+        let html = '';
+        partidos.forEach(m => {
+            const r = _R[m.id];
+            const done = r && r.status === 'done';
+            const forf = r && r.status === 'forfeit';
+            const suspended = r && r.status === 'suspended';
+            const wA = done && r.scoreA > r.scoreB;
+            const wB = done && r.scoreB > r.scoreA;
+            const mv = _MVP[m.id];
+
+            let inner = '';
+            if (suspended) {
+                inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">JUEGO SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div></div>`;
+            } else if (done || forf) {
+                inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>${mv?`<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>`:'<button class="mvp-btn" onclick="alert(\'Función MVP no disponible en Fase 2\')">🏅 Jugador del Partido</button>'}`;
+            } else {
+                // Partido pendiente: mostrar campos para ingresar marcador (solo visual, sin funcionalidad de guardado)
+                inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="f2sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="f2sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="alert('Guardar resultado no disponible en esta vista. Usa el cargador de partidos.')">💾 Guardar</button><button class="fbtn" onclick="alert('Forfeit no disponible en esta vista.')">⚠️ Forfeit/WO</button>`;
+            }
+
+            let estadoTag = '';
+            if (suspended) estadoTag = '<span class="wtag" style="background:#e67e2233;color:#e67e22;">⏸️ Suspendido</span>';
+            else if (done) estadoTag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>';
+            else if (forf) estadoTag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
+            else estadoTag = '<span class="wtag" style="background:#0f3460;">⏳ Pendiente</span>';
+
+            html += `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div><div class="mteams"><div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div></div></div>`;
+        });
+        container.innerHTML = html;
     }
 
     // ==================== MENSAJE DE ESPERA ====================
