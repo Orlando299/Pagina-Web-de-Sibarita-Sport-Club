@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sibarita Sport Club - Fase 2</title>
     <style>
+        /* ========== ESTILOS GENERALES (igual que antes) ========== */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #1a1a2e; font-family: 'Segoe UI', Arial, sans-serif; color: #f0e6d3; max-width: 430px; margin: 0 auto; min-height: 100vh; }
         .hdr { background: linear-gradient(135deg, #16213e, #0f3460); padding: 10px 14px 0; border-bottom: 3px solid #e8b84b; position: sticky; top: 0; z-index: 100; }
@@ -73,21 +74,11 @@
             font-size: 11px;
             color: #f0e6d3;
         }
-        .equipo-item .nombre {
-            margin-left: 0px;
-        }
-        .equipo-item.espera {
-            color: #e8b84b;
-            font-style: italic;
-        }
-        .equipo-item.espera .nombre {
-            color: #e8b84b;
-        }
-        .equipo-item .pos {
-            color: #8899aa;
-            font-weight: bold;
-            margin-right: 4px;
-        }
+        .equipo-item .nombre { margin-left: 0px; }
+        .equipo-item.espera { color: #e8b84b; font-style: italic; }
+        .equipo-item.espera .nombre { color: #e8b84b; }
+        .equipo-item .pos { color: #8899aa; font-weight: bold; margin-right: 4px; }
+
         .reglas-mini {
             background: #0f3460;
             border-left: 4px solid #e8b84b;
@@ -98,32 +89,13 @@
             line-height: 1.5;
             color: #c8c0b0;
         }
-        .reglas-mini strong {
-            color: #e8b84b;
-        }
-        .reglas-mini .titulo {
-            font-weight: bold;
-            color: #e8b84b;
-            display: block;
-            margin-bottom: 4px;
-            font-size: 11px;
-        }
-        .reglas-mini ul {
-            padding-left: 16px;
-            margin: 4px 0;
-        }
-        .reglas-mini li {
-            margin-bottom: 2px;
-        }
-        .reglas-mini .nota {
-            margin-top: 4px;
-            border-top: 1px solid #0f3460;
-            padding-top: 4px;
-            font-style: italic;
-            color: #8899aa;
-        }
+        .reglas-mini strong { color: #e8b84b; }
+        .reglas-mini .titulo { font-weight: bold; color: #e8b84b; display: block; margin-bottom: 4px; font-size: 11px; }
+        .reglas-mini ul { padding-left: 16px; margin: 4px 0; }
+        .reglas-mini li { margin-bottom: 2px; }
+        .reglas-mini .nota { margin-top: 4px; border-top: 1px solid #0f3460; padding-top: 4px; font-style: italic; color: #8899aa; }
 
-        /* ===== ESTILOS PARA PARTIDOS (reutilizados de Fase 1) ===== */
+        /* ===== ESTILOS PARA PARTIDOS ===== */
         .mc { background: linear-gradient(135deg, #16213e, #0f3460); border: 1px solid #e8b84b33; border-radius: 10px; padding: 10px 12px; margin-bottom: 7px; }
         .mm { font-size: 10px; color: #8899aa; margin-bottom: 7px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3px; }
         .mteams { display: flex; align-items: center; justify-content: space-between; }
@@ -145,8 +117,24 @@
         .srow { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; }
         .sbtn { width: 100%; margin-top: 6px; padding: 6px; background: #2ecc71; border: none; border-radius: 7px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; font-family: inherit; }
         .fbtn { width: 100%; margin-top: 4px; padding: 5px; background: transparent; border: 1px solid #c0392b55; border-radius: 7px; color: #c0392b; font-size: 10px; cursor: pointer; font-family: inherit; }
+        .stats-btn { background: #3498db33; border: 1px solid #3498db; color: #3498db; font-size: 9px; padding: 4px 8px; border-radius: 7px; margin-top: 4px; width: 100%; cursor: pointer; }
 
-        /* ===== ESTILOS PARA ADMIN ===== */
+        /* ===== MODAL ESTADÍSTICAS ===== */
+        .modal-stats { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; overflow-y: auto; }
+        .modal-stats .modal-content { background: #16213e; margin: 15px; border-radius: 15px; padding: 15px; border: 1px solid #e8b84b55; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .modal-stats .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #0f3460; padding-bottom: 10px; }
+        .modal-stats .modal-close { background: #c0392b; border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; font-size: 18px; cursor: pointer; }
+        .modal-stats .modal-title { font-size: 14px; font-weight: bold; color: #e8b84b; text-align: center; }
+        .player-stats-row { background: #0f3460; border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; }
+        .player-name { font-size: 12px; font-weight: bold; color: #e8b84b; margin-bottom: 5px; }
+        .stats-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+        .stat-item { flex: 1; min-width: 90px; }
+        .stat-label { font-size: 9px; color: #8899aa; margin-bottom: 3px; }
+        .stat-input { width: 100%; padding: 5px; background: #1a1a2e; border: 1px solid #e8b84b55; border-radius: 5px; color: #f0e6d3; font-size: 11px; text-align: center; }
+        .stat-input:focus { outline: none; border-color: #e8b84b; }
+        .btn-save-stats { width: 100%; margin-top: 15px; padding: 10px; background: #2ecc71; border: none; border-radius: 8px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; }
+
+        /* ===== ADMIN ===== */
         #admin-buttons-f2 { display: none; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
         #admin-buttons-f2 .fb { display: inline-block; padding: 5px 10px; border-radius: 12px; border: 1px solid #0f3460; background: transparent; color: #8899aa; font-weight: bold; cursor: pointer; font-size: 11px; font-family: inherit; white-space: nowrap; }
         #admin-buttons-f2 .fb.admin-import { background: #9b59b633; border-color: #9b59b6; color: #9b59b6; }
@@ -178,7 +166,7 @@
 <div class="body">
 
     <div id="fase2-container">
-        <!-- Pestañas de la Fase 2 (sin "Average") -->
+        <!-- Pestañas -->
         <div class="nav">
             <button class="nb on" onclick="showTabF2('f2-equipos', this)"><span>👥</span>Equipos</button>
             <button class="nb" onclick="showTabF2('f2-partidos', this)"><span>🎯</span>Partidos</button>
@@ -186,33 +174,22 @@
             <button class="nb" onclick="showTabF2('f2-videos', this)"><span>📺</span>Videos</button>
         </div>
 
-        <!-- ==================== EQUIPOS ==================== -->
+        <!-- EQUIPOS -->
         <div id="f2-equipos" class="f2-tab on">
-            <!-- Botones de categoría (toggle) -->
             <div class="frow" style="justify-content: center; gap: 12px; margin-bottom: 12px;">
-                <button id="btnEquiposFem" class="fb on" onclick="mostrarEquipos('femenino')" style="padding: 10px 24px; font-size: 14px;">
-                    👩 Femenino
-                </button>
-                <button id="btnEquiposMas" class="fb" onclick="mostrarEquipos('masculino')" style="padding: 10px 24px; font-size: 14px;">
-                    👨 Masculino
-                </button>
+                <button id="btnEquiposFem" class="fb on" onclick="mostrarEquipos('femenino')" style="padding: 10px 24px; font-size: 14px;">👩 Femenino</button>
+                <button id="btnEquiposMas" class="fb" onclick="mostrarEquipos('masculino')" style="padding: 10px 24px; font-size: 14px;">👨 Masculino</button>
             </div>
-
-            <!-- Contenedor de las dos columnas -->
             <div id="equipos-columnas" class="equipos-grid">
-                <!-- Columna Grupo A -->
                 <div class="equipos-col">
                     <div class="equipos-col-header">🏆 Grupo A</div>
                     <div id="listaGrupoA"></div>
                 </div>
-                <!-- Columna Grupo B -->
                 <div class="equipos-col">
                     <div class="equipos-col-header">🏆 Grupo B</div>
                     <div id="listaGrupoB"></div>
                 </div>
             </div>
-
-            <!-- ===== REGLAS RESUMIDAS ===== -->
             <div class="reglas-mini">
                 <span class="titulo">📋 Resumen Fase 2</span>
                 <ul>
@@ -222,8 +199,6 @@
                 </ul>
                 <div class="nota">📌 Los primeros 5 (Fem) y 7 (Mas) clasificados de Fase 1 pasarán a categoría A en futuros torneos.</div>
             </div>
-
-            <!-- Mensaje de espera (oculto) -->
             <div id="msgEsperaEquipos" class="waiting-msg card" style="margin-top: 12px; display: none;">
                 <div class="icon">⏳</div>
                 <div class="title">Esperando clasificados</div>
@@ -231,11 +206,10 @@
             </div>
         </div>
 
-        <!-- ==================== PARTIDOS (con Admin) ==================== -->
+        <!-- PARTIDOS -->
         <div id="f2-partidos" class="f2-tab">
             <div class="frow">
                 <button class="fb on" onclick="setSemanaF2('F2-S1')">👩 Femenino</button>
-                <!-- (Opcional: más categorías si se agregan) -->
             </div>
 
             <div class="frow">
@@ -263,7 +237,7 @@
             <div id="f2-partidos-list"></div>
         </div>
 
-        <!-- ==================== TABLA ==================== -->
+        <!-- TABLA -->
         <div id="f2-tabla" class="f2-tab">
             <div class="frow">
                 <button class="fb on" onclick="msgEspera()">👩 Femenino</button>
@@ -280,7 +254,7 @@
             </div>
         </div>
 
-        <!-- ==================== VIDEOS ==================== -->
+        <!-- VIDEOS -->
         <div id="f2-videos" class="f2-tab">
             <div class="waiting-msg card">
                 <div class="icon">📺</div>
@@ -289,16 +263,26 @@
             </div>
         </div>
 
-        <!-- Botón opcional a reglas completas -->
+        <!-- Botón reglas -->
         <div style="text-align: center; margin-top: 16px; padding: 8px;">
-            <button onclick="window.open('reglas.html', '_blank')" style="background:transparent;color:#e8b84b;border:1px solid #e8b84b55;padding:8px 16px;border-radius:20px;font-weight:bold;font-size:11px;font-family:inherit;cursor:pointer;transition:0.2s;width:100%;max-width:250px;" onmouseover="this.style.background='#e8b84b22'" onmouseout="this.style.background='transparent'">
-                📖 Ver reglas completas
-            </button>
+            <button onclick="window.open('reglas.html', '_blank')" style="background:transparent;color:#e8b84b;border:1px solid #e8b84b55;padding:8px 16px;border-radius:20px;font-weight:bold;font-size:11px;font-family:inherit;cursor:pointer;transition:0.2s;width:100%;max-width:250px;" onmouseover="this.style.background='#e8b84b22'" onmouseout="this.style.background='transparent'">📖 Ver reglas completas</button>
         </div>
 
     </div> <!-- fin fase2-container -->
 
 </div> <!-- fin body -->
+
+<!-- MODAL ESTADÍSTICAS -->
+<div id="stats-modal-f2" class="modal-stats">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title" id="stats-modal-title-f2">Registrar Estadísticas</div>
+            <button class="modal-close" onclick="closeStatsModalF2()">✕</button>
+        </div>
+        <div id="stats-modal-body-f2"></div>
+        <button class="btn-save-stats" onclick="saveMatchStatsF2()">💾 Guardar Estadísticas</button>
+    </div>
+</div>
 
 <script>
     // ==================== REFERENCIAS A DATOS GLOBALES ====================
@@ -314,6 +298,9 @@
     const _TEAMS = (typeof window !== 'undefined' && window.TEAMS) ? window.TEAMS :
                    (typeof window.parent !== 'undefined' && window.parent.TEAMS) ? window.parent.TEAMS :
                    (typeof TEAMS !== 'undefined' ? TEAMS : []);
+    const _PS = (typeof window !== 'undefined' && window.PS) ? window.PS :
+                (typeof window.parent !== 'undefined' && window.parent.PS) ? window.parent.PS :
+                (typeof PS !== 'undefined' ? PS : {});
     const _guardarResultadoFirebase = (typeof window !== 'undefined' && window.guardarResultadoFirebase) ? window.guardarResultadoFirebase :
                                       (typeof window.parent !== 'undefined' && window.parent.guardarResultadoFirebase) ? window.parent.guardarResultadoFirebase :
                                       null;
@@ -330,7 +317,7 @@
                   (typeof window.parent !== 'undefined' && window.parent.save) ? window.parent.save :
                   null;
 
-    // ==================== DATOS DE CLASIFICADOS (Femenino) ====================
+    // ==================== DATOS DE CLASIFICADOS ====================
     const clasificadosFemenino = {
         grupoA: [
             { pos: 1, nombre: 'Jujure (Educadoras)' },
@@ -352,12 +339,12 @@
 
     // ==================== VARIABLES DE ESTADO ====================
     let semanaF2Actual = 'F2-S1';
+    let currentMatchIdF2 = null;
 
     // ==================== FUNCIONES DE NAVEGACIÓN ====================
     function cambiarFase(fase) {
         if (fase === 'fase1') {
             alert('🔙 Volviendo a la Fase 1 (página principal)');
-            // location.href = 'index.html';
         } else {
             document.getElementById('btnFase1').classList.remove('activo');
             document.getElementById('btnFase2').classList.add('activo');
@@ -369,7 +356,6 @@
         document.getElementById(id).classList.add('on');
         document.querySelectorAll('#fase2-container .nav .nb').forEach(b => b.classList.remove('on'));
         btn.classList.add('on');
-
         if (id === 'f2-partidos') {
             mostrarPartidosFase2(semanaF2Actual);
         }
@@ -397,20 +383,17 @@
     function llenarEquiposFemenino() {
         const listaA = document.getElementById('listaGrupoA');
         const listaB = document.getElementById('listaGrupoB');
-
         let htmlA = '';
         clasificadosFemenino.grupoA.forEach(eq => {
             htmlA += `<div class="equipo-item"><span class="nombre">${eq.nombre}</span></div>`;
         });
         listaA.innerHTML = htmlA;
-
         let htmlB = '';
         clasificadosFemenino.grupoB.forEach(eq => {
             const clase = eq.espera ? 'equipo-item espera' : 'equipo-item';
             htmlB += `<div class="${clase}"><span class="nombre">${eq.nombre}</span></div>`;
         });
         listaB.innerHTML = htmlB;
-
         const msg = document.getElementById('msgEsperaEquipos');
         if (msg) msg.style.display = 'none';
     }
@@ -451,18 +434,12 @@
 
     function mostrarPartidosFase2(semana) {
         const container = document.getElementById('f2-partidos-list');
-        if (!container) {
-            console.warn('⚠️ Contenedor #f2-partidos-list no encontrado.');
-            return;
-        }
-
+        if (!container) return;
         const partidos = _MATCHES.filter(m => m.w === semana && m.c === 'Femenino' && m.g === 'Fase2');
-
         if (partidos.length === 0) {
             container.innerHTML = `<div class="card" style="text-align:center;padding:20px;color:#8899aa;">No hay partidos para la semana ${semana}.</div>`;
             return;
         }
-
         let html = '';
         partidos.forEach(m => {
             const r = _R[m.id];
@@ -477,9 +454,9 @@
             if (suspended) {
                 inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">JUEGO SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div></div>`;
             } else if (done || forf) {
-                inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>${mv?`<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>`:'<button class="mvp-btn" onclick="alert(\'Función MVP no disponible en Fase 2\')">🏅 Jugador del Partido</button>'}`;
+                inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span><button onclick="borrarResultadoF2(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;">✕</button></div>${mv?`<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div><button onclick="borrarMVPF2(${m.id})" style="background:transparent;border:none;color:#8899aa;">✕</button></div>`:'<button class="mvp-btn" onclick="asignarMVPF2(${m.id})">🏅 Jugador del Partido</button>'}<button class="stats-btn" onclick="openStatsModalF2(${m.id})">📋 ${done || forf ? 'Editar Stats' : 'Registrar Stats'}</button>`;
             } else {
-                inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="f2sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="f2sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="alert('Guardar resultado no disponible en esta vista. Usa el cargador de partidos.')">💾 Guardar</button><button class="fbtn" onclick="alert('Forfeit no disponible en esta vista.')">⚠️ Forfeit/WO</button>`;
+                inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="f2sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="f2sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="guardarResultadoF2(${m.id})">💾 Guardar</button><button class="fbtn" onclick="guardarForfeitF2(${m.id})">⚠️ Forfeit/WO</button><button class="stats-btn" onclick="openStatsModalF2(${m.id})">📋 Registrar Stats</button>`;
             }
 
             let estadoTag = '';
@@ -493,6 +470,253 @@
         container.innerHTML = html;
     }
 
+    // ==================== GUARDAR RESULTADO (con clave) ====================
+    function guardarResultadoF2(id) {
+        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+        if (!esOrganizador) {
+            alert('⚠️ Solo el organizador puede editar guardar resultados.');
+            return;
+        }
+        const inputA = document.getElementById(`f2sA${id}`);
+        const inputB = document.getElementById(`f2sB${id}`);
+        if (!inputA || !inputB) { alert('Error: campos no encontrados'); return; }
+        const a = parseInt(inputA.value);
+        const b = parseInt(inputB.value);
+        if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) {
+            alert('Marcador inválido (0-20)');
+            return;
+        }
+        _R[id] = { scoreA: a, scoreB: b, status: 'done' };
+        if (_save) _save();
+        if (_guardarResultadoFirebase) _guardarResultadoFirebase(id, _R[id]);
+        mostrarPartidosFase2(semanaF2Actual);
+        mostrarEstadoF2('✅ Resultado guardado');
+    }
+
+    function guardarForfeitF2(id) {
+        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+        if (!esOrganizador) {
+            alert('⚠️ Solo el organizador puede editar guardar resultados.');
+            return;
+        }
+        const m = _MATCHES.find(x => x.id === id);
+        if (!m) return;
+        const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
+        if (ans === '1') {
+            _R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' };
+        } else if (ans === '2') {
+            _R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' };
+        } else {
+            alert('Opción inválida.');
+            return;
+        }
+        if (_save) _save();
+        if (_guardarResultadoFirebase) _guardarResultadoFirebase(id, _R[id]);
+        mostrarPartidosFase2(semanaF2Actual);
+        mostrarEstadoF2('✅ Forfeit registrado');
+    }
+
+    function borrarResultadoF2(id) {
+        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+        if (!esOrganizador) {
+            alert('⚠️ Solo el organizador puede editar guardar resultados.');
+            return;
+        }
+        if (confirm('¿Borrar resultado?')) {
+            delete _R[id];
+            if (_save) _save();
+            if (_guardarResultadoFirebase) _guardarResultadoFirebase(id, null);
+            mostrarPartidosFase2(semanaF2Actual);
+            mostrarEstadoF2('✅ Resultado borrado');
+        }
+    }
+
+    // ==================== MVP ====================
+    function asignarMVPF2(id) {
+        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+        if (!esOrganizador) {
+            alert('⚠️ Solo el organizador puede editar guardar resultados.');
+            return;
+        }
+        const m = _MATCHES.find(x => x.id === id);
+        if (!m) return;
+        const r = _R[id];
+        if (!r || r.status !== 'done') {
+            alert('⚠️ Primero debes guardar el resultado del partido');
+            return;
+        }
+        let equipoGanador = r.scoreA > r.scoreB ? m.a : (r.scoreB > r.scoreA ? m.b : null);
+        if (!equipoGanador) { alert('Empate. No se asigna MVP.'); return; }
+        const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
+        const cands = [];
+        const teamGanador = _TEAMS.find(x => x.n === equipoGanador);
+        if (teamGanador) {
+            teamGanador.p.forEach(player => {
+                const fullKey = `${equipoGanador}|${player}`;
+                const stats = matchStats[fullKey] || {};
+                const totalBuenos = (stats.arr_b||0)+(stats.boc_b||0);
+                const totalIntentos = (stats.total_arr||0)+(stats.total_boc||0);
+                const efectividad = totalIntentos ? (totalBuenos / totalIntentos) * 100 : 0;
+                const puntuacion = totalBuenos * (efectividad / 100);
+                if (totalIntentos > 0) cands.push({ name: player, team: equipoGanador, puntuacion: puntuacion });
+            });
+        }
+        if (cands.length) {
+            cands.sort((a,b) => b.puntuacion - a.puntuacion);
+            const best = cands[0];
+            if (confirm(`🏅 MVP sugerido: ${best.name} (puntuación ${best.puntuacion.toFixed(2)}). ¿Confirmar?`)) {
+                _MVP[id] = { name: best.name, team: best.team, efec: null, puntuacion: best.puntuacion };
+                if (_save) _save();
+                if (_guardarMVPFirebase) _guardarMVPFirebase(id, _MVP[id]);
+                mostrarPartidosFase2(semanaF2Actual);
+                mostrarEstadoF2(`✅ MVP: ${best.name}`);
+                return;
+            }
+        }
+        const nm = prompt(`Nombre del MVP de ${equipoGanador}:`);
+        if (nm) {
+            _MVP[id] = { name: nm, team: equipoGanador, efec: null, puntuacion: 0 };
+            if (_save) _save();
+            if (_guardarMVPFirebase) _guardarMVPFirebase(id, _MVP[id]);
+            mostrarPartidosFase2(semanaF2Actual);
+            mostrarEstadoF2(`✅ MVP asignado: ${nm}`);
+        }
+    }
+
+    function borrarMVPF2(id) {
+        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+        if (!esOrganizador) {
+            alert('⚠️ Solo el organizador puede editar guardar resultados.');
+            return;
+        }
+        delete _MVP[id];
+        if (_save) _save();
+        if (_guardarMVPFirebase) _guardarMVPFirebase(id, null);
+        mostrarPartidosFase2(semanaF2Actual);
+        mostrarEstadoF2('✅ MVP borrado');
+    }
+
+    // ==================== ESTADÍSTICAS (MODAL) ====================
+    function openStatsModalF2(matchId) {
+        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+        if (!esOrganizador) {
+            alert('⚠️ Solo el organizador puede editar guardar resultados.');
+            return;
+        }
+        const match = _MATCHES.find(m => m.id == matchId);
+        if(!match) return;
+        currentMatchIdF2 = matchId;
+        const matchStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {};
+        document.getElementById('stats-modal-title-f2').innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`;
+        const body = document.getElementById('stats-modal-body-f2');
+        let html = '';
+        function getStatsForPlayer(teamName, playerName) {
+            const key = `${teamName}|${playerName}`;
+            return matchStats[key] || { arr_b:0, total_arr:0, boc_b:0, total_boc:0 };
+        }
+        const teamA = _TEAMS.find(t => t.n === match.a);
+        if(teamA) {
+            html += `<div class="lbl">🏆 ${match.a}</div>`;
+            teamA.p.forEach(p => {
+                const stats = getStatsForPlayer(match.a, p);
+                const safeKey = p.replace(/[^a-zA-Z0-9]/g, '_');
+                html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid">
+                    <div class="stat-item"><label>🎯 arr_b</label><input type="number" class="stat-input" id="f2_arr_b_${safeKey}" value="${stats.arr_b}"></div>
+                    <div class="stat-item"><label>📊 total_arr</label><input type="number" class="stat-input" id="f2_total_arr_${safeKey}" value="${stats.total_arr}"></div>
+                    <div class="stat-item"><label>💥 boc_b</label><input type="number" class="stat-input" id="f2_boc_b_${safeKey}" value="${stats.boc_b}"></div>
+                    <div class="stat-item"><label>📊 total_boc</label><input type="number" class="stat-input" id="f2_total_boc_${safeKey}" value="${stats.total_boc}"></div>
+                </div></div>`;
+            });
+        }
+        const teamB = _TEAMS.find(t => t.n === match.b);
+        if(teamB) {
+            html += `<div class="lbl">🏆 ${match.b}</div>`;
+            teamB.p.forEach(p => {
+                const stats = getStatsForPlayer(match.b, p);
+                const safeKey = p.replace(/[^a-zA-Z0-9]/g, '_');
+                html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid">
+                    <div class="stat-item"><label>🎯 arr_b</label><input type="number" class="stat-input" id="f2_arr_b_${safeKey}" value="${stats.arr_b}"></div>
+                    <div class="stat-item"><label>📊 total_arr</label><input type="number" class="stat-input" id="f2_total_arr_${safeKey}" value="${stats.total_arr}"></div>
+                    <div class="stat-item"><label>💥 boc_b</label><input type="number" class="stat-input" id="f2_boc_b_${safeKey}" value="${stats.boc_b}"></div>
+                    <div class="stat-item"><label>📊 total_boc</label><input type="number" class="stat-input" id="f2_total_boc_${safeKey}" value="${stats.total_boc}"></div>
+                </div></div>`;
+            });
+        }
+        body.innerHTML = html;
+        document.getElementById('stats-modal-f2').style.display = 'block';
+    }
+
+    function closeStatsModalF2() {
+        document.getElementById('stats-modal-f2').style.display = 'none';
+        currentMatchIdF2 = null;
+    }
+
+    function saveMatchStatsF2() {
+        const match = _MATCHES.find(m => m.id === currentMatchIdF2);
+        if (!match) return;
+        const stats = {};
+        [match.a, match.b].forEach(teamName => {
+            const team = _TEAMS.find(t => t.n === teamName);
+            if (team) {
+                team.p.forEach(player => {
+                    const safeKey = player.replace(/[^a-zA-Z0-9]/g, '_');
+                    const arr_b = parseInt(document.getElementById(`f2_arr_b_${safeKey}`)?.value) || 0;
+                    const total_arr = parseInt(document.getElementById(`f2_total_arr_${safeKey}`)?.value) || 0;
+                    const boc_b = parseInt(document.getElementById(`f2_boc_b_${safeKey}`)?.value) || 0;
+                    const total_boc = parseInt(document.getElementById(`f2_total_boc_${safeKey}`)?.value) || 0;
+                    const fullKey = `${teamName}|${player}`;
+                    stats[fullKey] = { arr_b, total_arr, boc_b, total_boc };
+                });
+            }
+        });
+        localStorage.setItem(`match_stats_${currentMatchIdF2}`, JSON.stringify(stats));
+        if (_guardarEstadisticasPorPartidoFirebase) {
+            _guardarEstadisticasPorPartidoFirebase(currentMatchIdF2, stats);
+        }
+        // Recalcular partidos para PS (similar a Fase 1)
+        const jugadoresAfectados = [];
+        [match.a, match.b].forEach(teamName => {
+            const team = _TEAMS.find(t => t.n === teamName);
+            if (team) {
+                team.p.forEach(player => {
+                    const fullKey = `${teamName}|${player}`;
+                    jugadoresAfectados.push(fullKey);
+                    if (!_PS[fullKey]) _PS[fullKey] = {};
+                    delete _PS[fullKey].partidos;
+                });
+            }
+        });
+        const allMatchStats = {};
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('match_stats_')) {
+                const matchId = key.replace('match_stats_', '');
+                allMatchStats[matchId] = JSON.parse(localStorage.getItem(key));
+            }
+        }
+        for (const [matchId, matchStats] of Object.entries(allMatchStats)) {
+            for (const [fullKey, statsData] of Object.entries(matchStats)) {
+                if (jugadoresAfectados.includes(fullKey)) {
+                    if (!_PS[fullKey]) _PS[fullKey] = {};
+                    _PS[fullKey].partidos = (_PS[fullKey].partidos || 0) + 1;
+                    _PS[fullKey].arr_b = (_PS[fullKey].arr_b || 0) + statsData.arr_b;
+                    _PS[fullKey].total_arr = (_PS[fullKey].total_arr || 0) + statsData.total_arr;
+                    _PS[fullKey].boc_b = (_PS[fullKey].boc_b || 0) + statsData.boc_b;
+                    _PS[fullKey].total_boc = (_PS[fullKey].total_boc || 0) + statsData.total_boc;
+                }
+            }
+        }
+        for (const fullKey of jugadoresAfectados) {
+            if (_guardarEstadisticasFirebase) {
+                _guardarEstadisticasFirebase(fullKey, _PS[fullKey]);
+            }
+        }
+        if (_save) _save();
+        closeStatsModalF2();
+        alert('✅ Estadísticas guardadas correctamente');
+        mostrarPartidosFase2(semanaF2Actual);
+    }
+
     // ==================== MENSAJE DE ESPERA ====================
     function msgEspera() {
         alert('⏳ Datos de la Fase 2 aún no disponibles.\nEsperando clasificados oficiales de la Fase 1.');
@@ -501,18 +725,13 @@
     // ==================== IMPORTAR JSON (Fase 2) ====================
     document.getElementById('importJsonInputF2')?.addEventListener('change', async function(e) {
         const file = e.target.files[0];
-        if (!file) {
-            this.value = '';
-            return;
-        }
-
+        if (!file) { this.value = ''; return; }
         const pass = prompt('🔐 Contraseña de administrador:');
         if (pass !== 'sibarita2026') {
             alert('❌ Contraseña incorrecta');
             this.value = '';
             return;
         }
-
         const reader = new FileReader();
         reader.onload = async (ev) => {
             try {
@@ -521,97 +740,60 @@
                 const partidos = data.partidos;
                 const ids = Object.keys(partidos);
                 if (!ids.length) { alert('No hay partidos'); return; }
-
-                // Filtrar solo partidos de la Fase 2 (Femenino, g:"Fase2")
                 const idsFase2 = ids.filter(id => {
                     const p = partidos[id];
-                    // Buscar el partido en MATCHES para verificar que sea de Fase 2
                     const match = _MATCHES.find(m => m.id.toString() === id);
                     return match && match.c === 'Femenino' && match.g === 'Fase2' && (p.estado === 'finalizado' || p.estado === 'done');
                 });
-
                 if (idsFase2.length === 0) {
                     alert('No hay partidos de la Fase 2 en estado "finalizado" para importar.');
                     this.value = '';
                     return;
                 }
-
                 if (!confirm(`Importar ${idsFase2.length} partidos de la Fase 2 a Firebase?`)) {
                     this.value = '';
                     return;
                 }
-
                 let importados = 0, errores = [];
-
                 for (const id of idsFase2) {
                     const p = partidos[id];
                     if (p.puntosA === undefined || p.puntosB === undefined || p.puntosA === null || p.puntosB === null) {
                         errores.push(`ID ${id}: faltan puntos`);
                         continue;
                     }
-
-                    // Guardar resultado
                     if (_guardarResultadoFirebase) {
-                        await _guardarResultadoFirebase(id, {
-                            scoreA: p.puntosA,
-                            scoreB: p.puntosB,
-                            status: 'done'
-                        });
-                    } else {
-                        errores.push(`ID ${id}: función guardarResultadoFirebase no disponible`);
-                        continue;
-                    }
-
-                    // Guardar estadísticas por partido (si existen)
+                        await _guardarResultadoFirebase(id, { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' });
+                    } else { errores.push(`ID ${id}: función guardarResultadoFirebase no disponible`); continue; }
                     if (_guardarEstadisticasPorPartidoFirebase && p.estadisticas) {
                         const statsPorPartido = {};
                         for (const [team, jugadores] of Object.entries(p.estadisticas)) {
                             for (const j of jugadores) {
                                 const key = `${team}|${j.nombre}`;
-                                statsPorPartido[key] = {
-                                    arr_b: j.arr_b || 0,
-                                    total_arr: j.total_arr || 0,
-                                    boc_b: j.boc_b || 0,
-                                    total_boc: j.total_boc || 0
-                                };
+                                statsPorPartido[key] = { arr_b: j.arr_b||0, total_arr: j.total_arr||0, boc_b: j.boc_b||0, total_boc: j.total_boc||0 };
                             }
                         }
                         await _guardarEstadisticasPorPartidoFirebase(id, statsPorPartido);
                         localStorage.setItem(`match_stats_${id}`, JSON.stringify(statsPorPartido));
                     }
-
-                    // Guardar MVP (si existe)
                     if (p.mvp && p.mvp.name && _guardarMVPFirebase) {
-                        await _guardarMVPFirebase(id, {
-                            name: p.mvp.name,
-                            team: p.mvp.team || '',
-                            efec: p.mvp.efectividad || null,
-                            puntuacion: p.mvp.puntuacion || 0
-                        });
+                        await _guardarMVPFirebase(id, { name: p.mvp.name, team: p.mvp.team||'', efec: p.mvp.efectividad||null, puntuacion: p.mvp.puntuacion||0 });
                     }
-
                     importados++;
                 }
-
-                // Actualizar R y MVP local
                 for (const id of idsFase2) {
                     const p = partidos[id];
                     _R[id] = { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' };
                     if (p.mvp && p.mvp.name) {
-                        _MVP[id] = { name: p.mvp.name, team: p.mvp.team || '', efec: p.mvp.efectividad || null, puntuacion: p.mvp.puntuacion || 0 };
+                        _MVP[id] = { name: p.mvp.name, team: p.mvp.team||'', efec: p.mvp.efectividad||null, puntuacion: p.mvp.puntuacion||0 };
                     }
                 }
                 if (_save) _save();
-
-                // Refrescar vista
                 mostrarPartidosFase2(semanaF2Actual);
-
                 if (errores.length) {
                     alert(`⚠️ Importación con errores:\n${errores.join('\n')}\n✅ Importados: ${importados}`);
                 } else {
                     alert(`🎉 Importación completada: ${importados} partidos de la Fase 2 guardados en Firebase.`);
                 }
-
             } catch (err) {
                 console.error(err);
                 alert('Error: ' + err.message);
@@ -624,21 +806,15 @@
     // ==================== EXPORTAR JSON (Fase 2) ====================
     function exportarResultadosF2() {
         const pass = prompt('🔐 Contraseña de administrador:');
-        if (pass !== 'sibarita2026') {
-            alert('❌ Contraseña incorrecta');
-            return;
-        }
-
+        if (pass !== 'sibarita2026') { alert('❌ Contraseña incorrecta'); return; }
         const partidosF2 = _MATCHES.filter(m => m.c === 'Femenino' && m.g === 'Fase2');
         const data = { partidos: {} };
-
         partidosF2.forEach(m => {
             const id = m.id.toString();
             const r = _R[id];
             if (!r || r.status !== 'done') return;
             const statsPorPartido = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
             const estadisticas = {};
-            // Reconstruir estadísticas por equipo
             const equipos = [m.a, m.b];
             equipos.forEach(team => {
                 estadisticas[team] = [];
@@ -647,34 +823,14 @@
                     teamObj.p.forEach(player => {
                         const key = `${team}|${player}`;
                         const stats = statsPorPartido[key] || { arr_b:0, total_arr:0, boc_b:0, total_boc:0 };
-                        estadisticas[team].push({
-                            nombre: player,
-                            arr_b: stats.arr_b || 0,
-                            total_arr: stats.total_arr || 0,
-                            boc_b: stats.boc_b || 0,
-                            total_boc: stats.total_boc || 0
-                        });
+                        estadisticas[team].push({ nombre: player, arr_b: stats.arr_b||0, total_arr: stats.total_arr||0, boc_b: stats.boc_b||0, total_boc: stats.total_boc||0 });
                     });
                 }
             });
-
-            data.partidos[id] = {
-                equipoA: m.a,
-                equipoB: m.b,
-                puntosA: r.scoreA,
-                puntosB: r.scoreB,
-                estado: 'finalizado',
-                estadisticas: estadisticas,
-                mvp: _MVP[id] || null
-            };
+            data.partidos[id] = { equipoA: m.a, equipoB: m.b, puntosA: r.scoreA, puntosB: r.scoreB, estado: 'finalizado', estadisticas: estadisticas, mvp: _MVP[id] || null };
         });
-
         const ids = Object.keys(data.partidos);
-        if (ids.length === 0) {
-            alert('No hay partidos de la Fase 2 con resultados para exportar.');
-            return;
-        }
-
+        if (ids.length === 0) { alert('No hay partidos de la Fase 2 con resultados para exportar.'); return; }
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -690,13 +846,8 @@
         if (firstTab) firstTab.classList.add('on');
         const firstContent = document.querySelector('.f2-tab');
         if (firstContent) firstContent.classList.add('on');
-
         llenarEquiposFemenino();
-
-        // Si la pestaña de partidos es la primera (no es el caso), mostrar partidos
-        // pero lo dejamos preparado para cuando se seleccione.
     });
 </script>
-
 </body>
 </html>
