@@ -1092,12 +1092,20 @@ function cambiarFase(fase) {
 setF('tCat','Femenino'); setF('tGrp','A'); setF('mCat','Femenino'); setF('mGrp','A'); setF('sCat','Femenino'); setF('sGrp','A'); setF('aCat','Femenino'); setF('aGrp','A');
 rT(); rM(); rSt(); rA();
 
+// Exponer funciones necesarias para el módulo de Firebase
 window.save = save;
 window.rM = rM;
 window.rSt = rSt;
 window.rA = rA;
 window.rT = rT;
 window.mostrarEstado = mostrarEstado;
+
+// Exponer variables globales para el iframe y la consola
+window.MATCHES = MATCHES;
+window.R = R;
+window.MVP = MVP;
+window.PS = PS;
+window.TEAMS = TEAMS;
 </script>
 
 <!-- Firebase módulo -->
