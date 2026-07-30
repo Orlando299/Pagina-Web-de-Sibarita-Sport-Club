@@ -145,6 +145,14 @@
         .srow { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; }
         .sbtn { width: 100%; margin-top: 6px; padding: 6px; background: #2ecc71; border: none; border-radius: 7px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; font-family: inherit; }
         .fbtn { width: 100%; margin-top: 4px; padding: 5px; background: transparent; border: 1px solid #c0392b55; border-radius: 7px; color: #c0392b; font-size: 10px; cursor: pointer; font-family: inherit; }
+
+        /* ===== ESTILOS PARA ADMIN ===== */
+        #admin-buttons-f2 { display: none; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+        #admin-buttons-f2 .fb { display: inline-block; padding: 5px 10px; border-radius: 12px; border: 1px solid #0f3460; background: transparent; color: #8899aa; font-weight: bold; cursor: pointer; font-size: 11px; font-family: inherit; white-space: nowrap; }
+        #admin-buttons-f2 .fb.admin-import { background: #9b59b633; border-color: #9b59b6; color: #9b59b6; }
+        #admin-buttons-f2 .fb.admin-export { background: #f39c1233; border-color: #f39c12; color: #f39c12; }
+        .sync-status { font-size: 9px; color: #2ecc71; text-align: center; margin-bottom: 8px; padding: 4px; background: #0f346033; border-radius: 8px; }
+        .sync-status.error { color: #c0392b; }
     </style>
 </head>
 <body>
@@ -178,7 +186,7 @@
             <button class="nb" onclick="showTabF2('f2-videos', this)"><span>📺</span>Videos</button>
         </div>
 
-        <!-- ==================== EQUIPOS (con columnas A/B + reglas) ==================== -->
+        <!-- ==================== EQUIPOS ==================== -->
         <div id="f2-equipos" class="f2-tab on">
             <!-- Botones de categoría (toggle) -->
             <div class="frow" style="justify-content: center; gap: 12px; margin-bottom: 12px;">
@@ -204,7 +212,7 @@
                 </div>
             </div>
 
-            <!-- ===== REGLAS RESUMIDAS (debajo de las columnas) ===== -->
+            <!-- ===== REGLAS RESUMIDAS ===== -->
             <div class="reglas-mini">
                 <span class="titulo">📋 Resumen Fase 2</span>
                 <ul>
@@ -215,7 +223,7 @@
                 <div class="nota">📌 Los primeros 5 (Fem) y 7 (Mas) clasificados de Fase 1 pasarán a categoría A en futuros torneos.</div>
             </div>
 
-            <!-- Mensaje de espera (oculto porque ya tenemos datos) -->
+            <!-- Mensaje de espera (oculto) -->
             <div id="msgEsperaEquipos" class="waiting-msg card" style="margin-top: 12px; display: none;">
                 <div class="icon">⏳</div>
                 <div class="title">Esperando clasificados</div>
@@ -223,12 +231,27 @@
             </div>
         </div>
 
-        <!-- ==================== PARTIDOS ==================== -->
+        <!-- ==================== PARTIDOS (con Admin) ==================== -->
         <div id="f2-partidos" class="f2-tab">
             <div class="frow">
                 <button class="fb on" onclick="setSemanaF2('F2-S1')">👩 Femenino</button>
                 <!-- (Opcional: más categorías si se agregan) -->
             </div>
+
+            <div class="frow">
+                <button class="fb" onclick="mostrarAdminF2()" style="background:#e67e2233;border-color:#e67e22;color:#e67e22;">🔑 Admin</button>
+            </div>
+
+            <div id="admin-buttons-f2">
+                <label class="fb admin-import" style="cursor:pointer;display:inline-block;padding:5px 10px;border-radius:12px;border:1px solid #9b59b6;background:#9b59b633;color:#9b59b6;">
+                    📂 Importar JSON de Juez
+                    <input type="file" id="importJsonInputF2" accept=".json" style="display:none;">
+                </label>
+                <button class="fb admin-export" onclick="exportarResultadosF2()" style="border-color:#f39c12;color:#f39c12;">📦 Exportar JSON</button>
+            </div>
+
+            <div id="sync-status-f2" class="sync-status" style="display:none;"></div>
+
             <div class="fscroll" id="f2-week-buttons">
                 <button class="fb on" data-semana="F2-S1" onclick="setSemanaF2('F2-S1')">Sem 1</button>
                 <button class="fb" data-semana="F2-S2" onclick="setSemanaF2('F2-S2')">Sem 2</button>
@@ -268,24 +291,8 @@
 
         <!-- Botón opcional a reglas completas -->
         <div style="text-align: center; margin-top: 16px; padding: 8px;">
-            <button onclick="window.open('reglas.html', '_blank')" style="
-                background: transparent;
-                color: #e8b84b;
-                border: 1px solid #e8b84b55;
-                padding: 8px 16px;
-                border-radius: 20px;
-                font-weight: bold;
-                font-size: 11px;
-                font-family: 'Segoe UI', Arial, sans-serif;
-                cursor: pointer;
-                transition: 0.2s;
-                width: 100%;
-                max-width: 250px;
-            "
-            onmouseover="this.style.background='#e8b84b22'"
-            onmouseout="this.style.background='transparent'"
-            >
-            📖 Ver reglas completas
+            <button onclick="window.open('reglas.html', '_blank')" style="background:transparent;color:#e8b84b;border:1px solid #e8b84b55;padding:8px 16px;border-radius:20px;font-weight:bold;font-size:11px;font-family:inherit;cursor:pointer;transition:0.2s;width:100%;max-width:250px;" onmouseover="this.style.background='#e8b84b22'" onmouseout="this.style.background='transparent'">
+                📖 Ver reglas completas
             </button>
         </div>
 
@@ -294,11 +301,34 @@
 </div> <!-- fin body -->
 
 <script>
-    // ==================== REFERENCIAS A DATOS GLOBALES (desde el padre o local) ====================
-    // Buscar MATCHES, R, MVP en el ámbito global (padre) o local
-    const _MATCHES = (typeof window.parent !== 'undefined' && window.parent.MATCHES) ? window.parent.MATCHES : (typeof MATCHES !== 'undefined' ? MATCHES : []);
-    const _R = (typeof window.parent !== 'undefined' && window.parent.R) ? window.parent.R : (typeof R !== 'undefined' ? R : {});
-    const _MVP = (typeof window.parent !== 'undefined' && window.parent.MVP) ? window.parent.MVP : (typeof MVP !== 'undefined' ? MVP : {});
+    // ==================== REFERENCIAS A DATOS GLOBALES ====================
+    const _MATCHES = (typeof window !== 'undefined' && window.MATCHES) ? window.MATCHES :
+                     (typeof window.parent !== 'undefined' && window.parent.MATCHES) ? window.parent.MATCHES :
+                     (typeof MATCHES !== 'undefined' ? MATCHES : []);
+    const _R = (typeof window !== 'undefined' && window.R) ? window.R :
+               (typeof window.parent !== 'undefined' && window.parent.R) ? window.parent.R :
+               (typeof R !== 'undefined' ? R : {});
+    const _MVP = (typeof window !== 'undefined' && window.MVP) ? window.MVP :
+                 (typeof window.parent !== 'undefined' && window.parent.MVP) ? window.parent.MVP :
+                 (typeof MVP !== 'undefined' ? MVP : {});
+    const _TEAMS = (typeof window !== 'undefined' && window.TEAMS) ? window.TEAMS :
+                   (typeof window.parent !== 'undefined' && window.parent.TEAMS) ? window.parent.TEAMS :
+                   (typeof TEAMS !== 'undefined' ? TEAMS : []);
+    const _guardarResultadoFirebase = (typeof window !== 'undefined' && window.guardarResultadoFirebase) ? window.guardarResultadoFirebase :
+                                      (typeof window.parent !== 'undefined' && window.parent.guardarResultadoFirebase) ? window.parent.guardarResultadoFirebase :
+                                      null;
+    const _guardarMVPFirebase = (typeof window !== 'undefined' && window.guardarMVPFirebase) ? window.guardarMVPFirebase :
+                                (typeof window.parent !== 'undefined' && window.parent.guardarMVPFirebase) ? window.parent.guardarMVPFirebase :
+                                null;
+    const _guardarEstadisticasPorPartidoFirebase = (typeof window !== 'undefined' && window.guardarEstadisticasPorPartidoFirebase) ? window.guardarEstadisticasPorPartidoFirebase :
+                                                    (typeof window.parent !== 'undefined' && window.parent.guardarEstadisticasPorPartidoFirebase) ? window.parent.guardarEstadisticasPorPartidoFirebase :
+                                                    null;
+    const _guardarEstadisticasFirebase = (typeof window !== 'undefined' && window.guardarEstadisticasFirebase) ? window.guardarEstadisticasFirebase :
+                                         (typeof window.parent !== 'undefined' && window.parent.guardarEstadisticasFirebase) ? window.parent.guardarEstadisticasFirebase :
+                                         null;
+    const _save = (typeof window !== 'undefined' && window.save) ? window.save :
+                  (typeof window.parent !== 'undefined' && window.parent.save) ? window.parent.save :
+                  null;
 
     // ==================== DATOS DE CLASIFICADOS (Femenino) ====================
     const clasificadosFemenino = {
@@ -340,7 +370,6 @@
         document.querySelectorAll('#fase2-container .nav .nb').forEach(b => b.classList.remove('on'));
         btn.classList.add('on');
 
-        // Si se selecciona la pestaña de partidos, mostrar los partidos de la semana actual
         if (id === 'f2-partidos') {
             mostrarPartidosFase2(semanaF2Actual);
         }
@@ -386,10 +415,34 @@
         if (msg) msg.style.display = 'none';
     }
 
+    // ==================== ADMIN ====================
+    function mostrarAdminF2() {
+        const pass = prompt('🔐 Contraseña de administrador:');
+        if (pass === 'sibarita2026') {
+            document.getElementById('admin-buttons-f2').style.display = 'flex';
+            mostrarEstadoF2('✅ Modo admin activado');
+        } else {
+            alert('❌ Contraseña incorrecta');
+        }
+    }
+
+    function mostrarEstadoF2(mensaje, esError = false) {
+        const div = document.getElementById('sync-status-f2');
+        if (!div) return;
+        div.style.display = 'block';
+        div.textContent = mensaje;
+        div.className = 'sync-status' + (esError ? ' error' : '');
+        setTimeout(() => {
+            if (div.textContent === mensaje) {
+                div.style.display = 'none';
+                div.textContent = '';
+            }
+        }, 4000);
+    }
+
     // ==================== PARTIDOS FASE 2 ====================
     function setSemanaF2(semana) {
         semanaF2Actual = semana;
-        // Actualizar botones de semana (estilo "on")
         document.querySelectorAll('#f2-week-buttons .fb').forEach(b => b.classList.remove('on'));
         const btn = document.querySelector(`#f2-week-buttons .fb[data-semana="${semana}"]`);
         if (btn) btn.classList.add('on');
@@ -403,7 +456,6 @@
             return;
         }
 
-        // Filtrar partidos de la Fase 2 (Femenino) para la semana dada
         const partidos = _MATCHES.filter(m => m.w === semana && m.c === 'Femenino' && m.g === 'Fase2');
 
         if (partidos.length === 0) {
@@ -427,7 +479,6 @@
             } else if (done || forf) {
                 inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>${mv?`<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>`:'<button class="mvp-btn" onclick="alert(\'Función MVP no disponible en Fase 2\')">🏅 Jugador del Partido</button>'}`;
             } else {
-                // Partido pendiente: mostrar campos para ingresar marcador (solo visual, sin funcionalidad de guardado)
                 inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="f2sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="f2sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="alert('Guardar resultado no disponible en esta vista. Usa el cargador de partidos.')">💾 Guardar</button><button class="fbtn" onclick="alert('Forfeit no disponible en esta vista.')">⚠️ Forfeit/WO</button>`;
             }
 
@@ -447,16 +498,203 @@
         alert('⏳ Datos de la Fase 2 aún no disponibles.\nEsperando clasificados oficiales de la Fase 1.');
     }
 
+    // ==================== IMPORTAR JSON (Fase 2) ====================
+    document.getElementById('importJsonInputF2')?.addEventListener('change', async function(e) {
+        const file = e.target.files[0];
+        if (!file) {
+            this.value = '';
+            return;
+        }
+
+        const pass = prompt('🔐 Contraseña de administrador:');
+        if (pass !== 'sibarita2026') {
+            alert('❌ Contraseña incorrecta');
+            this.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async (ev) => {
+            try {
+                const data = JSON.parse(ev.target.result);
+                if (!data.partidos) throw new Error('Estructura inválida: falta "partidos"');
+                const partidos = data.partidos;
+                const ids = Object.keys(partidos);
+                if (!ids.length) { alert('No hay partidos'); return; }
+
+                // Filtrar solo partidos de la Fase 2 (Femenino, g:"Fase2")
+                const idsFase2 = ids.filter(id => {
+                    const p = partidos[id];
+                    // Buscar el partido en MATCHES para verificar que sea de Fase 2
+                    const match = _MATCHES.find(m => m.id.toString() === id);
+                    return match && match.c === 'Femenino' && match.g === 'Fase2' && (p.estado === 'finalizado' || p.estado === 'done');
+                });
+
+                if (idsFase2.length === 0) {
+                    alert('No hay partidos de la Fase 2 en estado "finalizado" para importar.');
+                    this.value = '';
+                    return;
+                }
+
+                if (!confirm(`Importar ${idsFase2.length} partidos de la Fase 2 a Firebase?`)) {
+                    this.value = '';
+                    return;
+                }
+
+                let importados = 0, errores = [];
+
+                for (const id of idsFase2) {
+                    const p = partidos[id];
+                    if (p.puntosA === undefined || p.puntosB === undefined || p.puntosA === null || p.puntosB === null) {
+                        errores.push(`ID ${id}: faltan puntos`);
+                        continue;
+                    }
+
+                    // Guardar resultado
+                    if (_guardarResultadoFirebase) {
+                        await _guardarResultadoFirebase(id, {
+                            scoreA: p.puntosA,
+                            scoreB: p.puntosB,
+                            status: 'done'
+                        });
+                    } else {
+                        errores.push(`ID ${id}: función guardarResultadoFirebase no disponible`);
+                        continue;
+                    }
+
+                    // Guardar estadísticas por partido (si existen)
+                    if (_guardarEstadisticasPorPartidoFirebase && p.estadisticas) {
+                        const statsPorPartido = {};
+                        for (const [team, jugadores] of Object.entries(p.estadisticas)) {
+                            for (const j of jugadores) {
+                                const key = `${team}|${j.nombre}`;
+                                statsPorPartido[key] = {
+                                    arr_b: j.arr_b || 0,
+                                    total_arr: j.total_arr || 0,
+                                    boc_b: j.boc_b || 0,
+                                    total_boc: j.total_boc || 0
+                                };
+                            }
+                        }
+                        await _guardarEstadisticasPorPartidoFirebase(id, statsPorPartido);
+                        localStorage.setItem(`match_stats_${id}`, JSON.stringify(statsPorPartido));
+                    }
+
+                    // Guardar MVP (si existe)
+                    if (p.mvp && p.mvp.name && _guardarMVPFirebase) {
+                        await _guardarMVPFirebase(id, {
+                            name: p.mvp.name,
+                            team: p.mvp.team || '',
+                            efec: p.mvp.efectividad || null,
+                            puntuacion: p.mvp.puntuacion || 0
+                        });
+                    }
+
+                    importados++;
+                }
+
+                // Actualizar R y MVP local
+                for (const id of idsFase2) {
+                    const p = partidos[id];
+                    _R[id] = { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' };
+                    if (p.mvp && p.mvp.name) {
+                        _MVP[id] = { name: p.mvp.name, team: p.mvp.team || '', efec: p.mvp.efectividad || null, puntuacion: p.mvp.puntuacion || 0 };
+                    }
+                }
+                if (_save) _save();
+
+                // Refrescar vista
+                mostrarPartidosFase2(semanaF2Actual);
+
+                if (errores.length) {
+                    alert(`⚠️ Importación con errores:\n${errores.join('\n')}\n✅ Importados: ${importados}`);
+                } else {
+                    alert(`🎉 Importación completada: ${importados} partidos de la Fase 2 guardados en Firebase.`);
+                }
+
+            } catch (err) {
+                console.error(err);
+                alert('Error: ' + err.message);
+            }
+            document.getElementById('importJsonInputF2').value = '';
+        };
+        reader.readAsText(file);
+    });
+
+    // ==================== EXPORTAR JSON (Fase 2) ====================
+    function exportarResultadosF2() {
+        const pass = prompt('🔐 Contraseña de administrador:');
+        if (pass !== 'sibarita2026') {
+            alert('❌ Contraseña incorrecta');
+            return;
+        }
+
+        const partidosF2 = _MATCHES.filter(m => m.c === 'Femenino' && m.g === 'Fase2');
+        const data = { partidos: {} };
+
+        partidosF2.forEach(m => {
+            const id = m.id.toString();
+            const r = _R[id];
+            if (!r || r.status !== 'done') return;
+            const statsPorPartido = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
+            const estadisticas = {};
+            // Reconstruir estadísticas por equipo
+            const equipos = [m.a, m.b];
+            equipos.forEach(team => {
+                estadisticas[team] = [];
+                const teamObj = _TEAMS.find(t => t.n === team);
+                if (teamObj) {
+                    teamObj.p.forEach(player => {
+                        const key = `${team}|${player}`;
+                        const stats = statsPorPartido[key] || { arr_b:0, total_arr:0, boc_b:0, total_boc:0 };
+                        estadisticas[team].push({
+                            nombre: player,
+                            arr_b: stats.arr_b || 0,
+                            total_arr: stats.total_arr || 0,
+                            boc_b: stats.boc_b || 0,
+                            total_boc: stats.total_boc || 0
+                        });
+                    });
+                }
+            });
+
+            data.partidos[id] = {
+                equipoA: m.a,
+                equipoB: m.b,
+                puntosA: r.scoreA,
+                puntosB: r.scoreB,
+                estado: 'finalizado',
+                estadisticas: estadisticas,
+                mvp: _MVP[id] || null
+            };
+        });
+
+        const ids = Object.keys(data.partidos);
+        if (ids.length === 0) {
+            alert('No hay partidos de la Fase 2 con resultados para exportar.');
+            return;
+        }
+
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `fase2_resultados_${new Date().toISOString().slice(0, 19)}.json`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+        mostrarEstadoF2('✅ JSON exportado');
+    }
+
     // ==================== INICIALIZACIÓN ====================
     document.addEventListener('DOMContentLoaded', function() {
-        // Asegurar que la primera pestaña esté activa
         const firstTab = document.querySelector('#fase2-container .nav .nb');
         if (firstTab) firstTab.classList.add('on');
         const firstContent = document.querySelector('.f2-tab');
         if (firstContent) firstContent.classList.add('on');
 
-        // Cargar equipos femeninos por defecto
         llenarEquiposFemenino();
+
+        // Si la pestaña de partidos es la primera (no es el caso), mostrar partidos
+        // pero lo dejamos preparado para cuando se seleccione.
     });
 </script>
 
