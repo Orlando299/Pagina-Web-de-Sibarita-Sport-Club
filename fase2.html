@@ -157,12 +157,9 @@
             </div>
         </div>
 
-        <!-- ==================== PARTIDOS ==================== -->
+        <!-- ==================== PARTIDOS (sin botón femenino) ==================== -->
         <div id="f2-partidos" class="f2-tab">
-            <div class="frow">
-                <button class="fb on" onclick="setSemanaF2('F2-S1')">👩 Femenino</button>
-                <!-- Puedes añadir más botones para otras categorías si se necesitan -->
-            </div>
+            <!-- El botón "👩 Femenino" ha sido eliminado -->
 
             <div class="frow">
                 <button class="fb" onclick="mostrarAdminF2()" style="background:#e67e2233;border-color:#e67e22;color:#e67e22;">🔑 Admin</button>
@@ -421,8 +418,8 @@
     function mostrarPartidosFase2(semana) {
         const container = document.getElementById('f2-partidos-list');
         if (!container) return;
-        // Mostrar todos los partidos de la Fase 2 (Femenino y Masculino) para la semana seleccionada
-            const partidos = _MATCHES.filter(m => m.w === semana && m.g === 'Fase2');
+        // Mostrar TODOS los partidos de la Fase 2 (sin filtrar por género)
+        const partidos = _MATCHES.filter(m => m.w === semana && m.g === 'Fase2');
         if (partidos.length === 0) {
             container.innerHTML = `<div class="card" style="text-align:center;padding:20px;color:#8899aa;">No hay partidos para la semana ${semana}.</div>`;
             return;
@@ -466,7 +463,7 @@
     }
 
     // ============================================================
-    // TABLA DE POSICIONES (con criterio: puntos, diferencia, juego extra)
+    // TABLA DE POSICIONES
     // ============================================================
     function cambiarTablaF2(categoria) {
         categoriaTablaActual = categoria;
@@ -524,13 +521,11 @@
                 }
             });
 
-            // Orden: puntos, diferencia, (y como criterio auxiliar, goles a favor, pero el desempate definitivo es juego extra)
             const sorted = Object.values(tabla).sort((a,b) => {
                 if (b.pts !== a.pts) return b.pts - a.pts;
                 const difA = a.tf - a.tc;
                 const difB = b.tf - b.tc;
                 if (difB !== difA) return difB - difA;
-                // Si hay empate en puntos y diferencia, se dejan en el orden actual (se resolverá con juego extra)
                 return 0;
             });
 
