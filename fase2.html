@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sibarita Sport Club - Fase 2</title>
     <style>
-        /* ===== ESTILOS (igual que antes, no se modifican) ===== */
+        /* ===== ESTILOS (idénticos a la versión anterior) ===== */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #1a1a2e; font-family: 'Segoe UI', Arial, sans-serif; color: #f0e6d3; max-width: 430px; margin: 0 auto; min-height: 100vh; }
         .hdr { background: linear-gradient(135deg, #16213e, #0f3460); padding: 10px 14px 0; border-bottom: 3px solid #e8b84b; position: sticky; top: 0; z-index: 100; }
@@ -210,8 +210,11 @@
                 </div>
             </div>
             <div class="ibox" style="margin-top:12px;">
-                📌 Clasifican los <strong>4 mejores</strong> de cada grupo.<br>
-                📌 Criterios: Puntos, Diferencia, Average, Confrontación directa.
+                📌 <strong>Criterios de clasificación:</strong><br>
+                1. Puntos obtenidos.<br>
+                2. Diferencia de tantos (TF – TC).<br>
+                3. <strong>Juego extra</strong> en caso de empate en puntos y diferencia.<br>
+                <span style="font-size:9px; color:#8899aa;">(No se utiliza confrontación directa porque los equipos no se enfrentan entre sí dentro del mismo grupo).</span>
             </div>
         </div>
 
@@ -235,7 +238,7 @@
 
 <script>
     // ============================================================
-    // REFERENCIAS A DATOS GLOBALES (desde el padre o local)
+    // REFERENCIAS A DATOS GLOBALES
     // ============================================================
     const _MATCHES = (typeof window !== 'undefined' && window.MATCHES) ? window.MATCHES :
                      (typeof window.parent !== 'undefined' && window.parent.MATCHES) ? window.parent.MATCHES :
@@ -248,7 +251,7 @@
                    (typeof TEAMS !== 'undefined' ? TEAMS : []);
 
     // ============================================================
-    // CLASIFICADOS (sin numeración, con puestos en disputa)
+    // CLASIFICADOS
     // ============================================================
     const clasificadosFemenino = {
         grupoA: [
@@ -302,7 +305,6 @@
         '622': { scoreA: 15, scoreB: 13, status: 'done' }
     };
 
-    // Cargar resultados en _R si no existen (para que la tabla se vea desde el inicio)
     for (const [id, data] of Object.entries(resultadosF2)) {
         if (!_R[id]) {
             _R[id] = data;
@@ -410,7 +412,7 @@
     }
 
     // ============================================================
-    // PARTIDOS (solo visualización)
+    // PARTIDOS
     // ============================================================
     function setSemanaF2(semana) {
         semanaF2Actual = semana;
@@ -467,7 +469,7 @@
     }
 
     // ============================================================
-    // TABLA DE POSICIONES (Fase 2)
+    // TABLA DE POSICIONES (con criterio: puntos, diferencia, juego extra)
     // ============================================================
     function cambiarTablaF2(categoria) {
         categoriaTablaActual = categoria;
@@ -484,7 +486,6 @@
     }
 
     function calcularTablaF2(categoria) {
-        // Determinar los equipos según la categoría
         let grupos = [];
         if (categoria === 'femenino') {
             grupos = [
@@ -498,14 +499,12 @@
             ];
         }
 
-        // Para cada grupo, calcular tabla
         grupos.forEach(grupo => {
             const tabla = {};
             grupo.equipos.forEach(nombre => {
                 tabla[nombre] = { n: nombre, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 };
             });
 
-            // Filtrar partidos de la Fase 2 para esta categoría
             const partidosF2 = _MATCHES.filter(m => m.g === 'Fase2' && m.c === (categoria === 'femenino' ? 'Femenino' : 'Masculino'));
             partidosF2.forEach(m => {
                 const r = _R[m.id];
@@ -528,10 +527,16 @@
                 }
             });
 
-            // Ordenar
-            const sorted = Object.values(tabla).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf);
+            // Orden: puntos, diferencia, (y como criterio auxiliar, goles a favor, pero el desempate definitivo es juego extra)
+            const sorted = Object.values(tabla).sort((a,b) => {
+                if (b.pts !== a.pts) return b.pts - a.pts;
+                const difA = a.tf - a.tc;
+                const difB = b.tf - b.tc;
+                if (difB !== difA) return difB - difA;
+                // Si hay empate en puntos y diferencia, se dejan en el orden actual (se resolverá con juego extra)
+                return 0;
+            });
 
-            // Renderizar
             const containerId = grupo.id === 'A' ? 'tabla-f2-listA' : 'tabla-f2-listB';
             const container = document.getElementById(containerId);
             if (!container) return;
@@ -593,7 +598,7 @@
                     this.value = '';
                     return;
                 }
-                if (!confirm(`Importar ${idsFase2.length} partidos de la Fase 2 a Firebase?`)) {
+                if (!confirm(`Importar ${idsFase2.length} partidos de la Fase 2?`)) {
                     this.value = '';
                     return;
                 }
@@ -604,11 +609,9 @@
                         errores.push(`ID ${id}: faltan puntos`);
                         continue;
                     }
-                    // Guardar en _R local
                     _R[id] = { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' };
                     importados++;
                 }
-                // Refrescar vistas
                 mostrarPartidosFase2(semanaF2Actual);
                 calcularTablaF2(categoriaTablaActual);
                 alert(`✅ ${importados} partidos importados correctamente.`);
@@ -653,16 +656,12 @@
     // INICIALIZACIÓN
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
-        // Asegurar que la primera pestaña (Tabla) esté activa
         const firstTab = document.querySelector('#fase2-container .nav .nb');
         if (firstTab) firstTab.classList.add('on');
         const firstContent = document.querySelector('.f2-tab');
         if (firstContent) firstContent.classList.add('on');
 
-        // Cargar equipos femeninos por defecto
         llenarEquipos('femenino');
-
-        // Calcular tabla inicial (femenino)
         calcularTablaF2('femenino');
     });
 </script>
