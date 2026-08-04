@@ -803,7 +803,7 @@ function openTeam(name) { const t = TEAMS.find(x => x.n === name); if (!t) retur
 function closeDetail() { g('teams-wrap').style.display = 'block'; g('t-detail').style.display = 'none'; }
 function rM() {
   const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9','S10','S11','S12','S13'];
-const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9',S10:'Sem 10',S11:'Sem 11',S12:'Sem 12',S12:'Sem 13'};
+const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9',S10:'Sem 10',S11:'Sem 11',S12:'Sem 12',S13:'Sem 13'};
   g('m-weeks').innerHTML = wks.map(w => `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`).join('');
   let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk));
   g('m-cnt').textContent = list.length + ' PARTIDOS';
