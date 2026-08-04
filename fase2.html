@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sibarita Sport Club - Fase 2</title>
     <style>
-        /* ========== ESTILOS GENERALES (igual que antes) ========== */
+        /* ===== ESTILOS (igual que antes, no se modifican) ===== */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #1a1a2e; font-family: 'Segoe UI', Arial, sans-serif; color: #f0e6d3; max-width: 430px; margin: 0 auto; min-height: 100vh; }
         .hdr { background: linear-gradient(135deg, #16213e, #0f3460); padding: 10px 14px 0; border-bottom: 3px solid #e8b84b; position: sticky; top: 0; z-index: 100; }
@@ -43,59 +43,24 @@
         .separador { border: none; border-top: 1px solid #0f3460; margin: 4px 0 6px 0; }
         .lbl { font-size: 10px; color: #e8b84b; font-weight: bold; margin-bottom: 7px; margin-top: 4px; letter-spacing: .06em; }
 
-        /* ===== ESTILOS PARA EQUIPOS EN COLUMNAS ===== */
-        .equipos-grid {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .equipos-col {
-            flex: 1;
-            min-width: 140px;
-            max-width: 200px;
-            background: #16213e;
-            border: 1px solid #e8b84b33;
-            border-radius: 10px;
-            padding: 12px;
-        }
-        .equipos-col-header {
-            font-size: 12px;
-            font-weight: bold;
-            color: #e8b84b;
-            text-align: center;
-            border-bottom: 1px solid #0f3460;
-            padding-bottom: 6px;
-            margin-bottom: 8px;
-        }
-        .equipo-item {
-            padding: 4px 0;
-            border-bottom: 1px solid #0f346033;
-            font-size: 11px;
-            color: #f0e6d3;
-        }
+        /* ===== EQUIPOS COLUMNAS ===== */
+        .equipos-grid { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        .equipos-col { flex: 1; min-width: 140px; max-width: 200px; background: #16213e; border: 1px solid #e8b84b33; border-radius: 10px; padding: 12px; }
+        .equipos-col-header { font-size: 12px; font-weight: bold; color: #e8b84b; text-align: center; border-bottom: 1px solid #0f3460; padding-bottom: 6px; margin-bottom: 8px; }
+        .equipo-item { padding: 4px 0; border-bottom: 1px solid #0f346033; font-size: 11px; color: #f0e6d3; }
         .equipo-item .nombre { margin-left: 0px; }
         .equipo-item.espera { color: #e8b84b; font-style: italic; }
         .equipo-item.espera .nombre { color: #e8b84b; }
         .equipo-item .pos { color: #8899aa; font-weight: bold; margin-right: 4px; }
 
-        .reglas-mini {
-            background: #0f3460;
-            border-left: 4px solid #e8b84b;
-            border-radius: 8px;
-            padding: 10px 14px;
-            margin-top: 12px;
-            font-size: 10px;
-            line-height: 1.5;
-            color: #c8c0b0;
-        }
+        .reglas-mini { background: #0f3460; border-left: 4px solid #e8b84b; border-radius: 8px; padding: 10px 14px; margin-top: 12px; font-size: 10px; line-height: 1.5; color: #c8c0b0; }
         .reglas-mini strong { color: #e8b84b; }
         .reglas-mini .titulo { font-weight: bold; color: #e8b84b; display: block; margin-bottom: 4px; font-size: 11px; }
         .reglas-mini ul { padding-left: 16px; margin: 4px 0; }
         .reglas-mini li { margin-bottom: 2px; }
         .reglas-mini .nota { margin-top: 4px; border-top: 1px solid #0f3460; padding-top: 4px; font-style: italic; color: #8899aa; }
 
-        /* ===== ESTILOS PARA PARTIDOS ===== */
+        /* ===== PARTIDOS ===== */
         .mc { background: linear-gradient(135deg, #16213e, #0f3460); border: 1px solid #e8b84b33; border-radius: 10px; padding: 10px 12px; margin-bottom: 7px; }
         .mm { font-size: 10px; color: #8899aa; margin-bottom: 7px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3px; }
         .mteams { display: flex; align-items: center; justify-content: space-between; }
@@ -107,32 +72,22 @@
         .rtag { font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 7px; }
         .done { background: #2ecc7133; color: #2ecc71; border: 1px solid #2ecc7122; }
         .wtag { font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 7px; }
-        .mvp-box { background: linear-gradient(135deg, #e8b84b22, #f39c1222); border: 1px solid #e8b84b55; border-radius: 8px; padding: 6px 10px; margin-top: 6px; display: flex; align-items: center; gap: 8px; }
-        .mvp-name { font-size: 12px; color: #f0e6d3; font-weight: bold; }
-        .mvp-lbl { font-size: 9px; color: #e8b84b; font-weight: bold; letter-spacing: .06em; text-transform: uppercase; }
-        .mvp-detail { font-size: 9px; color: #8899aa; }
-        .mvp-btn { width: 100%; margin-top: 5px; padding: 5px; background: linear-gradient(90deg, #e8b84b22, #f39c1222); border: 1px solid #e8b84b55; border-radius: 7px; color: #e8b84b; font-size: 10px; cursor: pointer; font-family: inherit; font-weight: bold; }
-        .sinp { width: 46px; height: 34px; background: #0f3460; border: 1px solid #e8b84b55; border-radius: 7px; color: #e8b84b; font-size: 18px; font-weight: bold; text-align: center; font-family: inherit; -webkit-appearance: none; }
-        .sinp:focus { outline: none; border-color: #e8b84b; }
-        .srow { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; }
-        .sbtn { width: 100%; margin-top: 6px; padding: 6px; background: #2ecc71; border: none; border-radius: 7px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; font-family: inherit; }
-        .fbtn { width: 100%; margin-top: 4px; padding: 5px; background: transparent; border: 1px solid #c0392b55; border-radius: 7px; color: #c0392b; font-size: 10px; cursor: pointer; font-family: inherit; }
-        .stats-btn { background: #3498db33; border: 1px solid #3498db; color: #3498db; font-size: 9px; padding: 4px 8px; border-radius: 7px; margin-top: 4px; width: 100%; cursor: pointer; }
 
-        /* ===== MODAL ESTADÍSTICAS ===== */
-        .modal-stats { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; overflow-y: auto; }
-        .modal-stats .modal-content { background: #16213e; margin: 15px; border-radius: 15px; padding: 15px; border: 1px solid #e8b84b55; max-width: 500px; margin-left: auto; margin-right: auto; }
-        .modal-stats .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #0f3460; padding-bottom: 10px; }
-        .modal-stats .modal-close { background: #c0392b; border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; font-size: 18px; cursor: pointer; }
-        .modal-stats .modal-title { font-size: 14px; font-weight: bold; color: #e8b84b; text-align: center; }
-        .player-stats-row { background: #0f3460; border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; }
-        .player-name { font-size: 12px; font-weight: bold; color: #e8b84b; margin-bottom: 5px; }
-        .stats-grid { display: flex; gap: 12px; flex-wrap: wrap; }
-        .stat-item { flex: 1; min-width: 90px; }
-        .stat-label { font-size: 9px; color: #8899aa; margin-bottom: 3px; }
-        .stat-input { width: 100%; padding: 5px; background: #1a1a2e; border: 1px solid #e8b84b55; border-radius: 5px; color: #f0e6d3; font-size: 11px; text-align: center; }
-        .stat-input:focus { outline: none; border-color: #e8b84b; }
-        .btn-save-stats { width: 100%; margin-top: 15px; padding: 10px; background: #2ecc71; border: none; border-radius: 8px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; }
+        /* ===== TABLA ===== */
+        .sr { display: flex; align-items: center; gap: 6px; padding: 7px 8px; border-radius: 8px; margin-bottom: 4px; }
+        .r1 { background: linear-gradient(90deg, #e8b84b22, transparent); border: 1px solid #e8b84b33; }
+        .r2 { background: linear-gradient(90deg, #c0c0c022, transparent); border: 1px solid #0f3460; }
+        .r3 { background: linear-gradient(90deg, #cd7f3222, transparent); border: 1px solid #0f3460; }
+        .rn { background: #16213e; border: 1px solid #0f3460; }
+        .rb { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0; }
+        .rb.r1 { background: #e8b84b; color: #000; }
+        .rb.r2 { background: #c0c0c0; color: #000; }
+        .rb.r3 { background: #cd7f32; color: #000; }
+        .rb.rn { background: #0f3460; color: #8899aa; }
+        .sv { font-size: 11px; font-weight: bold; color: #f0e6d3; }
+        .scols { display: flex; gap: 4px; }
+        .sc { text-align: center; min-width: 22px; }
+        .sh { font-size: 8px; color: #e8b84b; font-weight: bold; }
 
         /* ===== ADMIN ===== */
         #admin-buttons-f2 { display: none; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
@@ -152,7 +107,7 @@
             <img src="https://i.imgur.com/HbKo42m.png" alt="Logo">
             <div>
                 <div class="logo-t">Sibarita Sport Club</div>
-                <div class="logo-s">Fase 2 - Clasificados Femeninos</div>
+                <div class="logo-s">Fase 2 - Clasificados</div>
             </div>
         </div>
         <div>
@@ -168,14 +123,14 @@
     <div id="fase2-container">
         <!-- Pestañas -->
         <div class="nav">
-            <button class="nb on" onclick="showTabF2('f2-equipos', this)"><span>👥</span>Equipos</button>
+            <button class="nb" onclick="showTabF2('f2-equipos', this)"><span>👥</span>Equipos</button>
             <button class="nb" onclick="showTabF2('f2-partidos', this)"><span>🎯</span>Partidos</button>
-            <button class="nb" onclick="showTabF2('f2-tabla', this)"><span>🏆</span>Tabla</button>
+            <button class="nb on" onclick="showTabF2('f2-tabla', this)"><span>🏆</span>Tabla</button>
             <button class="nb" onclick="showTabF2('f2-videos', this)"><span>📺</span>Videos</button>
         </div>
 
-        <!-- EQUIPOS -->
-        <div id="f2-equipos" class="f2-tab on">
+        <!-- ==================== EQUIPOS ==================== -->
+        <div id="f2-equipos" class="f2-tab">
             <div class="frow" style="justify-content: center; gap: 12px; margin-bottom: 12px;">
                 <button id="btnEquiposFem" class="fb on" onclick="mostrarEquipos('femenino')" style="padding: 10px 24px; font-size: 14px;">👩 Femenino</button>
                 <button id="btnEquiposMas" class="fb" onclick="mostrarEquipos('masculino')" style="padding: 10px 24px; font-size: 14px;">👨 Masculino</button>
@@ -206,10 +161,11 @@
             </div>
         </div>
 
-        <!-- PARTIDOS -->
+        <!-- ==================== PARTIDOS ==================== -->
         <div id="f2-partidos" class="f2-tab">
             <div class="frow">
                 <button class="fb on" onclick="setSemanaF2('F2-S1')">👩 Femenino</button>
+                <!-- Puedes añadir más botones para otras categorías si se necesitan -->
             </div>
 
             <div class="frow">
@@ -237,24 +193,29 @@
             <div id="f2-partidos-list"></div>
         </div>
 
-        <!-- TABLA -->
-        <div id="f2-tabla" class="f2-tab">
-            <div class="frow">
-                <button class="fb on" onclick="msgEspera()">👩 Femenino</button>
-                <button class="fb" onclick="msgEspera()">👨 Masculino</button>
+        <!-- ==================== TABLA ==================== -->
+        <div id="f2-tabla" class="f2-tab on">
+            <div class="frow" style="justify-content: center; gap: 12px; margin-bottom: 12px;">
+                <button id="btnTablaFem" class="fb on" onclick="cambiarTablaF2('femenino')" style="padding: 8px 20px; font-size: 13px;">👩 Femenino</button>
+                <button id="btnTablaMas" class="fb" onclick="cambiarTablaF2('masculino')" style="padding: 8px 20px; font-size: 13px;">👨 Masculino</button>
             </div>
-            <div class="frow">
-                <button class="fb on" onclick="msgEspera()">Grupo A</button>
-                <button class="fb" onclick="msgEspera()">Grupo B</button>
+            <div id="tabla-f2-container">
+                <div id="tabla-f2-grupoA" style="margin-bottom: 20px;">
+                    <div class="lbl">🏆 Grupo A</div>
+                    <div id="tabla-f2-listA"></div>
+                </div>
+                <div id="tabla-f2-grupoB">
+                    <div class="lbl">🏆 Grupo B</div>
+                    <div id="tabla-f2-listB"></div>
+                </div>
             </div>
-            <div class="waiting-msg card">
-                <div class="icon">⏳</div>
-                <div class="title">Tabla de Posiciones</div>
-                <div class="sub">La clasificación de la Fase 2 se actualizará con los resultados.</div>
+            <div class="ibox" style="margin-top:12px;">
+                📌 Clasifican los <strong>4 mejores</strong> de cada grupo.<br>
+                📌 Criterios: Puntos, Diferencia, Average, Confrontación directa.
             </div>
         </div>
 
-        <!-- VIDEOS -->
+        <!-- ==================== VIDEOS ==================== -->
         <div id="f2-videos" class="f2-tab">
             <div class="waiting-msg card">
                 <div class="icon">📺</div>
@@ -272,76 +233,92 @@
 
 </div> <!-- fin body -->
 
-<!-- MODAL ESTADÍSTICAS -->
-<div id="stats-modal-f2" class="modal-stats">
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="modal-title" id="stats-modal-title-f2">Registrar Estadísticas</div>
-            <button class="modal-close" onclick="closeStatsModalF2()">✕</button>
-        </div>
-        <div id="stats-modal-body-f2"></div>
-        <button class="btn-save-stats" onclick="saveMatchStatsF2()">💾 Guardar Estadísticas</button>
-    </div>
-</div>
-
 <script>
-    // ==================== REFERENCIAS A DATOS GLOBALES ====================
+    // ============================================================
+    // REFERENCIAS A DATOS GLOBALES (desde el padre o local)
+    // ============================================================
     const _MATCHES = (typeof window !== 'undefined' && window.MATCHES) ? window.MATCHES :
                      (typeof window.parent !== 'undefined' && window.parent.MATCHES) ? window.parent.MATCHES :
                      (typeof MATCHES !== 'undefined' ? MATCHES : []);
     const _R = (typeof window !== 'undefined' && window.R) ? window.R :
                (typeof window.parent !== 'undefined' && window.parent.R) ? window.parent.R :
                (typeof R !== 'undefined' ? R : {});
-    const _MVP = (typeof window !== 'undefined' && window.MVP) ? window.MVP :
-                 (typeof window.parent !== 'undefined' && window.parent.MVP) ? window.parent.MVP :
-                 (typeof MVP !== 'undefined' ? MVP : {});
     const _TEAMS = (typeof window !== 'undefined' && window.TEAMS) ? window.TEAMS :
                    (typeof window.parent !== 'undefined' && window.parent.TEAMS) ? window.parent.TEAMS :
                    (typeof TEAMS !== 'undefined' ? TEAMS : []);
-    const _PS = (typeof window !== 'undefined' && window.PS) ? window.PS :
-                (typeof window.parent !== 'undefined' && window.parent.PS) ? window.parent.PS :
-                (typeof PS !== 'undefined' ? PS : {});
-    const _guardarResultadoFirebase = (typeof window !== 'undefined' && window.guardarResultadoFirebase) ? window.guardarResultadoFirebase :
-                                      (typeof window.parent !== 'undefined' && window.parent.guardarResultadoFirebase) ? window.parent.guardarResultadoFirebase :
-                                      null;
-    const _guardarMVPFirebase = (typeof window !== 'undefined' && window.guardarMVPFirebase) ? window.guardarMVPFirebase :
-                                (typeof window.parent !== 'undefined' && window.parent.guardarMVPFirebase) ? window.parent.guardarMVPFirebase :
-                                null;
-    const _guardarEstadisticasPorPartidoFirebase = (typeof window !== 'undefined' && window.guardarEstadisticasPorPartidoFirebase) ? window.guardarEstadisticasPorPartidoFirebase :
-                                                    (typeof window.parent !== 'undefined' && window.parent.guardarEstadisticasPorPartidoFirebase) ? window.parent.guardarEstadisticasPorPartidoFirebase :
-                                                    null;
-    const _guardarEstadisticasFirebase = (typeof window !== 'undefined' && window.guardarEstadisticasFirebase) ? window.guardarEstadisticasFirebase :
-                                         (typeof window.parent !== 'undefined' && window.parent.guardarEstadisticasFirebase) ? window.parent.guardarEstadisticasFirebase :
-                                         null;
-    const _save = (typeof window !== 'undefined' && window.save) ? window.save :
-                  (typeof window.parent !== 'undefined' && window.parent.save) ? window.parent.save :
-                  null;
 
-    // ==================== DATOS DE CLASIFICADOS ====================
+    // ============================================================
+    // CLASIFICADOS (sin numeración, con puestos en disputa)
+    // ============================================================
     const clasificadosFemenino = {
         grupoA: [
-            { pos: 1, nombre: 'Jujure (Educadoras)' },
-            { pos: 2, nombre: 'Inversiones EPA' },
-            { pos: 3, nombre: 'Serv. Frios Antonella' },
-            { pos: 4, nombre: 'Repostería el Ponque' },
-            { pos: 5, nombre: 'New Family' },
-            { pos: 6, nombre: 'Divinas' }
+            { nombre: 'Jujure (Educadoras)' },
+            { nombre: 'Inversiones EPA' },
+            { nombre: 'Serv. Frios Antonella' },
+            { nombre: 'Repostería el Ponque' },
+            { nombre: 'New Family' },
+            { nombre: 'Divinas' }
         ],
         grupoB: [
-            { pos: 1, nombre: 'Chikas' },
-            { pos: 2, nombre: 'Saboga' },
-            { pos: 3, nombre: 'Atavenca' },
-            { pos: 4, nombre: 'Santana' },
-            { pos: 5, nombre: 'Corpoelec' },
-            { pos: 6, nombre: 'Emprendedoras' }
+            { nombre: 'Chikas' },
+            { nombre: 'Saboga' },
+            { nombre: 'Atavenca' },
+            { nombre: 'Santana' },
+            { nombre: 'Corpoelec' },
+            { nombre: 'Emprendedoras' }
         ]
     };
 
-    // ==================== VARIABLES DE ESTADO ====================
-    let semanaF2Actual = 'F2-S1';
-    let currentMatchIdF2 = null;
+    const clasificadosMasculino = {
+        grupoA: [
+            { nombre: 'Club Afibola' },
+            { nombre: 'Servihidra' },
+            { nombre: 'Unidos de Hato' },
+            { nombre: 'Alimentos La Granja' },
+            { nombre: 'Familia Ortega' },
+            { nombre: 'Corpoelec2' },
+            { nombre: '⏳ En disputa...', espera: true }   // 7° puesto
+        ],
+        grupoB: [
+            { nombre: 'Agroserviportuguesa' },
+            { nombre: 'Gladiadores del Cerrito' },
+            { nombre: 'Micro PC' },
+            { nombre: 'Team JM&JA' },
+            { nombre: 'Pintucal' },
+            { nombre: '⏳ En disputa...', espera: true },   // 6° puesto
+            { nombre: '⏳ En disputa...', espera: true }    // 7° puesto
+        ]
+    };
 
-    // ==================== FUNCIONES DE NAVEGACIÓN ====================
+    // ============================================================
+    // RESULTADOS PRECARGADOS (Semana 1 Fase 2 Femenino)
+    // ============================================================
+    const resultadosF2 = {
+        '600': { scoreA: 17, scoreB: 9, status: 'done' },
+        '609': { scoreA: 18, scoreB: 12, status: 'done' },
+        '615': { scoreA: 5, scoreB: 20, status: 'done' },
+        '618': { scoreA: 8, scoreB: 0, status: 'done' },
+        '621': { scoreA: 20, scoreB: 12, status: 'done' },
+        '622': { scoreA: 15, scoreB: 13, status: 'done' }
+    };
+
+    // Cargar resultados en _R si no existen (para que la tabla se vea desde el inicio)
+    for (const [id, data] of Object.entries(resultadosF2)) {
+        if (!_R[id]) {
+            _R[id] = data;
+        }
+    }
+
+    // ============================================================
+    // VARIABLES DE ESTADO
+    // ============================================================
+    let semanaF2Actual = 'F2-S1';
+    let categoriaTablaActual = 'femenino';
+    let categoriaEquiposActual = 'femenino';
+
+    // ============================================================
+    // FUNCIONES DE NAVEGACIÓN
+    // ============================================================
     function cambiarFase(fase) {
         if (fase === 'fase1') {
             alert('🔙 Volviendo a la Fase 1 (página principal)');
@@ -356,14 +333,17 @@
         document.getElementById(id).classList.add('on');
         document.querySelectorAll('#fase2-container .nav .nb').forEach(b => b.classList.remove('on'));
         btn.classList.add('on');
+
         if (id === 'f2-partidos') {
             mostrarPartidosFase2(semanaF2Actual);
+        } else if (id === 'f2-tabla') {
+            calcularTablaF2(categoriaTablaActual);
         }
     }
 
-    // ==================== EQUIPOS ====================
-    let categoriaEquiposActual = 'femenino';
-
+    // ============================================================
+    // EQUIPOS
+    // ============================================================
     function mostrarEquipos(categoria) {
         categoriaEquiposActual = categoria;
         const btnFem = document.getElementById('btnEquiposFem');
@@ -371,34 +351,40 @@
         if (categoria === 'femenino') {
             btnFem.classList.add('on');
             btnMas.classList.remove('on');
-            llenarEquiposFemenino();
+            llenarEquipos('femenino');
         } else {
             btnMas.classList.add('on');
             btnFem.classList.remove('on');
-            document.getElementById('listaGrupoA').innerHTML = '<div style="text-align:center;color:#8899aa;padding:16px 0;">⏳ Esperando clasificados (Masculino)</div>';
-            document.getElementById('listaGrupoB').innerHTML = '<div style="text-align:center;color:#8899aa;padding:16px 0;">⏳ Esperando clasificados (Masculino)</div>';
+            llenarEquipos('masculino');
         }
     }
 
-    function llenarEquiposFemenino() {
+    function llenarEquipos(categoria) {
         const listaA = document.getElementById('listaGrupoA');
         const listaB = document.getElementById('listaGrupoB');
+        const datos = categoria === 'femenino' ? clasificadosFemenino : clasificadosMasculino;
+
         let htmlA = '';
-        clasificadosFemenino.grupoA.forEach(eq => {
-            htmlA += `<div class="equipo-item"><span class="nombre">${eq.nombre}</span></div>`;
+        datos.grupoA.forEach(eq => {
+            const clase = eq.espera ? 'equipo-item espera' : 'equipo-item';
+            htmlA += `<div class="${clase}"><span class="nombre">${eq.nombre}</span></div>`;
         });
         listaA.innerHTML = htmlA;
+
         let htmlB = '';
-        clasificadosFemenino.grupoB.forEach(eq => {
+        datos.grupoB.forEach(eq => {
             const clase = eq.espera ? 'equipo-item espera' : 'equipo-item';
             htmlB += `<div class="${clase}"><span class="nombre">${eq.nombre}</span></div>`;
         });
         listaB.innerHTML = htmlB;
+
         const msg = document.getElementById('msgEsperaEquipos');
         if (msg) msg.style.display = 'none';
     }
 
-    // ==================== ADMIN ====================
+    // ============================================================
+    // ADMIN
+    // ============================================================
     function mostrarAdminF2() {
         const pass = prompt('🔐 Contraseña de administrador:');
         if (pass === 'sibarita2026') {
@@ -423,7 +409,9 @@
         }, 4000);
     }
 
-    // ==================== PARTIDOS FASE 2 ====================
+    // ============================================================
+    // PARTIDOS (solo visualización)
+    // ============================================================
     function setSemanaF2(semana) {
         semanaF2Actual = semana;
         document.querySelectorAll('#f2-week-buttons .fb').forEach(b => b.classList.remove('on'));
@@ -435,7 +423,7 @@
     function mostrarPartidosFase2(semana) {
         const container = document.getElementById('f2-partidos-list');
         if (!container) return;
-        const partidos = _MATCHES.filter(m => m.w === semana && m.c === 'Femenino' && m.g === 'Fase2');
+        const partidos = _MATCHES.filter(m => m.w === semana && m.g === 'Fase2');
         if (partidos.length === 0) {
             container.innerHTML = `<div class="card" style="text-align:center;padding:20px;color:#8899aa;">No hay partidos para la semana ${semana}.</div>`;
             return;
@@ -445,284 +433,139 @@
             const r = _R[m.id];
             const done = r && r.status === 'done';
             const forf = r && r.status === 'forfeit';
-            const suspended = r && r.status === 'suspended';
             const wA = done && r.scoreA > r.scoreB;
             const wB = done && r.scoreB > r.scoreA;
-            const mv = _MVP[m.id];
 
             let inner = '';
-            if (suspended) {
-                inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">JUEGO SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div></div>`;
-            } else if (done || forf) {
-                inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span><button onclick="borrarResultadoF2(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;">✕</button></div>${mv?`<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div><button onclick="borrarMVPF2(${m.id})" style="background:transparent;border:none;color:#8899aa;">✕</button></div>`:'<button class="mvp-btn" onclick="asignarMVPF2(${m.id})">🏅 Jugador del Partido</button>'}<button class="stats-btn" onclick="openStatsModalF2(${m.id})">📋 ${done || forf ? 'Editar Stats' : 'Registrar Stats'}</button>`;
+            if (done || forf) {
+                inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+                    <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+                    <span class="sep">—</span>
+                    <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+                </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+                <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>`;
             } else {
-                inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="f2sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="f2sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="guardarResultadoF2(${m.id})">💾 Guardar</button><button class="fbtn" onclick="guardarForfeitF2(${m.id})">⚠️ Forfeit/WO</button><button class="stats-btn" onclick="openStatsModalF2(${m.id})">📋 Registrar Stats</button>`;
+                inner = `<div style="font-size:14px;text-align:center;">🎯</div>
+                         <div style="font-size:11px;color:#8899aa;padding:4px;">Pendiente</div>`;
             }
 
             let estadoTag = '';
-            if (suspended) estadoTag = '<span class="wtag" style="background:#e67e2233;color:#e67e22;">⏸️ Suspendido</span>';
-            else if (done) estadoTag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>';
+            if (done) estadoTag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>';
             else if (forf) estadoTag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
             else estadoTag = '<span class="wtag" style="background:#0f3460;">⏳ Pendiente</span>';
 
-            html += `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div><div class="mteams"><div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div></div></div>`;
+            html += `<div class="mc">
+                <div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div>
+                <div class="mteams">
+                    <div class="tn">${m.a}</div>
+                    <div class="vb">${inner}</div>
+                    <div class="tn">${m.b}</div>
+                </div>
+            </div>`;
         });
         container.innerHTML = html;
     }
 
-    // ==================== GUARDAR RESULTADO (con clave) ====================
-    function guardarResultadoF2(id) {
-        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-        if (!esOrganizador) {
-            alert('⚠️ Solo el organizador puede editar guardar resultados.');
-            return;
-        }
-        const inputA = document.getElementById(`f2sA${id}`);
-        const inputB = document.getElementById(`f2sB${id}`);
-        if (!inputA || !inputB) { alert('Error: campos no encontrados'); return; }
-        const a = parseInt(inputA.value);
-        const b = parseInt(inputB.value);
-        if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) {
-            alert('Marcador inválido (0-20)');
-            return;
-        }
-        _R[id] = { scoreA: a, scoreB: b, status: 'done' };
-        if (_save) _save();
-        if (_guardarResultadoFirebase) _guardarResultadoFirebase(id, _R[id]);
-        mostrarPartidosFase2(semanaF2Actual);
-        mostrarEstadoF2('✅ Resultado guardado');
-    }
-
-    function guardarForfeitF2(id) {
-        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-        if (!esOrganizador) {
-            alert('⚠️ Solo el organizador puede editar guardar resultados.');
-            return;
-        }
-        const m = _MATCHES.find(x => x.id === id);
-        if (!m) return;
-        const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
-        if (ans === '1') {
-            _R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' };
-        } else if (ans === '2') {
-            _R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' };
+    // ============================================================
+    // TABLA DE POSICIONES (Fase 2)
+    // ============================================================
+    function cambiarTablaF2(categoria) {
+        categoriaTablaActual = categoria;
+        const btnFem = document.getElementById('btnTablaFem');
+        const btnMas = document.getElementById('btnTablaMas');
+        if (categoria === 'femenino') {
+            btnFem.classList.add('on');
+            btnMas.classList.remove('on');
         } else {
-            alert('Opción inválida.');
-            return;
+            btnMas.classList.add('on');
+            btnFem.classList.remove('on');
         }
-        if (_save) _save();
-        if (_guardarResultadoFirebase) _guardarResultadoFirebase(id, _R[id]);
-        mostrarPartidosFase2(semanaF2Actual);
-        mostrarEstadoF2('✅ Forfeit registrado');
+        calcularTablaF2(categoria);
     }
 
-    function borrarResultadoF2(id) {
-        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-        if (!esOrganizador) {
-            alert('⚠️ Solo el organizador puede editar guardar resultados.');
-            return;
+    function calcularTablaF2(categoria) {
+        // Determinar los equipos según la categoría
+        let grupos = [];
+        if (categoria === 'femenino') {
+            grupos = [
+                { id: 'A', equipos: clasificadosFemenino.grupoA.map(e => e.nombre) },
+                { id: 'B', equipos: clasificadosFemenino.grupoB.map(e => e.nombre) }
+            ];
+        } else {
+            grupos = [
+                { id: 'A', equipos: clasificadosMasculino.grupoA.map(e => e.nombre).filter(n => !n.includes('En disputa')) },
+                { id: 'B', equipos: clasificadosMasculino.grupoB.map(e => e.nombre).filter(n => !n.includes('En disputa')) }
+            ];
         }
-        if (confirm('¿Borrar resultado?')) {
-            delete _R[id];
-            if (_save) _save();
-            if (_guardarResultadoFirebase) _guardarResultadoFirebase(id, null);
-            mostrarPartidosFase2(semanaF2Actual);
-            mostrarEstadoF2('✅ Resultado borrado');
-        }
-    }
 
-    // ==================== MVP ====================
-    function asignarMVPF2(id) {
-        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-        if (!esOrganizador) {
-            alert('⚠️ Solo el organizador puede editar guardar resultados.');
-            return;
-        }
-        const m = _MATCHES.find(x => x.id === id);
-        if (!m) return;
-        const r = _R[id];
-        if (!r || r.status !== 'done') {
-            alert('⚠️ Primero debes guardar el resultado del partido');
-            return;
-        }
-        let equipoGanador = r.scoreA > r.scoreB ? m.a : (r.scoreB > r.scoreA ? m.b : null);
-        if (!equipoGanador) { alert('Empate. No se asigna MVP.'); return; }
-        const matchStats = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
-        const cands = [];
-        const teamGanador = _TEAMS.find(x => x.n === equipoGanador);
-        if (teamGanador) {
-            teamGanador.p.forEach(player => {
-                const fullKey = `${equipoGanador}|${player}`;
-                const stats = matchStats[fullKey] || {};
-                const totalBuenos = (stats.arr_b||0)+(stats.boc_b||0);
-                const totalIntentos = (stats.total_arr||0)+(stats.total_boc||0);
-                const efectividad = totalIntentos ? (totalBuenos / totalIntentos) * 100 : 0;
-                const puntuacion = totalBuenos * (efectividad / 100);
-                if (totalIntentos > 0) cands.push({ name: player, team: equipoGanador, puntuacion: puntuacion });
+        // Para cada grupo, calcular tabla
+        grupos.forEach(grupo => {
+            const tabla = {};
+            grupo.equipos.forEach(nombre => {
+                tabla[nombre] = { n: nombre, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 };
             });
-        }
-        if (cands.length) {
-            cands.sort((a,b) => b.puntuacion - a.puntuacion);
-            const best = cands[0];
-            if (confirm(`🏅 MVP sugerido: ${best.name} (puntuación ${best.puntuacion.toFixed(2)}). ¿Confirmar?`)) {
-                _MVP[id] = { name: best.name, team: best.team, efec: null, puntuacion: best.puntuacion };
-                if (_save) _save();
-                if (_guardarMVPFirebase) _guardarMVPFirebase(id, _MVP[id]);
-                mostrarPartidosFase2(semanaF2Actual);
-                mostrarEstadoF2(`✅ MVP: ${best.name}`);
+
+            // Filtrar partidos de la Fase 2 para esta categoría
+            const partidosF2 = _MATCHES.filter(m => m.g === 'Fase2' && m.c === (categoria === 'femenino' ? 'Femenino' : 'Masculino'));
+            partidosF2.forEach(m => {
+                const r = _R[m.id];
+                if (!r || r.status === 'suspended') return;
+                const eqA = m.a;
+                const eqB = m.b;
+                if (tabla[eqA]) {
+                    tabla[eqA].pj++;
+                    tabla[eqA].tf += r.scoreA;
+                    tabla[eqA].tc += r.scoreB;
+                    if (r.scoreA > r.scoreB) { tabla[eqA].pg++; tabla[eqA].pts += 3; }
+                    else if (r.scoreA < r.scoreB) tabla[eqA].pp++;
+                }
+                if (tabla[eqB]) {
+                    tabla[eqB].pj++;
+                    tabla[eqB].tf += r.scoreB;
+                    tabla[eqB].tc += r.scoreA;
+                    if (r.scoreB > r.scoreA) { tabla[eqB].pg++; tabla[eqB].pts += 3; }
+                    else if (r.scoreB < r.scoreA) tabla[eqB].pp++;
+                }
+            });
+
+            // Ordenar
+            const sorted = Object.values(tabla).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf);
+
+            // Renderizar
+            const containerId = grupo.id === 'A' ? 'tabla-f2-listA' : 'tabla-f2-listB';
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            if (sorted.length === 0) {
+                container.innerHTML = '<div style="color:#8899aa;text-align:center;padding:16px;">Sin datos</div>';
                 return;
             }
-        }
-        const nm = prompt(`Nombre del MVP de ${equipoGanador}:`);
-        if (nm) {
-            _MVP[id] = { name: nm, team: equipoGanador, efec: null, puntuacion: 0 };
-            if (_save) _save();
-            if (_guardarMVPFirebase) _guardarMVPFirebase(id, _MVP[id]);
-            mostrarPartidosFase2(semanaF2Actual);
-            mostrarEstadoF2(`✅ MVP asignado: ${nm}`);
-        }
-    }
 
-    function borrarMVPF2(id) {
-        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-        if (!esOrganizador) {
-            alert('⚠️ Solo el organizador puede editar guardar resultados.');
-            return;
-        }
-        delete _MVP[id];
-        if (_save) _save();
-        if (_guardarMVPFirebase) _guardarMVPFirebase(id, null);
-        mostrarPartidosFase2(semanaF2Actual);
-        mostrarEstadoF2('✅ MVP borrado');
-    }
+            let html = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;">
+                <div style="width:20px"></div>
+                <div style="flex:1;font-size:8px;">EQUIPO</div>
+                <div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div>
+            </div>`;
 
-    // ==================== ESTADÍSTICAS (MODAL) ====================
-    function openStatsModalF2(matchId) {
-        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-        if (!esOrganizador) {
-            alert('⚠️ Solo el organizador puede editar guardar resultados.');
-            return;
-        }
-        const match = _MATCHES.find(m => m.id == matchId);
-        if(!match) return;
-        currentMatchIdF2 = matchId;
-        const matchStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {};
-        document.getElementById('stats-modal-title-f2').innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`;
-        const body = document.getElementById('stats-modal-body-f2');
-        let html = '';
-        function getStatsForPlayer(teamName, playerName) {
-            const key = `${teamName}|${playerName}`;
-            return matchStats[key] || { arr_b:0, total_arr:0, boc_b:0, total_boc:0 };
-        }
-        const teamA = _TEAMS.find(t => t.n === match.a);
-        if(teamA) {
-            html += `<div class="lbl">🏆 ${match.a}</div>`;
-            teamA.p.forEach(p => {
-                const stats = getStatsForPlayer(match.a, p);
-                const safeKey = p.replace(/[^a-zA-Z0-9]/g, '_');
-                html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid">
-                    <div class="stat-item"><label>🎯 arr_b</label><input type="number" class="stat-input" id="f2_arr_b_${safeKey}" value="${stats.arr_b}"></div>
-                    <div class="stat-item"><label>📊 total_arr</label><input type="number" class="stat-input" id="f2_total_arr_${safeKey}" value="${stats.total_arr}"></div>
-                    <div class="stat-item"><label>💥 boc_b</label><input type="number" class="stat-input" id="f2_boc_b_${safeKey}" value="${stats.boc_b}"></div>
-                    <div class="stat-item"><label>📊 total_boc</label><input type="number" class="stat-input" id="f2_total_boc_${safeKey}" value="${stats.total_boc}"></div>
-                </div></div>`;
+            sorted.forEach((t, i) => {
+                const pos = i + 1;
+                const dif = t.tf - t.tc;
+                const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0';
+                const rc = pos === 1 ? 'r1' : pos === 2 ? 'r2' : pos === 3 ? 'r3' : 'rn';
+                html += `<div class="sr ${rc}">
+                    <div class="rb ${rc}">${pos}</div>
+                    <div style="flex:1;font-size:11px;font-weight:bold;">${t.n}</div>
+                    <div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div>
+                </div>`;
             });
-        }
-        const teamB = _TEAMS.find(t => t.n === match.b);
-        if(teamB) {
-            html += `<div class="lbl">🏆 ${match.b}</div>`;
-            teamB.p.forEach(p => {
-                const stats = getStatsForPlayer(match.b, p);
-                const safeKey = p.replace(/[^a-zA-Z0-9]/g, '_');
-                html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid">
-                    <div class="stat-item"><label>🎯 arr_b</label><input type="number" class="stat-input" id="f2_arr_b_${safeKey}" value="${stats.arr_b}"></div>
-                    <div class="stat-item"><label>📊 total_arr</label><input type="number" class="stat-input" id="f2_total_arr_${safeKey}" value="${stats.total_arr}"></div>
-                    <div class="stat-item"><label>💥 boc_b</label><input type="number" class="stat-input" id="f2_boc_b_${safeKey}" value="${stats.boc_b}"></div>
-                    <div class="stat-item"><label>📊 total_boc</label><input type="number" class="stat-input" id="f2_total_boc_${safeKey}" value="${stats.total_boc}"></div>
-                </div></div>`;
-            });
-        }
-        body.innerHTML = html;
-        document.getElementById('stats-modal-f2').style.display = 'block';
-    }
 
-    function closeStatsModalF2() {
-        document.getElementById('stats-modal-f2').style.display = 'none';
-        currentMatchIdF2 = null;
-    }
-
-    function saveMatchStatsF2() {
-        const match = _MATCHES.find(m => m.id === currentMatchIdF2);
-        if (!match) return;
-        const stats = {};
-        [match.a, match.b].forEach(teamName => {
-            const team = _TEAMS.find(t => t.n === teamName);
-            if (team) {
-                team.p.forEach(player => {
-                    const safeKey = player.replace(/[^a-zA-Z0-9]/g, '_');
-                    const arr_b = parseInt(document.getElementById(`f2_arr_b_${safeKey}`)?.value) || 0;
-                    const total_arr = parseInt(document.getElementById(`f2_total_arr_${safeKey}`)?.value) || 0;
-                    const boc_b = parseInt(document.getElementById(`f2_boc_b_${safeKey}`)?.value) || 0;
-                    const total_boc = parseInt(document.getElementById(`f2_total_boc_${safeKey}`)?.value) || 0;
-                    const fullKey = `${teamName}|${player}`;
-                    stats[fullKey] = { arr_b, total_arr, boc_b, total_boc };
-                });
-            }
+            container.innerHTML = html;
         });
-        localStorage.setItem(`match_stats_${currentMatchIdF2}`, JSON.stringify(stats));
-        if (_guardarEstadisticasPorPartidoFirebase) {
-            _guardarEstadisticasPorPartidoFirebase(currentMatchIdF2, stats);
-        }
-        // Recalcular partidos para PS (similar a Fase 1)
-        const jugadoresAfectados = [];
-        [match.a, match.b].forEach(teamName => {
-            const team = _TEAMS.find(t => t.n === teamName);
-            if (team) {
-                team.p.forEach(player => {
-                    const fullKey = `${teamName}|${player}`;
-                    jugadoresAfectados.push(fullKey);
-                    if (!_PS[fullKey]) _PS[fullKey] = {};
-                    delete _PS[fullKey].partidos;
-                });
-            }
-        });
-        const allMatchStats = {};
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith('match_stats_')) {
-                const matchId = key.replace('match_stats_', '');
-                allMatchStats[matchId] = JSON.parse(localStorage.getItem(key));
-            }
-        }
-        for (const [matchId, matchStats] of Object.entries(allMatchStats)) {
-            for (const [fullKey, statsData] of Object.entries(matchStats)) {
-                if (jugadoresAfectados.includes(fullKey)) {
-                    if (!_PS[fullKey]) _PS[fullKey] = {};
-                    _PS[fullKey].partidos = (_PS[fullKey].partidos || 0) + 1;
-                    _PS[fullKey].arr_b = (_PS[fullKey].arr_b || 0) + statsData.arr_b;
-                    _PS[fullKey].total_arr = (_PS[fullKey].total_arr || 0) + statsData.total_arr;
-                    _PS[fullKey].boc_b = (_PS[fullKey].boc_b || 0) + statsData.boc_b;
-                    _PS[fullKey].total_boc = (_PS[fullKey].total_boc || 0) + statsData.total_boc;
-                }
-            }
-        }
-        for (const fullKey of jugadoresAfectados) {
-            if (_guardarEstadisticasFirebase) {
-                _guardarEstadisticasFirebase(fullKey, _PS[fullKey]);
-            }
-        }
-        if (_save) _save();
-        closeStatsModalF2();
-        alert('✅ Estadísticas guardadas correctamente');
-        mostrarPartidosFase2(semanaF2Actual);
     }
 
-    // ==================== MENSAJE DE ESPERA ====================
-    function msgEspera() {
-        alert('⏳ Datos de la Fase 2 aún no disponibles.\nEsperando clasificados oficiales de la Fase 1.');
-    }
-
-    // ==================== IMPORTAR JSON (Fase 2) ====================
+    // ============================================================
+    // IMPORTAR / EXPORTAR JSON
+    // ============================================================
     document.getElementById('importJsonInputF2')?.addEventListener('change', async function(e) {
         const file = e.target.files[0];
         if (!file) { this.value = ''; return; }
@@ -743,7 +586,7 @@
                 const idsFase2 = ids.filter(id => {
                     const p = partidos[id];
                     const match = _MATCHES.find(m => m.id.toString() === id);
-                    return match && match.c === 'Femenino' && match.g === 'Fase2' && (p.estado === 'finalizado' || p.estado === 'done');
+                    return match && match.g === 'Fase2' && (p.estado === 'finalizado' || p.estado === 'done');
                 });
                 if (idsFase2.length === 0) {
                     alert('No hay partidos de la Fase 2 en estado "finalizado" para importar.');
@@ -761,39 +604,14 @@
                         errores.push(`ID ${id}: faltan puntos`);
                         continue;
                     }
-                    if (_guardarResultadoFirebase) {
-                        await _guardarResultadoFirebase(id, { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' });
-                    } else { errores.push(`ID ${id}: función guardarResultadoFirebase no disponible`); continue; }
-                    if (_guardarEstadisticasPorPartidoFirebase && p.estadisticas) {
-                        const statsPorPartido = {};
-                        for (const [team, jugadores] of Object.entries(p.estadisticas)) {
-                            for (const j of jugadores) {
-                                const key = `${team}|${j.nombre}`;
-                                statsPorPartido[key] = { arr_b: j.arr_b||0, total_arr: j.total_arr||0, boc_b: j.boc_b||0, total_boc: j.total_boc||0 };
-                            }
-                        }
-                        await _guardarEstadisticasPorPartidoFirebase(id, statsPorPartido);
-                        localStorage.setItem(`match_stats_${id}`, JSON.stringify(statsPorPartido));
-                    }
-                    if (p.mvp && p.mvp.name && _guardarMVPFirebase) {
-                        await _guardarMVPFirebase(id, { name: p.mvp.name, team: p.mvp.team||'', efec: p.mvp.efectividad||null, puntuacion: p.mvp.puntuacion||0 });
-                    }
+                    // Guardar en _R local
+                    _R[id] = { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' };
                     importados++;
                 }
-                for (const id of idsFase2) {
-                    const p = partidos[id];
-                    _R[id] = { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' };
-                    if (p.mvp && p.mvp.name) {
-                        _MVP[id] = { name: p.mvp.name, team: p.mvp.team||'', efec: p.mvp.efectividad||null, puntuacion: p.mvp.puntuacion||0 };
-                    }
-                }
-                if (_save) _save();
+                // Refrescar vistas
                 mostrarPartidosFase2(semanaF2Actual);
-                if (errores.length) {
-                    alert(`⚠️ Importación con errores:\n${errores.join('\n')}\n✅ Importados: ${importados}`);
-                } else {
-                    alert(`🎉 Importación completada: ${importados} partidos de la Fase 2 guardados en Firebase.`);
-                }
+                calcularTablaF2(categoriaTablaActual);
+                alert(`✅ ${importados} partidos importados correctamente.`);
             } catch (err) {
                 console.error(err);
                 alert('Error: ' + err.message);
@@ -803,31 +621,22 @@
         reader.readAsText(file);
     });
 
-    // ==================== EXPORTAR JSON (Fase 2) ====================
     function exportarResultadosF2() {
         const pass = prompt('🔐 Contraseña de administrador:');
         if (pass !== 'sibarita2026') { alert('❌ Contraseña incorrecta'); return; }
-        const partidosF2 = _MATCHES.filter(m => m.c === 'Femenino' && m.g === 'Fase2');
+        const partidosF2 = _MATCHES.filter(m => m.g === 'Fase2');
         const data = { partidos: {} };
         partidosF2.forEach(m => {
             const id = m.id.toString();
             const r = _R[id];
             if (!r || r.status !== 'done') return;
-            const statsPorPartido = JSON.parse(localStorage.getItem(`match_stats_${id}`)) || {};
-            const estadisticas = {};
-            const equipos = [m.a, m.b];
-            equipos.forEach(team => {
-                estadisticas[team] = [];
-                const teamObj = _TEAMS.find(t => t.n === team);
-                if (teamObj) {
-                    teamObj.p.forEach(player => {
-                        const key = `${team}|${player}`;
-                        const stats = statsPorPartido[key] || { arr_b:0, total_arr:0, boc_b:0, total_boc:0 };
-                        estadisticas[team].push({ nombre: player, arr_b: stats.arr_b||0, total_arr: stats.total_arr||0, boc_b: stats.boc_b||0, total_boc: stats.total_boc||0 });
-                    });
-                }
-            });
-            data.partidos[id] = { equipoA: m.a, equipoB: m.b, puntosA: r.scoreA, puntosB: r.scoreB, estado: 'finalizado', estadisticas: estadisticas, mvp: _MVP[id] || null };
+            data.partidos[id] = {
+                equipoA: m.a,
+                equipoB: m.b,
+                puntosA: r.scoreA,
+                puntosB: r.scoreB,
+                estado: 'finalizado'
+            };
         });
         const ids = Object.keys(data.partidos);
         if (ids.length === 0) { alert('No hay partidos de la Fase 2 con resultados para exportar.'); return; }
@@ -840,13 +649,21 @@
         mostrarEstadoF2('✅ JSON exportado');
     }
 
-    // ==================== INICIALIZACIÓN ====================
+    // ============================================================
+    // INICIALIZACIÓN
+    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
+        // Asegurar que la primera pestaña (Tabla) esté activa
         const firstTab = document.querySelector('#fase2-container .nav .nb');
         if (firstTab) firstTab.classList.add('on');
         const firstContent = document.querySelector('.f2-tab');
         if (firstContent) firstContent.classList.add('on');
-        llenarEquiposFemenino();
+
+        // Cargar equipos femeninos por defecto
+        llenarEquipos('femenino');
+
+        // Calcular tabla inicial (femenino)
+        calcularTablaF2('femenino');
     });
 </script>
 </body>
