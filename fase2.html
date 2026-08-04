@@ -425,7 +425,8 @@
     function mostrarPartidosFase2(semana) {
         const container = document.getElementById('f2-partidos-list');
         if (!container) return;
-        const partidos = _MATCHES.filter(m => m.w === semana && m.g === 'Fase2');
+        // Mostrar todos los partidos de la Fase 2 (Femenino y Masculino) para la semana seleccionada
+            const partidos = _MATCHES.filter(m => m.w === semana && m.g === 'Fase2');
         if (partidos.length === 0) {
             container.innerHTML = `<div class="card" style="text-align:center;padding:20px;color:#8899aa;">No hay partidos para la semana ${semana}.</div>`;
             return;
