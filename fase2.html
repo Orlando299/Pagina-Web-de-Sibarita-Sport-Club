@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sibarita Sport Club - Fase 2</title>
     <style>
-        /* ===== ESTILOS (idénticos a la versión anterior) ===== */
+        /* ===== ESTILOS GENERALES ===== */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #1a1a2e; font-family: 'Segoe UI', Arial, sans-serif; color: #f0e6d3; max-width: 430px; margin: 0 auto; min-height: 100vh; }
         .hdr { background: linear-gradient(135deg, #16213e, #0f3460); padding: 10px 14px 0; border-bottom: 3px solid #e8b84b; position: sticky; top: 0; z-index: 100; }
@@ -72,6 +72,13 @@
         .rtag { font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 7px; }
         .done { background: #2ecc7133; color: #2ecc71; border: 1px solid #2ecc7122; }
         .wtag { font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 7px; }
+
+        /* ===== BOTONES DE EDICIÓN (nuevos) ===== */
+        .sbtn { width: 100%; margin-top: 6px; padding: 6px; background: #2ecc71; border: none; border-radius: 7px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; font-family: inherit; }
+        .fbtn { width: 100%; margin-top: 4px; padding: 5px; background: transparent; border: 1px solid #c0392b55; border-radius: 7px; color: #c0392b; font-size: 10px; cursor: pointer; font-family: inherit; }
+        .sinp { width: 46px; height: 34px; background: #0f3460; border: 1px solid #e8b84b55; border-radius: 7px; color: #e8b84b; font-size: 18px; font-weight: bold; text-align: center; font-family: inherit; -webkit-appearance: none; }
+        .sinp:focus { outline: none; border-color: #e8b84b; }
+        .srow { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; }
 
         /* ===== TABLA ===== */
         .sr { display: flex; align-items: center; gap: 6px; padding: 7px 8px; border-radius: 8px; margin-bottom: 4px; }
@@ -157,10 +164,9 @@
             </div>
         </div>
 
-        <!-- ==================== PARTIDOS (sin botón femenino) ==================== -->
+        <!-- ==================== PARTIDOS (CON EDICIÓN) ==================== -->
         <div id="f2-partidos" class="f2-tab">
-            <!-- El botón "👩 Femenino" ha sido eliminado -->
-
+            <!-- Botón Admin (se mantiene) -->
             <div class="frow">
                 <button class="fb" onclick="mostrarAdminF2()" style="background:#e67e2233;border-color:#e67e22;color:#e67e22;">🔑 Admin</button>
             </div>
@@ -242,6 +248,12 @@
     const _TEAMS = (typeof window !== 'undefined' && window.TEAMS) ? window.TEAMS :
                    (typeof window.parent !== 'undefined' && window.parent.TEAMS) ? window.parent.TEAMS :
                    (typeof TEAMS !== 'undefined' ? TEAMS : []);
+    const _guardarResultadoFirebase = (typeof window !== 'undefined' && window.guardarResultadoFirebase) ? window.guardarResultadoFirebase :
+                                      (typeof window.parent !== 'undefined' && window.parent.guardarResultadoFirebase) ? window.parent.guardarResultadoFirebase :
+                                      null;
+    const _save = (typeof window !== 'undefined' && window.save) ? window.save :
+                  (typeof window.parent !== 'undefined' && window.parent.save) ? window.parent.save :
+                  null;
 
     // ============================================================
     // CLASIFICADOS
@@ -405,7 +417,7 @@
     }
 
     // ============================================================
-    // PARTIDOS
+    // PARTIDOS (con edición)
     // ============================================================
     function setSemanaF2(semana) {
         semanaF2Actual = semana;
@@ -418,7 +430,6 @@
     function mostrarPartidosFase2(semana) {
         const container = document.getElementById('f2-partidos-list');
         if (!container) return;
-        // Mostrar TODOS los partidos de la Fase 2 (sin filtrar por género)
         const partidos = _MATCHES.filter(m => m.w === semana && m.g === 'Fase2');
         if (partidos.length === 0) {
             container.innerHTML = `<div class="card" style="text-align:center;padding:20px;color:#8899aa;">No hay partidos para la semana ${semana}.</div>`;
@@ -439,10 +450,20 @@
                     <span class="sep">—</span>
                     <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
                 </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
-                <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>`;
+                <div style="text-align:center;margin-top:4px;">
+                    <span class="rtag done">✓ Final</span>
+                    <button onclick="borrarResultadoF2(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button>
+                </div>`;
             } else {
                 inner = `<div style="font-size:14px;text-align:center;">🎯</div>
-                         <div style="font-size:11px;color:#8899aa;padding:4px;">Pendiente</div>`;
+                         <div style="font-size:11px;color:#8899aa;text-align:center;padding:4px;">VS</div>
+                         <div class="srow">
+                             <input class="sinp" id="f2sA${m.id}" type="number" min="0" max="20" placeholder="0">
+                             <span class="sep">—</span>
+                             <input class="sinp" id="f2sB${m.id}" type="number" min="0" max="20" placeholder="0">
+                         </div>
+                         <button class="sbtn" onclick="guardarResultadoF2(${m.id})">💾 Guardar</button>
+                         <button class="fbtn" onclick="guardarForfeitF2(${m.id})">⚠️ Forfeit/WO</button>`;
             }
 
             let estadoTag = '';
@@ -460,6 +481,70 @@
             </div>`;
         });
         container.innerHTML = html;
+    }
+
+    // ============================================================
+    // EDICIÓN DE RESULTADOS (con clave de administrador)
+    // ============================================================
+
+    function guardarResultadoF2(id) {
+        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+        if (!esOrganizador) {
+            alert('⚠️ Solo el organizador puede editar guardar resultados.');
+            return;
+        }
+        const inputA = document.getElementById(`f2sA${id}`);
+        const inputB = document.getElementById(`f2sB${id}`);
+        if (!inputA || !inputB) { alert('Error: campos no encontrados'); return; }
+        const a = parseInt(inputA.value);
+        const b = parseInt(inputB.value);
+        if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) {
+            alert('Marcador inválido (0-20)');
+            return;
+        }
+        _R[id] = { scoreA: a, scoreB: b, status: 'done' };
+        if (_save) _save();
+        if (_guardarResultadoFirebase) _guardarResultadoFirebase(id, _R[id]);
+        mostrarPartidosFase2(semanaF2Actual);
+        mostrarEstadoF2('✅ Resultado guardado');
+    }
+
+    function guardarForfeitF2(id) {
+        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+        if (!esOrganizador) {
+            alert('⚠️ Solo el organizador puede editar guardar resultados.');
+            return;
+        }
+        const m = _MATCHES.find(x => x.id === id);
+        if (!m) return;
+        const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
+        if (ans === '1') {
+            _R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' };
+        } else if (ans === '2') {
+            _R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' };
+        } else {
+            alert('Opción inválida.');
+            return;
+        }
+        if (_save) _save();
+        if (_guardarResultadoFirebase) _guardarResultadoFirebase(id, _R[id]);
+        mostrarPartidosFase2(semanaF2Actual);
+        mostrarEstadoF2('✅ Forfeit registrado');
+    }
+
+    function borrarResultadoF2(id) {
+        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+        if (!esOrganizador) {
+            alert('⚠️ Solo el organizador puede editar guardar resultados.');
+            return;
+        }
+        if (confirm('¿Borrar resultado?')) {
+            delete _R[id];
+            if (_save) _save();
+            if (_guardarResultadoFirebase) _guardarResultadoFirebase(id, null);
+            mostrarPartidosFase2(semanaF2Actual);
+            mostrarEstadoF2('✅ Resultado borrado');
+        }
     }
 
     // ============================================================
