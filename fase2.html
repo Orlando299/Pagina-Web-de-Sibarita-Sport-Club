@@ -138,32 +138,40 @@
         </div>
 
         <!-- ==================== EQUIPOS ==================== -->
-        <div id="f2-equipos" class="f2-tab">
-            <div id="equipos-columnas" class="equipos-grid">
-                <div class="equipos-col">
-                    <div class="equipos-col-header">🏆 Grupo A</div>
-                    <div id="listaGrupoA"></div>
-                </div>
-                <div class="equipos-col">
-                    <div class="equipos-col-header">🏆 Grupo B</div>
-                    <div id="listaGrupoB"></div>
-                </div>
-            </div>
-            <div class="reglas-mini">
-                <span class="titulo">📋 Resumen Fase 2</span>
-                <ul>
-                    <li><strong>Femenino:</strong> 6 clasificados por grupo. Cruzados A vs B (6 partidos c/u). Clasifican los <strong>4 mejores</strong> de cada grupo.</li>
-                    <li><strong>Masculino:</strong> 7 clasificados por grupo. Cruzados A vs B (7 partidos c/u). Clasifican los <strong>4 mejores</strong> de cada grupo.</li>
-                    <li><strong>Eliminatorias:</strong> Cuartos: 1A vs 4B · 1B vs 4A · 2A vs 3B · 2B vs 3A. Semifinales: sorteo (1 vs 4, 2 vs 3). Final y 3er lugar.</li>
-                </ul>
-                <div class="nota">📌 Los primeros 5 (Fem) y 7 (Mas) clasificados de Fase 1 pasarán a categoría A en futuros torneos.</div>
-            </div>
-            <div id="msgEsperaEquipos" class="waiting-msg card" style="margin-top: 12px; display: none;">
-                <div class="icon">⏳</div>
-                <div class="title">Esperando clasificados</div>
-                <div class="sub">Los equipos de la Fase 2 se mostrarán aquí cuando finalice la Fase 1.</div>
-            </div>
+<div id="f2-equipos" class="f2-tab">
+    <!-- Botones de categoría (toggle) -->
+    <div class="frow" style="justify-content: center; gap: 12px; margin-bottom: 12px;">
+        <button id="btnEquiposFem" class="fb on" onclick="mostrarEquipos('femenino')" style="padding: 10px 24px; font-size: 14px;">👩 Femenino</button>
+        <button id="btnEquiposMas" class="fb" onclick="mostrarEquipos('masculino')" style="padding: 10px 24px; font-size: 14px;">👨 Masculino</button>
+    </div>
+
+    <div id="equipos-columnas" class="equipos-grid">
+        <div class="equipos-col">
+            <div class="equipos-col-header">🏆 Grupo A</div>
+            <div id="listaGrupoA"></div>
         </div>
+        <div class="equipos-col">
+            <div class="equipos-col-header">🏆 Grupo B</div>
+            <div id="listaGrupoB"></div>
+        </div>
+    </div>
+
+    <div class="reglas-mini">
+        <span class="titulo">📋 Resumen Fase 2</span>
+        <ul>
+            <li><strong>Femenino:</strong> 6 clasificados por grupo. Cruzados A vs B (6 partidos c/u). Clasifican los <strong>4 mejores</strong> de cada grupo.</li>
+            <li><strong>Masculino:</strong> 7 clasificados por grupo. Cruzados A vs B (7 partidos c/u). Clasifican los <strong>4 mejores</strong> de cada grupo.</li>
+            <li><strong>Eliminatorias:</strong> Cuartos: 1A vs 4B · 1B vs 4A · 2A vs 3B · 2B vs 3A. Semifinales: sorteo (1 vs 4, 2 vs 3). Final y 3er lugar.</li>
+        </ul>
+        <div class="nota">📌 Los primeros 5 (Fem) y 7 (Mas) clasificados de Fase 1 pasarán a categoría A en futuros torneos.</div>
+    </div>
+
+    <div id="msgEsperaEquipos" class="waiting-msg card" style="margin-top: 12px; display: none;">
+        <div class="icon">⏳</div>
+        <div class="title">Esperando clasificados</div>
+        <div class="sub">Los equipos de la Fase 2 se mostrarán aquí cuando finalice la Fase 1.</div>
+    </div>
+</div>
 
         <!-- ==================== PARTIDOS (CON EDICIÓN) ==================== -->
         <div id="f2-partidos" class="f2-tab">
