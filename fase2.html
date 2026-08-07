@@ -73,7 +73,7 @@
         .done { background: #2ecc7133; color: #2ecc71; border: 1px solid #2ecc7122; }
         .wtag { font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 7px; }
 
-        /* ===== BOTONES DE EDICIÓN (nuevos) ===== */
+        /* ===== BOTONES DE EDICIÓN ===== */
         .sbtn { width: 100%; margin-top: 6px; padding: 6px; background: #2ecc71; border: none; border-radius: 7px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; font-family: inherit; }
         .fbtn { width: 100%; margin-top: 4px; padding: 5px; background: transparent; border: 1px solid #c0392b55; border-radius: 7px; color: #c0392b; font-size: 10px; cursor: pointer; font-family: inherit; }
         .sinp { width: 46px; height: 34px; background: #0f3460; border: 1px solid #e8b84b55; border-radius: 7px; color: #e8b84b; font-size: 18px; font-weight: bold; text-align: center; font-family: inherit; -webkit-appearance: none; }
@@ -105,9 +105,9 @@
         .sync-status.error { color: #c0392b; }
     </style>
 </head>
-    
+
 <body>
-    
+
 <!-- HEADER -->
 <div class="hdr">
     <div class="hdr-top">
@@ -138,44 +138,43 @@
         </div>
 
         <!-- ==================== EQUIPOS ==================== -->
-<div id="f2-equipos" class="f2-tab">
-    <!-- Botones de categoría (toggle) -->
-    <div class="frow" style="justify-content: center; gap: 12px; margin-bottom: 12px;">
-        <button id="btnEquiposFem" class="fb on" onclick="mostrarEquipos('femenino')" style="padding: 10px 24px; font-size: 14px;">👩 Femenino</button>
-        <button id="btnEquiposMas" class="fb" onclick="mostrarEquipos('masculino')" style="padding: 10px 24px; font-size: 14px;">👨 Masculino</button>
-    </div>
+        <div id="f2-equipos" class="f2-tab">
+            <!-- Botones de categoría (toggle) -->
+            <div class="frow" style="justify-content: center; gap: 12px; margin-bottom: 12px;">
+                <button id="btnEquiposFem" class="fb on" onclick="mostrarEquipos('femenino')" style="padding: 10px 24px; font-size: 14px;">👩 Femenino</button>
+                <button id="btnEquiposMas" class="fb" onclick="mostrarEquipos('masculino')" style="padding: 10px 24px; font-size: 14px;">👨 Masculino</button>
+            </div>
 
-    <div id="equipos-columnas" class="equipos-grid">
-        <div class="equipos-col">
-            <div class="equipos-col-header">🏆 Grupo A</div>
-            <div id="listaGrupoA"></div>
+            <div id="equipos-columnas" class="equipos-grid">
+                <div class="equipos-col">
+                    <div class="equipos-col-header">🏆 Grupo A</div>
+                    <div id="listaGrupoA"></div>
+                </div>
+                <div class="equipos-col">
+                    <div class="equipos-col-header">🏆 Grupo B</div>
+                    <div id="listaGrupoB"></div>
+                </div>
+            </div>
+
+            <div class="reglas-mini">
+                <span class="titulo">📋 Resumen Fase 2</span>
+                <ul>
+                    <li><strong>Femenino:</strong> 6 clasificados por grupo. Cruzados A vs B (6 partidos c/u). Clasifican los <strong>4 mejores</strong> de cada grupo.</li>
+                    <li><strong>Masculino:</strong> 7 clasificados por grupo. Cruzados A vs B (7 partidos c/u). Clasifican los <strong>4 mejores</strong> de cada grupo.</li>
+                    <li><strong>Eliminatorias:</strong> Cuartos: 1A vs 4B · 1B vs 4A · 2A vs 3B · 2B vs 3A. Semifinales: sorteo (1 vs 4, 2 vs 3). Final y 3er lugar.</li>
+                </ul>
+                <div class="nota">📌 Los primeros 5 (Fem) y 7 (Mas) clasificados de Fase 1 pasarán a categoría A en futuros torneos.</div>
+            </div>
+
+            <div id="msgEsperaEquipos" class="waiting-msg card" style="margin-top: 12px; display: none;">
+                <div class="icon">⏳</div>
+                <div class="title">Esperando clasificados</div>
+                <div class="sub">Los equipos de la Fase 2 se mostrarán aquí cuando finalice la Fase 1.</div>
+            </div>
         </div>
-        <div class="equipos-col">
-            <div class="equipos-col-header">🏆 Grupo B</div>
-            <div id="listaGrupoB"></div>
-        </div>
-    </div>
-
-    <div class="reglas-mini">
-        <span class="titulo">📋 Resumen Fase 2</span>
-        <ul>
-            <li><strong>Femenino:</strong> 6 clasificados por grupo. Cruzados A vs B (6 partidos c/u). Clasifican los <strong>4 mejores</strong> de cada grupo.</li>
-            <li><strong>Masculino:</strong> 7 clasificados por grupo. Cruzados A vs B (7 partidos c/u). Clasifican los <strong>4 mejores</strong> de cada grupo.</li>
-            <li><strong>Eliminatorias:</strong> Cuartos: 1A vs 4B · 1B vs 4A · 2A vs 3B · 2B vs 3A. Semifinales: sorteo (1 vs 4, 2 vs 3). Final y 3er lugar.</li>
-        </ul>
-        <div class="nota">📌 Los primeros 5 (Fem) y 7 (Mas) clasificados de Fase 1 pasarán a categoría A en futuros torneos.</div>
-    </div>
-
-    <div id="msgEsperaEquipos" class="waiting-msg card" style="margin-top: 12px; display: none;">
-        <div class="icon">⏳</div>
-        <div class="title">Esperando clasificados</div>
-        <div class="sub">Los equipos de la Fase 2 se mostrarán aquí cuando finalice la Fase 1.</div>
-    </div>
-</div>
 
         <!-- ==================== PARTIDOS (CON EDICIÓN) ==================== -->
         <div id="f2-partidos" class="f2-tab">
-            <!-- Botón Admin (se mantiene) -->
             <div class="frow">
                 <button class="fb" onclick="mostrarAdminF2()" style="background:#e67e2233;border-color:#e67e22;color:#e67e22;">🔑 Admin</button>
             </div>
@@ -200,7 +199,6 @@
             </div>
             <div id="f2-partidos-list"></div>
         </div>
-        
 
         <!-- ==================== TABLA ==================== -->
         <div id="f2-tabla" class="f2-tab on">
@@ -246,7 +244,6 @@
 </div> <!-- fin body -->
 
 <script>
-    
     // ============================================================
     // REFERENCIAS A DATOS GLOBALES
     // ============================================================
@@ -289,25 +286,26 @@
     };
 
     const clasificadosMasculino = {
-    grupoA: [
-        { nombre: 'Club Afibola' },
-        { nombre: 'Servihidra' },
-        { nombre: 'Unidos de Hato' },
-        { nombre: 'Alimentos La Granja' },
-        { nombre: 'Familia Ortega' },
-        { nombre: 'Fuerza' },
-        { nombre: 'Corpoelec2' }
-    ],
-    grupoB: [
-        { nombre: 'Agroserviportuguesa' },
-        { nombre: 'Gladiadores del Cerrito' },
-        { nombre: 'Micro PC' },
-        { nombre: 'Team JM&JA' },
-        { nombre: 'Pintucal' },
-        { nombre: 'Triunfadores' },
-        { nombre: 'Ingenieros' }
-    ]
-};
+        grupoA: [
+            { nombre: 'Club Afibola' },
+            { nombre: 'Servihidra' },
+            { nombre: 'Unidos de Hato' },
+            { nombre: 'Alimentos La Granja' },
+            { nombre: 'Familia Ortega' },
+            { nombre: 'Fuerza' },
+            { nombre: 'Corpoelec2' }
+        ],
+        grupoB: [
+            { nombre: 'Agroserviportuguesa' },
+            { nombre: 'Gladiadores del Cerrito' },
+            { nombre: 'Micro PC' },
+            { nombre: 'Team JM&JA' },
+            { nombre: 'Pintucal' },
+            { nombre: 'Triunfadores' },
+            { nombre: 'Ingenieros' }
+        ]
+    };
+
     // ============================================================
     // RESULTADOS PRECARGADOS (Semana 1 Fase 2 Femenino)
     // ============================================================
@@ -583,8 +581,8 @@
             ];
         } else {
             grupos = [
-                { id: 'A', equipos: clasificadosMasculino.grupoA.map(e => e.nombre).filter(n => !n.includes('En disputa')) },
-                { id: 'B', equipos: clasificadosMasculino.grupoB.map(e => e.nombre).filter(n => !n.includes('En disputa')) }
+                { id: 'A', equipos: clasificadosMasculino.grupoA.map(e => e.nombre) },
+                { id: 'B', equipos: clasificadosMasculino.grupoB.map(e => e.nombre) }
             ];
         }
 
@@ -658,6 +656,8 @@
     // ============================================================
     // IMPORTAR / EXPORTAR JSON
     // ============================================================
+
+    // Mejorada: importación de JSON con verificación y actualización forzada
     document.getElementById('importJsonInputF2')?.addEventListener('change', async function(e) {
         const file = e.target.files[0];
         if (!file) { this.value = ''; return; }
@@ -675,20 +675,25 @@
                 const partidos = data.partidos;
                 const ids = Object.keys(partidos);
                 if (!ids.length) { alert('No hay partidos'); return; }
+
+                // Filtrar solo partidos de la Fase 2
                 const idsFase2 = ids.filter(id => {
                     const p = partidos[id];
                     const match = _MATCHES.find(m => m.id.toString() === id);
                     return match && match.g === 'Fase2' && (p.estado === 'finalizado' || p.estado === 'done');
                 });
+
                 if (idsFase2.length === 0) {
                     alert('No hay partidos de la Fase 2 en estado "finalizado" para importar.');
                     this.value = '';
                     return;
                 }
+
                 if (!confirm(`Importar ${idsFase2.length} partidos de la Fase 2?`)) {
                     this.value = '';
                     return;
                 }
+
                 let importados = 0, errores = [];
                 for (const id of idsFase2) {
                     const p = partidos[id];
@@ -696,11 +701,29 @@
                         errores.push(`ID ${id}: faltan puntos`);
                         continue;
                     }
+                    // Guardar en _R local
                     _R[id] = { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' };
+                    // Guardar en Firebase (si está disponible)
+                    if (_guardarResultadoFirebase) {
+                        await _guardarResultadoFirebase(id, _R[id]);
+                    }
                     importados++;
                 }
+
+                // Guardar en localStorage
+                if (_save) _save();
+
+                // Refrescar la vista
                 mostrarPartidosFase2(semanaF2Actual);
                 calcularTablaF2(categoriaTablaActual);
+
+                // Forzar actualización visual adicional
+                const container = document.getElementById('f2-partidos-list');
+                if (container) {
+                    container.innerHTML = '';
+                    mostrarPartidosFase2(semanaF2Actual);
+                }
+
                 alert(`✅ ${importados} partidos importados correctamente.`);
             } catch (err) {
                 console.error(err);
@@ -738,6 +761,20 @@
         URL.revokeObjectURL(a.href);
         mostrarEstadoF2('✅ JSON exportado');
     }
+
+    // ============================================================
+    // EXPONER VARIABLES GLOBALES PARA DIAGNÓSTICO Y ACCESO
+    // ============================================================
+    window._MATCHES = _MATCHES;
+    window._R = _R;
+    window._TEAMS = _TEAMS;
+    window._guardarResultadoFirebase = _guardarResultadoFirebase;
+    window._save = _save;
+    window.semanaF2Actual = semanaF2Actual;
+    window.mostrarPartidosFase2 = mostrarPartidosFase2;
+    window.calcularTablaF2 = calcularTablaF2;
+    window.categoriaTablaActual = categoriaTablaActual;
+    console.log('✅ Variables de Fase 2 expuestas en window');
 
     // ============================================================
     // INICIALIZACIÓN
