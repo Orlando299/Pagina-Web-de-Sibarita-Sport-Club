@@ -106,7 +106,7 @@
     </style>
 </head>
 <body>
-    
+
 <!-- HEADER -->
 <div class="hdr">
     <div class="hdr-top">
@@ -138,6 +138,7 @@
 
         <!-- ==================== EQUIPOS ==================== -->
         <div id="f2-equipos" class="f2-tab">
+            <!-- Botones de categoría (toggle) -->
             <div class="frow" style="justify-content: center; gap: 12px; margin-bottom: 12px;">
                 <button id="btnEquiposFem" class="fb on" onclick="mostrarEquipos('femenino')" style="padding: 10px 24px; font-size: 14px;">👩 Femenino</button>
                 <button id="btnEquiposMas" class="fb" onclick="mostrarEquipos('masculino')" style="padding: 10px 24px; font-size: 14px;">👨 Masculino</button>
@@ -173,6 +174,7 @@
 
         <!-- ==================== PARTIDOS (CON EDICIÓN) ==================== -->
         <div id="f2-partidos" class="f2-tab">
+            <!-- Botón Admin -->
             <div class="frow">
                 <button class="fb" onclick="mostrarAdminF2()" style="background:#e67e2233;border-color:#e67e22;color:#e67e22;">🔑 Admin</button>
             </div>
@@ -510,7 +512,9 @@
         }
         _R[id] = { scoreA: a, scoreB: b, status: 'done' };
         if (_save) _save();
-        if (_guardarResultadoFirebase) _guardarResultadoFirebase(id, _R[id]);
+        if (_guardarResultadoFirebase) {
+            _guardarResultadoFirebase(id, _R[id]);
+        }
         mostrarPartidosFase2(semanaF2Actual);
         mostrarEstadoF2('✅ Resultado guardado');
     }
@@ -533,7 +537,9 @@
             return;
         }
         if (_save) _save();
-        if (_guardarResultadoFirebase) _guardarResultadoFirebase(id, _R[id]);
+        if (_guardarResultadoFirebase) {
+            _guardarResultadoFirebase(id, _R[id]);
+        }
         mostrarPartidosFase2(semanaF2Actual);
         mostrarEstadoF2('✅ Forfeit registrado');
     }
@@ -547,7 +553,9 @@
         if (confirm('¿Borrar resultado?')) {
             delete _R[id];
             if (_save) _save();
-            if (_guardarResultadoFirebase) _guardarResultadoFirebase(id, null);
+            if (_guardarResultadoFirebase) {
+                _guardarResultadoFirebase(id, null);
+            }
             mostrarPartidosFase2(semanaF2Actual);
             mostrarEstadoF2('✅ Resultado borrado');
         }
@@ -579,8 +587,8 @@
             ];
         } else {
             grupos = [
-                { id: 'A', equipos: clasificadosMasculino.grupoA.map(e => e.nombre) },
-                { id: 'B', equipos: clasificadosMasculino.grupoB.map(e => e.nombre) }
+                { id: 'A', equipos: clasificadosMasculino.grupoA.map(e => e.nombre).filter(n => !n.includes('En disputa')) },
+                { id: 'B', equipos: clasificadosMasculino.grupoB.map(e => e.nombre).filter(n => !n.includes('En disputa')) }
             ];
         }
 
@@ -652,7 +660,7 @@
     }
 
     // ============================================================
-    // IMPORTAR JSON (con logs de depuración)
+    // IMPORTAR / EXPORTAR JSON
     // ============================================================
     document.getElementById('importJsonInputF2')?.addEventListener('change', async function(e) {
         const file = e.target.files[0];
@@ -667,21 +675,16 @@
         reader.onload = async (ev) => {
             try {
                 const data = JSON.parse(ev.target.result);
-                console.log('📄 JSON leído:', data);
                 if (!data.partidos) throw new Error('Estructura inválida: falta "partidos"');
                 const partidos = data.partidos;
                 const ids = Object.keys(partidos);
                 if (!ids.length) { alert('No hay partidos'); return; }
 
-                // Filtrar partidos de la Fase 2
+                // Filtrar solo partidos de la Fase 2
                 const idsFase2 = ids.filter(id => {
                     const p = partidos[id];
                     const match = _MATCHES.find(m => m.id.toString() === id);
-                    const esValido = match && match.g === 'Fase2' && (p.estado === 'finalizado' || p.estado === 'done');
-                    if (!esValido) {
-                        console.warn(`⚠️ ID ${id} no válido para Fase 2: match=${!!match}, g=${match?.g}, estado=${p.estado}`);
-                    }
-                    return esValido;
+                    return match && match.g === 'Fase2' && (p.estado === 'finalizado' || p.estado === 'done');
                 });
 
                 if (idsFase2.length === 0) {
@@ -704,8 +707,7 @@
                     }
                     // Guardar en _R local
                     _R[id] = { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' };
-                    console.log(`✅ Resultado guardado en _R: ID ${id} -> ${p.puntosA}-${p.puntosB}`);
-                    // Guardar en Firebase (si está disponible)
+                    // Guardar en Firebase
                     if (_guardarResultadoFirebase) {
                         await _guardarResultadoFirebase(id, _R[id]);
                     }
@@ -715,13 +717,13 @@
                 // Guardar en localStorage
                 if (_save) _save();
 
-                // Refrescar la vista
+                // Refrescar vista
                 mostrarPartidosFase2(semanaF2Actual);
                 calcularTablaF2(categoriaTablaActual);
 
                 alert(`✅ ${importados} partidos importados correctamente.`);
             } catch (err) {
-                console.error('❌ Error en importación:', err);
+                console.error(err);
                 alert('Error: ' + err.message);
             }
             document.getElementById('importJsonInputF2').value = '';
@@ -729,9 +731,6 @@
         reader.readAsText(file);
     });
 
-    // ============================================================
-    // EXPORTAR JSON
-    // ============================================================
     function exportarResultadosF2() {
         const pass = prompt('🔐 Contraseña de administrador:');
         if (pass !== 'sibarita2026') { alert('❌ Contraseña incorrecta'); return; }
@@ -761,7 +760,7 @@
     }
 
     // ============================================================
-    // EXPONER VARIABLES GLOBALES PARA DIAGNÓSTICO
+    // EXPONER VARIABLES GLOBALES PARA DIAGNÓSTICO Y ACCESO
     // ============================================================
     window._MATCHES = _MATCHES;
     window._R = _R;
@@ -785,7 +784,6 @@
 
         llenarEquipos('femenino');
         calcularTablaF2('femenino');
-        console.log('✅ Fase 2 inicializada');
     });
 </script>
 </body>
