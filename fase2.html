@@ -105,9 +105,8 @@
         .sync-status.error { color: #c0392b; }
     </style>
 </head>
-
 <body>
-
+    
 <!-- HEADER -->
 <div class="hdr">
     <div class="hdr-top">
@@ -139,7 +138,6 @@
 
         <!-- ==================== EQUIPOS ==================== -->
         <div id="f2-equipos" class="f2-tab">
-            <!-- Botones de categoría (toggle) -->
             <div class="frow" style="justify-content: center; gap: 12px; margin-bottom: 12px;">
                 <button id="btnEquiposFem" class="fb on" onclick="mostrarEquipos('femenino')" style="padding: 10px 24px; font-size: 14px;">👩 Femenino</button>
                 <button id="btnEquiposMas" class="fb" onclick="mostrarEquipos('masculino')" style="padding: 10px 24px; font-size: 14px;">👨 Masculino</button>
@@ -654,10 +652,8 @@
     }
 
     // ============================================================
-    // IMPORTAR / EXPORTAR JSON
+    // IMPORTAR JSON (con logs de depuración)
     // ============================================================
-
-    // Mejorada: importación de JSON con verificación y actualización forzada
     document.getElementById('importJsonInputF2')?.addEventListener('change', async function(e) {
         const file = e.target.files[0];
         if (!file) { this.value = ''; return; }
@@ -671,16 +667,21 @@
         reader.onload = async (ev) => {
             try {
                 const data = JSON.parse(ev.target.result);
+                console.log('📄 JSON leído:', data);
                 if (!data.partidos) throw new Error('Estructura inválida: falta "partidos"');
                 const partidos = data.partidos;
                 const ids = Object.keys(partidos);
                 if (!ids.length) { alert('No hay partidos'); return; }
 
-                // Filtrar solo partidos de la Fase 2
+                // Filtrar partidos de la Fase 2
                 const idsFase2 = ids.filter(id => {
                     const p = partidos[id];
                     const match = _MATCHES.find(m => m.id.toString() === id);
-                    return match && match.g === 'Fase2' && (p.estado === 'finalizado' || p.estado === 'done');
+                    const esValido = match && match.g === 'Fase2' && (p.estado === 'finalizado' || p.estado === 'done');
+                    if (!esValido) {
+                        console.warn(`⚠️ ID ${id} no válido para Fase 2: match=${!!match}, g=${match?.g}, estado=${p.estado}`);
+                    }
+                    return esValido;
                 });
 
                 if (idsFase2.length === 0) {
@@ -703,6 +704,7 @@
                     }
                     // Guardar en _R local
                     _R[id] = { scoreA: p.puntosA, scoreB: p.puntosB, status: 'done' };
+                    console.log(`✅ Resultado guardado en _R: ID ${id} -> ${p.puntosA}-${p.puntosB}`);
                     // Guardar en Firebase (si está disponible)
                     if (_guardarResultadoFirebase) {
                         await _guardarResultadoFirebase(id, _R[id]);
@@ -717,16 +719,9 @@
                 mostrarPartidosFase2(semanaF2Actual);
                 calcularTablaF2(categoriaTablaActual);
 
-                // Forzar actualización visual adicional
-                const container = document.getElementById('f2-partidos-list');
-                if (container) {
-                    container.innerHTML = '';
-                    mostrarPartidosFase2(semanaF2Actual);
-                }
-
                 alert(`✅ ${importados} partidos importados correctamente.`);
             } catch (err) {
-                console.error(err);
+                console.error('❌ Error en importación:', err);
                 alert('Error: ' + err.message);
             }
             document.getElementById('importJsonInputF2').value = '';
@@ -734,6 +729,9 @@
         reader.readAsText(file);
     });
 
+    // ============================================================
+    // EXPORTAR JSON
+    // ============================================================
     function exportarResultadosF2() {
         const pass = prompt('🔐 Contraseña de administrador:');
         if (pass !== 'sibarita2026') { alert('❌ Contraseña incorrecta'); return; }
@@ -763,7 +761,7 @@
     }
 
     // ============================================================
-    // EXPONER VARIABLES GLOBALES PARA DIAGNÓSTICO Y ACCESO
+    // EXPONER VARIABLES GLOBALES PARA DIAGNÓSTICO
     // ============================================================
     window._MATCHES = _MATCHES;
     window._R = _R;
@@ -787,6 +785,7 @@
 
         llenarEquipos('femenino');
         calcularTablaF2('femenino');
+        console.log('✅ Fase 2 inicializada');
     });
 </script>
 </body>
