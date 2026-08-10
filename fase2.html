@@ -579,85 +579,90 @@
     }
 
     function calcularTablaF2(categoria) {
-        let grupos = [];
-        if (categoria === 'femenino') {
-            grupos = [
-                { id: 'A', equipos: clasificadosFemenino.grupoA.map(e => e.nombre) },
-                { id: 'B', equipos: clasificadosFemenino.grupoB.map(e => e.nombre) }
-            ];
-        } else {
-            grupos = [
-                { id: 'A', equipos: clasificadosMasculino.grupoA.map(e => e.nombre).filter(n => !n.includes('En disputa')) },
-                { id: 'B', equipos: clasificadosMasculino.grupoB.map(e => e.nombre).filter(n => !n.includes('En disputa')) }
-            ];
+    let grupos = [];
+    if (categoria === 'femenino') {
+        grupos = [
+            { id: 'A', equipos: clasificadosFemenino.grupoA.map(e => e.nombre) },
+            { id: 'B', equipos: clasificadosFemenino.grupoB.map(e => e.nombre) }
+        ];
+    } else {
+        grupos = [
+            { id: 'A', equipos: clasificadosMasculino.grupoA.map(e => e.nombre).filter(n => !n.includes('En disputa')) },
+            { id: 'B', equipos: clasificadosMasculino.grupoB.map(e => e.nombre).filter(n => !n.includes('En disputa')) }
+        ];
+    }
+
+    grupos.forEach(grupo => {
+        const tabla = {};
+        grupo.equipos.forEach(nombre => {
+            tabla[nombre] = { n: nombre, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 };
+        });
+
+        const partidosF2 = _MATCHES.filter(m => m.g === 'Fase2' && m.c === (categoria === 'femenino' ? 'Femenino' : 'Masculino'));
+        partidosF2.forEach(m => {
+            const r = _R[m.id];
+            if (!r || r.status === 'suspended') return;
+            const eqA = m.a;
+            const eqB = m.b;
+            
+            // 🔥 CONVERTIR A NÚMERO antes de sumar
+            const scoreA = parseInt(r.scoreA) || 0;
+            const scoreB = parseInt(r.scoreB) || 0;
+
+            if (tabla[eqA]) {
+                tabla[eqA].pj++;
+                tabla[eqA].tf += scoreA;
+                tabla[eqA].tc += scoreB;
+                if (scoreA > scoreB) { tabla[eqA].pg++; tabla[eqA].pts += 3; }
+                else if (scoreA < scoreB) tabla[eqA].pp++;
+            }
+            if (tabla[eqB]) {
+                tabla[eqB].pj++;
+                tabla[eqB].tf += scoreB;
+                tabla[eqB].tc += scoreA;
+                if (scoreB > scoreA) { tabla[eqB].pg++; tabla[eqB].pts += 3; }
+                else if (scoreB < scoreA) tabla[eqB].pp++;
+            }
+        });
+
+        const sorted = Object.values(tabla).sort((a,b) => {
+            if (b.pts !== a.pts) return b.pts - a.pts;
+            const difA = a.tf - a.tc;
+            const difB = b.tf - b.tc;
+            if (difB !== difA) return difB - difA;
+            return 0;
+        });
+
+        const containerId = grupo.id === 'A' ? 'tabla-f2-listA' : 'tabla-f2-listB';
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        if (sorted.length === 0) {
+            container.innerHTML = '<div style="color:#8899aa;text-align:center;padding:16px;">Sin datos</div>';
+            return;
         }
 
-        grupos.forEach(grupo => {
-            const tabla = {};
-            grupo.equipos.forEach(nombre => {
-                tabla[nombre] = { n: nombre, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 };
-            });
+        let html = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;">
+            <div style="width:20px"></div>
+            <div style="flex:1;font-size:8px;">EQUIPO</div>
+            <div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div>
+        </div>`;
 
-            const partidosF2 = _MATCHES.filter(m => m.g === 'Fase2' && m.c === (categoria === 'femenino' ? 'Femenino' : 'Masculino'));
-            partidosF2.forEach(m => {
-                const r = _R[m.id];
-                if (!r || r.status === 'suspended') return;
-                const eqA = m.a;
-                const eqB = m.b;
-                if (tabla[eqA]) {
-                    tabla[eqA].pj++;
-                    tabla[eqA].tf += r.scoreA;
-                    tabla[eqA].tc += r.scoreB;
-                    if (r.scoreA > r.scoreB) { tabla[eqA].pg++; tabla[eqA].pts += 3; }
-                    else if (r.scoreA < r.scoreB) tabla[eqA].pp++;
-                }
-                if (tabla[eqB]) {
-                    tabla[eqB].pj++;
-                    tabla[eqB].tf += r.scoreB;
-                    tabla[eqB].tc += r.scoreA;
-                    if (r.scoreB > r.scoreA) { tabla[eqB].pg++; tabla[eqB].pts += 3; }
-                    else if (r.scoreB < r.scoreA) tabla[eqB].pp++;
-                }
-            });
-
-            const sorted = Object.values(tabla).sort((a,b) => {
-                if (b.pts !== a.pts) return b.pts - a.pts;
-                const difA = a.tf - a.tc;
-                const difB = b.tf - b.tc;
-                if (difB !== difA) return difB - difA;
-                return 0;
-            });
-
-            const containerId = grupo.id === 'A' ? 'tabla-f2-listA' : 'tabla-f2-listB';
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            if (sorted.length === 0) {
-                container.innerHTML = '<div style="color:#8899aa;text-align:center;padding:16px;">Sin datos</div>';
-                return;
-            }
-
-            let html = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;">
-                <div style="width:20px"></div>
-                <div style="flex:1;font-size:8px;">EQUIPO</div>
-                <div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div>
+        sorted.forEach((t, i) => {
+            const pos = i + 1;
+            const dif = t.tf - t.tc;
+            const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0';
+            const rc = pos === 1 ? 'r1' : pos === 2 ? 'r2' : pos === 3 ? 'r3' : 'rn';
+            html += `<div class="sr ${rc}">
+                <div class="rb ${rc}">${pos}</div>
+                <div style="flex:1;font-size:11px;font-weight:bold;">${t.n}</div>
+                <div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div>
             </div>`;
-
-            sorted.forEach((t, i) => {
-                const pos = i + 1;
-                const dif = t.tf - t.tc;
-                const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0';
-                const rc = pos === 1 ? 'r1' : pos === 2 ? 'r2' : pos === 3 ? 'r3' : 'rn';
-                html += `<div class="sr ${rc}">
-                    <div class="rb ${rc}">${pos}</div>
-                    <div style="flex:1;font-size:11px;font-weight:bold;">${t.n}</div>
-                    <div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div>
-                </div>`;
-            });
-
-            container.innerHTML = html;
         });
-    }
+
+        container.innerHTML = html;
+    });
+}
 
     // ============================================================
     // IMPORTAR / EXPORTAR JSON
