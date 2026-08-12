@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Reconocimientos - Sibarita Sport Club</title>
+    <style>
+        /* ========== BASE ========== */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #0d0d1a;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #f0e6d3;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* ========== TARJETA PRINCIPAL ========== */
+        .card {
+            background: linear-gradient(145deg, #16213e, #0f1a2e);
+            border: 1px solid #e8b84b55;
+            border-radius: 24px;
+            padding: 30px 28px;
+            margin-bottom: 25px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(232,184,75,0.04), transparent 70%);
+            pointer-events: none;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #e8b84b44;
+            padding-bottom: 18px;
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+        }
+        .header .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 1;
+            min-width: 200px;
+        }
+        .header .logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #e8b84b;
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(232,184,75,0.15);
+        }
+        .header .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .header .logo-text .club {
+            font-size: 18px;
+            font-weight: 700;
+            color: #e8b84b;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .header .logo-text .torneo {
+            font-size: 13px;
+            color: #8899aa;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .header .badge-temporada {
+            background: #e8b84b;
+            color: #0d0d1a;
+            font-weight: 700;
+            font-size: 11px;
+            padding: 6px 18px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+            box-shadow: 0 0 30px rgba(232,184,75,0.15);
+        }
+
+        /* ========== FELICITACIÓN ========== */
+        .felicitacion {
+            background: linear-gradient(90deg, #e8b84b22, #e8b84b08);
+            border-left: 4px solid #e8b84b;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 1;
+        }
+        .felicitacion p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #e8dcc8;
+        }
+        .felicitacion p strong {
+            color: #e8b84b;
+        }
+        .felicitacion .firma {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #8899aa;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .felicitacion .firma::before {
+            content: '—';
+            color: #e8b84b;
+        }
+
+        /* ========== SECCIONES ========== */
+        .seccion {
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+        .seccion-titulo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #e8b84b;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid #e8b84b22;
+            padding-bottom: 10px;
+        }
+        .seccion-titulo .emoji {
+            font-size: 26px;
+        }
+        .seccion-titulo .badge-categoria {
+            font-size: 13px;
+            background: #e8b84b22;
+            padding: 4px 16px;
+            border-radius: 30px;
+            color: #e8b84b;
+            font-weight: 500;
+            margin-left: auto;
+            border: 1px solid #e8b84b44;
+        }
+
+        /* ========== BLOQUES DE CATEGORÍAS ========== */
+        .categoria-bloque {
+            background: #0f1a2ecc;
+            border-radius: 16px;
+            padding: 16px 18px;
+            margin-bottom: 18px;
+            border: 1px solid #e8b84b22;
+            transition: 0.2s ease;
+        }
+        .categoria-bloque:hover {
+            border-color: #e8b84b55;
+            background: #14233a;
+        }
+        .categoria-bloque .cat-titulo {
+            font-size: 15px;
+            font-weight: 600;
+            color: #e8b84b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #e8b84b22;
+            padding-bottom: 6px;
+        }
+        .categoria-bloque .cat-titulo .cat-emoji {
+            font-size: 18px;
+        }
+        .categoria-bloque .cat-titulo .cat-badge {
+            font-size: 11px;
+            background: #e8b84b11;
+            padding: 2px 12px;
+            border-radius: 20px;
+            color: #8899aa;
+            margin-left: auto;
+            border: 1px solid #e8b84b33;
+        }
+
+        /* ========== TOP LIST ========== */
+        .top-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .top-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 16px;
+            background: #0a1525;
+            border-radius: 12px;
+            border-left: 4px solid #e8b84b44;
+            transition: all 0.2s ease;
+            flex-wrap: wrap;
+        }
+        .top-item:hover {
+            background: #1a2a44;
+            transform: translateX(4px);
+        }
+        .top-item .medalla {
+            font-size: 26px;
+            line-height: 1;
+            width: 40px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .top-item .info {
+            flex: 1;
+            min-width: 170px;
+        }
+        .top-item .info .nombre {
+            font-size: 15px;
+            font-weight: 700;
+            color: #f0e6d3;
+        }
+        .top-item .info .equipo {
+            font-size: 13px;
+            color: #8899aa;
+        }
+        .top-item .info .detalle {
+            font-size: 12px;
+            color: #b8b0a0;
+            margin-top: 2px;
+        }
+        .top-item .info .stats-detalle {
+            font-size: 11px;
+            color: #8899aa;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+        .top-item .info .stats-detalle span {
+            background: #0a1525;
+            padding: 2px 10px;
+            border-radius: 20px;
+            border: 1px solid #e8b84b22;
+        }
+        .top-item .badge-porcentaje {
+            background: #e8b84b22;
+            color: #e8b84b;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            border: 1px solid #e8b84b44;
+            white-space: nowrap;
+        }
+        .top-item.gold {
+            background: linear-gradient(90deg, #e8b84b22, #1a2a1a);
+            border-left-color: #ffd700;
+            box-shadow: 0 0 30px rgba(255,215,0,0.05);
+        }
+        .top-item.gold .badge-porcentaje {
+            background: #ffd70022;
+            border-color: #ffd70066;
+            color: #ffd700;
+        }
+        .top-item.silver {
+            border-left-color: #c0c0c0;
+        }
+        .top-item.bronze {
+            border-left-color: #cd7f32;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e8b84b33;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .footer .criterios {
+            background: #0f1a2e;
+            border-radius: 12px;
+            padding: 16px 20px;
+            border: 1px solid #e8b84b22;
+        }
+        .footer .criterios .titulo {
+            font-weight: 700;
+            color: #e8b84b;
+            font-size: 13px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer .criterios ul {
+            list-style: none;
+            padding: 0;
+            font-size: 12px;
+            color: #b8b0a0;
+            line-height: 1.8;
+        }
+        .footer .criterios ul li::before {
+            content: '▸ ';
+            color: #e8b84b;
+        }
+        .footer .copy {
+            text-align: center;
+            font-size: 11px;
+            color: #667;
+            letter-spacing: 0.04em;
+        }
+        .footer .copy strong {
+            color: #e8b84b;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 600px) {
+            .card { padding: 18px 14px; }
+            .header { flex-direction: column; align-items: stretch; text-align: center; }
+            .header .logo { justify-content: center; }
+            .header .badge-temporada { align-self: center; }
+            .felicitacion p { font-size: 14px; }
+            .top-item { flex-direction: column; align-items: stretch; gap: 6px; }
+            .top-item .medalla { align-self: center; }
+            .top-item .badge-porcentaje { align-self: flex-start; }
+            .seccion-titulo { font-size: 18px; flex-wrap: wrap; }
+            .categoria-bloque { padding: 12px; }
+        }
+        @media (max-width: 400px) {
+            .card { padding: 12px; }
+            .header .logo img { width: 48px; height: 48px; }
+            .header .logo-text .club { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <div class="logo">
+            <img src="https://i.imgur.com/HbKo42m.png" alt="Sibarita SC">
+            <div class="logo-text">
+                <span class="club">Sibarita Sport Club</span>
+                <span class="torneo">II Campeonato de Bolas Criollas 2026</span>
+            </div>
+        </div>
+        <div class="badge-temporada">🏆 Reconocimientos Fase 1</div>
+    </div>
+
+    <!-- ===== FELICITACIÓN ===== -->
+    <div class="felicitacion">
+        <p>
+            <strong>¡Felicitaciones a todos los distinguidos!</strong><br>
+            La organización del torneo felicita a los <strong>mejores jugadores de la Fase 1</strong> por su destacada actuación.
+            Su talento, esfuerzo y deportividad son el reflejo del espíritu de nuestro campeonato.
+            Estos reconocimientos son un homenaje a la excelencia y la constancia.
+        </p>
+        <div class="firma">Comité Organizador – Sibarita Sport Club</div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== FEMENINO ===== -->
+    <!-- ============================================================ -->
+    <div id="femenino-container">
+        <div class="seccion">
+            <div class="seccion-titulo">
+                <span class="emoji">👩</span> Femenino
+                <span class="badge-categoria">Top 5 por categoría</span>
+            </div>
+
+            <!-- Bloque Arrime -->
+            <div class="categoria-bloque" id="femenino-arrime-bloque">
+                <div class="cat-titulo">
+                    <span class="cat-emoji">🎯</span> Mejor Arrime
+                    <span class="cat-badge">Efectividad en arrimes</span>
+                </div>
+                <div id="femenino-arrime" class="top-list"></div>
+            </div>
+
+            <!-- Bloque Boche -->
+            <div class="categoria-bloque" id="femenino-boche-bloque">
+                <div class="cat-titulo">
+                    <span class="cat-emoji">💥</span> Mejor Boche
+                    <span class="cat-badge">Efectividad en boches</span>
+                </div>
+                <div id="femenino-boche" class="top-list"></div>
+            </div>
+
+            <!-- Bloque Completo -->
+            <div class="categoria-bloque" id="femenino-completo-bloque">
+                <div class="cat-titulo">
+                    <span class="cat-emoji">🌟</span> Mejor Jugadora Completa
+                    <span class="cat-badge">Arrime + Boche</span>
+                </div>
+                <div id="femenino-completo" class="top-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== MASCULINO ===== -->
+    <!-- ============================================================ -->
+    <div id="masculino-container">
+        <div class="seccion">
+            <div class="seccion-titulo">
+                <span class="emoji">👨</span> Masculino
+                <span class="badge-categoria">Top 5 por categoría</span>
+            </div>
+
+            <!-- Bloque Arrime -->
+            <div class="categoria-bloque" id="masculino-arrime-bloque">
+                <div class="cat-titulo">
+                    <span class="cat-emoji">🎯</span> Mejor Arrime
+                    <span class="cat-badge">Efectividad en arrimes</span>
+                </div>
+                <div id="masculino-arrime" class="top-list"></div>
+            </div>
+
+            <!-- Bloque Boche -->
+            <div class="categoria-bloque" id="masculino-boche-bloque">
+                <div class="cat-titulo">
+                    <span class="cat-emoji">💥</span> Mejor Boche
+                    <span class="cat-badge">Efectividad en boches</span>
+                </div>
+                <div id="masculino-boche" class="top-list"></div>
+            </div>
+
+            <!-- Bloque Completo -->
+            <div class="categoria-bloque" id="masculino-completo-bloque">
+                <div class="cat-titulo">
+                    <span class="cat-emoji">🌟</span> Mejor Jugador Completo
+                    <span class="cat-badge">Arrime + Boche</span>
+                </div>
+                <div id="masculino-completo" class="top-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer">
+        <div class="criterios">
+            <div class="titulo">📋 Criterios de selección</div>
+            <ul>
+                <li><strong>Mejor Arrime:</strong> Mayor efectividad en arrimes (mínimo 50 intentos).</li>
+                <li><strong>Mejor Boche:</strong> Mayor efectividad en boches (mínimo 50 intentos).</li>
+                <li><strong>Mejor Completo:</strong> Mayor efectividad global (arrime + boche), con mínimo 20 intentos en cada disciplina y 50 totales.</li>
+                <li>En caso de empate, se prioriza el mayor volumen de intentos.</li>
+                <li>Los datos corresponden exclusivamente a la <strong>Fase 1 del torneo</strong>.</li>
+            </ul>
+        </div>
+        <div class="copy">
+            © 2026 <strong>Sibarita Sport Club</strong> — Todos los derechos reservados.<br>
+            Esta página permanecerá como reconocimiento oficial para futuras ediciones.
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // ============================================================
+    // 1. DATOS (actualiza aquí para cada torneo)
+    // ============================================================
+    const data = {
+        femenino: {
+            jugadores: [
+                // Grupo A + Grupo B (solo jugadores con al menos 50 intentos en alguna categoría)
+                { nombre: 'Maria Escalante', equipo: 'Chikas', arr: { aciertos: 96, intentos: 150 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Yadira Torrez', equipo: 'Atavenca', arr: { aciertos: 30, intentos: 60 }, boc: { aciertos: 113, intentos: 164 } },
+                { nombre: 'Krisandar Soteldo', equipo: 'Chikas', arr: { aciertos: 12, intentos: 25 }, boc: { aciertos: 94, intentos: 155 } },
+                { nombre: 'María Elcy Noriega', equipo: 'Atavenca', arr: { aciertos: 89, intentos: 155 }, boc: { aciertos: 0, intentos: 2 } },
+                { nombre: 'Julia Escalona', equipo: 'Atavenca', arr: { aciertos: 29, intentos: 67 }, boc: { aciertos: 71, intentos: 111 } },
+                { nombre: 'Kerangelit Mendez', equipo: 'Chikas', arr: { aciertos: 47, intentos: 82 }, boc: { aciertos: 0, intentos: 4 } },
+                { nombre: 'Maryeris Daza', equipo: 'Saboga', arr: { aciertos: 13, intentos: 31 }, boc: { aciertos: 116, intentos: 206 } },
+                { nombre: 'Yusbelis Gonzalez', equipo: 'Chikas', arr: { aciertos: 4, intentos: 7 }, boc: { aciertos: 15, intentos: 28 } },
+                { nombre: 'Gilian Rengifo', equipo: 'Chikas', arr: { aciertos: 73, intentos: 135 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Carolina Arocha', equipo: 'Oasis Box', arr: { aciertos: 130, intentos: 240 }, boc: { aciertos: 1, intentos: 2 } },
+                { nombre: 'Tibisay Ramirez', equipo: 'Santana', arr: { aciertos: 139, intentos: 257 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Diana Oropeza', equipo: 'Atavenca', arr: { aciertos: 81, intentos: 154 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Cresky Perez', equipo: 'Emprendedoras', arr: { aciertos: 81, intentos: 154 }, boc: { aciertos: 2, intentos: 2 } },
+                { nombre: 'Luz Escalona', equipo: 'Santana', arr: { aciertos: 10, intentos: 41 }, boc: { aciertos: 114, intentos: 195 } },
+                { nombre: 'Celateresa Sira', equipo: 'Saboga', arr: { aciertos: 129, intentos: 246 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Nitza Zabaleta', equipo: 'Corpoelec', arr: { aciertos: 21, intentos: 45 }, boc: { aciertos: 45, intentos: 82 } },
+                { nombre: 'Yuli Alvarez', equipo: 'Corpoelec', arr: { aciertos: 65, intentos: 124 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Roxana Pacheco', equipo: 'Saboga', arr: { aciertos: 36, intentos: 72 }, boc: { aciertos: 2, intentos: 3 } },
+                { nombre: 'Adela Guedez', equipo: 'Corpoelec', arr: { aciertos: 48, intentos: 95 }, boc: { aciertos: 2, intentos: 4 } },
+                { nombre: 'Liseth Palma', equipo: 'Festidoras', arr: { aciertos: 102, intentos: 200 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Marbella Suarez', equipo: 'Chikas', arr: { aciertos: 53, intentos: 105 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Esmeralda Mercado', equipo: 'Atavenca', arr: { aciertos: 56, intentos: 113 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Yusbelis Chirinos', equipo: 'Emprendedoras', arr: { aciertos: 101, intentos: 202 }, boc: { aciertos: 3, intentos: 6 } },
+                { nombre: 'Yenny Vargas', equipo: 'Santana', arr: { aciertos: 61, intentos: 121 }, boc: { aciertos: 19, intentos: 38 } },
+                { nombre: 'Natalia Garcia', equipo: 'Chikas', arr: { aciertos: 29, intentos: 61 }, boc: { aciertos: 20, intentos: 38 } },
+                { nombre: 'Erika Yamilet Rodriguez', equipo: 'Santana', arr: { aciertos: 33, intentos: 81 }, boc: { aciertos: 68, intentos: 125 } },
+                { nombre: 'Vicky Mendez', equipo: 'Saboga', arr: { aciertos: 33, intentos: 80 }, boc: { aciertos: 19, intentos: 29 } },
+                { nombre: 'Ana Katiuska Parra', equipo: 'The Dolls', arr: { aciertos: 40, intentos: 94 }, boc: { aciertos: 38, intentos: 68 } },
+                { nombre: 'Josmayfe Alvarado', equipo: 'Oasis Box', arr: { aciertos: 10, intentos: 36 }, boc: { aciertos: 29, intentos: 45 } },
+                { nombre: 'Saydimar Pipitone', equipo: 'The Dolls', arr: { aciertos: 47, intentos: 100 }, boc: { aciertos: 1, intentos: 2 } },
+                { nombre: 'Virgilia Mendez', equipo: 'Saboga', arr: { aciertos: 27, intentos: 66 }, boc: { aciertos: 22, intentos: 44 } },
+                { nombre: 'Erika Perez Ramones', equipo: 'The Dolls', arr: { aciertos: 61, intentos: 133 }, boc: { aciertos: 3, intentos: 11 } },
+                { nombre: 'Yunibel Rodriguez', equipo: 'Corpoelec', arr: { aciertos: 37, intentos: 85 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Maria Castellanos', equipo: 'The Dolls', arr: { aciertos: 34, intentos: 100 }, boc: { aciertos: 38, intentos: 72 } },
+                { nombre: 'Eloisa Gonzalez', equipo: 'Chikas', arr: { aciertos: 36, intentos: 91 }, boc: { aciertos: 28, intentos: 60 } },
+                { nombre: 'Sheila Montesinos', equipo: 'Oasis Box', arr: { aciertos: 20, intentos: 51 }, boc: { aciertos: 68, intentos: 161 } },
+                { nombre: 'Luisa Arrieta', equipo: 'Emprendedoras', arr: { aciertos: 8, intentos: 25 }, boc: { aciertos: 59, intentos: 135 } },
+                { nombre: 'Aura Daza', equipo: 'Festidoras', arr: { aciertos: 14, intentos: 53 }, boc: { aciertos: 37, intentos: 71 } },
+                { nombre: 'Romi Arapé', equipo: 'Oasis Box', arr: { aciertos: 20, intentos: 52 }, boc: { aciertos: 5, intentos: 11 } },
+                { nombre: 'Yaritza Caruci', equipo: 'Santana', arr: { aciertos: 34, intentos: 84 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Doraida Gonzalez', equipo: 'Festidoras', arr: { aciertos: 37, intentos: 95 }, boc: { aciertos: 1, intentos: 3 } },
+                { nombre: 'Jusmari Borges', equipo: 'Festidoras', arr: { aciertos: 54, intentos: 141 }, boc: { aciertos: 2, intentos: 3 } },
+                { nombre: 'Yanee Vetancourt', equipo: 'Emprendedoras', arr: { aciertos: 43, intentos: 111 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Ana Varela', equipo: 'Santana', arr: { aciertos: 58, intentos: 159 }, boc: { aciertos: 8, intentos: 10 } },
+                { nombre: 'Adrianny Ledesma', equipo: 'Festidoras', arr: { aciertos: 0, intentos: 11 }, boc: { aciertos: 38, intentos: 90 } },
+                { nombre: 'Marianni Torres', equipo: 'Chikas', arr: { aciertos: 10, intentos: 39 }, boc: { aciertos: 18, intentos: 34 } },
+                { nombre: 'Mirelys Mendoza', equipo: 'Oasis Box', arr: { aciertos: 45, intentos: 118 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Camelia Suarez', equipo: 'Santana', arr: { aciertos: 15, intentos: 40 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Ana Silva', equipo: 'The Dolls', arr: { aciertos: 34, intentos: 92 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'María Delgado', equipo: 'Atavenca', arr: { aciertos: 13, intentos: 46 }, boc: { aciertos: 9, intentos: 14 } },
+                { nombre: 'Berly Salazar', equipo: 'Emprendedoras', arr: { aciertos: 9, intentos: 46 }, boc: { aciertos: 42, intentos: 92 } },
+                { nombre: 'Leslie Farfan', equipo: 'Saboga', arr: { aciertos: 21, intentos: 58 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Karla Reyes', equipo: 'Oasis Box', arr: { aciertos: 48, intentos: 149 }, boc: { aciertos: 20, intentos: 40 } },
+                { nombre: 'Miriam Serres', equipo: 'Emprendedoras', arr: { aciertos: 26, intentos: 75 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Juliana Lopez', equipo: 'The Dolls', arr: { aciertos: 13, intentos: 44 }, boc: { aciertos: 2, intentos: 2 } },
+                { nombre: 'Deysi Guedez', equipo: 'The Dolls', arr: { aciertos: 5, intentos: 23 }, boc: { aciertos: 22, intentos: 59 } },
+                { nombre: 'Zulma Estrada', equipo: 'Festidoras', arr: { aciertos: 20, intentos: 70 }, boc: { aciertos: 10, intentos: 23 } },
+                { nombre: 'Crisalida Juarez', equipo: 'Corpoelec Jubiladas', arr: { aciertos: 10, intentos: 31 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Magalys Legon', equipo: 'Corpoelec Jubiladas', arr: { aciertos: 11, intentos: 44 }, boc: { aciertos: 11, intentos: 25 } },
+                { nombre: 'Luisamar Peña', equipo: 'Oasis Box', arr: { aciertos: 16, intentos: 50 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Cesar Dionne', equipo: 'Corpoelec', arr: { aciertos: 11, intentos: 39 }, boc: { aciertos: 4, intentos: 10 } },
+                { nombre: 'Ligia Sosa', equipo: 'Saboga', arr: { aciertos: 22, intentos: 79 }, boc: { aciertos: 2, intentos: 3 } },
+                { nombre: 'Adona Maria Gonzalez', equipo: 'The Dolls', arr: { aciertos: 17, intentos: 63 }, boc: { aciertos: 2, intentos: 2 } },
+                { nombre: 'Cilia Aldana', equipo: 'The Dolls', arr: { aciertos: 11, intentos: 39 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Alejandra Mesa', equipo: 'Chikas', arr: { aciertos: 18, intentos: 65 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Marielen Colmenarez', equipo: 'Corpoelec Jubiladas', arr: { aciertos: 8, intentos: 28 }, boc: { aciertos: 1, intentos: 5 } },
+                { nombre: 'Nilda Almeida', equipo: 'Oasis Box', arr: { aciertos: 4, intentos: 15 }, boc: { aciertos: 5, intentos: 24 } },
+                { nombre: 'Karelis Aguilar', equipo: 'Emprendedoras', arr: { aciertos: 11, intentos: 53 }, boc: { aciertos: 2, intentos: 5 } },
+                { nombre: 'Maribel Goyo', equipo: 'Corpoelec Jubiladas', arr: { aciertos: 6, intentos: 28 }, boc: { aciertos: 0, intentos: 0 } },
+                // Grupo A
+                { nombre: 'Maria Vivas', equipo: 'Jujure (Educadoras)', arr: { aciertos: 104, intentos: 189 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Dagmary Juarez', equipo: 'Divinas', arr: { aciertos: 46, intentos: 84 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Irene De Vicent', equipo: 'Jujure (Educadoras)', arr: { aciertos: 20, intentos: 53 }, boc: { aciertos: 62, intentos: 103 } },
+                { nombre: 'Yajaira Martinez', equipo: 'Repostería el Ponque', arr: { aciertos: 55, intentos: 105 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Marlin Carpio', equipo: 'Serv. Frios Antonella', arr: { aciertos: 75, intentos: 147 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Maria Carreno', equipo: 'New Family', arr: { aciertos: 81, intentos: 158 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Keila Valderrama', equipo: 'Jujure (Educadoras)', arr: { aciertos: 85, intentos: 175 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Yanacia Gómez', equipo: 'Sabaneta', arr: { aciertos: 70, intentos: 144 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Graciela Febres', equipo: 'Alimentos Amanecer', arr: { aciertos: 79, intentos: 164 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Nayelis Valera', equipo: 'Repostería el Ponque', arr: { aciertos: 13, intentos: 41 }, boc: { aciertos: 52, intentos: 94 } },
+                { nombre: 'Carmen González', equipo: 'Taferca', arr: { aciertos: 73, intentos: 156 }, boc: { aciertos: 1, intentos: 2 } },
+                { nombre: 'Luz Maria Paez', equipo: 'Serv. Frios Antonella', arr: { aciertos: 60, intentos: 132 }, boc: { aciertos: 5, intentos: 10 } },
+                { nombre: 'Lisbeth Vasquez', equipo: 'Repostería el Ponque', arr: { aciertos: 33, intentos: 72 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Arelis Amaya', equipo: 'Inversiones EPA', arr: { aciertos: 57, intentos: 125 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Yipzi Carmona', equipo: 'Serv. Frios Antonella', arr: { aciertos: 20, intentos: 46 }, boc: { aciertos: 60, intentos: 130 } },
+                { nombre: 'Amada Perez', equipo: 'Repostería el Ponque', arr: { aciertos: 60, intentos: 135 }, boc: { aciertos: 4, intentos: 6 } },
+                { nombre: 'Sol Rodriguez', equipo: 'New Family', arr: { aciertos: 28, intentos: 73 }, boc: { aciertos: 42, intentos: 81 } },
+                { nombre: 'Rosandrys Yepez', equipo: 'Divinas', arr: { aciertos: 72, intentos: 162 }, boc: { aciertos: 1, intentos: 5 } },
+                { nombre: 'Gloria Mendez', equipo: 'Alimentos Amanecer', arr: { aciertos: 21, intentos: 68 }, boc: { aciertos: 33, intentos: 56 } },
+                { nombre: 'Vicmaig Gomez', equipo: 'Repostería el Ponque', arr: { aciertos: 36, intentos: 83 }, boc: { aciertos: 1, intentos: 2 } },
+                { nombre: 'Yorgelis Colina', equipo: 'Sabaneta', arr: { aciertos: 15, intentos: 58 }, boc: { aciertos: 66, intentos: 128 } },
+                { nombre: 'Lenny Rodríguez', equipo: 'Inversiones EPA', arr: { aciertos: 19, intentos: 43 }, boc: { aciertos: 26, intentos: 59 } },
+                { nombre: 'Marbelis Pagua', equipo: 'Inversiones EPA', arr: { aciertos: 59, intentos: 131 }, boc: { aciertos: 0, intentos: 2 } },
+                { nombre: 'Rosangela Torres', equipo: 'Inversiones EPA', arr: { aciertos: 35, intentos: 82 }, boc: { aciertos: 42, intentos: 95 } },
+                { nombre: 'Sara Menoni', equipo: 'New Family', arr: { aciertos: 50, intentos: 113 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Anabelis Guedez', equipo: 'Repostería el Ponque', arr: { aciertos: 25, intentos: 73 }, boc: { aciertos: 64, intentos: 133 } },
+                { nombre: 'Liliana Gutierrez', equipo: 'Serv. Frios Antonella', arr: { aciertos: 33, intentos: 84 }, boc: { aciertos: 9, intentos: 16 } },
+                { nombre: 'Petra Almao', equipo: 'Alimentos Amanecer', arr: { aciertos: 45, intentos: 103 }, boc: { aciertos: 9, intentos: 25 } },
+                { nombre: 'Geilis Rodríguez', equipo: 'Inversiones EPA', arr: { aciertos: 16, intentos: 66 }, boc: { aciertos: 33, intentos: 52 } },
+                { nombre: 'Tania Perez', equipo: 'Divinas', arr: { aciertos: 12, intentos: 42 }, boc: { aciertos: 46, intentos: 99 } },
+                { nombre: 'Nair Herrera', equipo: 'New Family', arr: { aciertos: 51, intentos: 123 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Omari Arias', equipo: 'Taferca', arr: { aciertos: 9, intentos: 31 }, boc: { aciertos: 51, intentos: 118 } },
+                { nombre: 'Beatriz Gómez', equipo: 'Sabaneta', arr: { aciertos: 43, intentos: 106 }, boc: { aciertos: 6, intentos: 18 } },
+                { nombre: 'Marisela Alvarado', equipo: 'Inversiones EPA', arr: { aciertos: 33, intentos: 82 }, boc: { aciertos: 3, intentos: 9 } },
+                { nombre: 'Nancy Moreno', equipo: 'Divinas', arr: { aciertos: 25, intentos: 66 }, boc: { aciertos: 22, intentos: 55 } },
+                { nombre: 'Deyanira Yustiz', equipo: 'Alimentos Amanecer', arr: { aciertos: 25, intentos: 80 }, boc: { aciertos: 47, intentos: 106 } },
+                { nombre: 'Omaira Dorante', equipo: 'Taferca', arr: { aciertos: 34, intentos: 97 }, boc: { aciertos: 18, intentos: 41 } },
+                { nombre: 'Donaliz Daza', equipo: 'Sabaneta', arr: { aciertos: 36, intentos: 100 }, boc: { aciertos: 6, intentos: 12 } },
+                { nombre: 'Mar Suarez', equipo: 'Divinas', arr: { aciertos: 35, intentos: 107 }, boc: { aciertos: 17, intentos: 35 } },
+                { nombre: 'Enriqueta Jiménez', equipo: 'Taferca', arr: { aciertos: 30, intentos: 88 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Keila Molina', equipo: 'Serv. Frios Antonella', arr: { aciertos: 20, intentos: 63 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Nancy Rodríguez', equipo: 'Taferca', arr: { aciertos: 35, intentos: 117 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Hayra Benavides', equipo: 'Sabaneta', arr: { aciertos: 13, intentos: 64 }, boc: { aciertos: 7, intentos: 21 } },
+                { nombre: 'Maria Rodriguez', equipo: 'New Family', arr: { aciertos: 10, intentos: 48 }, boc: { aciertos: 7, intentos: 22 } },
+                { nombre: 'Gregoria Avancin', equipo: 'Divinas', arr: { aciertos: 10, intentos: 44 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Yoglis Rojas', equipo: 'Inversiones EPA', arr: { aciertos: 9, intentos: 32 }, boc: { aciertos: 5, intentos: 15 } },
+                { nombre: 'Karina Morles', equipo: 'Jujure (Educadoras)', arr: { aciertos: 2, intentos: 10 }, boc: { aciertos: 3, intentos: 7 } }
+            ]
+        },
+        masculino: {
+            jugadores: [
+                // Grupo A
+                { nombre: 'Pedro Torrez', equipo: 'Club Afibola', arr: { aciertos: 10, intentos: 19 }, boc: { aciertos: 126, intentos: 187 } },
+                { nombre: 'Theoscar Vicent', equipo: 'Servihidra', arr: { aciertos: 128, intentos: 202 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Javier Lugo', equipo: 'Los Lugo', arr: { aciertos: 20, intentos: 39 }, boc: { aciertos: 121, intentos: 192 } },
+                { nombre: 'Jose Torrez', equipo: 'Club Afibola', arr: { aciertos: 12, intentos: 21 }, boc: { aciertos: 69, intentos: 114 } },
+                { nombre: 'Gabriel Perez', equipo: 'Club Afibola', arr: { aciertos: 70, intentos: 119 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Jorge Sierralta', equipo: 'Exasa', arr: { aciertos: 93, intentos: 163 }, boc: { aciertos: 2, intentos: 4 } },
+                { nombre: 'Esteban Aguilar', equipo: 'Familia Ortega', arr: { aciertos: 12, intentos: 24 }, boc: { aciertos: 96, intentos: 164 } },
+                { nombre: 'Wely Melendez', equipo: 'Los Panas Vimapin', arr: { aciertos: 21, intentos: 56 }, boc: { aciertos: 105, intentos: 173 } },
+                { nombre: 'Atahualpa Melendez', equipo: 'Servihidra', arr: { aciertos: 29, intentos: 62 }, boc: { aciertos: 21, intentos: 30 } },
+                { nombre: 'Jorge Ochoa', equipo: 'Yusevin CA', arr: { aciertos: 14, intentos: 32 }, boc: { aciertos: 76, intentos: 136 } },
+                { nombre: 'Nelson Suarez', equipo: 'Servihidra', arr: { aciertos: 8, intentos: 26 }, boc: { aciertos: 124, intentos: 222 } },
+                { nombre: 'Victor Pinto', equipo: 'Los Panas Vimapin', arr: { aciertos: 131, intentos: 245 }, boc: { aciertos: 0, intentos: 3 } },
+                { nombre: 'Jorge Rafael Torres Gutierrez', equipo: 'Alimentos La Granja', arr: { aciertos: 52, intentos: 98 }, boc: { aciertos: 17, intentos: 33 } },
+                { nombre: 'Juan Carlos Hernandez', equipo: 'Alimentos La Granja', arr: { aciertos: 34, intentos: 66 }, boc: { aciertos: 3, intentos: 4 } },
+                { nombre: 'Jose Rodriguez', equipo: 'Servihidra', arr: { aciertos: 86, intentos: 165 }, boc: { aciertos: 2, intentos: 4 } },
+                { nombre: 'Hector Reyes', equipo: 'Exasa', arr: { aciertos: 35, intentos: 74 }, boc: { aciertos: 29, intentos: 50 } },
+                { nombre: 'Jorgue Chirinos', equipo: 'Club Afibola', arr: { aciertos: 99, intentos: 186 }, boc: { aciertos: 3, intentos: 10 } },
+                { nombre: 'Wuilfredo Guedez', equipo: 'Los Amigos', arr: { aciertos: 16, intentos: 33 }, boc: { aciertos: 74, intentos: 140 } },
+                { nombre: 'Juan Alberto Almao Sequera', equipo: 'Alimentos La Granja', arr: { aciertos: 107, intentos: 208 }, boc: { aciertos: 6, intentos: 10 } },
+                { nombre: 'Alexander Benitez', equipo: 'Los Lugo', arr: { aciertos: 40, intentos: 77 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Miguel Segura', equipo: 'Fuerza', arr: { aciertos: 131, intentos: 268 }, boc: { aciertos: 38, intentos: 63 } },
+                { nombre: 'José Narváez', equipo: 'Corpoelec2', arr: { aciertos: 21, intentos: 46 }, boc: { aciertos: 5, intentos: 5 } },
+                { nombre: 'Luis Ramos', equipo: 'Los Amigos', arr: { aciertos: 137, intentos: 267 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Eiderzon Nelo', equipo: 'Familia Ortega', arr: { aciertos: 123, intentos: 237 }, boc: { aciertos: 0, intentos: 2 } },
+                { nombre: 'Neptali Torrez', equipo: 'Los Panas Vimapin', arr: { aciertos: 33, intentos: 74 }, boc: { aciertos: 68, intentos: 127 } },
+                { nombre: 'Wilmer Xavier Rodriguez Camacho', equipo: 'Unidos de Hato', arr: { aciertos: 156, intentos: 309 }, boc: { aciertos: 2, intentos: 6 } },
+                { nombre: 'Wilmer Bolivar', equipo: 'Alimentos La Granja', arr: { aciertos: 49, intentos: 96 }, boc: { aciertos: 0, intentos: 2 } },
+                { nombre: 'Rene Chirinos', equipo: 'Alimentos La Granja', arr: { aciertos: 9, intentos: 20 }, boc: { aciertos: 104, intentos: 204 } },
+                { nombre: 'Jairo López', equipo: 'Corpoelec2', arr: { aciertos: 51, intentos: 102 }, boc: { aciertos: 0, intentos: 2 } },
+                { nombre: 'Numan Dudamel', equipo: 'Servihidra', arr: { aciertos: 42, intentos: 86 }, boc: { aciertos: 15, intentos: 30 } },
+                { nombre: 'Alfredo Ramon Alvarez Ojeda', equipo: 'Unidos de Hato', arr: { aciertos: 109, intentos: 221 }, boc: { aciertos: 2, intentos: 6 } },
+                { nombre: 'Angel Herrera', equipo: 'Familia Ortega', arr: { aciertos: 13, intentos: 29 }, boc: { aciertos: 44, intentos: 87 } },
+                { nombre: 'Alcides Alvarado', equipo: 'Alimentos La Granja', arr: { aciertos: 31, intentos: 58 }, boc: { aciertos: 10, intentos: 26 } },
+                { nombre: 'Gustavo Orozco', equipo: 'Servihidra', arr: { aciertos: 31, intentos: 65 }, boc: { aciertos: 46, intentos: 96 } },
+                { nombre: 'Octavio Chirinos', equipo: 'Club Afibola', arr: { aciertos: 44, intentos: 91 }, boc: { aciertos: 1, intentos: 2 } },
+                { nombre: 'Carlos Silva', equipo: 'Los Amigos', arr: { aciertos: 35, intentos: 80 }, boc: { aciertos: 29, intentos: 54 } },
+                { nombre: 'Carlos Luis Valera Palencia', equipo: 'Unidos de Hato', arr: { aciertos: 56, intentos: 159 }, boc: { aciertos: 99, intentos: 165 } },
+                { nombre: 'Juan Carlos Valera Camacho', equipo: 'Unidos de Hato', arr: { aciertos: 27, intentos: 56 }, boc: { aciertos: 61, intentos: 126 } },
+                { nombre: 'Clemente Perez', equipo: 'Fuerza', arr: { aciertos: 52, intentos: 97 }, boc: { aciertos: 80, intentos: 184 } },
+                { nombre: 'Carlos Colmenarez', equipo: 'Club Afibola', arr: { aciertos: 32, intentos: 64 }, boc: { aciertos: 9, intentos: 23 } },
+                { nombre: 'Freurmar Perez', equipo: 'Los Panas Vimapin', arr: { aciertos: 85, intentos: 183 }, boc: { aciertos: 7, intentos: 15 } },
+                { nombre: 'Yoiber Oviedo', equipo: 'Familia Ortega', arr: { aciertos: 71, intentos: 155 }, boc: { aciertos: 21, intentos: 46 } },
+                { nombre: 'Reinaldo Mendoza', equipo: 'Yusevin CA', arr: { aciertos: 23, intentos: 62 }, boc: { aciertos: 37, intentos: 70 } },
+                { nombre: 'Enmanuel Aguiar', equipo: 'Yusevin CA', arr: { aciertos: 19, intentos: 41 }, boc: { aciertos: 0, intentos: 1 } },
+                { nombre: 'José Escalona', equipo: 'Los Amigos', arr: { aciertos: 61, intentos: 133 }, boc: { aciertos: 0, intentos: 4 } },
+                { nombre: 'Robert Gomez', equipo: 'Los Lugo', arr: { aciertos: 28, intentos: 62 }, boc: { aciertos: 1, intentos: 3 } },
+                { nombre: 'Luis Barco', equipo: 'Fuerza', arr: { aciertos: 56, intentos: 124 }, boc: { aciertos: 59, intentos: 136 } },
+                { nombre: 'Orlando Rodriguez', equipo: 'Exasa', arr: { aciertos: 57, intentos: 127 }, boc: { aciertos: 2, intentos: 6 } },
+                { nombre: 'Edinson Antonio Valera Camacho', equipo: 'Unidos de Hato', arr: { aciertos: 17, intentos: 48 }, boc: { aciertos: 82, intentos: 176 } },
+                { nombre: 'Gonzalo Palacio', equipo: 'Familia Ortega', arr: { aciertos: 109, intentos: 247 }, boc: { aciertos: 4, intentos: 8 } },
+                { nombre: 'Robert Antonio Aguero', equipo: 'Alimentos La Granja', arr: { aciertos: 46, intentos: 104 }, boc: { aciertos: 29, intentos: 68 } },
+                { nombre: 'Ivan Lugo', equipo: 'Los Lugo', arr: { aciertos: 17, intentos: 42 }, boc: { aciertos: 31, intentos: 67 } },
+                { nombre: 'Pedro Noguera', equipo: 'Fuerza', arr: { aciertos: 64, intentos: 152 }, boc: { aciertos: 4, intentos: 7 } },
+                { nombre: 'Juan Sira', equipo: 'Yusevin CA', arr: { aciertos: 55, intentos: 115 }, boc: { aciertos: 10, intentos: 36 } },
+                { nombre: 'Jorge Lugo', equipo: 'Los Lugo', arr: { aciertos: 30, intentos: 75 }, boc: { aciertos: 25, intentos: 54 } },
+                { nombre: 'Marco Rodriguez', equipo: 'Los Panas Vimapin', arr: { aciertos: 98, intentos: 231 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Jose Chirinos', equipo: 'Club Afibola', arr: { aciertos: 15, intentos: 32 }, boc: { aciertos: 5, intentos: 16 } },
+                { nombre: 'Giovanni Gonzalez', equipo: 'Servihidra', arr: { aciertos: 25, intentos: 77 }, boc: { aciertos: 40, intentos: 82 } },
+                { nombre: 'Jose Gomez', equipo: 'Yusevin CA', arr: { aciertos: 29, intentos: 93 }, boc: { aciertos: 45, intentos: 90 } },
+                { nombre: 'Cornelio Escalona', equipo: 'Los Amigos', arr: { aciertos: 39, intentos: 105 }, boc: { aciertos: 26, intentos: 58 } },
+                { nombre: 'Fernando', equipo: 'Los Amigos', arr: { aciertos: 24, intentos: 53 }, boc: { aciertos: 4, intentos: 17 } },
+                { nombre: 'Juan C. Rodriguez', equipo: 'Yusevin CA', arr: { aciertos: 76, intentos: 199 }, boc: { aciertos: 4, intentos: 6 } },
+                { nombre: 'Roger Colmenarez', equipo: 'Club Afibola', arr: { aciertos: 51, intentos: 133 }, boc: { aciertos: 5, intentos: 13 } },
+                { nombre: 'Efren Dario Rosales Gonzalez', equipo: 'Alimentos La Granja', arr: { aciertos: 28, intentos: 86 }, boc: { aciertos: 41, intentos: 94 } },
+                { nombre: 'Luis Falcon', equipo: 'Alimentos La Granja', arr: { aciertos: 22, intentos: 50 }, boc: { aciertos: 1, intentos: 10 } },
+                { nombre: 'Manuel Alvarez', equipo: 'Corpoelec2', arr: { aciertos: 21, intentos: 56 }, boc: { aciertos: 7, intentos: 20 } },
+                { nombre: 'Ronald Perez', equipo: 'Los Panas Vimapin', arr: { aciertos: 45, intentos: 123 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Rafael Mosquera', equipo: 'Yusevin CA', arr: { aciertos: 24, intentos: 65 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Gregorio Linares', equipo: 'Los Amigos', arr: { aciertos: 6, intentos: 22 }, boc: { aciertos: 22, intentos: 53 } },
+                { nombre: 'Miguel Cordova', equipo: 'Agro Mack Diesel', arr: { aciertos: 14, intentos: 39 }, boc: { aciertos: 8, intentos: 21 } },
+                { nombre: 'Richard Blanco', equipo: 'Corpoelec2', arr: { aciertos: 6, intentos: 21 }, boc: { aciertos: 18, intentos: 45 } },
+                { nombre: 'Ricardo Ochoa', equipo: 'Yusevin CA', arr: { aciertos: 53, intentos: 146 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Ademar Tua', equipo: 'Fuerza', arr: { aciertos: 29, intentos: 77 }, boc: { aciertos: 9, intentos: 31 } },
+                { nombre: 'Ali Parra', equipo: 'Corpoelec2', arr: { aciertos: 8, intentos: 25 }, boc: { aciertos: 40, intentos: 112 } },
+                { nombre: 'Renny Parra', equipo: 'Los Lugo', arr: { aciertos: 24, intentos: 79 }, boc: { aciertos: 10, intentos: 31 } },
+                { nombre: 'Gabriel Betancourt', equipo: 'Familia Ortega', arr: { aciertos: 16, intentos: 44 }, boc: { aciertos: 5, intentos: 44 } },
+                // Grupo B
+                { nombre: 'José Requena', equipo: 'Team JM&JA', arr: { aciertos: 5, intentos: 17 }, boc: { aciertos: 83, intentos: 108 } },
+                { nombre: 'Alfredo Rodriguez', equipo: 'Agroserviportuguesa', arr: { aciertos: 20, intentos: 43 }, boc: { aciertos: 163, intentos: 230 } },
+                { nombre: 'Yilber Barrios', equipo: 'Gladiadores del Cerrito', arr: { aciertos: 6, intentos: 9 }, boc: { aciertos: 142, intentos: 219 } },
+                { nombre: 'René Tona', equipo: 'Gladiadores del Cerrito', arr: { aciertos: 69, intentos: 112 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Pedro Aguilar', equipo: 'Micro PC', arr: { aciertos: 134, intentos: 220 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Saúl Fonseca', equipo: 'Team JM&JA', arr: { aciertos: 74, intentos: 156 }, boc: { aciertos: 89, intentos: 114 } },
+                { nombre: 'Jhonny Reina', equipo: 'Ingenieros', arr: { aciertos: 87, intentos: 151 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Lino Caruci', equipo: 'Agroserviportuguesa', arr: { aciertos: 31, intentos: 52 }, boc: { aciertos: 6, intentos: 12 } },
+                { nombre: 'Jesus Soteldo', equipo: 'Micro PC', arr: { aciertos: 33, intentos: 84 }, boc: { aciertos: 117, intentos: 179 } },
+                { nombre: 'Julio Colmenarez', equipo: 'Poder Justiciable', arr: { aciertos: 20, intentos: 41 }, boc: { aciertos: 120, intentos: 203 } },
+                { nombre: 'Salvador Pipitone', equipo: 'Agroserviportuguesa', arr: { aciertos: 64, intentos: 120 }, boc: { aciertos: 70, intentos: 116 } },
+                { nombre: 'Henry Eliezer Soto', equipo: 'Agroserviportuguesa', arr: { aciertos: 33, intentos: 58 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Yeison Ferrer', equipo: 'Triunfadores', arr: { aciertos: 25, intentos: 56 }, boc: { aciertos: 95, intentos: 154 } },
+                { nombre: 'Guillermo Leal', equipo: 'Triunfadores', arr: { aciertos: 65, intentos: 114 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Nelson Nadal', equipo: 'Los Irochimas', arr: { aciertos: 45, intentos: 78 }, boc: { aciertos: 3, intentos: 8 } },
+                { nombre: 'Honorio Peroza', equipo: 'Poder Justiciable', arr: { aciertos: 111, intentos: 201 }, boc: { aciertos: 1, intentos: 4 } },
+                { nombre: 'Tony Perez', equipo: 'Poder Justiciable', arr: { aciertos: 94, intentos: 177 }, boc: { aciertos: 52, intentos: 90 } },
+                { nombre: 'Juan Carlos Caro', equipo: 'Pintucal', arr: { aciertos: 85, intentos: 153 }, boc: { aciertos: 0, intentos: 2 } },
+                { nombre: 'David Chávez', equipo: 'Micro PC', arr: { aciertos: 17, intentos: 39 }, boc: { aciertos: 43, intentos: 72 } },
+                { nombre: 'Alexis Martinez', equipo: 'Team JM&JA', arr: { aciertos: 101, intentos: 187 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Jose Escalona', equipo: 'Tribunal Protección', arr: { aciertos: 36, intentos: 72 }, boc: { aciertos: 96, intentos: 173 } },
+                { nombre: 'Toribio Torrealba', equipo: 'Los Irochimas', arr: { aciertos: 30, intentos: 77 }, boc: { aciertos: 75, intentos: 123 } },
+                { nombre: 'Roland Nadal', equipo: 'Los Irochimas', arr: { aciertos: 71, intentos: 134 }, boc: { aciertos: 1, intentos: 2 } },
+                { nombre: 'Oscar Daniel Mogollon Alvarado', equipo: 'Distribuidora JH', arr: { aciertos: 33, intentos: 65 }, boc: { aciertos: 26, intentos: 46 } },
+                { nombre: 'Daniel Roman', equipo: 'Poder Justiciable', arr: { aciertos: 18, intentos: 38 }, boc: { aciertos: 9, intentos: 14 } },
+                { nombre: 'Oswaldo Soto', equipo: 'Agroserviportuguesa', arr: { aciertos: 91, intentos: 173 }, boc: { aciertos: 0, intentos: 1 } },
+                { nombre: 'Antony Gonzalez', equipo: 'Triunfadores', arr: { aciertos: 117, intentos: 226 }, boc: { aciertos: 1, intentos: 1 } },
+                { nombre: 'Jose Luis Rodriguez', equipo: 'Agroserviportuguesa', arr: { aciertos: 38, intentos: 75 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Victor Escalona', equipo: 'Micro PC', arr: { aciertos: 59, intentos: 118 }, boc: { aciertos: 4, intentos: 9 } },
+                { nombre: 'Jhonatan Cedeño', equipo: 'Poder Justiciable', arr: { aciertos: 151, intentos: 305 }, boc: { aciertos: 2, intentos: 2 } },
+                { nombre: 'William Rodriguez', equipo: 'Agroserviportuguesa', arr: { aciertos: 33, intentos: 69 }, boc: { aciertos: 3, intentos: 3 } },
+                { nombre: 'Wilfredo Perez', equipo: 'Los Irochimas', arr: { aciertos: 10, intentos: 30 }, boc: { aciertos: 65, intentos: 121 } },
+                { nombre: 'Juan Figueroa', equipo: 'Pintucal', arr: { aciertos: 14, intentos: 35 }, boc: { aciertos: 90, intentos: 174 } },
+                { nombre: 'Javier Diaz', equipo: 'Agro Tigrera Ranch', arr: { aciertos: 85, intentos: 161 }, boc: { aciertos: 21, intentos: 51 } },
+                { nombre: 'Cristian Perdomo', equipo: 'Distribuidora JH', arr: { aciertos: 62, intentos: 123 }, boc: { aciertos: 2, intentos: 4 } },
+                { nombre: 'Arturo Tovar', equipo: 'Micro PC', arr: { aciertos: 22, intentos: 38 }, boc: { aciertos: 47, intentos: 102 } },
+                { nombre: 'Oscar Paredes', equipo: 'Micro PC', arr: { aciertos: 10, intentos: 28 }, boc: { aciertos: 23, intentos: 39 } },
+                { nombre: 'Diego Piña', equipo: 'Ingenieros', arr: { aciertos: 42, intentos: 90 }, boc: { aciertos: 26, intentos: 48 } },
+                { nombre: 'Jose Gregorio Torres Escobar', equipo: 'Agroserviportuguesa', arr: { aciertos: 30, intentos: 64 }, boc: { aciertos: 20, intentos: 38 } },
+                { nombre: 'Elvis Valera', equipo: 'Gladiadores del Cerrito', arr: { aciertos: 74, intentos: 150 }, boc: { aciertos: 1, intentos: 2 } },
+                { nombre: 'Oscar De Santis', equipo: 'Tribunal Protección', arr: { aciertos: 125, intentos: 259 }, boc: { aciertos: 1, intentos: 1 } },
+                { nombre: 'Jose Benavides', equipo: 'Tribunal Protección', arr: { aciertos: 50, intentos: 110 }, boc: { aciertos: 39, intentos: 74 } },
+                { nombre: 'Carlos Silva', equipo: 'Gladiadores del Cerrito', arr: { aciertos: 67, intentos: 144 }, boc: { aciertos: 22, intentos: 42 } },
+                { nombre: 'Felix Ballester', equipo: 'Atlético Páez', arr: { aciertos: 24, intentos: 50 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Wenceslao Paez', equipo: 'Agro Tigrera Ranch', arr: { aciertos: 39, intentos: 79 }, boc: { aciertos: 36, intentos: 78 } },
+                { nombre: 'Miguel Duque', equipo: 'Team JM&JA', arr: { aciertos: 77, intentos: 166 }, boc: { aciertos: 31, intentos: 63 } },
+                { nombre: 'Alirio Perdomo', equipo: 'Ingenieros', arr: { aciertos: 35, intentos: 75 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Alexander Chirinos Alvarado', equipo: 'Ingenieros', arr: { aciertos: 5, intentos: 22 }, boc: { aciertos: 44, intentos: 83 } },
+                { nombre: 'Jean Vasquez', equipo: 'Agroserviportuguesa', arr: { aciertos: 36, intentos: 76 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Luis Arrieta', equipo: 'Triunfadores', arr: { aciertos: 22, intentos: 48 }, boc: { aciertos: 94, intentos: 200 } },
+                { nombre: 'Alexander Vega', equipo: 'Gladiadores del Cerrito', arr: { aciertos: 20, intentos: 49 }, boc: { aciertos: 33, intentos: 63 } },
+                { nombre: 'Dixon Torcate', equipo: 'Distribuidora JH', arr: { aciertos: 21, intentos: 60 }, boc: { aciertos: 51, intentos: 92 } },
+                { nombre: 'Carlos Martinez', equipo: 'Ingenieros', arr: { aciertos: 23, intentos: 60 }, boc: { aciertos: 65, intentos: 131 } },
+                { nombre: 'Carlos Caro', equipo: 'Pintucal', arr: { aciertos: 30, intentos: 65 }, boc: { aciertos: 26, intentos: 57 } },
+                { nombre: 'Roberto Martinez', equipo: 'Pintucal', arr: { aciertos: 99, intentos: 216 }, boc: { aciertos: 1, intentos: 1 } },
+                { nombre: 'Yunior Linarez', equipo: 'Gladiadores del Cerrito', arr: { aciertos: 34, intentos: 77 }, boc: { aciertos: 25, intentos: 50 } },
+                { nombre: 'Samuel Canelon', equipo: 'Micro PC', arr: { aciertos: 30, intentos: 67 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Luis Mendoza', equipo: 'Micro PC', arr: { aciertos: 66, intentos: 147 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'José Hernández', equipo: 'Team JM&JA', arr: { aciertos: 50, intentos: 117 }, boc: { aciertos: 30, intentos: 61 } },
+                { nombre: 'Mackiver Sanchez', equipo: 'Pintucal', arr: { aciertos: 49, intentos: 114 }, boc: { aciertos: 12, intentos: 26 } },
+                { nombre: 'Jesus Pérez', equipo: 'Team JM&JA', arr: { aciertos: 10, intentos: 42 }, boc: { aciertos: 22, intentos: 33 } },
+                { nombre: 'Williams Martinez', equipo: 'Ingenieros', arr: { aciertos: 24, intentos: 61 }, boc: { aciertos: 13, intentos: 26 } },
+                { nombre: 'Luis Segura', equipo: 'Triunfadores', arr: { aciertos: 63, intentos: 151 }, boc: { aciertos: 4, intentos: 6 } },
+                { nombre: 'Wilmer Linarez', equipo: 'Distribuidora JH', arr: { aciertos: 70, intentos: 162 }, boc: { aciertos: 0, intentos: 0 } },
+                { nombre: 'Ronald Nadal', equipo: 'Los Irochimas', arr: { aciertos: 58, intentos: 139 }, boc: { aciertos: 2, intentos: 3 } },
+                { nombre: 'Alfredo Gonzalez', equipo: 'Los Irochimas', arr: { aciertos: 31, intentos: 69 }, boc: { aciertos: 3, intentos: 12 } },
+                { nombre: 'Jose D. Fernandez', equipo: 'Tribunal Protección', arr: { aciertos: 83, intentos: 208 }, boc: { aciertos: 32, intentos: 67 } },
+                { nombre: 'Carlos Linarez', equipo: 'Gladiadores del Cerrito', arr: { aciertos: 42, intentos: 103 }, boc: { aciertos: 3, intentos: 5 } },
+                { nombre: 'Alfonzo Delgado', equipo: 'Poder Justiciable', arr: { aciertos: 56, intentos: 159 }, boc: { aciertos: 38, intentos: 80 } },
+                { nombre: 'Pedro Diaz', equipo: 'Agro Tigrera Ranch', arr: { aciertos: 56, intentos: 138 }, boc: { aciertos: 0, intentos: 5 } },
+                { nombre: 'Amilcar Garrido', equipo: 'Pintucal', arr: { aciertos: 24, intentos: 64 }, boc: { aciertos: 1, intentos: 1 } },
+                { nombre: 'Carlos Laya', equipo: 'Tribunal Protección', arr: { aciertos: 71, intentos: 196 }, boc: { aciertos: 5, intentos: 8 } },
+                { nombre: 'Junior Guedez', equipo: 'Agro Tigrera Ranch', arr: { aciertos: 43, intentos: 112 }, boc: { aciertos: 11, intentos: 33 } },
+                { nombre: 'Robertthi Perdomo', equipo: 'Distribuidora JH', arr: { aciertos: 28, intentos: 85 }, boc: { aciertos: 30, intentos: 71 } },
+                { nombre: 'Yowerty Ballester', equipo: 'Ingenieros', arr: { aciertos: 25, intentos: 70 }, boc: { aciertos: 6, intentos: 17 } },
+                { nombre: 'Carlos Araujo', equipo: 'Agro Tigrera Ranch', arr: { aciertos: 15, intentos: 41 }, boc: { aciertos: 22, intentos: 63 } },
+                { nombre: 'Frank David Torrelles', equipo: 'Distribuidora JH', arr: { aciertos: 42, intentos: 118 }, boc: { aciertos: 1, intentos: 6 } },
+                { nombre: 'Angel Figueroa', equipo: 'Pintucal', arr: { aciertos: 18, intentos: 60 }, boc: { aciertos: 26, intentos: 69 } },
+                { nombre: 'Carlos Torrealba', equipo: 'Agro Tigrera Ranch', arr: { aciertos: 4, intentos: 14 }, boc: { aciertos: 16, intentos: 44 } },
+                { nombre: 'Wilder Quintero', equipo: 'Tribunal Protección', arr: { aciertos: 50, intentos: 155 }, boc: { aciertos: 1, intentos: 4 } }
+            ]
+        }
+    };
+
+    // ============================================================
+    // 2. CÁLCULO DE TOP 5
+    // ============================================================
+    function calcularTop5(jugadores, tipo, minIntentos = 50) {
+        let filtrados = jugadores.filter(j => {
+            if (tipo === 'arr') {
+                return j.arr.intentos >= minIntentos;
+            } else if (tipo === 'boc') {
+                return j.boc.intentos >= minIntentos;
+            } else { // COMPLETO
+                const totalIntentos = j.arr.intentos + j.boc.intentos;
+                return j.arr.intentos >= 20 && j.boc.intentos >= 20 && totalIntentos >= 50;
+            }
+        });
+
+        let resultados = filtrados.map(j => {
+            let aciertos = 0, intentos = 0;
+            if (tipo === 'arr') {
+                aciertos = j.arr.aciertos;
+                intentos = j.arr.intentos;
+            } else if (tipo === 'boc') {
+                aciertos = j.boc.aciertos;
+                intentos = j.boc.intentos;
+            } else {
+                aciertos = j.arr.aciertos + j.boc.aciertos;
+                intentos = j.arr.intentos + j.boc.intentos;
+            }
+            const efectividad = intentos > 0 ? (aciertos / intentos) * 100 : 0;
+            return {
+                ...j,
+                aciertos,
+                intentos,
+                efectividad,
+                arr_detalle: `${j.arr.aciertos}/${j.arr.intentos}`,
+                boc_detalle: `${j.boc.aciertos}/${j.boc.intentos}`,
+                total_detalle: `${aciertos}/${intentos}`
+            };
+        });
+
+        resultados.sort((a, b) => b.efectividad - a.efectividad);
+        return resultados.slice(0, 5);
+    }
+
+    // ============================================================
+    // 3. RENDERIZADO
+    // ============================================================
+    function renderTop5(containerId, jugadores, tipo) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const top5 = calcularTop5(jugadores, tipo, 50);
+
+        let html = '';
+        if (top5.length === 0) {
+            html = `<div style="color:#8899aa; padding:12px; text-align:center;">No hay jugadores con suficientes intentos.</div>`;
+        } else {
+            const medallas = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+            top5.forEach((j, i) => {
+                const clase = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+                let detalleStats = '';
+                if (tipo === 'arr') {
+                    detalleStats = `Arrime: ${j.arr_detalle} | Boche: ${j.boc_detalle}`;
+                } else if (tipo === 'boc') {
+                    detalleStats = `Boche: ${j.boc_detalle} | Arrime: ${j.arr_detalle}`;
+                } else {
+                    detalleStats = `Total: ${j.total_detalle} (Arr: ${j.arr_detalle} | Boc: ${j.boc_detalle})`;
+                }
+                html += `
+                    <div class="top-item ${clase}">
+                        <div class="medalla">${medallas[i]}</div>
+                        <div class="info">
+                            <div class="nombre">${j.nombre}</div>
+                            <div class="equipo">${j.equipo}</div>
+                            <div class="detalle">${j.efectividad.toFixed(1)}% de efectividad</div>
+                            <div class="stats-detalle">
+                                <span>${detalleStats}</span>
+                            </div>
+                        </div>
+                        <div class="badge-porcentaje">${j.efectividad.toFixed(1)}%</div>
+                    </div>
+                `;
+            });
+        }
+        container.innerHTML = html;
+    }
+
+    // ============================================================
+    // 4. EJECUTAR
+    // ============================================================
+    const fem = data.femenino.jugadores;
+    const mas = data.masculino.jugadores;
+
+    // Femenino
+    renderTop5('femenino-arrime', fem, 'arr');
+    renderTop5('femenino-boche', fem, 'boc');
+    renderTop5('femenino-completo', fem, 'total');
+
+    // Masculino
+    renderTop5('masculino-arrime', mas, 'arr');
+    renderTop5('masculino-boche', mas, 'boc');
+    renderTop5('masculino-completo', mas, 'total');
+</script>
+
+</body>
+</html>
