@@ -183,21 +183,6 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 
     <!-- Pestaña Partidos -->
     <div id="s-matches" class="scr">
-      <div class="frow"><button class="fb on" id="btn-mFem" onclick="setF('mCat','Femenino')">👩 Femenino</button><button class="fb" id="btn-mMas" onclick="setF('mCat','Masculino')">👨 Masculino</button></div>
-      <div class="frow"><button class="fb on" id="btn-mGa" onclick="setF('mGrp','A')">Grupo A</button><button class="fb" id="btn-mGb" onclick="setF('mGrp','B')">Grupo B</button></div>
-      <div class="fscroll" id="m-weeks"></div>
-      <div class="frow">
-        <button class="fb" onclick="togglePdfPanel()" style="background:#c0392b33;border-color:#c0392b;color:#c0392b;">📄 Descargar PDF</button>
-        <button class="fb" onclick="mostrarBotonesAdmin()" style="background:#e67e2233;border-color:#e67e22;color:#e67e22;">🔑 Admin</button>
-      </div>
-      <div id="admin-buttons" style="display: none; gap: 6px; margin-top: 8px;">
-      <!-- ==== <button class="fb" onclick="cargarResultadosDesdeGitHub()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Cargar de GitHub</button> ==== -->
-    <!-- ====  <button class="fb" onclick="exportarResultadosAJSON()" style="background:#f39c1233;border-color:#f39c12;color:#f39c12;">📦 Exportar JSON</button>  ==== -->
-        <label class="fb" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;cursor:pointer;display:inline-block;padding:5px 10px;border-radius:12px;border:1px solid #9b59b6;">
-        📂 Importar JSON de Juez
-        <input type="file" id="importJsonInput" accept=".json" style="display:none;">
-      </label>  </div>
-      <div class="pdf-panel" id="pdf-panel"><div style="font-size:11px;color:#e8b84b;margin-bottom:8px;">DESCARGAR CALENDARIO EN PDF</div><div class="frow"><button class="fb on" id="pdf-btn-week" onclick="setPdfMode('week')">📅 Por Semana</button><button class="fb" id="pdf-btn-team" onclick="setPdfMode('team')">👥 Por Equipo</button><button class="fb" id="pdf-btn-all" onclick="setPdfMode('all')">🌍 Todas Categorías</button></div><div id="pdf-week-wrap"><select id="pdf-week-sel" class="pdf-sel"><option value="Todos">Todas</option><option value="S1">Sem 1</option><option value="S2">Sem 2</option><option value="S3">Sem 3</option><option value="S4">Sem 4</option><option value="S5">Sem 5</option><option value="S6">Sem 6</option><option value="S7">Sem 7</option><option value="S8">Sem 8</option><option value="S9">Sem 9</option><option value="S10">Sem 10<option value="S11">Sem 11<option value="S12">Sem 12</option><option value="S13">Sem 13</option></select></div><div id="pdf-team-wrap" style="display:none;"><select id="pdf-team-sel" class="pdf-sel"></select></div><button class="pdf-gen-btn" onclick="generatePDF()">⬇️ Generar PDF</button><button class="pdf-cancel-btn" onclick="togglePdfPanel()">Cancelar</button></div>
       <div class="lbl" id="m-cnt"></div>
       <div id="m-list"></div>
     </div>
@@ -823,24 +808,55 @@ function rM() {
     const wB = done && r.scoreB > r.scoreA;
     const mv = MVP[m.id];
     let inner = '';
-    if (suspended) {
-      inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div></div>`;
-    } else if (done || forf) {
-      inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
-        <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
-        <span class="sep">—</span>
-        <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
-      </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
-      <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>
-      ${mv?`<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>`:''}`;
+    
+    if (soloLecturaFase1) {
+      // ===== MODO SOLO LECTURA (Fase 1) =====
+      if (suspended) {
+        inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div></div>`;
+      } else if (done || forf) {
+        inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+          <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+          <span class="sep">—</span>
+          <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+        </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+        <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>
+        ${mv?`<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>`:''}`;
+      } else {
+        inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:11px;color:#8899aa;padding:4px;">Pendiente</div>`;
+      }
     } else {
-      inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:11px;color:#8899aa;padding:4px;">Pendiente</div>`;
+      // ===== MODO EDICIÓN (NO USADO EN FASE 1, pero se mantiene por si acaso) =====
+      if (suspended) {
+        inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div></div>`;
+      } else if (done || forf) {
+        inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+          <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+          <span class="sep">—</span>
+          <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+        </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+        <div style="text-align:center;margin-top:4px;">
+          <span class="rtag done">✓ Final</span>
+          <button onclick="borrarResultadoF2(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button>
+        </div>`;
+      } else {
+        inner = `<div style="font-size:14px;text-align:center;">🎯</div>
+                 <div style="font-size:11px;color:#8899aa;text-align:center;padding:4px;">VS</div>
+                 <div class="srow">
+                     <input class="sinp" id="f2sA${m.id}" type="number" min="0" max="20" placeholder="0">
+                     <span class="sep">—</span>
+                     <input class="sinp" id="f2sB${m.id}" type="number" min="0" max="20" placeholder="0">
+                 </div>
+                 <button class="sbtn" onclick="guardarResultadoF2(${m.id})">💾 Guardar</button>
+                 <button class="fbtn" onclick="guardarForfeitF2(${m.id})">⚠️ Forfeit/WO</button>`;
+      }
     }
+
     let estadoTag = '';
     if (suspended) estadoTag = '<span class="wtag" style="background:#e67e2233;color:#e67e22;">⏸️ Suspendido</span>';
     else if (done) estadoTag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>';
     else if (forf) estadoTag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
     else estadoTag = '<span class="wtag" style="background:#0f3460;">⏳ Pendiente</span>';
+
     return `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div><div class="mteams"><div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div></div></div>`;
   }).join('');
 }
