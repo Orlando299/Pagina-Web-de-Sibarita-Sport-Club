@@ -226,13 +226,71 @@
         </div>
 
         <!-- ==================== VIDEOS ==================== -->
-        <div id="f2-videos" class="f2-tab">
-            <div class="waiting-msg card">
-                <div class="icon">📺</div>
-                <div class="title">Videos Fase 2</div>
-                <div class="sub">Pronto subiremos los mejores momentos de la Fase 2.</div>
+       <!-- ==================== VIDEOS (igual que Fase 1) ==================== -->
+<div id="f2-videos" class="f2-tab">
+    <div class="lbl" style="margin-bottom:8px;">📺 EN VIVO Y DESTACADOS</div>
+    <div class="frow">
+        <button class="fb on" id="btn-live-f2" onclick="setVideoTypeF2('live')">🔴 EN VIVO</button>
+        <button class="fb" id="btn-highlights-f2" onclick="setVideoTypeF2('highlights')">🎬 DESTACADOS</button>
+        <button class="fb" id="btn-tiktok-f2" onclick="setVideoTypeF2('tiktok')">🎵 TIKTOK</button>
+        <button class="fb" id="btn-playlist-f2" onclick="setVideoTypeF2('playlist')">📋 PLAYLISTS</button>
+    </div>
+
+    <!-- LIVE -->
+    <div id="live-container-f2" class="video-container">
+        <div class="card" style="text-align:center;padding:15px;">
+            <div id="live-status-f2" style="font-size:48px;margin-bottom:10px;">📡</div>
+            <div id="live-title-f2" style="font-size:14px;color:#e8b84b;margin-bottom:5px;font-weight:bold;">Verificando transmisiones...</div>
+            <div id="live-subtitle-f2" style="font-size:11px;color:#8899aa;margin-bottom:15px;">Buscando streams activos</div>
+            <div id="live-player-f2" style="display:none;">
+                <div class="video-wrapper">
+                    <iframe id="live-iframe-f2" src=""></iframe>
+                </div>
+            </div>
+            <div id="proximos-partidos-f2" style="margin-top:15px;"></div>
+            <div class="channel-link">
+                <span>📺 ¿Quieres ver transmisiones anteriores?</span>
+                <a href="https://www.youtube.com/@SibaritaSC" target="_blank" class="channel-btn">🔴 Visitar Canal</a>
             </div>
         </div>
+    </div>
+
+    <!-- HIGHLIGHTS -->
+    <div id="highlights-container-f2" class="video-container" style="display:none;">
+        <div class="video-section-title">
+            <span>🎥 ÚLTIMOS PARTIDOS</span>
+            <span class="video-badge">Actualizado</span>
+        </div>
+        <div id="youtube-grid-f2" style="display:grid;grid-template-columns:1fr;gap:12px;"></div>
+        <div style="text-align:center;margin-top:10px;">
+            <a href="https://www.youtube.com/@SibaritaSC/videos" target="_blank" style="color:#e8b84b;font-size:11px;">📺 Ver todos en YouTube</a>
+        </div>
+    </div>
+
+    <!-- PLAYLISTS -->
+    <div id="playlist-container-f2" class="video-container" style="display:none;">
+        <div class="video-section-title">📋 PLAYLISTS</div>
+        <div id="playlist-grid-f2" style="display:grid;grid-template-columns:1fr;gap:10px;"></div>
+    </div>
+
+    <!-- TIKTOK -->
+    <div id="tiktok-container-f2" class="video-container" style="display:none;">
+        <div class="video-section-title">🎵 CLIPS CORTOS</div>
+        <div id="tiktok-grid-f2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="card" style="text-align:center;padding:20px;">
+                <div style="font-size:36px;">🎬</div>
+                <div style="font-size:11px;">Síguenos en TikTok</div>
+                <a href="https://www.tiktok.com/@sibaritasc" target="_blank" style="background:#000;color:white;padding:8px 16px;border-radius:8px;display:inline-block;margin-top:10px;">@sibaritasc</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="channel-link" style="justify-content:center;">
+        <span>📢 ¡Comparte los videos!</span>
+        <a href="#" onclick="compartirVideosF2()" style="color:#e8b84b;">📤 Compartir</a>
+    </div>
+    <div class="ibox">💡 ¿Quieres aparecer en los videos? Envía tus clips al WhatsApp de la organización.</div>
+</div>
 
         <!-- Botón reglas -->
         <div style="text-align: center; margin-top: 16px; padding: 8px;">
@@ -670,6 +728,173 @@
 
         container.innerHTML = html;
     });
+}
+
+// Dentro del DOMContentLoaded, después de llenarEquipos y calcularTablaF2
+// Añadir esto:
+verificarStreamEnVivoF2();
+mostrarProximosPartidosF2();
+    
+
+    // ============================================================
+// FUNCIONES DE VIDEOS (igual que Fase 1)
+// ============================================================
+
+// Playlists de YouTube
+const PLAYLISTS_F2 = [
+    { id: "PLNGr4rVFi_Mgq1yVGYN_98bi11PQeUkvt", title: "⚡ Partidos Femenino Grupo A", videoCount: 12 },
+    { id: "PLNGr4rVFi_MinnJt71a6JxLjaxxxVsbGS", title: "💪 Partidos Masculino Grupo A", videoCount: 8 },
+    { id: "PLNGr4rVFi_MgXw97f6b4p3HJz6qVCBI9D", title: "⚡ Partidos Femenino Grupo B", videoCount: 12 },
+    { id: "PLNGr4rVFi_MicT7OORCIvTF2vB7KGxCbq", title: "💪 Partidos Masculino Grupo B", videoCount: 8 },
+    { id: "PLNGr4rVFi_MiZuaAWkQlqRcqT9X0tRJX_", title: "🏆 Mejores Jugadas - Todos los Grupos", videoCount: 15 }
+];
+
+function setVideoTypeF2(type) {
+    document.getElementById('live-container-f2').style.display = type === 'live' ? 'block' : 'none';
+    document.getElementById('highlights-container-f2').style.display = type === 'highlights' ? 'block' : 'none';
+    document.getElementById('tiktok-container-f2').style.display = type === 'tiktok' ? 'block' : 'none';
+    document.getElementById('playlist-container-f2').style.display = type === 'playlist' ? 'block' : 'none';
+    
+    // Actualizar botones
+    document.querySelectorAll('#f2-videos .fb').forEach(b => b.classList.remove('on'));
+    const btnMap = {
+        'live': 'btn-live-f2',
+        'highlights': 'btn-highlights-f2',
+        'tiktok': 'btn-tiktok-f2',
+        'playlist': 'btn-playlist-f2'
+    };
+    const btn = document.getElementById(btnMap[type]);
+    if (btn) btn.classList.add('on');
+    
+    if (type === 'highlights') cargarVideosYouTubeF2();
+    if (type === 'playlist') cargarPlaylistsF2();
+    if (type === 'live') {
+        verificarStreamEnVivoF2();
+        mostrarProximosPartidosF2();
+    }
+}
+
+function verificarStreamEnVivoF2() {
+    const proximo = getProximoPartidoF2();
+    const hoy = new Date();
+    const fecha = proximo ? new Date(proximo.d.split('/').reverse().join('-')) : null;
+    const diff = fecha ? (fecha - hoy) / (1000 * 60 * 60) : null;
+    const liveDiv = document.getElementById('live-status-f2');
+    const titleDiv = document.getElementById('live-title-f2');
+    const subDiv = document.getElementById('live-subtitle-f2');
+    const playerDiv = document.getElementById('live-player-f2');
+    
+    if (!liveDiv) return;
+    
+    if (proximo && diff <= 24 && diff > 0) {
+        liveDiv.innerHTML = '⏰';
+        titleDiv.innerHTML = `Próximamente: ${proximo.a} vs ${proximo.b}`;
+        subDiv.innerHTML = `📅 ${proximo.d} ${proximo.h} · ${proximo.f}`;
+        playerDiv.style.display = 'none';
+    } else if (proximo && diff <= 0 && diff > -2) {
+        liveDiv.innerHTML = '🔴';
+        titleDiv.innerHTML = `¡EN VIVO! ${proximo.a} vs ${proximo.b}`;
+        subDiv.innerHTML = `Transmitiendo ahora desde ${proximo.f}`;
+        playerDiv.style.display = 'block';
+    } else {
+        liveDiv.innerHTML = '📡';
+        titleDiv.innerHTML = 'No hay transmisión activa';
+        subDiv.innerHTML = 'Los streams comienzan 15 minutos antes';
+        playerDiv.style.display = 'none';
+    }
+}
+
+function getProximoPartidoF2() {
+    const hoy = new Date();
+    return _MATCHES.find(m => 
+        m.g === 'Fase2' && 
+        (!_R[m.id] || _R[m.id].status !== 'done') && 
+        new Date(m.d.split('/').reverse().join('-')) >= hoy
+    );
+}
+
+function mostrarProximosPartidosF2() {
+    const hoy = new Date();
+    const futuros = _MATCHES.filter(m => 
+        m.g === 'Fase2' && 
+        new Date(m.d.split('/').reverse().join('-')) >= hoy && 
+        (!_R[m.id] || _R[m.id].status !== 'done')
+    ).sort((a, b) => new Date(a.d) - new Date(b.d)).slice(0, 4);
+    
+    const cont = document.getElementById('proximos-partidos-f2');
+    if (!cont) return;
+    
+    if (!futuros.length) {
+        cont.innerHTML = '<div class="error-message">No hay partidos próximos</div>';
+        return;
+    }
+    
+    cont.innerHTML = `<div class="video-section-title"><span>⏰ PRÓXIMOS PARTIDOS</span><span class="video-badge">${futuros.length} pendientes</span></div>` +
+        futuros.map(m => {
+            const diff = Math.ceil((new Date(m.d.split('/').reverse().join('-')) - hoy) / (1000 * 60 * 60 * 24));
+            let etiqueta = diff === 0 ? '🔥 HOY' : diff === 1 ? '⭐ MAÑANA' : `📅 En ${diff} días`;
+            return `<div class="video-card">
+                <div style="display:flex;justify-content:space-between;">
+                    <span style="font-size:10px;color:#e8b84b;">${etiqueta}</span>
+                    <span style="font-size:9px;">${m.d} · ${m.h}</span>
+                </div>
+                <div style="font-size:12px;font-weight:bold;text-align:center;">${m.a} <span style="color:#e8b84b;">VS</span> ${m.b}</div>
+                <div style="font-size:9px;text-align:center;">📍 ${m.f} · ${m.c} Gr.${m.g}</div>
+            </div>`;
+        }).join('');
+}
+
+function cargarVideosYouTubeF2() {
+    const grid = document.getElementById('youtube-grid-f2');
+    if (!grid) return;
+    grid.innerHTML = '<div class="loading-spinner">🎬 Cargando...</div>';
+    setTimeout(() => {
+        grid.innerHTML = `
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-title">Ferrecenca vs Alimentos A</div>
+                <div class="video-meta">📅 14/05/2026 ⏱️ 1:24:30</div>
+            </div>
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/9bZkp7q19f0" allowfullscreen></iframe>
+                </div>
+                <div class="video-title">The Dolls vs Saboga</div>
+                <div class="video-meta">📅 14/05/2026 ⏱️ 1:15:22</div>
+            </div>
+        `;
+    }, 300);
+}
+
+function cargarPlaylistsF2() {
+    const grid = document.getElementById('playlist-grid-f2');
+    if (!grid) return;
+    grid.innerHTML = PLAYLISTS_F2.map(p => `
+        <div class="video-card" onclick="abrirPlaylistF2('${p.id}')">
+            <div style="display:flex;gap:10px;">
+                <div style="width:80px;background:#0f3460;border-radius:6px;display:flex;align-items:center;justify-content:center;"><span>📋</span></div>
+                <div>
+                    <div class="video-title">${p.title}</div>
+                    <div class="video-meta">🎬 ${p.videoCount} videos</div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function abrirPlaylistF2(id) {
+    window.open(`https://www.youtube.com/playlist?list=${id}`, '_blank');
+}
+
+function compartirVideosF2() {
+    if (navigator.share) {
+        navigator.share({ title: 'Sibarita Sport Club', url: location.href });
+    } else {
+        navigator.clipboard.writeText(location.href);
+        alert('📋 Enlace copiado al portapapeles');
+    }
 }
 
     // ============================================================
