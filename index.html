@@ -1330,6 +1330,58 @@ function cambiarFase(fase) {
     }
   }
 }
+
+// Función para mostrar la Fase 1 (solo lectura) desde el iframe
+function mostrarFase1() {
+    const fase1Cont = document.getElementById('fase1-content');
+    const fase2Cont = document.getElementById('fase2-iframe-container');
+    const btn1 = document.getElementById('btnFase1');
+    const btn2 = document.getElementById('btnFase2');
+    
+    if (fase1Cont) fase1Cont.style.display = 'block';
+    if (fase2Cont) fase2Cont.style.display = 'none';
+    if (btn1) { btn1.style.background = '#e8b84b'; btn1.style.color = '#000'; }
+    if (btn2) { btn2.style.background = '#c0392b'; btn2.style.color = '#fff'; }
+    
+    // Renderizar contenido de Fase 1 (solo lectura)
+    if (typeof rT === 'function') rT();
+    if (typeof rM === 'function') rM();
+    if (typeof rSt === 'function') rSt();
+    if (typeof rA === 'function') rA();
+}
+
+// Función para volver a la Fase 2 desde el iframe
+function mostrarFase2() {
+    const fase1Cont = document.getElementById('fase1-content');
+    const fase2Cont = document.getElementById('fase2-iframe-container');
+    const btn1 = document.getElementById('btnFase1');
+    const btn2 = document.getElementById('btnFase2');
+    
+    if (fase1Cont) fase1Cont.style.display = 'none';
+    if (fase2Cont) fase2Cont.style.display = 'block';
+    if (btn2) { btn2.style.background = '#e8b84b'; btn2.style.color = '#000'; }
+    if (btn1) { btn1.style.background = '#c0392b'; btn1.style.color = '#fff'; }
+    
+    // Recargar iframe para refrescar
+    const iframe = document.getElementById('fase2-iframe');
+    if (iframe) {
+        iframe.src = iframe.src;
+    }
+}
+
+// Escuchar mensajes del iframe
+window.addEventListener('message', function(event) {
+    // Verificar que el mensaje viene del iframe (por seguridad)
+    const iframe = document.getElementById('fase2-iframe');
+    if (event.source !== iframe.contentWindow) return;
+    
+    if (event.data === 'mostrarFase1') {
+        mostrarFase1();
+    } else if (event.data === 'mostrarFase2') {
+        mostrarFase2();
+    }
+});
+    
 // ==================== INICIALIZACIÓN ====================
 // Solo establecemos los filtros por defecto (opcional, pero no renderizamos)
 setF('tCat','Femenino'); setF('tGrp','A'); setF('mCat','Femenino'); setF('mGrp','A'); setF('sCat','Femenino'); setF('sGrp','A'); setF('aCat','Femenino'); setF('aGrp','A');
