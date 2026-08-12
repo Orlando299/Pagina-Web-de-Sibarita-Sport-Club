@@ -191,8 +191,8 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
         <button class="fb" onclick="mostrarBotonesAdmin()" style="background:#e67e2233;border-color:#e67e22;color:#e67e22;">🔑 Admin</button>
       </div>
       <div id="admin-buttons" style="display: none; gap: 6px; margin-top: 8px;">
-        <button class="fb" onclick="cargarResultadosDesdeGitHub()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Cargar de GitHub</button>
-        <button class="fb" onclick="exportarResultadosAJSON()" style="background:#f39c1233;border-color:#f39c12;color:#f39c12;">📦 Exportar JSON</button>
+      <!-- ==== <button class="fb" onclick="cargarResultadosDesdeGitHub()" style="background:#2ecc7133;border-color:#2ecc71;color:#2ecc71;">🔄 Cargar de GitHub</button> ==== -->
+    <!-- ====  <button class="fb" onclick="exportarResultadosAJSON()" style="background:#f39c1233;border-color:#f39c12;color:#f39c12;">📦 Exportar JSON</button>  ==== -->
         <label class="fb" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;cursor:pointer;display:inline-block;padding:5px 10px;border-radius:12px;border:1px solid #9b59b6;">
         📂 Importar JSON de Juez
         <input type="file" id="importJsonInput" accept=".json" style="display:none;">
@@ -803,8 +803,8 @@ function rT() { const list = TEAMS.filter(t => t.c === F.tCat && t.g === F.tGrp)
 function openTeam(name) { const t = TEAMS.find(x => x.n === name); if (!t) return; g('teams-wrap').style.display = 'none'; g('t-detail').style.display = 'block'; g('t-dhead').innerHTML = `<div style="font-size:15px;font-weight:bold;color:#e8b84b;">${t.n}</div><div style="font-size:10px;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`; g('t-dplayers').innerHTML = t.p.map((p,i) => { const k = t.n + '|' + p; const ps = PS[k] || {}; const arrDisplay = ps.total_arr ? `${ps.arr_b || 0}/${ps.total_arr}` : '0/0'; const bocDisplay = ps.total_boc ? `${ps.boc_b || 0}/${ps.total_boc}` : '0/0'; const totalBuenos = (ps.arr_b||0)+(ps.boc_b||0); const totalIntentos = (ps.total_arr||0)+(ps.total_boc||0); const efec = totalIntentos ? Math.round((totalBuenos/totalIntentos)*100) : 0; return `<div class="pi"><div class="pn">${i+1}</div><div style="flex:1;"><div style="font-size:12px;font-weight:bold;">${p}</div><div style="font-size:9px;color:#8899aa;">ARR: ${arrDisplay} · BOC: ${bocDisplay} · EFEC: ${efec}%</div></div></div>`; }).join(''); }
 function closeDetail() { g('teams-wrap').style.display = 'block'; g('t-detail').style.display = 'none'; }
 function rM() {
-  const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9','S10','S11','S12','S13'];
-const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9',S10:'Sem 10',S11:'Sem 11',S12:'Sem 12',S13:'Sem 13'};
+  const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9','S10','S11','S12'];
+  const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9',S10:'Sem 10',S11:'Sem 11',S12:'Sem 12'};
   g('m-weeks').innerHTML = wks.map(w => `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`).join('');
   let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk));
   g('m-cnt').textContent = list.length + ' PARTIDOS';
@@ -822,11 +822,17 @@ const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 
     const mv = MVP[m.id];
     let inner = '';
     if (suspended) {
-      inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">JUEGO SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div><div style="margin-top:6px;"><button onclick="reanudarJuego(${m.id})" style="background:#3498db;border:none;border-radius:5px;color:#fff;font-size:9px;padding:3px 8px;">🔄 Reanudar</button><button onclick="delRes(${m.id})" style="background:#c0392b;border:none;border-radius:5px;color:#fff;font-size:9px;padding:3px 8px;">✕ Borrar</button></div></div>`;
+      inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div></div>`;
     } else if (done || forf) {
-      inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;"><span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span></div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}<div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span><button onclick="delRes(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;">✕</button></div>${mv?`<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div><button onclick="delMVP(${m.id})" style="background:transparent;border:none;color:#8899aa;">✕</button></div>`:'<button class="mvp-btn" onclick="setMVP('+m.id+')">🏅 Jugador del Partido</button>'}<button class="stats-btn" onclick="openStatsModal(${m.id})">📋 ${done || forf ? 'Editar Stats' : 'Registrar Stats'}</button>`;
+      inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+        <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+        <span class="sep">—</span>
+        <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+      </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+      <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>
+      ${mv?`<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>`:''}`;
     } else {
-      inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:9px;color:#8899aa;font-weight:bold;text-align:center;">VS</div><div class="srow"><input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0"><span class="sep">—</span><input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0"></div><button class="sbtn" onclick="saveRes(${m.id})">💾 Guardar</button><button class="fbtn" onclick="forfRes(${m.id})">⚠️ Forfeit/WO</button><button class="fbtn" onclick="suspenderJuego(${m.id})" style="border-color:#e67e22;color:#e67e22;">⏸️ Suspender</button><button class="stats-btn" onclick="openStatsModal(${m.id})">📋 Registrar Stats</button>`;
+      inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:11px;color:#8899aa;padding:4px;">Pendiente</div>`;
     }
     let estadoTag = '';
     if (suspended) estadoTag = '<span class="wtag" style="background:#e67e2233;color:#e67e22;">⏸️ Suspendido</span>';
