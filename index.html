@@ -791,6 +791,8 @@ let R = {}, PS = {}, MVP = {};
 let currentMatchId = null;
 let F = {tCat:'Femenino', tGrp:'A', mCat:'Femenino', mGrp:'A', mWk:'Todos', sCat:'Femenino', sGrp:'A', aCat:'Femenino', aGrp:'A', aPos:'Todos', aQ:''};
 
+let soloLecturaFase1 = true;  // Fase 1 será solo lectura
+    
 function g(id) { return document.getElementById(id); }
 function save() { try { localStorage.setItem('bc26r', JSON.stringify(R)); localStorage.setItem('bc26p', JSON.stringify(PS)); localStorage.setItem('bc26m', JSON.stringify(MVP)); } catch(e) {} }
 
@@ -1147,7 +1149,10 @@ function cambiarFase(fase) {
 }
 
 // ==================== INICIALIZACIÓN ====================
-setF('tCat','Femenino'); setF('tGrp','A'); setF('mCat','Femenino'); setF('mGrp','A'); setF('sCat','Femenino'); setF('sGrp','A'); setF('aCat','Femenino'); setF('aGrp','A');
+// Al inicio, mostrar Fase 2 por defecto
+cambiarFase('fase2');
+    
+    setF('tCat','Femenino'); setF('tGrp','A'); setF('mCat','Femenino'); setF('mGrp','A'); setF('sCat','Femenino'); setF('sGrp','A'); setF('aCat','Femenino'); setF('aGrp','A');
 rT(); rM(); rSt(); rA();
 
 // Exponer funciones necesarias para el módulo de Firebase
