@@ -334,14 +334,22 @@
     // ============================================================
     // FUNCIONES DE NAVEGACIÓN
     // ============================================================
-    function cambiarFase(fase) {
-        if (fase === 'fase1') {
-            alert('🔙 Volviendo a la Fase 1 (página principal)');
-        } else {
-            document.getElementById('btnFase1').classList.remove('activo');
-            document.getElementById('btnFase2').classList.add('activo');
+ function cambiarFase(fase) {
+    if (fase === 'fase1') {
+        // Enviar mensaje al padre para mostrar Fase 1
+        if (window.parent) {
+            window.parent.postMessage('mostrarFase1', '*');
         }
+    } else if (fase === 'fase2') {
+        // Enviar mensaje al padre para mostrar Fase 2
+        if (window.parent) {
+            window.parent.postMessage('mostrarFase2', '*');
+        }
+        // También actualizar el estilo del botón local
+        document.getElementById('btnFase1').classList.remove('activo');
+        document.getElementById('btnFase2').classList.add('activo');
     }
+}
 
     function showTabF2(id, btn) {
         document.querySelectorAll('.f2-tab').forEach(t => t.classList.remove('on'));
