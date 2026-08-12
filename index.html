@@ -786,20 +786,54 @@ function setF(k, v) { F[k] = v; const maps = { tCat: {Femenino:'btn-tFem', Mascu
 function showTab(id, btn) { document.querySelectorAll('.scr').forEach(s => s.classList.remove('on')); document.querySelectorAll('.nb').forEach(b => b.classList.remove('on')); g('s-' + id).classList.add('on'); btn.classList.add('on'); if (id === 'matches') rM(); else if (id === 'standings') rSt(); else if (id === 'stats') rA(); else if (id === 'videos') { verificarStreamEnVivo(); mostrarProximosPartidos(); } else rT(); }
 function setWeek(w) { F.mWk = w; rM(); }
 function searchTeams(q) { const sr = g('srch-res'), tw = g('teams-wrap'); if (!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; } sr.style.display = 'block'; tw.style.display = 'none'; const ql = q.toLowerCase(); let h = ''; TEAMS.forEach(t => { const pm = t.p.filter(p => p.toLowerCase().includes(ql)); if (t.n.toLowerCase().includes(ql) || pm.length) { h += `<div class="card"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`; pm.forEach(p => h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`); h += '</div>'; } }); sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;">Sin resultados</div>'; }
-function rT() { const list = TEAMS.filter(t => t.c === F.tCat && t.g === F.tGrp); g('t-cnt').textContent = list.length + ' EQUIPOS — ' + F.tCat + ' Grupo ' + F.tGrp; g('t-list').innerHTML = list.map(t => `<div class="tc" onclick="openTeam('${t.n.replace(/'/g, "\\'")}')"><div><div style="font-size:13px;font-weight:bold;">${t.n}</div><div style="font-size:10px;color:#8899aa;">${t.p.length} jugadores · Gr.${t.g}</div></div><div style="font-size:18px;">›</div></div>`).join(''); g('t-detail').style.display = 'none'; g('teams-wrap').style.display = 'block'; }
+function rT() {
+  const list = document.getElementById('t-list');
+  const cnt = document.getElementById('t-cnt');
+  const wrap = document.getElementById('teams-wrap');
+  const detail = document.getElementById('t-detail');
+  if (!list || !cnt || !wrap || !detail) {
+    console.warn('⚠️ rT: Elementos de equipos no encontrados, saltando renderizado.');
+    return;
+  }
+  const filtered = TEAMS.filter(t => t.c === F.tCat && t.g === F.tGrp);
+  cnt.textContent = filtered.length + ' EQUIPOS — ' + F.tCat + ' Grupo ' + F.tGrp;
+  list.innerHTML = filtered.map(t =>
+    `<div class="tc" onclick="openTeam('${t.n.replace(/'/g, "\\'")}')">
+      <div>
+        <div style="font-size:13px;font-weight:bold;">${t.n}</div>
+        <div style="font-size:10px;color:#8899aa;">${t.p.length} jugadores · Gr.${t.g}</div>
+      </div>
+      <div style="font-size:18px;">›</div>
+    </div>`
+  ).join('');
+  detail.style.display = 'none';
+  wrap.style.display = 'block';
+}
 function openTeam(name) { const t = TEAMS.find(x => x.n === name); if (!t) return; g('teams-wrap').style.display = 'none'; g('t-detail').style.display = 'block'; g('t-dhead').innerHTML = `<div style="font-size:15px;font-weight:bold;color:#e8b84b;">${t.n}</div><div style="font-size:10px;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`; g('t-dplayers').innerHTML = t.p.map((p,i) => { const k = t.n + '|' + p; const ps = PS[k] || {}; const arrDisplay = ps.total_arr ? `${ps.arr_b || 0}/${ps.total_arr}` : '0/0'; const bocDisplay = ps.total_boc ? `${ps.boc_b || 0}/${ps.total_boc}` : '0/0'; const totalBuenos = (ps.arr_b||0)+(ps.boc_b||0); const totalIntentos = (ps.total_arr||0)+(ps.total_boc||0); const efec = totalIntentos ? Math.round((totalBuenos/totalIntentos)*100) : 0; return `<div class="pi"><div class="pn">${i+1}</div><div style="flex:1;"><div style="font-size:12px;font-weight:bold;">${p}</div><div style="font-size:9px;color:#8899aa;">ARR: ${arrDisplay} · BOC: ${bocDisplay} · EFEC: ${efec}%</div></div></div>`; }).join(''); }
 function closeDetail() { g('teams-wrap').style.display = 'block'; g('t-detail').style.display = 'none'; }
 function rM() {
-  const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9','S10','S11','S12'];
-  const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9',S10:'Sem 10',S11:'Sem 11',S12:'Sem 12'};
-  g('m-weeks').innerHTML = wks.map(w => `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`).join('');
-  let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk));
-  g('m-cnt').textContent = list.length + ' PARTIDOS';
-  if (!list.length) {
-    g('m-list').innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;">Sin partidos</div>';
+  const weeksEl = document.getElementById('m-weeks');
+  const cntEl = document.getElementById('m-cnt');
+  const listEl = document.getElementById('m-list');
+  if (!weeksEl || !cntEl || !listEl) {
+    console.warn('⚠️ rM: Elementos de partidos no encontrados, saltando renderizado.');
     return;
   }
-  g('m-list').innerHTML = list.map(m => {
+
+  const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9','S10','S11','S12'];
+  const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9',S10:'Sem 10',S11:'Sem 11',S12:'Sem 12'};
+  weeksEl.innerHTML = wks.map(w =>
+    `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`
+  ).join('');
+
+  let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk));
+  cntEl.textContent = list.length + ' PARTIDOS';
+  if (!list.length) {
+    listEl.innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;">Sin partidos</div>';
+    return;
+  }
+
+  listEl.innerHTML = list.map(m => {
     const r = R[m.id];
     const done = r && r.status === 'done';
     const forf = r && r.status === 'forfeit';
@@ -808,32 +842,50 @@ function rM() {
     const wB = done && r.scoreB > r.scoreA;
     const mv = MVP[m.id];
     let inner = '';
-    
+
+    // ===== MODO SOLO LECTURA (Fase 1) =====
     if (soloLecturaFase1) {
-      // ===== MODO SOLO LECTURA (Fase 1) =====
       if (suspended) {
-        inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div></div>`;
+        inner = `<div style="text-align:center;">
+          <span style="font-size:14px;">⚠️</span>
+          <div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div>
+          <div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div>
+        </div>`;
       } else if (done || forf) {
         inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
           <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
           <span class="sep">—</span>
           <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
-        </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+        </div>
+        ${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
         <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>
-        ${mv?`<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>`:''}`;
+        ${mv ? `<div class="mvp-box">
+          <span>🏅</span>
+          <div>
+            <div class="mvp-lbl">Jugador del Partido</div>
+            <div class="mvp-name">${mv.name}</div>
+            <div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div>
+          </div>
+        </div>` : ''}`;
       } else {
-        inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:11px;color:#8899aa;padding:4px;">Pendiente</div>`;
+        inner = `<div style="font-size:14px;text-align:center;">🎯</div>
+                 <div style="font-size:11px;color:#8899aa;padding:4px;">Pendiente</div>`;
       }
     } else {
-      // ===== MODO EDICIÓN (NO USADO EN FASE 1, pero se mantiene por si acaso) =====
+      // ===== MODO EDICIÓN (solo si se desactiva la variable) =====
       if (suspended) {
-        inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div></div>`;
+        inner = `<div style="text-align:center;">
+          <span style="font-size:14px;">⚠️</span>
+          <div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div>
+          <div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div>
+        </div>`;
       } else if (done || forf) {
         inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
           <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
           <span class="sep">—</span>
           <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
-        </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+        </div>
+        ${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
         <div style="text-align:center;margin-top:4px;">
           <span class="rtag done">✓ Final</span>
           <button onclick="borrarResultadoF2(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button>
@@ -842,9 +894,9 @@ function rM() {
         inner = `<div style="font-size:14px;text-align:center;">🎯</div>
                  <div style="font-size:11px;color:#8899aa;text-align:center;padding:4px;">VS</div>
                  <div class="srow">
-                     <input class="sinp" id="f2sA${m.id}" type="number" min="0" max="20" placeholder="0">
-                     <span class="sep">—</span>
-                     <input class="sinp" id="f2sB${m.id}" type="number" min="0" max="20" placeholder="0">
+                   <input class="sinp" id="f2sA${m.id}" type="number" min="0" max="20" placeholder="0">
+                   <span class="sep">—</span>
+                   <input class="sinp" id="f2sB${m.id}" type="number" min="0" max="20" placeholder="0">
                  </div>
                  <button class="sbtn" onclick="guardarResultadoF2(${m.id})">💾 Guardar</button>
                  <button class="fbtn" onclick="guardarForfeitF2(${m.id})">⚠️ Forfeit/WO</button>`;
@@ -857,9 +909,20 @@ function rM() {
     else if (forf) estadoTag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
     else estadoTag = '<span class="wtag" style="background:#0f3460;">⏳ Pendiente</span>';
 
-    return `<div class="mc"><div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div><div class="mteams"><div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div><div class="vb">${inner}</div><div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div></div></div>`;
+    return `<div class="mc">
+      <div class="mm">
+        <span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>
+        ${estadoTag}
+      </div>
+      <div class="mteams">
+        <div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div>
+        <div class="vb">${inner}</div>
+        <div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div>
+      </div>
+    </div>`;
   }).join('');
 }
+
 function saveRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede guardar resultados.'); return; } const inputA = g('sA' + id); const inputB = g('sB' + id); if (!inputA || !inputB) { alert('Error'); return; } const a = parseInt(inputA.value); const b = parseInt(inputB.value); if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; } R[id] = { scoreA: a, scoreB: b, status: 'done' }; save(); rM(); rSt(); if (window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); alert('✅ Resultado guardado.'); }
 function forfRes(id) { const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026'; if (!esOrganizador) { alert('⚠️ Solo el organizador puede registrar forfeit.'); return; } const m = MATCHES.find(x => x.id === id); if (!m) return; const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`); if (ans === '1') { R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' }; save(); rM(); rSt(); if (window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); } else if (ans === '2') { R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' }; save(); rM(); rSt(); if (window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); } else alert('Opción inválida.'); }
 function delRes(id) { if (confirm('¿Borrar resultado?')) { delete R[id]; save(); rM(); rSt(); } }
@@ -911,9 +974,111 @@ function setMVP(id) {
 }
   
 function delMVP(id) { delete MVP[id]; save(); rM(); }
-function rSt() { const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp); const tb = {}; tl.forEach(t => { tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; }); MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => { const r = R[m.id]; if (!r || r.status === 'suspended') return; if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; } if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; } if (r.scoreA > r.scoreB) { if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; } if (tb[m.b]) tb[m.b].pp++; } else if (r.scoreB > r.scoreA) { if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; } if (tb[m.a]) tb[m.a].pp++; } }); const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf); const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn'; g('st-list').innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;">EQUIPO</div><div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div></div>` + sorted.map((t,i) => { const dif = t.tf - t.tc; const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0'; return `<div class="sr ${rc(i+1)}"><div class="rb ${rc(i+1)}">${i+1}</div><div style="flex:1;font-size:11px;font-weight:bold;">${t.n}</div><div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div></div>`; }).join(''); }
+function rSt() {
+  const list = document.getElementById('st-list');
+  if (!list) {
+    console.warn('⚠️ rSt: Elemento de tabla no encontrado, saltando renderizado.');
+    return;
+  }
+  const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp);
+  const tb = {};
+  tl.forEach(t => {
+    tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 };
+  });
+  MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => {
+    const r = R[m.id];
+    if (!r || r.status === 'suspended') return;
+    if (tb[m.a]) {
+      tb[m.a].pj++;
+      tb[m.a].tf += r.scoreA;
+      tb[m.a].tc += r.scoreB;
+    }
+    if (tb[m.b]) {
+      tb[m.b].pj++;
+      tb[m.b].tf += r.scoreB;
+      tb[m.b].tc += r.scoreA;
+    }
+    if (r.scoreA > r.scoreB) {
+      if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; }
+      if (tb[m.b]) tb[m.b].pp++;
+    } else if (r.scoreB > r.scoreA) {
+      if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; }
+      if (tb[m.a]) tb[m.a].pp++;
+    }
+  });
+  const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf);
+  const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn';
+  list.innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;">
+    <div style="width:20px"></div>
+    <div style="flex:1;font-size:8px;">EQUIPO</div>
+    <div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div>
+  </div>` +
+  sorted.map((t,i) => {
+    const dif = t.tf - t.tc;
+    const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0';
+    const pos = i + 1;
+    const cls = rc(pos);
+    return `<div class="sr ${cls}">
+      <div class="rb ${cls}">${pos}</div>
+      <div style="flex:1;font-size:11px;font-weight:bold;">${t.n}</div>
+      <div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
 function searchPlayer(q) { F.aQ = q; rA(); }
-function rA() { const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp); const players = []; tl.forEach(t => { t.p.forEach(p => { const ps = PS[t.n + '|' + p] || {}; if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return; const arrB = ps.arr_b || 0, arrTotal = ps.total_arr || 0; const bocB = ps.boc_b || 0, bocTotal = ps.total_boc || 0; const efecArr = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : 0; const efecBoc = bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0; const totalBuenos = arrB + bocB; const totalIntentos = arrTotal + bocTotal; const efecTotal = totalIntentos > 0 ? Math.round((totalBuenos / totalIntentos) * 100) : 0; players.push({ name: p, team: t.n, partidos: ps.partidos || 0, arrB, arrTotal, bocB, bocTotal, efecArr, efecBoc, efecTotal }); }); }); players.sort((a,b) => b.efecTotal - a.efecTotal); g('a-list').innerHTML = !players.length ? '<div style="color:#8899aa;text-align:center;padding:20px;">Sin estadísticas</div>' : `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;"><div style="width:20px"></div><div style="flex:1;font-size:8px;">JUGADOR / EQUIPO</div><div class="scols"><div class="sc sh">PJ</div><div class="sc sh">ARR%</div><div class="sc sh">BOC%</div><div class="sc sh">TOT%</div></div></div>` + players.map((p,i) => `<div class="ar"><div style="width:20px;text-align:center;">${i+1}</div><div style="flex:1;"><div style="font-size:11px;font-weight:bold;">${p.name}</div><div style="font-size:9px;">${p.team}</div></div><div class="scols"><div class="sc"><div class="av">${p.partidos}</div><div class="al">PJ</div></div><div class="sc"><div class="av" style="color:#e8b84b;">${p.efecArr}%</div><div class="al">${p.arrB}/${p.arrTotal}</div></div><div class="sc"><div class="av" style="color:#f39c12;">${p.efecBoc}%</div><div class="al">${p.bocB}/${p.bocTotal}</div></div><div class="sc"><div class="av" style="color:#2ecc71;">${p.efecTotal}%</div><div class="al">${p.arrB+p.bocB}/${p.arrTotal+p.bocTotal}</div></div></div></div>`).join(''); }
+function rA() {
+  const list = document.getElementById('a-list');
+  if (!list) {
+    console.warn('⚠️ rA: Elemento de estadísticas no encontrado, saltando renderizado.');
+    return;
+  }
+  const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp);
+  const players = [];
+  tl.forEach(t => {
+    t.p.forEach(p => {
+      const ps = PS[t.n + '|' + p] || {};
+      if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return;
+      const arrB = ps.arr_b || 0, arrTotal = ps.total_arr || 0;
+      const bocB = ps.boc_b || 0, bocTotal = ps.total_boc || 0;
+      const efecArr = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : 0;
+      const efecBoc = bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0;
+      const totalBuenos = arrB + bocB;
+      const totalIntentos = arrTotal + bocTotal;
+      const efecTotal = totalIntentos > 0 ? Math.round((totalBuenos / totalIntentos) * 100) : 0;
+      players.push({
+        name: p, team: t.n,
+        partidos: ps.partidos || 0,
+        arrB, arrTotal, bocB, bocTotal,
+        efecArr, efecBoc, efecTotal
+      });
+    });
+  });
+  players.sort((a,b) => b.efecTotal - a.efecTotal);
+  list.innerHTML = !players.length ? '<div style="color:#8899aa;text-align:center;padding:20px;">Sin estadísticas</div>' :
+    `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;">
+      <div style="width:20px"></div>
+      <div style="flex:1;font-size:8px;">JUGADOR / EQUIPO</div>
+      <div class="scols">
+        <div class="sc sh">PJ</div>
+        <div class="sc sh">ARR%</div>
+        <div class="sc sh">BOC%</div>
+        <div class="sc sh">TOT%</div>
+      </div>
+    </div>` +
+    players.map((p,i) => `<div class="ar">
+      <div style="width:20px;text-align:center;">${i+1}</div>
+      <div style="flex:1;">
+        <div style="font-size:11px;font-weight:bold;">${p.name}</div>
+        <div style="font-size:9px;">${p.team}</div>
+      </div>
+      <div class="scols">
+        <div class="sc"><div class="av">${p.partidos}</div><div class="al">PJ</div></div>
+        <div class="sc"><div class="av" style="color:#e8b84b;">${p.efecArr}%</div><div class="al">${p.arrB}/${p.arrTotal}</div></div>
+        <div class="sc"><div class="av" style="color:#f39c12;">${p.efecBoc}%</div><div class="al">${p.bocB}/${p.bocTotal}</div></div>
+        <div class="sc"><div class="av" style="color:#2ecc71;">${p.efecTotal}%</div><div class="al">${p.arrB+p.bocB}/${p.arrTotal+p.bocTotal}</div></div>
+      </div>
+    </div>`).join('');
+}
 function verificarStreamEnVivo() { const proximo = getProximoPartido(); const hoy = new Date(); const fecha = proximo ? new Date(proximo.d.split('/').reverse().join('-')) : null; const diff = fecha ? (fecha - hoy) / (1000*60*60) : null; const liveDiv = document.getElementById('live-status'); const titleDiv = document.getElementById('live-title'); const subDiv = document.getElementById('live-subtitle'); const playerDiv = document.getElementById('live-player'); if (proximo && diff <= 24 && diff > 0) { liveDiv.innerHTML = '⏰'; titleDiv.innerHTML = `Próximamente: ${proximo.a} vs ${proximo.b}`; subDiv.innerHTML = `📅 ${proximo.d} ${proximo.h} · ${proximo.f}`; playerDiv.style.display = 'none'; } else if (proximo && diff <= 0 && diff > -2) { liveDiv.innerHTML = '🔴'; titleDiv.innerHTML = `¡EN VIVO! ${proximo.a} vs ${proximo.b}`; subDiv.innerHTML = `Transmitiendo ahora desde ${proximo.f}`; playerDiv.style.display = 'block'; } else { liveDiv.innerHTML = '📡'; titleDiv.innerHTML = 'No hay transmisión activa'; subDiv.innerHTML = 'Los streams comienzan 15 minutos antes'; playerDiv.style.display = 'none'; } }
 function getProximoPartido() { return MATCHES.find(m => (!R[m.id] || R[m.id].status !== 'done') && new Date(m.d.split('/').reverse().join('-')) >= new Date()); }
 function mostrarProximosPartidos() { const hoy = new Date(); const futuros = MATCHES.filter(m => new Date(m.d.split('/').reverse().join('-')) >= hoy && (!R[m.id] || R[m.id].status !== 'done')).sort((a,b)=>new Date(a.d)-new Date(b.d)).slice(0,4); const cont = document.getElementById('proximos-partidos'); if (!cont) return; if (!futuros.length) { cont.innerHTML = '<div class="error-message">No hay partidos próximos</div>'; return; } cont.innerHTML = `<div class="video-section-title"><span>⏰ PRÓXIMOS PARTIDOS</span><span class="video-badge">${futuros.length} pendientes</span></div>` + futuros.map(m => { const diff = Math.ceil((new Date(m.d.split('/').reverse().join('-')) - hoy) / (1000*60*60*24)); let etiqueta = diff===0?'🔥 HOY':diff===1?'⭐ MAÑANA':`📅 En ${diff} días`; return `<div class="video-card"><div style="display:flex;justify-content:space-between;"><span style="font-size:10px;color:#e8b84b;">${etiqueta}</span><span style="font-size:9px;">${m.d} · ${m.h}</span></div><div style="font-size:12px;font-weight:bold;text-align:center;">${m.a} <span style="color:#e8b84b;">VS</span> ${m.b}</div><div style="font-size:9px;text-align:center;">📍 ${m.f} · ${m.c} Gr.${m.g}</div></div>`; }).join(''); }
