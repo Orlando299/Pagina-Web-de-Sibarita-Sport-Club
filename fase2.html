@@ -670,8 +670,6 @@
             if (!r || r.status === 'suspended') return;
             const eqA = m.a;
             const eqB = m.b;
-            
-            // 🔥 CONVERTIR A NÚMERO antes de sumar
             const scoreA = parseInt(r.scoreA) || 0;
             const scoreB = parseInt(r.scoreB) || 0;
 
@@ -691,12 +689,23 @@
             }
         });
 
-        const sorted = Object.values(tabla).sort((a,b) => {
+        // ----- NUEVO ORDENAMIENTO -----
+        const sorted = Object.values(tabla).sort((a, b) => {
+            // 1. Puntos (mayor a menor)
             if (b.pts !== a.pts) return b.pts - a.pts;
-            const difA = a.tf - a.tc;
-            const difB = b.tf - b.tc;
-            if (difB !== difA) return difB - difA;
-            return 0;
+
+            // 2. Rendimiento = PG / PJ (mayor a menor)
+            const rendA = a.pj > 0 ? a.pg / a.pj : 0;
+            const rendB = b.pj > 0 ? b.pg / b.pj : 0;
+            if (rendB !== rendA) return rendB - rendA;
+
+            // 3. Average = (TF - TC) / PJ (mayor a menor)
+            const avgA = a.pj > 0 ? (a.tf - a.tc) / a.pj : 0;
+            const avgB = b.pj > 0 ? (b.tf - b.tc) / b.pj : 0;
+            if (avgB !== avgA) return avgB - avgA;
+
+            // 4. Diferencia absoluta (TF - TC) como último desempate numérico
+            return (b.tf - b.tc) - (a.tf - a.tc);
         });
 
         const containerId = grupo.id === 'A' ? 'tabla-f2-listA' : 'tabla-f2-listB';
@@ -717,7 +726,7 @@
         sorted.forEach((t, i) => {
             const pos = i + 1;
             const dif = t.tf - t.tc;
-            const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0';
+            const avg = t.pj ? (dif / t.pj).toFixed(2) : '0.00';
             const rc = pos === 1 ? 'r1' : pos === 2 ? 'r2' : pos === 3 ? 'r3' : 'rn';
             html += `<div class="sr ${rc}">
                 <div class="rb ${rc}">${pos}</div>
