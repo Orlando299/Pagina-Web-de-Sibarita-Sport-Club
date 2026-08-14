@@ -562,71 +562,105 @@
     // EDICIÓN DE RESULTADOS (con clave de administrador)
     // ============================================================
 
-    function guardarResultadoF2(id) {
-        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-        if (!esOrganizador) {
-            alert('⚠️ Solo el organizador puede editar guardar resultados.');
-            return;
-        }
-        const inputA = document.getElementById(`f2sA${id}`);
-        const inputB = document.getElementById(`f2sB${id}`);
-        if (!inputA || !inputB) { alert('Error: campos no encontrados'); return; }
-        const a = parseInt(inputA.value);
-        const b = parseInt(inputB.value);
-        if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) {
-            alert('Marcador inválido (0-20)');
-            return;
-        }
-        _R[id] = { scoreA: a, scoreB: b, status: 'done' };
-        if (_save) _save();
-        if (_guardarResultadoFirebase) {
-            _guardarResultadoFirebase(id, _R[id]);
-        }
-        mostrarPartidosFase2(semanaF2Actual);
-        mostrarEstadoF2('✅ Resultado guardado');
+    async function guardarResultadoF2(id) {
+    const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+    if (!esOrganizador) {
+        alert('⚠️ Solo el organizador puede editar guardar resultados.');
+        return;
+    }
+    const inputA = document.getElementById(`f2sA${id}`);
+    const inputB = document.getElementById(`f2sB${id}`);
+    if (!inputA || !inputB) { alert('Error: campos no encontrados'); return; }
+    const a = parseInt(inputA.value);
+    const b = parseInt(inputB.value);
+    if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) {
+        alert('Marcador inválido (0-20)');
+        return;
     }
 
-    function guardarForfeitF2(id) {
-        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-        if (!esOrganizador) {
-            alert('⚠️ Solo el organizador puede editar guardar resultados.');
-            return;
+    // Guardar localmente
+    _R[id] = { scoreA: a, scoreB: b, status: 'done' };
+    if (_save) _save();
+
+    // Guardar en Firebase (con await)
+    if (_guardarResultadoFirebase) {
+        try {
+            await _guardarResultadoFirebase(id, _R[id]);
+            console.log(`✅ Resultado ${id} guardado en Firebase`);
+            mostrarEstadoF2('✅ Guardado en Firebase', false);
+        } catch (error) {
+            console.error(`❌ Error al guardar ${id} en Firebase:`, error);
+            mostrarEstadoF2('⚠️ Error al guardar en Firebase. Revisa la consola.', true);
+            alert('⚠️ El resultado se guardó localmente, pero hubo un error al sincronizar con Firebase. Puedes intentar exportar el JSON manualmente.');
         }
-        const m = _MATCHES.find(x => x.id === id);
-        if (!m) return;
-        const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
-        if (ans === '1') {
-            _R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' };
-        } else if (ans === '2') {
-            _R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' };
-        } else {
-            alert('Opción inválida.');
-            return;
-        }
-        if (_save) _save();
-        if (_guardarResultadoFirebase) {
-            _guardarResultadoFirebase(id, _R[id]);
-        }
-        mostrarPartidosFase2(semanaF2Actual);
-        mostrarEstadoF2('✅ Forfeit registrado');
+    } else {
+        console.warn('⚠️ _guardarResultadoFirebase no está disponible, solo guardado local.');
+        mostrarEstadoF2('⚠️ Solo guardado local (Firebase no disponible)', true);
     }
 
-    function borrarResultadoF2(id) {
-        const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
-        if (!esOrganizador) {
-            alert('⚠️ Solo el organizador puede editar guardar resultados.');
-            return;
+    mostrarPartidosFase2(semanaF2Actual);
+}
+
+    async function guardarForfeitF2(id) {
+    const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+    if (!esOrganizador) {
+        alert('⚠️ Solo el organizador puede editar guardar resultados.');
+        return;
+    }
+    const m = _MATCHES.find(x => x.id === id);
+    if (!m) return;
+    const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
+    if (ans === '1') {
+        _R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' };
+    } else if (ans === '2') {
+        _R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' };
+    } else {
+        alert('Opción inválida.');
+        return;
+    }
+
+    if (_save) _save();
+
+    if (_guardarResultadoFirebase) {
+        try {
+            await _guardarResultadoFirebase(id, _R[id]);
+            console.log(`✅ Forfeit ${id} guardado en Firebase`);
+            mostrarEstadoF2('✅ Forfeit guardado en Firebase', false);
+        } catch (error) {
+            console.error(`❌ Error al guardar forfeit ${id}:`, error);
+            mostrarEstadoF2('⚠️ Error al guardar forfeit en Firebase', true);
         }
-        if (confirm('¿Borrar resultado?')) {
-            delete _R[id];
-            if (_save) _save();
-            if (_guardarResultadoFirebase) {
-                _guardarResultadoFirebase(id, null);
+    }
+
+    mostrarPartidosFase2(semanaF2Actual);
+    mostrarEstadoF2('✅ Forfeit registrado');
+}
+
+    async function borrarResultadoF2(id) {
+    const esOrganizador = prompt('🔐 Contraseña de organizador:') === 'sibarita2026';
+    if (!esOrganizador) {
+        alert('⚠️ Solo el organizador puede editar guardar resultados.');
+        return;
+    }
+    if (confirm('¿Borrar resultado?')) {
+        delete _R[id];
+        if (_save) _save();
+
+        if (_guardarResultadoFirebase) {
+            try {
+                await _guardarResultadoFirebase(id, null); // Guarda null para borrar
+                console.log(`✅ Resultado ${id} borrado en Firebase`);
+                mostrarEstadoF2('✅ Borrado en Firebase', false);
+            } catch (error) {
+                console.error(`❌ Error al borrar ${id} en Firebase:`, error);
+                mostrarEstadoF2('⚠️ Error al borrar en Firebase', true);
             }
-            mostrarPartidosFase2(semanaF2Actual);
-            mostrarEstadoF2('✅ Resultado borrado');
         }
+
+        mostrarPartidosFase2(semanaF2Actual);
+        mostrarEstadoF2('✅ Resultado borrado');
     }
+}
 
     // ============================================================
     // TABLA DE POSICIONES
