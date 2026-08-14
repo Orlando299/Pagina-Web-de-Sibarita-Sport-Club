@@ -1450,6 +1450,7 @@ window.R = R;
 window.MVP = MVP;
 window.PS = PS;
 window.TEAMS = TEAMS;
+    
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
   import { getFirestore, doc, setDoc, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
@@ -1465,9 +1466,7 @@ window.TEAMS = TEAMS;
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // ========== DEFINIR TODAS LAS FUNCIONES ==========
-  console.log("🔥 Firebase conectado, definiendo funciones...");
-
+  // ========== DEFINIR FUNCIONES ==========
   window.cargarResultadosFirebase = async function() {
     try {
       const ref = collection(db, "resultados");
@@ -1485,7 +1484,6 @@ window.TEAMS = TEAMS;
   window.guardarResultadoFirebase = async function(matchId, data) {
     try {
       if (data === null) {
-        // Borrar documento
         await deleteDoc(doc(db, "resultados", matchId.toString()));
       } else {
         await setDoc(doc(db, "resultados", matchId.toString()), data);
@@ -1577,31 +1575,15 @@ window.TEAMS = TEAMS;
   window.cargarResultadosDesdeFirebase = async function() {
     console.log("🔄 Iniciando carga desde Firebase...");
     try {
-      // Verificar que todas las funciones existan
-      if (typeof window.cargarResultadosFirebase !== 'function') {
-        throw new Error('window.cargarResultadosFirebase no está definida');
-      }
-      if (typeof window.cargarMVPFirebase !== 'function') {
-        throw new Error('window.cargarMVPFirebase no está definida');
-      }
-      if (typeof window.cargarEstadisticasFirebase !== 'function') {
-        throw new Error('window.cargarEstadisticasFirebase no está definida');
-      }
-      if (typeof window.cargarEstadisticasPorPartidoFirebase !== 'function') {
-        throw new Error('window.cargarEstadisticasPorPartidoFirebase no está definida');
-      }
-
       const resultados = await window.cargarResultadosFirebase();
       const mvp = await window.cargarMVPFirebase();
       const estadisticas = await window.cargarEstadisticasFirebase();
       const statsPP = await window.cargarEstadisticasPorPartidoFirebase();
 
-      // Limpiar objetos globales
       for (let k in R) delete R[k];
       for (let k in MVP) delete MVP[k];
       for (let k in PS) delete PS[k];
 
-      // Asignar datos
       for (const [id, d] of Object.entries(resultados)) R[id] = d;
       for (const [id, d] of Object.entries(mvp)) MVP[id] = d;
       for (const [k, d] of Object.entries(estadisticas)) PS[k] = d;
@@ -1609,10 +1591,7 @@ window.TEAMS = TEAMS;
         localStorage.setItem(`match_stats_${mid}`, JSON.stringify(s));
       }
 
-      // Guardar en localStorage
       if (typeof save === 'function') save();
-
-      // Refrescar vistas
       if (typeof rM === 'function') rM();
       if (typeof rSt === 'function') rSt();
       if (typeof rA === 'function') rA();
@@ -1630,8 +1609,7 @@ window.TEAMS = TEAMS;
     }
   };
 
-  // ========== EJECUTAR INICIALIZACIÓN ==========
-  // Esperar un ciclo para asegurar que todas las funciones están registradas
+  // ========== EJECUTAR ==========
   setTimeout(() => {
     console.log("🔄 Ejecutando cargarResultadosDesdeFirebase...");
     window.cargarResultadosDesdeFirebase();
