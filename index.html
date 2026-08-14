@@ -1468,9 +1468,20 @@ window.TEAMS = TEAMS;
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  window.cargarResultadosFirebase = async function() {
-    try { const ref = collection(db, "resultados"); const snap = await getDocs(ref); const res = {}; snap.forEach(doc => res[doc.id] = doc.data()); console.log("✅ Resultados cargados:", Object.keys(res).length); return res; } catch(e) { return {}; }
-  };
+  window.guardarResultadoFirebase = async function(matchId, data) {
+    try {
+        if (data === null) {
+            await setDoc(doc(db, "resultados", matchId.toString()), {}); // O borra el doc
+        } else {
+            await setDoc(doc(db, "resultados", matchId.toString()), data);
+        }
+        console.log("✅ Resultado guardado:", matchId);
+        return true;
+    } catch(e) {
+        console.error("❌ Error guardando resultado:", e);
+        return false;
+    }
+};
   window.guardarResultadoFirebase = async function(matchId, data) { try { await setDoc(doc(db, "resultados", matchId.toString()), data); console.log("✅ Resultado guardado:", matchId); return true; } catch(e) { return false; } };
   window.cargarMVPFirebase = async function() { try { const ref = collection(db, "mvp"); const snap = await getDocs(ref); const res = {}; snap.forEach(doc => res[doc.id] = doc.data()); console.log("✅ MVP cargados:", Object.keys(res).length); return res; } catch(e) { return {}; } };
   window.guardarMVPFirebase = async function(matchId, data) { try { await setDoc(doc(db, "mvp", matchId.toString()), data); console.log("✅ MVP guardado:", matchId); return true; } catch(e) { return false; } };
