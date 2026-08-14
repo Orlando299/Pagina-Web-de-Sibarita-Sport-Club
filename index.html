@@ -1485,18 +1485,20 @@ window.TEAMS = TEAMS;
 
   window.guardarResultadoFirebase = async function(matchId, data) {
     try {
-      if (data === null) {
-        await deleteDoc(doc(db, "resultados", matchId.toString()));
-      } else {
-        await setDoc(doc(db, "resultados", matchId.toString()), data);
-      }
-      console.log("✅ Resultado guardado:", matchId);
-      return true;
+        if (data === null) {
+            await deleteDoc(doc(db, "resultados", matchId.toString()));
+        } else {
+            // 🔥 FIX: asegurar que data sea un objeto plano
+            const plainData = { ...data };
+            await setDoc(doc(db, "resultados", matchId.toString()), plainData);
+        }
+        console.log("✅ Resultado guardado:", matchId);
+        return true;
     } catch(e) {
-      console.error("❌ Error guardando resultado:", e);
-      return false;
+        console.error("❌ Error guardando resultado:", e);
+        return false;
     }
-  };
+};
 
   window.cargarMVPFirebase = async function() {
     try {
