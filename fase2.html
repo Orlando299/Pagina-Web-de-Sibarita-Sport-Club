@@ -417,7 +417,7 @@
         btn.classList.add('on');
 
         if (id === 'f2-partidos') {
-            mostrarProximosPartidosF2(semanaF2Actual);
+            mostrarPartidosF2(semanaF2Actual);
         } else if (id === 'f2-tabla') {
             calcularTablaF2(categoriaTablaActual);
         }
@@ -499,38 +499,70 @@
         document.querySelectorAll('#f2-week-buttons .fb').forEach(b => b.classList.remove('on'));
         const btn = document.querySelector(`#f2-week-buttons .fb[data-semana="${semana}"]`);
         if (btn) btn.classList.add('on');
-        mostrarProximosPartidosF2(semana);
+        mostrarPartidosF2(semana);
     }
 
-    // --- fase2.html (Fase 2) ---
-function mostrarProximosPartidosF2() {
-    const hoy = new Date();
-    const futuros = _MATCHES.filter(m => {
-        if (m.g !== 'Fase2') return false;
-        const fechaPartido = new Date(m.d.split('/').reverse().join('-'));
-        const diff = Math.ceil((fechaPartido - hoy) / (1000 * 60 * 60 * 24));
-        return diff === 0 && (!_R[m.id] || _R[m.id].status !== 'done');
-    }).sort((a, b) => new Date(a.d) - new Date(b.d));
-
-    const cont = document.getElementById('proximos-partidos-f2');
-    if (!cont) return;
-
-    if (!futuros.length) {
-        cont.innerHTML = '<div class="error-message">No hay partidos programados para hoy.</div>';
+    function mostrarPartidosFase2(semana) {
+    const container = document.getElementById('f2-partidos-list');
+    if (!container) return;
+    
+    // Filtrar partidos de la Fase 2 con la semana seleccionada
+    const partidos = _MATCHES.filter(m => m.g === 'Fase2' && m.w === semana);
+    
+    if (partidos.length === 0) {
+        container.innerHTML = `<div class="card" style="text-align:center;padding:20px;color:#8899aa;">No hay partidos para la semana ${semana}.</div>`;
         return;
     }
 
-    cont.innerHTML = `<div class="video-section-title"><span>📅 PARTIDOS DE HOY</span><span class="video-badge">${futuros.length} partidos</span></div>` +
-        futuros.map(m => `
-            <div class="video-card">
-                <div style="display:flex;justify-content:space-between;">
-                    <span style="font-size:10px;color:#e8b84b;">🔥 HOY</span>
-                    <span style="font-size:9px;">${m.d} · ${m.h}</span>
-                </div>
-                <div style="font-size:12px;font-weight:bold;text-align:center;">${m.a} <span style="color:#e8b84b;">VS</span> ${m.b}</div>
-                <div style="font-size:9px;text-align:center;">📍 ${m.f} · ${m.c} Gr.${m.g}</div>
+    // Ordenar por fecha y hora (opcional)
+    partidos.sort((a, b) => new Date(a.d + ' ' + a.h) - new Date(b.d + ' ' + b.h));
+
+    let html = '';
+    partidos.forEach(m => {
+        const r = _R[m.id];
+        const done = r && r.status === 'done';
+        const forf = r && r.status === 'forfeit';
+        const wA = done && r.scoreA > r.scoreB;
+        const wB = done && r.scoreB > r.scoreA;
+
+        let inner = '';
+        if (done || forf) {
+            inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+                <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+                <span class="sep">—</span>
+                <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+            </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+            <div style="text-align:center;margin-top:4px;">
+                <span class="rtag done">✓ Final</span>
+                <button onclick="borrarResultadoF2(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button>
+            </div>`;
+        } else {
+            inner = `<div style="font-size:14px;text-align:center;">🎯</div>
+                     <div style="font-size:11px;color:#8899aa;text-align:center;padding:4px;">VS</div>
+                     <div class="srow">
+                         <input class="sinp" id="f2sA${m.id}" type="number" min="0" max="20" placeholder="0">
+                         <span class="sep">—</span>
+                         <input class="sinp" id="f2sB${m.id}" type="number" min="0" max="20" placeholder="0">
+                     </div>
+                     <button class="sbtn" onclick="guardarResultadoF2(${m.id})">💾 Guardar</button>
+                     <button class="fbtn" onclick="guardarForfeitF2(${m.id})">⚠️ Forfeit/WO</button>`;
+        }
+
+        let estadoTag = '';
+        if (done) estadoTag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>';
+        else if (forf) estadoTag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
+        else estadoTag = '<span class="wtag" style="background:#0f3460;">⏳ Pendiente</span>';
+
+        html += `<div class="mc">
+            <div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div>
+            <div class="mteams">
+                <div class="tn">${m.a}</div>
+                <div class="vb">${inner}</div>
+                <div class="tn">${m.b}</div>
             </div>
-        `).join('');
+        </div>`;
+    });
+    container.innerHTML = html;
 }
 
     // ============================================================
