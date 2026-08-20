@@ -605,7 +605,7 @@
         mostrarEstadoF2('⚠️ Solo guardado local (Firebase no disponible)', true);
     }
 
-    mostrarProximosPartidosF2(semanaF2Actual);
+    mostrarPartidosF2(semanaF2Actual);
 }
 
     async function guardarForfeitF2(id) {
@@ -639,7 +639,7 @@
         }
     }
 
-    mostrarProximosPartidosF2(semanaF2Actual);
+    mostrarPartidosF2(semanaF2Actual);
     mostrarEstadoF2('✅ Forfeit registrado');
 }
 
@@ -664,7 +664,7 @@
             }
         }
 
-        mostrarProximosPartidosF2(semanaF2Actual);
+        mostrarPartidosF2(semanaF2Actual);
         mostrarEstadoF2('✅ Resultado borrado');
     }
 }
@@ -784,7 +784,7 @@
 // Dentro del DOMContentLoaded, después de llenarEquipos y calcularTablaF2
 // Añadir esto:
 verificarStreamEnVivoF2();
-mostrarProximosPartidosF2();
+mostrarPartidosF2();
     
 
     // ============================================================
@@ -1007,7 +1007,7 @@ function compartirVideosF2() {
                 if (_save) _save();
 
                 // Refrescar vista
-                mostrarProximosPartidosF2(semanaF2Actual);
+                mostrarPartidosF2(semanaF2Actual);
                 calcularTablaF2(categoriaTablaActual);
 
                 alert(`✅ ${importados} partidos importados correctamente.`);
@@ -1057,7 +1057,7 @@ function compartirVideosF2() {
     window._guardarResultadoFirebase = _guardarResultadoFirebase;
     window._save = _save;
     window.semanaF2Actual = semanaF2Actual;
-    window.mostrarProximosPartidosF2 = mostrarProximosPartidosF2;
+    window.mostrarPartidosF2 = mostrarPartidosF2;
     window.calcularTablaF2 = calcularTablaF2;
     window.categoriaTablaActual = categoriaTablaActual;
     console.log('✅ Variables de Fase 2 expuestas en window');
