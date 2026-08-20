@@ -502,7 +502,7 @@
         mostrarPartidosF2(semana);
     }
 
-    function mostrarPartidosFase2(semana) {
+    function mostrarPartidosF2(semana) {
     const container = document.getElementById('f2-partidos-list');
     if (!container) return;
     
@@ -514,7 +514,7 @@
         return;
     }
 
-    // Ordenar por fecha y hora (opcional)
+    // Ordenar por fecha y hora
     partidos.sort((a, b) => new Date(a.d + ' ' + a.h) - new Date(b.d + ' ' + b.h));
 
     let html = '';
@@ -1073,6 +1073,7 @@ function compartirVideosF2() {
 
         llenarEquipos('femenino');
         calcularTablaF2('femenino');
+        mostrarPartidosF2(semanaF2Actual);
     });
 </script>
 </body>
