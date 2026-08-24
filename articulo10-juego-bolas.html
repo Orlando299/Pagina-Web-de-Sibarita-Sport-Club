@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego Interactivo de Bolas Criollas - Sibarita Sport Club</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #1a1a2e;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #f0e6d3;
+            padding: 20px;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #16213e;
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #e8b84b33;
+        }
+        h1 {
+            color: #e8b84b;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+        .meta {
+            color: #8899aa;
+            font-size: 14px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #0f3460;
+            padding-bottom: 10px;
+        }
+        .content {
+            color: #c8d6e5;
+            font-size: 16px;
+        }
+        .content p {
+            margin-bottom: 15px;
+        }
+        .content h2 {
+            color: #e8b84b;
+            font-size: 20px;
+            margin: 25px 0 10px 0;
+        }
+        .content h3 {
+            color: #e8b84b;
+            font-size: 17px;
+            margin: 20px 0 8px 0;
+        }
+        .content ul, .content ol {
+            margin: 10px 0 15px 25px;
+        }
+        .content li {
+            margin-bottom: 5px;
+        }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        .content table th {
+            background: #0f3460;
+            color: #e8b84b;
+            padding: 8px 10px;
+            border: 1px solid #e8b84b33;
+            text-align: left;
+        }
+        .content table td {
+            padding: 8px 10px;
+            border: 1px solid #e8b84b33;
+            color: #c8d6e5;
+        }
+        .content table tr:nth-child(even) {
+            background: #0f1a2e;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: #e8b84b;
+            color: #1a1a2e;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+        .back-button:hover {
+            opacity: 0.8;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #0f3460;
+            font-size: 12px;
+            color: #8899aa;
+            text-align: center;
+        }
+        .highlight-box {
+            background: #0f3460;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 3px solid #e8b84b;
+        }
+        blockquote {
+            background: #0f3460;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 3px solid #e8b84b;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Juego Interactivo de Bolas Criollas: Practica y Compite desde tu Navegador</h1>
+        <div class="meta">Por Arq. Berly Salazar • 24 de agosto de 2026</div>
+
+        <div class="content">
+            <p>¿Quieres practicar tus habilidades en las bolas criollas sin necesidad de estar en la cancha? Ahora puedes hacerlo desde la comodidad de tu hogar con nuestro <strong>Juego Interactivo de Bolas Criollas</strong>, disponible directamente en la página web de Sibarita Sport Club.</p>
+
+            <p>Este simulador ha sido diseñado para replicar la mecánica y la emoción del deporte tradicional venezolano, permitiéndote jugar partidas completas contra un amigo o contra la inteligencia artificial. Es una herramienta perfecta para entrenar, divertirte y compartir con otros aficionados.</p>
+
+            <h2>¿Cómo Funciona el Juego?</h2>
+
+            <p>El juego reproduce las reglas fundamentales de las bolas criollas en un entorno digital interactivo. Aquí te explicamos cómo empezar:</p>
+
+            <h3>1. Coloca el Mingo</h3>
+            <ul>
+                <li>El juego comienza con el <strong>mingo</strong> (la bola blanca o dorada) en el centro de la cancha.</li>
+                <li><strong>Arrastra el mingo</strong> con el dedo o el ratón y colócalo donde prefieras dentro del área de juego. Esta es tu oportunidad de definir la estrategia inicial.</li>
+            </ul>
+
+            <h3>2. Lanza tus Bolas</h3>
+            <ul>
+                <li>Una vez colocado el mingo, te toca lanzar tus bolas.</li>
+                <li><strong>Arrastra desde la parte inferior de la pantalla</strong> hacia el objetivo para ajustar la dirección y la potencia.</li>
+                <li>Una barra de potencia te indicará la fuerza de tu lanzamiento. ¡Apunta con precisión!</li>
+            </ul>
+
+            <h3>3. Turnos y Estrategia</h3>
+            <ul>
+                <li>Los jugadores se turnan para lanzar sus bolas.</li>
+                <li>El objetivo es acercar tus bolas lo más posible al mingo, superando a tu oponente.</li>
+                <li><strong>Primera ronda:</strong> Ambos jugadores lanzan una bola cada uno. Luego, el jugador que <strong>va perdiendo</strong> tiene la oportunidad de lanzar más bolas para intentar remontar.</li>
+            </ul>
+
+            <h3>4. Puntuación y Boches</h3>
+            <ul>
+                <li>Al final de cada ronda, se cuentan las bolas que están más cerca del mingo.</li>
+                <li><strong>Si una bola golpea el mingo</strong>, se produce un <strong>"boche"</strong> y la bola se desplaza, lo que puede cambiar drásticamente el resultado de la ronda.</li>
+            </ul>
+
+            <h3>5. Ganador</h3>
+            <ul>
+                <li>Después de 3 rondas, el jugador con mayor puntuación es declarado ganador.</li>
+            </ul>
+
+            <h2>Modos de Juego</h2>
+
+            <table>
+                <thead>
+                    <tr><th>Modo</th><th>Descripción</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>👥 2 Jugadores</strong></td><td>Juega contra un amigo en el mismo dispositivo. Perfecto para disfrutar en familia o con otros aficionados.</td></tr>
+                    <tr><td><strong>🤖 VS Computadora</strong></td><td>El juego cuenta con una <strong>inteligencia artificial</strong> que te planteará un desafío real. Ideal para practicar cuando no tengas a alguien con quien jugar.</td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Puedes cambiar el modo en cualquier momento</strong> con el botón correspondiente en la interfaz del juego.</p>
+
+            <h2>Características Técnicas</h2>
+
+            <ul>
+                <li><strong>📱 Adaptable a dispositivos móviles:</strong> El juego está optimizado para funcionar en pantallas táctiles, por lo que puedes jugar desde tu teléfono o tableta sin problemas.</li>
+                <li><strong>🎯 Mecánicas realistas:</strong> El sistema de lanzamiento, la física de las bolas y los efectos de "boche" recrean fielmente la experiencia de jugar en una cancha real.</li>
+                <li><strong>🔄 Reinicio rápido:</strong> Puedes reiniciar la partida en cualquier momento con el botón "REINICIAR".</li>
+                <li><strong>⚡ Animaciones y efectos:</strong> El juego incluye partículas, ondas de impacto y efectos visuales que hacen la experiencia más inmersiva.</li>
+            </ul>
+
+            <h2>Beneficios de Jugar</h2>
+
+            <ul>
+                <li><strong>Practica tu puntería:</strong> Mejora tu precisión en arrimes y boches sin necesidad de una cancha física.</li>
+                <li><strong>Aprende las reglas:</strong> Si eres nuevo en las bolas criollas, el juego es una excelente manera de entender la dinámica y las reglas del deporte.</li>
+                <li><strong>Compite con amigos:</strong> El modo 2 jugadores te permite desafiar a tus amigos y familiares en partidas rápidas y divertidas.</li>
+                <li><strong>Entrena contra la IA:</strong> La inteligencia artificial te ofrece un nivel de competencia que te ayudará a desarrollar tus estrategias.</li>
+            </ul>
+
+            <h2>¡Juega Ahora!</h2>
+
+            <p>El <strong>Juego Interactivo de Bolas Criollas</strong> está disponible en la sección de juegos de nuestra página web. No necesitas instalar nada; solo abre el navegador y empieza a jugar.</p>
+
+            <p><strong>Te invitamos a probarlo y a compartir tus experiencias con nosotros.</strong> ¿Lograste hacer un boche perfecto? ¿Ganaste una partida contra la IA? Cuéntanos en nuestras redes sociales.</p>
+
+            <p><strong>¡Nos vemos en la cancha virtual!</strong></p>
+
+            <hr>
+
+            <p><strong>Sibarita Sport Club</strong><br>
+            <em>"Un año de pasión, comunidad y bolas criollas en Portuguesa"</em></p>
+        </div>
+
+        <a href="blog.html" class="back-button">← Volver al blog</a>
+
+        <div class="footer">
+            Sibarita Sport Club - Un año de pasión, comunidad y bolas criollas en Portuguesa
+        </div>
+    </div>
+</body>
+</html>
