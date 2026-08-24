@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Fotos - Sibarita Sport Club</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #1a1a2e;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #f0e6d3;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #16213e;
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #e8b84b33;
+        }
+        h1 {
+            color: #e8b84b;
+            font-size: 28px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #e8b84b55;
+            padding-bottom: 15px;
+        }
+        .subtitle {
+            color: #c8d6e5;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        /* ===== CATEGORÍAS ===== */
+        .categoria {
+            margin-bottom: 35px;
+        }
+        .categoria-titulo {
+            color: #e8b84b;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #e8b84b33;
+            padding-bottom: 8px;
+        }
+        .categoria-titulo .emoji {
+            font-size: 24px;
+        }
+
+        /* ===== GRID DE FOTOS ===== */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 18px;
+        }
+        .grid-item {
+            background: #0f1a2e;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e8b84b33;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .grid-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(232, 184, 75, 0.15);
+            border-color: #e8b84b77;
+        }
+        .grid-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .grid-item .caption {
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #b8b0a0;
+            text-align: center;
+            border-top: 1px solid #e8b84b22;
+        }
+        .grid-item .caption strong {
+            color: #f0e6d3;
+        }
+
+        /* ===== BOTONES ===== */
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: #e8b84b;
+            color: #1a1a2e;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+        .back-button:hover {
+            opacity: 0.8;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #0f3460;
+            font-size: 12px;
+            color: #8899aa;
+            text-align: center;
+        }
+
+        /* ===== LIGHTBOX (para ampliar fotos) ===== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            border: 2px solid #e8b84b55;
+            box-shadow: 0 0 50px rgba(232, 184, 75, 0.2);
+        }
+        .lightbox .close {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .lightbox .close:hover {
+            color: #e8b84b;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 12px;
+            }
+            .grid-item img {
+                height: 150px;
+            }
+            .lightbox img {
+                max-width: 100%;
+                max-height: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📸 Galería de Fotos</h1>
+    <p class="subtitle">Las mejores imágenes del torneo, las instalaciones y el ambiente familiar en Sibarita Sport Club</p>
+
+    <!-- ===== CATEGORÍA 1: INSTALACIONES ===== -->
+    <div class="categoria">
+        <div class="categoria-titulo">
+            <span class="emoji">🏟️</span> Instalaciones del CEINPORT
+        </div>
+        <div class="grid">
+            <!-- FOTO 1: Logo CEINPORT -->
+            <div class="grid-item" onclick="abrirLightbox('img/IMG-20260824-WA0012.jpg')">
+                <img src="img/IMG-20260824-WA0012.jpg" alt="Logo CEINPORT">
+                <div class="caption"><strong>CEINPORT</strong> — Nuestros aliados</div>
+            </div>
+            <!-- FOTO 2: Letrero de bienvenida -->
+            <div class="grid-item" onclick="abrirLightbox('img/IMG-20260824-WA0015.jpg')">
+                <img src="img/IMG-20260824-WA0015.jpg" alt="Letrero de bienvenida">
+                <div class="caption"><strong>Bienvenidos</strong> — Al Patio de Bolas Criollas</div>
+            </div>
+            <!-- FOTO 3: Vista general -->
+            <div class="grid-item" onclick="abrirLightbox('img/IMG-20260824-WA0016.jpg')">
+                <img src="img/IMG-20260824-WA0016.jpg" alt="Vista de las instalaciones">
+                <div class="caption"><strong>Instalaciones</strong> — Espacio para el deporte</div>
+            </div>
+            <!-- Espacio para más fotos: puedes duplicar este bloque y cambiar la ruta -->
+            <!--
+            <div class="grid-item" onclick="abrirLightbox('img/tu-foto.jpg')">
+                <img src="img/tu-foto.jpg" alt="Descripción">
+                <div class="caption"><strong>Título</strong> — Descripción breve</div>
+            </div>
+            -->
+        </div>
+    </div>
+
+    <!-- ===== CATEGORÍA 2: PARTIDOS Y ACCIÓN ===== -->
+    <div class="categoria">
+        <div class="categoria-titulo">
+            <span class="emoji">⚡</span> Acción en la Cancha
+        </div>
+        <div class="grid">
+            <!-- Aquí puedes ir agregando fotos de partidos -->
+            <div class="grid-item" style="background:#0f1a2e; display:flex; align-items:center; justify-content:center; min-height:150px; border:1px dashed #e8b84b44;">
+                <span style="color:#8899aa; font-size:13px; text-align:center;">📷 Próximamente<br>fotos de partidos</span>
+            </div>
+            <!-- Ejemplo de foto real (descomenta y cambia la ruta cuando tengas la imagen) -->
+            <!--
+            <div class="grid-item" onclick="abrirLightbox('img/partido1.jpg')">
+                <img src="img/partido1.jpg" alt="Partido entre Chikas y Saboga">
+                <div class="caption"><strong>Chikas vs Saboga</strong> — Playoffs 2026</div>
+            </div>
+            -->
+        </div>
+    </div>
+
+    <!-- ===== CATEGORÍA 3: EQUIPOS Y JUGADORES ===== -->
+    <div class="categoria">
+        <div class="categoria-titulo">
+            <span class="emoji">👩‍👧‍👦</span> Equipos y Jugadores
+        </div>
+        <div class="grid">
+            <div class="grid-item" style="background:#0f1a2e; display:flex; align-items:center; justify-content:center; min-height:150px; border:1px dashed #e8b84b44;">
+                <span style="color:#8899aa; font-size:13px; text-align:center;">📷 Próximamente<br>fotos de los equipos</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CATEGORÍA 4: AMBIENTE FAMILIAR ===== -->
+    <div class="categoria">
+        <div class="categoria-titulo">
+            <span class="emoji">👨‍👩‍👧‍👦</span> Ambiente Familiar
+        </div>
+        <div class="grid">
+            <div class="grid-item" style="background:#0f1a2e; display:flex; align-items:center; justify-content:center; min-height:150px; border:1px dashed #e8b84b44;">
+                <span style="color:#8899aa; font-size:13px; text-align:center;">📷 Próximamente<br>fotos de las familias</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== BOTÓN DE VUELTA ===== -->
+    <a href="blog.html" class="back-button">← Volver al blog</a>
+
+    <div class="footer">
+        Sibarita Sport Club — Un año de pasión, comunidad y bolas criollas en Portuguesa
+    </div>
+</div>
+
+<!-- ===== LIGHTBOX ===== -->
+<div class="lightbox" id="lightbox" onclick="cerrarLightbox()">
+    <span class="close" onclick="cerrarLightbox()">&times;</span>
+    <img id="lightboxImg" src="" alt="Foto ampliada">
+</div>
+
+<script>
+    function abrirLightbox(src) {
+        document.getElementById('lightboxImg').src = src;
+        document.getElementById('lightbox').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Cerrar con la tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') cerrarLightbox();
+    });
+</script>
+
+</body>
+</html>
