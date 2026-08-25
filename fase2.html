@@ -510,7 +510,6 @@
     const container = document.getElementById('f2-partidos-list');
     if (!container) return;
     
-    // Filtrar partidos de la Fase 2 con la semana seleccionada
     const partidos = _MATCHES.filter(m => m.g === 'Fase2' && m.w === semana);
     
     if (partidos.length === 0) {
@@ -518,11 +517,31 @@
         return;
     }
 
-    // Ordenar por fecha y hora
     partidos.sort((a, b) => new Date(a.d + ' ' + a.h) - new Date(b.d + ' ' + b.h));
 
     let html = '';
     partidos.forEach(m => {
+        // ----- EVENTO ESPECIAL (Derby, etc.) -----
+        if (m.c === 'Especial') {
+            html += `
+                <div class="mc" style="border: 2px solid #e8b84b; background: linear-gradient(135deg, #2a1f0e, #3d2b12);">
+                    <div class="mm">
+                        <span>🏅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>
+                        <span class="wtag" style="background:#e8b84b;color:#000;">⭐ EVENTO ESPECIAL</span>
+                    </div>
+                    <div style="text-align:center;padding:8px 0;">
+                        <div style="font-size:18px;font-weight:bold;color:#e8b84b;">${m.a}</div>
+                        <div style="font-size:12px;color:#8899aa;margin:4px 0;">${m.b}</div>
+                        <div style="font-size:11px;color:#f0e6d3;background:#0f3460;padding:6px 12px;border-radius:8px;display:inline-block;margin-top:4px;">
+                            📋 Consulta el ranking de convocadas en la sección "Derby" (próximamente)
+                        </div>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        // ----- PARTIDOS NORMALES -----
         const r = _R[m.id];
         const done = r && r.status === 'done';
         const forf = r && r.status === 'forfeit';
