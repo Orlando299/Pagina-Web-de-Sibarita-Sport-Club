@@ -510,7 +510,7 @@
     const container = document.getElementById('f2-partidos-list');
     if (!container) return;
     
-    const partidos = _MATCHES.filter(m => m.g === 'Fase2' && m.w === semana);
+    const partidos = _MATCHES.filter(m => (m.g === 'Fase2' || m.c === 'Especial') && m.w === semana);
     
     if (partidos.length === 0) {
         container.innerHTML = `<div class="card" style="text-align:center;padding:20px;color:#8899aa;">No hay partidos para la semana ${semana}.</div>`;
