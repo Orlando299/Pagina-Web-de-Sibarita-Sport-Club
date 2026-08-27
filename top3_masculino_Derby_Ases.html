@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derby de los Ases - Masculino</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Arial, sans-serif; }
+    body { background: #f4f6f9; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+    .container { max-width: 1100px; width: 100%; background: white; border-radius: 20px; padding: 25px 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .header { display: flex; align-items: center; gap: 20px; margin-bottom: 18px; border-bottom: 3px solid #facc15; padding-bottom: 15px; flex-wrap: wrap; }
+    .header h1 { font-size: 24px; font-weight: 700; color: #0f172a; margin: 0; }
+    .header h1 small { font-size: 14px; font-weight: 400; color: #64748b; display: block; }
+    .derby-intro { background: #fefce8; border-left: 6px solid #eab308; padding: 14px 18px; border-radius: 10px; margin-bottom: 25px; font-size: 14px; line-height: 1.6; color: #1e293b; }
+    .derby-intro strong { color: #0f172a; }
+    .badge-derby { display: inline-block; background: #dcfce7; color: #166534; font-weight: 600; padding: 0 12px; border-radius: 30px; font-size: 12px; }
+    .badge-reserva { display: inline-block; background: #fef9c3; color: #854d0e; font-weight: 600; padding: 0 12px; border-radius: 30px; font-size: 12px; }
+    .section-title { font-size: 20px; font-weight: 600; padding: 8px 16px; border-radius: 10px; display: inline-block; margin: 25px 0 12px 0; }
+    .section-title.arrime { background: #dbeafe; color: #1e4a7a; }
+    .section-title.boche { background: #fef3c7; color: #92400e; }
+    .table-wrapper { overflow-x: auto; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    table { width: 100%; border-collapse: collapse; font-size: 10.5px; min-width: 700px; }
+    thead th { padding: 10px 6px; text-align: left; font-weight: 700; color: white; font-size: 11px; white-space: nowrap; }
+    .table-arrime thead th { background: #2563eb; }
+    .table-boche thead th { background: #d97706; }
+    .table-arrime tbody tr:nth-child(even) { background: #f8faff; }
+    .table-arrime tbody tr:nth-child(odd) { background: #ffffff; }
+    .table-boche tbody tr:nth-child(even) { background: #fffbee; }
+    .table-boche tbody tr:nth-child(odd) { background: #ffffff; }
+    td { padding: 8px 6px; border-bottom: 1px solid #e9edf2; vertical-align: middle; }
+    .grupo-badge { display: inline-block; background: #e2e8f0; color: #1e293b; font-weight: 700; padding: 0 10px; border-radius: 30px; font-size: 11px; }
+    .equipo-nombre { font-weight: 600; color: #0f172a; white-space: nowrap; }
+    .convocado { background-color: #f0fdf4 !important; border-left: 3px solid #22c55e; }
+    .convocado .jugador { font-weight: 600; color: #14532d; }
+    .reserva { background-color: #fefce8 !important; border-left: 3px solid #eab308; }
+    .reserva .jugador { font-weight: 500; color: #713f12; }
+    .bajo-minimo { color: #b45309 !important; font-style: italic; }
+    .bajo-minimo .porcentaje { color: #b45309 !important; }
+    .jugador { font-weight: 400; color: #1e293b; white-space: nowrap; }
+    .porcentaje { font-weight: 600; }
+    .table-arrime .porcentaje { color: #1e4a7a; }
+    .table-boche .porcentaje { color: #92400e; }
+    .tag { font-size: 9px; font-weight: 700; padding: 1px 8px; border-radius: 30px; margin-left: 4px; display: inline-block; }
+    .tag-derby { background: #22c55e; color: white; }
+    .tag-reserva { background: #eab308; color: white; }
+    .btn-pdf { display: inline-flex; align-items: center; gap: 10px; background: #0f172a; color: white; border: none; padding: 12px 30px; border-radius: 60px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 30px; transition: 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .btn-pdf:hover { background: #1e293b; transform: scale(1.02); }
+    .btn-pdf svg { width: 18px; height: 18px; fill: currentColor; }
+    .footer-nota { margin-top: 18px; font-size: 12px; color: #94a3b8; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 15px; line-height: 1.7; }
+    .leyenda { display: inline-block; background: #fef3c7; padding: 0 10px; border-radius: 30px; color: #b45309; font-weight: 500; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="container" id="contenido-pdf">
+    <div class="header">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:28px;">🏅</span>
+            <h1>Derby de los Ases <small>2do Campeonato 2026 · Categoría Masculino</small></h1>
+        </div>
+    </div>
+    <div class="derby-intro">
+        <strong>🎯 ¿Cómo funciona?</strong> Antes de la gran final, <strong>Sibarita Sport Club</strong> presenta el <strong>Derby de los Ases</strong>, una competencia de pruebas extremas de arrime y boche. 
+        De cada equipo, se publican los <strong>3 mejores</strong> según estadísticas (mínimo 50 intentos), pero <strong>solo los 2 primeros</strong> (<span class="badge-derby">🏅 Convocados</span>) participan en el Derby. 
+        El tercero (<span class="badge-reserva">📋 Reserva</span>) se incluye como reconocimiento y suplente.
+        <br><span style="color:#b45309; font-style:italic;">Texto en ámbar cursiva</span> = jugador con menos de 50 intentos (incluido para completar el Top 3).
+    </div>
+
+    <div class="section-title arrime">📊 Arrimes</div>
+    <div class="table-wrapper">
+        <table class="table-arrime" id="tabla-arrimes">
+            <thead><tr><th>Grupo</th><th>Equipo</th><th>1er Mejor 🏅</th><th>2do Mejor 🏅</th><th>3er Mejor 📋</th></tr></thead>
+            <tbody>
+                
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Club Afibola</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Gabriel Perez <span class='porcentaje'>59%</span> (70/119)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Jorgue Chirinos <span class='porcentaje'>53%</span> (99/186)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Carlos Colmenarez <span class='porcentaje'>50%</span> (32/64)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Servihidra</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Theoscar Vicent <span class='porcentaje'>63%</span> (128/202)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Leonardo Colmenares <span class='porcentaje'>57%</span> (44/77)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Jose Rodriguez <span class='porcentaje'>52%</span> (86/165)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Alimentos La Granja</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Jorge Rafael Torres Gutierrez <span class='porcentaje'>53%</span> (52/98)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Alcides Alvarado <span class='porcentaje'>53%</span> (31/58)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Juan Carlos Hernandez <span class='porcentaje'>52%</span> (34/66)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Corpoelec2</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Jairo López <span class='porcentaje'>50%</span> (51/102)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Angel Perez <span class='porcentaje'>45%</span> (30/67)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Manuel Alvarez <span class='porcentaje'>38%</span> (21/56)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Los Lugo</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Yunier Lugo <span class='porcentaje'>58%</span> (53/91)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Alexander Benitez <span class='porcentaje'>52%</span> (40/77)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Robert Gomez <span class='porcentaje'>45%</span> (28/62)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Los Panas Vimapin</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Victor Pinto <span class='porcentaje'>53%</span> (131/245)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Freurmar Perez <span class='porcentaje'>46%</span> (85/183)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Neptali Torrez <span class='porcentaje'>45%</span> (33/74)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Exasa</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Jorge Sierralta <span class='porcentaje'>57%</span> (93/163)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Hector Reyes <span class='porcentaje'>47%</span> (35/74)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Orlando Rodriguez <span class='porcentaje'>45%</span> (57/127)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Familia Ortega</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Eiderzon Nelo <span class='porcentaje'>52%</span> (123/237)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Yoiber Oviedo <span class='porcentaje'>46%</span> (71/155)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Gonzalo Palacio <span class='porcentaje'>44%</span> (109/247)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Agro Mack Diesel</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> José Cordova <span class='porcentaje'>42%</span> (27/64)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> <span class='bajo-minimo'>Manuel Andrades <span class='porcentaje'>55%</span> (27/49)</span></td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> <span class='bajo-minimo'>Miguel Cordova <span class='porcentaje'>36%</span> (14/39)</span></td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Yusevin CA</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Juan Sira <span class='porcentaje'>48%</span> (55/115)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Jhonny De La Hoz <span class='porcentaje'>47%</span> (43/91)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Juan C. Rodriguez <span class='porcentaje'>38%</span> (76/199)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Los Amigos</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Luis Ramos <span class='porcentaje'>51%</span> (137/267)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> José Escalona <span class='porcentaje'>46%</span> (61/133)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Fernando <span class='porcentaje'>45%</span> (24/53)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Fuerza</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Clemente Perez <span class='porcentaje'>54%</span> (52/97)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Miguel Segura <span class='porcentaje'>49%</span> (131/268)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Luis Barco <span class='porcentaje'>45%</span> (56/124)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Unidos de Hato</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Wilmer Xavier Rodriguez Camacho <span class='porcentaje'>50%</span> (156/309)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Alfredo Ramon Alvarez Ojeda <span class='porcentaje'>49%</span> (109/221)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Juan Carlos Valera Camacho <span class='porcentaje'>48%</span> (27/56)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Triunfadores</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Guillermo Leal <span class='porcentaje'>57%</span> (65/114)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Antony Gonzalez <span class='porcentaje'>52%</span> (117/226)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Yeison Ferrer <span class='porcentaje'>45%</span> (25/56)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Team JM&JA</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Alexis Martinez <span class='porcentaje'>54%</span> (101/187)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Saúl Fonseca <span class='porcentaje'>47%</span> (74/156)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Miguel Duque <span class='porcentaje'>46%</span> (77/166)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Agroserviportuguesa</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Lino Caruci <span class='porcentaje'>60%</span> (31/52)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Henry Eliezer Soto <span class='porcentaje'>57%</span> (33/58)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Salvador Pipitone <span class='porcentaje'>53%</span> (64/120)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Gladiadores del Cerrito</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> René Tona <span class='porcentaje'>62%</span> (69/112)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Elvis Valera <span class='porcentaje'>49%</span> (74/150)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Carlos Silva <span class='porcentaje'>47%</span> (67/144)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Atlético Páez</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Felix Ballester <span class='porcentaje'>48%</span> (24/50)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> <span class='bajo-minimo'>Alexis Gonzalez <span class='porcentaje'>64%</span> (14/22)</span></td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> <span class='bajo-minimo'>Naudys Rea <span class='porcentaje'>52%</span> (12/23)</span></td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Micro PC</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Pedro Aguilar <span class='porcentaje'>61%</span> (134/220)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Victor Escalona <span class='porcentaje'>50%</span> (59/118)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Samuel Canelon <span class='porcentaje'>45%</span> (30/67)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Ingenieros</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Jhonny Reina <span class='porcentaje'>58%</span> (87/151)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Diego Piña <span class='porcentaje'>47%</span> (42/90)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Alirio Perdomo <span class='porcentaje'>47%</span> (35/75)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Poder Justiciable</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Honorio Peroza <span class='porcentaje'>55%</span> (111/201)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Tony Perez <span class='porcentaje'>53%</span> (94/177)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Jhonatan Cedeño <span class='porcentaje'>50%</span> (151/305)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Los Irochimas</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Nelson Nadal <span class='porcentaje'>58%</span> (45/78)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Roland Nadal <span class='porcentaje'>53%</span> (71/134)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Alfredo Gonzalez <span class='porcentaje'>45%</span> (31/69)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Pintucal</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Juan Carlos Caro <span class='porcentaje'>56%</span> (85/153)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Carlos Caro <span class='porcentaje'>46%</span> (30/65)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Roberto Martinez <span class='porcentaje'>46%</span> (99/216)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Tribunal Protección</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Jose Escalona <span class='porcentaje'>50%</span> (36/72)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Oscar De Santis <span class='porcentaje'>48%</span> (125/259)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Jose Benavides <span class='porcentaje'>45%</span> (50/110)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Distribuidora JH</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Oscar Daniel Mogollon Alvarado <span class='porcentaje'>51%</span> (33/65)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Cristian Perdomo <span class='porcentaje'>50%</span> (62/123)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Wilmer Linarez <span class='porcentaje'>43%</span> (70/162)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Agro Tigrera Ranch</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Javier Diaz <span class='porcentaje'>53%</span> (85/161)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Wenceslao Paez <span class='porcentaje'>49%</span> (39/79)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Pedro Diaz <span class='porcentaje'>41%</span> (56/138)</td>
+    </tr>
+    
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-title boche">🎯 Boches</div>
+    <div class="table-wrapper">
+        <table class="table-boche" id="tabla-boches">
+            <thead><tr><th>Grupo</th><th>Equipo</th><th>1er Mejor 🏅</th><th>2do Mejor 🏅</th><th>3er Mejor 📋</th></tr></thead>
+            <tbody>
+                
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Club Afibola</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Pedro Torrez <span class='porcentaje'>67%</span> (126/187)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Jose Torrez <span class='porcentaje'>61%</span> (69/114)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> <span class='bajo-minimo'>Leudimar Mendoza <span class='porcentaje'>58%</span> (19/33)</span></td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Servihidra</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Nelson Suarez <span class='porcentaje'>56%</span> (124/222)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Giovanni Gonzalez <span class='porcentaje'>49%</span> (40/82)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Gustavo Orozco <span class='porcentaje'>48%</span> (46/96)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Alimentos La Granja</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Rene Chirinos <span class='porcentaje'>51%</span> (104/204)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Efren Dario Rosales Gonzalez <span class='porcentaje'>44%</span> (41/94)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Robert Antonio Aguero <span class='porcentaje'>43%</span> (29/68)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Corpoelec2</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Ali Parra <span class='porcentaje'>36%</span> (40/112)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> <span class='bajo-minimo'>Richard Blanco <span class='porcentaje'>40%</span> (18/45)</span></td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> <span class='bajo-minimo'>Antonio Rosario <span class='porcentaje'>40%</span> (8/20)</span></td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Los Lugo</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Javier Lugo <span class='porcentaje'>63%</span> (121/192)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Ivan Lugo <span class='porcentaje'>46%</span> (31/67)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Jorge Lugo <span class='porcentaje'>46%</span> (25/54)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Los Panas Vimapin</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Joel Ortega <span class='porcentaje'>61%</span> (34/56)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Wely Melendez <span class='porcentaje'>61%</span> (105/173)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Neptali Torrez <span class='porcentaje'>54%</span> (68/127)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Exasa</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Luis Sierralta <span class='porcentaje'>59%</span> (37/63)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Hector Reyes <span class='porcentaje'>58%</span> (29/50)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Adder Matute <span class='porcentaje'>55%</span> (41/74)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Familia Ortega</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Esteban Aguilar <span class='porcentaje'>59%</span> (96/164)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Angel Herrera <span class='porcentaje'>51%</span> (44/87)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> <span class='bajo-minimo'>Yoiber Oviedo <span class='porcentaje'>46%</span> (21/46)</span></td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Agro Mack Diesel</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> <span class='bajo-minimo'>Manuel Andrades <span class='porcentaje'>58%</span> (7/12)</span></td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> <span class='bajo-minimo'>Keily Sanchez <span class='porcentaje'>42%</span> (16/38)</span></td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> <span class='bajo-minimo'>Miguel Cordova <span class='porcentaje'>38%</span> (8/21)</span></td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Yusevin CA</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Jorge Ochoa <span class='porcentaje'>56%</span> (76/136)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Reinaldo Mendoza <span class='porcentaje'>53%</span> (37/70)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Jose Gomez <span class='porcentaje'>50%</span> (45/90)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Los Amigos</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Carlos Silva <span class='porcentaje'>54%</span> (29/54)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Wuilfredo Guedez <span class='porcentaje'>53%</span> (74/140)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Cornelio Escalona <span class='porcentaje'>45%</span> (26/58)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Fuerza</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Miguel Segura <span class='porcentaje'>60%</span> (38/63)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Clemente Perez <span class='porcentaje'>43%</span> (80/184)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Luis Barco <span class='porcentaje'>43%</span> (59/136)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">A</span></td>
+        <td class="equipo-nombre">Unidos de Hato</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Carlos Luis Valera Palencia <span class='porcentaje'>60%</span> (99/165)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Juan Carlos Valera Camacho <span class='porcentaje'>48%</span> (61/126)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Edinson Antonio Valera Camacho <span class='porcentaje'>47%</span> (82/176)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Triunfadores</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Mire Sail <span class='porcentaje'>67%</span> (37/55)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Yeison Ferrer <span class='porcentaje'>62%</span> (95/154)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Luis Arrieta <span class='porcentaje'>47%</span> (94/200)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Team JM&JA</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Saúl Fonseca <span class='porcentaje'>78%</span> (89/114)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> José Requena <span class='porcentaje'>77%</span> (83/108)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Miguel Duque <span class='porcentaje'>49%</span> (31/63)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Agroserviportuguesa</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Alfredo Rodriguez <span class='porcentaje'>71%</span> (163/230)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Salvador Pipitone <span class='porcentaje'>60%</span> (70/116)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> <span class='bajo-minimo'>Jose Gregorio Torres Escobar <span class='porcentaje'>53%</span> (20/38)</span></td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Gladiadores del Cerrito</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Yilber Barrios <span class='porcentaje'>65%</span> (142/219)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Alexander Vega <span class='porcentaje'>52%</span> (33/63)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Yunior Linarez <span class='porcentaje'>50%</span> (25/50)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Atlético Páez</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> <span class='bajo-minimo'>Yeritzon Ballester <span class='porcentaje'>56%</span> (10/18)</span></td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> <span class='bajo-minimo'>Deiby Angulo <span class='porcentaje'>50%</span> (5/10)</span></td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> <span class='bajo-minimo'>Jean Carlos Vizcaya <span class='porcentaje'>23%</span> (3/13)</span></td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Micro PC</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Jesus Soteldo <span class='porcentaje'>65%</span> (117/179)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> David Chávez <span class='porcentaje'>60%</span> (43/72)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Arturo Tovar <span class='porcentaje'>46%</span> (47/102)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Ingenieros</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Alexander Chirinos Alvarado <span class='porcentaje'>53%</span> (44/83)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Carlos Martinez <span class='porcentaje'>50%</span> (65/131)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> <span class='bajo-minimo'>Diego Piña <span class='porcentaje'>54%</span> (26/48)</span></td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Poder Justiciable</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Julio Colmenarez <span class='porcentaje'>59%</span> (120/203)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Tony Perez <span class='porcentaje'>58%</span> (52/90)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Alfonzo Delgado <span class='porcentaje'>48%</span> (38/80)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Los Irochimas</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Toribio Torrealba <span class='porcentaje'>61%</span> (75/123)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Wilfredo Perez <span class='porcentaje'>54%</span> (65/121)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> <span class='bajo-minimo'>Jose Nadal <span class='porcentaje'>31%</span> (11/36)</span></td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Pintucal</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Juan Figueroa <span class='porcentaje'>52%</span> (90/174)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Carlos Caro <span class='porcentaje'>46%</span> (26/57)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Angel Figueroa <span class='porcentaje'>38%</span> (26/69)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Tribunal Protección</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Jose Escalona <span class='porcentaje'>55%</span> (96/173)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Jose Benavides <span class='porcentaje'>53%</span> (39/74)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Jose D. Fernandez <span class='porcentaje'>48%</span> (32/67)</td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Distribuidora JH</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Dixon Torcate <span class='porcentaje'>55%</span> (51/92)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Robertthi Perdomo <span class='porcentaje'>42%</span> (30/71)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> <span class='bajo-minimo'>Oscar Daniel Mogollon Alvarado <span class='porcentaje'>57%</span> (26/46)</span></td>
+    </tr>
+    
+    <tr>
+        <td><span class="grupo-badge">B</span></td>
+        <td class="equipo-nombre">Agro Tigrera Ranch</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Wenceslao Paez <span class='porcentaje'>46%</span> (36/78)</td>
+        <td class="convocado"><span class='tag tag-derby'>CONV</span> Javier Diaz <span class='porcentaje'>41%</span> (21/51)</td>
+        <td class="reserva"><span class='tag tag-reserva'>RES</span> Carlos Araujo <span class='porcentaje'>35%</span> (22/63)</td>
+    </tr>
+    
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer-nota">
+        ⚡ Mínimo de <strong>50 intentos</strong> para considerar estadística consistente.  
+        <span class="leyenda">Texto en ámbar cursiva</span> = menos de 50 intentos (incluido para completar el Top 3).  
+        🏅 <strong>Convocados</strong> = Top 1 y Top 2 participan en el Derby de los Ases.  
+        📋 <strong>Reserva</strong> = Top 3 (reconocimiento y suplencia).
+    </div>
+</div>
+
+<button class="btn-pdf" id="btn-pdf">
+    <svg viewBox="0 0 24 24"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg>
+    Descargar PDF (Derby de los Ases - Masculino)
+</button>
+
+<script>
+document.getElementById('btn-pdf').addEventListener('click', function() {
+    const element = document.getElementById('contenido-pdf');
+    const opt = {
+        margin:        [0.5, 0.5, 1.5, 0.5],
+        filename:     'derby_ases_ranking_masculino.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, letterRendering: true, useCORS: true, logging: false, scrollY: 0, windowHeight: element.scrollHeight },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    html2pdf().set(opt).from(element).save();
+});
+console.log('Arrimes:', document.querySelector('#tabla-arrimes tbody').rows.length, 'equipos');
+console.log('Boches:', document.querySelector('#tabla-boches tbody').rows.length, 'equipos');
+</script>
+
+</body>
+</html>
