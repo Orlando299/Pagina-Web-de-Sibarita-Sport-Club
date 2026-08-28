@@ -534,6 +534,9 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 
 <!-- ============================ SCRIPTS ============================ -->
 <script>
+// ===================================================================
+// 1. DATOS (TEAMS y MATCHES) - DEBES PEGAR TUS ARRAYS AQUÍ
+// ===================================================================
 // ==================== TEAMS (completo) ====================
 const TEAMS = [
   {n:"Jujure (Educadoras)", c:"Femenino", g:"A", p:["Karina Morles","Leudini Torres","Maria Vivas","Irene De Vicent","Keila Valderrama","Lisbeth Barco","Marbelys Sira","Dulcely Torrealba","Dairismar Almao","Jannelys Dudamel"]},
@@ -581,14 +584,6 @@ const TEAMS = [
   {n:"Agro Tigrera Ranch", c:"Masculino", g:"B", p:["Felix Rumbos","Carlos Araujo","Jonathan Silva","Junior Guedez","Jorge Zambrano","Carlos Torrealba","Wenceslao Paez","Javier Diaz","Pedro Diaz"]},
   {n:"Distribuidora JH", c:"Masculino", g:"B", p:["Jose Galindez","Reinaldo Torrez","Dixon Torcate","Robertthi Perdomo","Wilmer Linarez","Roseliano Garcia","Cristian Perdomo","Juan Hernandez","Juan Hernandez","Oscar Daniel Mogollon Alvarado","Frank David Torrelles"]},
   {n:"Los Lugo", c:"Masculino", g:"A", p:["Alexander Benitez","Robert Gomez","Renny Parra","Terry Parra","Javier Lugo","Ivan Lugo","Jorge Lugo","Andres Marquez","Yunier Lugo","Eduardo Riera","Francisco Medina","Gustavo Sivada"]},
-];
-
-const PLAYLISTS = [
-  { id: "PLNGr4rVFi_Mgq1yVGYN_98bi11PQeUkvt", title: "⚡ Partidos Femenino Grupo A", videoCount: 12 },
-  { id: "PLNGr4rVFi_MinnJt71a6JxLjaxxxVsbGS", title: "💪 Partidos Masculino Grupo A", videoCount: 8 },
-  { id: "PLNGr4rVFi_MgXw97f6b4p3HJz6qVCBI9D", title: "⚡ Partidos Femenino Grupo B", videoCount: 12 },
-  { id: "PLNGr4rVFi_MicT7OORCIvTF2vB7KGxCbq", title: "💪 Partidos Masculino Grupo B", videoCount: 8 },
-  { id: "PLNGr4rVFi_MiZuaAWkQlqRcqT9X0tRJX_", title: "🏆 Mejores Jugadas - Todos los Grupos", videoCount: 15 }
 ];
 
 const MATCHES = [
@@ -1185,34 +1180,116 @@ const MATCHES = [
     
 ];
 
+// Playlists (se mantiene)
+const PLAYLISTS = [
+  { id: "PLNGr4rVFi_Mgq1yVGYN_98bi11PQeUkvt", title: "⚡ Partidos Femenino Grupo A", videoCount: 12 },
+  { id: "PLNGr4rVFi_MinnJt71a6JxLjaxxxVsbGS", title: "💪 Partidos Masculino Grupo A", videoCount: 8 },
+  { id: "PLNGr4rVFi_MgXw97f6b4p3HJz6qVCBI9D", title: "⚡ Partidos Femenino Grupo B", videoCount: 12 },
+  { id: "PLNGr4rVFi_MicT7OORCIvTF2vB7KGxCbq", title: "💪 Partidos Masculino Grupo B", videoCount: 8 },
+  { id: "PLNGr4rVFi_MiZuaAWkQlqRcqT9X0tRJX_", title: "🏆 Mejores Jugadas - Todos los Grupos", videoCount: 15 }
+];
 
-// ==================== VARIABLES GLOBALES ====================
+// ===================================================================
+// 2. VARIABLES GLOBALES
+// ===================================================================
 let R = {}, PS = {}, MVP = {};
 let currentMatchId = null;
 let F = {tCat:'Femenino', tGrp:'A', mCat:'Femenino', mGrp:'A', mWk:'Todos', sCat:'Femenino', sGrp:'A', aCat:'Femenino', aGrp:'A', aPos:'Todos', aQ:''};
 let soloLecturaFase1 = true;
+let pdfMode = 'week';
 
 function g(id) { return document.getElementById(id); }
 function save() { try { localStorage.setItem('bc26r', JSON.stringify(R)); localStorage.setItem('bc26p', JSON.stringify(PS)); localStorage.setItem('bc26m', JSON.stringify(MVP)); } catch(e) {} }
 
-// ==================== FUNCIONES DE INTERFAZ ====================
-function setF(k, v) { F[k] = v; const maps = { tCat: {Femenino:'btn-tFem', Masculino:'btn-tMas'}, tGrp: {A:'btn-tGa', B:'btn-tGb'}, mCat: {Femenino:'btn-mFem', Masculino:'btn-mMas'}, mGrp: {A:'btn-mGa', B:'btn-mGb'}, sCat: {Femenino:'btn-sFem', Masculino:'btn-sMas'}, sGrp: {A:'btn-sGa', B:'btn-sGb'}, aCat: {Femenino:'btn-aFem', Masculino:'btn-aMas'}, aGrp: {A:'btn-aGa', B:'btn-aGb'} }; const m = maps[k]; if (m) { Object.keys(m).forEach(val => { const el = g(m[val]); if (el) el.classList.toggle('on', val === v); }); } if (k[0] === 't') rT(); else if (k[0] === 'm') rM(); else if (k[0] === 's') rSt(); else rA(); }
+// ===================================================================
+// 3. FUNCIONES DE FILTRO Y NAVEGACIÓN
+// ===================================================================
+function setF(k, v) {
+  F[k] = v;
+  const maps = {
+    tCat: {Femenino:'btn-tFem', Masculino:'btn-tMas'},
+    tGrp: {A:'btn-tGa', B:'btn-tGb'},
+    mCat: {Femenino:'btn-mFem', Masculino:'btn-mMas'},
+    mGrp: {A:'btn-mGa', B:'btn-mGb'},
+    sCat: {Femenino:'btn-sFem', Masculino:'btn-sMas'},
+    sGrp: {A:'btn-sGa', B:'btn-sGb'},
+    aCat: {Femenino:'btn-aFem', Masculino:'btn-aMas'},
+    aGrp: {A:'btn-aGa', B:'btn-aGb'}
+  };
+  const m = maps[k];
+  if (m) {
+    Object.keys(m).forEach(val => {
+      const el = g(m[val]);
+      if (el) el.classList.toggle('on', val === v);
+    });
+  }
+  if (k[0] === 't') rT();
+  else if (k[0] === 'm') rM();
+  else if (k[0] === 's') rSt();
+  else rA();
+}
 
-function showTab(id, btn) { document.querySelectorAll('.scr').forEach(s => s.classList.remove('on')); document.querySelectorAll('.nb').forEach(b => b.classList.remove('on')); g('s-' + id).classList.add('on'); btn.classList.add('on'); if (id === 'matches') rM(); else if (id === 'standings') rSt(); else if (id === 'stats') rA(); else if (id === 'videos') { verificarStreamEnVivo(); mostrarProximosPartidos(); } else rT(); }
+function showTab(id, btn) {
+  document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  g('s-' + id).classList.add('on');
+  btn.classList.add('on');
+  if (id === 'matches') rM();
+  else if (id === 'standings') rSt();
+  else if (id === 'stats') rA();
+  else if (id === 'videos') { verificarStreamEnVivo(); mostrarProximosPartidos(); }
+  else rT();
+}
 
 function setWeek(w) { F.mWk = w; rM(); }
 
-function searchTeams(q) { const sr = g('srch-res'), tw = g('teams-wrap'); if (!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; } sr.style.display = 'block'; tw.style.display = 'none'; const ql = q.toLowerCase(); let h = ''; TEAMS.forEach(t => { const pm = t.p.filter(p => p.toLowerCase().includes(ql)); if (t.n.toLowerCase().includes(ql) || pm.length) { h += `<div class="card"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`; pm.forEach(p => h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`); h += '</div>'; } }); sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;">Sin resultados</div>'; }
+// ===================================================================
+// 4. BÚSQUEDA Y RENDERIZADO DE EQUIPOS (rT, openTeam, closeDetail)
+// ===================================================================
+function searchTeams(q) {
+  const sr = g('srch-res'), tw = g('teams-wrap');
+  if (!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; }
+  sr.style.display = 'block'; tw.style.display = 'none';
+  const ql = q.toLowerCase();
+  let h = '';
+  TEAMS.forEach(t => {
+    const pm = t.p.filter(p => p.toLowerCase().includes(ql));
+    if (t.n.toLowerCase().includes(ql) || pm.length) {
+      h += `<div class="card"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`;
+      pm.forEach(p => h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`);
+      h += '</div>';
+    }
+  });
+  sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;">Sin resultados</div>';
+}
 
-// ---- FUNCIÓN openTeam MODIFICADA (con botones de ficha) ----
+function rT() {
+  const list = document.getElementById('t-list');
+  const cnt = document.getElementById('t-cnt');
+  const wrap = document.getElementById('teams-wrap');
+  const detail = document.getElementById('t-detail');
+  if (!list || !cnt || !wrap || !detail) return;
+  const filtered = TEAMS.filter(t => t.c === F.tCat && t.g === F.tGrp);
+  cnt.textContent = filtered.length + ' EQUIPOS — ' + F.tCat + ' Grupo ' + F.tGrp;
+  list.innerHTML = filtered.map(t =>
+    `<div class="tc" onclick="openTeam('${t.n.replace(/'/g, "\\'")}')">
+      <div>
+        <div style="font-size:13px;font-weight:bold;">${t.n}</div>
+        <div style="font-size:10px;color:#8899aa;">${t.p.length} jugadores · Gr.${t.g}</div>
+      </div>
+      <div style="font-size:18px;">›</div>
+    </div>`
+  ).join('');
+  detail.style.display = 'none';
+  wrap.style.display = 'block';
+}
+
 function openTeam(name) {
   const t = TEAMS.find(x => x.n === name);
   if (!t) return;
   g('teams-wrap').style.display = 'none';
   g('t-detail').style.display = 'block';
   g('t-dhead').innerHTML = `<div style="font-size:15px;font-weight:bold;color:#e8b84b;">${t.n}</div><div style="font-size:10px;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`;
-  
-  // ---- AHORA cada jugador tiene su botón de ficha ----
   g('t-dplayers').innerHTML = t.p.map((p, i) => {
     const k = t.n + '|' + p;
     const ps = PS[k] || {};
@@ -1234,26 +1311,473 @@ function openTeam(name) {
       </div>
     </div>`;
   }).join('');
-  
-  // Inicializar los triggers después de pintarlos
-  if (typeof initFichas === 'function') {
-    setTimeout(initFichas, 50);
-  }
+  if (typeof initFichas === 'function') setTimeout(initFichas, 50);
 }
-// ---------------------------------------------------------
 
 function closeDetail() { g('teams-wrap').style.display = 'block'; g('t-detail').style.display = 'none'; }
 
-// ---- Las funciones rT, rM, rSt, rA, etc. se mantienen igual (se omiten por brevedad) ----
-// (En el código real deben estar todas las funciones, pero aquí no las repetimos para no alargar)
+// ===================================================================
+// 5. RENDERIZADO DE PARTIDOS (rM) con modo solo lectura / edición
+// ===================================================================
+function rM() {
+  const weeksEl = document.getElementById('m-weeks');
+  const cntEl = document.getElementById('m-cnt');
+  const listEl = document.getElementById('m-list');
+  if (!weeksEl || !cntEl || !listEl) return;
 
-// ==================== RESTANTES FUNCIONES (se omiten por brevedad) ====================
-// Nota: En tu archivo original están todas las funciones (rM, rSt, rA, etc.)
-// y los event listeners. Por brevedad no las escribo aquí, pero deben estar presentes.
-// Asegúrate de copiar también la función "cambiarFase", "mostrarFase1", "mostrarFase2",
-// y todas las funciones de exportación e importación.
+  const wks = ['Todos','S1','S2','S3','S4','S5','S6','S7','S8','S9','S10','S11','S12','S13'];
+  const wlbl = {Todos:'Todos',S1:'Sem 1',S2:'Sem 2',S3:'Sem 3',S4:'Sem 4',S5:'Sem 5',S6:'Sem 6',S7:'Sem 7',S8:'Sem 8',S9:'Sem 9',S10:'Sem 10',S11:'Sem 11',S12:'Sem 12',S13:'Sem 13'};
+  weeksEl.innerHTML = wks.map(w =>
+    `<button class="fb ${F.mWk===w?'on':''}" onclick="setWeek('${w}')">${wlbl[w]}</button>`
+  ).join('');
 
-// ==================== ALTERNAR FASE 1 / FASE 2 (IFRAME) ====================
+  let list = MATCHES.filter(m => m.c === F.mCat && m.g === F.mGrp && (F.mWk === 'Todos' || m.w === F.mWk));
+  cntEl.textContent = list.length + ' PARTIDOS';
+  if (!list.length) { listEl.innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;">Sin partidos</div>'; return; }
+
+  listEl.innerHTML = list.map(m => {
+    const r = R[m.id];
+    const done = r && r.status === 'done';
+    const forf = r && r.status === 'forfeit';
+    const suspended = r && r.status === 'suspended';
+    const wA = done && r.scoreA > r.scoreB;
+    const wB = done && r.scoreB > r.scoreA;
+    const mv = MVP[m.id];
+    let inner = '';
+
+    if (soloLecturaFase1) {
+      if (suspended) {
+        inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div></div>`;
+      } else if (done || forf) {
+        inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+          <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+          <span class="sep">—</span>
+          <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+        </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+        <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>
+        ${mv ? `<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>` : ''}`;
+      } else {
+        inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:11px;color:#8899aa;padding:4px;">Pendiente</div>`;
+      }
+    } else {
+      // Modo edición (si se desactiva la variable)
+      if (suspended) {
+        inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon || 'Sin especificar'}</div></div>`;
+      } else if (done || forf) {
+        inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+          <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+          <span class="sep">—</span>
+          <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+        </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+        <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span>
+        <button onclick="borrarResultado(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button></div>`;
+      } else {
+        inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:11px;color:#8899aa;text-align:center;padding:4px;">VS</div>
+          <div class="srow"><input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0">
+          <span class="sep">—</span>
+          <input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0"></div>
+          <button class="sbtn" onclick="guardarResultado(${m.id})">💾 Guardar</button>
+          <button class="fbtn" onclick="forfeitResultado(${m.id})">⚠️ Forfeit/WO</button>`;
+      }
+    }
+
+    let estadoTag = '';
+    if (suspended) estadoTag = '<span class="wtag" style="background:#e67e2233;color:#e67e22;">⏸️ Suspendido</span>';
+    else if (done) estadoTag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>';
+    else if (forf) estadoTag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
+    else estadoTag = '<span class="wtag" style="background:#0f3460;">⏳ Pendiente</span>';
+
+    return `<div class="mc">
+      <div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div>
+      <div class="mteams">
+        <div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div>
+        <div class="vb">${inner}</div>
+        <div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function guardarResultado(id) {
+  const pass = prompt('🔐 Contraseña de organizador:');
+  if (pass !== 'sibarita2026') { alert('❌ Incorrecta'); return; }
+  const a = parseInt(g('sA'+id)?.value);
+  const b = parseInt(g('sB'+id)?.value);
+  if (isNaN(a) || isNaN(b) || a<0 || a>20 || b<0 || b>20) { alert('Marcador inválido (0-20)'); return; }
+  R[id] = { scoreA: a, scoreB: b, status: 'done' };
+  save(); rM(); rSt();
+  if (window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]);
+  alert('✅ Resultado guardado.');
+}
+
+function borrarResultado(id) {
+  if (confirm('¿Borrar resultado?')) { delete R[id]; save(); rM(); rSt(); if(window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, null); }
+}
+
+function forfeitResultado(id) {
+  const pass = prompt('🔐 Contraseña de organizador:');
+  if (pass !== 'sibarita2026') { alert('❌ Incorrecta'); return; }
+  const m = MATCHES.find(x => x.id === id);
+  if (!m) return;
+  const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
+  if (ans === '1') { R[id] = { scoreA: 0, scoreB: 8, status: 'forfeit' }; save(); rM(); rSt(); if(window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); }
+  else if (ans === '2') { R[id] = { scoreA: 8, scoreB: 0, status: 'forfeit' }; save(); rM(); rSt(); if(window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]); }
+  else alert('Opción inválida.');
+}
+
+function suspenderJuego(id) {
+  const pass = prompt('🔐 Contraseña de organizador:');
+  if(pass !== 'sibarita2026') { alert('❌ Incorrecta'); return; }
+  const m = MATCHES.find(x=>x.id===id);
+  if(!m) return;
+  const razon = prompt('Motivo de suspensión:', 'Clima');
+  if(razon===null) return;
+  R[id] = { scoreA:0, scoreB:0, status:'suspended', razon };
+  save(); rM(); rSt();
+  if(window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, R[id]);
+  alert('Partido suspendido');
+}
+
+function reanudarJuego(id) {
+  const pass = prompt('🔐 Contraseña de organizador:');
+  if(pass !== 'sibarita2026') { alert('❌ Incorrecta'); return; }
+  if(confirm('¿Reanudar? Se borrará suspensión')) {
+    delete R[id];
+    save(); rM(); rSt();
+    if(window.guardarResultadoFirebase) window.guardarResultadoFirebase(id, null);
+    alert('Reanudado');
+  }
+}
+
+// ===================================================================
+// 6. RENDERIZADO DE TABLA DE POSICIONES (rSt)
+// ===================================================================
+function rSt() {
+  const list = document.getElementById('st-list');
+  if (!list) return;
+  const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp);
+  const tb = {};
+  tl.forEach(t => { tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; });
+  MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp).forEach(m => {
+    const r = R[m.id];
+    if (!r || r.status === 'suspended') return;
+    if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; }
+    if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; }
+    if (r.scoreA > r.scoreB) { if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; } if (tb[m.b]) tb[m.b].pp++; }
+    else if (r.scoreB > r.scoreA) { if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; } if (tb[m.a]) tb[m.a].pp++; }
+  });
+  const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf);
+  const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn';
+  list.innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;">
+    <div style="width:20px"></div><div style="flex:1;font-size:8px;">EQUIPO</div>
+    <div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div>
+  </div>` +
+  sorted.map((t,i) => {
+    const dif = t.tf - t.tc;
+    const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0';
+    const pos = i + 1;
+    const cls = rc(pos);
+    return `<div class="sr ${cls}">
+      <div class="rb ${cls}">${pos}</div>
+      <div style="flex:1;font-size:11px;font-weight:bold;">${t.n}</div>
+      <div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+// ===================================================================
+// 7. RENDERIZADO DE AVERAGE (rA, searchPlayer)
+// ===================================================================
+function searchPlayer(q) { F.aQ = q; rA(); }
+
+function rA() {
+  const list = document.getElementById('a-list');
+  if (!list) return;
+  const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp);
+  const players = [];
+  tl.forEach(t => {
+    t.p.forEach(p => {
+      const ps = PS[t.n + '|' + p] || {};
+      if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return;
+      const arrB = ps.arr_b || 0, arrTotal = ps.total_arr || 0;
+      const bocB = ps.boc_b || 0, bocTotal = ps.total_boc || 0;
+      const efecArr = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : 0;
+      const efecBoc = bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0;
+      const totalBuenos = arrB + bocB;
+      const totalIntentos = arrTotal + bocTotal;
+      const efecTotal = totalIntentos > 0 ? Math.round((totalBuenos / totalIntentos) * 100) : 0;
+      players.push({
+        name: p, team: t.n,
+        partidos: ps.partidos || 0,
+        arrB, arrTotal, bocB, bocTotal,
+        efecArr, efecBoc, efecTotal
+      });
+    });
+  });
+  players.sort((a,b) => b.efecTotal - a.efecTotal);
+  list.innerHTML = !players.length ? '<div style="color:#8899aa;text-align:center;padding:20px;">Sin estadísticas</div>' :
+    `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;">
+      <div style="width:20px"></div><div style="flex:1;font-size:8px;">JUGADOR / EQUIPO</div>
+      <div class="scols"><div class="sc sh">PJ</div><div class="sc sh">ARR%</div><div class="sc sh">BOC%</div><div class="sc sh">TOT%</div></div>
+    </div>` +
+    players.map((p,i) => `<div class="ar">
+      <div style="width:20px;text-align:center;">${i+1}</div>
+      <div style="flex:1;"><div style="font-size:11px;font-weight:bold;">${p.name}</div><div style="font-size:9px;">${p.team}</div></div>
+      <div class="scols">
+        <div class="sc"><div class="av">${p.partidos}</div><div class="al">PJ</div></div>
+        <div class="sc"><div class="av" style="color:#e8b84b;">${p.efecArr}%</div><div class="al">${p.arrB}/${p.arrTotal}</div></div>
+        <div class="sc"><div class="av" style="color:#f39c12;">${p.efecBoc}%</div><div class="al">${p.bocB}/${p.bocTotal}</div></div>
+        <div class="sc"><div class="av" style="color:#2ecc71;">${p.efecTotal}%</div><div class="al">${p.arrB+p.bocB}/${p.arrTotal+p.bocTotal}</div></div>
+      </div>
+    </div>`).join('');
+}
+
+// ===================================================================
+// 8. FUNCIONES DE VIDEOS, PLAYLISTS, STREAMS
+// ===================================================================
+function verificarStreamEnVivo() {
+  const proximo = getProximoPartido();
+  const hoy = new Date();
+  const fecha = proximo ? new Date(proximo.d.split('/').reverse().join('-')) : null;
+  const diff = fecha ? (fecha - hoy) / (1000*60*60) : null;
+  const liveDiv = document.getElementById('live-status');
+  const titleDiv = document.getElementById('live-title');
+  const subDiv = document.getElementById('live-subtitle');
+  const playerDiv = document.getElementById('live-player');
+  if (proximo && diff <= 24 && diff > 0) {
+    liveDiv.innerHTML = '⏰';
+    titleDiv.innerHTML = `Próximamente: ${proximo.a} vs ${proximo.b}`;
+    subDiv.innerHTML = `📅 ${proximo.d} ${proximo.h} · ${proximo.f}`;
+    playerDiv.style.display = 'none';
+  } else if (proximo && diff <= 0 && diff > -2) {
+    liveDiv.innerHTML = '🔴';
+    titleDiv.innerHTML = `¡EN VIVO! ${proximo.a} vs ${proximo.b}`;
+    subDiv.innerHTML = `Transmitiendo ahora desde ${proximo.f}`;
+    playerDiv.style.display = 'block';
+  } else {
+    liveDiv.innerHTML = '📡';
+    titleDiv.innerHTML = 'No hay transmisión activa';
+    subDiv.innerHTML = 'Los streams comienzan 15 minutos antes';
+    playerDiv.style.display = 'none';
+  }
+}
+
+function getProximoPartido() {
+  return MATCHES.find(m => (!R[m.id] || R[m.id].status !== 'done') && new Date(m.d.split('/').reverse().join('-')) >= new Date());
+}
+
+function mostrarProximosPartidos() {
+  const hoy = new Date();
+  const futuros = MATCHES.filter(m => new Date(m.d.split('/').reverse().join('-')) >= hoy && (!R[m.id] || R[m.id].status !== 'done')).sort((a,b)=>new Date(a.d)-new Date(b.d)).slice(0,4);
+  const cont = document.getElementById('proximos-partidos');
+  if (!cont) return;
+  if (!futuros.length) { cont.innerHTML = '<div class="error-message">No hay partidos próximos</div>'; return; }
+  cont.innerHTML = `<div class="video-section-title"><span>⏰ PRÓXIMOS PARTIDOS</span><span class="video-badge">${futuros.length} pendientes</span></div>` +
+    futuros.map(m => {
+      const diff = Math.ceil((new Date(m.d.split('/').reverse().join('-')) - hoy) / (1000*60*60*24));
+      let etiqueta = diff===0?'🔥 HOY':diff===1?'⭐ MAÑANA':`📅 En ${diff} días`;
+      return `<div class="video-card"><div style="display:flex;justify-content:space-between;"><span style="font-size:10px;color:#e8b84b;">${etiqueta}</span><span style="font-size:9px;">${m.d} · ${m.h}</span></div><div style="font-size:12px;font-weight:bold;text-align:center;">${m.a} <span style="color:#e8b84b;">VS</span> ${m.b}</div><div style="font-size:9px;text-align:center;">📍 ${m.f} · ${m.c} Gr.${m.g}</div></div>`;
+    }).join('');
+}
+
+function setVideoType(type) {
+  document.getElementById('live-container').style.display = type==='live'?'block':'none';
+  document.getElementById('highlights-container').style.display = type==='highlights'?'block':'none';
+  document.getElementById('tiktok-container').style.display = type==='tiktok'?'block':'none';
+  document.getElementById('playlist-container').style.display = type==='playlist'?'block':'none';
+  if(type==='highlights') cargarVideosYouTube();
+  if(type==='playlist') cargarPlaylists();
+}
+
+function cargarVideosYouTube() {
+  const grid = document.getElementById('youtube-grid');
+  if(grid) grid.innerHTML = '<div class="loading-spinner">🎬 Cargando...</div>';
+  setTimeout(() => {
+    if(grid) grid.innerHTML = `<div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe></div><div class="video-title">Ferrecenca vs Alimentos A</div><div class="video-meta">📅 14/05/2026 ⏱️ 1:24:30</div></div><div class="video-card"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/9bZkp7q19f0" allowfullscreen></iframe></div><div class="video-title">The Dolls vs Saboga</div><div class="video-meta">📅 14/05/2026 ⏱️ 1:15:22</div></div>`;
+  }, 300);
+}
+
+function cargarPlaylists() {
+  const grid = document.getElementById('playlist-grid');
+  if(grid) grid.innerHTML = PLAYLISTS.map(p => `<div class="video-card" onclick="abrirPlaylist('${p.id}')"><div style="display:flex;gap:10px;"><div style="width:80px;background:#0f3460;border-radius:6px;display:flex;align-items:center;justify-content:center;"><span>📋</span></div><div><div class="video-title">${p.title}</div><div class="video-meta">🎬 ${p.videoCount} videos</div></div></div></div>`).join('');
+}
+
+function abrirPlaylist(id) { window.open(`https://www.youtube.com/playlist?list=${id}`, '_blank'); }
+function compartirVideos() { if(navigator.share) navigator.share({title:'Sibarita Sport Club', url:location.href}); else navigator.clipboard.writeText(location.href); }
+
+// ===================================================================
+// 9. ESTADÍSTICAS POR PARTIDO (modal, guardado)
+// ===================================================================
+function openStatsModal(matchId) {
+  const match = MATCHES.find(m => m.id == matchId);
+  if(!match) return;
+  currentMatchId = matchId;
+  const matchStats = JSON.parse(localStorage.getItem(`match_stats_${matchId}`)) || {};
+  document.getElementById('stats-modal-title').innerHTML = `📊 ${match.a} vs ${match.b}<br><span style="font-size:10px;">${match.d} ${match.dy} · ${match.f}</span>`;
+  const body = document.getElementById('stats-modal-body');
+  let html = '';
+  function getStatsForPlayer(teamName, playerName) {
+    const key = `${teamName}|${playerName}`;
+    return matchStats[key] || { arr_b:0, total_arr:0, boc_b:0, total_boc:0 };
+  }
+  const teamA = TEAMS.find(t => t.n === match.a);
+  if(teamA) {
+    html += `<div class="lbl">🏆 ${match.a}</div>`;
+    teamA.p.forEach(p => {
+      const stats = getStatsForPlayer(match.a, p);
+      const safeKey = p.replace(/[^a-zA-Z0-9]/g,'_');
+      html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid">
+        <div class="stat-item"><label>🎯 arr_b</label><input type="number" class="stat-input" id="arr_b_${safeKey}" value="${stats.arr_b}"></div>
+        <div class="stat-item"><label>📊 total_arr</label><input type="number" class="stat-input" id="total_arr_${safeKey}" value="${stats.total_arr}"></div>
+        <div class="stat-item"><label>💥 boc_b</label><input type="number" class="stat-input" id="boc_b_${safeKey}" value="${stats.boc_b}"></div>
+        <div class="stat-item"><label>📊 total_boc</label><input type="number" class="stat-input" id="total_boc_${safeKey}" value="${stats.total_boc}"></div>
+      </div></div>`;
+    });
+  }
+  const teamB = TEAMS.find(t => t.n === match.b);
+  if(teamB) {
+    html += `<div class="lbl">🏆 ${match.b}</div>`;
+    teamB.p.forEach(p => {
+      const stats = getStatsForPlayer(match.b, p);
+      const safeKey = p.replace(/[^a-zA-Z0-9]/g,'_');
+      html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid">
+        <div class="stat-item"><label>🎯 arr_b</label><input type="number" class="stat-input" id="arr_b_${safeKey}" value="${stats.arr_b}"></div>
+        <div class="stat-item"><label>📊 total_arr</label><input type="number" class="stat-input" id="total_arr_${safeKey}" value="${stats.total_arr}"></div>
+        <div class="stat-item"><label>💥 boc_b</label><input type="number" class="stat-input" id="boc_b_${safeKey}" value="${stats.boc_b}"></div>
+        <div class="stat-item"><label>📊 total_boc</label><input type="number" class="stat-input" id="total_boc_${safeKey}" value="${stats.total_boc}"></div>
+      </div></div>`;
+    });
+  }
+  body.innerHTML = html;
+  document.getElementById('stats-modal').style.display = 'block';
+}
+
+function saveMatchStats() {
+  const match = MATCHES.find(m => m.id === currentMatchId);
+  if (!match) return;
+  const stats = {};
+  [match.a, match.b].forEach(teamName => {
+    const team = TEAMS.find(t => t.n === teamName);
+    if (team) {
+      team.p.forEach(player => {
+        if (player !== 'Por Cargar') {
+          const safeKey = player.replace(/[^a-zA-Z0-9]/g, '_');
+          const arr_b = parseInt(document.getElementById(`arr_b_${safeKey}`)?.value) || 0;
+          const total_arr = parseInt(document.getElementById(`total_arr_${safeKey}`)?.value) || 0;
+          const boc_b = parseInt(document.getElementById(`boc_b_${safeKey}`)?.value) || 0;
+          const total_boc = parseInt(document.getElementById(`total_boc_${safeKey}`)?.value) || 0;
+          const fullKey = `${teamName}|${player}`;
+          stats[fullKey] = { arr_b, total_arr, boc_b, total_boc };
+        }
+      });
+    }
+  });
+  localStorage.setItem(`match_stats_${currentMatchId}`, JSON.stringify(stats));
+  if (window.guardarEstadisticasPorPartidoFirebase) {
+    window.guardarEstadisticasPorPartidoFirebase(currentMatchId, stats);
+  }
+  // Recalcular globales
+  const jugadoresAfectados = [];
+  [match.a, match.b].forEach(teamName => {
+    const team = TEAMS.find(t => t.n === teamName);
+    if (team) {
+      team.p.forEach(player => {
+        if (player !== 'Por Cargar') {
+          const fullKey = `${teamName}|${player}`;
+          jugadoresAfectados.push(fullKey);
+          if (!PS[fullKey]) PS[fullKey] = {};
+          delete PS[fullKey].partidos;
+        }
+      });
+    }
+  });
+  const allMatchStats = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('match_stats_')) {
+      const matchId = key.replace('match_stats_', '');
+      allMatchStats[matchId] = JSON.parse(localStorage.getItem(key));
+    }
+  }
+  for (const [matchId, matchStats] of Object.entries(allMatchStats)) {
+    for (const [fullKey, statsData] of Object.entries(matchStats)) {
+      if (jugadoresAfectados.includes(fullKey)) {
+        if (!PS[fullKey]) PS[fullKey] = {};
+        PS[fullKey].partidos = (PS[fullKey].partidos || 0) + 1;
+        PS[fullKey].arr_b = (PS[fullKey].arr_b || 0) + statsData.arr_b;
+        PS[fullKey].total_arr = (PS[fullKey].total_arr || 0) + statsData.total_arr;
+        PS[fullKey].boc_b = (PS[fullKey].boc_b || 0) + statsData.boc_b;
+        PS[fullKey].total_boc = (PS[fullKey].total_boc || 0) + statsData.total_boc;
+      }
+    }
+  }
+  for (const fullKey of jugadoresAfectados) {
+    if (window.guardarEstadisticasFirebase) {
+      window.guardarEstadisticasFirebase(fullKey, PS[fullKey]);
+    }
+  }
+  save();
+  closeStatsModal();
+  alert('✅ Estadísticas guardadas correctamente');
+  rA(); rT();
+}
+
+function closeStatsModal() { document.getElementById('stats-modal').style.display = 'none'; currentMatchId = null; }
+
+// ===================================================================
+// 10. EXPORTAR / IMPORTAR / ADMIN
+// ===================================================================
+function exportarResultadosAJSON() {
+  const matchStats = {};
+  for(let i=0;i<localStorage.length;i++){
+    const key=localStorage.key(i);
+    if(key && key.startsWith('match_stats_')) matchStats[key.replace('match_stats_','')] = JSON.parse(localStorage.getItem(key));
+  }
+  const datos = { ultimaActualizacion: new Date().toISOString(), resultados:R, mvp:MVP, estadisticas:PS, estadisticasPorPartido:matchStats };
+  const blob = new Blob([JSON.stringify(datos,null,2)], {type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`resultados_${new Date().toISOString().slice(0,19)}.json`; a.click(); URL.revokeObjectURL(a.href);
+  mostrarEstado('✅ JSON exportado');
+}
+
+function exportarEstadisticasACSV() {
+  let csv = "Jugador,Equipo,Categoría,Grupo,Partidos,Arrime_B,Arrime_T,Arrime_%,Boche_B,Boche_T,Boche_%\n";
+  TEAMS.forEach(team => {
+    team.p.forEach(player => {
+      const ps = PS[`${team.n}|${player}`] || {};
+      const arrB = ps.arr_b||0, arrT = ps.total_arr||0, arrP = arrT?Math.round((arrB/arrT)*100):0;
+      const bocB = ps.boc_b||0, bocT = ps.total_boc||0, bocP = bocT?Math.round((bocB/bocT)*100):0;
+      csv += `"${player}","${team.n}","${team.c}","${team.g}",${ps.partidos||0},${arrB},${arrT},${arrP},${bocB},${bocT},${bocP}\n`;
+    });
+  });
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`estadisticas_${new Date().toISOString().slice(0,19)}.csv`; a.click(); URL.revokeObjectURL(a.href);
+  mostrarEstado('✅ CSV exportado');
+}
+
+function mostrarEstado(mensaje, esError=false) {
+  let div = document.getElementById('sync-status');
+  if(!div) { div = document.createElement('div'); div.id='sync-status'; div.className='sync-status'; document.querySelector('.body').prepend(div); }
+  div.innerHTML = mensaje;
+  div.classList.toggle('error', esError);
+  setTimeout(()=>{ if(div.innerHTML === mensaje) div.innerHTML=''; },4000);
+}
+
+function togglePdfPanel() {
+  const p = document.getElementById('pdf-panel');
+  p.classList.toggle('open');
+  if(p.classList.contains('open')) populateTeamSel();
+}
+function setPdfMode(mode) { pdfMode=mode; document.getElementById('pdf-week-wrap').style.display = mode==='week'?'block':'none'; document.getElementById('pdf-team-wrap').style.display = mode==='team'?'block':'none'; }
+function populateTeamSel() {
+  const sel = document.getElementById('pdf-team-sel');
+  const teams = TEAMS.filter(t => t.c === F.mCat && t.g === F.mGrp);
+  sel.innerHTML = teams.map(t=>`<option value="${t.n}">${t.n}</option>`).join('');
+}
+function generatePDF() { alert("Función PDF: se puede implementar más tarde."); }
+
+// ===================================================================
+// 11. CAMBIAR FASE (FASE 1 / FASE 2)
+// ===================================================================
 function cambiarFase(fase) {
   console.log('Cambiando a fase:', fase);
   const fase1Cont = document.getElementById('fase1-content');
@@ -1280,8 +1804,8 @@ function cambiarFase(fase) {
   }
 }
 
-function mostrarFase1() { /* ... igual que antes ... */ }
-function mostrarFase2() { /* ... igual que antes ... */ }
+function mostrarFase1() { cambiarFase('fase1'); }
+function mostrarFase2() { cambiarFase('fase2'); }
 
 window.addEventListener('message', function(event) {
   const iframe = document.getElementById('fase2-iframe');
@@ -1290,8 +1814,38 @@ window.addEventListener('message', function(event) {
   else if (event.data === 'mostrarFase2') mostrarFase2();
 });
 
-// ==================== INICIALIZACIÓN ====================
-// (Aquí se establecen los filtros por defecto y se llama a cambiarFase('fase2') al cargar)
+// ===================================================================
+// 12. INICIALIZACIÓN (filtros por defecto)
+// ===================================================================
+// Establecer filtros por defecto (no renderizan)
+setF('tCat','Femenino');
+setF('tGrp','A');
+setF('mCat','Femenino');
+setF('mGrp','A');
+setF('sCat','Femenino');
+setF('sGrp','A');
+setF('aCat','Femenino');
+setF('aGrp','A');
+
+// Mostrar Fase 2 por defecto al cargar
+document.addEventListener('DOMContentLoaded', function() {
+  cambiarFase('fase2');
+});
+
+// Exponer funciones necesarias para el módulo de Firebase
+window.save = save;
+window.rM = rM;
+window.rSt = rSt;
+window.rA = rA;
+window.rT = rT;
+window.mostrarEstado = mostrarEstado;
+
+// Exponer variables globales para el iframe y la consola
+window.MATCHES = MATCHES;
+window.R = R;
+window.MVP = MVP;
+window.PS = PS;
+window.TEAMS = TEAMS;
 </script>
 
 <!-- ===== SCRIPT MODULE DE FIREBASE (con Storage expuesto) ===== -->
@@ -1316,12 +1870,153 @@ window.addEventListener('message', function(event) {
   window.db = db;
   window.storage = storage;
 
-  // ========== DEFINIR FUNCIONES DE FIREBASE ==========
-  // (Aquí van todas las funciones de carga/guardado que ya tenías)
-  // ... (copiar las funciones originales: cargarResultadosFirebase, guardarResultadoFirebase, etc.)
+  // ========== FUNCIONES DE FIREBASE ==========
+  window.cargarResultadosFirebase = async function() {
+    try {
+      const ref = collection(db, "resultados");
+      const snap = await getDocs(ref);
+      const res = {};
+      snap.forEach(doc => res[doc.id] = doc.data());
+      console.log("✅ Resultados cargados:", Object.keys(res).length);
+      return res;
+    } catch(e) {
+      console.error("❌ Error cargando resultados:", e);
+      return {};
+    }
+  };
+
+  window.guardarResultadoFirebase = async function(matchId, data) {
+    try {
+      if (data === null) {
+        await deleteDoc(doc(db, "resultados", matchId.toString()));
+      } else {
+        const plainData = { ...data };
+        await setDoc(doc(db, "resultados", matchId.toString()), plainData);
+      }
+      console.log("✅ Resultado guardado:", matchId);
+      return true;
+    } catch(e) {
+      console.error("❌ Error guardando resultado:", e);
+      return false;
+    }
+  };
+
+  window.cargarMVPFirebase = async function() {
+    try {
+      const ref = collection(db, "mvp");
+      const snap = await getDocs(ref);
+      const res = {};
+      snap.forEach(doc => res[doc.id] = doc.data());
+      console.log("✅ MVP cargados:", Object.keys(res).length);
+      return res;
+    } catch(e) {
+      console.error("❌ Error cargando MVP:", e);
+      return {};
+    }
+  };
+
+  window.guardarMVPFirebase = async function(matchId, data) {
+    try {
+      await setDoc(doc(db, "mvp", matchId.toString()), data);
+      console.log("✅ MVP guardado:", matchId);
+      return true;
+    } catch(e) {
+      console.error("❌ Error guardando MVP:", e);
+      return false;
+    }
+  };
+
+  window.cargarEstadisticasFirebase = async function() {
+    try {
+      const ref = collection(db, "estadisticas");
+      const snap = await getDocs(ref);
+      const res = {};
+      snap.forEach(doc => res[doc.id] = doc.data());
+      console.log("✅ Estadísticas cargadas:", Object.keys(res).length);
+      return res;
+    } catch(e) {
+      console.error("❌ Error cargando estadísticas:", e);
+      return {};
+    }
+  };
+
+  window.guardarEstadisticasFirebase = async function(key, data) {
+    try {
+      await setDoc(doc(db, "estadisticas", key), data);
+      console.log("✅ Estadísticas guardadas:", key);
+      return true;
+    } catch(e) {
+      console.error("❌ Error guardando estadísticas:", e);
+      return false;
+    }
+  };
+
+  window.cargarEstadisticasPorPartidoFirebase = async function() {
+    try {
+      const ref = collection(db, "estadisticasPorPartido");
+      const snap = await getDocs(ref);
+      const res = {};
+      snap.forEach(doc => res[doc.id] = doc.data());
+      console.log("✅ Estadísticas por partido cargadas:", Object.keys(res).length);
+      return res;
+    } catch(e) {
+      console.error("❌ Error cargando estadísticas por partido:", e);
+      return {};
+    }
+  };
+
+  window.guardarEstadisticasPorPartidoFirebase = async function(matchId, data) {
+    try {
+      await setDoc(doc(db, "estadisticasPorPartido", matchId.toString()), data);
+      console.log("✅ Estadísticas por partido guardadas:", matchId);
+      return true;
+    } catch(e) {
+      console.error("❌ Error guardando estadísticas por partido:", e);
+      return false;
+    }
+  };
+
+  // ========== FUNCIÓN PRINCIPAL DE CARGA ==========
+  window.cargarResultadosDesdeFirebase = async function() {
+    console.log("🔄 Iniciando carga desde Firebase...");
+    try {
+      const resultados = await window.cargarResultadosFirebase();
+      const mvp = await window.cargarMVPFirebase();
+      const estadisticas = await window.cargarEstadisticasFirebase();
+      const statsPP = await window.cargarEstadisticasPorPartidoFirebase();
+
+      for (let k in R) delete R[k];
+      for (let k in MVP) delete MVP[k];
+      for (let k in PS) delete PS[k];
+
+      for (const [id, d] of Object.entries(resultados)) R[id] = d;
+      for (const [id, d] of Object.entries(mvp)) MVP[id] = d;
+      for (const [k, d] of Object.entries(estadisticas)) PS[k] = d;
+      for (const [mid, s] of Object.entries(statsPP)) {
+        localStorage.setItem(`match_stats_${mid}`, JSON.stringify(s));
+      }
+
+      if (typeof save === 'function') save();
+      if (typeof rM === 'function') rM();
+      if (typeof rSt === 'function') rSt();
+      if (typeof rA === 'function') rA();
+      if (typeof rT === 'function') rT();
+
+      if (typeof mostrarEstado === 'function') {
+        mostrarEstado(`✅ Datos cargados: ${Object.keys(R).length} resultados, ${Object.keys(MVP).length} MVP, ${Object.keys(PS).length} estadísticas`);
+      }
+      console.log("✅ Carga completada exitosamente");
+    } catch(e) {
+      console.error("❌ Error en cargarResultadosDesdeFirebase:", e);
+      if (typeof mostrarEstado === 'function') {
+        mostrarEstado('⚠️ Error cargando desde Firebase: ' + e.message, true);
+      }
+    }
+  };
 
   // ========== EJECUTAR CARGA INICIAL ==========
   setTimeout(() => {
+    console.log("🔄 Ejecutando cargarResultadosDesdeFirebase...");
     window.cargarResultadosDesdeFirebase?.();
   }, 100);
 </script>
