@@ -1850,9 +1850,24 @@ window.TEAMS = TEAMS;
 
 <!-- ===== SCRIPT MODULE DE FIREBASE (con Storage expuesto) ===== -->
 <script type="module">
+  // CONTENIDO REEMPLAZADO POR BLOQUE 1
+  // (código completo del archivo bloque 1.txt)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-  import { getFirestore, doc, setDoc, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
+  import { 
+    getFirestore, 
+    doc, 
+    getDoc, 
+    setDoc, 
+    deleteDoc, 
+    collection, 
+    getDocs 
+  } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+  import { 
+    getStorage, 
+    ref, 
+    uploadBytes, 
+    getDownloadURL 
+  } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDXIPkeLn5oVn_q-NO1Xm7tc9E6MPfU-cU",
@@ -1862,21 +1877,39 @@ window.TEAMS = TEAMS;
     messagingSenderId: "466460618853",
     appId: "1:466460618853:web:52660cd99bba610d6e568c"
   };
+
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const storage = getStorage(app);
 
-  // Exponer db y storage globalmente para usarlos desde el script de fichas
-  window.db = db;
-  window.storage = storage;
+  // ============================================================
+  // EXPONER FUNCIONES Y REFERENCIAS MODULARES EN WINDOW
+  // para que el script tradicional (no module) pueda usarlas
+  // ============================================================
+  window.db = db;                         // referencia a Firestore (para usar con doc/collection)
+  window.storage = storage;               // referencia a Storage
+  // Funciones de Firestore
+  window._doc = doc;
+  window._getDoc = getDoc;
+  window._setDoc = setDoc;
+  window._deleteDoc = deleteDoc;
+  window._collection = collection;
+  window._getDocs = getDocs;
+  // Funciones de Storage
+  window._ref = ref;
+  window._uploadBytes = uploadBytes;
+  window._getDownloadURL = getDownloadURL;
 
-  // ========== FUNCIONES DE FIREBASE ==========
+  // ============================================================
+  // FUNCIONES DE NEGOCIO (usando sintaxis modular)
+  // ============================================================
+
   window.cargarResultadosFirebase = async function() {
     try {
-      const ref = collection(db, "resultados");
-      const snap = await getDocs(ref);
+      const colRef = window._collection(window.db, "resultados");
+      const snapshot = await window._getDocs(colRef);
       const res = {};
-      snap.forEach(doc => res[doc.id] = doc.data());
+      snapshot.forEach(docSnap => res[docSnap.id] = docSnap.data());
       console.log("✅ Resultados cargados:", Object.keys(res).length);
       return res;
     } catch(e) {
@@ -1887,11 +1920,11 @@ window.TEAMS = TEAMS;
 
   window.guardarResultadoFirebase = async function(matchId, data) {
     try {
+      const docRef = window._doc(window.db, "resultados", matchId.toString());
       if (data === null) {
-        await deleteDoc(doc(db, "resultados", matchId.toString()));
+        await window._deleteDoc(docRef);
       } else {
-        const plainData = { ...data };
-        await setDoc(doc(db, "resultados", matchId.toString()), plainData);
+        await window._setDoc(docRef, data);
       }
       console.log("✅ Resultado guardado:", matchId);
       return true;
@@ -1903,10 +1936,10 @@ window.TEAMS = TEAMS;
 
   window.cargarMVPFirebase = async function() {
     try {
-      const ref = collection(db, "mvp");
-      const snap = await getDocs(ref);
+      const colRef = window._collection(window.db, "mvp");
+      const snapshot = await window._getDocs(colRef);
       const res = {};
-      snap.forEach(doc => res[doc.id] = doc.data());
+      snapshot.forEach(docSnap => res[docSnap.id] = docSnap.data());
       console.log("✅ MVP cargados:", Object.keys(res).length);
       return res;
     } catch(e) {
@@ -1917,7 +1950,8 @@ window.TEAMS = TEAMS;
 
   window.guardarMVPFirebase = async function(matchId, data) {
     try {
-      await setDoc(doc(db, "mvp", matchId.toString()), data);
+      const docRef = window._doc(window.db, "mvp", matchId.toString());
+      await window._setDoc(docRef, data);
       console.log("✅ MVP guardado:", matchId);
       return true;
     } catch(e) {
@@ -1928,10 +1962,10 @@ window.TEAMS = TEAMS;
 
   window.cargarEstadisticasFirebase = async function() {
     try {
-      const ref = collection(db, "estadisticas");
-      const snap = await getDocs(ref);
+      const colRef = window._collection(window.db, "estadisticas");
+      const snapshot = await window._getDocs(colRef);
       const res = {};
-      snap.forEach(doc => res[doc.id] = doc.data());
+      snapshot.forEach(docSnap => res[docSnap.id] = docSnap.data());
       console.log("✅ Estadísticas cargadas:", Object.keys(res).length);
       return res;
     } catch(e) {
@@ -1942,7 +1976,8 @@ window.TEAMS = TEAMS;
 
   window.guardarEstadisticasFirebase = async function(key, data) {
     try {
-      await setDoc(doc(db, "estadisticas", key), data);
+      const docRef = window._doc(window.db, "estadisticas", key);
+      await window._setDoc(docRef, data);
       console.log("✅ Estadísticas guardadas:", key);
       return true;
     } catch(e) {
@@ -1953,10 +1988,10 @@ window.TEAMS = TEAMS;
 
   window.cargarEstadisticasPorPartidoFirebase = async function() {
     try {
-      const ref = collection(db, "estadisticasPorPartido");
-      const snap = await getDocs(ref);
+      const colRef = window._collection(window.db, "estadisticasPorPartido");
+      const snapshot = await window._getDocs(colRef);
       const res = {};
-      snap.forEach(doc => res[doc.id] = doc.data());
+      snapshot.forEach(docSnap => res[docSnap.id] = docSnap.data());
       console.log("✅ Estadísticas por partido cargadas:", Object.keys(res).length);
       return res;
     } catch(e) {
@@ -1967,7 +2002,8 @@ window.TEAMS = TEAMS;
 
   window.guardarEstadisticasPorPartidoFirebase = async function(matchId, data) {
     try {
-      await setDoc(doc(db, "estadisticasPorPartido", matchId.toString()), data);
+      const docRef = window._doc(window.db, "estadisticasPorPartido", matchId.toString());
+      await window._setDoc(docRef, data);
       console.log("✅ Estadísticas por partido guardadas:", matchId);
       return true;
     } catch(e) {
@@ -1985,31 +2021,32 @@ window.TEAMS = TEAMS;
       const estadisticas = await window.cargarEstadisticasFirebase();
       const statsPP = await window.cargarEstadisticasPorPartidoFirebase();
 
-      for (let k in R) delete R[k];
-      for (let k in MVP) delete MVP[k];
-      for (let k in PS) delete PS[k];
+      // Limpiar objetos globales
+      for (let k in window.R) delete window.R[k];
+      for (let k in window.MVP) delete window.MVP[k];
+      for (let k in window.PS) delete window.PS[k];
 
-      for (const [id, d] of Object.entries(resultados)) R[id] = d;
-      for (const [id, d] of Object.entries(mvp)) MVP[id] = d;
-      for (const [k, d] of Object.entries(estadisticas)) PS[k] = d;
+      for (const [id, d] of Object.entries(resultados)) window.R[id] = d;
+      for (const [id, d] of Object.entries(mvp)) window.MVP[id] = d;
+      for (const [k, d] of Object.entries(estadisticas)) window.PS[k] = d;
       for (const [mid, s] of Object.entries(statsPP)) {
         localStorage.setItem(`match_stats_${mid}`, JSON.stringify(s));
       }
 
-      if (typeof save === 'function') save();
-      if (typeof rM === 'function') rM();
-      if (typeof rSt === 'function') rSt();
-      if (typeof rA === 'function') rA();
-      if (typeof rT === 'function') rT();
+      if (typeof window.save === 'function') window.save();
+      if (typeof window.rM === 'function') window.rM();
+      if (typeof window.rSt === 'function') window.rSt();
+      if (typeof window.rA === 'function') window.rA();
+      if (typeof window.rT === 'function') window.rT();
 
-      if (typeof mostrarEstado === 'function') {
-        mostrarEstado(`✅ Datos cargados: ${Object.keys(R).length} resultados, ${Object.keys(MVP).length} MVP, ${Object.keys(PS).length} estadísticas`);
+      if (typeof window.mostrarEstado === 'function') {
+        window.mostrarEstado(`✅ Datos cargados: ${Object.keys(window.R).length} resultados, ${Object.keys(window.MVP).length} MVP, ${Object.keys(window.PS).length} estadísticas`);
       }
       console.log("✅ Carga completada exitosamente");
     } catch(e) {
       console.error("❌ Error en cargarResultadosDesdeFirebase:", e);
-      if (typeof mostrarEstado === 'function') {
-        mostrarEstado('⚠️ Error cargando desde Firebase: ' + e.message, true);
+      if (typeof window.mostrarEstado === 'function') {
+        window.mostrarEstado('⚠️ Error cargando desde Firebase: ' + e.message, true);
       }
     }
   };
@@ -2023,9 +2060,11 @@ window.TEAMS = TEAMS;
 
 <!-- ===== SCRIPT DE FICHAS ===== -->
 <script>
+// CONTENIDO REEMPLAZADO POR BLOQUE 2
+// (código completo del archivo bloque 2.txt)
 // ================================================
 // FICHAS DE JUGADORES - FASE 1
-// Dependencias: Firebase (Storage + Firestore), html2canvas
+// Dependencias: Firebase modular expuesto en window
 // ================================================
 
 (function() {
@@ -2080,28 +2119,34 @@ window.TEAMS = TEAMS;
     document.body.style.overflow = 'hidden';
   }
 
-  // ---- Cargar foto desde Firestore ----
+  // ---- Cargar foto desde Firestore usando modular ----
   function cargarFotoDesdeFirebase(playerId) {
     const defaultAvatar = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="45" fill="%23d9d9d9"/%3E%3Ctext x="50" y="55" font-size="30" text-anchor="middle" fill="%23666" dy=".3em"%3E👤%3C/text%3E%3C/svg%3E';
     fotoImg.src = defaultAvatar;
     currentPhotoURL = null;
 
-    if (!window.db) return;
-    window.db.collection('fichas').doc(playerId).get()
-      .then(doc => {
-        if (doc.exists && doc.data().url) {
-          currentPhotoURL = doc.data().url;
+    // Verificar que las funciones modulares estén disponibles
+    if (!window.db || !window._doc || !window._getDoc) {
+      console.warn('Firebase modular no disponible');
+      return;
+    }
+
+    const docRef = window._doc(window.db, 'fichas', playerId);
+    window._getDoc(docRef)
+      .then(docSnap => {
+        if (docSnap.exists && docSnap.data().url) {
+          currentPhotoURL = docSnap.data().url;
           fotoImg.src = currentPhotoURL;
         }
       })
       .catch(err => console.warn('Error al cargar foto:', err));
   }
 
-  // ---- Subir foto ----
+  // ---- Subir foto usando modular ----
   function subirFoto(file) {
     if (!file) return;
-    if (!window.storage || !window.db) {
-      mensaje.textContent = '⚠️ Firebase no configurado.';
+    if (!window.storage || !window.db || !window._ref || !window._uploadBytes || !window._getDownloadURL || !window._doc || !window._setDoc) {
+      mensaje.textContent = '⚠️ Firebase modular no configurado.';
       mensaje.className = 'error';
       return;
     }
@@ -2115,12 +2160,12 @@ window.TEAMS = TEAMS;
     mensaje.textContent = '⏳ Subiendo...';
     mensaje.className = '';
 
-    const fileRef = ref(window.storage, `fichas/${currentPlayerId}.jpg`);
-    uploadBytes(fileRef, file)
-      .then(snapshot => getDownloadURL(snapshot.ref))
+    const fileRef = window._ref(window.storage, `fichas/${currentPlayerId}.jpg`);
+    window._uploadBytes(fileRef, file)
+      .then(snapshot => window._getDownloadURL(snapshot.ref))
       .then(url => {
-        return window.db.collection('fichas').doc(currentPlayerId)
-          .set({ url, updatedAt: new Date().toISOString() })
+        const docRef = window._doc(window.db, 'fichas', currentPlayerId);
+        return window._setDoc(docRef, { url, updatedAt: new Date().toISOString() })
           .then(() => url);
       })
       .then(url => {
