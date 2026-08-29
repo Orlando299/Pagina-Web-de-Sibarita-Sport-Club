@@ -1900,6 +1900,14 @@ window.TEAMS = TEAMS;
   window._uploadBytes = uploadBytes;
   window._getDownloadURL = getDownloadURL;
 
+  // EXPORTACIONES ADICIONALES PARA EL SCRIPT DE FICHAS
+  window.getDoc = getDoc;
+  window.setDoc = setDoc;
+  window.doc = doc;
+  window.ref = ref;
+  window.uploadBytes = uploadBytes;
+  window.getDownloadURL = getDownloadURL;
+
   // ============================================================
   // FUNCIONES DE NEGOCIO (usando sintaxis modular)
   // ============================================================
@@ -2058,13 +2066,11 @@ window.TEAMS = TEAMS;
   }, 100);
 </script>
 
-<!-- ===== SCRIPT DE FICHAS ===== -->
+<!-- ===== SCRIPT DE FICHAS (VERSIÓN MODULAR MEJORADA) ===== -->
 <script>
-// CONTENIDO REEMPLAZADO POR BLOQUE 2
-// (código completo del archivo bloque 2.txt)
 // ================================================
-// FICHAS DE JUGADORES - FASE 1
-// Dependencias: Firebase modular expuesto en window
+// FICHAS DE JUGADORES - FASE 1 (VERSIÓN MODULAR)
+// Dependencias: Firebase Modular (getDoc, setDoc, doc)
 // ================================================
 
 (function() {
@@ -2119,20 +2125,20 @@ window.TEAMS = TEAMS;
     document.body.style.overflow = 'hidden';
   }
 
-  // ---- Cargar foto desde Firestore usando modular ----
+  // ---- Cargar foto desde Firestore (versión modular) ----
   function cargarFotoDesdeFirebase(playerId) {
     const defaultAvatar = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="45" fill="%23d9d9d9"/%3E%3Ctext x="50" y="55" font-size="30" text-anchor="middle" fill="%23666" dy=".3em"%3E👤%3C/text%3E%3C/svg%3E';
     fotoImg.src = defaultAvatar;
     currentPhotoURL = null;
 
-    // Verificar que las funciones modulares estén disponibles
-    if (!window.db || !window._doc || !window._getDoc) {
+    // Verificar que tenemos acceso a Firebase y las funciones modulares
+    if (!window.db || !window.getDoc || !window.doc) {
       console.warn('Firebase modular no disponible');
       return;
     }
 
-    const docRef = window._doc(window.db, 'fichas', playerId);
-    window._getDoc(docRef)
+    const docRef = window.doc(window.db, 'fichas', playerId);
+    window.getDoc(docRef)
       .then(docSnap => {
         if (docSnap.exists && docSnap.data().url) {
           currentPhotoURL = docSnap.data().url;
@@ -2142,10 +2148,10 @@ window.TEAMS = TEAMS;
       .catch(err => console.warn('Error al cargar foto:', err));
   }
 
-  // ---- Subir foto usando modular ----
+  // ---- Subir foto (versión modular) ----
   function subirFoto(file) {
     if (!file) return;
-    if (!window.storage || !window.db || !window._ref || !window._uploadBytes || !window._getDownloadURL || !window._doc || !window._setDoc) {
+    if (!window.storage || !window.db || !window.ref || !window.uploadBytes || !window.getDownloadURL || !window.setDoc || !window.doc) {
       mensaje.textContent = '⚠️ Firebase modular no configurado.';
       mensaje.className = 'error';
       return;
@@ -2160,12 +2166,12 @@ window.TEAMS = TEAMS;
     mensaje.textContent = '⏳ Subiendo...';
     mensaje.className = '';
 
-    const fileRef = window._ref(window.storage, `fichas/${currentPlayerId}.jpg`);
-    window._uploadBytes(fileRef, file)
-      .then(snapshot => window._getDownloadURL(snapshot.ref))
+    const fileRef = window.ref(window.storage, `fichas/${currentPlayerId}.jpg`);
+    window.uploadBytes(fileRef, file)
+      .then(snapshot => window.getDownloadURL(snapshot.ref))
       .then(url => {
-        const docRef = window._doc(window.db, 'fichas', currentPlayerId);
-        return window._setDoc(docRef, { url, updatedAt: new Date().toISOString() })
+        const docRef = window.doc(window.db, 'fichas', currentPlayerId);
+        return window.setDoc(docRef, { url, updatedAt: new Date().toISOString() })
           .then(() => url);
       })
       .then(url => {
