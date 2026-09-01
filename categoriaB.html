@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copa Navidad - Categoría A | Sibarita SC</title>
+
+  <!-- ===== ADSENSE (ANUNCIOS AUTOMÁTICOS) ===== -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5125085567413576" crossorigin="anonymous"></script>
+
+  <style>
+    /* ============================================================
+       PALETA CATEGORÍA B 
+       ============================================================ */
+   :root {
+  --primary: #2980B9;        /* Azul principal */
+  --primary-dark: #1A5276;   /* Azul oscuro */
+  --primary-bright: #F39C12; /* Naranja brillante (resaltados) */
+  --bg: #F0F8FF;             /* Fondo general (AliceBlue) */
+  --card-bg: #FFFFFF;        /* Fondo tarjetas (blanco) */
+  --text-main: #1E293B;      /* Texto principal (gris azulado) */
+  --text-secondary: #475569; /* Texto secundario (gris pizarra) */
+  --border: #2980B966;       /* Borde azul semitransparente */
+  --shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* ===== HEADER ===== */
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0 20px;
+      border-bottom: 2px solid var(--primary);
+      margin-bottom: 30px;
+    }
+    header h1 {
+      color: var(--primary);
+      font-size: 2.2rem;
+      font-weight: 800;
+    }
+    header h1 small {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+    .nav-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .nav-buttons a {
+      background: var(--primary);
+      color: #0F1A0F;
+      padding: 8px 18px;
+      border-radius: 60px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .nav-buttons a:hover {
+      background: var(--primary-dark);
+      transform: scale(1.02);
+    }
+
+    /* ===== PESTAÑAS ===== */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 25px;
+    }
+    .tab-btn {
+      background: var(--card-bg);
+      color: var(--text-secondary);
+      border: none;
+      padding: 12px 28px;
+      border-radius: 30px 30px 0 0;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      border: 1px solid transparent;
+    }
+    .tab-btn:hover {
+      background: #2a3a2a;
+      color: var(--text-main);
+    }
+    .tab-btn.active {
+      background: var(--primary);
+      color: #0F1A0F;
+      border-color: var(--primary);
+    }
+
+    .tab-content {
+      display: none;
+      background: var(--card-bg);
+      padding: 25px 30px;
+      border-radius: 0 20px 20px 20px;
+      border: 1px solid var(--border);
+      margin-bottom: 30px;
+    }
+    .tab-content.active { display: block; }
+
+    /* ===== TABLAS Y LISTAS ===== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+    th {
+      background: var(--primary);
+      color: #0F1A0F;
+      padding: 12px 10px;
+      text-align: left;
+      font-weight: 700;
+    }
+    td {
+      padding: 10px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-main);
+    }
+    .resaltado {
+      background: #FFD70022;
+      border-left: 4px solid var(--primary-bright);
+    }
+    .acciones button {
+      background: var(--primary);
+      color: #0F1A0F;
+      border: none;
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 0 4px;
+      font-size: 0.8rem;
+    }
+    .acciones button:hover { background: var(--primary-dark); }
+
+    /* ===== FORMULARIOS (admin) ===== */
+    .admin-section {
+      border-top: 2px solid var(--primary);
+      margin-top: 30px;
+      padding-top: 20px;
+      display: none; /* se muestra con la clave */
+    }
+    .admin-section h3 {
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px 14px;
+      margin: 5px 0 15px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #2a3a2a;
+      color: var(--text-main);
+      font-size: 1rem;
+    }
+    input:focus, textarea:focus {
+      outline: 2px solid var(--primary);
+      background: #1e2a1e;
+    }
+    button {
+      background: var(--primary);
+      color: #0F1A0F;
+      border: none;
+      padding: 10px 28px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: var(--primary-dark); }
+
+    /* ===== ADMIN PANEL ===== */
+    .admin-panel {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: #1a2a1a;
+      border-radius: 16px;
+      border: 1px solid var(--primary);
+    }
+    .admin-panel button {
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    #mensaje-admin {
+      margin-top: 15px;
+      font-weight: 600;
+    }
+
+    /* ===== ENLACE VOLVER ===== */
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      transition: border 0.2s;
+    }
+    .back-link:hover { border-bottom-color: var(--primary); }
+
+    /* ===== PIE ===== */
+    footer {
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 2px solid var(--border);
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    footer strong { color: var(--text-main); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 700px) {
+      header { flex-direction: column; align-items: stretch; gap: 12px; }
+      header h1 { font-size: 1.8rem; text-align: center; }
+      .nav-buttons { justify-content: center; }
+      .tab-btn { flex: 1 1 auto; text-align: center; padding: 10px 12px; font-size: 0.85rem; }
+      .tab-content { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <h1>🟡 Copa Navidad <small>Cat. B</small></h1>
+    <div class="nav-buttons">
+      <a href="index2.html">🏠 Inicio</a>
+      <a href="categoriaB.html">🔵 Cambiar a Cat. B</a>
+    </div>
+  </header>
+
+  <!-- ===== PESTAÑAS ===== -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="equipos">📋 Equipos</button>
+    <button class="tab-btn" data-tab="partidos">⚽ Partidos</button>
+    <button class="tab-btn" data-tab="tabla">📊 Tabla</button>
+    <button class="tab-btn" data-tab="average">📈 Average</button>
+    <button class="tab-btn" data-tab="videos">🎥 Videos</button>
+    <button class="tab-btn" data-tab="jugar">🎮 Jugar</button>
+    <button class="tab-btn" data-tab="admin">🔐 Admin</button>
+  </div>
+
+  <!-- ===== CONTENIDO DE PESTAÑAS ===== -->
+
+  <!-- EQUIPOS -->
+  <div id="equipos" class="tab-content active">
+    <h2 style="color: var(--primary);">📋 Equipos</h2>
+    <table>
+      <thead><tr><th>Nombre</th><th>Puntos</th><th>PJ</th><th>Acciones</th></tr></thead>
+      <tbody>
+        <tr class="resaltado"><td>⚜️ Real Sibarita</td><td>18</td><td>6</td><td class="acciones"><button>✏️</button><button>🗑️</button></td></tr>
+        <tr><td>🏹 Los Dorados</td><td>15</td><td>6</td><td class="acciones"><button>✏️</button><button>🗑️</button></td></tr>
+        <tr><td>🛡️ Verde Olivo</td><td>12</td><td>6</td><td class="acciones"><button>✏️</button><button>🗑️</button></td></tr>
+        <tr><td>🌪️ Huracanes</td><td>9</td><td>6</td><td class="acciones"><button>✏️</button><button>🗑️</button></td></tr>
+      </tbody>
+    </table>
+    <p style="color: var(--text-secondary); font-size: 0.9rem;">* Datos de muestra · Los equipos se cargarán desde Firebase</p>
+
+    <!-- Formulario agregar (solo admin) -->
+    <div class="admin-section" id="form-equipo">
+      <h3>➕ Agregar equipo</h3>
+      <input type="text" id="nombre-equipo" placeholder="Nombre del equipo" />
+      <button id="btn-agregar-equipo">Agregar</button>
+    </div>
+  </div>
+
+  <!-- PARTIDOS -->
+  <div id="partidos" class="tab-content">
+    <h2 style="color: var(--primary);">⚽ Partidos</h2>
+    <table>
+      <thead><tr><th>Local</th><th>Visitante</th><th>Fecha</th><th>Resultado</th><th>Acciones</th></tr></thead>
+      <tbody>
+        <tr><td>Real Sibarita</td><td>Los Dorados</td><td>11/09</td><td>3 - 1</td><td class="acciones"><button>✏️</button><button>🗑️</button></td></tr>
+        <tr><td>Verde Olivo</td><td>Huracanes</td><td>11/09</td><td>0 - 0</td><td class="acciones"><button>✏️</button><button>🗑️</button></td></tr>
+        <tr><td>Los Dorados</td><td>Verde Olivo</td><td>12/09</td><td>2 - 2</td><td class="acciones"><button>✏️</button><button>🗑️</button></td></tr>
+      </tbody>
+    </table>
+    <p style="color: var(--text-secondary); font-size: 0.9rem;">* Datos de muestra</p>
+
+    <div class="admin-section" id="form-partido">
+      <h3>➕ Agregar partido</h3>
+      <input type="text" id="local" placeholder="Local" />
+      <input type="text" id="visitante" placeholder="Visitante" />
+      <input type="date" id="fecha-partido" />
+      <input type="number" id="goles-local" placeholder="Goles local" />
+      <input type="number" id="goles-visitante" placeholder="Goles visitante" />
+      <button id="btn-agregar-partido">Agregar</button>
+    </div>
+  </div>
+
+  <!-- TABLA -->
+  <div id="tabla" class="tab-content">
+    <h2 style="color: var(--primary);">📊 Tabla de posiciones</h2>
+    <table>
+      <thead><tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>Pts</th></tr></thead>
+      <tbody>
+        <tr class="resaltado"><td>1</td><td>⚜️ Real Sibarita</td><td>6</td><td>5</td><td>1</td><td>0</td><td>16</td></tr>
+        <tr><td>2</td><td>🏹 Los Dorados</td><td>6</td><td>4</td><td>2</td><td>0</td><td>14</td></tr>
+        <tr><td>3</td><td>🛡️ Verde Olivo</td><td>6</td><td>3</td><td>2</td><td>1</td><td>11</td></tr>
+        <tr><td>4</td><td>🌪️ Huracanes</td><td>6</td><td>1</td><td>1</td><td>4</td><td>4</td></tr>
+      </tbody>
+    </table>
+    <p style="color: var(--text-secondary); font-size: 0.9rem;">* Cálculo automático a partir de partidos</p>
+  </div>
+
+  <!-- AVERAGE -->
+  <div id="average" class="tab-content">
+    <h2 style="color: var(--primary);">📈 Average (GF / GC)</h2>
+    <table>
+      <thead><tr><th>Equipo</th><th>GF</th><th>GC</th><th>Average</th></tr></thead>
+      <tbody>
+        <tr class="resaltado"><td>⚜️ Real Sibarita</td><td>12</td><td>3</td><td>4.00</td></tr>
+        <tr><td>🏹 Los Dorados</td><td>10</td><td>5</td><td>2.00</td></tr>
+        <tr><td>🛡️ Verde Olivo</td><td>6</td><td>4</td><td>1.50</td></tr>
+        <tr><td>🌪️ Huracanes</td><td>4</td><td>9</td><td>0.44</td></tr>
+      </tbody>
+    </table>
+    <p style="color: var(--text-secondary); font-size: 0.9rem;">* Calculado con goles a favor / goles en contra</p>
+  </div>
+
+  <!-- VIDEOS -->
+  <div id="videos" class="tab-content">
+    <h2 style="color: var(--primary);">🎥 Videos destacados</h2>
+    <ul style="list-style: none; padding: 0;">
+      <li style="padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <span><strong>Resumen jornada 1</strong> - Cat A</span>
+        <span><a href="#" style="color: var(--primary);">▶ Ver</a> <button style="margin-left: 10px;">🗑️</button></span>
+      </li>
+      <li style="padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <span><strong>Mejor jugada de la semana</strong> - Cat A</span>
+        <span><a href="#" style="color: var(--primary);">▶ Ver</a> <button style="margin-left: 10px;">🗑️</button></span>
+      </li>
+      <li style="padding: 12px 0; display: flex; justify-content: space-between; align-items: center;">
+        <span><strong>Entrevista al capitán</strong> - Cat A</span>
+        <span><a href="#" style="color: var(--primary);">▶ Ver</a> <button style="margin-left: 10px;">🗑️</button></span>
+      </li>
+    </ul>
+    <p style="color: var(--text-secondary); font-size: 0.9rem;">* Videos de muestra</p>
+
+    <div class="admin-section" id="form-video">
+      <h3>➕ Agregar video</h3>
+      <input type="text" id="titulo-video" placeholder="Título del video" />
+      <input type="url" id="url-video" placeholder="URL de YouTube" />
+      <button id="btn-agregar-video">Agregar</button>
+    </div>
+  </div>
+
+  <!-- JUGAR -->
+  <div id="jugar" class="tab-content">
+    <h2 style="color: var(--primary);">🎮 Jugar / Simulación</h2>
+    <p>Aquí podrás simular partidos o llevar el marcador en vivo.</p>
+    <p style="color: var(--text-secondary);">Próximamente: integración con lógica de juego.</p>
+    <!-- Aquí puedes poner un simulador simple si lo deseas -->
+  </div>
+
+  <!-- ADMIN -->
+  <div id="admin" class="tab-content">
+    <h2 style="color: var(--primary);">🔐 Administración</h2>
+    <p>Ingresa la clave para habilitar las funciones de edición e import/export.</p>
+    <input type="password" id="clave-admin" placeholder="Clave" style="max-width: 300px;" />
+    <button id="btn-verificar-clave">Verificar</button>
+    <div id="panel-admin" class="admin-panel">
+      <button id="btn-import-json">📥 Importar JSON</button>
+      <button id="btn-export-json">📤 Exportar JSON</button>
+      <input type="file" id="file-input" accept=".json" style="display:none;" />
+      <div id="mensaje-admin"></div>
+    </div>
+    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 10px;">Clave por defecto: <strong>sibarita2026</strong></p>
+  </div>
+
+  <!-- ===== ENLACE VOLVER ===== -->
+  <a href="index2.html" class="back-link">⬅ Volver al inicio</a>
+
+  <!-- ===== PIE ===== -->
+  <footer>
+    <p>
+      <strong>Sibarita Sport Club</strong> · Araúre · Portuguesa<br />
+      Información: Arq. Berly Salazar · 📞 0412-739.65.16 / 0416-628.60.51
+    </p>
+  </footer>
+
+</div>
+
+<!-- ========================================================== -->
+<!-- ===== JAVASCRIPT (CON DATOS DE MUESTRA Y LÓGICA ADMIN BÁSICA) ===== -->
+<script>
+  (function() {
+    // ===== CONFIGURACIÓN =====
+    const CLAVE_ADMIN = 'sibarita2026';
+    let adminHabilitado = false;
+
+    // ===== PESTAÑAS =====
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabs.forEach(b => b.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+        // Si se abre la pestaña admin, no hacemos nada especial
+        // Si se abren otras, podríamos recargar datos, pero aquí es estático.
+      });
+    });
+
+    // ===== ADMIN: VERIFICAR CLAVE =====
+    const btnVerificar = document.getElementById('btn-verificar-clave');
+    const panelAdmin = document.getElementById('panel-admin');
+    const mensajeAdmin = document.getElementById('mensaje-admin');
+
+    btnVerificar.addEventListener('click', () => {
+      const clave = document.getElementById('clave-admin').value;
+      if (clave === CLAVE_ADMIN) {
+        adminHabilitado = true;
+        panelAdmin.style.display = 'block';
+        // Mostrar también los formularios de agregar
+        document.querySelectorAll('.admin-section').forEach(el => el.style.display = 'block');
+        mensajeAdmin.innerHTML = '<span style="color: #FFD700;">✅ Admin habilitado</span>';
+      } else {
+        mensajeAdmin.innerHTML = '<span style="color: #e74c3c;">❌ Clave incorrecta</span>';
+        adminHabilitado = false;
+      }
+    });
+
+    // ===== ACCIONES DE BOTONES (SOLO DEMOSTRATIVO) =====
+    // Aquí irían las funciones reales de agregar/editar/eliminar,
+    // pero en modo informativo solo mostramos alertas.
+
+    document.getElementById('btn-agregar-equipo').addEventListener('click', () => {
+      if (!adminHabilitado) return alert('No autorizado');
+      const nombre = document.getElementById('nombre-equipo').value.trim();
+      if (!nombre) return alert('Escribe un nombre');
+      alert(`✅ Equipo "${nombre}" agregado (simulado). En producción se guardaría en Firebase.`);
+      document.getElementById('nombre-equipo').value = '';
+    });
+
+    document.getElementById('btn-agregar-partido').addEventListener('click', () => {
+      if (!adminHabilitado) return alert('No autorizado');
+      alert('Partido agregado (simulado).');
+      // Limpiar campos
+      ['local','visitante','fecha-partido','goles-local','goles-visitante'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+    });
+
+    document.getElementById('btn-agregar-video').addEventListener('click', () => {
+      if (!adminHabilitado) return alert('No autorizado');
+      alert('Video agregado (simulado).');
+      document.getElementById('titulo-video').value = '';
+      document.getElementById('url-video').value = '';
+    });
+
+    // ===== IMPORT / EXPORT (SIMULADO) =====
+    document.getElementById('btn-export-json').addEventListener('click', () => {
+      if (!adminHabilitado) return alert('No autorizado');
+      const data = {
+        equipos: [{nombre: 'Real Sibarita', puntos: 18}, {nombre: 'Los Dorados', puntos: 15}],
+        partidos: [{local: 'Real Sibarita', visitante: 'Los Dorados', resultado: '3-1'}],
+        videos: [{titulo: 'Resumen jornada 1', url: 'https://youtube.com/...'}]
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'categoriaA_backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('btn-import-json').addEventListener('click', () => {
+      if (!adminHabilitado) return alert('No autorizado');
+      document.getElementById('file-input').click();
+    });
+
+    document.getElementById('file-input').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          alert('✅ Importación simulada exitosa. Datos: ' + JSON.stringify(data, null, 2));
+        } catch (err) {
+          alert('❌ Error al leer el archivo: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // ===== INICIALIZACIÓN: los formularios admin ocultos hasta que se valide =====
+    document.querySelectorAll('.admin-section').forEach(el => el.style.display = 'none');
+    panelAdmin.style.display = 'none';
+
+    console.log('🔵 Categoría B cargada (modo informativo)');
+  })();
+</script>
+</body>
+</html>
