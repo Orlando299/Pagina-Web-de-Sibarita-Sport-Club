@@ -4,169 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portal - Copa Navidad 2026 | Sibarita SC</title>
-
-  <!-- ============================================================ -->
-  <!-- ===== CÓDIGO DE ADSENSE (ANUNCIOS AUTOMÁTICOS) ===== -->
-  <!-- Con esto, Google inyecta anuncios automáticamente en tu página -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5125085567413576" crossorigin="anonymous"></script>
-  <!-- ============================================================ -->
-
   <style>
     /* ===== RESET Y ESTILOS NEUTROS ===== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-      background: #f4f6f9;
-      color: #1e293b;
-      padding: 20px;
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    /* ===== ENCABEZADO ===== */
-    header {
-      text-align: center;
-      padding: 30px 0 20px;
-      border-bottom: 3px solid #e2e8f0;
-      margin-bottom: 20px;
-    }
-    header h1 {
-      font-size: 2.8rem;
-      font-weight: 800;
-      color: #0f172a;
-      letter-spacing: -0.5px;
-    }
+    body { font-family: 'Segoe UI', Roboto, sans-serif; background: #f4f6f9; color: #1e293b; padding: 20px; min-height: 100vh; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    header { text-align: center; padding: 30px 0 20px; border-bottom: 3px solid #e2e8f0; margin-bottom: 20px; }
+    header h1 { font-size: 2.8rem; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
     header h1 span { color: #d4a017; }
-    header p {
-      color: #475569;
-      font-size: 1.15rem;
-      margin-top: 6px;
-    }
-
-    /* ===== TARJETAS DE ACCESO A TORNEOS ===== */
-    .cards-torneos {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 25px;
-      justify-content: center;
-      margin: 30px 0 20px;
-    }
-    .card-torneo {
-      background: white;
-      border-radius: 28px;
-      padding: 30px 25px;
-      width: 280px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-      text-align: center;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 2px solid transparent;
-      flex: 1 1 240px;
-    }
-    .card-torneo:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.10);
-    }
+    header p { color: #475569; font-size: 1.15rem; margin-top: 6px; }
+    .cards-torneos { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; margin: 30px 0 20px; }
+    .card-torneo { background: white; border-radius: 28px; padding: 30px 25px; width: 280px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; border: 2px solid transparent; flex: 1 1 240px; }
+    .card-torneo:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0,0,0,0.10); }
     .card-torneo .icono { font-size: 3rem; display: block; margin-bottom: 12px; }
     .card-torneo h2 { font-size: 1.6rem; margin-bottom: 6px; }
     .card-torneo p { color: #64748b; font-size: 0.95rem; margin-bottom: 18px; }
-    .card-torneo .btn-acceso {
-      display: inline-block;
-      background: #1e293b;
-      color: white;
-      padding: 10px 28px;
-      border-radius: 60px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: background 0.2s;
-    }
+    .card-torneo .btn-acceso { display: inline-block; background: #1e293b; color: white; padding: 10px 28px; border-radius: 60px; font-weight: 600; font-size: 0.95rem; transition: background 0.2s; }
     .card-torneo .btn-acceso:hover { background: #334155; }
-
-    .card-apertura { border-top: 6px solid #94a3b8; }
-    .card-apertura:hover { border-color: #94a3b8; }
-
+    .card-apertura { border-top: 6px solid #94a3b8; opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+    .card-apertura .btn-acceso { background: #94a3b8; color: #f0f0f0; }
     .card-navidad-a { border-top: 6px solid #d4a017; background: #fef9e7; }
     .card-navidad-a:hover { border-color: #b8860b; }
     .card-navidad-a .btn-acceso { background: #d4a017; color: #0f1a0f; }
     .card-navidad-a .btn-acceso:hover { background: #b8860b; }
-
     .card-navidad-b { border-top: 6px solid #2980b9; background: #eaf2f8; }
     .card-navidad-b:hover { border-color: #1a5276; }
-    .card-navidad-b .btn-acceso { background: #2980b9; }
+    .card-navidad-b .btn-acceso { background: #2980b9; color: white; }
     .card-navidad-b .btn-acceso:hover { background: #1a5276; }
-
-    /* ===== WIDGETS INFORMATIVOS ===== */
-    .widgets {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      margin: 40px 0 30px;
-    }
-    .widget {
-      background: white;
-      border-radius: 24px;
-      padding: 22px 25px;
-      flex: 1 1 280px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-      border: 1px solid #eef2f6;
-    }
-    .widget h3 {
-      font-size: 1.3rem;
-      color: #0f172a;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 10px;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .widgets { display: flex; flex-wrap: wrap; gap: 30px; margin: 40px 0 30px; }
+    .widget { background: white; border-radius: 24px; padding: 22px 25px; flex: 1 1 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #eef2f6; }
+    .widget h3 { font-size: 1.3rem; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
     .widget ul { list-style: none; }
-    .widget li {
-      padding: 10px 0;
-      border-bottom: 1px solid #f1f5f9;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.95rem;
-    }
+    .widget li { padding: 10px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; }
     .widget li:last-child { border-bottom: none; }
-    .widget .badge-fecha {
-      background: #e2e8f0;
-      padding: 2px 12px;
-      border-radius: 40px;
-      font-size: 0.75rem;
-      color: #475569;
-      font-weight: 600;
-    }
-    .widget .badge-cat {
-      background: #d4a01722;
-      color: #b8860b;
-      padding: 2px 10px;
-      border-radius: 40px;
-      font-size: 0.7rem;
-      font-weight: 700;
-    }
-    .widget .badge-cat-b {
-      background: #2980b922;
-      color: #1a5276;
-    }
+    .widget .badge-fecha { background: #e2e8f0; padding: 2px 12px; border-radius: 40px; font-size: 0.75rem; color: #475569; font-weight: 600; }
+    .widget .badge-cat { background: #d4a01722; color: #b8860b; padding: 2px 10px; border-radius: 40px; font-size: 0.7rem; font-weight: 700; }
+    .widget .badge-cat-b { background: #2980b922; color: #1a5276; }
     .widget .puntos { font-weight: 700; color: #0f172a; }
-
-    /* ===== PIE ===== */
-    footer {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 2px solid #e2e8f0;
-      text-align: center;
-      color: #94a3b8;
-      font-size: 0.9rem;
-    }
+    footer { margin-top: 40px; padding-top: 20px; border-top: 2px solid #e2e8f0; text-align: center; color: #94a3b8; font-size: 0.9rem; }
     footer a { color: #d4a017; text-decoration: none; }
-
     @media (max-width: 700px) {
       header h1 { font-size: 2rem; }
       .card-torneo { flex: 1 1 100%; }
@@ -176,25 +53,22 @@
 </head>
 <body>
 <div class="container">
-
-  <!-- ===== ENCABEZADO ===== -->
   <header>
     <h1>🏆 <span>Sibarita</span> Sport Club</h1>
     <p>Copa Navidad 2026 · Torneo de Bolas Criollas</p>
     <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 4px;">Inicio: 11/09 · Congresillo: 08/09</p>
   </header>
 
-  <!-- ===== TARJETAS DE ACCESO ===== -->
   <div class="cards-torneos">
-    <!-- Apertura -->
-    <a href="apertura.html" class="card-torneo card-apertura">
+    <!-- APERTURA INHABILITADO -->
+    <div class="card-torneo card-apertura">
       <span class="icono">📜</span>
       <h2>Apertura 2026</h2>
       <p>Histórico – Solo lectura<br />Resultados finales</p>
-      <span class="btn-acceso">Ver archivo</span>
-    </a>
+      <span class="btn-acceso">No disponible</span>
+    </div>
 
-    <!-- Categoría A -->
+    <!-- CATEGORÍA A -->
     <a href="categoriaA.html" class="card-torneo card-navidad-a">
       <span class="icono">🟡</span>
       <h2>Categoría A</h2>
@@ -202,7 +76,7 @@
       <span class="btn-acceso">Ingresar</span>
     </a>
 
-    <!-- Categoría B -->
+    <!-- CATEGORÍA B -->
     <a href="categoriaB.html" class="card-torneo card-navidad-b">
       <span class="icono">🔵</span>
       <h2>Categoría B</h2>
@@ -211,15 +85,15 @@
     </a>
   </div>
 
-  <!-- ===== WIDGETS INFORMATIVOS ===== -->
+  <!-- WIDGETS INFORMATIVOS (sin ⚽) -->
   <div class="widgets">
     <div class="widget">
-      <h3>⚽ Próximos partidos</h3>
+      <h3>📅 Próximos partidos</h3>
       <ul>
-        <li><span><strong>Los Dorados</strong> vs <strong>Verde Olivo</strong></span><span class="badge-fecha">11/09</span></li>
-        <li><span><strong>Tiburones Azules</strong> vs <strong>Naranja Mecánica</strong></span><span class="badge-fecha">11/09</span></li>
-        <li><span><strong>Real Sibarita</strong> vs <strong>Rayos</strong></span><span class="badge-fecha">12/09</span></li>
-        <li><span><strong>Los Caciques</strong> vs <strong>Furia Roja</strong></span><span class="badge-fecha">12/09</span></li>
+        <li><span><strong>Jujure</strong> vs <strong>Chikas</strong></span><span class="badge-fecha">11/09</span></li>
+        <li><span><strong>Club Afibola</strong> vs <strong>Agroserviportuguesa</strong></span><span class="badge-fecha">11/09</span></li>
+        <li><span><strong>Inversiones EPA</strong> vs <strong>Saboga</strong></span><span class="badge-fecha">12/09</span></li>
+        <li><span><strong>Servihidra</strong> vs <strong>Gladiadores</strong></span><span class="badge-fecha">12/09</span></li>
       </ul>
       <p style="margin-top: 12px; font-size: 0.8rem; color: #94a3b8;">* Datos informativos · Próximamente en vivo</p>
     </div>
@@ -227,14 +101,12 @@
     <div class="widget">
       <h3>📊 Clasificados (Top 3)</h3>
       <ul>
-        <li><span><span class="badge-cat">Cat A</span> Real Sibarita</span><span class="puntos">18 pts</span></li>
-        <li><span><span class="badge-cat">Cat A</span> Los Dorados</span><span class="puntos">15 pts</span></li>
-        <li><span><span class="badge-cat">Cat A</span> Verde Olivo</span><span class="puntos">12 pts</span></li>
+        <li><span><span class="badge-cat">Cat A</span> Jujure</span><span class="puntos">18 pts</span></li>
+        <li><span><span class="badge-cat">Cat A</span> Inversiones EPA</span><span class="puntos">18 pts</span></li>
+        <li><span><span class="badge-cat">Cat A</span> Serv. Frios</span><span class="puntos">18 pts</span></li>
         <li style="border-top: 2px dashed #e2e8f0; margin-top: 6px; padding-top: 12px;">
-          <span><span class="badge-cat badge-cat-b">Cat B</span> Tiburones Azules</span><span class="puntos">21 pts</span>
+          <span><span class="badge-cat badge-cat-b">Cat B</span> (Por confirmar)</span><span class="puntos">—</span>
         </li>
-        <li><span><span class="badge-cat badge-cat-b">Cat B</span> Naranja Mecánica</span><span class="puntos">17 pts</span></li>
-        <li><span><span class="badge-cat badge-cat-b">Cat B</span> Rayos</span><span class="puntos">14 pts</span></li>
       </ul>
       <p style="margin-top: 12px; font-size: 0.8rem; color: #94a3b8;">* Clasificación simulada</p>
     </div>
@@ -242,16 +114,14 @@
     <div class="widget">
       <h3>🌟 Destacados</h3>
       <ul>
-        <li><span>🎥 Resumen jornada 1</span><span class="badge-fecha">Cat A</span></li>
-        <li><span>🎥 Mejor jugada de la semana</span><span class="badge-fecha">Cat B</span></li>
-        <li><span>🏅 Entrevista al campeón vigente</span><span class="badge-fecha">Apertura</span></li>
-        <li><span>📸 Fotos del congresillo</span><span class="badge-fecha">08/09</span></li>
+        <li><span>🎥 Presentación de la Copa</span><span class="badge-fecha">Pronto</span></li>
+        <li><span>📸 Congresillo 08/09</span><span class="badge-fecha">08/09</span></li>
+        <li><span>🏅 Equipos inscritos</span><span class="badge-fecha">Ver categorías</span></li>
       </ul>
       <p style="margin-top: 12px; font-size: 0.8rem; color: #94a3b8;">* Contenido en actualización</p>
     </div>
   </div>
 
-  <!-- ===== PIE ===== -->
   <footer>
     <p>
       <strong>Sibarita Sport Club</strong> · Araúre · Portuguesa<br />
@@ -259,10 +129,9 @@
     </p>
     <p style="margin-top: 8px;">
       <a href="#">Volver arriba</a> · 
-      <span style="color: #cbd5e1;">Versión informativa · Pendiente conexión a Firebase</span>
+      <span style="color: #cbd5e1;">Versión informativa</span>
     </p>
   </footer>
-
 </div>
 </body>
 </html>
