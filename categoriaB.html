@@ -184,7 +184,6 @@
     </div>
   </header>
 
-  <!-- Pestañas -->
   <div class="tabs">
     <button class="tab-btn active" data-tab="equipos">Equipos</button>
     <button class="tab-btn" data-tab="partidos">Partidos</button>
@@ -195,11 +194,8 @@
     <button class="tab-btn" data-tab="admin">Admin</button>
   </div>
 
-  <!-- ==================== EQUIPOS ==================== -->
   <div id="equipos" class="tab-content active">
     <h2>📋 Equipos – Categoría B</h2>
-
-    <!-- LEYENDA EXPLICATIVA -->
     <div class="leyenda">
       <strong>📌 Dinámica de confirmación:</strong><br>
       Esta lista muestra los equipos que han manifestado su intención de participar en la <strong>Copa Navidad 2026</strong>.
@@ -208,12 +204,7 @@
       Una vez confirmado, pasa a <span style="color: #2ecc71;">✅ Confirmado</span> y así sabremos que ese equipo está listo para el torneo.
       <br><span style="font-size: 0.8rem; color: var(--text-muted);">(Los cambios se guardan automáticamente en tu navegador)</span>
     </div>
-
-    <div class="equipos-lista" id="lista-equipos-b">
-      <!-- Los equipos se renderizan aquí con JavaScript -->
-    </div>
-
-    <!-- Admin: agregar equipo -->
+    <div class="equipos-lista" id="lista-equipos-b"></div>
     <div class="admin-section" id="form-equipo" style="display:none;">
       <h3>➕ Agregar nuevo equipo</h3>
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -228,7 +219,6 @@
     </div>
   </div>
 
-  <!-- ==================== PARTIDOS ==================== -->
   <div id="partidos" class="tab-content">
     <h2>🎯 Partidos</h2>
     <p style="color: var(--text-muted);">Los partidos se cargarán aquí cuando estén programados.</p>
@@ -244,19 +234,16 @@
     </div>
   </div>
 
-  <!-- ==================== TABLA ==================== -->
   <div id="tabla" class="tab-content">
     <h2>📊 Tabla de posiciones</h2>
     <div id="tabla-posiciones">Cargando...</div>
   </div>
 
-  <!-- ==================== AVERAGE ==================== -->
   <div id="average" class="tab-content">
     <h2>📈 Average (Goles a favor / Goles en contra)</h2>
     <div id="average-tabla">Cargando...</div>
   </div>
 
-  <!-- ==================== VIDEOS ==================== -->
   <div id="videos" class="tab-content">
     <h2>🎥 Videos destacados</h2>
     <div id="lista-videos">Cargando...</div>
@@ -268,13 +255,11 @@
     </div>
   </div>
 
-  <!-- ==================== JUGAR ==================== -->
   <div id="jugar" class="tab-content">
     <h2>🎮 Simular / Jugar</h2>
     <p>Próximamente podrás simular partidos y llevar el control en vivo.</p>
   </div>
 
-  <!-- ==================== ADMIN ==================== -->
   <div id="admin" class="tab-content">
     <h2>🔐 Administración</h2>
     <p>Ingresa la clave para habilitar las funciones de edición, confirmación de equipos y agregar nuevos.</p>
@@ -304,11 +289,10 @@
   const CLAVE_ADMIN = 'sibarita2026';
   let adminHabilitado = false;
 
-  // Lista inicial de equipos (todos pendientes)
   const EQUIPOS_INICIALES = {
     femenino: [
       'Divinas',
-      'Las Queen',
+      'Alimentos Amanecer',
       'Sabaneta',
       'Taferca',
       'Emprendedoras',
@@ -333,32 +317,37 @@
     ]
   };
 
-  // =====================================================
-  // GESTIÓN DE ESTADO (localStorage)
-  // =====================================================
-  function getStorageKey() {
-    return `equipos_confirmados_${CATEGORIA}`;
+  function getListaKey() { return `equipos_lista_${CATEGORIA}`; }
+  function getEstadoKey() { return `equipos_confirmados_${CATEGORIA}`; }
+
+  function cargarListaEquipos() {
+    const stored = localStorage.getItem(getListaKey());
+    if (stored) {
+      try { return JSON.parse(stored); }
+      catch (e) {
+        guardarListaEquipos(EQUIPOS_INICIALES);
+        return JSON.parse(JSON.stringify(EQUIPOS_INICIALES));
+      }
+    }
+    guardarListaEquipos(EQUIPOS_INICIALES);
+    return JSON.parse(JSON.stringify(EQUIPOS_INICIALES));
+  }
+
+  function guardarListaEquipos(lista) {
+    localStorage.setItem(getListaKey(), JSON.stringify(lista));
   }
 
   function cargarEstado() {
-    const stored = localStorage.getItem(getStorageKey());
+    const stored = localStorage.getItem(getEstadoKey());
     if (stored) {
-      try {
-        return JSON.parse(stored);
-      } catch (e) {
-        return {};
-      }
+      try { return JSON.parse(stored); }
+      catch (e) { return {}; }
     }
     return {};
   }
 
   function guardarEstado(estado) {
-    localStorage.setItem(getStorageKey(), JSON.stringify(estado));
-  }
-
-  function obtenerEstadoEquipo(nombre) {
-    const estado = cargarEstado();
-    return estado[nombre] || false;
+    localStorage.setItem(getEstadoKey(), JSON.stringify(estado));
   }
 
   function toggleConfirmacion(nombre) {
@@ -368,30 +357,28 @@
     renderizarEquipos();
   }
 
-  // =====================================================
-  // RENDERIZAR EQUIPOS
-  // =====================================================
   function renderizarEquipos() {
     const container = document.getElementById('lista-equipos-b');
     if (!container) return;
 
+    const lista = cargarListaEquipos();
     const estado = cargarEstado();
 
-    const femeninoList = EQUIPOS_INICIALES.femenino.map(n => ({
+    const femeninoList = lista.femenino.map(n => ({
       nombre: n,
       confirmado: estado[n] || false
     }));
-    const masculinoList = EQUIPOS_INICIALES.masculino.map(n => ({
+    const masculinoList = lista.masculino.map(n => ({
       nombre: n,
       confirmado: estado[n] || false
     }));
 
-    function generarBloque(titulo, lista, genero) {
+    function generarBloque(titulo, listaEquipos, genero) {
       let html = `<div class="equipos-categoria"><h4>${titulo}</h4>`;
-      if (lista.length === 0) {
+      if (listaEquipos.length === 0) {
         html += `<div style="color: var(--text-muted); padding: 8px 0;">No hay equipos registrados.</div>`;
       } else {
-        lista.forEach(item => {
+        listaEquipos.forEach(item => {
           const confirmado = item.confirmado;
           const badge = confirmado
             ? '<span class="badge-confirmado">✅ Confirmado</span>'
@@ -429,28 +416,22 @@
     }
   }
 
-  // =====================================================
-  // AGREGAR NUEVO EQUIPO (solo admin)
-  // =====================================================
   function agregarEquipo(nombre, genero) {
-    if (!nombre.trim()) return alert('Ingresa un nombre válido.');
-    const lista = genero === 'femenino' ? EQUIPOS_INICIALES.femenino : EQUIPOS_INICIALES.masculino;
-    if (lista.includes(nombre.trim())) {
+    const nombreTrim = nombre.trim();
+    if (!nombreTrim) return alert('Ingresa un nombre válido.');
+    const lista = cargarListaEquipos();
+    const targetList = genero === 'femenino' ? lista.femenino : lista.masculino;
+    if (targetList.some(e => e.toLowerCase() === nombreTrim.toLowerCase())) {
       alert('Este equipo ya está en la lista.');
       return;
     }
-    if (genero === 'femenino') {
-      EQUIPOS_INICIALES.femenino.push(nombre.trim());
-    } else {
-      EQUIPOS_INICIALES.masculino.push(nombre.trim());
-    }
+    targetList.push(nombreTrim);
+    guardarListaEquipos(lista);
     renderizarEquipos();
     document.getElementById('nombre-equipo').value = '';
+    alert(`✅ Equipo "${nombreTrim}" agregado correctamente.`);
   }
 
-  // =====================================================
-  // ADMIN: VERIFICAR CLAVE
-  // =====================================================
   document.getElementById('btn-verificar-clave').addEventListener('click', function() {
     const clave = document.getElementById('clave-admin').value;
     if (clave === CLAVE_ADMIN) {
@@ -476,13 +457,10 @@
     agregarEquipo(nombre, genero);
   });
 
-  // =====================================================
-  // IMPORT / EXPORT (simulado)
-  // =====================================================
   document.getElementById('btn-export-json').addEventListener('click', function() {
     if (!adminHabilitado) return alert('No autorizado');
     const data = {
-      equipos: EQUIPOS_INICIALES,
+      equipos: cargarListaEquipos(),
       confirmaciones: cargarEstado()
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -506,8 +484,7 @@
       try {
         const data = JSON.parse(ev.target.result);
         if (data.equipos) {
-          if (data.equipos.femenino) EQUIPOS_INICIALES.femenino = data.equipos.femenino;
-          if (data.equipos.masculino) EQUIPOS_INICIALES.masculino = data.equipos.masculino;
+          guardarListaEquipos(data.equipos);
         }
         if (data.confirmaciones) {
           guardarEstado(data.confirmaciones);
@@ -522,9 +499,6 @@
     this.value = '';
   });
 
-  // =====================================================
-  // PESTAÑAS
-  // =====================================================
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -534,10 +508,8 @@
     });
   });
 
-  // =====================================================
-  // INICIALIZACIÓN
-  // =====================================================
   renderizarEquipos();
+  console.log('✅ Categoría B cargada. Equipos guardados:', cargarListaEquipos());
 </script>
 </body>
 </html>
