@@ -70,7 +70,6 @@
     td { padding: 10px; border-bottom: 1px solid var(--border); }
     .acciones button { margin: 0 5px; padding: 4px 12px; font-size: 0.8rem; }
 
-    /* Lista de equipos con confirmación */
     .equipos-lista {
       display: flex;
       flex-wrap: wrap;
@@ -184,7 +183,6 @@
     </div>
   </header>
 
-  <!-- Pestañas -->
   <div class="tabs">
     <button class="tab-btn active" data-tab="equipos">Equipos</button>
     <button class="tab-btn" data-tab="partidos">Partidos</button>
@@ -195,11 +193,8 @@
     <button class="tab-btn" data-tab="admin">Admin</button>
   </div>
 
-  <!-- ==================== EQUIPOS ==================== -->
   <div id="equipos" class="tab-content active">
     <h2>📋 Equipos – Categoría A</h2>
-
-    <!-- LEYENDA EXPLICATIVA -->
     <div class="leyenda">
       <strong>📌 Dinámica de confirmación:</strong><br>
       Esta lista muestra los equipos que han manifestado su intención de participar en la <strong>Copa Navidad 2026</strong>.
@@ -208,12 +203,7 @@
       Una vez confirmado, pasa a <span style="color: #2ecc71;">✅ Confirmado</span> y así sabremos que ese equipo está listo para el torneo.
       <br><span style="font-size: 0.8rem; color: var(--text-muted);">(Los cambios se guardan automáticamente en tu navegador)</span>
     </div>
-
-    <div class="equipos-lista" id="lista-equipos-a">
-      <!-- Los equipos se renderizan aquí con JavaScript -->
-    </div>
-
-    <!-- Admin: agregar equipo (solo visible con clave) -->
+    <div class="equipos-lista" id="lista-equipos-a"></div>
     <div class="admin-section" id="form-equipo" style="display:none;">
       <h3>➕ Agregar nuevo equipo</h3>
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -228,7 +218,6 @@
     </div>
   </div>
 
-  <!-- ==================== PARTIDOS ==================== -->
   <div id="partidos" class="tab-content">
     <h2>🎯 Partidos</h2>
     <p style="color: var(--text-muted);">Los partidos se cargarán aquí cuando estén programados.</p>
@@ -244,19 +233,16 @@
     </div>
   </div>
 
-  <!-- ==================== TABLA ==================== -->
   <div id="tabla" class="tab-content">
     <h2>📊 Tabla de posiciones</h2>
     <div id="tabla-posiciones">Cargando...</div>
   </div>
 
-  <!-- ==================== AVERAGE ==================== -->
   <div id="average" class="tab-content">
     <h2>📈 Average (Goles a favor / Goles en contra)</h2>
     <div id="average-tabla">Cargando...</div>
   </div>
 
-  <!-- ==================== VIDEOS ==================== -->
   <div id="videos" class="tab-content">
     <h2>🎥 Videos destacados</h2>
     <div id="lista-videos">Cargando...</div>
@@ -268,13 +254,11 @@
     </div>
   </div>
 
-  <!-- ==================== JUGAR ==================== -->
   <div id="jugar" class="tab-content">
     <h2>🎮 Simular / Jugar</h2>
     <p>Próximamente podrás simular partidos y llevar el control en vivo.</p>
   </div>
 
-  <!-- ==================== ADMIN ==================== -->
   <div id="admin" class="tab-content">
     <h2>🔐 Administración</h2>
     <p>Ingresa la clave para habilitar las funciones de edición, confirmación de equipos y agregar nuevos.</p>
@@ -304,7 +288,7 @@
   const CLAVE_ADMIN = 'sibarita2026';
   let adminHabilitado = false;
 
-  // Lista inicial de equipos (se usa solo si no hay datos guardados)
+  // Lista inicial por defecto (se usa solo si no hay datos guardados)
   const EQUIPOS_INICIALES = {
     femenino: [
       'Jujure (Educadoras)',
@@ -337,7 +321,7 @@
   };
 
   // =====================================================
-  // GESTIÓN DE LISTA DE EQUIPOS (guardar en localStorage)
+  // GESTIÓN DE LISTA DE EQUIPOS (localStorage)
   // =====================================================
   function getListaKey() {
     return `equipos_lista_${CATEGORIA}`;
@@ -347,16 +331,19 @@
     return `equipos_confirmados_${CATEGORIA}`;
   }
 
+  // Carga la lista de equipos desde localStorage, o la inicial si no existe
   function cargarListaEquipos() {
     const stored = localStorage.getItem(getListaKey());
     if (stored) {
       try {
         return JSON.parse(stored);
       } catch (e) {
-        return JSON.parse(JSON.stringify(EQUIPOS_INICIALES)); // copia profunda
+        // Si hay error, reiniciar con la inicial
+        guardarListaEquipos(EQUIPOS_INICIALES);
+        return JSON.parse(JSON.stringify(EQUIPOS_INICIALES));
       }
     }
-    // Si no hay datos guardados, guardar la inicial y devolverla
+    // Si no hay datos, guardar la inicial y devolverla
     guardarListaEquipos(EQUIPOS_INICIALES);
     return JSON.parse(JSON.stringify(EQUIPOS_INICIALES));
   }
@@ -384,6 +371,7 @@
     localStorage.setItem(getEstadoKey(), JSON.stringify(estado));
   }
 
+  // Alterna el estado de confirmación de un equipo
   function toggleConfirmacion(nombre) {
     const estado = cargarEstado();
     estado[nombre] = !estado[nombre];
@@ -401,6 +389,7 @@
     const lista = cargarListaEquipos();
     const estado = cargarEstado();
 
+    // Mapear cada nombre con su estado (por defecto false)
     const femeninoList = lista.femenino.map(n => ({
       nombre: n,
       confirmado: estado[n] || false
@@ -443,6 +432,7 @@
     container.innerHTML = generarBloque('👩 Femenino', femeninoList, 'femenino')
                         + generarBloque('👨 Masculino', masculinoList, 'masculino');
 
+    // Asignar eventos a los botones si admin está habilitado
     if (adminHabilitado) {
       document.querySelectorAll('.btn-confirmar, .btn-desconfirmar').forEach(btn => {
         btn.addEventListener('click', function() {
@@ -457,17 +447,22 @@
   // AGREGAR NUEVO EQUIPO (solo admin)
   // =====================================================
   function agregarEquipo(nombre, genero) {
-    if (!nombre.trim()) return alert('Ingresa un nombre válido.');
+    const nombreTrim = nombre.trim();
+    if (!nombreTrim) return alert('Ingresa un nombre válido.');
     const lista = cargarListaEquipos();
     const targetList = genero === 'femenino' ? lista.femenino : lista.masculino;
-    if (targetList.includes(nombre.trim())) {
+    // Verificar duplicado (case-insensitive)
+    if (targetList.some(e => e.toLowerCase() === nombreTrim.toLowerCase())) {
       alert('Este equipo ya está en la lista.');
       return;
     }
-    targetList.push(nombre.trim());
+    targetList.push(nombreTrim);
     guardarListaEquipos(lista);
+    // El nuevo equipo queda pendiente por defecto (no se guarda en estado)
     renderizarEquipos();
     document.getElementById('nombre-equipo').value = '';
+    // Opcional: mostrar mensaje de éxito
+    alert(`✅ Equipo "${nombreTrim}" agregado correctamente.`);
   }
 
   // =====================================================
@@ -499,7 +494,7 @@
   });
 
   // =====================================================
-  // IMPORT / EXPORT (actualizado para incluir lista)
+  // IMPORT / EXPORT
   // =====================================================
   document.getElementById('btn-export-json').addEventListener('click', function() {
     if (!adminHabilitado) return alert('No autorizado');
@@ -559,6 +554,8 @@
   // INICIALIZACIÓN
   // =====================================================
   renderizarEquipos();
+  // Mostrar mensaje de depuración en consola para verificar
+  console.log('✅ Categoría A cargada. Equipos guardados:', cargarListaEquipos());
 </script>
 </body>
 </html>
