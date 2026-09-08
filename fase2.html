@@ -720,86 +720,99 @@
     }
 
     function mostrarPartidosF2(semana) {
-        const container = document.getElementById('f2-partidos-list');
-        if (!container) return;
+    const container = document.getElementById('f2-partidos-list');
+    if (!container) return;
 
-        const partidos = _MATCHES.filter(m => (m.g === 'Fase2' || m.c === 'Especial') && m.w === semana);
+    const partidos = _MATCHES.filter(m => (m.g === 'Fase2' || m.c === 'Especial') && m.w === semana);
 
-        if (partidos.length === 0) {
-            container.innerHTML = `<div class="card" style="text-align:center;padding:20px;color:#8899aa;">No hay partidos para la semana ${semana}.</div>`;
+    if (partidos.length === 0) {
+        container.innerHTML = `<div class="card" style="text-align:center;padding:20px;color:#8899aa;">No hay partidos para la semana ${semana}.</div>`;
+        return;
+    }
+
+    partidos.sort((a, b) => new Date(a.d + ' ' + a.h) - new Date(b.d + ' ' + b.h));
+
+    let html = '';
+    partidos.forEach(m => {
+        // ----- EVENTO ESPECIAL (Derby, etc.) -----
+        if (m.c === 'Especial') {
+            html += `
+                <div class="mc" style="border: 2px solid #e8b84b; background: linear-gradient(135deg, #2a1f0e, #3d2b12);">
+                    <div class="mm">
+                        <span>🏅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>
+                        <span class="wtag" style="background:#e8b84b;color:#000;">⭐ EVENTO ESPECIAL</span>
+                    </div>
+                    <div style="text-align:center;padding:8px 0;">
+                        <div style="font-size:18px;font-weight:bold;color:#e8b84b;">${m.a}</div>
+                        <div style="font-size:12px;color:#8899aa;margin:4px 0;">${m.b}</div>
+                        <div style="font-size:11px;color:#f0e6d3;background:#0f3460;padding:6px 12px;border-radius:8px;display:inline-block;margin-top:4px;">
+                            📋 Consulta el ranking de convocadas en la sección "Derby" (próximamente)
+                        </div>
+                    </div>
+                </div>
+            `;
             return;
         }
 
-        partidos.sort((a, b) => new Date(a.d + ' ' + a.h) - new Date(b.d + ' ' + b.h));
+        // ----- PARTIDOS NORMALES -----
+        const r = _R[m.id];
+        const done = r && r.status === 'done';
+        const forf = r && r.status === 'forfeit';
+        const suspended = r && r.status === 'suspended';   // <-- NUEVO
+        const wA = done && r.scoreA > r.scoreB;
+        const wB = done && r.scoreB > r.scoreA;
 
-        let html = '';
-        partidos.forEach(m => {
-            // ----- EVENTO ESPECIAL (Derby, etc.) -----
-            if (m.c === 'Especial') {
-                html += `
-                    <div class="mc" style="border: 2px solid #e8b84b; background: linear-gradient(135deg, #2a1f0e, #3d2b12);">
-                        <div class="mm">
-                            <span>🏅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>
-                            <span class="wtag" style="background:#e8b84b;color:#000;">⭐ EVENTO ESPECIAL</span>
-                        </div>
-                        <div style="text-align:center;padding:8px 0;">
-                            <div style="font-size:18px;font-weight:bold;color:#e8b84b;">${m.a}</div>
-                            <div style="font-size:12px;color:#8899aa;margin:4px 0;">${m.b}</div>
-                            <div style="font-size:11px;color:#f0e6d3;background:#0f3460;padding:6px 12px;border-radius:8px;display:inline-block;margin-top:4px;">
-                                📋 Consulta el ranking de convocadas en la sección "Derby" (próximamente)
-                            </div>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
+        let inner = '';
+        let estadoTag = '';
 
-            // ----- PARTIDOS NORMALES -----
-            const r = _R[m.id];
-            const done = r && r.status === 'done';
-            const forf = r && r.status === 'forfeit';
-            const wA = done && r.scoreA > r.scoreB;
-            const wB = done && r.scoreB > r.scoreA;
-
-            let inner = '';
-            if (done || forf) {
-                inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
-                    <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
-                    <span class="sep">—</span>
-                    <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
-                </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
-                <div style="text-align:center;margin-top:4px;">
-                    <span class="rtag done">✓ Final</span>
-                    <button onclick="borrarResultadoF2(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button>
-                </div>`;
-            } else {
-                inner = `<div style="font-size:14px;text-align:center;">🎯</div>
-                         <div style="font-size:11px;color:#8899aa;text-align:center;padding:4px;">VS</div>
-                         <div class="srow">
-                             <input class="sinp" id="f2sA${m.id}" type="number" min="0" max="20" placeholder="0">
-                             <span class="sep">—</span>
-                             <input class="sinp" id="f2sB${m.id}" type="number" min="0" max="20" placeholder="0">
-                         </div>
-                         <button class="sbtn" onclick="guardarResultadoF2(${m.id})">💾 Guardar</button>
-                         <button class="fbtn" onclick="guardarForfeitF2(${m.id})">⚠️ Forfeit/WO</button>`;
-            }
-
-            let estadoTag = '';
-            if (done) estadoTag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>';
-            else if (forf) estadoTag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
-            else estadoTag = '<span class="wtag" style="background:#0f3460;">⏳ Pendiente</span>';
-
-            html += `<div class="mc">
-                <div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div>
-                <div class="mteams">
-                    <div class="tn">${m.a}</div>
-                    <div class="vb">${inner}</div>
-                    <div class="tn">${m.b}</div>
+        if (suspended) {
+            // Mostrar suspendido sin botones
+            const razon = r.razon || 'Reprogramado';
+            inner = `
+                <div style="text-align:center;padding:8px 0;">
+                    <span style="font-size:28px;">⏸️</span>
+                    <div style="font-size:12px;color:#e8b84b;font-weight:bold;margin-top:4px;">SUSPENDIDO</div>
+                    <div style="font-size:10px;color:#8899aa;">${razon}</div>
                 </div>
+            `;
+            estadoTag = '<span class="wtag" style="background:#e67e2233;color:#e67e22;">⏸️ Suspendido</span>';
+        } else if (done || forf) {
+            inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+                <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+                <span class="sep">—</span>
+                <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+            </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+            <div style="text-align:center;margin-top:4px;">
+                <span class="rtag done">✓ Final</span>
+                <button onclick="borrarResultadoF2(${m.id})" style="background:transparent;border:none;color:#8899aa;font-size:10px;cursor:pointer;">✕</button>
             </div>`;
-        });
-        container.innerHTML = html;
-    }
+            estadoTag = done ? '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>' :
+                               '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
+        } else {
+            // Pendiente: mostrar inputs y botones
+            inner = `<div style="font-size:14px;text-align:center;">🎯</div>
+                     <div style="font-size:11px;color:#8899aa;text-align:center;padding:4px;">VS</div>
+                     <div class="srow">
+                         <input class="sinp" id="f2sA${m.id}" type="number" min="0" max="20" placeholder="0">
+                         <span class="sep">—</span>
+                         <input class="sinp" id="f2sB${m.id}" type="number" min="0" max="20" placeholder="0">
+                     </div>
+                     <button class="sbtn" onclick="guardarResultadoF2(${m.id})">💾 Guardar</button>
+                     <button class="fbtn" onclick="guardarForfeitF2(${m.id})">⚠️ Forfeit/WO</button>`;
+            estadoTag = '<span class="wtag" style="background:#0f3460;">⏳ Pendiente</span>';
+        }
+
+        html += `<div class="mc">
+            <div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div>
+            <div class="mteams">
+                <div class="tn">${m.a}</div>
+                <div class="vb">${inner}</div>
+                <div class="tn">${m.b}</div>
+            </div>
+        </div>`;
+    });
+    container.innerHTML = html;
+}
 
     // ============================================================
     // EDICIÓN DE RESULTADOS (con clave de administrador)
