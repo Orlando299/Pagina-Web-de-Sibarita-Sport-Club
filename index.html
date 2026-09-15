@@ -369,6 +369,21 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
 .ficha-trigger .icono {
   font-size: 18px;
 }
+
+    .boton-eliminar-foto {
+  background: #c0392b;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 6px 4px;
+  transition: 0.2s;
+}
+.boton-eliminar-foto:hover { background: #a93226; }
+.boton-eliminar-foto:disabled { opacity: 0.5; cursor: not-allowed; }
+    
 </style>
 
 <!-- Google AdSense -->
@@ -529,6 +544,7 @@ body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;ma
     <div style="text-align: center; margin-top: 16px;">
       <input type="file" id="inputFoto" accept="image/*" style="display: none;">
       <button class="boton-subir-foto" id="btnSubirFoto">📸 Subir mi foto</button>
+      <button class="boton-eliminar-foto" id="btnEliminarFoto" style="display:none; background:#c0392b;">🗑️ Eliminar foto</button>
       <button class="boton-descargar" id="btnDescargar">⬇️ Descargar PNG</button>
       <br>
       <button class="boton-compartir" id="btnWhatsApp">📱 WhatsApp</button>
@@ -2100,39 +2116,108 @@ window.TEAMS = TEAMS;
   }, 100);
 </script>
     
-<!-- ===== SCRIPT DE FICHAS (VERSIÓN MODULAR MEJORADA) ===== -->
+<!-- ===== SCRIPT DE FICHAS - VERSIÓN OPTIMIZADA ===== -->
 <script>
-// ================================================
-// FICHAS DE JUGADORES - FASE 1 (VERSIÓN MODULAR)
-// Dependencias: Firebase Modular (getDoc, setDoc, doc)
-// ================================================
-
 (function() {
-  // ---- Referencias a elementos del DOM ----
-  const modal = document.getElementById('modalFicha');
-  const cerrar = document.getElementById('cerrarModalFicha');
-  const fotoImg = document.getElementById('fichaFoto');
-  const nombreSpan = document.getElementById('fichaNombre');
-  const equipoSpan = document.getElementById('fichaEquipo');
-  const arrSpan = document.getElementById('fichaArr');
-  const bocSpan = document.getElementById('fichaBoc');
-  const totSpan = document.getElementById('fichaTot');
-  const inputFoto = document.getElementById('inputFoto');
-  const btnSubir = document.getElementById('btnSubirFoto');
-  const btnDescargar = document.getElementById('btnDescargar');
-  const btnWhats = document.getElementById('btnWhatsApp');
-  const btnFace = document.getElementById('btnFacebook');
-  const mensaje = document.getElementById('mensaje-ficha');
+  // =====================================================
+  // REFERENCIAS AL DOM
+  // =====================================================
+  const modal       = document.getElementById('modalFicha');
+  const cerrar      = document.getElementById('cerrarModalFicha');
+  const fotoImg     = document.getElementById('fichaFoto');
+  const nombreSpan  = document.getElementById('fichaNombre');
+  const equipoSpan  = document.getElementById('fichaEquipo');
+  const arrSpan     = document.getElementById('fichaArr');
+  const bocSpan     = document.getElementById('fichaBoc');
+  const totSpan     = document.getElementById('fichaTot');
+  const inputFoto   = document.getElementById('inputFoto');
+  const btnSubir    = document.getElementById('btnSubirFoto');
+  const btnEliminar = document.getElementById('btnEliminarFoto'); // nuevo botón
+  const btnDescargar= document.getElementById('btnDescargar');
+  const btnWhats    = document.getElementById('btnWhatsApp');
+  const btnFace     = document.getElementById('btnFacebook');
+  const mensaje     = document.getElementById('mensaje-ficha');
 
-  // ---- Estado ----
+  // Barra de progreso (se crea dinámicamente si no existe)
+  let progressBar = document.getElementById('upload-progress');
+  if (!progressBar) {
+    progressBar = document.createElement('div');
+    progressBar.id = 'upload-progress';
+    progressBar.style.cssText = 'height:6px;background:#e8b84b;width:0%;border-radius:3px;transition:width 0.2s;margin-top:8px;display:none;';
+    mensaje.parentNode.insertBefore(progressBar, mensaje);
+  }
+
+  // =====================================================
+  // ESTADO
+  // =====================================================
   let currentPlayerId = null;
   let currentPlayerData = null;
   let currentPhotoURL = null;
+  let currentStoragePath = null;
 
-  // ---- Abrir modal ----
+  // =====================================================
+  // UTILIDADES
+  // =====================================================
+
+  // Convierte "Jujure (Educadoras)|Karina Morles" → "jujure-educadoras__karina-morles"
+  function sanitizarId(playerId) {
+    return playerId
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // quitar tildes
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')                     // todo lo no alfanumérico a guiones
+      .replace(/^-+|-+$/g, '')                         // quitar guiones al inicio/fin
+      .substring(0, 80);                               // límite de longitud
+  }
+
+  // Comprime una imagen a máx. 500x500 px, calidad 0.85
+  function comprimirImagen(file) {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/')) {
+        return reject(new Error('El archivo no es una imagen válida.'));
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const MAX = 500;
+          let { width, height } = img;
+          if (width > height && width > MAX) {
+            height = Math.round((height * MAX) / width);
+            width = MAX;
+          } else if (height > MAX) {
+            width = Math.round((width * MAX) / height);
+            height = MAX;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          canvas.toBlob(
+            (blob) => {
+              if (!blob) return reject(new Error('Error al comprimir la imagen.'));
+              resolve(blob);
+            },
+            'image/jpeg',
+            0.85
+          );
+        };
+        img.onerror = () => reject(new Error('No se pudo leer la imagen.'));
+        img.src = e.target.result;
+      };
+      reader.onerror = () => reject(new Error('Error al leer el archivo.'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // =====================================================
+  // ABRIR FICHA
+  // =====================================================
   function abrirFicha(playerId) {
     mensaje.textContent = '';
     mensaje.className = '';
+    progressBar.style.display = 'none';
+    progressBar.style.width = '0%';
 
     const stats = window.PS && window.PS[playerId] ? window.PS[playerId] : null;
     if (!stats) {
@@ -2148,10 +2233,12 @@ window.TEAMS = TEAMS;
     currentPlayerId = playerId;
     currentPlayerData = { nombre, equipo, stats };
 
-    nombreSpan.textContent = currentPlayerData.nombre;
-    equipoSpan.textContent = currentPlayerData.equipo;
-    arrSpan.textContent = stats.ARR !== undefined ? stats.ARR + '%' : (stats.arr_b !== undefined ? Math.round((stats.arr_b/(stats.total_arr||1))*100)+'%' : '—');
-    bocSpan.textContent = stats.BOC !== undefined ? stats.BOC + '%' : (stats.boc_b !== undefined ? Math.round((stats.boc_b/(stats.total_boc||1))*100)+'%' : '—');
+    nombreSpan.textContent = nombre;
+    equipoSpan.textContent = equipo;
+    arrSpan.textContent = stats.ARR !== undefined ? stats.ARR + '%'
+      : (stats.arr_b !== undefined ? Math.round((stats.arr_b/(stats.total_arr||1))*100)+'%' : '—');
+    bocSpan.textContent = stats.BOC !== undefined ? stats.BOC + '%'
+      : (stats.boc_b !== undefined ? Math.round((stats.boc_b/(stats.total_boc||1))*100)+'%' : '—');
     totSpan.textContent = stats.TOT !== undefined ? stats.TOT + '%' : '—';
 
     cargarFotoDesdeFirebase(playerId);
@@ -2159,13 +2246,15 @@ window.TEAMS = TEAMS;
     document.body.style.overflow = 'hidden';
   }
 
-  // ---- Cargar foto desde Firestore (versión modular) ----
+  // =====================================================
+  // CARGAR FOTO DESDE FIRESTORE
+  // =====================================================
   function cargarFotoDesdeFirebase(playerId) {
     const defaultAvatar = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="45" fill="%23d9d9d9"/%3E%3Ctext x="50" y="55" font-size="30" text-anchor="middle" fill="%23666" dy=".3em"%3E👤%3C/text%3E%3C/svg%3E';
     fotoImg.src = defaultAvatar;
     currentPhotoURL = null;
+    currentStoragePath = null;
 
-    // Verificar que tenemos acceso a Firebase y las funciones modulares
     if (!window.db || !window.getDoc || !window.doc) {
       console.warn('Firebase modular no disponible');
       return;
@@ -2176,54 +2265,177 @@ window.TEAMS = TEAMS;
       .then(docSnap => {
         if (docSnap.exists && docSnap.data().url) {
           currentPhotoURL = docSnap.data().url;
+          currentStoragePath = docSnap.data().storagePath || null;
           fotoImg.src = currentPhotoURL;
         }
+        actualizarBotonEliminar();
       })
-      .catch(err => console.warn('Error al cargar foto:', err));
+      .catch(err => {
+        console.warn('Error al cargar foto:', err);
+        actualizarBotonEliminar();
+      });
   }
 
-  // ---- Subir foto (versión modular) ----
-  function subirFoto(file) {
+  function actualizarBotonEliminar() {
+    if (!btnEliminar) return;
+    btnEliminar.style.display = currentPhotoURL ? 'inline-block' : 'none';
+  }
+
+  // =====================================================
+  // SUBIR FOTO (con compresión + progreso)
+  // =====================================================
+  async function subirFoto(file) {
     if (!file) return;
-    if (!window.storage || !window.db || !window.ref || !window.uploadBytes || !window.getDownloadURL || !window.setDoc || !window.doc) {
-      mensaje.textContent = '⚠️ Firebase modular no configurado.';
+    if (!window.storage || !window.db || !window.ref || !window.uploadBytesResumable
+        || !window.getDownloadURL || !window.setDoc || !window.doc || !window.deleteObject) {
+      mensaje.textContent = '⚠️ Firebase Storage no configurado correctamente.';
       mensaje.className = 'error';
       return;
     }
-    if (file.size > 2 * 1024 * 1024) {
-      mensaje.textContent = '❌ Imagen > 2MB.';
+
+    // Validar tipo
+    if (!file.type.startsWith('image/')) {
+      mensaje.textContent = '❌ Solo se permiten imágenes (JPG, PNG, WEBP).';
+      mensaje.className = 'error';
+      return;
+    }
+
+    // Validar tamaño máximo (10 MB antes de comprimir)
+    if (file.size > 10 * 1024 * 1024) {
+      mensaje.textContent = '❌ La imagen es muy pesada (máx. 10 MB).';
       mensaje.className = 'error';
       return;
     }
 
     btnSubir.disabled = true;
-    mensaje.textContent = '⏳ Subiendo...';
+    btnEliminar && (btnEliminar.disabled = true);
+    mensaje.textContent = '⏳ Comprimiendo imagen...';
     mensaje.className = '';
+    progressBar.style.display = 'block';
+    progressBar.style.width = '10%';
 
-    const fileRef = window.ref(window.storage, `fichas/${currentPlayerId}.jpg`);
-    window.uploadBytes(fileRef, file)
-      .then(snapshot => window.getDownloadURL(snapshot.ref))
-      .then(url => {
-        const docRef = window.doc(window.db, 'fichas', currentPlayerId);
-        return window.setDoc(docRef, { url, updatedAt: new Date().toISOString() })
-          .then(() => url);
-      })
-      .then(url => {
-        currentPhotoURL = url;
-        fotoImg.src = url;
-        mensaje.textContent = '✅ Foto actualizada.';
-        mensaje.className = 'exito';
-        btnSubir.disabled = false;
-      })
-      .catch(err => {
-        console.error(err);
-        mensaje.textContent = '❌ Error al subir.';
-        mensaje.className = 'error';
-        btnSubir.disabled = false;
+    try {
+      // 1. Comprimir
+      const blob = await comprimirImagen(file);
+      progressBar.style.width = '30%';
+
+      // 2. Sanitizar ID y preparar path
+      const idSanitizado = sanitizarId(currentPlayerId);
+      const storagePath = `fichas/${idSanitizado}/perfil.jpg`;
+      const fileRef = window.ref(window.storage, storagePath);
+
+      // 3. Borrar foto anterior si existe
+      if (currentStoragePath && currentStoragePath !== storagePath) {
+        try {
+          await window.deleteObject(window.ref(window.storage, currentStoragePath));
+        } catch (e) { console.warn('No se pudo borrar la anterior:', e); }
+      }
+
+      mensaje.textContent = '⏳ Subiendo...';
+      const uploadTask = window.uploadBytesResumable(fileRef, blob, {
+        contentType: 'image/jpeg',
+        cacheControl: 'public, max-age=3600'
       });
+
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          const pct = 30 + Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 60);
+          progressBar.style.width = pct + '%';
+        },
+        (error) => {
+          console.error('Error al subir:', error);
+          mensaje.textContent = '❌ Error al subir la imagen. Revisa tu conexión.';
+          mensaje.className = 'error';
+          progressBar.style.display = 'none';
+          btnSubir.disabled = false;
+          btnEliminar && (btnEliminar.disabled = false);
+        },
+        async () => {
+          // Subida completa
+          progressBar.style.width = '100%';
+          const url = await window.getDownloadURL(uploadTask.snapshot.ref);
+          const urlConCache = `${url}?t=${Date.now()}`;
+
+          // 4. Guardar en Firestore
+          const docRef = window.doc(window.db, 'fichas', currentPlayerId);
+          await window.setDoc(docRef, {
+            url: url,
+            storagePath: storagePath,
+            updatedAt: new Date().toISOString()
+          });
+
+          // 5. Actualizar UI
+          currentPhotoURL = urlConCache;
+          currentStoragePath = storagePath;
+          fotoImg.src = urlConCache;
+          mensaje.textContent = '✅ Foto actualizada correctamente.';
+          mensaje.className = 'exito';
+          actualizarBotonEliminar();
+
+          setTimeout(() => {
+            progressBar.style.display = 'none';
+            progressBar.style.width = '0%';
+          }, 1200);
+
+          btnSubir.disabled = false;
+          btnEliminar && (btnEliminar.disabled = false);
+        }
+      );
+    } catch (err) {
+      console.error(err);
+      mensaje.textContent = '❌ ' + (err.message || 'Error inesperado.');
+      mensaje.className = 'error';
+      progressBar.style.display = 'none';
+      btnSubir.disabled = false;
+      btnEliminar && (btnEliminar.disabled = false);
+    }
   }
 
-  // ---- Descargar PNG ----
+  // =====================================================
+  // ELIMINAR FOTO
+  // =====================================================
+  async function eliminarFoto() {
+    if (!currentPlayerId) return;
+    if (!confirm('¿Eliminar tu foto de perfil?')) return;
+
+    if (!window.storage || !window.db || !window.ref || !window.deleteObject || !window.doc || !window.deleteDoc) {
+      mensaje.textContent = '⚠️ No se puede eliminar en este momento.';
+      mensaje.className = 'error';
+      return;
+    }
+
+    btnEliminar.disabled = true;
+    mensaje.textContent = '⏳ Eliminando...';
+    mensaje.className = '';
+
+    try {
+      // 1. Borrar del Storage
+      if (currentStoragePath) {
+        await window.deleteObject(window.ref(window.storage, currentStoragePath));
+      }
+      // 2. Borrar de Firestore
+      await window.deleteDoc(window.doc(window.db, 'fichas', currentPlayerId));
+
+      // 3. Actualizar UI
+      const defaultAvatar = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="45" fill="%23d9d9d9"/%3E%3Ctext x="50" y="55" font-size="30" text-anchor="middle" fill="%23666" dy=".3em"%3E👤%3C/text%3E%3C/svg%3E';
+      fotoImg.src = defaultAvatar;
+      currentPhotoURL = null;
+      currentStoragePath = null;
+      mensaje.textContent = '✅ Foto eliminada.';
+      mensaje.className = 'exito';
+      actualizarBotonEliminar();
+    } catch (err) {
+      console.error(err);
+      mensaje.textContent = '❌ No se pudo eliminar la foto.';
+      mensaje.className = 'error';
+    } finally {
+      btnEliminar.disabled = false;
+    }
+  }
+
+  // =====================================================
+  // DESCARGAR PNG
+  // =====================================================
   function descargarPNG() {
     if (!window.html2canvas) {
       mensaje.textContent = '❌ html2canvas no cargado.';
@@ -2236,11 +2448,8 @@ window.TEAMS = TEAMS;
 
     const preview = document.getElementById('ficha-preview');
     html2canvas(preview, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: '#ffffff',
-      logging: false,
-      allowTaint: true
+      scale: 2, useCORS: true, backgroundColor: '#ffffff',
+      logging: false, allowTaint: true
     })
     .then(canvas => {
       const link = document.createElement('a');
@@ -2254,13 +2463,15 @@ window.TEAMS = TEAMS;
     })
     .catch(err => {
       console.error(err);
-      mensaje.textContent = '❌ Error al generar imagen.';
+      mensaje.textContent = '❌ Error al generar la imagen.';
       mensaje.className = 'error';
       btnDescargar.disabled = false;
     });
   }
 
-  // ---- Compartir ----
+  // =====================================================
+  // COMPARTIR
+  // =====================================================
   function compartir(plataforma) {
     const url = window.location.href;
     const texto = `¡Mira mi ficha en Sibarita Sport Club! 🏆 ${currentPlayerData.nombre} - ${currentPlayerData.equipo}`;
@@ -2273,47 +2484,49 @@ window.TEAMS = TEAMS;
     if (shareUrl) window.open(shareUrl, '_blank');
   }
 
-  // ---- Cerrar ----
+  // =====================================================
+  // CERRAR MODAL
+  // =====================================================
   function cerrarModal() {
     modal.classList.remove('abierto');
     document.body.style.overflow = '';
     inputFoto.value = '';
     mensaje.textContent = '';
     mensaje.className = '';
+    progressBar.style.display = 'none';
   }
 
-  // ---- Event listeners ----
+  // =====================================================
+  // EVENT LISTENERS
+  // =====================================================
   cerrar.addEventListener('click', cerrarModal);
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) cerrarModal();
-  });
+  modal.addEventListener('click', e => { if (e.target === modal) cerrarModal(); });
   btnSubir.addEventListener('click', () => inputFoto.click());
-  inputFoto.addEventListener('change', function(e) {
+  inputFoto.addEventListener('change', function() {
     if (this.files && this.files[0]) subirFoto(this.files[0]);
     this.value = '';
   });
+  btnEliminar && btnEliminar.addEventListener('click', eliminarFoto);
   btnDescargar.addEventListener('click', descargarPNG);
   btnWhats.addEventListener('click', () => compartir('whatsapp'));
   btnFace.addEventListener('click', () => compartir('facebook'));
 
-  // ---- Inicializar triggers ----
+  // =====================================================
+  // INICIALIZAR TRIGGERS
+  // =====================================================
   function initFichas() {
     document.querySelectorAll('.ficha-trigger').forEach(el => {
       el.removeEventListener('click', handleClick);
       el.addEventListener('click', handleClick);
     });
   }
-
   function handleClick(e) {
     e.stopPropagation();
     const id = e.currentTarget.dataset.id;
     if (id) abrirFicha(id);
-    else console.warn('Trigger sin data-id');
   }
-
   window.initFichas = initFichas;
 
-  // Ejecutar al cargar el DOM
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
     initFichas();
   } else {
