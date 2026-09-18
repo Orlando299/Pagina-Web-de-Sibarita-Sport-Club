@@ -638,30 +638,59 @@ function openTeam(name){
 
 function closeDetail(){g('teams-wrap').style.display='block';g('t-detail').style.display='none';}
 
-// ==================== PARTIDOS ====================
+// ==================== PARTIDOS (IGUAL QUE INDEX) ====================
 function rM(){
-  const weeks = ['S1'];
-  g('m-weeks').innerHTML = weeks.map(w=>`<button class="fb on">Semana 1</button>`).join('');
+  const weeksEl = g('m-weeks');
+  const cntEl = g('m-cnt');
+  const listEl = g('m-list');
+  if(!weeksEl || !cntEl || !listEl) return;
+
+  const wks = ['S1'];
+  const wlbl = {S1:'Sem 1'};
+  weeksEl.innerHTML = wks.map(w=>
+    `<button class="fb ${F.mWk===w||(!F.mWk&&w==='S1')?'on':''}" onclick="F.mWk='${w}';rM();">${wlbl[w]}</button>`
+  ).join('');
+
+  let list = MATCHES.filter(m=>m.c===F.mCat && (F.mWk==='Todos' || !F.mWk || m.w===F.mWk || F.mWk==='S1'));
+  if(F.mWk==='Todos') list = MATCHES.filter(m=>m.c===F.mCat);
   
-  const filtered = MATCHES.filter(m=>m.c===F.mCat);
-  g('m-cnt').textContent = filtered.length + ' PARTIDOS — ' + F.mCat;
-  
-  if(filtered.length === 0){
-    g('m-list').innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin partidos programados</div>';
+  cntEl.textContent = list.length + ' PARTIDOS — ' + F.mCat;
+  if(!list.length){
+    listEl.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin partidos programados</div>';
     return;
   }
-  
-  g('m-list').innerHTML = filtered.map(m=>{
+
+  listEl.innerHTML = list.map(m=>{
     const r = R[m.id];
     const done = r && r.status==='done';
     const forf = r && r.status==='forfeit';
+    const suspended = r && r.status==='suspended';
     const wA = done && r.scoreA > r.scoreB;
     const wB = done && r.scoreB > r.scoreA;
     const mv = MVP[m.id];
-    
     let inner = '';
-    if(adminHabilitado){
-      if(done || forf){
+
+    // Si el admin NO está habilitado: solo mostrar resultado
+    if(!adminHabilitado){
+      if(suspended){
+        inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div></div>`;
+      } else if(done || forf){
+        inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+          <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+          <span class="sep">—</span>
+          <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+        </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+        <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>
+        ${mv ? `<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>` : ''}`;
+      } else {
+        inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:11px;color:var(--text-muted);padding:4px;">Pendiente</div>`;
+      }
+    } else {
+      // Admin HABILITADO: inputs para editar + botones
+      if(suspended){
+        inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon||'Sin especificar'}</div>
+        <button onclick="reanudarJuego(${m.id})" style="background:transparent;border:1px solid var(--primary);color:var(--primary);font-size:10px;padding:3px 10px;border-radius:6px;cursor:pointer;margin-top:4px;font-family:inherit;">▶️ Reanudar</button></div>`;
+      } else if(done || forf){
         inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
           <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
           <span class="sep">—</span>
@@ -671,8 +700,8 @@ function rM(){
           <span class="rtag done">✓ Final</span>
           <button onclick="borrarResultado(${m.id})" style="background:transparent;border:none;color:var(--text-muted);font-size:10px;cursor:pointer;">✕</button>
         </div>
-        <button class="stats-btn" onclick="openStatsModal(${m.id})">📊 Estadísticas</button>
-        ${mv ? `<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">MVP</div><div class="mvp-name">${mv.name}</div></div></div>` : ''}`;
+        <button class="stats-btn" onclick="openStatsModal(${m.id})">📊 Registrar Estadísticas</button>
+        ${mv ? `<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}</div></div></div>` : ''}`;
       } else {
         inner = `<div style="font-size:14px;text-align:center;">🎯</div>
           <div class="srow">
@@ -681,29 +710,19 @@ function rM(){
             <input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0">
           </div>
           <button class="sbtn" onclick="guardarResultado(${m.id})">💾 Guardar</button>
-          <button class="fbtn" onclick="forfeitResultado(${m.id})">⚠️ Forfeit</button>`;
-      }
-    } else {
-      if(done || forf){
-        inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
-          <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
-          <span class="sep">—</span>
-          <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
-        </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
-        <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>
-        ${mv ? `<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">MVP</div><div class="mvp-name">${mv.name}</div></div></div>` : ''}`;
-      } else {
-        inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:11px;color:var(--text-muted);padding:4px;">Pendiente</div>`;
+          <button class="fbtn" onclick="forfeitResultado(${m.id})">⚠️ Forfeit/WO</button>
+          <button class="fbtn" style="border-color:#e67e2255;color:#e67e22;" onclick="suspenderJuego(${m.id})">⏸️ Suspender</button>`;
       }
     }
-    
-    let tag = '';
-    if(done) tag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>';
-    else if(forf) tag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
-    else tag = '<span class="wtag" style="background:var(--card-2);color:var(--text-muted);">⏳ Pendiente</span>';
-    
+
+    let estadoTag = '';
+    if(suspended) estadoTag = '<span class="wtag" style="background:#e67e2233;color:#e67e22;">⏸️ Suspendido</span>';
+    else if(done) estadoTag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>';
+    else if(forf) estadoTag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
+    else estadoTag = '<span class="wtag" style="background:var(--card-2);color:var(--text-muted);">⏳ Pendiente</span>';
+
     return `<div class="mc">
-      <div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${tag}</div>
+      <div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div>
       <div class="mteams">
         <div class="tn" style="color:${wA?'var(--primary)':wB?'var(--text-muted)':'var(--text)'}">${m.a}</div>
         <div class="vb">${inner}</div>
@@ -713,7 +732,10 @@ function rM(){
   }).join('');
 }
 
+// Guardar resultado (pide clave como en index)
 function guardarResultado(id){
+  const pass = prompt('🔐 Contraseña de organizador:');
+  if(pass !== CLAVE_ADMIN){alert('❌ Incorrecta');return;}
   const a = parseInt(g('sA'+id)?.value);
   const b = parseInt(g('sB'+id)?.value);
   if(isNaN(a) || isNaN(b) || a<0 || a>20 || b<0 || b>20){alert('Marcador inválido (0-20)');return;}
@@ -723,21 +745,50 @@ function guardarResultado(id){
   alert('✅ Resultado guardado');
 }
 
+// Borrar resultado
 function borrarResultado(id){
+  const pass = prompt('🔐 Contraseña de organizador:');
+  if(pass !== CLAVE_ADMIN){alert('❌ Incorrecta');return;}
   if(!confirm('¿Borrar resultado?'))return;
   delete R[id];
   if(window.guardarResultadoFB) window.guardarResultadoFB(id, null);
   rM(); rSt();
 }
 
+// Forfeit
 function forfeitResultado(id){
+  const pass = prompt('🔐 Contraseña de organizador:');
+  if(pass !== CLAVE_ADMIN){alert('❌ Incorrecta');return;}
   const m = MATCHES.find(x=>x.id===id);
   if(!m) return;
   const ans = prompt(`¿Quién pierde por Forfeit?\n1 - ${m.a}\n2 - ${m.b}`);
   if(ans==='1'){R[id]={scoreA:0,scoreB:8,status:'forfeit'};}
   else if(ans==='2'){R[id]={scoreA:8,scoreB:0,status:'forfeit'};}
-  else return;
+  else {alert('Opción inválida');return;}
   if(window.guardarResultadoFB) window.guardarResultadoFB(id, R[id]);
+  rM(); rSt();
+}
+
+// Suspender
+function suspenderJuego(id){
+  const pass = prompt('🔐 Contraseña de organizador:');
+  if(pass !== CLAVE_ADMIN){alert('❌ Incorrecta');return;}
+  const m = MATCHES.find(x=>x.id===id);
+  if(!m) return;
+  const razon = prompt('Motivo de suspensión:', 'Clima');
+  if(razon===null) return;
+  R[id] = {scoreA:0, scoreB:0, status:'suspended', razon};
+  if(window.guardarResultadoFB) window.guardarResultadoFB(id, R[id]);
+  rM(); rSt();
+}
+
+// Reanudar
+function reanudarJuego(id){
+  const pass = prompt('🔐 Contraseña de organizador:');
+  if(pass !== CLAVE_ADMIN){alert('❌ Incorrecta');return;}
+  if(!confirm('¿Reanudar? Se borrará suspensión')) return;
+  delete R[id];
+  if(window.guardarResultadoFB) window.guardarResultadoFB(id, null);
   rM(); rSt();
 }
 
