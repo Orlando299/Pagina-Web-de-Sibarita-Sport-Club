@@ -15,38 +15,42 @@
     header h1 { font-size: 2.8rem; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
     header h1 span { color: #d4a017; }
     header p { color: #475569; font-size: 1.15rem; margin-top: 6px; }
-    .cards-torneos { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; margin: 30px 0 20px; }
+
+    /* ===== TARJETAS DE ACCESO A TORNEOS ===== */
+    .cards-torneos { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; margin: 30px 0 40px; }
     .card-torneo { background: white; border-radius: 28px; padding: 30px 25px; width: 280px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; border: 2px solid transparent; flex: 1 1 240px; }
     .card-torneo:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0,0,0,0.10); }
     .card-torneo .icono { font-size: 3rem; display: block; margin-bottom: 12px; }
     .card-torneo h2 { font-size: 1.6rem; margin-bottom: 6px; }
-    .card-torneo p { color: #64748b; font-size: 0.95rem; margin-bottom: 18px; }
+    .card-torneo p { color: #64748b; font-size: 0.95rem; margin-bottom: 18px; line-height: 1.5; }
     .card-torneo .btn-acceso { display: inline-block; background: #1e293b; color: white; padding: 10px 28px; border-radius: 60px; font-weight: 600; font-size: 0.95rem; transition: background 0.2s; }
     .card-torneo .btn-acceso:hover { background: #334155; }
+
+    /* ===== TARJETA HISTÓRICO (APERTURA) ===== */
+    .card-apertura { border-top: 6px solid #94a3b8; background: #f1f5f9; }
+    .card-apertura:hover { border-color: #64748b; }
+    .card-apertura .btn-acceso { background: #64748b; color: #fff; }
+    .card-apertura .btn-acceso:hover { background: #475569; }
+
+    /* ===== TARJETA CATEGORÍA A ===== */
     .card-navidad-a { border-top: 6px solid #d4a017; background: #fef9e7; }
     .card-navidad-a:hover { border-color: #b8860b; }
     .card-navidad-a .btn-acceso { background: #d4a017; color: #0f1a0f; }
     .card-navidad-a .btn-acceso:hover { background: #b8860b; }
+
+    /* ===== TARJETA CATEGORÍA B ===== */
     .card-navidad-b { border-top: 6px solid #2980b9; background: #eaf2f8; }
     .card-navidad-b:hover { border-color: #1a5276; }
     .card-navidad-b .btn-acceso { background: #2980b9; color: white; }
     .card-navidad-b .btn-acceso:hover { background: #1a5276; }
-    .widgets { display: flex; flex-wrap: wrap; gap: 30px; margin: 40px 0 30px; }
-    .widget { background: white; border-radius: 24px; padding: 22px 25px; flex: 1 1 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #eef2f6; }
-    .widget h3 { font-size: 1.3rem; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
-    .widget ul { list-style: none; }
-    .widget li { padding: 10px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; }
-    .widget li:last-child { border-bottom: none; }
-    .widget .badge-fecha { background: #e2e8f0; padding: 2px 12px; border-radius: 40px; font-size: 0.75rem; color: #475569; font-weight: 600; }
-    .widget .badge-cat { background: #d4a01722; color: #b8860b; padding: 2px 10px; border-radius: 40px; font-size: 0.7rem; font-weight: 700; }
-    .widget .badge-cat-b { background: #2980b922; color: #1a5276; }
-    .widget .puntos { font-weight: 700; color: #0f172a; }
+
+    /* ===== PIE ===== */
     footer { margin-top: 40px; padding-top: 20px; border-top: 2px solid #e2e8f0; text-align: center; color: #94a3b8; font-size: 0.9rem; }
     footer a { color: #d4a017; text-decoration: none; }
+
     @media (max-width: 700px) {
       header h1 { font-size: 2rem; }
       .card-torneo { flex: 1 1 100%; }
-      .widget { flex: 1 1 100%; }
     }
   </style>
 </head>
@@ -59,6 +63,14 @@
   </header>
 
   <div class="cards-torneos">
+    <!-- HISTÓRICO: APERTURA 2026 -->
+    <a href="apertura.html" class="card-torneo card-apertura">
+      <span class="icono">📜</span>
+      <h2>Apertura 2026</h2>
+      <p>Histórico · Solo lectura<br />Resultados finales</p>
+      <span class="btn-acceso">Ver histórico</span>
+    </a>
+
     <!-- CATEGORÍA A -->
     <a href="categoriaA.html" class="card-torneo card-navidad-a">
       <span class="icono">🟡</span>
@@ -74,19 +86,6 @@
       <p>Juvenil · Azul / Naranja<br />Femenino y Masculino</p>
       <span class="btn-acceso">Ingresar</span>
     </a>
-  </div>
-
-  <!-- WIDGETS: solo mantenemos el de Destacados -->
-  <div class="widgets">
-    <div class="widget">
-      <h3>🌟 Destacados</h3>
-      <ul>
-        <li><span>🎥 Presentación de los premios</span><span class="badge-fecha">Pronto</span></li>
-        <li><span>📸 Congresillo 15/09</span><span class="badge-fecha">15/09</span></li>
-        <li><span>🏅 Equipos inscritos</span><span class="badge-fecha">Ver categorías</span></li>
-      </ul>
-      <p style="margin-top: 12px; font-size: 0.8rem; color: #94a3b8;">* Contenido en actualización</p>
-    </div>
   </div>
 
   <footer>
