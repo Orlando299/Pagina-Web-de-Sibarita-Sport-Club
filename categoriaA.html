@@ -296,27 +296,28 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
           <select id="ap-cancha"><option>Cancha 1</option><option>Cancha 2</option><option>Cancha 3</option><option>Cancha 4</option></select>
           <label>Semana</label>
           <input type="text" id="ap-semana" placeholder="Ej: S1">
-          <button onclick="agregarPartido()">Agregar Partido</button>
+                     <button onclick="agregarPartido()">Agregar Partido</button>
         </div>
       </div>
-    <div class="admin-panel">
-  <h3>📊 Exportar / Importar</h3>
-  <button class="admin-btn" onclick="exportarResultados()">📤 Exportar Resultados (JSON)</button>
-  <button class="admin-btn purple" onclick="exportarEstadisticasACSV()">📊 Exportar CSV</button>
-  <button class="admin-btn orange" onclick="document.getElementById('import-json-file').click()">📥 Importar JSON archivo</button>
-  <input type="file" id="import-json-file" accept=".json" style="display:none;" onchange="importarJSONArchivo(event)">
-</div>
 
-<!-- NUEVO BLOQUE: Importar JSON pegado -->
-<div class="admin-panel">
-  <h3>📥 Importar JSON de Árbitros (pegar)</h3>
-  <p style="font-size:10px;color:var(--text-muted);margin-bottom:8px;">Pega el JSON con los resultados del partido (formato: <code>{"id":1,"scoreA":20,"scoreB":15,"status":"done"}</code>).</p>
-  <textarea id="json-input" placeholder='[{"id":1,"scoreA":20,"scoreB":15,"status":"done"}]' style="width:100%;height:100px;padding:8px;background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:11px;font-family:monospace;"></textarea>
-  <div style="margin-top:8px;">
-    <button class="admin-btn" onclick="importarJSON()">📥 Importar JSON</button>
-    <button class="admin-btn orange" onclick="generarPlantillaJSON()">📄 Generar plantilla</button>
-  </div>
-</div>
+      <div class="admin-panel">
+        <h3>📊 Exportar / Importar</h3>
+        <button class="admin-btn" onclick="exportarResultados()">📤 Exportar Resultados (JSON)</button>
+        <button class="admin-btn purple" onclick="exportarEstadisticasACSV()">📊 Exportar CSV</button>
+        <button class="admin-btn orange" onclick="document.getElementById('import-json-file').click()">📥 Importar JSON archivo</button>
+        <input type="file" id="import-json-file" accept=".json" style="display:none;" onchange="importarJSONArchivo(event)">
+      </div>
+
+      <div class="admin-panel">
+        <h3>📥 Importar JSON de Árbitros (pegar)</h3>
+        <p style="font-size:10px;color:var(--text-muted);margin-bottom:8px;">Pega el JSON con los resultados del partido (formato: <code>{"id":1,"scoreA":20,"scoreB":15,"status":"done"}</code>).</p>
+        <textarea id="json-input" placeholder='[{"id":1,"scoreA":20,"scoreB":15,"status":"done"}]' style="width:100%;height:100px;padding:8px;background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:11px;font-family:monospace;"></textarea>
+        <div style="margin-top:8px;">
+          <button class="admin-btn" onclick="importarJSON()">📥 Importar JSON</button>
+          <button class="admin-btn orange" onclick="generarPlantillaJSON()">📄 Generar plantilla</button>
+        </div>
+      </div>
+
       <div class="admin-panel">
         <h3>💾 Guardar todo</h3>
         <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Los resultados se guardan en Firebase al editar cada partido. Usa esto para forzar guardado de todo.</p>
@@ -324,7 +325,6 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
       </div>
     </div>
   </div>
-
   <!-- ===== FOOTER ===== -->
   <div style="margin-top:30px;padding:15px;border-top:1px solid var(--border);text-align:center;font-size:10px;color:var(--text-muted);">
     <p><strong style="color:var(--primary);">SIBARITA SPORT CLUB</strong><br>Copa Navidad 2026 · Categoría A</p>
