@@ -269,7 +269,7 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
     <div class="ibox">📖 Cómo jugar: Haz clic y arrastra para lanzar. Primero lanza el moche (bola dorada), luego tus bolas. ¡Gana quien más se acerque!</div>
   </div>
 
-  <!-- ===== ADMIN ===== -->
+   <!-- ===== ADMIN ===== -->
   <div id="s-admin" class="scr">
     <div class="lbl">🔑 PANEL DE ADMINISTRACIÓN</div>
     <div class="card">
@@ -278,12 +278,18 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
       <button class="admin-btn" onclick="verificarClave()">Verificar</button>
       <div id="admin-msg" style="font-size:11px;margin-top:8px;"></div>
     </div>
+
     <div id="admin-panel" class="admin-hidden">
+
+      <!-- Bloque 1: Agregar Partido -->
       <div class="admin-panel">
         <h3>➕ Agregar Partido</h3>
         <div class="admin-form">
           <label>Categoría</label>
-          <select id="ap-cat"><option>Femenino</option><option>Masculino</option></select>
+          <select id="ap-cat">
+            <option>Femenino</option>
+            <option>Masculino</option>
+          </select>
           <label>Local</label>
           <input type="text" id="ap-local" placeholder="Equipo local">
           <label>Visitante</label>
@@ -293,13 +299,19 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
           <label>Hora</label>
           <input type="text" id="ap-hora" placeholder="Ej: 6:00pm">
           <label>Cancha</label>
-          <select id="ap-cancha"><option>Cancha 1</option><option>Cancha 2</option><option>Cancha 3</option><option>Cancha 4</option></select>
+          <select id="ap-cancha">
+            <option>Cancha 1</option>
+            <option>Cancha 2</option>
+            <option>Cancha 3</option>
+            <option>Cancha 4</option>
+          </select>
           <label>Semana</label>
           <input type="text" id="ap-semana" placeholder="Ej: S1">
-                     <button onclick="agregarPartido()">Agregar Partido</button>
+          <button onclick="agregarPartido()">Agregar Partido</button>
         </div>
       </div>
 
+      <!-- Bloque 2: Exportar / Importar archivo -->
       <div class="admin-panel">
         <h3>📊 Exportar / Importar</h3>
         <button class="admin-btn" onclick="exportarResultados()">📤 Exportar Resultados (JSON)</button>
@@ -308,9 +320,12 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
         <input type="file" id="import-json-file" accept=".json" style="display:none;" onchange="importarJSONArchivo(event)">
       </div>
 
+      <!-- Bloque 3: Importar JSON pegado -->
       <div class="admin-panel">
         <h3>📥 Importar JSON de Árbitros (pegar)</h3>
-        <p style="font-size:10px;color:var(--text-muted);margin-bottom:8px;">Pega el JSON con los resultados del partido (formato: <code>{"id":1,"scoreA":20,"scoreB":15,"status":"done"}</code>).</p>
+        <p style="font-size:10px;color:var(--text-muted);margin-bottom:8px;">
+          Pega el JSON con los resultados del partido (formato: <code>{"id":1,"scoreA":20,"scoreB":15,"status":"done"}</code>).
+        </p>
         <textarea id="json-input" placeholder='[{"id":1,"scoreA":20,"scoreB":15,"status":"done"}]' style="width:100%;height:100px;padding:8px;background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:11px;font-family:monospace;"></textarea>
         <div style="margin-top:8px;">
           <button class="admin-btn" onclick="importarJSON()">📥 Importar JSON</button>
@@ -318,11 +333,15 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
         </div>
       </div>
 
+      <!-- Bloque 4: Guardar todo en Firebase -->
       <div class="admin-panel">
         <h3>💾 Guardar todo</h3>
-        <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Los resultados se guardan en Firebase al editar cada partido. Usa esto para forzar guardado de todo.</p>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">
+          Los resultados se guardan en Firebase al editar cada partido. Usa esto para forzar guardado de todo.
+        </p>
         <button class="admin-btn" onclick="guardarTodoFirebase()">☁️ Guardar todo en Firebase</button>
       </div>
+
     </div>
   </div>
   <!-- ===== FOOTER ===== -->
