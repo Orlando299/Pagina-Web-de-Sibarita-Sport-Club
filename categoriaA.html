@@ -8,29 +8,15 @@
 <meta name="theme-color" content="#1a2a1a">
 <meta name="google-adsense-account" content="ca-pub-5125085567413576">
 <title>Copa Navidad · Categoría A | Sibarita Sport Club</title>
-
-<!-- ADSENSE -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5125085567413576" crossorigin="anonymous"></script>
-
-<!-- Librerías -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <style>
-/* ========== PALETA CATEGORÍA A: DORADO / VERDE OSCURO ========== */
 :root{
-  --primary:#d4a017;
-  --primary-dark:#b8860b;
-  --primary-light:#f39c12;
-  --bg:#0f1a0f;
-  --bg-grad-1:#1a2a1a;
-  --bg-grad-2:#0a140a;
-  --card:#1a2a1a;
-  --card-2:#16213e;
-  --border:#d4a01755;
-  --text:#f5e6c8;
-  --text-muted:#b8a88a;
-  --shadow:0 4px 12px rgba(212,160,23,0.15);
+  --primary:#d4a017;--primary-dark:#b8860b;--primary-light:#f39c12;
+  --bg:#0f1a0f;--bg-grad-1:#1a2a1a;--bg-grad-2:#0a140a;
+  --card:#1a2a1a;--card-2:#16213e;--border:#d4a01755;
+  --text:#f5e6c8;--text-muted:#b8a88a;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 ::-webkit-scrollbar{display:none;}
@@ -66,6 +52,7 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
 .sep{font-size:16px;color:var(--text-muted);font-weight:bold;}
 .sbtn{width:100%;margin-top:6px;padding:6px;background:#2ecc71;border:none;border-radius:7px;color:#000;font-weight:bold;font-size:12px;cursor:pointer;font-family:inherit;}
 .fbtn{width:100%;margin-top:4px;padding:5px;background:transparent;border:1px solid #c0392b55;border-radius:7px;color:#c0392b;font-size:10px;cursor:pointer;font-family:inherit;}
+.stats-btn{background:#3498db33;border:1px solid #3498db;color:#3498db;font-size:9px;padding:4px 8px;border-radius:7px;margin-top:4px;width:100%;cursor:pointer;font-family:inherit;}
 .rtag{font-size:9px;font-weight:bold;padding:2px 6px;border-radius:7px;}
 .done{background:#2ecc7133;color:#2ecc71;border:1px solid #2ecc7122;}
 .wtag{font-size:9px;font-weight:bold;padding:2px 6px;border-radius:7px;}
@@ -106,10 +93,21 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
 .sync-status.error{color:#c0392b;}
 .sync-status.sync{color:#f39c12;}
 
-/* Separador de fase */
-.fase-separador{margin:20px 0 12px;padding:10px 15px;background:linear-gradient(90deg,var(--primary)33,transparent);border-left:4px solid var(--primary);border-radius:8px;display:flex;justify-content:space-between;align-items:center;}
-.fase-separador .titulo{font-size:13px;font-weight:bold;color:var(--primary);text-transform:uppercase;letter-spacing:1px;}
-.fase-separador .subtitulo{font-size:10px;color:var(--text-muted);}
+/* Modal estadísticas */
+.modal-stats{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;overflow-y:auto;}
+.modal-stats.on{display:block;}
+.modal-stats .modal-content{background:var(--card-2);margin:15px;border-radius:15px;padding:15px;border:1px solid var(--border);max-width:500px;margin-left:auto;margin-right:auto;}
+.modal-stats .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;border-bottom:1px solid var(--border);padding-bottom:10px;}
+.modal-stats .modal-close{background:#c0392b;border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;}
+.modal-stats .modal-title{font-size:14px;font-weight:bold;color:var(--primary);text-align:center;}
+.player-stats-row{background:var(--card);border-radius:8px;padding:8px 10px;margin-bottom:8px;}
+.player-name{font-size:12px;font-weight:bold;color:var(--primary);margin-bottom:5px;}
+.stats-grid{display:flex;gap:8px;flex-wrap:wrap;}
+.stat-item-m{flex:1;min-width:70px;}
+.stat-label{font-size:9px;color:var(--text-muted);margin-bottom:3px;}
+.stat-input{width:100%;padding:5px;background:var(--card-2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:11px;text-align:center;font-family:inherit;}
+.stat-input:focus{outline:none;border-color:var(--primary);}
+.btn-save-stats{width:100%;margin-top:15px;padding:10px;background:#2ecc71;border:none;border-radius:8px;color:#000;font-weight:bold;font-size:12px;cursor:pointer;font-family:inherit;}
 
 /* Modal ficha */
 .modal-ficha{display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.8);overflow-y:auto;padding:20px;box-sizing:border-box;}
@@ -142,7 +140,6 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
 .video-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px;margin-bottom:10px;}
 .video-title{font-size:12px;font-weight:bold;color:var(--primary);margin-top:6px;}
 .video-meta{font-size:9px;color:var(--text-muted);margin-top:4px;}
-.video-section-title{font-size:11px;color:var(--primary);font-weight:bold;margin:10px 0 5px;display:flex;align-items:center;gap:8px;}
 .channel-link{background:var(--card-2);border-radius:8px;padding:10px;margin-top:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border:1px solid var(--border);}
 .channel-btn{background:#ff0000;color:#fff;padding:6px 12px;border-radius:20px;text-decoration:none;font-size:11px;font-weight:bold;}
 
@@ -151,10 +148,20 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
 .admin-form label{display:block;font-size:11px;color:var(--primary);font-weight:bold;margin:8px 0 3px;text-transform:uppercase;}
 .admin-form input,.admin-form select{width:100%;padding:8px 10px;background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:13px;font-family:inherit;}
 .admin-form button{margin-top:10px;padding:9px 18px;background:var(--primary);color:#000;border:none;border-radius:8px;font-weight:bold;font-size:12px;cursor:pointer;font-family:inherit;}
-.admin-btn{background:var(--primary);color:#000;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;font-size:12px;cursor:pointer;font-family:inherit;margin-top:8px;}
+.admin-btn{background:var(--primary);color:#000;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;font-size:12px;cursor:pointer;font-family:inherit;margin-top:8px;margin-right:6px;}
+.admin-btn.purple{background:#9b59b6;color:#fff;}
+.admin-btn.orange{background:#f39c12;color:#000;}
 .admin-hidden{display:none;}
 .admin-panel{background:var(--card-2);border:2px solid var(--primary);border-radius:10px;padding:15px;margin-top:12px;}
 .admin-panel h3{color:var(--primary);font-size:14px;margin-bottom:10px;}
+
+/* PDF panel */
+.pdf-panel{background:var(--card-2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;}
+.pdf-panel.open{display:block;}
+.pdf-sel{width:100%;padding:7px;background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:12px;font-family:inherit;margin-bottom:8px;}
+.pdf-gen-btn{width:100%;padding:8px;background:var(--primary);border:none;border-radius:7px;color:#000;font-weight:bold;font-size:12px;cursor:pointer;font-family:inherit;}
+
+@media (max-width:700px){.modal-stats .modal-content{margin:8px;}}
 </style>
 </head>
 <body>
@@ -216,6 +223,15 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
     <div class="fscroll" id="m-weeks"></div>
     <div class="lbl" id="m-cnt"></div>
     <div id="m-list"></div>
+
+    <!-- Importar JSON de árbitros -->
+    <div class="card" style="margin-top:12px;">
+      <div class="lbl" style="margin:0 0 6px;">📥 Importar JSON de Árbitros</div>
+      <p style="font-size:10px;color:var(--text-muted);margin-bottom:8px;">Pega el JSON con los resultados del partido (formato: {id, scoreA, scoreB, status}).</p>
+      <textarea id="json-input" placeholder='[{"id":1,"scoreA":20,"scoreB":15,"status":"done"}]' style="width:100%;height:100px;padding:8px;background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:11px;font-family:monospace;"></textarea>
+      <button class="admin-btn" onclick="importarJSON()" style="margin-top:8px;">📥 Importar JSON</button>
+      <button class="admin-btn orange" onclick="generarPlantillaJSON()" style="margin-top:8px;">📄 Generar plantilla</button>
+    </div>
   </div>
 
   <!-- ===== TABLA ===== -->
@@ -293,14 +309,16 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
           <button onclick="agregarPartido()">Agregar Partido</button>
         </div>
       </div>
-      <div class="admin-panel" style="margin-top:12px;">
+      <div class="admin-panel">
         <h3>📊 Exportar / Importar</h3>
         <button class="admin-btn" onclick="exportarResultados()">📤 Exportar Resultados (JSON)</button>
-        <button class="admin-btn" style="background:#9b59b6;color:#fff;margin-left:6px;" onclick="exportarEstadisticasACSV()">📊 Exportar CSV</button>
+        <button class="admin-btn purple" onclick="exportarEstadisticasACSV()">📊 Exportar CSV</button>
+        <button class="admin-btn orange" onclick="document.getElementById('import-json-file').click()">📥 Importar JSON archivo</button>
+        <input type="file" id="import-json-file" accept=".json" style="display:none;" onchange="importarJSONArchivo(event)">
       </div>
-      <div class="admin-panel" style="margin-top:12px;">
-        <h3>💾 Guardar cambios</h3>
-        <p style="font-size:11px;color:var(--text-muted);">Los resultados se guardan automáticamente en Firebase al editar cada partido.</p>
+      <div class="admin-panel">
+        <h3>💾 Guardar todo</h3>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Los resultados se guardan en Firebase al editar cada partido. Usa esto para forzar guardado de todo.</p>
         <button class="admin-btn" onclick="guardarTodoFirebase()">☁️ Guardar todo en Firebase</button>
       </div>
     </div>
@@ -318,6 +336,18 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
     <p style="margin-top:8px;">💻 Desarrollado por MSc. Orlando Silva</p>
   </div>
 
+</div>
+
+<!-- ===== MODAL ESTADÍSTICAS POR PARTIDO ===== -->
+<div id="stats-modal" class="modal-stats">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title" id="stats-modal-title">Registrar Estadísticas</div>
+      <button class="modal-close" onclick="closeStatsModal()">✕</button>
+    </div>
+    <div id="stats-modal-body"></div>
+    <button class="btn-save-stats" onclick="saveMatchStats()">💾 Guardar Estadísticas</button>
+  </div>
 </div>
 
 <!-- ===== MODAL FICHA ===== -->
@@ -352,17 +382,15 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
 <!-- DATOS: EQUIPOS Y CALENDARIO (CATEGORÍA A)                    -->
 <!-- ============================================================ -->
 <script>
-// ==================== EQUIPOS CATEGORÍA A ====================
 const TEAMS = [
-  // ===== FEMENINO A (6 equipos, un solo grupo) =====
+  // FEMENINO A
   {n:"Chikas", c:"Femenino", g:"A", p:[]},
   {n:"Club Marcelino Alvarado", c:"Femenino", g:"A", p:[]},
   {n:"Team Frutas", c:"Femenino", g:"A", p:[]},
   {n:"Las Toñecas", c:"Femenino", g:"A", p:[]},
   {n:"Centinelas", c:"Femenino", g:"A", p:[]},
   {n:"Chicas del Hato", c:"Femenino", g:"A", p:[]},
-
-  // ===== MASCULINO A (9 equipos, un solo grupo) =====
+  // MASCULINO A
   {n:"Familia Ortega", c:"Masculino", g:"A", p:[]},
   {n:"Guerreros", c:"Masculino", g:"A", p:[]},
   {n:"Servihidra", c:"Masculino", g:"A", p:[]},
@@ -374,13 +402,9 @@ const TEAMS = [
   {n:"Feria Bolivariana", c:"Masculino", g:"A", p:[]}
 ];
 
-// ==================== CALENDARIO SEMANA 1 - CATEGORÍA A ====================
 const MATCHES = [
-  // Viernes 18/09 - 8:00pm (Gran Inauguración)
   {id:1, c:"Femenino", g:"A", a:"Club Marcelino Alvarado", b:"Chikas", d:"18/09/2026", dy:"Viernes", h:"8:00pm", f:"Cancha 1", w:"S1"},
   {id:2, c:"Masculino", g:"A", a:"Familia Ortega", b:"Guerreros", d:"18/09/2026", dy:"Viernes", h:"8:00pm", f:"Cancha 2", w:"S1"},
-  
-  // Sábado 19/09 - 6:00pm
   {id:3, c:"Masculino", g:"A", a:"Novatos de la Tapa", b:"Gladiadores del Cerrito", d:"19/09/2026", dy:"Sábado", h:"6:00pm", f:"Cancha 1", w:"S1"}
 ];
 </script>
@@ -412,27 +436,20 @@ const MATCHES = [
   window.fbCollection = collection;
   window.fbGetDocs = getDocs;
 
-  // Cargar resultados filtrados por torneo:navidad + categoria:A
   window.cargarResultados = async function() {
     try {
       const snap = await getDocs(collection(db, "resultados"));
       const res = {};
       snap.forEach(d => {
         const data = d.data();
-        // Filtrar por torneo y categoría
         if (data.torneo === "navidad" && data.categoria === "A") {
           res[d.id] = data;
         }
-        // Compatibilidad: si no tiene torneo (datos viejos), ignorar
       });
       return res;
-    } catch(e) {
-      console.error("Error cargando resultados:", e);
-      return {};
-    }
+    } catch(e) { console.error("Error:", e); return {}; }
   };
 
-  // Cargar estadísticas filtradas
   window.cargarEstadisticas = async function() {
     try {
       const snap = await getDocs(collection(db, "estadisticas"));
@@ -444,48 +461,68 @@ const MATCHES = [
         }
       });
       return res;
-    } catch(e) {
-      console.error("Error cargando estadísticas:", e);
-      return {};
-    }
+    } catch(e) { console.error("Error:", e); return {}; }
   };
 
-  // Guardar resultado
+  window.cargarMVP = async function() {
+    try {
+      const snap = await getDocs(collection(db, "mvp"));
+      const res = {};
+      snap.forEach(d => {
+        const data = d.data();
+        if (data.torneo === "navidad" && data.categoria === "A") {
+          res[d.id] = data;
+        }
+      });
+      return res;
+    } catch(e) { return {}; }
+  };
+
+  window.cargarEstadisticasPorPartido = async function() {
+    try {
+      const snap = await getDocs(collection(db, "estadisticasPorPartido"));
+      const res = {};
+      snap.forEach(d => {
+        const data = d.data();
+        if (data.torneo === "navidad" && data.categoria === "A") {
+          res[d.id] = data;
+        }
+      });
+      return res;
+    } catch(e) { return {}; }
+  };
+
   window.guardarResultadoFB = async function(matchId, data) {
     try {
       const docRef = doc(db, "resultados", String(matchId));
       if (data === null) {
         await deleteDoc(docRef);
       } else {
-        const plainData = JSON.parse(JSON.stringify({
-          ...data,
-          torneo: "navidad",
-          categoria: "A"
-        }));
-        await setDoc(docRef, plainData);
+        await setDoc(docRef, JSON.parse(JSON.stringify({...data, torneo:"navidad", categoria:"A"})));
       }
       return true;
-    } catch(e) {
-      console.error("Error guardando:", e);
-      return false;
-    }
+    } catch(e) { console.error(e); return false; }
   };
 
-  // Guardar estadísticas
   window.guardarEstadisticasFB = async function(key, data) {
     try {
-      const docRef = doc(db, "estadisticas", key);
-      const plainData = JSON.parse(JSON.stringify({
-        ...data,
-        torneo: "navidad",
-        categoria: "A"
-      }));
-      await setDoc(docRef, plainData);
+      await setDoc(doc(db, "estadisticas", key), JSON.parse(JSON.stringify({...data, torneo:"navidad", categoria:"A"})));
       return true;
-    } catch(e) {
-      console.error("Error guardando stats:", e);
-      return false;
-    }
+    } catch(e) { console.error(e); return false; }
+  };
+
+  window.guardarMVPFB = async function(matchId, data) {
+    try {
+      await setDoc(doc(db, "mvp", String(matchId)), JSON.parse(JSON.stringify({...data, torneo:"navidad", categoria:"A"})));
+      return true;
+    } catch(e) { return false; }
+  };
+
+  window.guardarEstadisticasPorPartidoFB = async function(matchId, data) {
+    try {
+      await setDoc(doc(db, "estadisticasPorPartido", String(matchId)), JSON.parse(JSON.stringify({...data, torneo:"navidad", categoria:"A"})));
+      return true;
+    } catch(e) { return false; }
   };
 
   console.log("✅ Firebase Cat. A inicializado");
@@ -498,6 +535,7 @@ const MATCHES = [
 let R = {}, PS = {}, MVP = {};
 let F = {tCat:'Femenino', mCat:'Femenino', sCat:'Femenino', aCat:'Femenino', aQ:''};
 let adminHabilitado = false;
+let currentMatchId = null;
 const CLAVE_ADMIN = 'sibarita2026';
 
 function g(id){return document.getElementById(id);}
@@ -515,7 +553,6 @@ function showTab(id, btn){
   else if(id==='videos') cargarVideos();
 }
 
-// ==================== FILTROS ====================
 function setF(k,v){
   F[k]=v;
   const maps = {
@@ -543,7 +580,7 @@ function searchTeams(q){
   TEAMS.forEach(t=>{
     const pm = t.p.filter(p=>p.toLowerCase().includes(ql));
     if(t.n.toLowerCase().includes(ql) || pm.length){
-      h += `<div class="card"><div style="font-size:12px;font-weight:bold;color:var(--primary);margin-bottom:5px;">${t.n} <span style="font-size:10px;color:var(--text-muted);">${t.c}</span></div>`;
+      h += `<div class="card"><div style="font-size:12px;font-weight:bold;color:var(--primary);margin-bottom:5px;">${t.n}</div>`;
       pm.forEach(p=> h += `<div style="font-size:11px;padding:2px 0;">👤 ${p}</div>`);
       h += '</div>';
     }
@@ -553,7 +590,7 @@ function searchTeams(q){
 
 function rT(){
   const filtered = TEAMS.filter(t=>t.c===F.tCat);
-  g('t-cnt').textContent = filtered.length + ' EQUIPOS — ' + F.tCat + ' · Categoría A';
+  g('t-cnt').textContent = filtered.length + ' EQUIPOS — ' + F.tCat;
   g('t-list').innerHTML = filtered.map(t=>
     `<div class="tc" onclick="openTeam('${t.n.replace(/'/g,"\\'")}')">
       <div>
@@ -604,12 +641,10 @@ function closeDetail(){g('teams-wrap').style.display='block';g('t-detail').style
 // ==================== PARTIDOS ====================
 function rM(){
   const weeks = ['S1'];
-  g('m-weeks').innerHTML = weeks.map(w=>
-    `<button class="fb on" onclick="F.mWk='${w}';rM();">Semana 1</button>`
-  ).join('');
+  g('m-weeks').innerHTML = weeks.map(w=>`<button class="fb on">Semana 1</button>`).join('');
   
   const filtered = MATCHES.filter(m=>m.c===F.mCat);
-  g('m-cnt').textContent = filtered.length + ' PARTIDOS — ' + F.mCat + ' · Categoría A';
+  g('m-cnt').textContent = filtered.length + ' PARTIDOS — ' + F.mCat;
   
   if(filtered.length === 0){
     g('m-list').innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin partidos programados</div>';
@@ -631,15 +666,15 @@ function rM(){
           <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
           <span class="sep">—</span>
           <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
-        </div>
+        </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
         <div style="text-align:center;margin-top:4px;">
           <span class="rtag done">✓ Final</span>
           <button onclick="borrarResultado(${m.id})" style="background:transparent;border:none;color:var(--text-muted);font-size:10px;cursor:pointer;">✕</button>
         </div>
+        <button class="stats-btn" onclick="openStatsModal(${m.id})">📊 Estadísticas</button>
         ${mv ? `<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">MVP</div><div class="mvp-name">${mv.name}</div></div></div>` : ''}`;
       } else {
         inner = `<div style="font-size:14px;text-align:center;">🎯</div>
-          <div style="font-size:11px;color:var(--text-muted);text-align:center;padding:4px;">VS</div>
           <div class="srow">
             <input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0">
             <span class="sep">—</span>
@@ -654,11 +689,11 @@ function rM(){
           <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
           <span class="sep">—</span>
           <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
-        </div>
+        </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
         <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>
         ${mv ? `<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">MVP</div><div class="mvp-name">${mv.name}</div></div></div>` : ''}`;
       } else {
-        inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:11px;color:var(--text-muted);text-align:center;padding:4px;">Pendiente</div>`;
+        inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:11px;color:var(--text-muted);padding:4px;">Pendiente</div>`;
       }
     }
     
@@ -704,6 +739,125 @@ function forfeitResultado(id){
   else return;
   if(window.guardarResultadoFB) window.guardarResultadoFB(id, R[id]);
   rM(); rSt();
+}
+
+// ==================== ESTADÍSTICAS POR PARTIDO ====================
+function openStatsModal(matchId){
+  const m = MATCHES.find(x=>x.id===matchId);
+  if(!m) return;
+  currentMatchId = matchId;
+  const matchStats = JSON.parse(localStorage.getItem(`match_stats_A_${matchId}`)) || {};
+  g('stats-modal-title').innerHTML = `📊 ${m.a} vs ${m.b}<br><span style="font-size:10px;">${m.d} · ${m.f}</span>`;
+  
+  let html = '';
+  function getStatsForPlayer(teamName, playerName){
+    const key = `${teamName}|${playerName}`;
+    return matchStats[key] || {arr_b:0,total_arr:0,boc_b:0,total_boc:0};
+  }
+  
+  [m.a, m.b].forEach(teamName=>{
+    const team = TEAMS.find(t=>t.n===teamName);
+    if(!team || team.p.length === 0){
+      html += `<div class="lbl">🏆 ${teamName}</div><p style="font-size:11px;color:var(--text-muted);padding:8px;">Plantilla por definir</p>`;
+      return;
+    }
+    html += `<div class="lbl">🏆 ${teamName}</div>`;
+    team.p.forEach(p=>{
+      const stats = getStatsForPlayer(teamName, p);
+      const safeKey = p.replace(/[^a-zA-Z0-9]/g,'_');
+      html += `<div class="player-stats-row"><div class="player-name">${p}</div><div class="stats-grid">
+        <div class="stat-item-m"><label class="stat-label">🎯 arr_b</label><input type="number" class="stat-input" id="arr_b_${safeKey}" value="${stats.arr_b}"></div>
+        <div class="stat-item-m"><label class="stat-label">📊 total_arr</label><input type="number" class="stat-input" id="total_arr_${safeKey}" value="${stats.total_arr}"></div>
+        <div class="stat-item-m"><label class="stat-label">💥 boc_b</label><input type="number" class="stat-input" id="boc_b_${safeKey}" value="${stats.boc_b}"></div>
+        <div class="stat-item-m"><label class="stat-label">📊 total_boc</label><input type="number" class="stat-input" id="total_boc_${safeKey}" value="${stats.total_boc}"></div>
+      </div></div>`;
+    });
+  });
+  
+  g('stats-modal-body').innerHTML = html;
+  g('stats-modal').classList.add('on');
+}
+
+function saveMatchStats(){
+  const m = MATCHES.find(x=>x.id===currentMatchId);
+  if(!m) return;
+  const stats = {};
+  [m.a, m.b].forEach(teamName=>{
+    const team = TEAMS.find(t=>t.n===teamName);
+    if(team && team.p.length > 0){
+      team.p.forEach(player=>{
+        const safeKey = player.replace(/[^a-zA-Z0-9]/g,'_');
+        const arr_b = parseInt(g(`arr_b_${safeKey}`)?.value)||0;
+        const total_arr = parseInt(g(`total_arr_${safeKey}`)?.value)||0;
+        const boc_b = parseInt(g(`boc_b_${safeKey}`)?.value)||0;
+        const total_boc = parseInt(g(`total_boc_${safeKey}`)?.value)||0;
+        stats[`${teamName}|${player}`] = {arr_b,total_arr,boc_b,total_boc};
+      });
+    }
+  });
+  localStorage.setItem(`match_stats_A_${currentMatchId}`, JSON.stringify(stats));
+  if(window.guardarEstadisticasPorPartidoFB) window.guardarEstadisticasPorPartidoFB(currentMatchId, stats);
+  
+  // Recalcular totales por jugador
+  const afectados = Object.keys(stats);
+  afectados.forEach(k=>{
+    if(!PS[k]) PS[k] = {};
+    PS[k].partidos = (PS[k].partidos||0) + 1;
+    PS[k].arr_b = (PS[k].arr_b||0) + stats[k].arr_b;
+    PS[k].total_arr = (PS[k].total_arr||0) + stats[k].total_arr;
+    PS[k].boc_b = (PS[k].boc_b||0) + stats[k].boc_b;
+    PS[k].total_boc = (PS[k].total_boc||0) + stats[k].total_boc;
+    if(window.guardarEstadisticasFB) window.guardarEstadisticasFB(k, PS[k]);
+  });
+  
+  closeStatsModal();
+  alert('✅ Estadísticas guardadas');
+  rA();
+}
+
+function closeStatsModal(){
+  g('stats-modal').classList.remove('on');
+  currentMatchId = null;
+}
+
+// ==================== IMPORTAR JSON ====================
+function importarJSON(){
+  const input = g('json-input').value.trim();
+  if(!input){alert('Pega el JSON');return;}
+  try {
+    const data = JSON.parse(input);
+    if(!Array.isArray(data)) throw new Error('Debe ser un array de partidos');
+    let importados = 0;
+    data.forEach(item=>{
+      if(item.id && item.scoreA !== undefined && item.scoreB !== undefined){
+        R[item.id] = {scoreA:item.scoreA, scoreB:item.scoreB, status: item.status || 'done'};
+        if(window.guardarResultadoFB) window.guardarResultadoFB(item.id, R[item.id]);
+        importados++;
+      }
+    });
+    alert(`✅ ${importados} resultados importados`);
+    g('json-input').value = '';
+    rM(); rSt();
+  } catch(e){
+    alert('❌ Error: ' + e.message);
+  }
+}
+
+function importarJSONArchivo(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev)=>{
+    g('json-input').value = ev.target.result;
+    importarJSON();
+  };
+  reader.readAsText(file);
+}
+
+function generarPlantillaJSON(){
+  const partidos = MATCHES.map(m=>`  {"id":${m.id},"scoreA":0,"scoreB":0,"status":"done"} // ${m.a} vs ${m.b}`);
+  const plantilla = `[\n${partidos.join(',\n')}\n]`;
+  g('json-input').value = plantilla;
 }
 
 // ==================== TABLA ====================
@@ -759,7 +913,7 @@ function rA(){
       const eBoc = bocT>0?Math.round((bocB/bocT)*100):0;
       const tb = arrB+bocB, ti = arrT+bocT;
       const eTot = ti>0?Math.round((tb/ti)*100):0;
-      players.push({name:p,team:t.n,partidos:ps.partidos||0,eArr,eBoc,eTot,arrB,arrT,bocB,bocT});
+      players.push({name:p,team:t.n,partidos:ps.partidos||0,eArr,eBoc,eTot});
     });
   });
   players.sort((a,b)=>b.eTot-a.eTot);
@@ -817,16 +971,15 @@ function agregarPartido(){
   const semana = g('ap-semana').value.trim() || 'S1';
   if(!local || !vis || !fecha || !hora){alert('Completa todos los campos');return;}
   const newId = Math.max(...MATCHES.map(m=>m.id), 0) + 1;
-  // Convertir fecha a formato dd/mm/yyyy
   const [y,m,d] = fecha.split('-');
   const fechaFmt = `${d}/${m}/${y}`;
   MATCHES.push({id:newId, c:cat, g:"A", a:local, b:vis, d:fechaFmt, dy:"-", h:hora, f:cancha, w:semana});
-  alert('✅ Partido agregado (guárdalo manualmente en el código)');
+  alert('✅ Partido agregado (recuerda agregarlo al código)');
   rM();
 }
 
 function exportarResultados(){
-  const data = {resultados:R, estadisticas:PS, torneo:"navidad", categoria:"A"};
+  const data = {resultados:R, mvp:MVP, estadisticas:PS, torneo:"navidad", categoria:"A"};
   const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -950,11 +1103,9 @@ async function init(){
   console.log('🔄 Cargando datos Cat. A...');
   if(window.cargarResultados) R = await window.cargarResultados();
   if(window.cargarEstadisticas) PS = await window.cargarEstadisticas();
-  console.log('✅ Resultados:', Object.keys(R).length, '| Estadísticas:', Object.keys(PS).length);
-  rT();
-  rM();
-  rSt();
-  rA();
+  if(window.cargarMVP) MVP = await window.cargarMVP();
+  console.log('✅ R:', Object.keys(R).length, '| PS:', Object.keys(PS).length, '| MVP:', Object.keys(MVP).length);
+  rT(); rM(); rSt(); rA();
 }
 setTimeout(init, 500);
 </script>
