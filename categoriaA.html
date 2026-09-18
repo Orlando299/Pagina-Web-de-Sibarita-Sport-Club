@@ -367,7 +367,17 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
       <button class="modal-close" onclick="closeStatsModal()">✕</button>
     </div>
     <div id="stats-modal-body"></div>
-    <button class="btn-save-stats" onclick="saveMatchStats()">💾 Guardar Estadísticas</button>
+
+    <!-- Selector de MVP -->
+    <div style="margin-top:15px; padding:12px; background:var(--card); border-radius:10px; border:1px solid var(--border);">
+      <label style="display:block; font-size:12px; color:var(--primary); font-weight:bold; margin-bottom:8px; text-transform:uppercase; letter-spacing:1px;">🏅 Jugador Más Valioso (MVP)</label>
+      <select id="mvp-select" style="width:100%; padding:10px; background:var(--card-2); border:1px solid var(--border); border-radius:7px; color:var(--text); font-size:13px; font-family:inherit;">
+        <option value="">— Sin MVP por ahora —</option>
+      </select>
+      <p style="font-size:10px; color:var(--text-muted); margin-top:6px;">Elige al jugador más destacado del partido.</p>
+    </div>
+
+    <button class="btn-save-stats" onclick="saveMatchStats()">💾 Guardar Estadísticas y MVP</button>
   </div>
 </div>
 
@@ -805,13 +815,15 @@ function openStatsModal(matchId){
   currentMatchId = matchId;
   const matchStats = JSON.parse(localStorage.getItem(`match_stats_A_${matchId}`)) || {};
   g('stats-modal-title').innerHTML = `📊 ${m.a} vs ${m.b}<br><span style="font-size:10px;">${m.d} · ${m.f}</span>`;
-  
+
   let html = '';
+  let opcionesMVP = '<option value="">— Sin MVP por ahora —</option>';
+
   function getStatsForPlayer(teamName, playerName){
     const key = `${teamName}|${playerName}`;
     return matchStats[key] || {arr_b:0,total_arr:0,boc_b:0,total_boc:0};
   }
-  
+
   [m.a, m.b].forEach(teamName=>{
     const team = TEAMS.find(t=>t.n===teamName);
     if(!team || team.p.length === 0){
@@ -828,10 +840,20 @@ function openStatsModal(matchId){
         <div class="stat-item-m"><label class="stat-label">💥 boc_b</label><input type="number" class="stat-input" id="boc_b_${safeKey}" value="${stats.boc_b}"></div>
         <div class="stat-item-m"><label class="stat-label">📊 total_boc</label><input type="number" class="stat-input" id="total_boc_${safeKey}" value="${stats.total_boc}"></div>
       </div></div>`;
+      // Agregar opción al select de MVP
+      opcionesMVP += `<option value="${teamName}|${p}">${p} (${teamName})</option>`;
     });
   });
-  
+
   g('stats-modal-body').innerHTML = html;
+  g('mvp-select').innerHTML = opcionesMVP;
+
+  // Si ya hay MVP guardado para este partido, seleccionarlo
+  const mvpGuardado = MVP[matchId];
+  if(mvpGuardado && mvpGuardado.key){
+    g('mvp-select').value = mvpGuardado.key;
+  }
+
   g('stats-modal').classList.add('on');
 }
 
@@ -854,8 +876,32 @@ function saveMatchStats(){
   });
   localStorage.setItem(`match_stats_A_${currentMatchId}`, JSON.stringify(stats));
   if(window.guardarEstadisticasPorPartidoFB) window.guardarEstadisticasPorPartidoFB(currentMatchId, stats);
-  
-  // Recalcular totales por jugador
+
+  // ===== GUARDAR MVP =====
+  const mvpKey = g('mvp-select').value;
+  if(mvpKey){
+    const parts = mvpKey.split('|');
+    const teamName = parts[0];
+    const playerName = parts[1];
+    const playerStats = stats[mvpKey] || {};
+    const totalB = (playerStats.arr_b||0) + (playerStats.boc_b||0);
+    const totalI = (playerStats.total_arr||0) + (playerStats.total_boc||0);
+    const efec = totalI > 0 ? Math.round((totalB/totalI)*100) : 0;
+    MVP[currentMatchId] = {
+      key: mvpKey,
+      name: playerName,
+      team: teamName,
+      efec: efec
+    };
+    if(window.guardarMVPFB) window.guardarMVPFB(currentMatchId, MVP[currentMatchId]);
+  } else {
+    // Si se deselecciona, borrar el MVP
+    if(MVP[currentMatchId]){
+      delete MVP[currentMatchId];
+    }
+  }
+
+  // ===== RECALCULAR TOTALES POR JUGADOR =====
   const afectados = Object.keys(stats);
   afectados.forEach(k=>{
     if(!PS[k]) PS[k] = {};
@@ -866,10 +912,10 @@ function saveMatchStats(){
     PS[k].total_boc = (PS[k].total_boc||0) + stats[k].total_boc;
     if(window.guardarEstadisticasFB) window.guardarEstadisticasFB(k, PS[k]);
   });
-  
+
   closeStatsModal();
-  alert('✅ Estadísticas guardadas');
-  rA();
+  alert('✅ Estadísticas y MVP guardados');
+  rM(); rA();
 }
 
 function closeStatsModal(){
