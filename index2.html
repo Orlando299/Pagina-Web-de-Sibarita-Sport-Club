@@ -7,190 +7,344 @@
   <meta name="google-adsense-account" content="ca-pub-5125085567413576">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5125085567413576" crossorigin="anonymous"></script>
   <style>
-    /* ===== RESET Y ESTILOS BASE ===== */
+    /* ===== RESET ===== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ===== FONDO ANIMADO ===== */
     body {
       font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-      background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+      background: linear-gradient(135deg, #0a1628 0%, #16213e 50%, #0f3460 100%);
       background-attachment: fixed;
       color: #f0e6d3;
-      padding: 20px;
       min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
     }
-    .container { max-width: 1200px; margin: 0 auto; }
 
-    /* ===== HEADER ===== */
+    /* Partículas doradas */
+    #particulas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .particula {
+      position: absolute;
+      background: radial-gradient(circle, #e8b84b 0%, rgba(232,184,75,0.3) 60%, transparent 100%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: flotar linear infinite;
+    }
+    @keyframes flotar {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.7; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(-100px) scale(1); opacity: 0; }
+    }
+
+    /* ===== CONTENEDOR ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ===== HEADER CON LOGO ===== */
     header {
       text-align: center;
       padding: 30px 0 25px;
       border-bottom: 3px solid #e8b84b;
-      margin-bottom: 30px;
+      margin-bottom: 35px;
+      animation: fadeInDown 0.8s ease;
     }
+
+    /* Logo */
+    .logo-principal {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .logo-principal img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #e8b84b;
+      box-shadow: 0 0 40px rgba(232, 184, 75, 0.6),
+                  0 0 80px rgba(232, 184, 75, 0.3);
+      animation: pulso 2.5s ease-in-out infinite;
+      background: #fff;
+      padding: 4px;
+      object-fit: cover;
+    }
+    @keyframes pulso {
+      0%, 100% { box-shadow: 0 0 40px rgba(232, 184, 75, 0.6), 0 0 80px rgba(232, 184, 75, 0.3); transform: scale(1); }
+      50%      { box-shadow: 0 0 60px rgba(232, 184, 75, 0.9), 0 0 120px rgba(232, 184, 75, 0.5); transform: scale(1.03); }
+    }
+
+    /* Título con efecto brillo */
     header h1 {
       font-size: 2.8rem;
-      font-weight: 800;
-      color: #e8b84b;
+      font-weight: 900;
       letter-spacing: -0.5px;
-      text-shadow: 0 2px 10px rgba(232, 184, 75, 0.3);
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #e8b84b 0%, #f39c12 25%, #ffd700 50%, #f39c12 75%, #e8b84b 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: brillo 4s linear infinite;
+      text-shadow: 0 0 30px rgba(232, 184, 75, 0.3);
+    }
+    @keyframes brillo {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
     }
     header h1 span {
       color: #f0e6d3;
+      -webkit-text-fill-color: #f0e6d3;
     }
-    header p {
+    header .subtitulo {
       color: #cbd5e1;
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       margin-top: 8px;
+      font-weight: 500;
     }
-    header p.sub {
-      font-size: 0.9rem;
-      color: #8899aa;
-      margin-top: 4px;
+    header .fechas {
+      color: #e8b84b;
+      font-size: 0.95rem;
+      margin-top: 8px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
-    /* ===== TARJETAS DE ACCESO A TORNEOS ===== */
+    /* ===== TARJETAS DE ACCESO ===== */
     .cards-torneos {
       display: flex;
       flex-wrap: wrap;
       gap: 25px;
       justify-content: center;
-      margin: 30px 0 40px;
+      margin: 30px 0 50px;
     }
     .card-torneo {
-      background: linear-gradient(135deg, #1a2a4a, #0f1f3a);
+      background: linear-gradient(145deg, rgba(26,42,74,0.95), rgba(15,31,58,0.95));
       border-radius: 24px;
-      padding: 30px 25px;
-      width: 280px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      padding: 35px 25px 30px;
+      width: 300px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
       text-align: center;
       text-decoration: none;
       color: #f0e6d3;
-      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-      border: 2px solid transparent;
-      flex: 1 1 240px;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: 2px solid rgba(232, 184, 75, 0.15);
+      flex: 1 1 260px;
+      max-width: 340px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: entradaCard 0.7s ease forwards;
     }
+    .card-torneo:nth-child(1) { animation-delay: 0.2s; }
+    .card-torneo:nth-child(2) { animation-delay: 0.4s; }
+    .card-torneo:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes entradaCard {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Brillo que pasa al hover */
+    .card-torneo::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 70%
+      );
+      transform: translateX(-100%);
+      transition: transform 0.8s;
+      pointer-events: none;
+    }
+    .card-torneo:hover::before {
+      transform: translateX(100%);
+    }
+
     .card-torneo:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5);
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
     }
+
     .card-torneo .icono {
-      font-size: 3rem;
+      font-size: 3.5rem;
       display: block;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      transition: transform 0.3s;
     }
+    .card-torneo:hover .icono {
+      transform: scale(1.15) rotate(-5deg);
+    }
+
     .card-torneo h2 {
-      font-size: 1.6rem;
-      margin-bottom: 8px;
-      color: #e8b84b;
+      font-size: 1.7rem;
+      margin-bottom: 10px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
     }
+
     .card-torneo p {
       color: #cbd5e1;
       font-size: 0.95rem;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
       line-height: 1.5;
     }
+
     .card-torneo .btn-acceso {
       display: inline-block;
-      background: #e8b84b;
-      color: #0f1a0f;
-      padding: 10px 28px;
+      padding: 12px 32px;
       border-radius: 60px;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.95rem;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .card-torneo .btn-acceso:hover {
-      background: #f39c12;
-      transform: scale(1.05);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
-    /* ===== TARJETA HISTÓRICO (APERTURA) ===== */
+    /* Histórico */
     .card-apertura {
-      border-top: 6px solid #94a3b8;
+      border-color: rgba(148, 163, 184, 0.3);
     }
     .card-apertura:hover {
       border-color: #94a3b8;
+      box-shadow: 0 20px 60px rgba(148, 163, 184, 0.25);
     }
-    .card-apertura h2 {
-      color: #cbd5e1;
-    }
+    .card-apertura h2 { color: #cbd5e1; }
     .card-apertura .btn-acceso {
-      background: #64748b;
+      background: linear-gradient(135deg, #64748b, #94a3b8);
       color: #fff;
     }
     .card-apertura .btn-acceso:hover {
-      background: #475569;
+      background: linear-gradient(135deg, #94a3b8, #cbd5e1);
+      transform: scale(1.05);
     }
 
-    /* ===== TARJETA CATEGORÍA A (DORADO/VERDE) ===== */
+    /* Categoría A */
     .card-navidad-a {
-      border-top: 6px solid #d4a017;
-      background: linear-gradient(135deg, #1a2a1a, #0f1f0f);
+      border-color: rgba(212, 160, 23, 0.3);
+      background: linear-gradient(145deg, rgba(26,42,26,0.95), rgba(15,31,15,0.95));
     }
     .card-navidad-a:hover {
       border-color: #d4a017;
-      box-shadow: 0 16px 45px rgba(212, 160, 23, 0.25);
+      box-shadow: 0 20px 60px rgba(212, 160, 23, 0.4);
     }
     .card-navidad-a h2 {
       color: #d4a017;
+      text-shadow: 0 0 20px rgba(212, 160, 23, 0.5);
     }
     .card-navidad-a .btn-acceso {
-      background: #d4a017;
+      background: linear-gradient(135deg, #d4a017, #f39c12);
       color: #0f1a0f;
     }
     .card-navidad-a .btn-acceso:hover {
-      background: #f39c12;
+      background: linear-gradient(135deg, #f39c12, #ffd700);
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(212, 160, 23, 0.6);
     }
 
-    /* ===== TARJETA CATEGORÍA B (AZUL/NARANJA) ===== */
+    /* Categoría B */
     .card-navidad-b {
-      border-top: 6px solid #2980b9;
-      background: linear-gradient(135deg, #0f2438, #0a1a2c);
+      border-color: rgba(41, 128, 185, 0.3);
+      background: linear-gradient(145deg, rgba(15,36,56,0.95), rgba(10,26,44,0.95));
     }
     .card-navidad-b:hover {
       border-color: #2980b9;
-      box-shadow: 0 16px 45px rgba(41, 128, 185, 0.3);
+      box-shadow: 0 20px 60px rgba(41, 128, 185, 0.4);
     }
     .card-navidad-b h2 {
       color: #4facfe;
+      text-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
     }
     .card-navidad-b .btn-acceso {
-      background: #2980b9;
+      background: linear-gradient(135deg, #2980b9, #4facfe);
       color: #fff;
     }
     .card-navidad-b .btn-acceso:hover {
-      background: #e67e22;
+      background: linear-gradient(135deg, #e67e22, #f39c12);
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(230, 126, 34, 0.6);
     }
 
-    /* ===== PIE ===== */
+    /* ===== FOOTER ===== */
     footer {
       margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid #0f3460;
+      padding-top: 25px;
+      border-top: 1px solid rgba(232, 184, 75, 0.3);
       text-align: center;
       color: #8899aa;
       font-size: 0.9rem;
+      animation: fadeInUp 1s ease;
     }
     footer a {
       color: #e8b84b;
       text-decoration: none;
+      transition: color 0.2s;
     }
+    footer a:hover { color: #ffd700; }
     footer strong {
       color: #e8b84b;
+      letter-spacing: 1px;
+    }
+
+    /* ===== ANIMACIONES GENERALES ===== */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 700px) {
       header h1 { font-size: 2rem; }
-      .card-torneo { flex: 1 1 100%; }
+      .logo-principal img { width: 90px; height: 90px; }
+      .card-torneo {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
     }
   </style>
 </head>
 <body>
+
+<!-- Partículas animadas de fondo -->
+<div id="particulas"></div>
+
 <div class="container">
   <header>
+    <!-- LOGO -->
+    <div class="logo-principal">
+      <img src="https://i.imgur.com/HbKo42m.png" alt="Sibarita Sport Club">
+    </div>
+
     <h1>🏆 <span>Sibarita</span> Sport Club</h1>
-    <p>Copa Navidad 2026 · Torneo de Bolas Criollas</p>
-    <p class="sub">Inicio: 18/09 · Congresillo: 15/09</p>
+    <p class="subtitulo">Copa Navidad 2026 · Torneo de Bolas Criollas</p>
+    <p class="fechas">🎄 Inicio: 18/09 · Congresillo: 15/09</p>
   </header>
 
   <div class="cards-torneos">
@@ -221,14 +375,37 @@
 
   <footer>
     <p>
-      <strong>Sibarita Sport Club</strong> · Araúre · Portuguesa<br />
-      Información: Arq. Berly Salazar · 📞 0412-739.65.16 / 0416-628.60.51
+      <strong>SIBARITA SPORT CLUB</strong><br />
+      Araúre · Portuguesa
     </p>
     <p style="margin-top: 8px;">
+      Información: Arq. Berly Salazar · 📞 0412-739.65.16 / 0416-628.60.51
+    </p>
+    <p style="margin-top: 10px;">
       <a href="#">Volver arriba</a> · 
       <span style="color: #64748b;">Versión informativa</span>
     </p>
   </footer>
 </div>
+
+<!-- Script de partículas -->
+<script>
+  (function generarParticulas() {
+    const contenedor = document.getElementById('particulas');
+    const cantidad = 35; // Número de partículas
+    for (let i = 0; i < cantidad; i++) {
+      const p = document.createElement('div');
+      p.className = 'particula';
+      const tamaño = Math.random() * 6 + 3; // Entre 3px y 9px
+      p.style.width = tamaño + 'px';
+      p.style.height = tamaño + 'px';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (Math.random() * 10 + 8) + 's'; // Entre 8s y 18s
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      contenedor.appendChild(p);
+    }
+  })();
+</script>
+
 </body>
 </html>
