@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instructivo de Uso - Sibarita Sport Club</title>
+    <title>Instructivo de Uso - Copa Navidad 2026 | Sibarita Sport Club</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -161,6 +161,51 @@
             font-weight: 600;
             margin-left: 8px;
         }
+
+        /* ===== TARJETAS DEL PORTAL (REFERENCIA VISUAL) ===== */
+        .tarjetas-referencia {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .tarjeta-ref {
+            flex: 1 1 200px;
+            border-radius: 16px;
+            padding: 18px 15px;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+        .tarjeta-ref .icono {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .tarjeta-ref h4 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+        .tarjeta-ref p {
+            font-size: 0.8rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+        .tarjeta-apertura {
+            background: linear-gradient(145deg, #1a2a3a, #0f1f2a);
+            border-color: #94a3b8;
+        }
+        .tarjeta-apertura h4 { color: #cbd5e1; }
+        .tarjeta-catA {
+            background: linear-gradient(145deg, #1a2a1a, #0f1f0f);
+            border-color: #d4a017;
+        }
+        .tarjeta-catA h4 { color: #d4a017; }
+        .tarjeta-catB {
+            background: linear-gradient(145deg, #0f2438, #0a1a2c);
+            border-color: #2980b9;
+        }
+        .tarjeta-catB h4 { color: #4facfe; }
+
         @media (max-width: 600px) {
             .container { padding: 18px 15px; }
             h1 { font-size: 22px; }
@@ -175,44 +220,116 @@
 
     <h1>📖 Instructivo de Uso</h1>
     <div class="subtitle">
-        <strong>Sibarita Sport Club</strong> — 2do Campeonato Bolas Criollas 2026<br>
+        <strong>Sibarita Sport Club</strong> — Copa Navidad 2026<br>
         <span style="font-size:13px;">Sitio web oficial: <a href="https://sibaritasc.com" target="_blank">https://sibaritasc.com</a></span>
         <span class="ssl-badge">🔒 HTTPS / SSL</span>
     </div>
 
-    <!-- ===================== SECCIÓN JUGADORES ===================== -->
-    <h2>👥 Para Jugadores</h2>
-    <p>Bienvenido al sistema oficial del torneo. Aquí puedes consultar toda la información actualizada:</p>
+    <!-- ===================== BIENVENIDA ===================== -->
+    <h2>👋 ¡Bienvenido a la Copa Navidad 2026!</h2>
+    <p>Este instructivo te guiará paso a paso por el sitio web oficial del torneo. Aquí encontrarás toda la información actualizada: equipos, partidos, tablas, estadísticas, videos, noticias y mucho más.</p>
+    <p>💡 <em>Todo el contenido se actualiza en tiempo real. ¡Mantente al día!</em></p>
+
+    <!-- ===================== PORTAL PRINCIPAL ===================== -->
+    <h2>🏠 Portal Principal</h2>
+    <p>Al entrar a <strong>sibaritasc.com</strong> verás el portal con tres tarjetas de acceso. Cada una te lleva a una sección diferente:</p>
+
+    <div class="tarjetas-referencia">
+        <div class="tarjeta-ref tarjeta-apertura">
+            <span class="icono">📜</span>
+            <h4>Apertura 2026</h4>
+            <p>Histórico · Solo lectura<br>Resultados finales del torneo pasado</p>
+        </div>
+        <div class="tarjeta-ref tarjeta-catA">
+            <span class="icono">🟡</span>
+            <h4>Categoría A</h4>
+            <p>Élite · Femenino y Masculino<br>Copa Navidad 2026</p>
+        </div>
+        <div class="tarjeta-ref tarjeta-catB">
+            <span class="icono">🔵</span>
+            <h4>Categoría B</h4>
+            <p>Avanzado · Femenino y Masculino<br>Copa Navidad 2026</p>
+        </div>
+    </div>
+
     <ul>
-        <li><strong>📋 Equipos:</strong> Consulta la lista de equipos, categorías y plantilla de jugadores.</li>
-        <li><strong>🎯 Partidos:</strong> Revisa el calendario, resultados y estadísticas de cada encuentro.</li>
-        <li><strong>🏆 Tabla de Posiciones:</strong> Clasificación actualizada con puntos, tantos a favor y en contra, y promedio.</li>
-        <li><strong>📊 Average:</strong> Estadísticas individuales de efectividad (Arrime/Boche).</li>
-        <li><strong>📺 Videos:</strong> Mira los partidos en vivo, destacados y playlists del torneo.</li>
-        <li><strong>🎮 Jugar:</strong> Practica con el juego interactivo de Bolas Criollas.</li>
-        <li><strong>📰 Noticias:</strong> Entérate de las novedades, crónicas y artículos del torneo.</li>
-        <li><strong>📸 Galería:</strong> Disfruta de las mejores imágenes del torneo, equipos e instalaciones.</li>
-        <li><strong>🏅 Cuadro de Honor:</strong> Revisa los reconocimientos a los mejores jugadores en arrime y boche de la Fase 1.</li>
+        <li><strong>📜 Apertura 2026:</strong> Consulta el torneo que ya finalizó. Es solo lectura, no se puede modificar nada.</li>
+        <li><strong>🟡 Categoría A:</strong> Copa Navidad 2026, categoría élite. Equipos con mayor nivel deportivo.</li>
+        <li><strong>🔵 Categoría B:</strong> Copa Navidad 2026, categoría avanzada. Equipos en desarrollo competitivo.</li>
     </ul>
-    <p>💡 <em>Los resultados se actualizan en tiempo real. ¡Mantente al día!</em></p>
-    <p>🔒 <em>El sitio cuenta con certificado de seguridad HTTPS para proteger tus datos.</em></p>
 
-    <!-- ===================== FASES ===================== -->
-    <h2>🏠 Fase 2 (Activa)</h2>
-    <p>La <strong>Fase 2</strong> es la <strong>página de inicio</strong> del torneo. Aquí encontrarás toda la información actualizada del campeonato en curso. Es la sección que ves al entrar al sitio.</p>
+    <div class="highlight-box">
+        📌 <strong>Fechas clave de la Copa Navidad 2026:</strong><br>
+        🎄 <strong>Inicio:</strong> 18 de septiembre<br>
+        📍 <strong>Lugar:</strong> Colegio de Ingenieros — Araúre, Portuguesa
+    </div>
 
-    <h2>📜 Fase 1 (Solo Lectura)</h2>
-    <p>La <strong>Fase 1</strong> contiene el historial completo de la primera etapa del torneo. <strong>Ahora es solo de consulta</strong>, lo que significa que los resultados ya no se pueden modificar. Para acceder a ella:</p>
-    <ol>
-        <li>Busca el botón <strong>"Fase 1"</strong> en la parte superior derecha del encabezado.</li>
-        <li>Haz clic en él para cambiar la vista.</li>
-        <li>Para volver a la Fase 2, haz clic en <strong>"Fase 2"</strong>.</li>
-    </ol>
-    <p>💡 <em>La Fase 1 está disponible para que revises partidos pasados y estadísticas históricas.</em></p>
+    <!-- ===================== NAVEGACIÓN DENTRO DE CADA CATEGORÍA ===================== -->
+    <h2>🧭 Cómo Navegar en Cada Categoría</h2>
+    <p>Al hacer clic en <strong>Categoría A</strong> o <strong>Categoría B</strong>, entrarás a la página de esa categoría. Verás una barra con varias pestañas, cada una con información específica:</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Pestaña</th>
+                    <th>Icono</th>
+                    <th>Qué encuentras</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Equipos</strong></td>
+                    <td>👥</td>
+                    <td>Lista de equipos con su plantilla de jugadores. Puedes buscar por equipo o jugador.</td>
+                </tr>
+                <tr>
+                    <td><strong>Partidos</strong></td>
+                    <td>🎯</td>
+                    <td>Calendario, resultados y estado de cada encuentro (finalizado, pendiente, suspendido, forfait).</td>
+                </tr>
+                <tr>
+                    <td><strong>Tabla</strong></td>
+                    <td>🏆</td>
+                    <td>Clasificación actualizada: puntos, partidos jugados, tantos a favor y en contra, y average.</td>
+                </tr>
+                <tr>
+                    <td><strong>Average</strong></td>
+                    <td>📊</td>
+                    <td>Estadísticas individuales de efectividad (Arrime y Boche) por jugador.</td>
+                </tr>
+                <tr>
+                    <td><strong>Videos</strong></td>
+                    <td>📺</td>
+                    <td>Transmisiones en vivo, destacados, clips y playlists del torneo.</td>
+                </tr>
+                <tr>
+                    <td><strong>Jugar</strong></td>
+                    <td>🎮</td>
+                    <td>Juego interactivo de Bolas Criollas para practicar.</td>
+                </tr>
+                <tr>
+                    <td><strong>Galería</strong></td>
+                    <td>📸</td>
+                    <td>Las mejores fotos del torneo, equipos, jugadores y ambiente familiar.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>🔀 Cambiar entre categorías</h3>
+    <p>En la parte superior de cada página de categoría, encontrarás dos botones:</p>
+    <ul>
+        <li><strong>🏠 Inicio:</strong> Regresa al portal principal (index2).</li>
+        <li><strong>🔵 Cambiar a Cat. B</strong> o <strong>🟡 Cambiar a Cat. A</strong>: Salta directamente a la otra categoría.</li>
+    </ul>
+
+    <h3>🏠 Volver al histórico</h3>
+    <p>Desde el portal principal, puedes hacer clic en la tarjeta <strong>Apertura 2026</strong> para consultar los resultados del torneo anterior. Es solo lectura.</p>
 
     <!-- ===================== RESULTADOS ===================== -->
     <h2>🎯 Consulta de Resultados</h2>
-    <p>Los partidos se muestran organizados por semana y categoría:</p>
+    <p>Los partidos se muestran organizados por semana y categoría. Los estados posibles son:</p>
     <div class="table-wrap">
         <table>
             <thead><tr><th>Icono</th><th>Significado</th></tr></thead>
@@ -237,16 +354,34 @@
         📌 <strong>Fórmula:</strong> (Buenos Totales / Intentos Totales) × 100 = EFEC%
     </div>
 
-    <!-- ===================== CUADRO DE HONOR ===================== -->
-    <h2>🏅 Cuadro de Honor</h2>
-    <p>El <strong>Cuadro de Honor</strong> reconoce a los mejores jugadores de la Fase 1 en tres categorías:</p>
+    <!-- ===================== FICHA DE JUGADOR ===================== -->
+    <h2>🪪 Ficha de Jugador</h2>
+    <p>Cada jugador tiene una <strong>ficha digital personalizada</strong> accesible desde la pestaña <strong>Equipos</strong>:</p>
+    <ol>
+        <li>Entra a la pestaña <strong>Equipos</strong>.</li>
+        <li>Busca tu equipo y haz clic en él.</li>
+        <li>Verás la plantilla. Al lado de tu nombre, aparece un botón <strong>🪪</strong>.</li>
+        <li>Haz clic ahí para abrir tu ficha.</li>
+    </ol>
+    <p>La ficha incluye:</p>
     <ul>
-        <li><strong>🎯 Mejor Arrime:</strong> Mayor efectividad en arrimes (mínimo 50 intentos).</li>
-        <li><strong>💥 Mejor Boche:</strong> Mayor efectividad en boches (mínimo 50 intentos).</li>
-        <li><strong>🌟 Mejor Jugador Completo:</strong> Mayor efectividad global (arrime + boche), con mínimo 20 intentos en cada disciplina y 50 totales.</li>
+        <li>📸 Foto de perfil personalizada.</li>
+        <li>👤 Nombre y equipo.</li>
+        <li>📊 Estadísticas personales (Arrime %, Boche %, Total %).</li>
+        <li>⬇️ Botón para <strong>descargar la ficha en PNG</strong>.</li>
+        <li>📱 Botones para <strong>compartir en WhatsApp y Facebook</strong>.</li>
     </ul>
-    <p>Los ganadores reciben una mención especial en la página web y son destacados en nuestras redes sociales. Este reconocimiento refleja el talento y la constancia de los jugadores a lo largo del torneo.</p>
-    <p>📌 <em>Puedes consultar el Cuadro de Honor completo en la pestaña correspondiente o en el blog.</em></p>
+
+    <div class="highlight-box">
+        📌 <strong>Cómo subir tu foto de perfil:</strong><br>
+        1. Abre tu ficha.<br>
+        2. Haz clic en <strong>"📸 Subir mi foto"</strong>.<br>
+        3. Elige una imagen desde tu celular o computadora.<br>
+        4. La imagen se comprime automáticamente y se guarda en la nube.<br>
+        5. Aparecerá en tu ficha al instante.<br><br>
+        💡 Para cambiar tu foto más adelante, simplemente repite el proceso.<br>
+        🗑️ Puedes eliminar tu foto en cualquier momento con el botón <strong>"Eliminar foto"</strong>.
+    </div>
 
     <!-- ===================== VIDEOS ===================== -->
     <h2>📺 Videos y Transmisiones</h2>
@@ -261,7 +396,7 @@
 
     <!-- ===================== NOTICIAS ===================== -->
     <h2>📰 Noticias / Blog</h2>
-    <p>En la pestaña <strong>"Noticias"</strong> encontrarás artículos sobre:</p>
+    <p>En la sección de <strong>"Noticias"</strong> encontrarás artículos sobre:</p>
     <ul>
         <li>Historia del torneo y del club.</li>
         <li>Perfiles de equipos y jugadores destacados.</li>
@@ -275,9 +410,10 @@
     <h2>📸 Galería</h2>
     <p>En la pestaña <strong>"Galería"</strong> podrás ver las mejores fotografías del torneo:</p>
     <ul>
-        <li>Instalaciones del CEINPORT.</li>
+        <li>Instalaciones del Colegio de Ingenieros.</li>
         <li>Equipos y jugadores en acción.</li>
         <li>Ambiente familiar y momentos especiales.</li>
+        <li>Final y premiación del torneo anterior.</li>
     </ul>
     <p>💡 <em>Las imágenes se actualizan periódicamente. Si tienes fotos destacadas, ¡compártelas con la organización!</em></p>
 
@@ -303,8 +439,8 @@
     <h2>📢 Publicidad y Patrocinios</h2>
     <p>Este espacio es posible gracias al apoyo de nuestros patrocinadores locales y a futuras alianzas comerciales.</p>
     <ul>
-        <li><strong>🏪 Patrocinios locales:</strong> Próximamente se incluirán menciones y banners de negocios de la comunidad que apoyan el deporte.</li>
-        <li><strong>📊 Google AdSense:</strong> La plataforma podrá mostrar anuncios de Google para ayudar a financiar el torneo y mantener el sitio gratuito.</li>
+        <li><strong>🏪 Patrocinios locales:</strong> Menciones y banners de negocios de la comunidad que apoyan el deporte.</li>
+        <li><strong>📊 Google AdSense:</strong> La plataforma muestra anuncios de Google para ayudar a financiar el torneo y mantener el sitio gratuito.</li>
     </ul>
     <p>💡 <em>¿Quieres patrocinar? Contáctanos.</em></p>
     <p>📌 <em>Los anuncios no afectan la funcionalidad. Todo el contenido sigue siendo gratuito.</em></p>
@@ -353,12 +489,17 @@
     </p>
     <p>📢 <em>¡Síguenos en redes para no perderte ninguna novedad!</em></p>
 
+    <!-- ===================== BOTÓN VOLVER ===================== -->
+    <div style="text-align:center;">
+        <a href="index2.html" class="back-button">← Volver al Portal</a>
+    </div>
+
     <!-- ===================== PIE DE PÁGINA ===================== -->
     <div class="footer">
-        <strong>© 2026 Sibarita Sport Club</strong> — 2do Campeonato Bolas Criollas "Categoría B"<br>
+        <strong>© 2026 Sibarita Sport Club</strong> — Copa Navidad 2026<br>
         Organizado por <strong>Arq. Berly Salazar</strong> — Desarrollado por <strong>MSc. Orlando Silva</strong>
         <br><br>
-        <a href="index.html">← Volver al inicio</a>
+        <a href="index2.html">← Volver al portal principal</a>
     </div>
 
 </div>
