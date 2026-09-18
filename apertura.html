@@ -1636,24 +1636,55 @@ function cargarVideosYouTube() {
 // ===================================================================
 // INICIALIZACIÓN
 // ===================================================================
+
 async function init() {
   console.log('🔄 Cargando datos desde Firestore...');
 
-  // Cargar resultados
-  if (window.cargarResultados) {
-    R = await window.cargarResultados();
-    console.log('✅ Resultados cargados:', Object.keys(R).length);
-  }
+  try {
+    // Esperar a que el módulo de Firebase esté listo
+    let intentos = 0;
+    while ((!window.cargarResultados || !window.cargarEstadisticas) && intentos < 30) {
+      await new Promise(r => setTimeout(r, 200));
+      intentos++;
+    }
 
-  // Cargar estadísticas
-  if (window.cargarEstadisticas) {
-    PS = await window.cargarEstadisticas();
-    console.log('✅ Estadísticas cargadas:', Object.keys(PS).length);
-  }
+    // Cargar resultados
+    if (window.cargarResultados) {
+      const resultados = await window.cargarResultados();
+      for (const k in R) delete R[k];
+      for (const [id, d] of Object.entries(resultados)) R[id] = d;
+      console.log('✅ Resultados cargados:', Object.keys(R).length);
+    } else {
+      console.warn('⚠️ window.cargarResultados no disponible');
+    }
 
-  // Renderizar
-  rT();
-  console.log('✅ Página cargada');
+    // Cargar estadísticas
+    if (window.cargarEstadisticas) {
+      const estadisticas = await window.cargarEstadisticas();
+      for (const k in PS) delete PS[k];
+      for (const [k, d] of Object.entries(estadisticas)) PS[k] = d;
+      console.log('✅ Estadísticas cargadas:', Object.keys(PS).length);
+    } else {
+      console.warn('⚠️ window.cargarEstadisticas no disponible');
+    }
+
+    // Renderizar todo
+    rT();
+    rM();
+    rSt();
+    rA();
+
+    console.log('✅ Página cargada correctamente');
+  } catch (error) {
+    console.error('❌ Error en init:', error);
+  }
+}
+
+// Esperar a que el DOM esté listo y luego inicializar
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  init();
+} else {
+  document.addEventListener('DOMContentLoaded', init);
 }
 
 // Esperar a que Firebase esté listo
