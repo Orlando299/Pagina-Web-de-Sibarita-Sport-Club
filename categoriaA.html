@@ -639,6 +639,7 @@ function openTeam(name){
 function closeDetail(){g('teams-wrap').style.display='block';g('t-detail').style.display='none';}
 
 // ==================== PARTIDOS (IGUAL QUE INDEX) ====================
+// ==================== PARTIDOS (IDÉNTICO A INDEX) ====================
 function rM(){
   const weeksEl = g('m-weeks');
   const cntEl = g('m-cnt');
@@ -670,49 +671,33 @@ function rM(){
     const mv = MVP[m.id];
     let inner = '';
 
-    // Si el admin NO está habilitado: solo mostrar resultado
-    if(!adminHabilitado){
-      if(suspended){
-        inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div></div>`;
-      } else if(done || forf){
-        inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
-          <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
-          <span class="sep">—</span>
-          <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
-        </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
-        <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>
-        ${mv ? `<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>` : ''}`;
-      } else {
-        inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:11px;color:var(--text-muted);padding:4px;">Pendiente</div>`;
-      }
+    // ===== SIEMPRE MOSTRAR INPUTS EN PENDIENTES (igual que index) =====
+    if(suspended){
+      inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon||'Sin especificar'}</div>
+      <button onclick="reanudarJuego(${m.id})" style="background:transparent;border:1px solid var(--primary);color:var(--primary);font-size:10px;padding:3px 10px;border-radius:6px;cursor:pointer;margin-top:4px;font-family:inherit;">▶️ Reanudar</button></div>`;
+    } else if(done || forf){
+      inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+        <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+        <span class="sep">—</span>
+        <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+      </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+      <div style="text-align:center;margin-top:4px;">
+        <span class="rtag done">✓ Final</span>
+        <button onclick="borrarResultado(${m.id})" style="background:transparent;border:none;color:var(--text-muted);font-size:10px;cursor:pointer;">✕</button>
+      </div>
+      <button class="stats-btn" onclick="openStatsModal(${m.id})">📊 Registrar Estadísticas</button>
+      ${mv ? `<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>` : ''}`;
     } else {
-      // Admin HABILITADO: inputs para editar + botones
-      if(suspended){
-        inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon||'Sin especificar'}</div>
-        <button onclick="reanudarJuego(${m.id})" style="background:transparent;border:1px solid var(--primary);color:var(--primary);font-size:10px;padding:3px 10px;border-radius:6px;cursor:pointer;margin-top:4px;font-family:inherit;">▶️ Reanudar</button></div>`;
-      } else if(done || forf){
-        inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
-          <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+      // PENDIENTE: SIEMPRE mostrar inputs + botones (igual que index)
+      inner = `<div style="font-size:14px;text-align:center;">🎯</div>
+        <div class="srow">
+          <input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0">
           <span class="sep">—</span>
-          <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
-        </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
-        <div style="text-align:center;margin-top:4px;">
-          <span class="rtag done">✓ Final</span>
-          <button onclick="borrarResultado(${m.id})" style="background:transparent;border:none;color:var(--text-muted);font-size:10px;cursor:pointer;">✕</button>
+          <input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0">
         </div>
-        <button class="stats-btn" onclick="openStatsModal(${m.id})">📊 Registrar Estadísticas</button>
-        ${mv ? `<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}</div></div></div>` : ''}`;
-      } else {
-        inner = `<div style="font-size:14px;text-align:center;">🎯</div>
-          <div class="srow">
-            <input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0">
-            <span class="sep">—</span>
-            <input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0">
-          </div>
-          <button class="sbtn" onclick="guardarResultado(${m.id})">💾 Guardar</button>
-          <button class="fbtn" onclick="forfeitResultado(${m.id})">⚠️ Forfeit/WO</button>
-          <button class="fbtn" style="border-color:#e67e2255;color:#e67e22;" onclick="suspenderJuego(${m.id})">⏸️ Suspender</button>`;
-      }
+        <button class="sbtn" onclick="guardarResultado(${m.id})">💾 Guardar</button>
+        <button class="fbtn" onclick="forfeitResultado(${m.id})">⚠️ Forfeit/WO</button>
+        <button class="fbtn" style="border-color:#e67e2255;color:#e67e22;" onclick="suspenderJuego(${m.id})">⏸️ Suspender</button>`;
     }
 
     let estadoTag = '';
