@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="google-adsense-account" content="ca-pub-5125085567413576">
+<title>Apertura 2026 - Histórico | Sibarita Sport Club</title>
+
+<!-- ===== ADSENSE ===== -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5125085567413576" crossorigin="anonymous"></script>
+
+<!-- Librerías -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+/* ========== ESTILOS BASE (igual que index) ========== */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+::-webkit-scrollbar{display:none;}
+body{background:#1a1a2e;font-family:'Segoe UI',Arial,sans-serif;color:#f0e6d3;max-width:430px;margin:0 auto;min-height:100vh;}
+.hdr{background:linear-gradient(135deg,#16213e,#0f3460);padding:10px 14px 0;border-bottom:3px solid #e8b84b;position:sticky;top:0;z-index:100;}
+.hdr-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.logo{display:flex;align-items:center;gap:8px;}
+.logo img{width:38px;height:38px;border-radius:50%;border:2px solid #e8b84b;flex-shrink:0;object-fit:cover;}
+.logo-t{font-size:13px;font-weight:bold;color:#e8b84b;text-transform:uppercase;letter-spacing:.03em;line-height:1.1;}
+.logo-s{font-size:9px;color:#8899aa;text-transform:uppercase;letter-spacing:.06em;}
+.badge{background:#c0392b;color:#fff;font-size:9px;font-weight:bold;padding:3px 7px;border-radius:8px;}
+.btn-nav{background:#e8b84b;color:#000;border:none;padding:5px 10px;border-radius:8px;font-weight:bold;font-size:9px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;}
+.nav{display:flex;}
+.nb{flex:1;padding:8px 2px;font-size:9px;font-weight:bold;text-transform:uppercase;border:none;background:transparent;color:#8899aa;border-bottom:3px solid transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;text-decoration:none;}
+.nb.on{color:#e8b84b;border-bottom:3px solid #e8b84b;}
+.nb span{font-size:15px;}
+.body{padding:12px 12px 70px;}
+.fb{padding:5px 10px;border-radius:12px;border:1px solid #0f3460;background:transparent;color:#8899aa;font-weight:bold;cursor:pointer;font-size:11px;font-family:inherit;white-space:nowrap;}
+.fb.on{background:#e8b84b;border-color:#e8b84b;color:#000;}
+.frow{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
+.fscroll{display:flex;gap:6px;margin-bottom:8px;overflow-x:auto;padding-bottom:3px;flex-wrap:nowrap;}
+.card{background:#16213e;border:1px solid #0f3460;border-radius:10px;padding:10px;margin-bottom:7px;}
+.mc{background:linear-gradient(135deg,#16213e,#0f3460);border:1px solid #e8b84b33;border-radius:10px;padding:10px 12px;margin-bottom:7px;}
+.mm{font-size:10px;color:#8899aa;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:3px;}
+.mteams{display:flex;align-items:center;justify-content:space-between;}
+.tn{flex:1;font-size:11px;font-weight:bold;color:#f0e6d3;text-align:center;line-height:1.3;}
+.vb{text-align:center;flex-shrink:0;padding:0 5px;}
+.ss{font-size:24px;font-weight:bold;color:#e8b84b;min-width:30px;text-align:center;}
+.ss.l{color:#8899aa;}
+.sep{font-size:16px;color:#8899aa;font-weight:bold;}
+.rtag{font-size:9px;font-weight:bold;padding:2px 6px;border-radius:7px;}
+.done{background:#2ecc7133;color:#2ecc71;border:1px solid #2ecc7122;}
+.wtag{font-size:9px;font-weight:bold;padding:2px 6px;border-radius:7px;}
+.tc{background:#0f3460;border-radius:10px;padding:10px;margin-bottom:7px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+.back{padding:5px 12px;border-radius:16px;border:1px solid #0f3460;background:transparent;color:#8899aa;cursor:pointer;font-size:11px;font-family:inherit;margin-bottom:12px;}
+.pi{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;margin-bottom:4px;background:#16213e;border:1px solid #0f3460;}
+.pn{width:22px;height:22px;border-radius:50%;background:#0f3460;display:flex;align-items:center;justify-content:center;font-size:9px;color:#8899aa;font-weight:bold;flex-shrink:0;}
+.sr{display:flex;align-items:center;gap:6px;padding:7px 8px;border-radius:8px;margin-bottom:4px;}
+.r1{background:linear-gradient(90deg,#e8b84b22,transparent);border:1px solid #e8b84b33;}
+.r2{background:linear-gradient(90deg,#c0c0c022,transparent);border:1px solid #0f3460;}
+.r3{background:linear-gradient(90deg,#cd7f3222,transparent);border:1px solid #0f3460;}
+.rn{background:#16213e;border:1px solid #0f3460;}
+.rb{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;flex-shrink:0;}
+.rb.r1{background:#e8b84b;color:#000;}.rb.r2{background:#c0c0c0;color:#000;}.rb.r3{background:#cd7f32;color:#000;}.rb.rn{background:#0f3460;color:#8899aa;}
+.sv{font-size:11px;font-weight:bold;color:#f0e6d3;}.spts{font-size:12px;font-weight:bold;color:#e8b84b;}.sh{font-size:8px;color:#e8b84b;font-weight:bold;}
+.scols{display:flex;gap:4px;}.sc{text-align:center;min-width:22px;}
+.srch{position:relative;margin-bottom:10px;}
+.srch input{width:100%;padding:8px 12px 8px 32px;background:#16213e;border:1px solid #0f3460;border-radius:9px;color:#f0e6d3;font-size:13px;font-family:inherit;}
+.srch input:focus{outline:none;border-color:#e8b84b;}
+.srch-ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#8899aa;font-size:13px;}
+.ar{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:8px;margin-bottom:4px;background:#16213e;border:1px solid #0f3460;}
+.av{font-size:12px;font-weight:bold;color:#e8b84b;}.al{font-size:8px;color:#8899aa;}
+.lbl{font-size:10px;color:#e8b84b;font-weight:bold;margin-bottom:7px;margin-top:4px;letter-spacing:.06em;}
+.ibox{font-size:10px;color:#8899aa;padding:9px;background:#16213e;border-radius:9px;border:1px solid #0f3460;margin-top:7px;line-height:1.5;}
+.scr{display:none;}.scr.on{display:block;}
+.mvp-box{background:linear-gradient(135deg,#e8b84b22,#f39c1222);border:1px solid #e8b84b55;border-radius:8px;padding:6px 10px;margin-top:6px;display:flex;align-items:center;gap:8px;}
+.mvp-name{font-size:12px;color:#f0e6d3;font-weight:bold;}
+.mvp-lbl{font-size:9px;color:#e8b84b;font-weight:bold;letter-spacing:.06em;text-transform:uppercase;}
+.mvp-detail{font-size:9px;color:#8899aa;}
+.sync-status{font-size:9px;color:#2ecc71;text-align:center;margin-bottom:8px;padding:4px;background:#0f346033;border-radius:8px;}
+.sync-status.error{color:#c0392b;}
+
+/* ========== SEPARADORES DE FASE ========== */
+.fase-separador {
+  margin: 20px 0 12px 0;
+  padding: 10px 15px;
+  background: linear-gradient(90deg, #e8b84b33, transparent);
+  border-left: 4px solid #e8b84b;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.fase-separador .titulo {
+  font-size: 13px;
+  font-weight: bold;
+  color: #e8b84b;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.fase-separador .subtitulo {
+  font-size: 10px;
+  color: #8899aa;
+}
+.fase-separador.final {
+  background: linear-gradient(90deg, #f39c1233, transparent);
+  border-left-color: #f39c12;
+}
+.fase-separador.final .titulo {
+  color: #f39c12;
+}
+
+/* ========== BADGE CLASIFICADO ========== */
+.badge-clasificado {
+  display: inline-block;
+  background: linear-gradient(135deg, #e8b84b, #f39c12);
+  color: #000;
+  font-size: 8px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ========== MODAL FICHA ========== */
+.modal-ficha{display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.7);overflow-y:auto;padding:20px;box-sizing:border-box;}
+.modal-ficha.abierto{display:flex;align-items:center;justify-content:center;}
+.modal-ficha-contenido{background:#fff;border-radius:20px;max-width:460px;width:100%;padding:25px 20px 20px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.cerrar-modal{position:absolute;top:12px;right:18px;font-size:28px;font-weight:bold;color:#aaa;cursor:pointer;}
+#ficha-preview{background:linear-gradient(145deg,#ffffff 0%,#f5f0e8 100%);border-radius:16px;padding:20px 16px 14px;border:2px solid #2d5e2c;box-shadow:0 4px 12px rgba(0,0,0,0.1);font-family:'Segoe UI',Roboto,sans-serif;width:100%;max-width:400px;margin:0 auto;}
+.ficha-encabezado{display:flex;align-items:center;gap:10px;border-bottom:2px solid #d4a017;padding-bottom:10px;margin-bottom:14px;}
+.ficha-logo{width:50px;height:50px;object-fit:contain;border-radius:50%;background:#fff;padding:4px;}
+.ficha-titulo h2{margin:0;font-size:18px;color:#1d3e1c;font-weight:700;}
+.ficha-titulo p{margin:0;font-size:13px;color:#5a5a5a;font-weight:500;}
+.ficha-foto{text-align:center;margin:10px 0 12px;}
+.ficha-foto img{width:100px;height:100px;border-radius:50%;object-fit:cover;border:4px solid #d4a017;background:#e9e9e9;}
+.ficha-nombre{text-align:center;font-size:22px;font-weight:700;color:#1d3e1c;margin:4px 0 2px;}
+.ficha-equipo{text-align:center;font-size:16px;color:#3d6b3c;font-weight:600;background:#eaf5e9;display:inline-block;padding:2px 18px;border-radius:20px;margin:0 auto 12px;}
+.ficha-stats{display:flex;justify-content:space-around;margin:12px 0 16px;gap:6px;}
+.stat-item{background:#1d3e1c;color:#fff;border-radius:12px;padding:8px 4px;flex:1;text-align:center;}
+.stat-item .label{font-size:11px;text-transform:uppercase;opacity:0.8;display:block;}
+.stat-item .value{font-size:20px;font-weight:700;display:block;}
+.ficha-pie{text-align:center;font-size:11px;color:#888;border-top:1px solid #ddd;padding-top:10px;margin-top:8px;}
+.boton-descargar{background:#d4a017;color:#fff;border:none;padding:10px 22px;border-radius:30px;font-size:16px;font-weight:700;cursor:pointer;margin:6px 4px;}
+.boton-compartir{background:#25D366;color:#fff;border:none;padding:8px 16px;border-radius:30px;font-size:14px;cursor:pointer;margin:4px;}
+.boton-compartir.facebook{background:#1877F2;}
+.ficha-trigger{cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-weight:600;color:#1d3e1c;padding:2px 6px;border-radius:6px;background:transparent;border:none;}
+.ficha-trigger .icono{font-size:18px;}
+
+/* ========== VIDEO ========== */
+.video-wrapper{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;background:#000;}
+.video-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.video-section-title{font-size:11px;color:#e8b84b;font-weight:bold;margin:10px 0 5px 0;letter-spacing:0.06em;display:flex;align-items:center;gap:8px;}
+.video-badge{background:#ff0000;color:white;font-size:8px;padding:2px 6px;border-radius:10px;font-weight:bold;}
+.video-card{background:#16213e;border:1px solid #0f3460;border-radius:10px;padding:8px;margin-bottom:10px;}
+.video-title{font-size:12px;font-weight:bold;color:#e8b84b;margin-top:6px;}
+.video-meta{font-size:9px;color:#8899aa;margin-top:4px;display:flex;gap:8px;flex-wrap:wrap;}
+.channel-link{background:#0f3460;border-radius:8px;padding:10px;margin-top:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.channel-btn{background:#ff0000;color:white;padding:6px 12px;border-radius:20px;text-decoration:none;font-size:11px;font-weight:bold;}
+.loading-spinner{text-align:center;padding:20px;color:#8899aa;}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="logo">
+      <img src="https://i.imgur.com/HbKo42m.png" alt="Logo">
+      <div>
+        <div class="logo-t">Sibarita Sport Club</div>
+        <div class="logo-s">📜 Apertura 2026 · Histórico</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <a href="index2.html" class="btn-nav">🏠 Inicio</a>
+      <a href="index2.html" class="btn-nav" style="background:#2980b9;color:#fff;">🎄 Copa Navidad</a>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="nb on" onclick="showTab('teams',this)"><span>👥</span>Equipos</button>
+    <button class="nb" onclick="showTab('matches',this)"><span>🎯</span>Partidos</button>
+    <button class="nb" onclick="showTab('standings',this)"><span>🏆</span>Tabla</button>
+    <button class="nb" onclick="showTab('stats',this)"><span>📊</span>Average</button>
+    <button class="nb" onclick="showTab('videos',this)"><span>📺</span>Videos</button>
+    <a href="galeria.html" class="nb"><span>📸</span>Galería</a>
+  </div>
+</div>
+
+<div class="body">
+
+  <!-- ==================== PESTAÑA EQUIPOS ==================== -->
+  <div id="s-teams" class="scr on">
+    <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar equipo o jugador..." oninput="searchTeams(this.value)"></div>
+    <div id="srch-res" style="display:none"></div>
+    <div id="teams-wrap">
+      <div class="frow">
+        <button class="fb on" id="btn-tFem" onclick="setF('tCat','Femenino')">👩 Femenino</button>
+        <button class="fb" id="btn-tMas" onclick="setF('tCat','Masculino')">👨 Masculino</button>
+      </div>
+      <div class="frow">
+        <button class="fb on" id="btn-tGa" onclick="setF('tGrp','A')">Grupo A</button>
+        <button class="fb" id="btn-tGb" onclick="setF('tGrp','B')">Grupo B</button>
+      </div>
+      <div class="lbl" id="t-cnt"></div>
+      <div id="t-list"></div>
+    </div>
+    <div id="t-detail" style="display:none">
+      <button class="back" onclick="closeDetail()">← Volver</button>
+      <div class="card" id="t-dhead"></div>
+      <div class="lbl">Plantilla</div>
+      <div id="t-dplayers"></div>
+    </div>
+  </div>
+
+  <!-- ==================== PESTAÑA PARTIDOS ==================== -->
+  <div id="s-matches" class="scr">
+    <!-- Filtro rápido de fase -->
+    <div class="frow" style="justify-content:center;">
+      <button class="fb on" id="btn-fase-todos" onclick="setFaseFiltro('todos')">Todos</button>
+      <button class="fb" id="btn-fase-regular" onclick="setFaseFiltro('regular')">Fase Regular</button>
+      <button class="fb" id="btn-fase-final" onclick="setFaseFiltro('final')">Fase Final</button>
+    </div>
+    <div class="fscroll" id="m-weeks"></div>
+    <div class="lbl" id="m-cnt"></div>
+    <div id="m-list"></div>
+  </div>
+
+  <!-- ==================== PESTAÑA TABLA ==================== -->
+  <div id="s-standings" class="scr">
+    <!-- Bloque 1: Fase Regular -->
+    <div class="fase-separador">
+      <div>
+        <div class="titulo">📅 Fase Regular</div>
+        <div class="subtitulo">Todos los equipos</div>
+      </div>
+    </div>
+    <div class="frow">
+      <button class="fb on" id="btn-sFem" onclick="setF('sCat','Femenino')">👩 Femenino</button>
+      <button class="fb" id="btn-sMas" onclick="setF('sCat','Masculino')">👨 Masculino</button>
+    </div>
+    <div class="frow">
+      <button class="fb on" id="btn-sGa" onclick="setF('sGrp','A')">Grupo A</button>
+      <button class="fb" id="btn-sGb" onclick="setF('sGrp','B')">Grupo B</button>
+    </div>
+    <div id="st-list-regular"></div>
+
+    <!-- Bloque 2: Fase Final -->
+    <div class="fase-separador final">
+      <div>
+        <div class="titulo">🏆 Fase Final</div>
+        <div class="subtitulo">Equipos clasificados</div>
+      </div>
+    </div>
+    <div class="frow">
+      <button class="fb on" id="btn-sfFem" onclick="setF('sfCat','Femenino')">👩 Femenino</button>
+      <button class="fb" id="btn-sfMas" onclick="setF('sfCat','Masculino')">👨 Masculino</button>
+    </div>
+    <div id="st-list-final"></div>
+
+    <div class="ibox">📌 Victoria: 3 pts | Derrota: 0 pts<br>📌 Gana quien llegue a 20 tantos.<br>📌 AVG = (TF - TC) / PJ</div>
+  </div>
+
+  <!-- ==================== PESTAÑA AVERAGE ==================== -->
+  <div id="s-stats" class="scr">
+    <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)"></div>
+    <div class="frow">
+      <button class="fb on" id="btn-aFem" onclick="setF('aCat','Femenino')">👩 Femenino</button>
+      <button class="fb" id="btn-aMas" onclick="setF('aCat','Masculino')">👨 Masculino</button>
+    </div>
+    <div class="frow">
+      <button class="fb on" id="btn-aGa" onclick="setF('aGrp','A')">Grupo A</button>
+      <button class="fb" id="btn-aGb" onclick="setF('aGrp','B')">Grupo B</button>
+    </div>
+    <div class="frow">
+      <button class="fb" onclick="exportarEstadisticasACSV()" style="background:#9b59b633;border-color:#9b59b6;color:#9b59b6;">📊 Exportar CSV</button>
+    </div>
+    <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;">
+      <div style="width:20px"></div>
+      <div style="flex:1;font-size:8px;">JUGADOR</div>
+      <div class="scols">
+        <div class="sc sh">PJ</div><div class="sc sh">ARR%</div><div class="sc sh">BOC%</div><div class="sc sh">TOT%</div>
+      </div>
+    </div>
+    <div id="a-list"></div>
+    <div class="ibox">📌 ARR% = Arrimes Buenos/Total | BOC% = Boches Buenos/Total | TOT% = (Arr+Boc) / Total</div>
+  </div>
+
+  <!-- ==================== PESTAÑA VIDEOS ==================== -->
+  <div id="s-videos" class="scr">
+    <div class="lbl" style="margin-bottom:8px;">📺 DESTACADOS DEL TORNEO</div>
+    <div id="youtube-grid" style="display:grid;grid-template-columns:1fr;gap:12px;"></div>
+    <div style="text-align:center;margin-top:10px;">
+      <a href="https://www.youtube.com/@SibaritaSC/videos" target="_blank" style="color:#e8b84b;font-size:11px;">📺 Ver todos en YouTube</a>
+    </div>
+    <div class="ibox">💡 ¿Quieres revivir los mejores momentos del torneo? Visita nuestro canal de YouTube.</div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div style="margin-top:30px;padding:15px;border-top:1px solid #0f3460;text-align:center;font-size:10px;">
+    <a href="legal.html" style="color:#8899aa;">📜 Aviso Legal</a> | 
+    <a href="privacidad.html" style="color:#8899aa;">🔒 Privacidad</a> | 
+    <a href="cookies.html" style="color:#8899aa;">🍪 Cookies</a><br>
+    © 2026 Sibarita Sport Club · Apertura 2026 (Histórico)
+  </div>
+
+</div>
+
+<!-- ===== MODAL FICHA DE JUGADOR ===== -->
+<div id="modalFicha" class="modal-ficha">
+  <div class="modal-ficha-contenido">
+    <span class="cerrar-modal" id="cerrarModalFicha">&times;</span>
+    <div id="ficha-preview">
+      <div class="ficha-encabezado">
+        <img src="https://i.imgur.com/HbKo42m.png" alt="Sibarita Sport Club" class="ficha-logo">
+        <div class="ficha-titulo">
+          <h2>Sibarita Sport Club</h2>
+          <p>Apertura 2026 · Histórico</p>
+        </div>
+      </div>
+      <div class="ficha-foto">
+        <img id="fichaFoto" src="" alt="Foto del jugador">
+      </div>
+      <div class="ficha-nombre" id="fichaNombre">Nombre</div>
+      <div style="text-align:center;">
+        <span class="ficha-equipo" id="fichaEquipo">Equipo</span>
+      </div>
+      <div class="ficha-stats">
+        <div class="stat-item"><span class="label">ARR%</span><span class="value" id="fichaArr">0.0%</span></div>
+        <div class="stat-item"><span class="label">BOC%</span><span class="value" id="fichaBoc">0.0%</span></div>
+        <div class="stat-item"><span class="label">TOT%</span><span class="value" id="fichaTot">0.0%</span></div>
+      </div>
+      <div class="ficha-pie">Ficha generada en SibaritaSportClub.com</div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="boton-descargar" id="btnDescargar">⬇️ Descargar PNG</button>
+      <br>
+      <button class="boton-compartir" id="btnWhatsApp">📱 WhatsApp</button>
+      <button class="boton-compartir facebook" id="btnFacebook">📘 Facebook</button>
+      <div id="mensaje-ficha"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DATOS (TEAMS y MATCHES)                                      -->
+<!-- ============================================================ -->
+<script>
+// ==================== TEAMS ====================
+const TEAMS = [
+  {n:"Jujure (Educadoras)", c:"Femenino", g:"A", p:["Karina Morles","Leudini Torres","Maria Vivas","Irene De Vicent","Keila Valderrama","Lisbeth Barco","Marbelys Sira","Dulcely Torrealba","Dairismar Almao","Jannelys Dudamel"]},
+  {n:"Serv. Frios Antonella", c:"Femenino", g:"A", p:["Yusbeli Rodriguez","Luz Maria Paez","Michel Beaz","Yipzi Carmona","Ana Tovar","Marlin Carpio","Liliana Gutierrez","Keila Molina","Yaidth Cedeño"]},
+  {n:"Taferca", c:"Femenino", g:"A", p:["Carmen González","Nancy Rodríguez","Judhit Lugo","Omaira Dorante","Omari Arias","Enriqueta Jiménez","Olga Pérez","Eydi Colmenares","Neida Ramos"]},
+  {n:"Divinas", c:"Femenino", g:"A", p:["Sandra Delgado","Dagmary Juarez","Tabata Arduo","Ida Guevara","Nancy Moreno","Mar Suarez","Rosandrys Yepez","Tania Perez","Karla Rodriguez","Celia Lucero de Rodriguez","Gregoria Avancin"]},
+  {n:"Alimentos Amanecer",c:"Femenino",g:"A",p:["Petra Almao","Hilda Gimenez","Deyanira Yustiz","Aura Yustiz","Graciela Febres","Florinda Hernandez","María del Pilar Sanchez","Nelis Cadevilla","Gloria Mendez"]},
+  {n:"Repostería el Ponque", c:"Femenino", g:"A", p:["Lisbeth Vasquez","Nayeska Vasquez","Vicmaig Gomez","Francia Medina","Yamiletsi Colina","Anabelis Guedez","Yajaira Martinez","Amada Perez","Magaly Parra","Nayelis Valera"]},
+  {n:"Sabaneta",c:"Femenino",g:"A",p:["Yanacia Gómez","Beatriz Gómez","Donaliz Daza","Ana Juana Mendoza","Hayra Benavides","Yorgelis Colina","Iris Zambrano","Isabel Fontela"]},
+  {n:"Inversiones EPA",c:"Femenino",g:"A",p:["Marisela Alvarado","Geilis Rodríguez","Arelis Amaya","Lenny Rodríguez","Marbelis Pagua","Roxelis Pagua","Rosangela Torres","Yoglis Rojas","Marianglis Hernández"]},
+  {n:"New Family", c:"Femenino", g:"A", p:["Sara Menoni","Maria Rodriguez","Yusbelis Valenzuela","Nair Herrera","Carolina Jaimes","Maria Carreno","Sol Rodriguez"]},
+  {n:"Saboga", c:"Femenino", g:"B", p:["Virgilia Mendez","Isvelia Cordero","Roxana Pacheco","Maryeris Daza","Celateresa Sira","Ligia Sosa","Leslie Farfan","Vicky Mendez"]},
+  {n:"The Dolls", c:"Femenino", g:"B", p:["Erika Perez Ramones","Cilia Aldana","Juliana Lopez","Maria Doriana Parra","Saydimar Pipitone","Adona Maria Gonzalez","Ana Katiuska Parra","Maria Castellanos","Ana Silva","Deysi Guedez"]},
+  {n:"Corpoelec",c:"Femenino",g:"B",p:["Adela Guedez","Nitza Zabaleta","Yuli Alvarez","Cesar Denny","Yunibel Rodriguez","Diolanda Carrillo","Nicholle Colmenarez","Cesar Dionne"]},
+  {n:"Festidoras", c:"Femenino", g:"B", p:["Doraida Gonzalez","Zulma Estrada","Jusmari Borges","Liseth Palma","Gladys Jimenez","Mariangel Gallardo","Adrianny Ledesma","Marina Mendoza","Aura Daza","Rosa Gonzalez"]},
+  {n:"Corpoelec Jubiladas", c:"Femenino", g:"B", p:["Ana Urdaneta","Crisalida Juarez","Edith Gallardo","Marielen Colmenarez","Maribel Garcia","Maribel Goyo","Magalys Legon","Lucila Escudero","Yacelis Timaure"]},
+  {n:"Chikas",c:"Femenino",g:"B",p:["Yusbelis Gonzalez","Natalia Garcia","Marianni Torres","Krisandar Soteldo","Eloisa Gonzalez","Alejandra Mesa","Marbella Suarez","Kerangelit Mendez","Maria Escalante","Gilian Rengifo"]},
+  {n:"Oasis Box",c:"Femenino",g:"B",p:["Carolina Arocha","Luisamar Peña","Mirelys Mendoza","Romi Arapé","Karla Reyes","Sheila Montesinos","Nilda Almeida","Josmayfe Alvarado"]},
+  {n:"Atavenca",c:"Femenino",g:"B",p:["Yadira Torrez","Diana Oropeza","Julia Escalona","María Elcy Noriega","Esmeralda Mercado","Yankelis Tambo","María Delgado","María Morles"]},
+  {n:"Emprendedoras", c:"Femenino", g:"B", p:["Ana Zapata","Vanessa Lugo","Yanee Vetancourt","Miriam Serres","Ana Hernandes","Berly Salazar","Karelis Aguilar","Luisa Arrieta","Yusbelis Chirinos","Cresky Perez"]},
+  {n:"Santana", c:"Femenino", g:"B", p:["Luz Escalona","Tibisay Ramirez","Ana Luisa Ramirez","Ana Varela","Camelia Suarez","Erika Yamilet Rodriguez","Yenny Vargas","Yaritza Caruci"]},
+  {n:"Micro PC", c:"Masculino", g:"B", p:["Arturo Tovar","Jesus Soteldo","Oscar Paredes","David Chávez","Rafael Valderrama","Victor Escalona","José Jiménez","Samuel Canelon","Luis Mendoza","Pedro Aguilar"]},
+  {n:"Fuerza", c:"Masculino", g:"A", p:["Ademar Tua","Pedro Yepez","Pedro Noguera","Clemente Perez","Luis Barco","Miguel Segura","Ramon Perdomo","Eduardo Rivero","Danny Tua"]},
+  {n:"Corpoelec2", c:"Masculino", g:"A", p:["José Narváez","Marcos Franco","Richard Blanco","Jairo López","Asdrubal Gomez","Angel Perez","Manuel Alvarez","Jorge Luis Rojas","Antonio Rosario","Ali Parra"]},
+  {n:"Servihidra",c:"Masculino",g:"A",p:["Henry Pacheco","Jose Rodriguez","Atahualpa Melendez","Gustavo Orozco","Theoscar Vicent","Jose Cordero","Numan Dudamel","Nelson Suarez","Giovanni Gonzalez","Leonardo Colmenares"]},
+  {n:"Exasa", c:"Masculino", g:"A", p:["Rodolfo Jara","Luis Hurtado","Jorge Sierralta","Orlando Rodriguez","Jose Mendez","Luis Sierralta","Arpaia Marcos","Adder Matute","Hector Reyes","Jorge Perez","Rodolfo Torrealba"]},
+  {n:"Los Panas Vimapin",c:"Masculino",g:"A",p:["Victor Pinto","Marco Rodriguez","Carlos Rodriguez","Ronald Perez","Freurmar Perez","Wely Melendez","Joel Ortega","Neptali Torrez"]},
+  {n:"Club Afibola",c:"Masculino",g:"A",p:["Carlos Colmenarez","Roger Colmenarez","Jose Torrez","Pedro Torrez","Jorgue Chirinos","Octavio Chirinos","Gabriel Perez","Jose Chirinos","Junior Garcia","Leudimar Mendoza","Yovanny Garcia"]},
+  {n:"Yusevin CA", c:"Masculino", g:"A", p:["Pedro Orellana","Juan C. Rodriguez","Juan Sira","Ricardo Ochoa","Rafael Mosquera","Reinaldo Mendoza","Jorge Ochoa","Jose Gomez","Jhonny De La Hoz","David Anza","Enmanuel Aguiar","Jorge Gutierrez"]},
+  {n:"Los Amigos",c:"Masculino",g:"A",p:["Carlos Silva","Gregorio Linares","Luis Escobar","Efrén Cabrera","Omar Alvarado","Cornelio Escalona","José Escalona","Wuilfredo Guedez","Luis Ramos","Fernando"]},
+  {n:"Unidos de Hato", c:"Masculino", g:"A", p:["Leider Alexander Alvarado Moreno","Edinson Antonio Valera Camacho","Jesus Enrique Orta Gil","Carlos Luis Valera Palencia","Alfredo Ramon Alvarez Ojeda","Wilmer Xavier Rodriguez Camacho","Juan Carlos Valera Camacho","Brando Daniel Rojas Fernandez","Euclides Yolimar Torrealba Torin"]},
+  {n:"Agro Mack Diesel", c:"Masculino", g:"A", p:["José Bielma","Jorge Riera","Miguel Cordova","José Cordova","Jesús Sala","Manuel Andrades","Abran Sanchez","Keily Sanchez"]},
+  {n:"Familia Ortega", c:"Masculino", g:"A", p:["Freddy Alvarado","Yoiber Oviedo","Eiderzon Nelo","Gonzalo Palacio","Gabriel Betancourt","Esteban Aguilar","Angel Herrera"]},
+  {n:"Alimentos La Granja", c:"Masculino", g:"A", p:["Yuris Alfredo Peraza","Efren Dario Rosales Gonzalez","Wilmer Bolivar","Luis Falcon","Jorge Rafael Torres Gutierrez","Robert Antonio Aguero","Juan Alberto Almao Sequera","Rene Chirinos","Alcides Alvarado","Juan Carlos Hernandez","Fran Daniel Diaz","Miguel Jose Bonilla Duran"]},
+  {n:"Team JM&JA", c:"Masculino", g:"B", p:["José Hernández","Marcos Sánchez","Jesus Pérez","Miguel Duque","Saúl Fonseca","Alexis Martinez","Juan José Alvarado","José Requena","Joel Hernandez"]},
+  {n:"Poder Justiciable",c:"Masculino",g:"B",p:["Daniel Roman","Honorio Peroza","Tony Perez","Alfonzo Delgado","Jhonatan Cedeño","Jhonny Oviedo","Ruben Montero","Javier Torrealba","Julio Colmenarez"]},
+  {n:"Ingenieros", c:"Masculino", g:"B", p:["Jose Rafael Serrada Diaz","Dayan Ricardo Galindez Muños","Williams Martinez","Arturo Mendez","Jhonny Reina","Carlos Martinez","Alirio Perdomo","Raul Acosta","Diego Piña","Yowerty Ballester","Jose Leonardo Briceño","Alexander Chirinos Alvarado"]},
+  {n:"Agroserviportuguesa", c:"Masculino", g:"B", p:["Oswaldo Soto","Jean Vasquez","William Rodriguez","Alfredo Rodriguez","Salvador Pipitone","Lino Caruci","Jose Gregorio Torres Escobar","Henry Eliezer Soto","Jose Luis Rodriguez"]},
+  {n:"Los Irochimas", c:"Masculino", g:"B", p:["Toribio Torrealba","Wilfredo Perez","Nelson Nadal","Ronald Nadal","Roland Nadal","Jose Nadal","Alfredo Gonzalez"]},
+  {n:"Tribunal Protección", c:"Masculino", g:"B", p:["Wilder Quintero","Renny Rivas","Oscar De Santis","Enyer Umbria","Isaac Garcia","Yhogerson Guedez","Jose Benavides","Jose D. Fernandez","Jose V. Fernandez","Carlos Laya","Jose Escalona"]},
+  {n:"Triunfadores", c:"Masculino", g:"B", p:["Mire Sail","Luis Segura","Yeison Ferrer","Serus Hernandez","Guillermo Leal","Luis Arrieta","Eduardo Arrieta","Yormann Vasquez","Jurgen Vasquez","Antony Gonzalez","Hector Carvajal","Luis Rodríguez"]},
+  {n:"Pintucal", c:"Masculino", g:"B", p:["Carlos Caro","Juan Figueroa","Angel Figueroa","Roberto Martinez","Mackiver Sanchez","Yolber Suarez","Juan Carlos Caro","Amilcar Garrido"]},
+  {n:"Gladiadores del Cerrito", c:"Masculino", g:"B", p:["Carlos Silva","Carlos Linarez","Elvis Valera","Yunior Linarez","Yilber Barrios","Yordani Villegas","Alexander Vega","René Tona"]},
+  {n:"Atlético Páez", c:"Masculino", g:"B", p:["Naudys Rea","Alexis Gonzalez","Jean Carlos Vizcaya","Deiby Angulo","Yeritzon Ballester","Luis Aranguren","Felix Ballester","José Chacin","Eric Javier Alvarez Ortiz","Bismar Páez","Argenis Amaya"]},
+  {n:"Agro Tigrera Ranch", c:"Masculino", g:"B", p:["Felix Rumbos","Carlos Araujo","Jonathan Silva","Junior Guedez","Jorge Zambrano","Carlos Torrealba","Wenceslao Paez","Javier Diaz","Pedro Diaz"]},
+  {n:"Distribuidora JH", c:"Masculino", g:"B", p:["Jose Galindez","Reinaldo Torrez","Dixon Torcate","Robertthi Perdomo","Wilmer Linarez","Roseliano Garcia","Cristian Perdomo","Juan Hernandez","Juan Hernandez","Oscar Daniel Mogollon Alvarado","Frank David Torrelles"]},
+  {n:"Los Lugo", c:"Masculino", g:"A", p:["Alexander Benitez","Robert Gomez","Renny Parra","Terry Parra","Javier Lugo","Ivan Lugo","Jorge Lugo","Andres Marquez","Yunier Lugo","Eduardo Riera","Francisco Medina","Gustavo Sivada"]},
+];
+
+// Equipos que clasificaron a Fase 2
+const CLASIFICADOS_FASE2 = {
+  "Femenino": ["Jujure (Educadoras)","Inversiones EPA","Serv. Frios Antonella","Repostería el Ponque","New Family","Chikas","Saboga","Atavenca","Santana","Corpoelec"],
+  "Masculino": ["Club Afibola","Servihidra","Unidos de Hato","Alimentos La Granja","Familia Ortega","Fuerza","Corpoelec2","Agroserviportuguesa","Gladiadores del Cerrito","Micro PC","Team JM&JA","Pintucal","Triunfadores","Ingenieros"]
+};
+
+function esClasificado(equipo) {
+  const t = TEAMS.find(x => x.n === equipo);
+  if (!t) return false;
+  return CLASIFICADOS_FASE2[t.c] && CLASIFICADOS_FASE2[t.c].includes(equipo);
+}
+</script>
+
+<!-- Cargamos los MATCHES desde un archivo externo o inline -->
+<!-- Por ahora los dejamos vacíos, se llenarán desde Firestore -->
+<script>
+// Placeholder: los partidos reales se cargarán desde Firestore
+const MATCHES = [];
+</script>
+
+<!-- ============================================================ -->
+<!-- FIREBASE MODULE                                              -->
+<!-- ============================================================ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+  import { 
+    getFirestore, collection, getDocs 
+  } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+  import { 
+    getStorage, ref, getDownloadURL 
+  } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDXIPkeLn5oVn_q-NO1Xm7tc9E6MPfU-cU",
+    authDomain: "sibarita-torneo-bolas-criollas.firebaseapp.com",
+    projectId: "sibarita-torneo-bolas-criollas",
+    storageBucket: "sibarita-torneo-bolas-criollas.firebasestorage.app",
+    messagingSenderId: "466460618853",
+    appId: "1:466460618853:web:52660cd99bba610d6e568c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+
+  window.db = db;
+  window.storage = storage;
+
+  // Cargar resultados desde Firestore
+  window.cargarResultados = async function() {
+    try {
+      const colRef = collection(db, "resultados");
+      const snapshot = await getDocs(colRef);
+      const res = {};
+      snapshot.forEach(d => res[d.id] = d.data());
+      return res;
+    } catch(e) {
+      console.error("Error cargando resultados:", e);
+      return {};
+    }
+  };
+
+  window.cargarEstadisticas = async function() {
+    try {
+      const colRef = collection(db, "estadisticas");
+      const snapshot = await getDocs(colRef);
+      const res = {};
+      snapshot.forEach(d => res[d.id] = d.data());
+      return res;
+    } catch(e) {
+      console.error("Error cargando estadísticas:", e);
+      return {};
+    }
+  };
+</script>
+
+<!-- ============================================================ -->
+<!-- LÓGICA PRINCIPAL                                              -->
+<!-- ============================================================ -->
+<script>
+// ===================================================================
+// VARIABLES GLOBALES
+// ===================================================================
+let R = {}, PS = {}, MVP = {};
+let F = {
+  tCat:'Femenino', tGrp:'A',
+  mCat:'Femenino', mFase:'todos',
+  sCat:'Femenino', sGrp:'A',
+  sfCat:'Femenino',
+  aCat:'Femenino', aGrp:'A', aQ:''
+};
+
+function g(id) { return document.getElementById(id); }
+
+// ===================================================================
+// NAVEGACIÓN
+// ===================================================================
+function showTab(id, btn) {
+  document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  g('s-' + id).classList.add('on');
+  if (btn) btn.classList.add('on');
+  
+  if (id === 'matches') rM();
+  else if (id === 'standings') rSt();
+  else if (id === 'stats') rA();
+  else if (id === 'videos') cargarVideosYouTube();
+  else if (id === 'teams') rT();
+}
+
+// ===================================================================
+// FILTROS
+// ===================================================================
+function setF(k, v) {
+  F[k] = v;
+  const maps = {
+    tCat: {Femenino:'btn-tFem', Masculino:'btn-tMas'},
+    tGrp: {A:'btn-tGa', B:'btn-tGb'},
+    sCat: {Femenino:'btn-sFem', Masculino:'btn-sMas'},
+    sGrp: {A:'btn-sGa', B:'btn-sGb'},
+    sfCat: {Femenino:'btn-sfFem', Masculino:'btn-sfMas'},
+    aCat: {Femenino:'btn-aFem', Masculino:'btn-aMas'},
+    aGrp: {A:'btn-aGa', B:'btn-aGb'}
+  };
+  const m = maps[k];
+  if (m) {
+    Object.keys(m).forEach(val => {
+      const el = g(m[val]);
+      if (el) el.classList.toggle('on', val === v);
+    });
+  }
+  if (k[0] === 't') rT();
+  else if (k[0] === 'm') rM();
+  else if (k === 'sCat' || k === 'sGrp') rSt();
+  else if (k === 'sfCat') rStFinal();
+  else if (k[0] === 'a') rA();
+}
+
+function setFaseFiltro(fase) {
+  F.mFase = fase;
+  document.querySelectorAll('#s-matches .fb').forEach(b => b.classList.remove('on'));
+  const btn = g('btn-fase-' + fase);
+  if (btn) btn.classList.add('on');
+  rM();
+}
+
+// ===================================================================
+// EQUIPOS
+// ===================================================================
+function searchTeams(q) {
+  const sr = g('srch-res'), tw = g('teams-wrap');
+  if (!q.trim()) { sr.style.display = 'none'; tw.style.display = 'block'; return; }
+  sr.style.display = 'block'; tw.style.display = 'none';
+  const ql = q.toLowerCase();
+  let h = '';
+  TEAMS.forEach(t => {
+    const pm = t.p.filter(p => p.toLowerCase().includes(ql));
+    if (t.n.toLowerCase().includes(ql) || pm.length) {
+      const clasif = esClasificado(t.n) ? ' 🏆' : '';
+      h += `<div class="card"><div style="font-size:12px;font-weight:bold;color:#e8b84b;margin-bottom:5px;">${t.n}${clasif} <span style="font-size:10px;color:#8899aa;">${t.c} Gr.${t.g}</span></div>`;
+      pm.forEach(p => h += `<div style="font-size:11px;color:#f0e6d3;padding:2px 0;">👤 ${p}</div>`);
+      h += '</div>';
+    }
+  });
+  sr.innerHTML = h || '<div style="color:#8899aa;text-align:center;padding:16px;">Sin resultados</div>';
+}
+
+function rT() {
+  const list = g('t-list');
+  const cnt = g('t-cnt');
+  const wrap = g('teams-wrap');
+  const detail = g('t-detail');
+  if (!list || !cnt || !wrap || !detail) return;
+  const filtered = TEAMS.filter(t => t.c === F.tCat && t.g === F.tGrp);
+  cnt.textContent = filtered.length + ' EQUIPOS — ' + F.tCat + ' Grupo ' + F.tGrp;
+  list.innerHTML = filtered.map(t => {
+    const clasif = esClasificado(t.n) ? '<span class="badge-clasificado">🏆 Fase 2</span>' : '';
+    return `<div class="tc" onclick="openTeam('${t.n.replace(/'/g, "\\'")}')">
+      <div>
+        <div style="font-size:13px;font-weight:bold;">${t.n}${clasif}</div>
+        <div style="font-size:10px;color:#8899aa;">${t.p.length} jugadores · Gr.${t.g}</div>
+      </div>
+      <div style="font-size:18px;">›</div>
+    </div>`;
+  }).join('');
+  detail.style.display = 'none';
+  wrap.style.display = 'block';
+}
+
+function openTeam(name) {
+  const t = TEAMS.find(x => x.n === name);
+  if (!t) return;
+  g('teams-wrap').style.display = 'none';
+  g('t-detail').style.display = 'block';
+  const clasif = esClasificado(t.n) ? ' 🏆 Fase 2' : '';
+  g('t-dhead').innerHTML = `<div style="font-size:15px;font-weight:bold;color:#e8b84b;">${t.n}${clasif}</div><div style="font-size:10px;">${t.c} · Gr.${t.g} · ${t.p.length} jugadores</div>`;
+  g('t-dplayers').innerHTML = t.p.map((p, i) => {
+    const k = t.n + '|' + p;
+    const ps = PS[k] || {};
+    const arrDisplay = ps.total_arr ? `${ps.arr_b || 0}/${ps.total_arr}` : '0/0';
+    const bocDisplay = ps.total_boc ? `${ps.boc_b || 0}/${ps.total_boc}` : '0/0';
+    const totalBuenos = (ps.arr_b||0)+(ps.boc_b||0);
+    const totalIntentos = (ps.total_arr||0)+(ps.total_boc||0);
+    const efec = totalIntentos ? Math.round((totalBuenos/totalIntentos)*100) : 0;
+    return `<div class="pi">
+      <div class="pn">${i+1}</div>
+      <div style="flex:1;">
+        <div style="font-size:12px;font-weight:bold;display:flex;align-items:center;gap:6px;">
+          <span>${p}</span>
+          <button class="ficha-trigger" data-id="${k}" title="Ver ficha del jugador">
+            <span class="icono">🪪</span>
+          </button>
+        </div>
+        <div style="font-size:9px;color:#8899aa;">ARR: ${arrDisplay} · BOC: ${bocDisplay} · EFEC: ${efec}%</div>
+      </div>
+    </div>`;
+  }).join('');
+  if (typeof initFichas === 'function') setTimeout(initFichas, 50);
+}
+
+function closeDetail() { 
+  g('teams-wrap').style.display = 'block'; 
+  g('t-detail').style.display = 'none'; 
+}
+
+// ===================================================================
+// PARTIDOS
+// ===================================================================
+function rM() {
+  const weeksEl = g('m-weeks');
+  const cntEl = g('m-cnt');
+  const listEl = g('m-list');
+  if (!weeksEl || !cntEl || !listEl) return;
+
+  // Filtrar por fase
+  let partidos = MATCHES.filter(m => m.c === F.mCat);
+  if (F.mFase === 'regular') {
+    partidos = partidos.filter(m => !m.w || !m.w.startsWith('F2'));
+  } else if (F.mFase === 'final') {
+    partidos = partidos.filter(m => m.w && m.w.startsWith('F2'));
+  }
+
+  // Separar en dos bloques
+  const faseRegular = partidos.filter(m => !m.w || !m.w.startsWith('F2'));
+  const faseFinal = partidos.filter(m => m.w && m.w.startsWith('F2'));
+
+  let html = '';
+
+  // Bloque Fase Regular
+  if (F.mFase === 'todos' || F.mFase === 'regular') {
+    if (faseRegular.length > 0) {
+      html += `<div class="fase-separador">
+        <div>
+          <div class="titulo">📅 Fase Regular</div>
+          <div class="subtitulo">${faseRegular.length} partidos</div>
+        </div>
+      </div>`;
+      html += renderizarPartidos(faseRegular);
+    }
+  }
+
+  // Bloque Fase Final
+  if (F.mFase === 'todos' || F.mFase === 'final') {
+    if (faseFinal.length > 0) {
+      html += `<div class="fase-separador final">
+        <div>
+          <div class="titulo">🏆 Fase Final</div>
+          <div class="subtitulo">${faseFinal.length} partidos</div>
+        </div>
+      </div>`;
+      html += renderizarPartidos(faseFinal);
+    }
+  }
+
+  if (!html) {
+    html = '<div style="color:#8899aa;text-align:center;padding:20px;">Sin partidos</div>';
+  }
+
+  cntEl.textContent = partidos.length + ' PARTIDOS';
+  listEl.innerHTML = html;
+}
+
+function renderizarPartidos(list) {
+  return list.map(m => {
+    const r = R[m.id];
+    const done = r && r.status === 'done';
+    const forf = r && r.status === 'forfeit';
+    const suspended = r && r.status === 'suspended';
+    const wA = done && r.scoreA > r.scoreB;
+    const wB = done && r.scoreB > r.scoreA;
+    const mv = MVP[m.id];
+    let inner = '';
+
+    if (suspended) {
+      inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div></div>`;
+    } else if (done || forf) {
+      inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+        <span class="ss ${wA?'':'l'}">${r.scoreA}</span>
+        <span class="sep">—</span>
+        <span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+      </div>${forf?'<div style="font-size:9px;color:#c0392b;text-align:center;">FORFEIT</div>':''}
+      <div style="text-align:center;margin-top:4px;"><span class="rtag done">✓ Final</span></div>
+      ${mv ? `<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>` : ''}`;
+    } else {
+      inner = `<div style="font-size:14px;text-align:center;">🎯</div><div style="font-size:11px;color:#8899aa;padding:4px;">Pendiente</div>`;
+    }
+
+    let estadoTag = '';
+    if (suspended) estadoTag = '<span class="wtag" style="background:#e67e2233;color:#e67e22;">⏸️ Suspendido</span>';
+    else if (done) estadoTag = '<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Finalizado</span>';
+    else if (forf) estadoTag = '<span class="wtag" style="background:#c0392b33;color:#c0392b;">⚠️ WO</span>';
+    else estadoTag = '<span class="wtag" style="background:#0f3460;">⏳ Pendiente</span>';
+
+    return `<div class="mc">
+      <div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div>
+      <div class="mteams">
+        <div class="tn" style="color:${wA?'#e8b84b':wB?'#8899aa':'#f0e6d3'}">${m.a}</div>
+        <div class="vb">${inner}</div>
+        <div class="tn" style="color:${wB?'#e8b84b':wA?'#8899aa':'#f0e6d3'}">${m.b}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===================================================================
+// TABLAS
+// ===================================================================
+function rSt() {
+  const list = g('st-list-regular');
+  if (!list) return;
+  const tl = TEAMS.filter(t => t.c === F.sCat && t.g === F.sGrp);
+  const tb = {};
+  tl.forEach(t => { tb[t.n] = { n: t.n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; });
+  
+  MATCHES.filter(m => m.c === F.sCat && m.g === F.sGrp && (!m.w || !m.w.startsWith('F2'))).forEach(m => {
+    const r = R[m.id];
+    if (!r || r.status === 'suspended') return;
+    if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; }
+    if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; }
+    if (r.scoreA > r.scoreB) { if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; } if (tb[m.b]) tb[m.b].pp++; }
+    else if (r.scoreB > r.scoreA) { if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; } if (tb[m.a]) tb[m.a].pp++; }
+  });
+  
+  const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf);
+  list.innerHTML = renderTablaHTML(sorted);
+  rStFinal();
+}
+
+function rStFinal() {
+  const list = g('st-list-final');
+  if (!list) return;
+  const clasif = CLASIFICADOS_FASE2[F.sfCat] || [];
+  const tb = {};
+  clasif.forEach(n => { tb[n] = { n: n, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 }; });
+  
+  MATCHES.filter(m => m.c === F.sfCat && m.w && m.w.startsWith('F2')).forEach(m => {
+    const r = R[m.id];
+    if (!r || r.status === 'suspended') return;
+    if (tb[m.a]) { tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB; }
+    if (tb[m.b]) { tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA; }
+    if (r.scoreA > r.scoreB) { if (tb[m.a]) { tb[m.a].pg++; tb[m.a].pts += 3; } if (tb[m.b]) tb[m.b].pp++; }
+    else if (r.scoreB > r.scoreA) { if (tb[m.b]) { tb[m.b].pg++; tb[m.b].pts += 3; } if (tb[m.a]) tb[m.a].pp++; }
+  });
+  
+  const sorted = Object.values(tb).sort((a,b) => b.pts - a.pts || (b.tf - b.tc) - (a.tf - a.tc) || b.tf - a.tf);
+  list.innerHTML = renderTablaHTML(sorted);
+}
+
+function renderTablaHTML(sorted) {
+  const rc = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn';
+  let html = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;">
+    <div style="width:20px"></div><div style="flex:1;font-size:8px;">EQUIPO</div>
+    <div class="scols">${['PJ','PG','PP','TF','TC','DIF','AVG','PTS'].map(h => `<div class="sc sh">${h}</div>`).join('')}</div>
+  </div>`;
+  
+  if (sorted.length === 0) {
+    return html + '<div style="color:#8899aa;text-align:center;padding:16px;">Sin datos</div>';
+  }
+  
+  html += sorted.map((t,i) => {
+    const dif = t.tf - t.tc;
+    const avg = t.pj ? (dif / t.pj).toFixed(1) : '0.0';
+    const pos = i + 1;
+    const cls = rc(pos);
+    return `<div class="sr ${cls}">
+      <div class="rb ${cls}">${pos}</div>
+      <div style="flex:1;font-size:11px;font-weight:bold;">${t.n}</div>
+      <div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,dif,avg,t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div>
+    </div>`;
+  }).join('');
+  
+  return html;
+}
+
+// ===================================================================
+// AVERAGE
+// ===================================================================
+function searchPlayer(q) { F.aQ = q; rA(); }
+
+function rA() {
+  const list = g('a-list');
+  if (!list) return;
+  const tl = TEAMS.filter(t => t.c === F.aCat && t.g === F.aGrp);
+  const players = [];
+  tl.forEach(t => {
+    t.p.forEach(p => {
+      const ps = PS[t.n + '|' + p] || {};
+      if (F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase()) && !t.n.toLowerCase().includes(F.aQ.toLowerCase())) return;
+      const arrB = ps.arr_b || 0, arrTotal = ps.total_arr || 0;
+      const bocB = ps.boc_b || 0, bocTotal = ps.total_boc || 0;
+      const efecArr = arrTotal > 0 ? Math.round((arrB / arrTotal) * 100) : 0;
+      const efecBoc = bocTotal > 0 ? Math.round((bocB / bocTotal) * 100) : 0;
+      const totalBuenos = arrB + bocB;
+      const totalIntentos = arrTotal + bocTotal;
+      const efecTotal = totalIntentos > 0 ? Math.round((totalBuenos / totalIntentos) * 100) : 0;
+      players.push({name: p, team: t.n, partidos: ps.partidos || 0, arrB, arrTotal, bocB, bocTotal, efecArr, efecBoc, efecTotal});
+    });
+  });
+  players.sort((a,b) => b.efecTotal - a.efecTotal);
+  
+  if (!players.length) {
+    list.innerHTML = '<div style="color:#8899aa;text-align:center;padding:20px;">Sin estadísticas</div>';
+    return;
+  }
+  
+  list.innerHTML = `<div class="card" style="display:flex;gap:5px;align-items:center;padding:6px 8px;">
+    <div style="width:20px"></div><div style="flex:1;font-size:8px;">JUGADOR / EQUIPO</div>
+    <div class="scols"><div class="sc sh">PJ</div><div class="sc sh">ARR%</div><div class="sc sh">BOC%</div><div class="sc sh">TOT%</div></div>
+  </div>` + players.map((p,i) => `<div class="ar">
+    <div style="width:20px;text-align:center;">${i+1}</div>
+    <div style="flex:1;"><div style="font-size:11px;font-weight:bold;">${p.name}</div><div style="font-size:9px;">${p.team}</div></div>
+    <div class="scols">
+      <div class="sc"><div class="av">${p.partidos}</div><div class="al">PJ</div></div>
+      <div class="sc"><div class="av" style="color:#e8b84b;">${p.efecArr}%</div><div class="al">${p.arrB}/${p.arrTotal}</div></div>
+      <div class="sc"><div class="av" style="color:#f39c12;">${p.efecBoc}%</div><div class="al">${p.bocB}/${p.bocTotal}</div></div>
+      <div class="sc"><div class="av" style="color:#2ecc71;">${p.efecTotal}%</div><div class="al">${p.arrB+p.bocB}/${p.arrTotal+p.bocTotal}</div></div>
+    </div>
+  </div>`).join('');
+}
+
+function exportarEstadisticasACSV() {
+  let csv = "Jugador,Equipo,Categoría,Grupo,Partidos,Arrime_B,Arrime_T,Arrime_%,Boche_B,Boche_T,Boche_%\n";
+  TEAMS.forEach(team => {
+    team.p.forEach(player => {
+      const ps = PS[`${team.n}|${player}`] || {};
+      const arrB = ps.arr_b||0, arrT = ps.total_arr||0, arrP = arrT?Math.round((arrB/arrT)*100):0;
+      const bocB = ps.boc_b||0, bocT = ps.total_boc||0, bocP = bocT?Math.round((bocB/bocT)*100):0;
+      csv += `"${player}","${team.n}","${team.c}","${team.g}",${ps.partidos||0},${arrB},${arrT},${arrP},${bocB},${bocT},${bocP}\n`;
+    });
+  });
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a=document.createElement('a'); 
+  a.href=URL.createObjectURL(blob); 
+  a.download=`estadisticas_apertura2026_${new Date().toISOString().slice(0,19)}.csv`; 
+  a.click(); 
+  URL.revokeObjectURL(a.href);
+}
+
+// ===================================================================
+// VIDEOS
+// ===================================================================
+function cargarVideosYouTube() {
+  const grid = g('youtube-grid');
+  if (!grid) return;
+  grid.innerHTML = '<div class="loading-spinner">🎬 Cargando videos...</div>';
+  setTimeout(() => {
+    grid.innerHTML = `
+      <div class="video-card">
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe></div>
+        <div class="video-title">Mejores momentos del Apertura 2026</div>
+        <div class="video-meta">📅 2026 ⏱️ 5:24</div>
+      </div>
+      <div class="video-card">
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/9bZkp7q19f0" allowfullscreen></iframe></div>
+        <div class="video-title">Final Femenina - Resumen</div>
+        <div class="video-meta">📅 2026 ⏱️ 8:15</div>
+      </div>
+      <div class="video-card">
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk" allowfullscreen></iframe></div>
+        <div class="video-title">Final Masculina - Resumen</div>
+        <div class="video-meta">📅 2026 ⏱️ 10:02</div>
+      </div>
+    `;
+  }, 300);
+}
+
+// ===================================================================
+// FICHA DE JUGADOR (solo lectura)
+// ===================================================================
+(function() {
+  const modal = g('modalFicha');
+  const cerrar = g('cerrarModalFicha');
+  const fotoImg = g('fichaFoto');
+  const nombreSpan = g('fichaNombre');
+  const equipoSpan = g('fichaEquipo');
+  const arrSpan = g('fichaArr');
+  const bocSpan = g('fichaBoc');
+  const totSpan = g('fichaTot');
+  const btnDescargar = g('btnDescargar');
+  const btnWhats = g('btnWhatsApp');
+  const btnFace = g('btnFacebook');
+  const mensaje = g('mensaje-ficha');
+
+  let currentPlayerId = null;
+  let currentPlayerData = null;
+
+  const DEFAULT_AVATAR = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="45" fill="%23d9d9d9"/%3E%3Ctext x="50" y="55" font-size="30" text-anchor="middle" fill="%23666" dy=".3em"%3E👤%3C/text%3E%3C/svg%3E';
+
+  function abrirFicha(playerId) {
+    mensaje.textContent = '';
+    const stats = PS[playerId] || null;
+    if (!stats) {
+      mensaje.textContent = '❌ No se encontraron estadísticas.';
+      mensaje.style.color = '#b33';
+      return;
+    }
+    const parts = playerId.split('|');
+    const nombre = parts.length > 1 ? parts[1] : playerId;
+    const equipo = parts.length > 1 ? parts[0] : 'Sin equipo';
+    currentPlayerId = playerId;
+    currentPlayerData = { nombre, equipo, stats };
+
+    nombreSpan.textContent = nombre;
+    equipoSpan.textContent = equipo;
+    arrSpan.textContent = stats.arr_b !== undefined ? Math.round((stats.arr_b/(stats.total_arr||1))*100)+'%' : '—';
+    bocSpan.textContent = stats.boc_b !== undefined ? Math.round((stats.boc_b/(stats.total_boc||1))*100)+'%' : '—';
+    totSpan.textContent = '—';
+
+    // Cargar foto (solo lectura, desde Firestore)
+    fotoImg.src = DEFAULT_AVATAR;
+    if (window.db) {
+      import("https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js").then(({ doc, getDoc }) => {
+        getDoc(doc(window.db, 'fichas', playerId)).then(snap => {
+          if (snap.exists && snap.data().fotoBase64) {
+            fotoImg.src = snap.data().fotoBase64;
+          }
+        }).catch(err => console.warn('Error foto:', err));
+      });
+    }
+
+    modal.classList.add('abierto');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function descargarPNG() {
+    if (!window.html2canvas) return;
+    btnDescargar.disabled = true;
+    mensaje.textContent = '⏳ Generando...';
+    const preview = g('ficha-preview');
+    html2canvas(preview, { scale: 2, useCORS: true, backgroundColor: '#ffffff', allowTaint: true })
+      .then(canvas => {
+        const link = document.createElement('a');
+        link.download = `ficha_${currentPlayerData.nombre.replace(/\s+/g, '_')}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        mensaje.textContent = '✅ Descargada';
+        mensaje.style.color = '#1d7a1d';
+        btnDescargar.disabled = false;
+      })
+      .catch(err => { 
+        mensaje.textContent = '❌ Error';
+        mensaje.style.color = '#b33';
+        btnDescargar.disabled = false; 
+      });
+  }
+
+  function compartir(plataforma) {
+    const url = window.location.href;
+    const texto = `¡Mira esta ficha de Sibarita Sport Club! 🏆 ${currentPlayerData.nombre} - ${currentPlayerData.equipo}`;
+    let shareUrl = '';
+    if (plataforma === 'whatsapp') shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto + ' ' + url)}`;
+    else if (plataforma === 'facebook') shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    if (shareUrl) window.open(shareUrl, '_blank');
+  }
+
+  function cerrarModal() {
+    modal.classList.remove('abierto');
+    document.body.style.overflow = '';
+  }
+
+  cerrar.addEventListener('click', cerrarModal);
+  modal.addEventListener('click', e => { if (e.target === modal) cerrarModal(); });
+  btnDescargar.addEventListener('click', descargarPNG);
+  btnWhats.addEventListener('click', () => compartir('whatsapp'));
+  btnFace.addEventListener('click', () => compartir('facebook'));
+
+  window.initFichas = function() {
+    document.querySelectorAll('.ficha-trigger').forEach(el => {
+      el.removeEventListener('click', handleClick);
+      el.addEventListener('click', handleClick);
+    });
+  };
+
+  function handleClick(e) {
+    e.stopPropagation();
+    const id = e.currentTarget.dataset.id;
+    if (id) abrirFicha(id);
+  }
+
+  window.initFichas();
+})();
+
+// ===================================================================
+// INICIALIZACIÓN
+// ===================================================================
+async function init() {
+  console.log('🔄 Cargando datos desde Firestore...');
+
+  // Cargar resultados
+  if (window.cargarResultados) {
+    R = await window.cargarResultados();
+    console.log('✅ Resultados cargados:', Object.keys(R).length);
+  }
+
+  // Cargar estadísticas
+  if (window.cargarEstadisticas) {
+    PS = await window.cargarEstadisticas();
+    console.log('✅ Estadísticas cargadas:', Object.keys(PS).length);
+  }
+
+  // Renderizar
+  rT();
+  console.log('✅ Página cargada');
+}
+
+// Esperar a que Firebase esté listo
+setTimeout(init, 500);
+</script>
+
+</body>
+</html>
