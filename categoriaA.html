@@ -929,18 +929,100 @@ function importarJSON(){
   if(!input){alert('Pega el JSON');return;}
   try {
     const data = JSON.parse(input);
-    if(!Array.isArray(data)) throw new Error('Debe ser un array de partidos');
-    let importados = 0;
-    data.forEach(item=>{
-      if(item.id && item.scoreA !== undefined && item.scoreB !== undefined){
-        R[item.id] = {scoreA:item.scoreA, scoreB:item.scoreB, status: item.status || 'done'};
-        if(window.guardarResultadoFB) window.guardarResultadoFB(item.id, R[item.id]);
-        importados++;
+
+    // ============================================================
+    // FORMATO NUEVO: { categoria, torneo, partidos: { "id": {...} } }
+    // ============================================================
+    if(data.partidos && typeof data.partidos === 'object'){
+      let resultadosImportados = 0;
+      let estadisticasImportadas = 0;
+      let mvpImportados = 0;
+
+      for (const [id, p] of Object.entries(data.partidos)) {
+        // 1. Guardar RESULTADO
+        if (p.puntosA !== undefined && p.puntosB !== undefined) {
+          R[id] = {scoreA: p.puntosA, scoreB: p.puntosB, status: 'done'};
+          if(window.guardarResultadoFB) window.guardarResultadoFB(id, R[id]);
+          resultadosImportados++;
+        }
+
+        // 2. Guardar ESTADÍSTICAS por jugador
+        if (p.estadisticas) {
+          for (const [equipo, jugadores] of Object.entries(p.estadisticas)) {
+            jugadores.forEach(j => {
+              if (!j.nombre) return;
+              const key = `${equipo}|${j.nombre}`;
+              // Reemplazar valores (no acumular)
+              PS[key] = {
+                arr_b: j.arr_b || 0,
+                total_arr: j.total_arr || 0,
+                boc_b: j.boc_b || 0,
+                total_boc: j.total_boc || 0,
+                partidos: 1
+              };
+              if(window.guardarEstadisticasFB) window.guardarEstadisticasFB(key, PS[key]);
+              estadisticasImportadas++;
+            });
+          }
+        }
+
+        // 3. Calcular y guardar MVP automáticamente
+        const a = p.puntosA || 0;
+        const b = p.puntosB || 0;
+        let ganador = null;
+        if (a > b) ganador = p.equipoA;
+        else if (b > a) ganador = p.equipoB;
+
+        if (ganador && p.estadisticas && p.estadisticas[ganador]) {
+          const jugadores = p.estadisticas[ganador];
+          let mejor = null, mejorPunt = -1;
+          jugadores.forEach(j => {
+            const totalI = (j.total_arr||0) + (j.total_boc||0);
+            const efec = totalI > 0 ? ((j.arr_b||0)+(j.boc_b||0))/totalI * 100 : 0;
+            const punt = ((j.arr_b||0)+(j.boc_b||0)) * (efec/100);
+            if (punt > mejorPunt) { mejorPunt = punt; mejor = j; }
+          });
+          if (mejor) {
+            const totalI = (mejor.total_arr||0) + (mejor.total_boc||0);
+            const efec = totalI > 0 ? ((mejor.arr_b||0)+(mejor.boc_b||0))/totalI * 100 : 0;
+            MVP[id] = {
+              key: `${ganador}|${mejor.nombre}`,
+              name: mejor.nombre,
+              team: ganador,
+              efec: Math.round(efec)
+            };
+            if(window.guardarMVPFB) window.guardarMVPFB(id, MVP[id]);
+            mvpImportados++;
+          }
+        }
       }
-    });
-    alert(`✅ ${importados} resultados importados`);
-    g('json-input').value = '';
-    rM(); rSt();
+
+      alert(`✅ Importación completada:\n- ${resultadosImportados} resultados\n- ${estadisticasImportadas} registros de jugadores\n- ${mvpImportados} MVP calculados`);
+
+      g('json-input').value = '';
+      rM(); rSt(); rA();
+      return;
+    }
+
+    // ============================================================
+    // FORMATO ANTIGUO: array simple [{id, scoreA, scoreB, status}]
+    // ============================================================
+    if (Array.isArray(data)) {
+      let importados = 0;
+      data.forEach(item => {
+        if (item.id && item.scoreA !== undefined && item.scoreB !== undefined) {
+          R[item.id] = {scoreA:item.scoreA, scoreB:item.scoreB, status: item.status || 'done'};
+          if(window.guardarResultadoFB) window.guardarResultadoFB(item.id, R[item.id]);
+          importados++;
+        }
+      });
+      alert(`✅ ${importados} resultados importados (formato antiguo)`);
+      g('json-input').value = '';
+      rM(); rSt(); rA();
+      return;
+    }
+
+    throw new Error('Formato no reconocido. Debe ser { partidos: {...} } o un array de partidos.');
   } catch(e){
     alert('❌ Error: ' + e.message);
   }
