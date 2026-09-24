@@ -702,10 +702,36 @@ function rM(){
   const listEl = g('m-list');
   if(!weeksEl || !cntEl || !listEl) return;
 
-  weeksEl.innerHTML = `<button class="fb on">Sem 1</button>`;
+  // ===== DETECTAR SEMANAS AUTOMÁTICAMENTE =====
+  const semanasSet = new Set();
+  MATCHES.filter(m=>m.c===F.mCat).forEach(m=>{
+    if(m.w) semanasSet.add(m.w);
+  });
+  const semanas = Array.from(semanasSet).sort();
 
-  const list = MATCHES.filter(m=>m.c===F.mCat);
-  cntEl.textContent = list.length + ' PARTIDOS — ' + F.mCat;
+  // ===== GENERAR PESTAÑAS: TODAS + CADA SEMANA =====
+  const lblSemana = (w) => {
+    if(w.startsWith('S') && !w.startsWith('F2')) return 'Sem ' + w.substring(1);
+    if(w.startsWith('F2-')) return 'Fase 2 ' + w.substring(3);
+    return w;
+  };
+
+  let tabsHTML = `<button class="fb ${F.mWk==='Todas'||!F.mWk?'on':''}" onclick="F.mWk='Todas';rM();">Todas</button>`;
+  semanas.forEach(w=>{
+    tabsHTML += `<button class="fb ${F.mWk===w?'on':''}" onclick="F.mWk='${w}';rM();">${lblSemana(w)}</button>`;
+  });
+  weeksEl.innerHTML = tabsHTML;
+
+  // ===== FILTRAR PARTIDOS =====
+  let list;
+  if(!F.mWk || F.mWk === 'Todas'){
+    list = MATCHES.filter(m=>m.c===F.mCat);
+  } else {
+    list = MATCHES.filter(m=>m.c===F.mCat && m.w===F.mWk);
+  }
+
+  cntEl.textContent = list.length + ' PARTIDOS — ' + F.mCat + (F.mWk && F.mWk !== 'Todas' ? ' · ' + lblSemana(F.mWk) : '');
+
   if(!list.length){
     listEl.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin partidos programados</div>';
     return;
@@ -755,7 +781,7 @@ function rM(){
     else estadoTag = '<span class="wtag" style="background:var(--card-2);color:var(--text-muted);">⏳ Pendiente</span>';
 
     return `<div class="mc">
-      <div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f} · Gr.${m.g.replace('G','')}</span>${estadoTag}</div>
+      <div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f} · ${lblSemana(m.w)}</span>${estadoTag}</div>
       <div class="mteams">
         <div class="tn" style="color:${wA?'var(--primary)':wB?'var(--text-muted)':'var(--text)'}">${m.a}</div>
         <div class="vb">${inner}</div>
