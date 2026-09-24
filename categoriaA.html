@@ -687,23 +687,42 @@ function openTeam(name){
 function closeDetail(){g('teams-wrap').style.display='block';g('t-detail').style.display='none';}
 
 // ==================== PARTIDOS (IGUAL QUE INDEX) ====================
-// ==================== PARTIDOS (IDÉNTICO A INDEX) ====================
 function rM(){
   const weeksEl = g('m-weeks');
   const cntEl = g('m-cnt');
   const listEl = g('m-list');
   if(!weeksEl || !cntEl || !listEl) return;
 
-  const wks = ['S1'];
-  const wlbl = {S1:'Sem 1'};
-  weeksEl.innerHTML = wks.map(w=>
-    `<button class="fb ${F.mWk===w||(!F.mWk&&w==='S1')?'on':''}" onclick="F.mWk='${w}';rM();">${wlbl[w]}</button>`
-  ).join('');
+  // ===== DETECTAR SEMANAS AUTOMÁTICAMENTE =====
+  const semanasSet = new Set();
+  MATCHES.filter(m=>m.c===F.mCat).forEach(m=>{
+    if(m.w) semanasSet.add(m.w);
+  });
+  const semanas = Array.from(semanasSet).sort();
 
-  let list = MATCHES.filter(m=>m.c===F.mCat && (F.mWk==='Todos' || !F.mWk || m.w===F.mWk || F.mWk==='S1'));
-  if(F.mWk==='Todos') list = MATCHES.filter(m=>m.c===F.mCat);
-  
-  cntEl.textContent = list.length + ' PARTIDOS — ' + F.mCat;
+  // ===== GENERAR PESTAÑAS: TODAS + CADA SEMANA =====
+  const lblSemana = (w) => {
+    if(w.startsWith('S') && !w.startsWith('F2')) return 'Sem ' + w.substring(1);
+    if(w.startsWith('F2-')) return 'Fase 2 ' + w.substring(3);
+    return w;
+  };
+
+  let tabsHTML = `<button class="fb ${F.mWk==='Todas'||!F.mWk?'on':''}" onclick="F.mWk='Todas';rM();">Todas</button>`;
+  semanas.forEach(w=>{
+    tabsHTML += `<button class="fb ${F.mWk===w?'on':''}" onclick="F.mWk='${w}';rM();">${lblSemana(w)}</button>`;
+  });
+  weeksEl.innerHTML = tabsHTML;
+
+  // ===== FILTRAR PARTIDOS =====
+  let list;
+  if(!F.mWk || F.mWk === 'Todas'){
+    list = MATCHES.filter(m=>m.c===F.mCat);
+  } else {
+    list = MATCHES.filter(m=>m.c===F.mCat && m.w===F.mWk);
+  }
+
+  cntEl.textContent = list.length + ' PARTIDOS — ' + F.mCat + (F.mWk && F.mWk !== 'Todas' ? ' · ' + lblSemana(F.mWk) : '');
+
   if(!list.length){
     listEl.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin partidos programados</div>';
     return;
@@ -719,7 +738,6 @@ function rM(){
     const mv = MVP[m.id];
     let inner = '';
 
-    // ===== SIEMPRE MOSTRAR INPUTS EN PENDIENTES (igual que index) =====
     if(suspended){
       inner = `<div style="text-align:center;"><span style="font-size:14px;">⚠️</span><div style="font-size:11px;color:#e67e22;font-weight:bold;margin:5px 0;">SUSPENDIDO</div><div style="font-size:9px;">Motivo: ${r.razon||'Sin especificar'}</div>
       <button onclick="reanudarJuego(${m.id})" style="background:transparent;border:1px solid var(--primary);color:var(--primary);font-size:10px;padding:3px 10px;border-radius:6px;cursor:pointer;margin-top:4px;font-family:inherit;">▶️ Reanudar</button></div>`;
@@ -736,7 +754,6 @@ function rM(){
       <button class="stats-btn" onclick="openStatsModal(${m.id})">📊 Registrar Estadísticas</button>
       ${mv ? `<div class="mvp-box"><span>🏅</span><div><div class="mvp-lbl">Jugador del Partido</div><div class="mvp-name">${mv.name}</div><div class="mvp-detail">${mv.team}${mv.efec?' · '+mv.efec+'%':''}</div></div></div>` : ''}`;
     } else {
-      // PENDIENTE: SIEMPRE mostrar inputs + botones (igual que index)
       inner = `<div style="font-size:14px;text-align:center;">🎯</div>
         <div class="srow">
           <input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0">
@@ -755,7 +772,7 @@ function rM(){
     else estadoTag = '<span class="wtag" style="background:var(--card-2);color:var(--text-muted);">⏳ Pendiente</span>';
 
     return `<div class="mc">
-      <div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f}</span>${estadoTag}</div>
+      <div class="mm"><span>📅 ${m.d} ${m.dy} ${m.h} · ${m.f} · ${lblSemana(m.w)}</span>${estadoTag}</div>
       <div class="mteams">
         <div class="tn" style="color:${wA?'var(--primary)':wB?'var(--text-muted)':'var(--text)'}">${m.a}</div>
         <div class="vb">${inner}</div>
