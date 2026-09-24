@@ -1267,78 +1267,264 @@ async function guardarTodoFirebase(){
   const bocSpan = g('fichaBoc');
   const totSpan = g('fichaTot');
   const msg = g('mensaje-ficha');
-  let curId=null, curData=null;
+  const inputFoto = g('inputFoto');
+  const btnSubirFoto = g('btnSubirFoto');
+  const btnEliminarFoto = g('btnEliminarFoto');
+
+  let curId = null;
+  let curData = null;
+
   const DEFAULT_AV = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="45" fill="%23d9d9d9"/%3E%3Ctext x="50" y="55" font-size="30" text-anchor="middle" fill="%23666" dy=".3em"%3E👤%3C/text%3E%3C/svg%3E';
-  
-  function abrirFicha(id){
-    msg.textContent='';
-    const stats = PS[id]||{};
-    const parts = id.split('|');
-    const nombre = parts.length>1?parts[1]:id;
-    const equipo = parts.length>1?parts[0]:'Sin equipo';
-    curId=id; curData={nombre,equipo};
-    nomSpan.textContent=nombre;
-    eqSpan.textContent=equipo;
-    arrSpan.textContent = stats.total_arr ? Math.round((stats.arr_b/(stats.total_arr||1))*100)+'%' : '0%';
-    bocSpan.textContent = stats.total_boc ? Math.round((stats.boc_b/(stats.total_boc||1))*100)+'%' : '0%';
-    const tb=(stats.arr_b||0)+(stats.boc_b||0), ti=(stats.total_arr||0)+(stats.total_boc||0);
-    totSpan.textContent = ti ? Math.round((tb/ti)*100)+'%' : '0%';
-    fotoImg.src = DEFAULT_AV;
-    if(window.db && window.fbDoc && window.fbGetDoc){
-      window.fbGetDoc(window.fbDoc(window.db,'fichas',id)).then(snap=>{
-        if(snap.exists() && snap.data().fotoBase64) fotoImg.src = snap.data().fotoBase64;
-      }).catch(()=>{});
-    }
-    modal.classList.add('abierto');
-    document.body.style.overflow='hidden';
+
+  // ============================================================
+  // COMPRIMIR IMAGEN (máx 400x400, JPEG calidad 0.8)
+  // ============================================================
+  function comprimirImagen(file) {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/')) {
+        return reject(new Error('El archivo no es una imagen.'));
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const MAX = 400;
+          let { width, height } = img;
+          if (width > height && width > MAX) {
+            height = Math.round((height * MAX) / width);
+            width = MAX;
+          } else if (height > MAX) {
+            width = Math.round((width * MAX) / height);
+            height = MAX;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', 0.8));
+        };
+        img.onerror = () => reject(new Error('No se pudo leer la imagen.'));
+        img.src = e.target.result;
+      };
+      reader.onerror = () => reject(new Error('Error al leer el archivo.'));
+      reader.readAsDataURL(file);
+    });
   }
-  
-  function descargarPNG(){
-    if(!window.html2canvas)return;
+
+  // ============================================================
+  // ABRIR FICHA
+  // ============================================================
+  function abrirFicha(id) {
+    msg.textContent = '';
+    msg.style.color = '#333';
+    const stats = PS[id] || {};
+    const parts = id.split('|');
+    const nombre = parts.length > 1 ? parts[1] : id;
+    const equipo = parts.length > 1 ? parts[0] : 'Sin equipo';
+    curId = id;
+    curData = { nombre, equipo };
+
+    nomSpan.textContent = nombre;
+    eqSpan.textContent = equipo;
+    arrSpan.textContent = stats.total_arr ? Math.round((stats.arr_b / stats.total_arr) * 100) + '%' : '0%';
+    bocSpan.textContent = stats.total_boc ? Math.round((stats.boc_b / stats.total_boc) * 100) + '%' : '0%';
+    const tb = (stats.arr_b || 0) + (stats.boc_b || 0);
+    const ti = (stats.total_arr || 0) + (stats.total_boc || 0);
+    totSpan.textContent = ti ? Math.round((tb / ti) * 100) + '%' : '0%';
+
+    // Cargar foto desde Firestore
+    fotoImg.src = DEFAULT_AV;
+    btnEliminarFoto.style.display = 'none';
+
+    if (window.db && window.fbDoc && window.fbGetDoc) {
+      window.fbGetDoc(window.fbDoc(window.db, 'fichas', id))
+        .then(snap => {
+          if (snap.exists() && snap.data().fotoBase64) {
+            fotoImg.src = snap.data().fotoBase64;
+            btnEliminarFoto.style.display = 'inline-block';
+          }
+        })
+        .catch(() => {});
+    }
+
+    modal.classList.add('abierto');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // ============================================================
+  // SUBIR FOTO (Base64 a Firestore)
+  // ============================================================
+  async function subirFoto(file) {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      msg.textContent = '❌ Solo se permiten imágenes.';
+      msg.style.color = '#b33';
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      msg.textContent = '❌ La imagen es muy pesada (máx. 10 MB).';
+      msg.style.color = '#b33';
+      return;
+    }
+    btnSubirFoto.disabled = true;
+    btnSubirFoto.textContent = '⏳ Procesando...';
+    msg.textContent = '⏳ Comprimiendo imagen...';
+    msg.style.color = '#333';
+
+    try {
+      const dataUrl = await comprimirImagen(file);
+      const tamañoKB = Math.round((dataUrl.length * 3) / 4 / 1024);
+
+      if (tamañoKB > 900) {
+        msg.textContent = `❌ La imagen pesa ${tamañoKB} KB. Intenta con una más pequeña.`;
+        msg.style.color = '#b33';
+        btnSubirFoto.disabled = false;
+        btnSubirFoto.textContent = '📸 Subir mi foto';
+        return;
+      }
+
+      msg.textContent = '⏳ Guardando en la nube...';
+
+      if (window.db && window.fbDoc && window.fbSetDoc) {
+        // ⚠️ CAMBIAR 'A' POR 'B' EN categoriaB.html
+        await window.fbSetDoc(
+          window.fbDoc(window.db, 'fichas', curId),
+          {
+            fotoBase64: dataUrl,
+            updatedAt: new Date().toISOString(),
+            pesoKB: tamañoKB,
+            torneo: 'navidad',
+            categoria: 'A'
+          },
+          { merge: true }
+        );
+        fotoImg.src = dataUrl;
+        msg.textContent = `✅ Foto guardada (${tamañoKB} KB).`;
+        msg.style.color = '#1d7a1d';
+        btnEliminarFoto.style.display = 'inline-block';
+      } else {
+        msg.textContent = '❌ Firebase no disponible.';
+        msg.style.color = '#b33';
+      }
+    } catch (err) {
+      msg.textContent = '❌ ' + (err.message || 'Error inesperado.');
+      msg.style.color = '#b33';
+    } finally {
+      btnSubirFoto.disabled = false;
+      btnSubirFoto.textContent = '📸 Subir mi foto';
+    }
+  }
+
+  // ============================================================
+  // ELIMINAR FOTO
+  // ============================================================
+  async function eliminarFoto() {
+    if (!curId) return;
+    if (!confirm('¿Eliminar tu foto de perfil?')) return;
+
+    try {
+      if (window.db && window.fbDoc && window.fbSetDoc) {
+        await window.fbSetDoc(
+          window.fbDoc(window.db, 'fichas', curId),
+          { fotoBase64: null },
+          { merge: true }
+        );
+        fotoImg.src = DEFAULT_AV;
+        btnEliminarFoto.style.display = 'none';
+        msg.textContent = '✅ Foto eliminada.';
+        msg.style.color = '#1d7a1d';
+      }
+    } catch (err) {
+      msg.textContent = '❌ No se pudo eliminar la foto.';
+      msg.style.color = '#b33';
+    }
+  }
+
+  // ============================================================
+  // DESCARGAR PNG
+  // ============================================================
+  function descargarPNG() {
+    if (!window.html2canvas) return;
     g('btnDescargar').disabled = true;
-    msg.textContent = '⏳ Generando...';
-    html2canvas(g('ficha-preview'),{scale:2,useCORS:true,backgroundColor:'#fff',allowTaint:true})
-      .then(canvas=>{
+    msg.textContent = '⏳ Generando ficha...';
+    msg.style.color = '#333';
+    html2canvas(g('ficha-preview'), { scale: 2, useCORS: true, backgroundColor: '#fff', allowTaint: true })
+      .then(canvas => {
         const a = document.createElement('a');
-        a.download = `ficha_${curData.nombre.replace(/\s+/g,'_')}.png`;
+        a.download = `ficha_${curData.nombre.replace(/\s+/g, '_')}.png`;
         a.href = canvas.toDataURL('image/png');
         a.click();
-        msg.textContent = '✅ Descargada';
+        msg.textContent = '✅ Ficha descargada';
         msg.style.color = '#1d7a1d';
         g('btnDescargar').disabled = false;
       })
-      .catch(()=>{msg.textContent='❌ Error';g('btnDescargar').disabled=false;});
+      .catch(() => {
+        msg.textContent = '❌ Error al generar';
+        msg.style.color = '#b33';
+        g('btnDescargar').disabled = false;
+      });
   }
-  
-  function compartir(plataforma){
+
+  // ============================================================
+  // COMPARTIR
+  // ============================================================
+  function compartir(plataforma) {
     const url = location.href;
     const texto = `¡Mira esta ficha! 🏆 ${curData.nombre} - ${curData.equipo}`;
     let shareUrl = '';
-    if(plataforma==='whatsapp') shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto+' '+url)}`;
-    else if(plataforma==='facebook') shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-    if(shareUrl) window.open(shareUrl,'_blank');
+    if (plataforma === 'whatsapp') {
+      shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto + ' ' + url)}`;
+    } else if (plataforma === 'facebook') {
+      shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    }
+    if (shareUrl) window.open(shareUrl, '_blank');
   }
-  
-  cerrar.addEventListener('click',()=>{modal.classList.remove('abierto');document.body.style.overflow='';});
-  modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('abierto');document.body.style.overflow='';}});
-  g('btnDescargar').addEventListener('click',descargarPNG);
-  g('btnWhatsApp').addEventListener('click',()=>compartir('whatsapp'));
-  g('btnFacebook').addEventListener('click',()=>compartir('facebook'));
-  
-  window.initFichas = function(){
-    document.querySelectorAll('.ficha-trigger').forEach(el=>{
-      el.removeEventListener('click',handleClick);
-      el.addEventListener('click',handleClick);
+
+  // ============================================================
+  // CERRAR MODAL
+  // ============================================================
+  function cerrarModal() {
+    modal.classList.remove('abierto');
+    document.body.style.overflow = '';
+    msg.textContent = '';
+  }
+
+  // ============================================================
+  // EVENTOS
+  // ============================================================
+  cerrar.addEventListener('click', cerrarModal);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) cerrarModal();
+  });
+  btnSubirFoto.addEventListener('click', () => inputFoto.click());
+  inputFoto.addEventListener('change', function() {
+    if (this.files && this.files[0]) subirFoto(this.files[0]);
+    this.value = '';
+  });
+  btnEliminarFoto.addEventListener('click', eliminarFoto);
+  g('btnDescargar').addEventListener('click', descargarPNG);
+  g('btnWhatsApp').addEventListener('click', () => compartir('whatsapp'));
+  g('btnFacebook').addEventListener('click', () => compartir('facebook'));
+
+  // ============================================================
+  // INICIALIZAR TRIGGERS
+  // ============================================================
+  window.initFichas = function() {
+    document.querySelectorAll('.ficha-trigger').forEach(el => {
+      el.removeEventListener('click', handleClick);
+      el.addEventListener('click', handleClick);
     });
   };
-  function handleClick(e){
+
+  function handleClick(e) {
     e.stopPropagation();
     const id = e.currentTarget.dataset.id;
-    if(id) abrirFicha(id);
+    if (id) abrirFicha(id);
   }
+
   window.initFichas();
 })();
-
 // ==================== INIT ====================
 async function init(){
   console.log('🔄 Cargando datos Cat. A...');
