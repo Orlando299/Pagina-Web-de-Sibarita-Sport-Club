@@ -974,25 +974,51 @@ function importarJSON(){
     // FORMATO NUEVO: { categoria, torneo, partidos: { "id": {...} } }
     // ============================================================
     if(data.partidos && typeof data.partidos === 'object'){
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('📥 INICIANDO IMPORTACIÓN DE JSON');
+      console.log('   Categoría:', data.categoria || '(no especificada)');
+      console.log('   Torneo:', data.torneo || '(no especificado)');
+      console.log('   Total de partidos:', Object.keys(data.partidos).length);
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
       let resultadosImportados = 0;
       let estadisticasImportadas = 0;
       let mvpImportados = 0;
+      let errores = 0;
+
+      const totalPartidos = Object.keys(data.partidos).length;
+      let contador = 0;
 
       for (const [id, p] of Object.entries(data.partidos)) {
+        contador++;
+        console.log('');
+        console.log(`[${contador}/${totalPartidos}] 🎯 Partido ${id}: ${p.equipoA} vs ${p.equipoB}`);
+        console.log(`   Marcador: ${p.puntosA} - ${p.puntosB}`);
+
         // 1. Guardar RESULTADO
         if (p.puntosA !== undefined && p.puntosB !== undefined) {
-          R[id] = {scoreA: p.puntosA, scoreB: p.puntosB, status: 'done'};
-          if(window.guardarResultadoFB) window.guardarResultadoFB(id, R[id]);
-          resultadosImportados++;
+          try {
+            R[id] = {scoreA: p.puntosA, scoreB: p.puntosB, status: 'done'};
+            if(window.guardarResultadoFB){
+              await window.guardarResultadoFB(id, R[id]);
+              console.log(`   ✅ Resultado guardado en Firestore: ${id}`);
+            } else {
+              console.log(`   ⚠️  guardarResultadoFB no disponible, solo local`);
+            }
+            resultadosImportados++;
+          } catch(e){
+            console.error(`   ❌ Error al guardar resultado ${id}:`, e);
+            errores++;
+          }
         }
 
         // 2. Guardar ESTADÍSTICAS por jugador
         if (p.estadisticas) {
+          let jugadoresEstePartido = 0;
           for (const [equipo, jugadores] of Object.entries(p.estadisticas)) {
             jugadores.forEach(j => {
               if (!j.nombre) return;
               const key = `${equipo}|${j.nombre}`;
-              // Reemplazar valores (no acumular)
               PS[key] = {
                 arr_b: j.arr_b || 0,
                 total_arr: j.total_arr || 0,
@@ -1000,10 +1026,16 @@ function importarJSON(){
                 total_boc: j.total_boc || 0,
                 partidos: 1
               };
-              if(window.guardarEstadisticasFB) window.guardarEstadisticasFB(key, PS[key]);
+              if(window.guardarEstadisticasFB){
+                window.guardarEstadisticasFB(key, PS[key]);
+              }
               estadisticasImportadas++;
+              jugadoresEstePartido++;
             });
           }
+          console.log(`   📊 Estadísticas de ${jugadoresEstePartido} jugadores guardadas`);
+        } else {
+          console.log(`   ⚠️  Sin estadísticas en este partido`);
         }
 
         // 3. Calcular y guardar MVP automáticamente
@@ -1013,7 +1045,7 @@ function importarJSON(){
         if (a > b) ganador = p.equipoA;
         else if (b > a) ganador = p.equipoB;
 
-        if (ganador && p.estadisticas && p.estadisticas[ganador]) {
+        if (ganador && p.estadisticas && p.estadisticas[ganador] && p.estadisticas[ganador].length > 0) {
           const jugadores = p.estadisticas[ganador];
           let mejor = null, mejorPunt = -1;
           jugadores.forEach(j => {
@@ -1031,13 +1063,27 @@ function importarJSON(){
               team: ganador,
               efec: Math.round(efec)
             };
-            if(window.guardarMVPFB) window.guardarMVPFB(id, MVP[id]);
+            if(window.guardarMVPFB){
+              window.guardarMVPFB(id, MVP[id]);
+            }
             mvpImportados++;
+            console.log(`   🏅 MVP calculado: ${mejor.nombre} (${ganador}) - ${Math.round(efec)}%`);
           }
+        } else {
+          console.log(`   ⚠️  Sin MVP (empate o sin estadísticas)`);
         }
       }
 
-      alert(`✅ Importación completada:\n- ${resultadosImportados} resultados\n- ${estadisticasImportadas} registros de jugadores\n- ${mvpImportados} MVP calculados`);
+      console.log('');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('✅ IMPORTACIÓN COMPLETADA');
+      console.log(`   📊 Resultados: ${resultadosImportados}`);
+      console.log(`   📈 Estadísticas: ${estadisticasImportadas}`);
+      console.log(`   🏅 MVPs: ${mvpImportados}`);
+      console.log(`   ❌ Errores: ${errores}`);
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+      alert(`✅ Importación completada:\n- ${resultadosImportados} resultados\n- ${estadisticasImportadas} registros de jugadores\n- ${mvpImportados} MVP calculados\n- ${errores} errores`);
 
       g('json-input').value = '';
       rM(); rSt(); rA();
@@ -1048,12 +1094,14 @@ function importarJSON(){
     // FORMATO ANTIGUO: array simple [{id, scoreA, scoreB, status}]
     // ============================================================
     if (Array.isArray(data)) {
+      console.log('📥 Importando formato antiguo (array)...');
       let importados = 0;
-      data.forEach(item => {
+      data.forEach((item, i) => {
         if (item.id && item.scoreA !== undefined && item.scoreB !== undefined) {
           R[item.id] = {scoreA:item.scoreA, scoreB:item.scoreB, status: item.status || 'done'};
           if(window.guardarResultadoFB) window.guardarResultadoFB(item.id, R[item.id]);
           importados++;
+          console.log(`   ✅ ${i+1}. Partido ${item.id} guardado`);
         }
       });
       alert(`✅ ${importados} resultados importados (formato antiguo)`);
@@ -1064,6 +1112,7 @@ function importarJSON(){
 
     throw new Error('Formato no reconocido. Debe ser { partidos: {...} } o un array de partidos.');
   } catch(e){
+    console.error('❌ Error en importación:', e);
     alert('❌ Error: ' + e.message);
   }
 }
