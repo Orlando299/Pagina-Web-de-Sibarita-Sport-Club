@@ -813,9 +813,9 @@ function rM(){
           <span class="sep">—</span>
           <input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0">
         </div>
-        <button class="sbtn" onclick="guardarResultado(${m.id})">💾 Guardar</button>
-        <button class="fbtn" onclick="forfeitResultado(${m.id})">⚠️ Forfeit/WO</button>
-        <button class="fbtn" style="border-color:#e67e2255;color:#e67e22;" onclick="suspenderJuego(${m.id})">⏸️ Suspender</button>`;
+        <button class="sbtn" onclick="guardarResultado('${m.id}')">💾 Guardar</button>
+<button class="fbtn" onclick="forfeitResultado('${m.id}')">⚠️ Forfeit/WO</button>
+<button class="fbtn" style="border-color:#e67e2255;color:#e67e22;" onclick="suspenderJuego('${m.id}')">⏸️ Suspender</button>
     }
 
     let estadoTag = '';
