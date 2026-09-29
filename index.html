@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal - Copa Navidad 2026 | Sibarita SC</title>
+  <title>Sibarita Sport Club - Portal Oficial | Copa Navidad 2026</title>
+  <meta name="description" content="Portal oficial del Sibarita Sport Club. Torneos de bolas criollas, resultados, estadísticas, noticias, galería y toda la información deportiva de Portuguesa, Venezuela.">
   <meta name="google-adsense-account" content="ca-pub-5125085567413576">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5125085567413576" crossorigin="anonymous"></script>
   <style>
@@ -63,7 +64,6 @@
       margin-bottom: 35px;
       animation: fadeInDown 0.8s ease;
     }
-
     .logo-principal {
       display: flex;
       justify-content: center;
@@ -75,8 +75,7 @@
       height: 120px;
       border-radius: 50%;
       border: 4px solid #e8b84b;
-      box-shadow: 0 0 40px rgba(232, 184, 75, 0.6),
-                  0 0 80px rgba(232, 184, 75, 0.3);
+      box-shadow: 0 0 40px rgba(232, 184, 75, 0.6), 0 0 80px rgba(232, 184, 75, 0.3);
       animation: pulso 2.5s ease-in-out infinite;
       background: #fff;
       padding: 4px;
@@ -86,7 +85,6 @@
       0%, 100% { box-shadow: 0 0 40px rgba(232, 184, 75, 0.6), 0 0 80px rgba(232, 184, 75, 0.3); transform: scale(1); }
       50%      { box-shadow: 0 0 60px rgba(232, 184, 75, 0.9), 0 0 120px rgba(232, 184, 75, 0.5); transform: scale(1.03); }
     }
-
     header h1 {
       font-size: 2.8rem;
       font-weight: 900;
@@ -104,10 +102,7 @@
       0%   { background-position: 0% center; }
       100% { background-position: 200% center; }
     }
-    header h1 span {
-      color: #f0e6d3;
-      -webkit-text-fill-color: #f0e6d3;
-    }
+    header h1 span { color: #f0e6d3; -webkit-text-fill-color: #f0e6d3; }
     header .subtitulo {
       color: #cbd5e1;
       font-size: 1.2rem;
@@ -115,7 +110,7 @@
       font-weight: 500;
     }
 
-    /* ===== FECHA DE INICIO DESTACADA ===== */
+    /* Fecha inicio */
     .fecha-inicio {
       display: inline-block;
       margin-top: 18px;
@@ -127,8 +122,7 @@
       border-radius: 60px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      box-shadow: 0 6px 25px rgba(232, 184, 75, 0.5),
-                  0 0 40px rgba(232, 184, 75, 0.25);
+      box-shadow: 0 6px 25px rgba(232, 184, 75, 0.5), 0 0 40px rgba(232, 184, 75, 0.25);
       animation: pulsoFecha 2s ease-in-out infinite;
       position: relative;
       overflow: hidden;
@@ -136,35 +130,22 @@
     .fecha-inicio::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
       animation: destello 3s ease-in-out infinite;
     }
     @keyframes pulsoFecha {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 6px 25px rgba(232, 184, 75, 0.5), 0 0 40px rgba(232, 184, 75, 0.25);
-      }
-      50% {
-        transform: scale(1.04);
-        box-shadow: 0 8px 35px rgba(232, 184, 75, 0.8), 0 0 60px rgba(232, 184, 75, 0.4);
-      }
+      0%, 100% { transform: scale(1); box-shadow: 0 6px 25px rgba(232, 184, 75, 0.5), 0 0 40px rgba(232, 184, 75, 0.25); }
+      50%      { transform: scale(1.04); box-shadow: 0 8px 35px rgba(232, 184, 75, 0.8), 0 0 60px rgba(232, 184, 75, 0.4); }
     }
     @keyframes destello {
       0%   { left: -100%; }
       50%  { left: 100%; }
       100% { left: 100%; }
     }
-    .fecha-inicio .emoji {
-      font-size: 1.3rem;
-      margin-right: 6px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-    }
 
-    /* ===== TARJETAS ===== */
+    /* ===== TARJETAS DE TORNEOS ===== */
     .cards-torneos {
       display: flex;
       flex-wrap: wrap;
@@ -194,62 +175,23 @@
     .card-torneo:nth-child(1) { animation-delay: 0.2s; }
     .card-torneo:nth-child(2) { animation-delay: 0.4s; }
     .card-torneo:nth-child(3) { animation-delay: 0.6s; }
-
-    @keyframes entradaCard {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+    @keyframes entradaCard { to { opacity: 1; transform: translateY(0); } }
     .card-torneo::before {
       content: '';
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        45deg,
-        transparent 30%,
-        rgba(255, 255, 255, 0.1) 50%,
-        transparent 70%
-      );
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
       transform: translateX(-100%);
       transition: transform 0.8s;
       pointer-events: none;
     }
-    .card-torneo:hover::before {
-      transform: translateX(100%);
-    }
-
-    .card-torneo:hover {
-      transform: translateY(-12px) scale(1.02);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-    }
-
-    .card-torneo .icono {
-      font-size: 3.5rem;
-      display: block;
-      margin-bottom: 15px;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
-      transition: transform 0.3s;
-    }
-    .card-torneo:hover .icono {
-      transform: scale(1.15) rotate(-5deg);
-    }
-
-    .card-torneo h2 {
-      font-size: 1.7rem;
-      margin-bottom: 10px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-    }
-
-    .card-torneo p {
-      color: #cbd5e1;
-      font-size: 0.95rem;
-      margin-bottom: 22px;
-      line-height: 1.5;
-    }
-
+    .card-torneo:hover::before { transform: translateX(100%); }
+    .card-torneo:hover { transform: translateY(-12px) scale(1.02); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6); }
+    .card-torneo .icono { font-size: 3.5rem; display: block; margin-bottom: 15px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4)); transition: transform 0.3s; }
+    .card-torneo:hover .icono { transform: scale(1.15) rotate(-5deg); }
+    .card-torneo h2 { font-size: 1.7rem; margin-bottom: 10px; font-weight: 800; letter-spacing: 0.5px; }
+    .card-torneo p { color: #cbd5e1; font-size: 0.95rem; margin-bottom: 22px; line-height: 1.5; }
     .card-torneo .btn-acceso {
       display: inline-block;
       padding: 12px 32px;
@@ -261,72 +203,142 @@
       transition: all 0.3s;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
-
-    /* Histórico */
     .card-apertura { border-color: rgba(148, 163, 184, 0.3); }
-    .card-apertura:hover {
-      border-color: #94a3b8;
-      box-shadow: 0 20px 60px rgba(148, 163, 184, 0.25);
-    }
+    .card-apertura:hover { border-color: #94a3b8; box-shadow: 0 20px 60px rgba(148, 163, 184, 0.25); }
     .card-apertura h2 { color: #cbd5e1; }
-    .card-apertura .btn-acceso {
-      background: linear-gradient(135deg, #64748b, #94a3b8);
-      color: #fff;
+    .card-apertura .btn-acceso { background: linear-gradient(135deg, #64748b, #94a3b8); color: #fff; }
+    .card-navidad-a { border-color: rgba(212, 160, 23, 0.3); background: linear-gradient(145deg, rgba(26,42,26,0.95), rgba(15,31,15,0.95)); }
+    .card-navidad-a:hover { border-color: #d4a017; box-shadow: 0 20px 60px rgba(212, 160, 23, 0.4); }
+    .card-navidad-a h2 { color: #d4a017; text-shadow: 0 0 20px rgba(212, 160, 23, 0.5); }
+    .card-navidad-a .btn-acceso { background: linear-gradient(135deg, #d4a017, #f39c12); color: #0f1a0f; }
+    .card-navidad-b { border-color: rgba(41, 128, 185, 0.3); background: linear-gradient(145deg, rgba(15,36,56,0.95), rgba(10,26,44,0.95)); }
+    .card-navidad-b:hover { border-color: #2980b9; box-shadow: 0 20px 60px rgba(41, 128, 185, 0.4); }
+    .card-navidad-b h2 { color: #4facfe; text-shadow: 0 0 20px rgba(79, 172, 254, 0.5); }
+    .card-navidad-b .btn-acceso { background: linear-gradient(135deg, #2980b9, #4facfe); color: #fff; }
+
+    /* ===== SECCIONES GENÉRICAS ===== */
+    .seccion {
+      margin: 50px 0 30px;
+      animation: fadeInUp 1s ease;
     }
-    .card-apertura .btn-acceso:hover {
-      background: linear-gradient(135deg, #94a3b8, #cbd5e1);
-      transform: scale(1.05);
+    .seccion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid rgba(232, 184, 75, 0.3);
+    }
+    .seccion-header h2 {
+      color: #e8b84b;
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+    .seccion-header .ver-todas {
+      color: #e8b84b;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+    }
+    .seccion-header .ver-todas:hover { color: #f39c12; text-decoration: underline; }
+
+    /* ===== CARDS GENÉRICAS ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .card-seccion {
+      background: linear-gradient(145deg, rgba(26,42,74,0.95), rgba(15,31,58,0.95));
+      border-radius: 20px;
+      padding: 25px 22px;
+      border: 1px solid rgba(232, 184, 75, 0.15);
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+    }
+    .card-seccion:hover {
+      transform: translateY(-5px);
+      border-color: #e8b84b;
+      box-shadow: 0 15px 40px rgba(232, 184, 75, 0.2);
+    }
+    .card-seccion .icono { font-size: 2.5rem; margin-bottom: 12px; }
+    .card-seccion h3 { color: #f0e6d3; font-size: 1.15rem; font-weight: 700; margin-bottom: 12px; line-height: 1.4; }
+    .card-seccion p { color: #cbd5e1; font-size: 0.9rem; line-height: 1.6; flex: 1; margin-bottom: 18px; }
+    .card-seccion .leer-mas {
+      color: #e8b84b;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      align-self: flex-start;
+    }
+    .card-seccion .leer-mas:hover { color: #f39c12; transform: translateX(5px); }
+    .card-seccion .fecha { color: #94a3b8; font-size: 0.8rem; font-style: italic; margin-bottom: 10px; }
+
+    /* ===== MINI GALERÍA ===== */
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+    .galeria-item {
+      aspect-ratio: 1;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid rgba(232, 184, 75, 0.2);
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+      background: #16213e;
+    }
+    .galeria-item:hover {
+      transform: scale(1.03);
+      border-color: #e8b84b;
+      box-shadow: 0 15px 40px rgba(232, 184, 75, 0.3);
+    }
+    .galeria-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
-    /* Categoría A */
-    .card-navidad-a {
-      border-color: rgba(212, 160, 23, 0.3);
-      background: linear-gradient(145deg, rgba(26,42,26,0.95), rgba(15,31,15,0.95));
+    /* ===== REGLAMENTOS ===== */
+    .reglamentos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
     }
-    .card-navidad-a:hover {
-      border-color: #d4a017;
-      box-shadow: 0 20px 60px rgba(212, 160, 23, 0.4);
+    .reglamento-card {
+      background: linear-gradient(145deg, rgba(26,42,74,0.95), rgba(15,31,58,0.95));
+      border-radius: 20px;
+      padding: 25px 20px;
+      border: 1px solid rgba(232, 184, 75, 0.15);
+      transition: all 0.3s;
+      text-decoration: none;
+      color: inherit;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    .card-navidad-a h2 {
-      color: #d4a017;
-      text-shadow: 0 0 20px rgba(212, 160, 23, 0.5);
+    .reglamento-card:hover {
+      transform: translateY(-5px);
+      border-color: #e8b84b;
+      box-shadow: 0 15px 40px rgba(232, 184, 75, 0.25);
     }
-    .card-navidad-a .btn-acceso {
-      background: linear-gradient(135deg, #d4a017, #f39c12);
-      color: #0f1a0f;
-    }
-    .card-navidad-a .btn-acceso:hover {
-      background: linear-gradient(135deg, #f39c12, #ffd700);
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(212, 160, 23, 0.6);
-    }
-
-    /* Categoría B */
-    .card-navidad-b {
-      border-color: rgba(41, 128, 185, 0.3);
-      background: linear-gradient(145deg, rgba(15,36,56,0.95), rgba(10,26,44,0.95));
-    }
-    .card-navidad-b:hover {
-      border-color: #2980b9;
-      box-shadow: 0 20px 60px rgba(41, 128, 185, 0.4);
-    }
-    .card-navidad-b h2 {
-      color: #4facfe;
-      text-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
-    }
-    .card-navidad-b .btn-acceso {
-      background: linear-gradient(135deg, #2980b9, #4facfe);
-      color: #fff;
-    }
-    .card-navidad-b .btn-acceso:hover {
-      background: linear-gradient(135deg, #e67e22, #f39c12);
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(230, 126, 34, 0.6);
-    }
+    .reglamento-card .icono { font-size: 2.8rem; margin-bottom: 15px; }
+    .reglamento-card h3 { color: #e8b84b; font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .reglamento-card p { color: #cbd5e1; font-size: 0.85rem; line-height: 1.5; }
 
     /* ===== FOOTER ===== */
     footer {
-      margin-top: 40px;
+      margin-top: 50px;
       padding-top: 25px;
       border-top: 1px solid rgba(232, 184, 75, 0.3);
       text-align: center;
@@ -334,36 +346,57 @@
       font-size: 0.9rem;
       animation: fadeInUp 1s ease;
     }
-    footer a {
-      color: #e8b84b;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+    footer a { color: #e8b84b; text-decoration: none; transition: color 0.2s; }
     footer a:hover { color: #ffd700; }
-    footer strong {
-      color: #e8b84b;
-      letter-spacing: 1px;
+    footer strong { color: #e8b84b; letter-spacing: 1px; }
+    footer .footer-links {
+      margin-top: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      font-size: 0.85rem;
     }
+    footer .footer-links a {
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: rgba(232, 184, 75, 0.08);
+      transition: all 0.3s;
+    }
+    footer .footer-links a:hover {
+      background: rgba(232, 184, 75, 0.2);
+      transform: translateY(-2px);
+    }
+    footer .instruccion-btn {
+      display: inline-block;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #e8b84b, #f39c12);
+      color: #0f1a0f;
+      text-decoration: none;
+      border-radius: 60px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(232, 184, 75, 0.4);
+      transition: all 0.3s;
+      margin: 20px 0 15px;
+    }
+    footer .instruccion-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(232,184,75,0.7); }
 
     /* ===== ANIMACIONES ===== */
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 700px) {
       header h1 { font-size: 2rem; }
       .logo-principal img { width: 90px; height: 90px; }
       .fecha-inicio { font-size: 1rem; padding: 10px 24px; }
-      .card-torneo {
-        flex: 1 1 100%;
-        max-width: 100%;
-      }
+      .card-torneo { flex: 1 1 100%; max-width: 100%; }
+      .seccion-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .seccion-header h2 { font-size: 1.5rem; }
+      footer .footer-links { flex-direction: column; align-items: center; }
     }
   </style>
 </head>
@@ -377,18 +410,15 @@
     <div class="logo-principal">
       <img src="https://i.imgur.com/HbKo42m.png" alt="Sibarita Sport Club">
     </div>
-
     <h1>🏆 <span>Sibarita</span> Sport Club</h1>
-    <p class="subtitulo">Copa Navidad 2026 · Torneo de Bolas Criollas</p>
-
-    <!-- FECHA DE INICIO DESTACADA -->
+    <p class="subtitulo">Portal Oficial · Torneos de Bolas Criollas</p>
     <div class="fecha-inicio">
-      <span class="emoji">🎄</span> Inicio: 18/09
+      <span class="emoji">🎄</span> Copa Navidad · Inicio: 18/09
     </div>
   </header>
 
+  <!-- ===== TARJETAS DE TORNEOS ===== -->
   <div class="cards-torneos">
-    <!-- HISTÓRICO: APERTURA 2026 -->
     <a href="apertura.html" class="card-torneo card-apertura">
       <span class="icono">📜</span>
       <h2>Apertura 2026</h2>
@@ -396,7 +426,6 @@
       <span class="btn-acceso">Ver histórico</span>
     </a>
 
-    <!-- CATEGORÍA A -->
     <a href="categoriaA.html" class="card-torneo card-navidad-a">
       <span class="icono">🟡</span>
       <h2>Categoría A</h2>
@@ -404,7 +433,6 @@
       <span class="btn-acceso">Ingresar</span>
     </a>
 
-    <!-- CATEGORÍA B -->
     <a href="categoriaB.html" class="card-torneo card-navidad-b">
       <span class="icono">🔵</span>
       <h2>Categoría B</h2>
@@ -413,47 +441,135 @@
     </a>
   </div>
 
-<footer>
-  <p>
-    <strong>SIBARITA SPORT CLUB</strong><br />
-    Araúre · Portuguesa
-  </p>
-  <p style="margin-top: 8px;">
-    Información: Arq. Berly Salazar · 📞 0412-739.65.16 / 0416-628.60.51
-  </p>
+  <!-- ===== SECCIÓN DE NOTICIAS ===== -->
+  <section class="seccion">
+    <div class="seccion-header">
+      <h2>📰 Últimas Noticias</h2>
+      <a href="blog.html" class="ver-todas">Ver todas →</a>
+    </div>
 
-  <!-- BOTÓN INSTRUCTIVO -->
-  <div style="margin: 20px 0 15px;">
-    <a href="instructivo.html" style="
-      display: inline-block;
-      padding: 12px 28px;
-      background: linear-gradient(135deg, #e8b84b, #f39c12);
-      color: #0f1a0f;
-      text-decoration: none;
-      border-radius: 60px;
-      font-weight: 800;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      box-shadow: 0 4px 15px rgba(232, 184, 75, 0.4);
-      transition: all 0.3s;
-    " onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(232,184,75,0.7)';"
-       onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(232,184,75,0.4)';">
-      📖 Ver Instructivo de Uso
-    </a>
-  </div>
+    <div class="cards-grid">
+      <a href="articulo-cierre.html" class="card-seccion">
+        <div class="icono">🏆</div>
+        <h3>¡Gracias por tanto, Sibarita!</h3>
+        <p>Cerramos un torneo inolvidable y ya encendemos la Copa Navidad 2026. Felicitaciones a los campeones, equipos y fanaticada.</p>
+        <span class="leer-mas">Leer más →</span>
+      </a>
 
-  <p style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(232,184,75,0.15); font-size: 0.85rem;">
-    💻 Desarrollo y diseño web: 
-    <span style="color: #e8b84b; font-weight: 600;">Msc. Orlando Silva</span>
-  </p>
-  <p style="margin-top: 10px;">
-    <a href="#">Volver arriba</a> · 
-    <span style="color: #64748b;">Versión informativa</span>
-  </p>
-</footer>
+      <a href="articulo2-campeonato.html" class="card-seccion">
+        <div class="icono">🎄</div>
+        <h3>¡Arranca la Copa Navidad 2026!</h3>
+        <p>Este 18 de septiembre inicia el torneo más esperado del año. Conoce los equipos confirmados, calendario y toda la información oficial.</p>
+        <span class="leer-mas">Leer más →</span>
+      </a>
+
+      <a href="articulo1-historia.html" class="card-seccion">
+        <div class="icono">📖</div>
+        <h3>La Historia de Sibarita Sport Club</h3>
+        <p>Conoce cómo nació el sueño de la Arq. Berly Salazar y el apoyo del CEINPORT para crear un torneo inclusivo y de calidad.</p>
+        <span class="leer-mas">Leer más →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== SECCIÓN DE GALERÍA ===== -->
+  <section class="seccion">
+    <div class="seccion-header">
+      <h2>📸 Galería de Fotos</h2>
+      <a href="galeria.html" class="ver-todas">Ver todas →</a>
+    </div>
+
+    <div class="galeria-grid">
+      <div class="galeria-item" onclick="window.location.href='galeria.html'">
+        <img src="img/IMG-FINAL-05.jpg" alt="Final Femenina" onerror="this.src='https://i.imgur.com/HbKo42m.png'; this.style.objectFit='contain'; this.style.padding='20px';">
+      </div>
+      <div class="galeria-item" onclick="window.location.href='galeria.html'">
+        <img src="img/IMG-FINAL-02.jpg" alt="Campeones Masculino" onerror="this.src='https://i.imgur.com/HbKo42m.png'; this.style.objectFit='contain'; this.style.padding='20px';">
+      </div>
+      <div class="galeria-item" onclick="window.location.href='galeria.html'">
+        <img src="img/IMG-FINAL-01.jpg" alt="Sub Campeonas" onerror="this.src='https://i.imgur.com/HbKo42m.png'; this.style.objectFit='contain'; this.style.padding='20px';">
+      </div>
+      <div class="galeria-item" onclick="window.location.href='galeria.html'">
+        <img src="img/IMG-20260824-WA0012.jpg" alt="CEINPORT" onerror="this.src='https://i.imgur.com/HbKo42m.png'; this.style.objectFit='contain'; this.style.padding='20px';">
+      </div>
+      <div class="galeria-item" onclick="window.location.href='galeria.html'">
+        <img src="img/IMG-20260824-WA0015.jpg" alt="Bienvenidos" onerror="this.src='https://i.imgur.com/HbKo42m.png'; this.style.objectFit='contain'; this.style.padding='20px';">
+      </div>
+      <div class="galeria-item" onclick="window.location.href='galeria.html'">
+        <img src="img/IMG-20260824-WA0016.jpg" alt="Instalaciones" onerror="this.src='https://i.imgur.com/HbKo42m.png'; this.style.objectFit='contain'; this.style.padding='20px';">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECCIÓN DE REGLAMENTOS Y GUÍAS ===== -->
+  <section class="seccion">
+    <div class="seccion-header">
+      <h2>📖 Reglamentos y Guías</h2>
+      <a href="instructivo.html" class="ver-todas">Ver todas →</a>
+    </div>
+
+    <div class="reglamentos-grid">
+      <a href="reglas.html" class="reglamento-card">
+        <div class="icono">📋</div>
+        <h3>Bases y Condiciones</h3>
+        <p>Todas las reglas oficiales del torneo: inscripciones, uniformidad, sanciones y premiación.</p>
+      </a>
+
+      <a href="articulo4-guia-bolas.html" class="reglamento-card">
+        <div class="icono">📚</div>
+        <h3>Guía de Bolas Criollas</h3>
+        <p>Descubre el origen, las reglas y los términos más importantes de este deporte tradicional venezolano.</p>
+      </a>
+
+      <a href="instructivo.html" class="reglamento-card">
+        <div class="icono">📱</div>
+        <h3>Instructivo de Uso</h3>
+        <p>Aprende a navegar el sitio web, consultar resultados, fichas de jugadores y estadísticas.</p>
+      </a>
+
+      <a href="reconocimientos.html" class="reglamento-card">
+        <div class="icono">🏅</div>
+        <h3>Cuadro de Honor</h3>
+        <p>Los mejores jugadores del torneo en arrime, boche y categoría completa.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>
+      <strong>SIBARITA SPORT CLUB</strong><br />
+      Araúre · Portuguesa · Venezuela
+    </p>
+    <p style="margin-top: 8px;">
+      Información: Arq. Berly Salazar · 📞 0412-739.65.16 / 0416-628.60.51
+    </p>
+
+    <!-- Botón Instructivo -->
+    <a href="instructivo.html" class="instruccion-btn">📖 Ver Instructivo de Uso</a>
+
+    <!-- Enlaces legales y de navegación -->
+    <div class="footer-links">
+      <a href="blog.html">📰 Blog</a>
+      <a href="galeria.html">📸 Galería</a>
+      <a href="reglas.html">📋 Reglamento</a>
+      <a href="legal.html">📜 Aviso Legal</a>
+      <a href="privacidad.html">🔒 Privacidad</a>
+      <a href="cookies.html">🍪 Cookies</a>
+    </div>
+
+    <p style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(232,184,75,0.15); font-size: 0.85rem;">
+      💻 Desarrollo y diseño web: 
+      <span style="color: #e8b84b; font-weight: 600;">MSc. Orlando Silva</span>
+    </p>
+    <p style="margin-top: 10px;">
+      <a href="#">Volver arriba</a> · 
+      <span style="color: #64748b;">© 2026 Sibarita Sport Club</span>
+    </p>
+  </footer>
 </div>
 
+<!-- Script de partículas -->
 <script>
   (function generarParticulas() {
     const contenedor = document.getElementById('particulas');
