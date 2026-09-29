@@ -964,7 +964,7 @@ function closeStatsModal(){
 }
 
 // ==================== IMPORTAR JSON ====================
-function importarJSON(){
+async function importarJSON(){
   const input = g('json-input').value.trim();
   if(!input){alert('Pega el JSON');return;}
   try {
