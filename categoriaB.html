@@ -1192,6 +1192,7 @@ function rSt(){
   MATCHES.filter(m=>m.c===F.sCat && m.g===F.sGrp).forEach(m=>{
     const r = R[m.id];
     if(!r) return;
+    if(r.status === 'suspended') return;
     if(tb[m.a]){tb[m.a].pj++;tb[m.a].tf+=r.scoreA;tb[m.a].tc+=r.scoreB;}
     if(tb[m.b]){tb[m.b].pj++;tb[m.b].tf+=r.scoreB;tb[m.b].tc+=r.scoreA;}
     if(r.scoreA>r.scoreB){if(tb[m.a]){tb[m.a].pg++;tb[m.a].pts+=3;}if(tb[m.b])tb[m.b].pp++;}
@@ -1216,7 +1217,6 @@ function rSt(){
   }).join('');
   g('st-list').innerHTML = html;
 }
-
 // ==================== AVERAGE ====================
 function searchPlayer(q){F.aQ=q;rA();}
 function rA(){
