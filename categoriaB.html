@@ -442,6 +442,9 @@ const TEAMS = [
   {n:"Sibarita", c:"Masculino", g:"G1", p:["Eleazar Lezama","Jaime Paez","Egar Leonardo Sánchez","José Gregorio Salazar Vasquez","José Villegas","Fernando Antonio Perozo","Jesus Perozo","Leon Salazar","Orlando Silva","Virgilio Mora"]},
   {n:"Team JM&JA", c:"Masculino", g:"G1", p:[]},
   {n:"La 23 de Araure", c:"Masculino", g:"G1", p:["González Alfredo","Torrealba Toribio","Nadal Ronald","Leal Angel","Álvarez Yeiker","Pedraza Cesar","Suarez Jorge","Rodriguez José","Sánchez Gregorio"]},
+  {n:"Cultivar", c:"Masculino", g:"G1", p:[]},
+  {n:"Servihidra", c:"Masculino", g:"G1", p:[]},
+  {n:"Feria Bolivariana", c:"Masculino", g:"G1", p:[]},
 
   // ===== MASCULINO B - GRUPO 2 =====
   {n:"Ingenieros", c:"Masculino", g:"G2", p:["Francisco Ochoa","Dayan Ricardo Galindez","Williams Martinez","Arturo Mendez","Jhonny Reina","Carlos Martinez","Alirio Perdomo","Raul Acosta","Diego Piña","Yowerty Ballester","Euclides Martinez"]},
@@ -453,7 +456,9 @@ const TEAMS = [
   {n:"Agroserviportuguesa", c:"Masculino", g:"G2", p:["José Luis Rodríguez","Yeifran Rodríguez","Jean Carlos Vasquez","Oswaldo Soto","Pablo Vasquez","Henry Soto","Alfredo Rodríguez","José Torre","Lino Caruci"]},
   {n:"Corpoelec 1", c:"Masculino", g:"G2", p:[]},
   {n:"La 1", c:"Masculino", g:"G2", p:["Jose Felix Rodríguez Bazan","Luis Gutiérrez","Alfredo Ceppo","Jose Ramón Suárez Vargas","Kevin Matheus","Adelis Javier Cazu González","Victor Felipe Colmenarez Fernández"]},
-  {n:"Deportivo Guaimaral", c:"Masculino", g:"G2", p:[]}
+  {n:"Deportivo Guaimaral", c:"Masculino", g:"G2", p:[]},
+  {n:"Chumacera", c:"Masculino", g:"G2", p:[]},
+  {n:"Remodica", c:"Masculino", g:"G2", p:[]}
 ];
 
 const MATCHES = [
@@ -518,7 +523,55 @@ const MATCHES = [
   {id:"B324", c:"Masculino", g:"G1", a:"Corpoelec 2",             b:"Distribuidora J&H",     d:"04/10/2026", dy:"Domingo", h:"4:00pm",  f:"Cancha 2", w:"S3"},
   {id:"B325", c:"Femenino",  g:"G2", a:"Las Queen",               b:"Taferca",               d:"04/10/2026", dy:"Domingo", h:"6:00pm",  f:"Cancha 1", w:"S3"},
   {id:"B326", c:"Femenino",  g:"G1", a:"The Dolls",               b:"Condimentos Neidimar",  d:"04/10/2026", dy:"Domingo", h:"6:00pm",  f:"Cancha 2", w:"S3"},
-  {id:"B327", c:"Masculino", g:"G1", a:"Sibarita",                b:"La 23 de Araure",       d:"04/10/2026", dy:"Domingo", h:"6:00pm",  f:"Cancha 3", w:"S3"}
+  {id:"B327", c:"Masculino", g:"G1", a:"Sibarita",                b:"La 23 de Araure",       d:"04/10/2026", dy:"Domingo", h:"6:00pm",  f:"Cancha 3", w:"S3"},
+
+    // ===== SEMANA 4 =====
+  // Jueves 08/10 - 6:00 pm
+  {id:"B401", c:"Femenino",  g:"G1", a:"Matisse Spa",             b:"Chikas B",              d:"08/10/2026", dy:"Jueves",  h:"6:00pm",  f:"Cancha 1", w:"S4"},
+  {id:"B402", c:"Femenino",  g:"G2", a:"T-Teen Club",             b:"Las Triunfadoras",      d:"08/10/2026", dy:"Jueves",  h:"6:00pm",  f:"Cancha 2", w:"S4"},
+  {id:"B403", c:"Masculino", g:"G2", a:"La 1",                    b:"Ingenieros",            d:"08/10/2026", dy:"Jueves",  h:"6:00pm",  f:"Cancha 3", w:"S4"},
+  {id:"B404", c:"Masculino", g:"G1", a:"Cultivar",                b:"Deportivo el Mamón",    d:"08/10/2026", dy:"Jueves",  h:"6:00pm",  f:"Cancha 4", w:"S4"},
+
+  // Jueves 08/10 - 8:30 pm
+  {id:"B405", c:"Femenino",  g:"G1", a:"The Dolls",               b:"New Family",            d:"08/10/2026", dy:"Jueves",  h:"8:30pm",  f:"Cancha 1", w:"S4"},
+  {id:"B406", c:"Femenino",  g:"G2", a:"Atrevidas",               b:"Saboga",                d:"08/10/2026", dy:"Jueves",  h:"8:30pm",  f:"Cancha 2", w:"S4"},
+  {id:"B407", c:"Masculino", g:"G2", a:"Yusevin",                 b:"Remodica",              d:"08/10/2026", dy:"Jueves",  h:"8:30pm",  f:"Cancha 3", w:"S4"},
+  {id:"B408", c:"Masculino", g:"G2", a:"Agroserviportuguesa",     b:"Exasa",                 d:"08/10/2026", dy:"Jueves",  h:"8:30pm",  f:"Cancha 4", w:"S4"},
+
+  // Viernes 09/10 - 6:00 pm
+  {id:"B409", c:"Femenino",  g:"G1", a:"Auto Tapicería Veliz",    b:"Virtud Femenina",       d:"09/10/2026", dy:"Viernes", h:"6:00pm",  f:"Cancha 1", w:"S4"},
+  {id:"B410", c:"Femenino",  g:"G2", a:"Divinas",                 b:"Team Frutas",           d:"09/10/2026", dy:"Viernes", h:"6:00pm",  f:"Cancha 2", w:"S4"},
+  {id:"B411", c:"Masculino", g:"G1", a:"Sibarita",                b:"Los Panas",             d:"09/10/2026", dy:"Viernes", h:"6:00pm",  f:"Cancha 3", w:"S4"},
+  {id:"B412", c:"Masculino", g:"G1", a:"Servihidra",              b:"Pintucal",              d:"09/10/2026", dy:"Viernes", h:"6:00pm",  f:"Cancha 4", w:"S4"},
+
+  // Viernes 09/10 - 8:30 pm
+  {id:"B413", c:"Femenino",  g:"G1", a:"Auto Tapicería Veliz",    b:"Jujure (Educadoras)",   d:"09/10/2026", dy:"Viernes", h:"8:30pm",  f:"Cancha 1", w:"S4"},
+  {id:"B414", c:"Femenino",  g:"G2", a:"Divinas",                 b:"Repostería el Ponque",  d:"09/10/2026", dy:"Viernes", h:"8:30pm",  f:"Cancha 2", w:"S4"},
+  {id:"B415", c:"Masculino", g:"G2", a:"Chumacera",               b:"Team Suárez",           d:"09/10/2026", dy:"Viernes", h:"8:30pm",  f:"Cancha 3", w:"S4"},
+  {id:"B416", c:"Masculino", g:"G2", a:"Corpoelec 1",             b:"Deportivo Guaimaral",   d:"09/10/2026", dy:"Viernes", h:"8:30pm",  f:"Cancha 4", w:"S4"},
+
+  // Sábado 10/10 - 6:00 pm
+  {id:"B417", c:"Femenino",  g:"G1", a:"Matisse Spa",             b:"Sabaneta",              d:"10/10/2026", dy:"Sábado",  h:"6:00pm",  f:"Cancha 1", w:"S4"},
+  {id:"B418", c:"Masculino", g:"G2", a:"Corpoelec 1",             b:"Exasa",                 d:"10/10/2026", dy:"Sábado",  h:"6:00pm",  f:"Cancha 2", w:"S4"},
+  {id:"B419", c:"Masculino", g:"G1", a:"Pintucal",                b:"Los Panas",             d:"10/10/2026", dy:"Sábado",  h:"6:00pm",  f:"Cancha 3", w:"S4"},
+  {id:"B420", c:"Masculino", g:"G1", a:"Los Parranderos",         b:"La 23 de Araure",       d:"10/10/2026", dy:"Sábado",  h:"6:00pm",  f:"Cancha 4", w:"S4"},
+
+  // Sábado 10/10 - 8:30 pm
+  {id:"B421", c:"Femenino",  g:"G2", a:"Repostería el Ponque",    b:"Las Queen",             d:"10/10/2026", dy:"Sábado",  h:"8:30pm",  f:"Cancha 1", w:"S4"},
+  {id:"B422", c:"Masculino", g:"G1", a:"Corpoelec 2",             b:"Team JM&JA",            d:"10/10/2026", dy:"Sábado",  h:"8:30pm",  f:"Cancha 2", w:"S4"},
+  {id:"B423", c:"Masculino", g:"G1", a:"Distribuidora J&H",       b:"Poder Justiciable",     d:"10/10/2026", dy:"Sábado",  h:"8:30pm",  f:"Cancha 3", w:"S4"},
+  {id:"B424", c:"Masculino", g:"G2", a:"Chumacera",               b:"Triunfadores",          d:"10/10/2026", dy:"Sábado",  h:"8:30pm",  f:"Cancha 4", w:"S4"},
+
+  // Domingo 11/10 - 4:00 pm
+  {id:"B425", c:"Femenino",  g:"G1", a:"Corpoelec",               b:"Sabaneta",              d:"11/10/2026", dy:"Domingo", h:"4:00pm",  f:"Cancha 1", w:"S4"},
+  {id:"B426", c:"Masculino", g:"G1", a:"Feria Bolivariana",       b:"Cultivar",              d:"11/10/2026", dy:"Domingo", h:"4:00pm",  f:"Cancha 2", w:"S4"},
+  {id:"B427", c:"Masculino", g:"G1", a:"Poder Justiciable",       b:"La 23 de Araure",       d:"11/10/2026", dy:"Domingo", h:"4:00pm",  f:"Cancha 3", w:"S4"},
+
+  // Domingo 11/10 - 6:00 pm
+  {id:"B428", c:"Femenino",  g:"G2", a:"Atrevidas",               b:"Las Triunfadoras",      d:"11/10/2026", dy:"Domingo", h:"6:00pm",  f:"Cancha 1", w:"S4"},
+  {id:"B429", c:"Masculino", g:"G1", a:"Servihidra",              b:"Cultivar",              d:"11/10/2026", dy:"Domingo", h:"6:00pm",  f:"Cancha 2", w:"S4"},
+  {id:"B430", c:"Masculino", g:"G1", a:"Distribuidora J&H",       b:"Sibarita",              d:"11/10/2026", dy:"Domingo", h:"6:00pm",  f:"Cancha 3", w:"S4"},
+  {id:"B431", c:"Masculino", g:"G2", a:"Chumacera",               b:"Remodica",              d:"11/10/2026", dy:"Domingo", h:"6:00pm",  f:"Cancha 4", w:"S4"}
 ];
 </script>
 
