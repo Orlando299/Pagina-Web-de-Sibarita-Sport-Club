@@ -1684,12 +1684,49 @@ async function guardarTodoFirebase(){
 // ==================== INIT ====================
 async function init(){
   console.log('🔄 Cargando datos Cat. B...');
-  if(window.cargarResultados) R = await window.cargarResultados();
-  if(window.cargarMVP) MVP = await window.cargarMVP();
   
-  await reconstruirEstadisticas(false);
+  // 1. Cargar Resultados (Marcadores)
+  if(window.cargarResultados) {
+    R = await window.cargarResultados();
+  }
+  
+  // 2. Cargar MVPs
+  if(window.cargarMVP) {
+    MVP = await window.cargarMVP();
+  }
+  
+  // 3. Cargar y Reconstruir Estadísticas
+  // (Esto espera a que Firebase devuelva TODOS los partidos)
+  if(window.cargarEstadisticasPorPartido) {
+    console.log('⏳ Descargando partidos para calcular Average...');
+    const todosPartidos = await window.cargarEstadisticasPorPartido();
+    const nuevoPS = {};
+    
+    for (const [matchId, matchStats] of Object.entries(todosPartidos)) {
+      for (const [key, s] of Object.entries(matchStats)) {
+        if (!nuevoPS[key]) {
+          nuevoPS[key] = { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0, partidos: 0 };
+        }
+        const ab = Math.min(s.arr_b || 0, s.total_arr || 0);
+        const bb = Math.min(s.boc_b || 0, s.total_boc || 0);
+        
+        nuevoPS[key].arr_b += ab;
+        nuevoPS[key].total_arr += (s.total_arr || 0);
+        nuevoPS[key].boc_b += bb;
+        nuevoPS[key].total_boc += (s.total_boc || 0);
+        nuevoPS[key].partidos += 1;
+      }
+    }
+    PS = nuevoPS;
+    console.log('✅ PS Reconstruido con:', Object.keys(PS).length, 'jugadores');
+  } else if (window.cargarEstadisticas) {
+    // Fallback por si acaso
+    PS = await window.cargarEstadisticas();
+  }
   
   console.log('✅ R:', Object.keys(R).length, '| PS:', Object.keys(PS).length, '| MVP:', Object.keys(MVP).length);
+  
+  // 4. Pintar las pantallas SOLO cuando todo está listo
   rT(); rM(); rSt(); rA();
 }
 setTimeout(init, 500);
