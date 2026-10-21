@@ -141,6 +141,7 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
 .admin-btn{background:var(--primary);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;font-size:12px;cursor:pointer;font-family:inherit;margin-top:8px;margin-right:6px;}
 .admin-btn.purple{background:#9b59b6;color:#fff;}
 .admin-btn.orange{background:var(--secondary);color:#fff;}
+.admin-btn.green{background:#2ecc71;color:#000;}
 .admin-hidden{display:none;}
 .admin-panel{background:var(--card-2);border:2px solid var(--primary);border-radius:10px;padding:15px;margin-top:12px;}
 .admin-panel h3{color:var(--primary);font-size:14px;margin-bottom:10px;}
@@ -323,6 +324,13 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
         <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Los resultados se guardan en Firebase al editar cada partido. Usa esto para forzar guardado de todo.</p>
         <button class="admin-btn" onclick="guardarTodoFirebase()">☁️ Guardar todo en Firebase</button>
       </div>
+      
+      <!-- NUEVO BLOQUE DE RECONSTRUCCIÓN -->
+      <div class="admin-panel" style="border-color:#2ecc71;">
+        <h3>🔄 Recalcular Estadísticas</h3>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Si el Average o los porcentajes se ven mal (ej. 800%), presiona este botón para reconstruir todo desde cero.</p>
+        <button class="admin-btn green" onclick="reconstruirEstadisticas()">🔄 Reconstruir todo</button>
+      </div>
     </div>
   </div>
 
@@ -380,23 +388,13 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
     </div>
 
     <div style="text-align:center;margin-top:16px;">
-      <!-- Input oculto para seleccionar archivo -->
       <input type="file" id="inputFoto" accept="image/*" style="display:none;">
-
-      <!-- Botón Subir Foto -->
       <button id="btnSubirFoto" style="background:#2d5e2c;color:#fff;border:none;padding:8px 18px;border-radius:30px;font-size:14px;font-weight:600;cursor:pointer;margin:6px 4px;">📸 Subir mi foto</button>
-
-      <!-- Botón Eliminar Foto (oculto por defecto) -->
       <button id="btnEliminarFoto" style="display:none;background:#c0392b;color:#fff;border:none;padding:8px 18px;border-radius:30px;font-size:14px;font-weight:600;cursor:pointer;margin:6px 4px;">🗑️ Eliminar foto</button>
-
       <br>
-
-      <!-- Botones de descarga y compartir -->
       <button class="boton-descargar" id="btnDescargar">⬇️ Descargar PNG</button><br>
       <button class="boton-compartir" id="btnWhatsApp">📱 WhatsApp</button>
       <button class="boton-compartir facebook" id="btnFacebook">📘 Facebook</button>
-
-      <!-- Mensajes de estado -->
       <div id="mensaje-ficha" style="font-size:12px;margin-top:8px;min-height:18px;"></div>
     </div>
   </div>
@@ -710,6 +708,21 @@ const MATCHES = [
     } catch(e) { console.error("Error:", e); return {}; }
   };
 
+  // NUEVA FUNCIÓN PARA CARGAR POR PARTIDO
+  window.cargarEstadisticasPorPartido = async function() {
+    try {
+      const snap = await getDocs(collection(db, "estadisticasPorPartido"));
+      const res = {};
+      snap.forEach(d => {
+        const data = d.data();
+        if (data.torneo === "navidad" && data.categoria === "B") {
+          res[d.id] = data;
+        }
+      });
+      return res;
+    } catch(e) { console.error("Error:", e); return {}; }
+  };
+
   window.cargarMVP = async function() {
     try {
       const snap = await getDocs(collection(db, "mvp"));
@@ -850,9 +863,9 @@ function openTeam(name){
     g('t-dplayers').innerHTML = t.p.map((p,i)=>{
       const k = t.n+'|'+p;
       const ps = PS[k] || {};
-      const arrD = ps.total_arr ? `${ps.arr_b||0}/${ps.total_arr}` : '0/0';
-      const bocD = ps.total_boc ? `${ps.boc_b||0}/${ps.total_boc}` : '0/0';
-      const tb = (ps.arr_b||0)+(ps.boc_b||0);
+      const arrD = ps.total_arr ? `${Math.min(ps.arr_b||0, ps.total_arr)}/${ps.total_arr}` : '0/0';
+      const bocD = ps.total_boc ? `${Math.min(ps.boc_b||0, ps.total_boc)}/${ps.total_boc}` : '0/0';
+      const tb = Math.min(ps.arr_b||0, ps.total_arr||0) + Math.min(ps.boc_b||0, ps.total_boc||0);
       const ti = (ps.total_arr||0)+(ps.total_boc||0);
       const efec = ti ? Math.round((tb/ti)*100) : 0;
       return `<div class="pi">
@@ -879,7 +892,6 @@ function rM(){
   const listEl = g('m-list');
   if(!weeksEl || !cntEl || !listEl) return;
 
-  // ===== DETECTAR SEMANAS AUTOMÁTICAMENTE =====
   const semanasSet = new Set();
   MATCHES.filter(m=>m.c===F.mCat).forEach(m=>{
     if(m.w) semanasSet.add(m.w);
@@ -898,7 +910,6 @@ function rM(){
   });
   weeksEl.innerHTML = tabsHTML;
 
-  // ===== FILTRAR PARTIDOS =====
   let list;
   if(!F.mWk || F.mWk === 'Todas'){
     list = MATCHES.filter(m=>m.c===F.mCat);
@@ -1056,9 +1067,11 @@ function openStatsModal(matchId){
   g('stats-modal').classList.add('on');
 }
 
-function saveMatchStats(){
+// ✅ FIX: Guardar por partido y reconstruir
+async function saveMatchStats(){
   const m = MATCHES.find(x=>x.id===currentMatchId);
   if(!m) return;
+  
   const stats = {};
   [m.a, m.b].forEach(teamName=>{
     const team = TEAMS.find(t=>t.n===teamName);
@@ -1069,30 +1082,84 @@ function saveMatchStats(){
         const total_arr = parseInt(g(`total_arr_${safeKey}`)?.value)||0;
         const boc_b = parseInt(g(`boc_b_${safeKey}`)?.value)||0;
         const total_boc = parseInt(g(`total_boc_${safeKey}`)?.value)||0;
-        stats[`${teamName}|${player}`] = {arr_b,total_arr,boc_b,total_boc};
+        
+        stats[`${teamName}|${player}`] = {
+          arr_b: Math.min(arr_b, total_arr),
+          total_arr: total_arr,
+          boc_b: Math.min(boc_b, total_boc),
+          total_boc: total_boc
+        };
       });
     }
   });
+  
   localStorage.setItem(`match_stats_B_${currentMatchId}`, JSON.stringify(stats));
-  if(window.guardarEstadisticasPorPartidoFB) window.guardarEstadisticasPorPartidoFB(currentMatchId, stats);
-  const afectados = Object.keys(stats);
-  afectados.forEach(k=>{
-    if(!PS[k]) PS[k] = {};
-    PS[k].partidos = (PS[k].partidos||0) + 1;
-    PS[k].arr_b = (PS[k].arr_b||0) + stats[k].arr_b;
-    PS[k].total_arr = (PS[k].total_arr||0) + stats[k].total_arr;
-    PS[k].boc_b = (PS[k].boc_b||0) + stats[k].boc_b;
-    PS[k].total_boc = (PS[k].total_boc||0) + stats[k].total_boc;
-    if(window.guardarEstadisticasFB) window.guardarEstadisticasFB(k, PS[k]);
-  });
+  if(window.guardarEstadisticasPorPartidoFB) {
+    await window.guardarEstadisticasPorPartidoFB(currentMatchId, stats);
+  }
+  
+  await reconstruirEstadisticas(false);
+  
   closeStatsModal();
-  alert('✅ Estadísticas guardadas');
+  alert('✅ Estadísticas guardadas y tabla recalculada');
   rA();
 }
 
 function closeStatsModal(){
   g('stats-modal').classList.remove('on');
   currentMatchId = null;
+}
+
+// ==================== RECONSTRUCCIÓN DE ESTADÍSTICAS ====================
+async function reconstruirEstadisticas(mostrarAlerta = true) {
+  const nuevoPS = {};
+  let partidosGuardados = {};
+  
+  if(window.cargarEstadisticasPorPartido) {
+    try {
+      partidosGuardados = await window.cargarEstadisticasPorPartido();
+    } catch(e) { console.error(e); }
+  }
+
+  // Buscar también en localStorage (por si no subió a Firestore)
+  MATCHES.forEach(m => {
+    const lsKey = `match_stats_B_${m.id}`;
+    const dataLS = localStorage.getItem(lsKey);
+    if (dataLS && !partidosGuardados[m.id]) {
+      try {
+        partidosGuardados[m.id] = JSON.parse(dataLS);
+      } catch(e) {}
+    }
+  });
+
+  for (const [matchId, matchStats] of Object.entries(partidosGuardados)) {
+    for (const [key, s] of Object.entries(matchStats)) {
+      if (!nuevoPS[key]) {
+        nuevoPS[key] = { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0, partidos: 0 };
+      }
+      const ab = Math.min(s.arr_b || 0, s.total_arr || 0);
+      const bb = Math.min(s.boc_b || 0, s.total_boc || 0);
+      
+      nuevoPS[key].arr_b += ab;
+      nuevoPS[key].total_arr += (s.total_arr || 0);
+      nuevoPS[key].boc_b += bb;
+      nuevoPS[key].total_boc += (s.total_boc || 0);
+      nuevoPS[key].partidos += 1;
+    }
+  }
+
+  PS = nuevoPS;
+
+  if(window.guardarEstadisticasFB) {
+    for (const [k, data] of Object.entries(PS)) {
+      window.guardarEstadisticasFB(k, data);
+    }
+  }
+  
+  if (mostrarAlerta) {
+    alert(`✅ Reconstrucción completa.\nPartidos procesados: ${Object.keys(partidosGuardados).length}\nJugadores con stats: ${Object.keys(PS).length}`);
+    rA();
+  }
 }
 
 // ==================== IMPORTAR JSON ====================
@@ -1102,75 +1169,40 @@ async function importarJSON(){
   try {
     const data = JSON.parse(input);
 
-    // ============================================================
-    // FORMATO NUEVO: { categoria, torneo, partidos: { "id": {...} } }
-    // ============================================================
     if(data.partidos && typeof data.partidos === 'object'){
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       console.log('📥 INICIANDO IMPORTACIÓN DE JSON');
-      console.log('   Categoría:', data.categoria || '(no especificada)');
-      console.log('   Torneo:', data.torneo || '(no especificado)');
-      console.log('   Total de partidos:', Object.keys(data.partidos).length);
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-
       let resultadosImportados = 0;
       let estadisticasImportadas = 0;
       let mvpImportados = 0;
-      let errores = 0;
-
-      const totalPartidos = Object.keys(data.partidos).length;
-      let contador = 0;
 
       for (const [id, p] of Object.entries(data.partidos)) {
-        contador++;
-        console.log('');
-        console.log(`[${contador}/${totalPartidos}] 🎯 Partido ${id}: ${p.equipoA} vs ${p.equipoB}`);
-        console.log(`   Marcador: ${p.puntosA} - ${p.puntosB}`);
-
-        // 1. Guardar RESULTADO
         if (p.puntosA !== undefined && p.puntosB !== undefined) {
-          try {
-            R[id] = {scoreA: p.puntosA, scoreB: p.puntosB, status: 'done'};
-            if(window.guardarResultadoFB){
-              await window.guardarResultadoFB(id, R[id]);
-              console.log(`   ✅ Resultado guardado en Firestore: ${id}`);
-            } else {
-              console.log(`   ⚠️  guardarResultadoFB no disponible, solo local`);
-            }
-            resultadosImportados++;
-          } catch(e){
-            console.error(`   ❌ Error al guardar resultado ${id}:`, e);
-            errores++;
-          }
+          R[id] = {scoreA: p.puntosA, scoreB: p.puntosB, status: 'done'};
+          if(window.guardarResultadoFB) await window.guardarResultadoFB(id, R[id]);
+          resultadosImportados++;
         }
 
-        // 2. Guardar ESTADÍSTICAS por jugador
         if (p.estadisticas) {
-          let jugadoresEstePartido = 0;
+          let statsPartido = {};
           for (const [equipo, jugadores] of Object.entries(p.estadisticas)) {
             jugadores.forEach(j => {
               if (!j.nombre) return;
               const key = `${equipo}|${j.nombre}`;
-              PS[key] = {
-                arr_b: j.arr_b || 0,
+              statsPartido[key] = {
+                arr_b: Math.min(j.arr_b || 0, j.total_arr || 0),
                 total_arr: j.total_arr || 0,
-                boc_b: j.boc_b || 0,
-                total_boc: j.total_boc || 0,
-                partidos: 1
+                boc_b: Math.min(j.boc_b || 0, j.total_boc || 0),
+                total_boc: j.total_boc || 0
               };
-              if(window.guardarEstadisticasFB){
-                window.guardarEstadisticasFB(key, PS[key]);
-              }
               estadisticasImportadas++;
-              jugadoresEstePartido++;
             });
           }
-          console.log(`   📊 Estadísticas de ${jugadoresEstePartido} jugadores guardadas`);
-        } else {
-          console.log(`   ⚠️  Sin estadísticas en este partido`);
+          // Guardar por partido          localStorage.setItem(`match_stats_B_${id}`, JSON.stringify(statsPartido));
+          if(window.guardarEstadisticasPorPartidoFB) {
+            await window.guardarEstadisticasPorPartidoFB(id, statsPartido);
+          }
         }
 
-        // 3. Calcular y guardar MVP automáticamente
         const a = p.puntosA || 0;
         const b = p.puntosB || 0;
         let ganador = null;
@@ -1195,56 +1227,37 @@ async function importarJSON(){
               team: ganador,
               efec: Math.round(efec)
             };
-            if(window.guardarMVPFB){
-              window.guardarMVPFB(id, MVP[id]);
-            }
+            if(window.guardarMVPFB) await window.guardarMVPFB(id, MVP[id]);
             mvpImportados++;
-            console.log(`   🏅 MVP calculado: ${mejor.nombre} (${ganador}) - ${Math.round(efec)}%`);
           }
-        } else {
-          console.log(`   ⚠️  Sin MVP (empate o sin estadísticas)`);
         }
       }
 
-      console.log('');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.log('✅ IMPORTACIÓN COMPLETADA');
-      console.log(`   📊 Resultados: ${resultadosImportados}`);
-      console.log(`   📈 Estadísticas: ${estadisticasImportadas}`);
-      console.log(`   🏅 MVPs: ${mvpImportados}`);
-      console.log(`   ❌ Errores: ${errores}`);
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-
-      alert(`✅ Importación completada:\n- ${resultadosImportados} resultados\n- ${estadisticasImportadas} registros de jugadores\n- ${mvpImportados} MVP calculados\n- ${errores} errores`);
-
+      await reconstruirEstadisticas(false);
+      alert(`✅ Importación completada:\n- ${resultadosImportados} resultados\n- ${estadisticasImportadas} registros\n- ${mvpImportados} MVP`);
       g('json-input').value = '';
       rM(); rSt(); rA();
       return;
     }
 
-    // ============================================================
-    // FORMATO ANTIGUO: array simple [{id, scoreA, scoreB, status}]
-    // ============================================================
     if (Array.isArray(data)) {
-      console.log('📥 Importando formato antiguo (array)...');
       let importados = 0;
       data.forEach((item, i) => {
         if (item.id && item.scoreA !== undefined && item.scoreB !== undefined) {
           R[item.id] = {scoreA:item.scoreA, scoreB:item.scoreB, status: item.status || 'done'};
           if(window.guardarResultadoFB) window.guardarResultadoFB(item.id, R[item.id]);
           importados++;
-          console.log(`   ✅ ${i+1}. Partido ${item.id} guardado`);
         }
       });
-      alert(`✅ ${importados} resultados importados (formato antiguo)`);
+      alert(`✅ ${importados} resultados importados`);
       g('json-input').value = '';
       rM(); rSt(); rA();
       return;
     }
 
-    throw new Error('Formato no reconocido. Debe ser { partidos: {...} } o un array de partidos.');
+    throw new Error('Formato no reconocido.');
   } catch(e){
-    console.error('❌ Error en importación:', e);
+    console.error('❌ Error:', e);
     alert('❌ Error: ' + e.message);
   }
 }
@@ -1299,7 +1312,8 @@ function rSt(){
   }).join('');
   g('st-list').innerHTML = html;
 }
-// ==================== AVERAGE ====================
+
+// ==================== AVERAGE (CON VALIDACIÓN) ====================
 function searchPlayer(q){F.aQ=q;rA();}
 function rA(){
   const tl = TEAMS.filter(t=>t.c===F.aCat && t.g===F.aGrp);
@@ -1308,13 +1322,19 @@ function rA(){
     t.p.forEach(p=>{
       const ps = PS[t.n+'|'+p] || {};
       if(F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase())) return;
-      const arrB=ps.arr_b||0, arrT=ps.total_arr||0;
-      const bocB=ps.boc_b||0, bocT=ps.total_boc||0;
-      const eArr = arrT>0?Math.round((arrB/arrT)*100):0;
-      const eBoc = bocT>0?Math.round((bocB/bocT)*100):0;
-      const tb = arrB+bocB, ti = arrT+bocT;
-      const eTot = ti>0?Math.round((tb/ti)*100):0;
-      players.push({name:p,team:t.n,partidos:ps.partidos||0,eArr,eBoc,eTot});
+      
+      const arrB = Math.min(ps.arr_b||0, ps.total_arr||0);
+      const arrT = ps.total_arr||0;
+      const bocB = Math.min(ps.boc_b||0, ps.total_boc||0);
+      const bocT = ps.total_boc||0;
+      
+      const eArr = arrT>0 ? Math.round((arrB/arrT)*100) : 0;
+      const eBoc = bocT>0 ? Math.round((bocB/bocT)*100) : 0;
+      const tb = arrB + bocB;
+      const ti = arrT + bocT;
+      const eTot = ti>0 ? Math.round((tb/ti)*100) : 0;
+      
+      players.push({name:p,team:t.n,partidos:ps.partidos||0,eArr,eBoc,eTot,arrB,arrT,bocB,bocT});
     });
   });
   players.sort((a,b)=>b.eTot-a.eTot);
@@ -1327,9 +1347,9 @@ function rA(){
     <div style="flex:1;"><div style="font-size:11px;font-weight:bold;">${p.name}</div><div style="font-size:9px;color:var(--text-muted);">${p.team}</div></div>
     <div class="scols">
       <div class="sc"><div class="av">${p.partidos}</div><div class="al">PJ</div></div>
-      <div class="sc"><div class="av">${p.eArr}%</div><div class="al">ARR</div></div>
-      <div class="sc"><div class="av">${p.eBoc}%</div><div class="al">BOC</div></div>
-      <div class="sc"><div class="av">${p.eTot}%</div><div class="al">TOT</div></div>
+      <div class="sc"><div class="av">${p.eArr}%</div><div class="al">${p.arrB}/${p.arrT}</div></div>
+      <div class="sc"><div class="av">${p.eBoc}%</div><div class="al">${p.bocB}/${p.bocT}</div></div>
+      <div class="sc"><div class="av">${p.eTot}%</div><div class="al">${p.arrB+p.bocB}/${p.arrT+p.bocT}</div></div>
     </div>
   </div>`).join('');
 }
@@ -1393,8 +1413,8 @@ function exportarEstadisticasACSV(){
   TEAMS.forEach(t=>{
     t.p.forEach(p=>{
       const ps = PS[t.n+'|'+p]||{};
-      const aB=ps.arr_b||0,aT=ps.total_arr||0,aP=aT?Math.round((aB/aT)*100):0;
-      const bB=ps.boc_b||0,bT=ps.total_boc||0,bP=bT?Math.round((bB/bT)*100):0;
+      const aB=Math.min(ps.arr_b||0, ps.total_arr||0), aT=ps.total_arr||0, aP=aT?Math.round((aB/aT)*100):0;
+      const bB=Math.min(ps.boc_b||0, ps.total_boc||0), bT=ps.total_boc||0, bP=bT?Math.round((bB/bT)*100):0;
       csv += `"${p}","${t.n}","${t.c}","${t.g}",${ps.partidos||0},${aB},${aT},${aP},${bB},${bT},${bP}\n`;
     });
   });
@@ -1435,9 +1455,6 @@ async function guardarTodoFirebase(){
 
   const DEFAULT_AV = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="45" fill="%23d9d9d9"/%3E%3Ctext x="50" y="55" font-size="30" text-anchor="middle" fill="%23666" dy=".3em"%3E👤%3C/text%3E%3C/svg%3E';
 
-  // ============================================================
-  // COMPRIMIR IMAGEN (máx 400x400, JPEG calidad 0.8)
-  // ============================================================
   function comprimirImagen(file) {
     return new Promise((resolve, reject) => {
       if (!file.type.startsWith('image/')) {
@@ -1471,9 +1488,6 @@ async function guardarTodoFirebase(){
     });
   }
 
-  // ============================================================
-  // ABRIR FICHA
-  // ============================================================
   function abrirFicha(id) {
     msg.textContent = '';
     msg.style.color = '#333';
@@ -1486,13 +1500,17 @@ async function guardarTodoFirebase(){
 
     nomSpan.textContent = nombre;
     eqSpan.textContent = equipo;
-    arrSpan.textContent = stats.total_arr ? Math.round((stats.arr_b / stats.total_arr) * 100) + '%' : '0%';
-    bocSpan.textContent = stats.total_boc ? Math.round((stats.boc_b / stats.total_boc) * 100) + '%' : '0%';
-    const tb = (stats.arr_b || 0) + (stats.boc_b || 0);
-    const ti = (stats.total_arr || 0) + (stats.total_boc || 0);
-    totSpan.textContent = ti ? Math.round((tb / ti) * 100) + '%' : '0%';
+    const arrB = Math.min(stats.arr_b||0, stats.total_arr||0);
+    const arrT = stats.total_arr||0;
+    const bocB = Math.min(stats.boc_b||0, stats.total_boc||0);
+    const bocT = stats.total_boc||0;
+    
+    arrSpan.textContent = arrT ? Math.round((arrB/arrT)*100)+'%' : '0%';
+    bocSpan.textContent = bocT ? Math.round((bocB/bocT)*100)+'%' : '0%';
+    const tb = arrB + bocB;
+    const ti = arrT + bocT;
+    totSpan.textContent = ti ? Math.round((tb/ti)*100)+'%' : '0%';
 
-    // Cargar foto desde Firestore
     fotoImg.src = DEFAULT_AV;
     btnEliminarFoto.style.display = 'none';
 
@@ -1511,9 +1529,6 @@ async function guardarTodoFirebase(){
     document.body.style.overflow = 'hidden';
   }
 
-  // ============================================================
-  // SUBIR FOTO (Base64 a Firestore)
-  // ============================================================
   async function subirFoto(file) {
     if (!file) return;
     if (!file.type.startsWith('image/')) {
@@ -1546,7 +1561,6 @@ async function guardarTodoFirebase(){
       msg.textContent = '⏳ Guardando en la nube...';
 
       if (window.db && window.fbDoc && window.fbSetDoc) {
-        // ⚠️ CAMBIAR 'A' POR 'B' EN categoriaB.html
         await window.fbSetDoc(
           window.fbDoc(window.db, 'fichas', curId),
           {
@@ -1575,9 +1589,6 @@ async function guardarTodoFirebase(){
     }
   }
 
-  // ============================================================
-  // ELIMINAR FOTO
-  // ============================================================
   async function eliminarFoto() {
     if (!curId) return;
     if (!confirm('¿Eliminar tu foto de perfil?')) return;
@@ -1600,9 +1611,6 @@ async function guardarTodoFirebase(){
     }
   }
 
-  // ============================================================
-  // DESCARGAR PNG
-  // ============================================================
   function descargarPNG() {
     if (!window.html2canvas) return;
     g('btnDescargar').disabled = true;
@@ -1625,9 +1633,6 @@ async function guardarTodoFirebase(){
       });
   }
 
-  // ============================================================
-  // COMPARTIR
-  // ============================================================
   function compartir(plataforma) {
     const url = location.href;
     const texto = `¡Mira esta ficha! 🏆 ${curData.nombre} - ${curData.equipo}`;
@@ -1640,18 +1645,12 @@ async function guardarTodoFirebase(){
     if (shareUrl) window.open(shareUrl, '_blank');
   }
 
-  // ============================================================
-  // CERRAR MODAL
-  // ============================================================
   function cerrarModal() {
     modal.classList.remove('abierto');
     document.body.style.overflow = '';
     msg.textContent = '';
   }
 
-  // ============================================================
-  // EVENTOS
-  // ============================================================
   cerrar.addEventListener('click', cerrarModal);
   modal.addEventListener('click', e => {
     if (e.target === modal) cerrarModal();
@@ -1666,9 +1665,6 @@ async function guardarTodoFirebase(){
   g('btnWhatsApp').addEventListener('click', () => compartir('whatsapp'));
   g('btnFacebook').addEventListener('click', () => compartir('facebook'));
 
-  // ============================================================
-  // INICIALIZAR TRIGGERS
-  // ============================================================
   window.initFichas = function() {
     document.querySelectorAll('.ficha-trigger').forEach(el => {
       el.removeEventListener('click', handleClick);
@@ -1689,8 +1685,10 @@ async function guardarTodoFirebase(){
 async function init(){
   console.log('🔄 Cargando datos Cat. B...');
   if(window.cargarResultados) R = await window.cargarResultados();
-  if(window.cargarEstadisticas) PS = await window.cargarEstadisticas();
   if(window.cargarMVP) MVP = await window.cargarMVP();
+  
+  await reconstruirEstadisticas(false);
+  
   console.log('✅ R:', Object.keys(R).length, '| PS:', Object.keys(PS).length, '| MVP:', Object.keys(MVP).length);
   rT(); rM(); rSt(); rA();
 }
