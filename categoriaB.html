@@ -240,6 +240,25 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
       <button class="fb on" id="btn-aG1" onclick="setF('aGrp','G1')">Grupo 1</button>
       <button class="fb" id="btn-aG2" onclick="setF('aGrp','G2')">Grupo 2</button>
     </div>
+
+        <div class="frow" style="align-items:center;">
+      <div class="srch" style="flex:1;margin-bottom:0;">
+        <span class="srch-ico">🔍</span>
+        <input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)">
+      </div>
+    </div>
+    <div class="frow" style="background:var(--card-2);padding:8px;border-radius:8px;align-items:center;gap:8px;">
+      <label style="font-size:10px;color:var(--primary);font-weight:bold;">Mín. Intentos:</label>
+      <select id="minIntentos" onchange="rA()" style="padding:5px;border-radius:5px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:12px;font-family:inherit;">
+        <option value="0">Todos</option>
+        <option value="20">20+ Intentos</option>
+        <option value="50" selected>50+ Intentos (MVP)</option>
+        <option value="100">100+ Intentos</option>
+      </select>
+      <span id="contadorElegibles" style="font-size:10px;color:#2ecc71;font-weight:bold;margin-left:auto;"></span>
+    </div>
+
+    
     <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;">
       <div style="width:20px"></div>
       <div style="flex:1;font-size:8px;color:var(--primary);font-weight:bold;">JUGADOR</div>
@@ -1083,11 +1102,18 @@ async function saveMatchStats(){
         const boc_b = parseInt(g(`boc_b_${safeKey}`)?.value)||0;
         const total_boc = parseInt(g(`total_boc_${safeKey}`)?.value)||0;
         
+        // ✅ Corregir inconsistencias: si los buenos superan a los totales,
+        // asumimos que el total estaba mal y lo igualamos a los buenos.
+        let ta = total_arr;
+        let tb = total_boc;
+        if (arr_b > ta) ta = arr_b;
+        if (boc_b > tb) tb = boc_b;
+        
         stats[`${teamName}|${player}`] = {
-          arr_b: Math.min(arr_b, total_arr),
-          total_arr: total_arr,
-          boc_b: Math.min(boc_b, total_boc),
-          total_boc: total_boc
+          arr_b: arr_b,
+          total_arr: ta,
+          boc_b: boc_b,
+          total_boc: tb
         };
       });
     }
@@ -1344,38 +1370,75 @@ function searchPlayer(q){F.aQ=q;rA();}
 function rA(){
   const tl = TEAMS.filter(t=>t.c===F.aCat && t.g===F.aGrp);
   const players = [];
+  
+  // Obtener mínimo de intentos
+  const minIntentosSelect = document.getElementById('minIntentos');
+  const minIntentos = minIntentosSelect ? parseInt(minIntentosSelect.value) : 0;
+  
   tl.forEach(t=>{
     t.p.forEach(p=>{
       const ps = PS[t.n+'|'+p] || {};
       if(F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase())) return;
       
-      const arrB = Math.min(ps.arr_b||0, ps.total_arr||0);
-      const arrT = ps.total_arr||0;
-      const bocB = Math.min(ps.boc_b||0, ps.total_boc||0);
-      const bocT = ps.total_boc||0;
+      // Corregir datos
+      let arrB = ps.arr_b || 0;
+      let arrT = ps.total_arr || 0;
+      let bocB = ps.boc_b || 0;
+      let bocT = ps.total_boc || 0;
       
-      const eArr = arrT>0 ? Math.round((arrB/arrT)*100) : 0;
-      const eBoc = bocT>0 ? Math.round((bocB/bocT)*100) : 0;
-      const tb = arrB + bocB;
+      if (arrB > arrT) arrT = arrB;
+      if (bocB > bocT) bocT = bocB;
+      
+      const partidos = ps.partidos || 0;
       const ti = arrT + bocT;
-      const eTot = ti>0 ? Math.round((tb/ti)*100) : 0;
       
-      players.push({name:p,team:t.n,partidos:ps.partidos||0,eArr,eBoc,eTot,arrB,arrT,bocB,bocT});
+      // Filtrar por mínimo de intentos
+      if (minIntentos > 0 && ti < minIntentos) return;
+      
+      const eArr = arrT > 0 ? Math.round((arrB/arrT)*100) : 0;
+      const eBoc = bocT > 0 ? Math.round((bocB/bocT)*100) : 0;
+      const tb = arrB + bocB;
+      const eTot = ti > 0 ? Math.round((tb/ti)*100) : 0;
+      
+      players.push({
+        name: p, team: t.n, partidos,
+        eArr, eBoc, eTot,
+        arrB, arrT, bocB, bocT,
+        aciertosTotales: tb,
+        intentosTotales: ti
+      });
     });
   });
-  players.sort((a,b)=>b.eTot-a.eTot);
+  
+  // Ordenar: Aciertos → Efectividad → PJ
+  players.sort((a,b) => {
+    if (b.aciertosTotales !== a.aciertosTotales) return b.aciertosTotales - a.aciertosTotales;
+    if (b.eTot !== a.eTot) return b.eTot - a.eTot;
+    return b.partidos - a.partidos;
+  });
+  
+  // Actualizar contador
+  const contador = document.getElementById('contadorElegibles');
+  if (contador) contador.textContent = `${players.length} jugadores`;
+  
   if(!players.length){
-    g('a-list').innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin estadísticas registradas</div>';
+    g('a-list').innerHTML = `<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin jugadores con al menos ${minIntentos} intentos.</div>`;
     return;
   }
-  g('a-list').innerHTML = players.map((p,i)=>`<div class="ar">
-    <div style="width:20px;text-align:center;">${i+1}</div>
-    <div style="flex:1;"><div style="font-size:11px;font-weight:bold;">${p.name}</div><div style="font-size:9px;color:var(--text-muted);">${p.team}</div></div>
+  
+  // Renderizar con resaltado del MVP
+  g('a-list').innerHTML = players.map((p,i)=>`<div class="ar" style="${i===0 && minIntentos > 0 ? 'border:2px solid #2ecc71;background:linear-gradient(90deg,#2ecc7122,transparent);' : ''}">
+    <div style="width:20px;text-align:center;font-weight:bold;color:${i===0 && minIntentos > 0 ? '#2ecc71' : 'var(--primary)'};">${i+1}</div>
+    <div style="flex:1;">
+      <div style="font-size:11px;font-weight:bold;">${p.name} ${i===0 && minIntentos > 0 ? '🏆' : ''}</div>
+      <div style="font-size:9px;color:var(--text-muted);">${p.team}</div>
+    </div>
     <div class="scols">
       <div class="sc"><div class="av">${p.partidos}</div><div class="al">PJ</div></div>
-      <div class="sc"><div class="av">${p.eArr}%</div><div class="al">${p.arrB}/${p.arrT}</div></div>
-      <div class="sc"><div class="av">${p.eBoc}%</div><div class="al">${p.bocB}/${p.bocT}</div></div>
-      <div class="sc"><div class="av">${p.eTot}%</div><div class="al">${p.arrB+p.bocB}/${p.arrT+p.bocT}</div></div>
+      <div class="sc"><div class="av" style="color:#e8b84b;">${p.aciertosTotales}</div><div class="al">AC</div></div>
+      <div class="sc"><div class="av">${p.eArr}%</div><div class="al">ARR</div></div>
+      <div class="sc"><div class="av">${p.eBoc}%</div><div class="al">BOC</div></div>
+      <div class="sc"><div class="av" style="color:#2ecc71;font-size:14px;">${p.eTot}%</div><div class="al">TOT</div></div>
     </div>
   </div>`).join('');
 }
@@ -1711,17 +1774,9 @@ async function guardarTodoFirebase(){
 async function init(){
   console.log('🔄 Cargando datos Cat. B...');
   
-  // 1. Cargar Resultados (Marcadores)
-  if(window.cargarResultados) {
-    R = await window.cargarResultados();
-  }
+  if(window.cargarResultados) R = await window.cargarResultados();
+  if(window.cargarMVP) MVP = await window.cargarMVP();
   
-  // 2. Cargar MVPs
-  if(window.cargarMVP) {
-    MVP = await window.cargarMVP();
-  }
-  
-  // 3. Cargar y Reconstruir Estadísticas
   if(window.cargarEstadisticasPorPartido) {
     console.log('⏳ Descargando partidos individuales...');
     const todosPartidos = await window.cargarEstadisticasPorPartido();
@@ -1729,31 +1784,42 @@ async function init(){
     
     const nuevoPS = {};
     let registrosProcesados = 0;
+    let jugadoresFiltrados = 0;
     
     for (const [matchId, matchStats] of Object.entries(todosPartidos)) {
-      // Verificación de seguridad
       if (!matchStats || typeof matchStats !== 'object') continue;
       
-      // El nuevo formato guarda los equipos como llaves directas
-      for (const [key, value] of Object.entries(matchStats)) {
-        // Omitir las llaves de metadata
-        if (key === 'torneo' || key === 'categoria') continue;
+      for (const [equipo, jugadores] of Object.entries(matchStats)) {
+        if (equipo === 'torneo' || equipo === 'categoria') continue;
+        if (!Array.isArray(jugadores)) continue;
         
-        // Cada llave debe ser un array de jugadores
-        if (!Array.isArray(value)) continue;
-        
-        for (const j of value) {
+        for (const j of jugadores) {
           if (!j || !j.nombre) continue;
           
-          const playerKey = `${key}|${j.nombre}`;
+          // ✅ Corregir datos inconsistentes
+          let ab = j.arr_b || 0;
+          let ta = j.total_arr || 0;
+          let bb = j.boc_b || 0;
+          let tb = j.total_boc || 0;
+          
+          if (ab > ta) ta = ab;
+          if (bb > tb) tb = bb;
+          
+          // ✅ Ignorar jugadores con 0 intentos
+          if (ab === 0 && bb === 0 && ta === 0 && tb === 0) {
+            jugadoresFiltrados++;
+            continue;
+          }
+          
+          const playerKey = `${equipo}|${j.nombre}`;
           if (!nuevoPS[playerKey]) {
             nuevoPS[playerKey] = { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0, partidos: 0 };
           }
           
-          nuevoPS[playerKey].arr_b += Math.min(j.arr_b || 0, j.total_arr || 0);
-          nuevoPS[playerKey].total_arr += (j.total_arr || 0);
-          nuevoPS[playerKey].boc_b += Math.min(j.boc_b || 0, j.total_boc || 0);
-          nuevoPS[playerKey].total_boc += (j.total_boc || 0);
+          nuevoPS[playerKey].arr_b += ab;
+          nuevoPS[playerKey].total_arr += ta;
+          nuevoPS[playerKey].boc_b += bb;
+          nuevoPS[playerKey].total_boc += tb;
           nuevoPS[playerKey].partidos += 1;
           registrosProcesados++;
         }
@@ -1761,17 +1827,16 @@ async function init(){
     }
     
     PS = nuevoPS;
-    console.log(`✅ Jugadores únicos con PJ: ${Object.keys(PS).length}`);
+    console.log(`✅ Jugadores con PJ real: ${Object.keys(PS).length}`);
     console.log(`✅ Registros procesados: ${registrosProcesados}`);
+    console.log(`⏭️ Jugadores ignorados (sin intentos): ${jugadoresFiltrados}`);
     
   } else if (window.cargarEstadisticas) {
-    // Fallback por si acaso
     PS = await window.cargarEstadisticas();
   }
   
   console.log('✅ R:', Object.keys(R).length, '| PS:', Object.keys(PS).length, '| MVP:', Object.keys(MVP).length);
   
-  // 4. Pintar las pantallas
   rT(); rM(); rSt(); rA();
 }
 setTimeout(init, 500);
