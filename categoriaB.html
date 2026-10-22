@@ -1112,54 +1112,80 @@ function closeStatsModal(){
 
 // ==================== RECONSTRUCCIÓN DE ESTADÍSTICAS ====================
 async function reconstruirEstadisticas(mostrarAlerta = true) {
+  console.log("🔄 Reconstruyendo estadísticas...");
+  
   const nuevoPS = {};
   let partidosGuardados = {};
   
-  if(window.cargarEstadisticasPorPartido) {
+  // 1. Cargar desde Firestore (estadisticasPorPartido)
+  if (window.cargarEstadisticasPorPartido) {
     try {
       partidosGuardados = await window.cargarEstadisticasPorPartido();
-    } catch(e) { console.error(e); }
+      console.log(`📦 Partidos cargados: ${Object.keys(partidosGuardados).length}`);
+    } catch(e) { 
+      console.error(e); 
+    }
   }
 
-  // Buscar también en localStorage (por si no subió a Firestore)
-  MATCHES.forEach(m => {
-    const lsKey = `match_stats_B_${m.id}`;
-    const dataLS = localStorage.getItem(lsKey);
-    if (dataLS && !partidosGuardados[m.id]) {
-      try {
-        partidosGuardados[m.id] = JSON.parse(dataLS);
-      } catch(e) {}
-    }
-  });
-
+  // 2. Procesar SOLO los partidos válidos
+  let jugadoresProcesados = 0;
+  
   for (const [matchId, matchStats] of Object.entries(partidosGuardados)) {
-    for (const [key, s] of Object.entries(matchStats)) {
-      if (!nuevoPS[key]) {
-        nuevoPS[key] = { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0, partidos: 0 };
-      }
-      const ab = Math.min(s.arr_b || 0, s.total_arr || 0);
-      const bb = Math.min(s.boc_b || 0, s.total_boc || 0);
+    // Verificar que matchStats sea un objeto válido con equipos
+    if (!matchStats || typeof matchStats !== 'object') continue;
+    
+    for (const [equipo, jugadores] of Object.entries(matchStats)) {
+      // ⚠️ FILTRO CLAVE: Ignorar 'torneo' y 'categoria'
+      if (equipo === 'torneo' || equipo === 'categoria') continue;
       
-      nuevoPS[key].arr_b += ab;
-      nuevoPS[key].total_arr += (s.total_arr || 0);
-      nuevoPS[key].boc_b += bb;
-      nuevoPS[key].total_boc += (s.total_boc || 0);
-      nuevoPS[key].partidos += 1;
+      // Verificar que sea un array de jugadores
+      if (!Array.isArray(jugadores)) continue;
+      
+      // Procesar cada jugador
+      for (const j of jugadores) {
+        if (!j || !j.nombre) continue;
+        
+        const key = `${equipo}|${j.nombre}`;
+        if (!nuevoPS[key]) {
+          nuevoPS[key] = { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0, partidos: 0 };
+        }
+        
+        // Validar con Math.min
+        const ab = Math.min(j.arr_b || 0, j.total_arr || 0);
+        const bb = Math.min(j.boc_b || 0, j.total_boc || 0);
+        
+        nuevoPS[key].arr_b += ab;
+        nuevoPS[key].total_arr += (j.total_arr || 0);
+        nuevoPS[key].boc_b += bb;
+        nuevoPS[key].total_boc += (j.total_boc || 0);
+        nuevoPS[key].partidos += 1;
+        jugadoresProcesados++;
+      }
     }
   }
 
+  // 3. Actualizar PS
   PS = nuevoPS;
+  console.log(`✅ PS reconstruido: ${Object.keys(PS).length} jugadores`);
+  console.log(`✅ Registros procesados: ${jugadoresProcesados}`);
 
-  if(window.guardarEstadisticasFB) {
+  // 4. Guardar en Firestore (estadisticas) - Solo si hay datos
+  if (window.guardarEstadisticasFB && Object.keys(PS).length > 0) {
+    let guardados = 0;
     for (const [k, data] of Object.entries(PS)) {
-      window.guardarEstadisticasFB(k, data);
+      await window.guardarEstadisticasFB(k, data);
+      guardados++;
     }
+    console.log(`✅ Guardados ${guardados} registros en Firestore.`);
   }
   
+  // 5. Refrescar vista
   if (mostrarAlerta) {
-    alert(`✅ Reconstrucción completa.\nPartidos procesados: ${Object.keys(partidosGuardados).length}\nJugadores con stats: ${Object.keys(PS).length}`);
-    rA();
+    alert(`✅ Reconstrucción completa.\n\nJugadores con stats: ${Object.keys(PS).length}\nRegistros procesados: ${jugadoresProcesados}`);
   }
+  
+  // 6. Refrescar la vista del Average
+  if (typeof rA === 'function') rA();
 }
 
 // ==================== IMPORTAR JSON ====================
