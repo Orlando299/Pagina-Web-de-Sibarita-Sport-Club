@@ -1721,49 +1721,57 @@ async function init(){
     MVP = await window.cargarMVP();
   }
   
-  // 3. Intentar cargar desde estadisticasPorPartido (lo ideal)
-  let reconstruido = false;
+  // 3. Cargar y Reconstruir Estadísticas
   if(window.cargarEstadisticasPorPartido) {
-    console.log('⏳ Buscando partidos individuales...');
+    console.log('⏳ Descargando partidos individuales...');
     const todosPartidos = await window.cargarEstadisticasPorPartido();
-    const countPartidos = Object.keys(todosPartidos).length;
-    console.log(`📦 Partidos encontrados en estadisticasPorPartido: ${countPartidos}`);
+    console.log(`📦 Partidos devueltos: ${Object.keys(todosPartidos).length}`);
     
-    if (countPartidos > 5) { // Si hay partidos suficientes, reconstruimos
-      console.log('🔄 Reconstruyendo PS desde partidos individuales...');
-      const nuevoPS = {};
+    const nuevoPS = {};
+    let registrosProcesados = 0;
+    
+    for (const [matchId, matchStats] of Object.entries(todosPartidos)) {
+      // Verificación de seguridad
+      if (!matchStats || typeof matchStats !== 'object') continue;
       
-      for (const [matchId, matchStats] of Object.entries(todosPartidos)) {
-        for (const [key, s] of Object.entries(matchStats)) {
-          if (!nuevoPS[key]) {
-            nuevoPS[key] = { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0, partidos: 0 };
-          }
-          const ab = Math.min(s.arr_b || 0, s.total_arr || 0);
-          const bb = Math.min(s.boc_b || 0, s.total_boc || 0);
+      // El nuevo formato guarda los equipos como llaves directas
+      for (const [key, value] of Object.entries(matchStats)) {
+        // Omitir las llaves de metadata
+        if (key === 'torneo' || key === 'categoria') continue;
+        
+        // Cada llave debe ser un array de jugadores
+        if (!Array.isArray(value)) continue;
+        
+        for (const j of value) {
+          if (!j || !j.nombre) continue;
           
-          nuevoPS[key].arr_b += ab;
-          nuevoPS[key].total_arr += (s.total_arr || 0);
-          nuevoPS[key].boc_b += bb;
-          nuevoPS[key].total_boc += (s.total_boc || 0);
-          nuevoPS[key].partidos += 1;
+          const playerKey = `${key}|${j.nombre}`;
+          if (!nuevoPS[playerKey]) {
+            nuevoPS[playerKey] = { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0, partidos: 0 };
+          }
+          
+          nuevoPS[playerKey].arr_b += Math.min(j.arr_b || 0, j.total_arr || 0);
+          nuevoPS[playerKey].total_arr += (j.total_arr || 0);
+          nuevoPS[playerKey].boc_b += Math.min(j.boc_b || 0, j.total_boc || 0);
+          nuevoPS[playerKey].total_boc += (j.total_boc || 0);
+          nuevoPS[playerKey].partidos += 1;
+          registrosProcesados++;
         }
       }
-      PS = nuevoPS;
-      reconstruido = true;
-      console.log('✅ PS Reconstruido desde partidos:', Object.keys(PS).length, 'jugadores');
     }
-  }
-  
-  // 4. Si no se pudo reconstruir, usar la colección "estadisticas" (acumulado)
-  if (!reconstruido && window.cargarEstadisticas) {
-    console.log('⚠️ Usando acumulados de la colección "estadisticas"...');
+    
+    PS = nuevoPS;
+    console.log(`✅ Jugadores únicos con PJ: ${Object.keys(PS).length}`);
+    console.log(`✅ Registros procesados: ${registrosProcesados}`);
+    
+  } else if (window.cargarEstadisticas) {
+    // Fallback por si acaso
     PS = await window.cargarEstadisticas();
-    console.log('✅ PS cargado directo:', Object.keys(PS).length, 'jugadores');
   }
   
   console.log('✅ R:', Object.keys(R).length, '| PS:', Object.keys(PS).length, '| MVP:', Object.keys(MVP).length);
   
-  // 5. Pintar las pantallas
+  // 4. Pintar las pantallas
   rT(); rM(); rSt(); rA();
 }
 setTimeout(init, 500);
