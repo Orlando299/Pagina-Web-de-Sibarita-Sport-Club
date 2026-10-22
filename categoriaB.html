@@ -1695,38 +1695,49 @@ async function init(){
     MVP = await window.cargarMVP();
   }
   
-  // 3. Cargar y Reconstruir Estadísticas
-  // (Esto espera a que Firebase devuelva TODOS los partidos)
+  // 3. Intentar cargar desde estadisticasPorPartido (lo ideal)
+  let reconstruido = false;
   if(window.cargarEstadisticasPorPartido) {
-    console.log('⏳ Descargando partidos para calcular Average...');
+    console.log('⏳ Buscando partidos individuales...');
     const todosPartidos = await window.cargarEstadisticasPorPartido();
-    const nuevoPS = {};
+    const countPartidos = Object.keys(todosPartidos).length;
+    console.log(`📦 Partidos encontrados en estadisticasPorPartido: ${countPartidos}`);
     
-    for (const [matchId, matchStats] of Object.entries(todosPartidos)) {
-      for (const [key, s] of Object.entries(matchStats)) {
-        if (!nuevoPS[key]) {
-          nuevoPS[key] = { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0, partidos: 0 };
+    if (countPartidos > 5) { // Si hay partidos suficientes, reconstruimos
+      console.log('🔄 Reconstruyendo PS desde partidos individuales...');
+      const nuevoPS = {};
+      
+      for (const [matchId, matchStats] of Object.entries(todosPartidos)) {
+        for (const [key, s] of Object.entries(matchStats)) {
+          if (!nuevoPS[key]) {
+            nuevoPS[key] = { arr_b: 0, total_arr: 0, boc_b: 0, total_boc: 0, partidos: 0 };
+          }
+          const ab = Math.min(s.arr_b || 0, s.total_arr || 0);
+          const bb = Math.min(s.boc_b || 0, s.total_boc || 0);
+          
+          nuevoPS[key].arr_b += ab;
+          nuevoPS[key].total_arr += (s.total_arr || 0);
+          nuevoPS[key].boc_b += bb;
+          nuevoPS[key].total_boc += (s.total_boc || 0);
+          nuevoPS[key].partidos += 1;
         }
-        const ab = Math.min(s.arr_b || 0, s.total_arr || 0);
-        const bb = Math.min(s.boc_b || 0, s.total_boc || 0);
-        
-        nuevoPS[key].arr_b += ab;
-        nuevoPS[key].total_arr += (s.total_arr || 0);
-        nuevoPS[key].boc_b += bb;
-        nuevoPS[key].total_boc += (s.total_boc || 0);
-        nuevoPS[key].partidos += 1;
       }
+      PS = nuevoPS;
+      reconstruido = true;
+      console.log('✅ PS Reconstruido desde partidos:', Object.keys(PS).length, 'jugadores');
     }
-    PS = nuevoPS;
-    console.log('✅ PS Reconstruido con:', Object.keys(PS).length, 'jugadores');
-  } else if (window.cargarEstadisticas) {
-    // Fallback por si acaso
+  }
+  
+  // 4. Si no se pudo reconstruir, usar la colección "estadisticas" (acumulado)
+  if (!reconstruido && window.cargarEstadisticas) {
+    console.log('⚠️ Usando acumulados de la colección "estadisticas"...');
     PS = await window.cargarEstadisticas();
+    console.log('✅ PS cargado directo:', Object.keys(PS).length, 'jugadores');
   }
   
   console.log('✅ R:', Object.keys(R).length, '| PS:', Object.keys(PS).length, '| MVP:', Object.keys(MVP).length);
   
-  // 4. Pintar las pantallas SOLO cuando todo está listo
+  // 5. Pintar las pantallas
   rT(); rM(); rSt(); rA();
 }
 setTimeout(init, 500);
