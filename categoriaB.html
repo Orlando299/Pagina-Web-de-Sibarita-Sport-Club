@@ -230,9 +230,8 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
     <div class="ibox">📌 Victoria: 3 pts | Derrota: 0 pts<br>📌 Gana quien llegue a 20 tantos.<br>📌 AVG = (TF - TC) / PJ</div>
   </div>
 
-  <!-- ===== AVERAGE ===== -->
+    <!-- ===== AVERAGE ===== -->
   <div id="s-stats" class="scr">
-    <div class="srch"><span class="srch-ico">🔍</span><input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)"></div>
     <div class="frow">
       <button class="fb on" id="btn-aFem" onclick="setF('aCat','Femenino')">👩 Femenino</button>
       <button class="fb" id="btn-aMas" onclick="setF('aCat','Masculino')">👨 Masculino</button>
@@ -241,32 +240,29 @@ body{background:linear-gradient(135deg,var(--bg-grad-1),var(--bg-grad-2));font-f
       <button class="fb on" id="btn-aG1" onclick="setF('aGrp','G1')">Grupo 1</button>
       <button class="fb" id="btn-aG2" onclick="setF('aGrp','G2')">Grupo 2</button>
     </div>
-
-        <div class="frow" style="align-items:center;">
-      <div class="srch" style="flex:1;margin-bottom:0;">
-        <span class="srch-ico">🔍</span>
-        <input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)">
-      </div>
-    </div>
-    <div class="frow" style="background:var(--card-2);padding:8px;border-radius:8px;align-items:center;gap:8px;">
-      <label style="font-size:10px;color:var(--primary);font-weight:bold;">Mín. Intentos:</label>
-      <select id="minIntentos" onchange="rA()" style="padding:5px;border-radius:5px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:12px;font-family:inherit;">
-        <option value="0">Todos</option>
-        <option value="20">20+ Intentos</option>
-        <option value="50" selected>50+ Intentos (MVP)</option>
-        <option value="100">100+ Intentos</option>
-      </select>
-      <span id="contadorElegibles" style="font-size:10px;color:#2ecc71;font-weight:bold;margin-left:auto;"></span>
-    </div>
-
     
-    <div class="card" style="display:flex;gap:4px;align-items:center;padding:6px 8px;">
-      <div style="width:20px"></div>
-      <div style="flex:1;font-size:8px;color:var(--primary);font-weight:bold;">JUGADOR</div>
-      <div class="scols"><div class="sc sh">PJ</div><div class="sc sh">ARR%</div><div class="sc sh">BOC%</div><div class="sc sh">TOT%</div></div>
+    <div class="srch" style="margin-bottom:10px;">
+      <span class="srch-ico">🔍</span>
+      <input type="text" placeholder="Buscar jugador..." oninput="searchPlayer(this.value)">
     </div>
+
+    <!-- Sub-pestañas de Vista -->
+    <div class="frow" style="background:var(--card-2);padding:8px;border-radius:8px;">
+      <button class="fb on" id="btn-view-arr" onclick="setViewAverage('arr')">🎯 Arrime</button>
+      <button class="fb" id="btn-view-boc" onclick="setViewAverage('boc')">💥 Boche</button>
+      <button class="fb" id="btn-view-tot" onclick="setViewAverage('tot')">⭐ Completo</button>
+    </div>
+    
+    <div class="lbl" id="a-vista-info"></div>
+    
     <div id="a-list"></div>
-    <div class="ibox">📌 ARR% = Arrimes Buenos/Total | BOC% = Boches Buenos/Total | TOT% = (Arr+Boc) / Total</div>
+    
+    <div class="ibox">
+      📌 ARR% = Arrimes Buenos / Total Intentos de Arrime<br>
+      📌 BOC% = Boches Buenos / Total Intentos de Boche<br>
+      📌 TOT% = (Arrimes + Boches Buenos) / Total Intentos<br>
+      📌 <strong>Mínimo para clasificar: 50 intentos</strong> (aplica a las 3 distinciones)
+    </div>
   </div>
 
   <!-- ===== VIDEOS ===== -->
@@ -886,7 +882,7 @@ const MATCHES = [
 <!-- ============================================================ -->
 <script>
 let R = {}, PS = {}, MVP = {};
-let F = {tCat:'Femenino', tGrp:'G1', mCat:'Femenino', sCat:'Femenino', sGrp:'G1', aCat:'Femenino', aGrp:'G1', aQ:''};
+let F = {tCat:'Femenino', tGrp:'G1', mCat:'Femenino', sCat:'Femenino', sGrp:'G1', aCat:'Femenino', aGrp:'G1', aQ:'', aView:'arr'};
 let adminHabilitado = false;
 let currentMatchId = null;
 const CLAVE_ADMIN = 'sibarita2026';
@@ -1456,80 +1452,123 @@ function rSt(){
 
 // ==================== AVERAGE (CON VALIDACIÓN) ====================
 function searchPlayer(q){F.aQ=q;rA();}
+function setViewAverage(view) {
+  F.aView = view;
+  const views = ['arr', 'boc', 'tot'];
+  views.forEach(v => {
+    const btn = g('btn-view-' + v);
+    if (btn) btn.classList.toggle('on', v === view);
+  });
+  rA();
+}
+
 function rA(){
   const tl = TEAMS.filter(t=>t.c===F.aCat && t.g===F.aGrp);
-  const players = [];
+  const view = F.aView || 'arr';
   
-  // Obtener mínimo de intentos
-  const minIntentosSelect = document.getElementById('minIntentos');
-  const minIntentos = minIntentosSelect ? parseInt(minIntentosSelect.value) : 0;
+  // ✅ MÍNIMO GLOBAL: cambia solo este número cuando avance el torneo
+  const MIN_INTENTOS = 50;
+  
+  const config = {
+    arr: {
+      titulo: `🎯 RANKING DE ARRIME — Mínimo ${MIN_INTENTOS} intentos de arrime`,
+      campo_porcentaje: 'eArr',
+      campo_aciertos: 'arrB',
+      campo_intentos: 'arrT',
+      minimo: MIN_INTENTOS,
+      campo_minimo: 'arrT'
+    },
+    boc: {
+      titulo: `💥 RANKING DE BOCHE — Mínimo ${MIN_INTENTOS} intentos de boche`,
+      campo_porcentaje: 'eBoc',
+      campo_aciertos: 'bocB',
+      campo_intentos: 'bocT',
+      minimo: MIN_INTENTOS,
+      campo_minimo: 'bocT'
+    },
+    tot: {
+      titulo: `⭐ RANKING COMPLETO — Mínimo ${MIN_INTENTOS} intentos totales`,
+      campo_porcentaje: 'eTot',
+      campo_aciertos: 'aciertosTotales',
+      campo_intentos: 'intentosTotales',
+      minimo: MIN_INTENTOS,
+      campo_minimo: 'intentosTotales'
+    }
+  }[view];
+  
+  const players = [];
   
   tl.forEach(t=>{
     t.p.forEach(p=>{
       const ps = PS[t.n+'|'+p] || {};
       if(F.aQ && !p.toLowerCase().includes(F.aQ.toLowerCase())) return;
       
-      // Corregir datos
       let arrB = ps.arr_b || 0;
       let arrT = ps.total_arr || 0;
       let bocB = ps.boc_b || 0;
       let bocT = ps.total_boc || 0;
-      
       if (arrB > arrT) arrT = arrB;
       if (bocB > bocT) bocT = bocB;
       
       const partidos = ps.partidos || 0;
-      const ti = arrT + bocT;
-      
-      // Filtrar por mínimo de intentos
-      if (minIntentos > 0 && ti < minIntentos) return;
-      
       const eArr = arrT > 0 ? Math.round((arrB/arrT)*100) : 0;
       const eBoc = bocT > 0 ? Math.round((bocB/bocT)*100) : 0;
       const tb = arrB + bocB;
+      const ti = arrT + bocT;
       const eTot = ti > 0 ? Math.round((tb/ti)*100) : 0;
       
-      players.push({
+      const player = {
         name: p, team: t.n, partidos,
         eArr, eBoc, eTot,
         arrB, arrT, bocB, bocT,
         aciertosTotales: tb,
         intentosTotales: ti
-      });
+      };
+      
+      if (player[config.campo_minimo] < config.minimo) return;
+      
+      players.push(player);
     });
   });
   
-  // Ordenar: Aciertos → Efectividad → PJ
-  players.sort((a,b) => {
+  players.sort((a, b) => {
+    const pA = a[config.campo_porcentaje];
+    const pB = b[config.campo_porcentaje];
+    if (pB !== pA) return pB - pA;
     if (b.aciertosTotales !== a.aciertosTotales) return b.aciertosTotales - a.aciertosTotales;
-    if (b.eTot !== a.eTot) return b.eTot - a.eTot;
     return b.partidos - a.partidos;
   });
   
-  // Actualizar contador
-  const contador = document.getElementById('contadorElegibles');
-  if (contador) contador.textContent = `${players.length} jugadores`;
+  const info = g('a-vista-info');
+  if (info) info.textContent = `${config.titulo} · ${players.length} elegibles`;
   
   if(!players.length){
-    g('a-list').innerHTML = `<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin jugadores con al menos ${minIntentos} intentos.</div>`;
+    g('a-list').innerHTML = `<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin jugadores con al menos ${MIN_INTENTOS} intentos en esta categoría.</div>`;
     return;
   }
   
-  // Renderizar con resaltado del MVP
-  g('a-list').innerHTML = players.map((p,i)=>`<div class="ar" style="${i===0 && minIntentos > 0 ? 'border:2px solid #2ecc71;background:linear-gradient(90deg,#2ecc7122,transparent);' : ''}">
-    <div style="width:20px;text-align:center;font-weight:bold;color:${i===0 && minIntentos > 0 ? '#2ecc71' : 'var(--primary)'};">${i+1}</div>
-    <div style="flex:1;">
-      <div style="font-size:11px;font-weight:bold;">${p.name} ${i===0 && minIntentos > 0 ? '🏆' : ''}</div>
-      <div style="font-size:9px;color:var(--text-muted);">${p.team}</div>
-    </div>
-    <div class="scols">
-      <div class="sc"><div class="av">${p.partidos}</div><div class="al">PJ</div></div>
-      <div class="sc"><div class="av" style="color:#e8b84b;">${p.aciertosTotales}</div><div class="al">AC</div></div>
-      <div class="sc"><div class="av">${p.eArr}%</div><div class="al">ARR</div></div>
-      <div class="sc"><div class="av">${p.eBoc}%</div><div class="al">BOC</div></div>
-      <div class="sc"><div class="av" style="color:#2ecc71;font-size:14px;">${p.eTot}%</div><div class="al">TOT</div></div>
-    </div>
-  </div>`).join('');
+  const porcentaje_label = { arr: 'ARR%', boc: 'BOC%', tot: 'TOT%' }[view];
+  
+  g('a-list').innerHTML = players.map((p,i)=>{
+    const isMvp = i === 0;
+    const porcentaje = p[config.campo_porcentaje];
+    const aciertos = p[config.campo_aciertos];
+    const intentos = p[config.campo_intentos];
+    
+    return `<div class="ar" style="${isMvp ? 'border:2px solid #2ecc71;background:linear-gradient(90deg,#2ecc7122,transparent);' : ''}">
+      <div style="width:20px;text-align:center;font-weight:bold;color:${isMvp?'#2ecc71':'var(--primary)'};">${i+1}</div>
+      <div style="flex:1;">
+        <div style="font-size:11px;font-weight:bold;">${p.name} ${isMvp?'🏆':''}</div>
+        <div style="font-size:9px;color:var(--text-muted);">${p.team}</div>
+      </div>
+      <div class="scols">
+        <div class="sc"><div class="av">${p.partidos}</div><div class="al">PJ</div></div>
+        <div class="sc"><div class="av">${aciertos}</div><div class="al">AC</div></div>
+        <div class="sc"><div class="av">${intentos}</div><div class="al">INT</div></div>
+        <div class="sc"><div class="av" style="color:#2ecc71;font-size:14px;">${porcentaje}%</div><div class="al">${porcentaje_label}</div></div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ==================== VIDEOS ====================
@@ -1928,6 +1967,7 @@ async function init(){
   
   rT(); rM(); rSt(); rA();
 }
+  F.aView = 'arr';
 setTimeout(init, 500);
 </script>
 
