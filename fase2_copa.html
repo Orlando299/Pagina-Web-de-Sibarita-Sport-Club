@@ -6,15 +6,20 @@
 <meta name="theme-color" content="#0a1a2c">
 <title>Fase 2 · Copa Navidad 2026 | Sibarita Sport Club</title>
 
-<!-- Librerías -->
 <script type="module" src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js"></script>
 
 <style>
-:root{
-  --primary:#e8b84b; --primary-dark:#b8860b; --primary-light:#f39c12;
-  --bg:#0a1a2c; --bg-grad-1:#0f2438; --bg-grad-2:#08121f;
-  --card:#0f2438; --card-2:#16213e; --border:#2980b955;
-  --text:#e8f0f8; --text-muted:#94a3b8;
+:root {
+  --primary: #e8b84b;
+  --bg: #0a1a2c;
+  --bg-grad-1: #0f2438;
+  --bg-grad-2: #08121f;
+  --card: #0f2438;
+  --card-2: #16213e;
+  --border: #2980b955;
+  --text: #e8f0f8;
+  --text-muted: #94a3b8;
+  --gold: #ffd700;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); font-family: 'Segoe UI', Arial, sans-serif; color: var(--text); max-width: 430px; margin: 0 auto; min-height: 100vh; }
@@ -33,45 +38,49 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
 .fb { padding: 5px 10px; border-radius: 12px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-weight: bold; cursor: pointer; font-size: 11px; font-family: inherit; }
 .fb.on { background: var(--primary); border-color: var(--primary); color: #000; }
 .frow { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
-.fscroll { display: flex; gap: 6px; margin-bottom: 8px; overflow-x: auto; padding-bottom: 3px; flex-wrap: nowrap; }
 .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; margin-bottom: 7px; }
-.mc { background: linear-gradient(135deg, var(--card), var(--card-2)); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 7px; }
-.mm { font-size: 10px; color: var(--text-muted); margin-bottom: 7px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3px; }
-.mteams { display: flex; align-items: center; justify-content: space-between; }
-.tn { flex: 1; font-size: 11px; font-weight: bold; color: var(--text); text-align: center; line-height: 1.3; }
-.vb { text-align: center; flex-shrink: 0; padding: 0 5px; }
-.ss { font-size: 24px; font-weight: bold; color: var(--primary); min-width: 30px; text-align: center; }
-.ss.l { color: var(--text-muted); }
-.sep { font-size: 16px; color: var(--text-muted); font-weight: bold; }
-.sbtn { width: 100%; margin-top: 6px; padding: 6px; background: #2ecc71; border: none; border-radius: 7px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; font-family: inherit; }
-.fbtn { width: 100%; margin-top: 4px; padding: 5px; background: transparent; border: 1px solid #c0392b55; border-radius: 7px; color: #c0392b; font-size: 10px; cursor: pointer; font-family: inherit; }
-.wtag { font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 7px; }
-.sinp { width: 46px; height: 34px; background: var(--card-2); border: 1px solid var(--border); border-radius: 7px; color: var(--primary); font-size: 18px; font-weight: bold; text-align: center; font-family: inherit; }
-.srow { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; }
+.lbl { font-size: 10px; color: var(--primary); font-weight: bold; margin-bottom: 7px; margin-top: 4px; letter-spacing: .06em; }
+.ibox { font-size: 10px; color: var(--text-muted); padding: 9px; background: var(--card-2); border-radius: 9px; border: 1px solid var(--border); margin-top: 7px; line-height: 1.5; }
+.scr { display: none; } .scr.on { display: block; }
+
+/* ===== NUEVO DISEÑO DE EQUIPOS Y CRUCES ===== */
+.teams-panel { display: flex; flex-direction: column; gap: 15px; }
+.grupo-col { background: rgba(15, 36, 56, 0.6); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+.grupo-header { text-align: center; font-size: 14px; font-weight: 900; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.team-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--border); }
+.team-row:last-child { border-bottom: none; }
+.team-pos { width: 24px; height: 24px; border-radius: 6px; background: var(--card-2); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px; color: var(--text-muted); }
+.team-pos.clasificado { background: #2ecc71; color: #000; }
+.team-pos.disputa { background: #f39c12; color: #000; }
+.team-name { flex: 1; font-size: 13px; font-weight: 600; }
+.team-name.disputa { color: #f39c12; font-style: italic; }
+.team-played { font-size: 10px; color: var(--text-muted); text-align: right; min-width: 60px; }
+
+/* ===== DISEÑO DE CRUCES (PARTIDOS) ===== */
+.match-card { background: linear-gradient(145deg, var(--card), var(--card-2)); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.match-header { display: flex; justify-content: space-between; font-size: 9px; color: var(--text-muted); margin-bottom: 10px; }
+.match-teams { display: flex; align-items: center; justify-content: space-between; }
+.match-team { flex: 1; text-align: center; font-weight: 700; font-size: 12px; }
+.match-vs { font-size: 12px; color: var(--primary); font-weight: bold; padding: 0 10px; }
+.match-score-inputs { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
+.match-input { width: 50px; height: 40px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; color: var(--primary); font-size: 18px; font-weight: bold; text-align: center; font-family: inherit; }
+.match-btn { width: 100%; margin-top: 10px; padding: 8px; background: #2ecc71; border: none; border-radius: 8px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; }
+
+/* ===== TABLA ===== */
 .sr { display: flex; align-items: center; gap: 6px; padding: 7px 8px; border-radius: 8px; margin-bottom: 4px; }
 .r1 { background: linear-gradient(90deg, var(--primary)22, transparent); border: 1px solid var(--primary)33; }
-.r2 { background: linear-gradient(90deg, #c0c0c022, transparent); border: 1px solid var(--border); }
-.r3 { background: linear-gradient(90deg, #cd7f3222, transparent); border: 1px solid var(--border); }
 .rn { background: var(--card-2); border: 1px solid var(--border); }
 .rb { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0; }
 .rb.r1 { background: var(--primary); color: #000; }
-.rb.r2 { background: #c0c0c0; color: #000; }
-.rb.r3 { background: #cd7f32; color: #000; }
 .rb.rn { background: var(--card); color: var(--text-muted); }
 .sv { font-size: 11px; font-weight: bold; color: var(--text); }
 .sh { font-size: 8px; color: var(--primary); font-weight: bold; }
 .scols { display: flex; gap: 4px; }
 .sc { text-align: center; min-width: 22px; }
-.lbl { font-size: 10px; color: var(--primary); font-weight: bold; margin-bottom: 7px; margin-top: 4px; letter-spacing: .06em; }
-.ibox { font-size: 10px; color: var(--text-muted); padding: 9px; background: var(--card-2); border-radius: 9px; border: 1px solid var(--border); margin-top: 7px; line-height: 1.5; }
-.scr { display: none; } .scr.on { display: block; }
-.tc { background: var(--card-2); border-radius: 10px; padding: 10px; margin-bottom: 7px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); }
-.en-disputa { color: #f39c12 !important; font-style: italic; font-weight: 600; }
 </style>
 </head>
 <body>
 
-<!-- ===== HEADER ===== -->
 <div class="hdr">
   <div class="hdr-top">
     <div class="logo">
@@ -93,24 +102,26 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
 
 <div class="body">
 
-  <!-- ===== EQUIPOS ===== -->
+  <!-- PESTAÑA EQUIPOS -->
   <div id="s-teams" class="scr">
-    <div class="lbl">Equipos Clasificados a Fase 2</div>
-    <div id="teams-container"></div>
+    <div class="frow">
+      <button class="fb on" id="btn-tFem" onclick="setF('tCat','Femenino')">👩 Femenino</button>
+      <button class="fb" id="btn-tMas" onclick="setF('tCat','Masculino')">👨 Masculino</button>
+    </div>
+    <div class="teams-panel" id="teams-panel-container"></div>
   </div>
 
-  <!-- ===== PARTIDOS ===== -->
+  <!-- PESTAÑA PARTIDOS -->
   <div id="s-matches" class="scr on">
     <div class="frow">
       <button class="fb on" id="btn-mFem" onclick="setF('mCat','Femenino')">👩 Femenino</button>
       <button class="fb" id="btn-mMas" onclick="setF('mCat','Masculino')">👨 Masculino</button>
     </div>
-    <div class="fscroll" id="m-weeks"></div>
     <div class="lbl" id="m-cnt"></div>
     <div id="m-list"></div>
   </div>
 
-  <!-- ===== TABLA ===== -->
+  <!-- PESTAÑA TABLA -->
   <div id="s-standings" class="scr">
     <div class="frow">
       <button class="fb on" id="btn-sFem" onclick="setF('sCat','Femenino')">👩 Femenino</button>
@@ -121,31 +132,25 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     <div class="ibox">📌 Clasifican los 4 primeros de cada grupo.<br>📌 Criterios: Puntos → Rendimiento → Average → Sorteo.</div>
   </div>
 
-  <!-- ===== ELIMINATORIAS ===== -->
+  <!-- PESTAÑA ELIMINATORIAS -->
   <div id="s-brackets" class="scr">
-    <div class="frow">
-      <button class="fb on" id="btn-bFem" onclick="setF('bCat','Femenino')">👩 Femenino</button>
-      <button class="fb" id="btn-bMas" onclick="setF('bCat','Masculino')">👨 Masculino</button>
+    <div class="card" style="text-align:center; padding: 20px;">
+      <h2 style="color:var(--primary); font-size: 18px; margin-bottom: 10px;">🥇 Cuadro de Eliminatorias</h2>
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">Los cruces se generarán automáticamente al finalizar los partidos de Fase 2.</p>
+      <div style="background: var(--card-2); padding: 15px; border-radius: 8px; border: 1px dashed var(--border); font-size: 11px;">
+        <b>Cuartos:</b> 1A vs 4B · 1B vs 4A · 2A vs 3B · 2B vs 3A<br><br>
+        <b>Semifinales:</b> Sorteo entre los 4 clasificados.<br><br>
+        <b>Final:</b> Ganadores de semifinales.
+      </div>
     </div>
-    <div class="lbl">Cuartos de Final (Muerte Súbita)</div>
-    <div id="bracket-cuartos"></div>
-    <div class="lbl" style="margin-top:15px;">Semifinales (Sorteo)</div>
-    <div id="bracket-semifinales"></div>
-    <div class="lbl" style="margin-top:15px;">Final y 3er Lugar</div>
-    <div id="bracket-final"></div>
-    <div class="ibox">📌 Los cruces de Cuartos son fijos: 1A vs 4B, 1B vs 4A, 2A vs 3B, 2B vs 3A.<br>📌 Semifinales se sortean entre los 4 ganadores.</div>
   </div>
 
 </div>
 
-<!-- ============================================================ -->
-<!-- DATOS Y LÓGICA (JavaScript)                                  -->
-<!-- ============================================================ -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
   import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-  // CONFIGURACIÓN FIREBASE
   const firebaseConfig = {
     apiKey: "AIzaSyDXIPkeLn5oVn_q-NO1Xm7tc9E6MPfU-cU",
     authDomain: "sibarita-torneo-bolas-criollas.firebaseapp.com",
@@ -157,86 +162,32 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // ============================================================
-  // 1. CLASIFICADOS (ACTUALIZADOS CON "EN DISPUTA")
-  // ============================================================
+  // DATOS PROVISIONALES (CON "EN DISPUTA")
   const CLASIFICADOS = {
     Femenino: {
-      G1: [
-        "Chikas B", 
-        "Corpoelec", 
-        "Auto Tapicería Veliz", 
-        "Jujure (Educadoras)", 
-        "En Disputa (G1)", // 5to lugar
-        "En Disputa (G1)"  // 6to lugar
-      ], 
-      G2: [
-        "Divinas", 
-        "Team Frutas", 
-        "Las Triunfadoras", 
-        "Las Queen", 
-        "T-Teen Club", 
-        "Repostería el Ponque"
-      ]
+      G1: ["Chikas B", "Corpoelec", "Auto Tapicería Veliz", "Jujure (Educadoras)", "En Disputa (G1)", "En Disputa (G1)"], 
+      G2: ["Divinas", "Team Frutas", "Las Triunfadoras", "Las Queen", "T-Teen Club", "Repostería el Ponque"]
     },
     Masculino: {
-      G1: [
-        "Pintucal", 
-        "Team JM&JA", 
-        "Sibarita", 
-        "Cultivar", 
-        "En Disputa (G1)", // 5to lugar
-        "En Disputa (G1)", // 6to lugar
-        "En Disputa (G1)"  // 7mo lugar
-      ], 
-      G2: [
-        "Triunfadores", 
-        "Deportivo Guaimaral", 
-        "Exasa", 
-        "Micro PC", 
-        "La 1", 
-        "En Disputa (G2)", // 6to lugar
-        "En Disputa (G2)"  // 7mo lugar
-      ]
+      G1: ["Pintucal", "Team JM&JA", "Sibarita", "Cultivar", "En Disputa (G1)", "En Disputa (G1)", "En Disputa (G1)"], 
+      G2: ["Triunfadores", "Deportivo Guaimaral", "Exasa", "Micro PC", "La 1", "En Disputa (G2)", "En Disputa (G2)"]
     }
   };
 
-  // ============================================================
-  // 2. PARTIDOS FASE 2 (CRUCES A vs B)
-  // ============================================================
   const MATCHES_F2 = [];
-  
-  // Femenino (6 semanas de cruces)
   for (let i = 0; i < 6; i++) {
-    MATCHES_F2.push({
-      id: `F2-F-${i+1}`, c: "Femenino", g: "F2", w: `F2-S${i+1}`,
-      a: CLASIFICADOS.Femenino.G1[i], b: CLASIFICADOS.Femenino.G2[i],
-      d: `2${i+1}/11/2026`, dy: "Sábado", h: "6:00pm", f: "Cancha 1"
-    });
+    MATCHES_F2.push({ id: `F2-F-${i+1}`, c: "Femenino", w: `F2-S${i+1}`, a: CLASIFICADOS.Femenino.G1[i], b: CLASIFICADOS.Femenino.G2[i], d: `2${i+1}/11/2026`, h: "6:00pm", f: "Cancha 1" });
   }
-
-  // Masculino (7 semanas de cruces)
   for (let i = 0; i < 7; i++) {
-    MATCHES_F2.push({
-      id: `F2-M-${i+1}`, c: "Masculino", g: "F2", w: `F2-S${i+1}`,
-      a: CLASIFICADOS.Masculino.G1[i], b: CLASIFICADOS.Masculino.G2[i],
-      d: `2${i+1}/11/2026`, dy: "Domingo", h: "6:00pm", f: "Cancha 2"
-    });
+    MATCHES_F2.push({ id: `F2-M-${i+1}`, c: "Masculino", w: `F2-S${i+1}`, a: CLASIFICADOS.Masculino.G1[i], b: CLASIFICADOS.Masculino.G2[i], d: `2${i+1}/11/2026`, h: "6:00pm", f: "Cancha 2" });
   }
 
-  // ============================================================
-  // 3. VARIABLES GLOBALES Y ESTADO
-  // ============================================================
   let R = {}; 
-  let F = { mCat: 'Femenino', sCat: 'Femenino', bCat: 'Femenino', mWk: 'Todas' };
+  let F = { tCat: 'Femenino', mCat: 'Femenino', sCat: 'Femenino' };
   const CLAVE_ADMIN = 'sibarita2026';
-
   function g(id) { return document.getElementById(id); }
 
-  // ============================================================
-  // 4. LÓGICA DE RENDERIZADO (UI)
-  // ============================================================
-  
+  // RENDERIZADO DE PESTAÑAS
   window.showTab = function(id, btn) {
     document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
     document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
@@ -244,16 +195,15 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     if (btn) btn.classList.add('on');
     if (id === 'matches') rM();
     if (id === 'standings') rSt();
-    if (id === 'brackets') rBrackets();
-    if (id === 'teams') rTeams();
+    if (id === 'teams') rT();
   }
 
   window.setF = function(k, v) {
     F[k] = v;
-    const maps = {
+    const maps = { 
+      tCat: { Femenino: 'btn-tFem', Masculino: 'btn-tMas' },
       mCat: { Femenino: 'btn-mFem', Masculino: 'btn-mMas' },
-      sCat: { Femenino: 'btn-sFem', Masculino: 'btn-sMas' },
-      bCat: { Femenino: 'btn-bFem', Masculino: 'btn-bMas' }
+      sCat: { Femenino: 'btn-sFem', Masculino: 'btn-sMas' }
     };
     if (maps[k]) {
       Object.keys(maps[k]).forEach(val => {
@@ -261,91 +211,88 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
         if (el) el.classList.toggle('on', val === v);
       });
     }
+    if (k[0] === 't') rT();
     if (k[0] === 'm') rM();
     if (k[0] === 's') rSt();
-    if (k[0] === 'b') rBrackets();
   }
 
-  // --- PESTAÑA EQUIPOS ---
-  function rTeams() {
-    const formatTeam = (name) => name.includes("En Disputa") ? `<span class="en-disputa">${name}</span>` : name;
-    
-    let html = `<div class="lbl">Femenino</div>`;
-    html += `<div class="card"><b>Grupo A:</b> ${CLASIFICADOS.Femenino.G1.map(formatTeam).join(', ')}</div>`;
-    html += `<div class="card"><b>Grupo B:</b> ${CLASIFICADOS.Femenino.G2.map(formatTeam).join(', ')}</div>`;
-    html += `<div class="lbl" style="margin-top:15px;">Masculino</div>`;
-    html += `<div class="card"><b>Grupo A:</b> ${CLASIFICADOS.Masculino.G1.map(formatTeam).join(', ')}</div>`;
-    html += `<div class="card"><b>Grupo B:</b> ${CLASIFICADOS.Masculino.G2.map(formatTeam).join(', ')}</div>`;
-    g('teams-container').innerHTML = html;
+  // --- PESTAÑA EQUIPOS (DISEÑO PARALELO) ---
+  function rT() {
+    const grupos = CLASIFICADOS[F.tCat];
+    const renderGrupo = (equipos, nombre) => {
+      let html = `<div class="grupo-col"><div class="grupo-header">${nombre}</div>`;
+      equipos.forEach((eq, i) => {
+        const isDisputa = eq.includes("En Disputa");
+        const posClass = isDisputa ? 'disputa' : 'clasificado';
+        const nameClass = isDisputa ? 'disputa' : '';
+        // Si el equipo está en disputa, mostramos "??" en PJ
+        const pj = isDisputa ? "??" : "0"; 
+        
+        html += `
+          <div class="team-row">
+            <div class="team-pos ${posClass}">${i+1}</div>
+            <div class="team-name ${nameClass}">${eq}</div>
+            <div class="team-played">PJ: ${pj}</div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      return html;
+    };
+
+    g('teams-panel-container').innerHTML = 
+      renderGrupo(grupos.G1, "Grupo A") + 
+      renderGrupo(grupos.G2, "Grupo B");
   }
 
-  // --- PESTAÑA PARTIDOS ---
+  // --- PESTAÑA PARTIDOS (DISEÑO DE TARJETAS) ---
   function rM() {
-    const weeksEl = g('m-weeks');
-    const cntEl = g('m-cnt');
-    const listEl = g('m-list');
+    const list = MATCHES_F2.filter(m => m.c === F.mCat);
+    g('m-cnt').textContent = `${list.length} CRUCES — ${F.mCat}`;
 
-    const partidosCat = MATCHES_F2.filter(m => m.c === F.mCat);
-    const semanas = [...new Set(partidosCat.map(m => m.w))].sort();
-
-    let tabsHTML = `<button class="fb ${F.mWk==='Todas'?'on':''}" onclick="F.mWk='Todas';rM();">Todas</button>`;
-    semanas.forEach(w => {
-      tabsHTML += `<button class="fb ${F.mWk===w?'on':''}" onclick="F.mWk='${w}';rM();">Sem ${w.replace('F2-S','')}</button>`;
-    });
-    weeksEl.innerHTML = tabsHTML;
-
-    const list = F.mWk === 'Todas' ? partidosCat : partidosCat.filter(m => m.w === F.mWk);
-    cntEl.textContent = `${list.length} PARTIDOS — ${F.mCat}`;
-
-    if (!list.length) { listEl.innerHTML = '<div style="text-align:center;padding:20px;">Sin partidos</div>'; return; }
-
-    listEl.innerHTML = list.map(m => {
+    g('m-list').innerHTML = list.map(m => {
       const r = R[m.id];
       const done = r && r.status === 'done';
-      const wA = done && r.scoreA > r.scoreB;
-      const wB = done && r.scoreB > r.scoreA;
       
-      const isDisputaA = m.a.includes("En Disputa") ? 'en-disputa' : '';
-      const isDisputaB = m.b.includes("En Disputa") ? 'en-disputa' : '';
-
       let inner = '';
       if (done) {
-        inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
-          <span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span>
-        </div><div style="text-align:center;margin-top:4px;"><span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Final</span></div>`;
+        inner = `<div style="font-size: 24px; font-weight: bold; color: var(--primary); text-align: center; margin: 10px 0;">${r.scoreA} - ${r.scoreB}</div>`;
       } else {
-        inner = `<div class="srow">
-            <input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0">
-            <span class="sep">—</span>
-            <input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0">
+        inner = `
+          <div class="match-score-inputs">
+            <input class="match-input" id="sA${m.id}" type="number" min="0" max="20" placeholder="-">
+            <input class="match-input" id="sB${m.id}" type="number" min="0" max="20" placeholder="-">
           </div>
-          <button class="sbtn" onclick="guardar('${m.id}')">💾 Guardar</button>`;
+          <button class="match-btn" onclick="guardar('${m.id}')">💾 Guardar Marcador</button>
+        `;
       }
 
-      return `<div class="mc">
-        <div class="mm"><span>📅 ${m.d} ${m.h} · ${m.f}</span>${done?'<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓</span>':''}</div>
-        <div class="mteams">
-          <div class="tn ${isDisputaA}" style="color:${wA?'var(--primary)':''}">${m.a}</div>
-          <div class="vb">${inner}</div>
-          <div class="tn ${isDisputaB}" style="color:${wB?'var(--primary)':''}">${m.b}</div>
+      return `
+        <div class="match-card">
+          <div class="match-header">
+            <span>📅 ${m.d} - ${m.h}</span>
+            <span>${m.f}</span>
+          </div>
+          <div class="match-teams">
+            <div class="match-team" style="color: ${m.a.includes('Disputa') ? '#f39c12' : 'var(--text)'}">${m.a}</div>
+            <div class="match-vs">VS</div>
+            <div class="match-team" style="color: ${m.b.includes('Disputa') ? '#f39c12' : 'var(--text)'}">${m.b}</div>
+          </div>
+          ${inner}
         </div>
-      </div>`;
+      `;
     }).join('');
   }
 
-  // --- PESTAÑA TABLA (FASE 2) ---
+  // --- PESTAÑA TABLA ---
   function rSt() {
     const grupos = CLASIFICADOS[F.sCat];
-    
-    function calcTabla(equiposGrupo, grupoId) {
+    function calcTabla(equiposGrupo) {
       const tb = {};
       equiposGrupo.forEach(eq => tb[eq] = { n: eq, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 });
-
-      const partidos = MATCHES_F2.filter(m => m.c === F.sCat);
-      partidos.forEach(m => {
+      MATCHES_F2.filter(m => m.c === F.sCat).forEach(m => {
         const r = R[m.id];
         if (!r || r.status !== 'done') return;
-        
         if (tb[m.a]) {
           tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB;
           if (r.scoreA > r.scoreB) { tb[m.a].pg++; tb[m.a].pts += 3; } else { tb[m.a].pp++; }
@@ -355,7 +302,6 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
           if (r.scoreB > r.scoreA) { tb[m.b].pg++; tb[m.b].pts += 3; } else { tb[m.b].pp++; }
         }
       });
-
       return Object.values(tb).sort((a, b) => {
         if (b.pts !== a.pts) return b.pts - a.pts;
         const rendA = a.pj ? a.pg / a.pj : 0;
@@ -367,9 +313,6 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
       });
     }
 
-    const tablaA = calcTabla(grupos.G1, 'A');
-    const tablaB = calcTabla(grupos.G2, 'B');
-
     const renderTablaHTML = (tabla, nombreGrupo) => {
       let html = `<div class="lbl">🏆 ${nombreGrupo}</div>`;
       html += `<div class="card" style="display:flex;gap:5px;padding:6px 8px;font-size:8px;color:var(--primary);">
@@ -379,38 +322,22 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
       
       html += tabla.map((t, i) => {
         const pos = i + 1;
-        const cls = pos === 1 ? 'r1' : pos === 2 ? 'r2' : pos === 3 ? 'r3' : pos === 4 ? 'rn' : 'rn';
-        const clasif = pos <= 4 ? 'style="border-left: 3px solid #2ecc71;"' : '';
-        const isDisputa = t.n.includes("En Disputa") ? 'en-disputa' : '';
-        return `<div class="sr ${cls}" ${clasif}>
+        const cls = pos <= 4 ? 'r1' : 'rn';
+        const isDisputa = t.n.includes("En Disputa");
+        return `<div class="sr ${cls}">
           <div class="rb ${cls}">${pos}</div>
-          <div class="tn ${isDisputa}" style="flex:1;font-size:11px;font-weight:bold;text-align:left;">${t.n}</div>
+          <div style="flex:1;font-size:11px;font-weight:bold;text-align:left; color:${isDisputa ? '#f39c12' : 'var(--text)'}">${t.n}</div>
           <div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,(t.tf-t.tc),t.pts].map(v=>`<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div>
         </div>`;
       }).join('');
       return html;
     };
 
-    g('st-list-A').innerHTML = renderTablaHTML(tablaA, "Grupo A");
-    g('st-list-B').innerHTML = renderTablaHTML(tablaB, "Grupo B");
+    g('st-list-A').innerHTML = renderTablaHTML(calcTabla(grupos.G1), "Grupo A");
+    g('st-list-B').innerHTML = renderTablaHTML(calcTabla(grupos.G2), "Grupo B");
   }
 
-  // --- PESTAÑA ELIMINATORIAS (Cuadro) ---
-  function rBrackets() {
-    g('bracket-cuartos').innerHTML = `
-      <div class="card">
-        <div style="font-size:12px;font-weight:bold;margin-bottom:5px;">Cuartos de Final</div>
-        <div style="font-size:10px;color:var(--text-muted);">1A vs 4B · 1B vs 4A · 2A vs 3B · 2B vs 3A</div>
-        <div style="margin-top:10px;color:#8899aa;text-align:center;padding:10px;border:1px dashed var(--border);">Los cruces se habilitarán al finalizar la Fase 2.</div>
-      </div>
-    `;
-    g('bracket-semifinales').innerHTML = `<div class="card" style="text-align:center;color:#8899aa;">Pendiente por sorteo.</div>`;
-    g('bracket-final').innerHTML = `<div class="card" style="text-align:center;color:#8899aa;">Pendiente por definir.</div>`;
-  }
-
-  // ============================================================
-  // 5. LÓGICA DE GUARDADO Y ADMIN
-  // ============================================================
+  // GUARDAR RESULTADO
   window.guardar = async function(id) {
     const pass = prompt('🔐 Contraseña de organizador:');
     if (pass !== CLAVE_ADMIN) { alert('❌ Incorrecta'); return; }
@@ -423,42 +350,28 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     }
     
     R[id] = { scoreA: a, scoreB: b, status: 'done' };
-    
     try {
       await setDoc(doc(db, "resultados", String(id)), { ...R[id], torneo: "navidad", categoria: "B" });
-      alert('✅ Guardado en Firebase');
+      alert('✅ Guardado');
     } catch (e) {
       console.error(e);
-      alert('⚠️ Guardado local (Error en Firebase)');
+      alert('⚠️ Guardado local');
     }
-    
     rM(); rSt();
   }
 
-  // ============================================================
-  // 6. INICIALIZACIÓN
-  // ============================================================
   async function init() {
-    console.log('🔄 Cargando Fase 2...');
-    try {
-      const snap = await getDocs(collection(db, "resultados"));
-      snap.forEach(d => {
-        const data = d.data();
-        if (data.torneo === "navidad" && data.categoria === "B") {
-          R[d.id] = data;
-        }
-      });
-      console.log('✅ Resultados cargados:', Object.keys(R).length);
-    } catch (e) {
-      console.error('Error cargando Firebase:', e);
-    }
-    
+    const snap = await getDocs(collection(db, "resultados"));
+    snap.forEach(d => {
+      const data = d.data();
+      if (data.torneo === "navidad" && data.categoria === "B") {
+        R[d.id] = data;
+      }
+    });
     window.rM = rM;
-    rM();
+    rT(); // Renderizar la pestaña de equipos al inicio
   }
-
   init();
-
 </script>
 </body>
 </html>
