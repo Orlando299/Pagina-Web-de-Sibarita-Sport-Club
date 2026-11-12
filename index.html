@@ -173,8 +173,9 @@
       animation: entradaCard 0.7s ease forwards;
     }
     .card-torneo:nth-child(1) { animation-delay: 0.2s; }
-    .card-torneo:nth-child(2) { animation-delay: 0.4s; }
-    .card-torneo:nth-child(3) { animation-delay: 0.6s; }
+    .card-torneo:nth-child(2) { animation-delay: 0.3s; }
+    .card-torneo:nth-child(3) { animation-delay: 0.4s; }
+    .card-torneo:nth-child(4) { animation-delay: 0.5s; }
     @keyframes entradaCard { to { opacity: 1; transform: translateY(0); } }
     .card-torneo::before {
       content: '';
@@ -207,14 +208,56 @@
     .card-apertura:hover { border-color: #94a3b8; box-shadow: 0 20px 60px rgba(148, 163, 184, 0.25); }
     .card-apertura h2 { color: #cbd5e1; }
     .card-apertura .btn-acceso { background: linear-gradient(135deg, #64748b, #94a3b8); color: #fff; }
+    
     .card-navidad-a { border-color: rgba(212, 160, 23, 0.3); background: linear-gradient(145deg, rgba(26,42,26,0.95), rgba(15,31,15,0.95)); }
     .card-navidad-a:hover { border-color: #d4a017; box-shadow: 0 20px 60px rgba(212, 160, 23, 0.4); }
     .card-navidad-a h2 { color: #d4a017; text-shadow: 0 0 20px rgba(212, 160, 23, 0.5); }
     .card-navidad-a .btn-acceso { background: linear-gradient(135deg, #d4a017, #f39c12); color: #0f1a0f; }
+    
     .card-navidad-b { border-color: rgba(41, 128, 185, 0.3); background: linear-gradient(145deg, rgba(15,36,56,0.95), rgba(10,26,44,0.95)); }
     .card-navidad-b:hover { border-color: #2980b9; box-shadow: 0 20px 60px rgba(41, 128, 185, 0.4); }
     .card-navidad-b h2 { color: #4facfe; text-shadow: 0 0 20px rgba(79, 172, 254, 0.5); }
     .card-navidad-b .btn-acceso { background: linear-gradient(135deg, #2980b9, #4facfe); color: #fff; }
+
+    /* NUEVA TARJETA FASE 2 */
+    .card-fase2 { 
+      border-color: rgba(46, 204, 113, 0.3); 
+      background: linear-gradient(145deg, rgba(20, 40, 30, 0.95), rgba(15, 31, 25, 0.95)); 
+    }
+    .card-fase2:hover { 
+      border-color: #2ecc71; 
+      box-shadow: 0 20px 60px rgba(46, 204, 113, 0.4); 
+    }
+    .card-fase2 h2 { 
+      color: #2ecc71; 
+      text-shadow: 0 0 20px rgba(46, 204, 113, 0.5); 
+    }
+    .card-fase2 .btn-acceso { 
+      background: linear-gradient(135deg, #27ae60, #2ecc71); 
+      color: #fff; 
+    }
+
+    .badge-vivo {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #e74c3c;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      box-shadow: 0 0 15px rgba(231, 76, 60, 0.8);
+      animation: pulsoVivo 1.5s infinite;
+      z-index: 10;
+    }
+
+    @keyframes pulsoVivo {
+      0% { transform: scale(1); box-shadow: 0 0 10px rgba(231, 76, 60, 0.6); }
+      50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(231, 76, 60, 1); }
+      100% { transform: scale(1); box-shadow: 0 0 10px rgba(231, 76, 60, 0.6); }
+    }
 
     /* ===== SECCIONES GENÉRICAS ===== */
     .seccion {
@@ -426,17 +469,26 @@
       <span class="btn-acceso">Ver histórico</span>
     </a>
 
-    <div class="card-torneo card-navidad-a" style="opacity:0.55;cursor:not-allowed;pointer-events:none;filter:grayscale(0.4);">
-  <span class="icono">🟡</span>
-  <h2>Categoría A</h2>
-  <p>Élite · Femenino y Masculino</p>
-  <span class="btn-acceso" style="background:linear-gradient(135deg,#64748b,#94a3b8);color:#fff;cursor:not-allowed;">⏳ Próximamente</span>
-</div>
+    <a href="categoriaA.html" class="card-torneo card-navidad-a">
+      <span class="icono">🟡</span>
+      <h2>Categoría A</h2>
+      <p>Élite · Femenino y Masculino</p>
+      <span class="btn-acceso">Ingresar</span>
+    </a>
 
     <a href="categoriaB.html" class="card-torneo card-navidad-b">
       <span class="icono">🔵</span>
       <h2>Categoría B</h2>
       <p>Avanzado · Femenino y Masculino</p>
+      <span class="btn-acceso">Ingresar</span>
+    </a>
+
+    <!-- NUEVA TARJETA: FASE 2 -->
+    <a href="fase2_copa.html" class="card-torneo card-fase2">
+      <div class="badge-vivo">🔴 EN VIVO</div>
+      <span class="icono">🏆</span>
+      <h2>Fase 2</h2>
+      <p>Eliminatorias · Copa Navidad<br><strong style="color:#2ecc71; font-size:0.85em;">Clasificados a la vista</strong></p>
       <span class="btn-acceso">Ingresar</span>
     </a>
   </div>
