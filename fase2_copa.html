@@ -43,7 +43,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
 .ibox { font-size: 10px; color: var(--text-muted); padding: 9px; background: var(--card-2); border-radius: 9px; border: 1px solid var(--border); margin-top: 7px; line-height: 1.5; }
 .scr { display: none; } .scr.on { display: block; }
 
-/* ===== NUEVO DISEÑO DE EQUIPOS Y CRUCES ===== */
+/* ===== NUEVO DISEÑO DE EQUIPOS (2 COLUMNAS) ===== */
 .teams-panel { display: flex; flex-direction: column; gap: 15px; }
 .grupo-col { background: rgba(15, 36, 56, 0.6); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
 .grupo-header { text-align: center; font-size: 14px; font-weight: 900; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
@@ -162,7 +162,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // DATOS PROVISIONALES (CON "EN DISPUTA")
+  // DATOS DE CLASIFICADOS (PROVISIONALES)
   const CLASIFICADOS = {
     Femenino: {
       G1: ["Chikas B", "Corpoelec", "Auto Tapicería Veliz", "Jujure (Educadoras)", "En Disputa (G1)", "En Disputa (G1)"], 
@@ -174,6 +174,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     }
   };
 
+  // GENERADOR DE CRUCES
   const MATCHES_F2 = [];
   for (let i = 0; i < 6; i++) {
     MATCHES_F2.push({ id: `F2-F-${i+1}`, c: "Femenino", w: `F2-S${i+1}`, a: CLASIFICADOS.Femenino.G1[i], b: CLASIFICADOS.Femenino.G2[i], d: `2${i+1}/11/2026`, h: "6:00pm", f: "Cancha 1" });
@@ -187,7 +188,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
   const CLAVE_ADMIN = 'sibarita2026';
   function g(id) { return document.getElementById(id); }
 
-  // RENDERIZADO DE PESTAÑAS
+  // NAVEGACIÓN
   window.showTab = function(id, btn) {
     document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
     document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
@@ -216,7 +217,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     if (k[0] === 's') rSt();
   }
 
-  // --- PESTAÑA EQUIPOS (DISEÑO PARALELO) ---
+  // --- PESTAÑA EQUIPOS (DISEÑO 2 COLUMNAS) ---
   function rT() {
     const grupos = CLASIFICADOS[F.tCat];
     const renderGrupo = (equipos, nombre) => {
@@ -225,7 +226,6 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
         const isDisputa = eq.includes("En Disputa");
         const posClass = isDisputa ? 'disputa' : 'clasificado';
         const nameClass = isDisputa ? 'disputa' : '';
-        // Si el equipo está en disputa, mostramos "??" en PJ
         const pj = isDisputa ? "??" : "0"; 
         
         html += `
@@ -245,7 +245,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
       renderGrupo(grupos.G2, "Grupo B");
   }
 
-  // --- PESTAÑA PARTIDOS (DISEÑO DE TARJETAS) ---
+  // --- PESTAÑA PARTIDOS (TARJETAS) ---
   function rM() {
     const list = MATCHES_F2.filter(m => m.c === F.mCat);
     g('m-cnt').textContent = `${list.length} CRUCES — ${F.mCat}`;
@@ -284,12 +284,14 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     }).join('');
   }
 
-  // --- PESTAÑA TABLA ---
+  // --- PESTAÑA TABLA (CON PUESTOS EN BLANCO PARA "POR DEFINIR") ---
   function rSt() {
     const grupos = CLASIFICADOS[F.sCat];
+    
     function calcTabla(equiposGrupo) {
       const tb = {};
       equiposGrupo.forEach(eq => tb[eq] = { n: eq, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 });
+      
       MATCHES_F2.filter(m => m.c === F.sCat).forEach(m => {
         const r = R[m.id];
         if (!r || r.status !== 'done') return;
@@ -302,6 +304,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
           if (r.scoreB > r.scoreA) { tb[m.b].pg++; tb[m.b].pts += 3; } else { tb[m.b].pp++; }
         }
       });
+      
       return Object.values(tb).sort((a, b) => {
         if (b.pts !== a.pts) return b.pts - a.pts;
         const rendA = a.pj ? a.pg / a.pj : 0;
@@ -321,15 +324,26 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
       </div>`;
       
       html += tabla.map((t, i) => {
-        const pos = i + 1;
-        const cls = pos <= 4 ? 'r1' : 'rn';
         const isDisputa = t.n.includes("En Disputa");
-        return `<div class="sr ${cls}">
-          <div class="rb ${cls}">${pos}</div>
-          <div style="flex:1;font-size:11px;font-weight:bold;text-align:left; color:${isDisputa ? '#f39c12' : 'var(--text)'}">${t.n}</div>
-          <div class="scols">${[t.pj,t.pg,t.pp,t.tf,t.tc,(t.tf-t.tc),t.pts].map(v=>`<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div>
+        
+        // Posición en blanco si está en disputa
+        const posHtml = isDisputa ? `<div class="rb rn" style="background:transparent;color:#8899aa;">-</div>` : `<div class="rb ${i < 4 ? 'r1' : 'rn'}">${i + 1}</div>`;
+        const nombreMostrar = isDisputa ? "Por definir" : t.n;
+        const colorNombre = isDisputa ? '#8899aa' : 'var(--text)';
+        const clasifClass = (i < 4 && !isDisputa) ? 'r1' : 'rn';
+        
+        // Estadísticas en blanco si está en disputa
+        const statsHtml = isDisputa 
+          ? ['-','-','-','-','-','-','-'].map(v => `<div class="sc"><div class="sv" style="color:#8899aa">${v}</div></div>`).join('')
+          : [t.pj, t.pg, t.pp, t.tf, t.tc, (t.tf - t.tc), t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('');
+
+        return `<div class="sr ${clasifClass}" style="${isDisputa ? 'opacity: 0.7; border: 1px dashed var(--border);' : ''}">
+          ${posHtml}
+          <div style="flex:1;font-size:11px;font-weight:bold;text-align:left; color:${colorNombre}">${nombreMostrar}</div>
+          <div class="scols">${statsHtml}</div>
         </div>`;
       }).join('');
+      
       return html;
     };
 
@@ -369,7 +383,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
       }
     });
     window.rM = rM;
-    rT(); // Renderizar la pestaña de equipos al inicio
+    rT(); // Renderiza Equipos por defecto al iniciar
   }
   init();
 </script>
