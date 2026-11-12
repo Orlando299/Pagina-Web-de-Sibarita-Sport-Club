@@ -19,7 +19,6 @@
   --border: #2980b955;
   --text: #e8f0f8;
   --text-muted: #94a3b8;
-  --gold: #ffd700;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); font-family: 'Segoe UI', Arial, sans-serif; color: var(--text); max-width: 430px; margin: 0 auto; min-height: 100vh; }
@@ -162,19 +161,18 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // DATOS DE CLASIFICADOS (PROVISIONALES)
+  // LOS NOMBRES QUE NO ESTÉN MATEMÁTICAMENTE CLASIFICADOS SE DEJAN COMO "POR DEFINIR"
   const CLASIFICADOS = {
     Femenino: {
-      G1: ["Chikas B", "Corpoelec", "Auto Tapicería Veliz", "Jujure (Educadoras)", "En Disputa (G1)", "En Disputa (G1)"], 
+      G1: ["Chikas B", "Corpoelec", "Auto Tapicería Veliz", "Jujure (Educadoras)", "POR DEFINIR", "POR DEFINIR"], 
       G2: ["Divinas", "Team Frutas", "Las Triunfadoras", "Las Queen", "T-Teen Club", "Repostería el Ponque"]
     },
     Masculino: {
-      G1: ["Pintucal", "Team JM&JA", "Sibarita", "Cultivar", "En Disputa (G1)", "En Disputa (G1)", "En Disputa (G1)"], 
-      G2: ["Triunfadores", "Deportivo Guaimaral", "Exasa", "Micro PC", "La 1", "En Disputa (G2)", "En Disputa (G2)"]
+      G1: ["Pintucal", "Team JM&JA", "Sibarita", "Cultivar", "POR DEFINIR", "POR DEFINIR", "POR DEFINIR"], 
+      G2: ["Triunfadores", "Deportivo Guaimaral", "Exasa", "Micro PC", "La 1", "POR DEFINIR", "POR DEFINIR"]
     }
   };
 
-  // GENERADOR DE CRUCES
   const MATCHES_F2 = [];
   for (let i = 0; i < 6; i++) {
     MATCHES_F2.push({ id: `F2-F-${i+1}`, c: "Femenino", w: `F2-S${i+1}`, a: CLASIFICADOS.Femenino.G1[i], b: CLASIFICADOS.Femenino.G2[i], d: `2${i+1}/11/2026`, h: "6:00pm", f: "Cancha 1" });
@@ -188,7 +186,6 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
   const CLAVE_ADMIN = 'sibarita2026';
   function g(id) { return document.getElementById(id); }
 
-  // NAVEGACIÓN
   window.showTab = function(id, btn) {
     document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
     document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
@@ -223,14 +220,14 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     const renderGrupo = (equipos, nombre) => {
       let html = `<div class="grupo-col"><div class="grupo-header">${nombre}</div>`;
       equipos.forEach((eq, i) => {
-        const isDisputa = eq.includes("En Disputa");
+        const isDisputa = eq.includes("POR DEFINIR");
         const posClass = isDisputa ? 'disputa' : 'clasificado';
         const nameClass = isDisputa ? 'disputa' : '';
         const pj = isDisputa ? "??" : "0"; 
         
         html += `
           <div class="team-row">
-            <div class="team-pos ${posClass}">${i+1}</div>
+            <div class="team-pos ${posClass}">${isDisputa ? '-' : i+1}</div>
             <div class="team-name ${nameClass}">${eq}</div>
             <div class="team-played">PJ: ${pj}</div>
           </div>
@@ -274,9 +271,9 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
             <span>${m.f}</span>
           </div>
           <div class="match-teams">
-            <div class="match-team" style="color: ${m.a.includes('Disputa') ? '#f39c12' : 'var(--text)'}">${m.a}</div>
+            <div class="match-team" style="color: ${m.a.includes('DEFINIR') ? '#f39c12' : 'var(--text)'}">${m.a}</div>
             <div class="match-vs">VS</div>
-            <div class="match-team" style="color: ${m.b.includes('Disputa') ? '#f39c12' : 'var(--text)'}">${m.b}</div>
+            <div class="match-team" style="color: ${m.b.includes('DEFINIR') ? '#f39c12' : 'var(--text)'}">${m.b}</div>
           </div>
           ${inner}
         </div>
@@ -284,7 +281,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     }).join('');
   }
 
-  // --- PESTAÑA TABLA (CON PUESTOS EN BLANCO PARA "POR DEFINIR") ---
+  // --- PESTAÑA TABLA (CON DISEÑO "POR DEFINIR" EN BLANCO) ---
   function rSt() {
     const grupos = CLASIFICADOS[F.sCat];
     
@@ -306,6 +303,12 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
       });
       
       return Object.values(tb).sort((a, b) => {
+        // Los "POR DEFINIR" siempre van al final
+        const aDisputa = a.n.includes("POR DEFINIR");
+        const bDisputa = b.n.includes("POR DEFINIR");
+        if (aDisputa && !bDisputa) return 1;
+        if (!aDisputa && bDisputa) return -1;
+
         if (b.pts !== a.pts) return b.pts - a.pts;
         const rendA = a.pj ? a.pg / a.pj : 0;
         const rendB = b.pj ? b.pg / b.pj : 0;
@@ -318,29 +321,30 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
 
     const renderTablaHTML = (tabla, nombreGrupo) => {
       let html = `<div class="lbl">🏆 ${nombreGrupo}</div>`;
+      
       html += `<div class="card" style="display:flex;gap:5px;padding:6px 8px;font-size:8px;color:var(--primary);">
         <div style="width:20px"></div><div style="flex:1;">EQUIPO</div>
         <div class="scols">${['PJ','PG','PP','TF','TC','DIF','PTS'].map(h=>`<div class="sc">${h}</div>`).join('')}</div>
       </div>`;
-      
-      html += tabla.map((t, i) => {
-        const isDisputa = t.n.includes("En Disputa");
-        
-        // Posición en blanco si está en disputa
-        const posHtml = isDisputa ? `<div class="rb rn" style="background:transparent;color:#8899aa;">-</div>` : `<div class="rb ${i < 4 ? 'r1' : 'rn'}">${i + 1}</div>`;
-        const nombreMostrar = isDisputa ? "Por definir" : t.n;
-        const colorNombre = isDisputa ? '#8899aa' : 'var(--text)';
-        const clasifClass = (i < 4 && !isDisputa) ? 'r1' : 'rn';
-        
-        // Estadísticas en blanco si está en disputa
-        const statsHtml = isDisputa 
-          ? ['-','-','-','-','-','-','-'].map(v => `<div class="sc"><div class="sv" style="color:#8899aa">${v}</div></div>`).join('')
-          : [t.pj, t.pg, t.pp, t.tf, t.tc, (t.tf - t.tc), t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('');
 
-        return `<div class="sr ${clasifClass}" style="${isDisputa ? 'opacity: 0.7; border: 1px dashed var(--border);' : ''}">
-          ${posHtml}
-          <div style="flex:1;font-size:11px;font-weight:bold;text-align:left; color:${colorNombre}">${nombreMostrar}</div>
-          <div class="scols">${statsHtml}</div>
+      html += tabla.map((t, i) => {
+        const isDisputa = t.n.includes("POR DEFINIR");
+        
+        // DISEÑO EXACTO PARA LOS NO CLASIFICADOS
+        if (isDisputa) {
+          return `<div class="sr rn" style="opacity: 0.8; border: 1px dashed var(--border);">
+            <div class="rb rn" style="background:transparent; color:#8899aa;">-</div>
+            <div style="flex:1;font-size:11px;font-weight:bold;text-align:left; color:#8899aa">Por definir</div>
+            <div class="scols">${['-','-','-','-','-','-','-'].map(v => `<div class="sc"><div class="sv" style="color:#8899aa">${v}</div></div>`).join('')}</div>
+          </div>`;
+        } 
+        
+        // DISEÑO PARA LOS CLASIFICADOS
+        const clasifClass = (i < 4) ? 'r1' : 'rn';
+        return `<div class="sr ${clasifClass}">
+          <div class="rb ${i < 4 ? 'r1' : 'rn'}">${i + 1}</div>
+          <div style="flex:1;font-size:11px;font-weight:bold;text-align:left; color:var(--text)">${t.n}</div>
+          <div class="scols">${[t.pj, t.pg, t.pp, t.tf, t.tc, (t.tf - t.tc), t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div>
         </div>`;
       }).join('');
       
@@ -351,7 +355,6 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     g('st-list-B').innerHTML = renderTablaHTML(calcTabla(grupos.G2), "Grupo B");
   }
 
-  // GUARDAR RESULTADO
   window.guardar = async function(id) {
     const pass = prompt('🔐 Contraseña de organizador:');
     if (pass !== CLAVE_ADMIN) { alert('❌ Incorrecta'); return; }
@@ -383,7 +386,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
       }
     });
     window.rM = rM;
-    rT(); // Renderiza Equipos por defecto al iniciar
+    rT(); 
   }
   init();
 </script>
