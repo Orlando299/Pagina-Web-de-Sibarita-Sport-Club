@@ -201,10 +201,18 @@ footer .instruccion-btn:hover {
       <button class="fb on" id="btn-sFem" onclick="setF('sCat','Femenino')">👩 Femenino</button>
       <button class="fb" id="btn-sMas" onclick="setF('sCat','Masculino')">👨 Masculino</button>
     </div>
+    
+    <!-- NUEVO BOTÓN PARA VER LOS CRUCES -->
+    <div style="text-align: center; margin-bottom: 12px;">
+      <button onclick="mostrarCruces()" style="background: linear-gradient(135deg, #2980b9, #3498db); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 12px; cursor: pointer; width: 100%; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);">
+        🔀 Ver Cruces de Eliminatorias
+      </button>
+    </div>
+
     <div id="st-list"></div>
     <div class="ibox">📌 Clasifican los 4 primeros a las eliminatorias.<br>📌 Criterios: Puntos → Rendimiento → Average → Sorteo.</div>
   </div>
-
+  
   <!-- ===== ELIMINATORIAS ===== -->
   <div id="s-brackets" class="scr">
     <div class="frow">
@@ -446,6 +454,101 @@ footer .instruccion-btn:hover {
 
     g('st-list').innerHTML = `<div style="display: flex; flex-direction: column; gap: 15px;">${htmlA}${htmlB}</div>`;
   }
+
+  // --- FUNCIÓN PARA MOSTRAR LOS CRUCES ---
+  function mostrarCruces() {
+    // Esta función creará un modal con el diseño de los cruces
+    const modal = document.createElement('div');
+    modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:2000;display:flex;flex-direction:column;padding:20px;box-sizing:border-box;overflow-y:auto;';
+    
+    // Botón para cerrar
+    const btnCerrar = document.createElement('button');
+    btnCerrar.textContent = '✕ Cerrar';
+    btnCerrar.style.cssText = 'align-self:flex-end;background:#c0392b;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;margin-bottom:15px;';
+    btnCerrar.onclick = () => modal.remove();
+
+    // Contenedor del corchete
+    const content = document.createElement('div');
+    content.style.cssText = 'max-width:430px;margin:0 auto;width:100%;';
+
+    const grupos = CLASIFICADOS[F.sCat];
+    
+    // Calcular la tabla (misma lógica que rSt)
+    function calcTabla(equiposGrupo) {
+      const tb = {};
+      equiposGrupo.forEach(eq => tb[eq] = { n: eq, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 });
+      MATCHES_F2.filter(m => m.c === F.sCat).forEach(m => {
+        const r = R[m.id];
+        if (!r || r.status !== 'done') return;
+        if (tb[m.a]) {
+          tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB;
+          if (r.scoreA > r.scoreB) { tb[m.a].pg++; tb[m.a].pts += 3; } else { tb[m.a].pp++; }
+        }
+        if (tb[m.b]) {
+          tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA;
+          if (r.scoreB > r.scoreA) { tb[m.b].pg++; tb[m.b].pts += 3; } else { tb[m.b].pp++; }
+        }
+      });
+      return Object.values(tb).sort((a, b) => {
+        if (b.pts !== a.pts) return b.pts - a.pts;
+        const rendA = a.pj ? a.pg / a.pj : 0;
+        const rendB = b.pj ? b.pg / b.pj : 0;
+        if (rendB !== rendA) return rendB - rendA;
+        const avgA = a.pj ? (a.tf - a.tc) / a.pj : 0;
+        const avgB = b.pj ? (b.tf - b.tc) / b.pj : 0;
+        return avgB - avgA;
+      });
+    }
+
+    const tablaA = calcTabla(grupos.G1);
+    const tablaB = calcTabla(grupos.G2);
+
+    let html = `<div class="lbl" style="text-align:center; font-size:14px; margin-bottom:10px;">🏆 CRUCES FASE 2 — ${F.sCat}</div>`;
+    
+    // Cabecera de los cruces
+    html += `<div style="display:flex; justify-content:space-between; padding:8px; color:var(--primary); font-weight:bold; font-size:11px; border-bottom:2px solid var(--border); margin-bottom:10px;">
+      <div style="width:45%; text-align:center;">GRUPO A</div>
+      <div style="width:10%; text-align:center;">VS</div>
+      <div style="width:45%; text-align:center;">GRUPO B</div>
+    </div>`;
+
+    // Generar los cruces emparejando por posición
+    const maxCruces = Math.max(tablaA.length, tablaB.length);
+    for (let i = 0; i < maxCruces; i++) {
+      const eqA = tablaA[i] || { n: '---', pts: 0 };
+      const eqB = tablaB[i] || { n: '---', pts: 0 };
+
+      // Buscar si jugaron entre ellos
+      let resultStr = 'VS';
+      let colorA = 'var(--text)';
+      let colorB = 'var(--text)';
+      
+      const partido = MATCHES_F2.find(m => m.c === F.sCat && ((m.a === eqA.n && m.b === eqB.n) || (m.a === eqB.n && m.b === eqA.n)));
+      if (partido && R[partido.id] && R[partido.id].status === 'done') {
+        const r = R[partido.id];
+        const scoreA = partido.a === eqA.n ? r.scoreA : r.scoreB;
+        const scoreB = partido.a === eqA.n ? r.scoreB : r.scoreA;
+        resultStr = `<span style="font-size:12px;font-weight:bold;">${scoreA} - ${scoreB}</span>`;
+        if (scoreA > scoreB) { colorA = 'var(--primary)'; colorB = 'var(--text-muted)'; }
+        else if (scoreB > scoreA) { colorB = 'var(--primary)'; colorA = 'var(--text-muted)'; }
+      }
+
+      html += `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:var(--card-2); padding:10px; border-radius:8px; margin-bottom:6px; border:1px solid var(--border);">
+          <div style="width:45%; text-align:center; color:${colorA}; font-weight:bold; font-size:11px;">${eqA.n}</div>
+          <div style="width:10%; text-align:center; color:var(--text-muted); font-size:10px;">${resultStr}</div>
+          <div style="width:45%; text-align:center; color:${colorB}; font-weight:bold; font-size:11px;">${eqB.n}</div>
+        </div>
+      `;
+    }
+
+    content.innerHTML = html;
+    modal.appendChild(btnCerrar);
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+  }
+
+  
 
     // --- BRACKET DE ELIMINATORIAS ---
   function rBrackets() {
