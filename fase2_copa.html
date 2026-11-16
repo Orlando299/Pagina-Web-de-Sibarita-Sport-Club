@@ -243,61 +243,78 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     }).join('');
   }
 
-  // --- TABLA (GENERAL, SIN GRUPOS) ---
+  // --- TABLA (DOS BLOQUES PARALELOS POR GRUPO) ---
   function rSt() {
-    const tb = {};
+    const grupos = CLASIFICADOS[F.sCat];
     
-    // 1. Inicializar tabla con TODOS los clasificados de la categoría
-    const clasificadosCat = CLASIFICADOS[F.sCat];
-    const todosLosEquipos = [...clasificadosCat.G1, ...clasificadosCat.G2];
-    
-    todosLosEquipos.forEach(eq => {
-      tb[eq] = { n: eq, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 };
-    });
-
-    // 2. Sumar resultados de Fase 2
-    const partidosCat = MATCHES_F2.filter(m => m.c === F.sCat);
-    partidosCat.forEach(m => {
-      const r = R[m.id];
-      if (!r || r.status !== 'done') return;
+    function calcTabla(equiposGrupo) {
+      const tb = {};
+      // Inicializar los equipos del grupo
+      equiposGrupo.forEach(eq => {
+        tb[eq] = { n: eq, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 };
+      });
       
-      if (tb[m.a]) {
-        tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB;
-        if (r.scoreA > r.scoreB) { tb[m.a].pg++; tb[m.a].pts += 3; } else { tb[m.a].pp++; }
-      }
-      if (tb[m.b]) {
-        tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA;
-        if (r.scoreB > r.scoreA) { tb[m.b].pg++; tb[m.b].pts += 3; } else { tb[m.b].pp++; }
-      }
-    });
+      // Sumar los resultados de la Fase 2
+      const partidosCat = MATCHES_F2.filter(m => m.c === F.sCat);
+      partidosCat.forEach(m => {
+        const r = R[m.id];
+        if (!r || r.status !== 'done') return;
 
-    const sorted = Object.values(tb).sort((a, b) => {
-      if (b.pts !== a.pts) return b.pts - a.pts;
-      const rendA = a.pj ? a.pg / a.pj : 0;
-      const rendB = b.pj ? b.pg / b.pj : 0;
-      if (rendB !== rendA) return rendB - rendA;
-      const avgA = a.pj ? (a.tf - a.tc) / a.pj : 0;
-      const avgB = b.pj ? (b.tf - b.tc) / b.pj : 0;
-      return avgB - avgA;
-    });
+        // Verificar si el equipo pertenece a este grupo
+        if (tb[m.a]) {
+          tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB;
+          if (r.scoreA > r.scoreB) { tb[m.a].pg++; tb[m.a].pts += 3; } else { tb[m.a].pp++; }
+        }
+        if (tb[m.b]) {
+          tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA;
+          if (r.scoreB > r.scoreA) { tb[m.b].pg++; tb[m.b].pts += 3; } else { tb[m.b].pp++; }
+        }
+      });
+      
+      // Ordenar por Puntos -> Rendimiento -> Average
+      return Object.values(tb).sort((a, b) => {
+        if (b.pts !== a.pts) return b.pts - a.pts;
+        const rendA = a.pj ? a.pg / a.pj : 0;
+        const rendB = b.pj ? b.pg / b.pj : 0;
+        if (rendB !== rendA) return rendB - rendA;
+        const avgA = a.pj ? (a.tf - a.tc) / a.pj : 0;
+        const avgB = b.pj ? (b.tf - b.tc) / b.pj : 0;
+        return avgB - avgA;
+      });
+    }
 
-    let html = `<div class="lbl">🏆 TABLA GENERAL — FASE 2 (${F.sCat})</div>`;
-    
-    html += `<div class="card" style="display:flex;gap:5px;padding:6px 8px;font-size:8px;color:var(--primary);">
-      <div style="width:20px"></div><div style="flex:1;">EQUIPO</div>
-      <div class="scols">${['PJ','PG','PP','TF','TC','DIF','PTS'].map(h=>`<div class="sc">${h}</div>`).join('')}</div>
-    </div>`;
-
-    html += sorted.map((t, i) => {
-      const clasifClass = (i < 4) ? 'r1' : 'rn';
-      return `<div class="sr ${clasifClass}">
-        <div class="rb ${i < 4 ? 'r1' : 'rn'}">${i + 1}</div>
-        <div style="flex:1;font-size:11px;font-weight:bold;text-align:left; color:var(--text)">${t.n}</div>
-        <div class="scols">${[t.pj, t.pg, t.pp, t.tf, t.tc, (t.tf - t.tc), t.pts].map(v => `<div class="sc"><div class="sv">${v}</div></div>`).join('')}</div>
+    const renderTablaHTML = (tabla, nombreGrupo) => {
+      let html = `<div class="card" style="padding: 12px; border: 1px solid var(--border);">`;
+      html += `<div style="text-align: center; font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 10px; text-transform: uppercase;">🏆 ${nombreGrupo}</div>`;
+      
+      // Cabecera de la tabla
+      html += `<div style="display:flex; gap:5px; padding: 4px 6px; font-size: 9px; color: var(--text-muted); border-bottom: 1px solid var(--border); margin-bottom: 6px;">
+        <div style="width: 22px; text-align:center;">#</div>
+        <div style="flex: 1;">EQUIPO</div>
+        <div class="scols">${['PJ','PG','PP','TF','TC','DIF','PTS'].map(h=>`<div class="sc">${h}</div>`).join('')}</div>
       </div>`;
-    }).join('');
+      
+      // Filas de los equipos
+      html += tabla.map((t, i) => {
+        return `<div class="sr rn" style="padding: 6px 6px; margin-bottom: 2px;">
+          <div style="width: 22px; text-align: center; font-weight: bold; color: var(--text-muted); font-size: 11px;">${i + 1}</div>
+          <div style="flex: 1; font-size: 11px; font-weight: 600; color: var(--text); text-align: left;">${t.n}</div>
+          <div class="scols">
+            ${[t.pj, t.pg, t.pp, t.tf, t.tc, (t.tf - t.tc), t.pts].map(v => `<div class="sc"><div class="sv" style="font-size:10px;">${v}</div></div>`).join('')}
+          </div>
+        </div>`;
+      }).join('');
+      
+      html += `</div>`;
+      return html;
+    };
 
-    g('st-list').innerHTML = html;
+    // Renderizar los dos grupos en paralelo (uno debajo del otro en pantalla móvil)
+    const htmlA = renderTablaHTML(calcTabla(grupos.G1), "Grupo A");
+    const htmlB = renderTablaHTML(calcTabla(grupos.G2), "Grupo B");
+
+    // Contenedor con flexbox para que se separen bien
+    g('st-list').innerHTML = `<div style="display: flex; flex-direction: column; gap: 15px;">${htmlA}${htmlB}</div>`;
   }
 
   // --- GUARDAR RESULTADO ---
