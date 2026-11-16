@@ -514,41 +514,62 @@ footer .instruccion-btn:hover {
     g('bracket-container').innerHTML = html;
   }
 
-  // --- GUARDAR RESULTADO ---
+   // --- GUARDAR RESULTADO ---
   window.guardar = async function(id) {
+    console.log("🚀 Intentando guardar partido:", id);
+    
     const pass = prompt('🔐 Contraseña de organizador:');
-    if (pass !== CLAVE_ADMIN) { alert('❌ Incorrecta'); return; }
+    if (pass !== CLAVE_ADMIN) { 
+      console.log("❌ Contraseña incorrecta");
+      alert('❌ Incorrecta'); 
+      return; 
+    }
     
     const a = parseInt(g('sA' + id)?.value);
     const b = parseInt(g('sB' + id)?.value);
+    console.log("Marcador capturado:", a, "-", b);
     
     if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) {
+      console.log("❌ Marcador inválido");
       alert('Marcador inválido (0-20)'); return;
     }
     
     R[id] = { scoreA: a, scoreB: b, status: 'done' };
+    
     try {
+      console.log("☁️ Enviando a Firebase...");
       await setDoc(doc(db, "resultados", String(id)), { ...R[id], torneo: "navidad", categoria: "B" });
+      console.log("✅ Guardado exitoso en Firebase");
       alert('✅ Guardado');
     } catch (e) {
-      console.error(e);
-      alert('⚠️ Guardado local');
+      console.error("❌ Error en Firebase:", e);
+      alert('⚠️ Guardado local (Error en Firebase: ' + e.message + ')');
     }
+    
     rM(); rSt();
   }
-
-  // --- INICIALIZACIÓN ---
+ // --- INICIALIZACIÓN ---
   async function init() {
-    const snap = await getDocs(collection(db, "resultados"));
-    snap.forEach(d => {
-      const data = d.data();
-      if (data.torneo === "navidad" && data.categoria === "B") {
-        R[d.id] = data;
-      }
-    });
+    console.log("🔄 Iniciando Fase 2...");
+    try {
+      const snap = await getDocs(collection(db, "resultados"));
+      let contador = 0;
+      snap.forEach(d => {
+        const data = d.data();
+        if (data.torneo === "navidad" && data.categoria === "B") {
+          R[d.id] = data;
+          contador++;
+        }
+      });
+      console.log(`✅ Resultados cargados desde Firebase: ${contador}`);
+    } catch (e) {
+      console.error("❌ Error cargando Firebase:", e);
+    }
+    
     window.rM = rM;
     rM();
-    rBrackets(); // Renderizar bracket al inicio
+    rBrackets();
+    console.log("✅ Página Fase 2 cargada correctamente");
   }
   init();
 </script>
