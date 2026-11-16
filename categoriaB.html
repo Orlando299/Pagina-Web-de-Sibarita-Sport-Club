@@ -1496,12 +1496,12 @@ function rA(){
   const tl = TEAMS.filter(t=>t.c===F.aCat && t.g===F.aGrp);
   const view = F.aView || 'arr';
   
-  // ✅ MÍNIMOS DIFERENCIADOS POR VISTA
-  // ARR% y BOC%: 100 intentos en su destreza
-  // TOT%: 150 intentos TOTALES (arrimes + boches) → más exigente para "completos"
+  // Mínimos
   const MIN_ARR = 100;
   const MIN_BOC = 100;
-  const MIN_TOT = 150;
+  const MIN_TOT = 150;       // intentos totales para TOT%
+  const MIN_TOT_ARR = 50;    // mínimo de arrimes para TOT%
+  const MIN_TOT_BOC = 50;    // mínimo de boches para TOT%
   
   const config = {
     arr: {
@@ -1521,7 +1521,7 @@ function rA(){
       campo_minimo: 'bocT'
     },
     tot: {
-      titulo: `⭐ RANKING COMPLETO — Mínimo ${MIN_TOT} intentos totales (arrimes + boches)`,
+      titulo: `⭐ RANKING COMPLETO — Mínimo ${MIN_TOT} intentos totales (≥${MIN_TOT_ARR} arrimes y ≥${MIN_TOT_BOC} boches)`,
       campo_porcentaje: 'eTot',
       campo_aciertos: 'aciertosTotales',
       campo_intentos: 'intentosTotales',
@@ -1549,7 +1549,8 @@ function rA(){
       const eBoc = bocT > 0 ? Math.round((bocB/bocT)*100) : 0;
       const tb = arrB + bocB;
       const ti = arrT + bocT;
-      const eTot = ti > 0 ? Math.round((tb/ti)*100) : 0;
+      // TOT% = promedio de ARR% y BOC% (refleja equilibrio)
+      const eTot = Math.round((eArr + eBoc) / 2);
       
       const player = {
         name: p, team: t.n, partidos,
@@ -1560,7 +1561,16 @@ function rA(){
       };
       
       // Filtro diferenciado por vista
-      if (player[config.campo_minimo] < config.minimo) return;
+      if (view === 'arr') {
+        if (arrT < MIN_ARR) return;
+      } else if (view === 'boc') {
+        if (bocT < MIN_BOC) return;
+      } else if (view === 'tot') {
+        // Debe tener mínimo en AMBAS destrezas y en total
+        if (arrT < MIN_TOT_ARR) return;
+        if (bocT < MIN_TOT_BOC) return;
+        if (ti < MIN_TOT) return;
+      }
       
       players.push(player);
     });
@@ -1578,7 +1588,7 @@ function rA(){
   if (info) info.textContent = `${config.titulo} · ${players.length} elegibles`;
   
   if(!players.length){
-    g('a-list').innerHTML = `<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin jugadores con al menos ${config.minimo} intentos en esta vista.</div>`;
+    g('a-list').innerHTML = `<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin jugadores que cumplan los mínimos para esta vista.</div>`;
     return;
   }
   
