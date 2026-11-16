@@ -1496,32 +1496,36 @@ function rA(){
   const tl = TEAMS.filter(t=>t.c===F.aCat && t.g===F.aGrp);
   const view = F.aView || 'arr';
   
-  // ✅ MÍNIMO GLOBAL: cambia solo este número cuando avance el torneo
-  const MIN_INTENTOS = 100;
+  // ✅ MÍNIMOS DIFERENCIADOS POR VISTA
+  // ARR% y BOC%: 100 intentos en su destreza
+  // TOT%: 150 intentos TOTALES (arrimes + boches) → más exigente para "completos"
+  const MIN_ARR = 100;
+  const MIN_BOC = 100;
+  const MIN_TOT = 150;
   
   const config = {
     arr: {
-      titulo: `🎯 RANKING DE ARRIME — Mínimo ${MIN_INTENTOS} intentos de arrime`,
+      titulo: `🎯 RANKING DE ARRIME — Mínimo ${MIN_ARR} intentos de arrime`,
       campo_porcentaje: 'eArr',
       campo_aciertos: 'arrB',
       campo_intentos: 'arrT',
-      minimo: MIN_INTENTOS,
+      minimo: MIN_ARR,
       campo_minimo: 'arrT'
     },
     boc: {
-      titulo: `💥 RANKING DE BOCHE — Mínimo ${MIN_INTENTOS} intentos de boche`,
+      titulo: `💥 RANKING DE BOCHE — Mínimo ${MIN_BOC} intentos de boche`,
       campo_porcentaje: 'eBoc',
       campo_aciertos: 'bocB',
       campo_intentos: 'bocT',
-      minimo: MIN_INTENTOS,
+      minimo: MIN_BOC,
       campo_minimo: 'bocT'
     },
     tot: {
-      titulo: `⭐ RANKING COMPLETO — Mínimo ${MIN_INTENTOS} intentos totales`,
+      titulo: `⭐ RANKING COMPLETO — Mínimo ${MIN_TOT} intentos totales (arrimes + boches)`,
       campo_porcentaje: 'eTot',
       campo_aciertos: 'aciertosTotales',
       campo_intentos: 'intentosTotales',
-      minimo: MIN_INTENTOS,
+      minimo: MIN_TOT,
       campo_minimo: 'intentosTotales'
     }
   }[view];
@@ -1555,6 +1559,7 @@ function rA(){
         intentosTotales: ti
       };
       
+      // Filtro diferenciado por vista
       if (player[config.campo_minimo] < config.minimo) return;
       
       players.push(player);
@@ -1573,7 +1578,7 @@ function rA(){
   if (info) info.textContent = `${config.titulo} · ${players.length} elegibles`;
   
   if(!players.length){
-    g('a-list').innerHTML = `<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin jugadores con al menos ${MIN_INTENTOS} intentos en esta categoría.</div>`;
+    g('a-list').innerHTML = `<div style="color:var(--text-muted);text-align:center;padding:20px;">Sin jugadores con al menos ${config.minimo} intentos en esta vista.</div>`;
     return;
   }
   
