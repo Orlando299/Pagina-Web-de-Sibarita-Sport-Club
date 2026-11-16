@@ -205,6 +205,13 @@
             border-color: #2980b9;
         }
         .tarjeta-catB h4 { color: #4facfe; }
+        
+        /* NUEVA TARJETA FASE 2 */
+        .tarjeta-fase2 {
+            background: linear-gradient(145deg, #14281e, #0f1f19);
+            border-color: #2ecc71;
+        }
+        .tarjeta-fase2 h4 { color: #2ecc71; }
 
         @media (max-width: 600px) {
             .container { padding: 18px 15px; }
@@ -232,7 +239,7 @@
 
     <!-- ===================== PORTAL PRINCIPAL ===================== -->
     <h2>🏠 Portal Principal</h2>
-    <p>Al entrar a <strong>sibaritasc.com</strong> verás el portal con tres tarjetas de acceso. Cada una te lleva a una sección diferente:</p>
+    <p>Al entrar a <strong>sibaritasc.com</strong> verás el portal con cuatro tarjetas de acceso. Cada una te lleva a una sección diferente:</p>
 
     <div class="tarjetas-referencia">
         <div class="tarjeta-ref tarjeta-apertura">
@@ -250,12 +257,18 @@
             <h4>Categoría B</h4>
             <p>Avanzado · Femenino y Masculino<br>Copa Navidad 2026</p>
         </div>
+        <div class="tarjeta-ref tarjeta-fase2">
+            <span class="icono">🏆</span>
+            <h4>Fase 2</h4>
+            <p>Eliminatorias · Copa Navidad<br>Clasificados a la vista</p>
+        </div>
     </div>
 
     <ul>
         <li><strong>📜 Apertura 2026:</strong> Consulta el torneo que ya finalizó. Es solo lectura, no se puede modificar nada.</li>
         <li><strong>🟡 Categoría A:</strong> Copa Navidad 2026, categoría élite. Equipos con mayor nivel deportivo.</li>
         <li><strong>🔵 Categoría B:</strong> Copa Navidad 2026, categoría avanzada. Equipos en desarrollo competitivo.</li>
+        <li><strong>🏆 Fase 2:</strong> Las eliminatorias de la Copa Navidad. Aquí se define al campeón con cruces directos.</li>
     </ul>
 
     <div class="highlight-box">
@@ -326,6 +339,69 @@
 
     <h3>🏠 Volver al histórico</h3>
     <p>Desde el portal principal, puedes hacer clic en la tarjeta <strong>Apertura 2026</strong> para consultar los resultados del torneo anterior. Es solo lectura.</p>
+
+    <!-- ===================== FASE 2 ===================== -->
+    <h2>🏆 Fase 2 (Eliminatorias)</h2>
+    <p>La Fase 2 es la etapa final de la Copa Navidad. Aquí los equipos clasificados de la fase regular se enfrentan en partidos de eliminación directa (muerte súbita) hasta consagrar al campeón.</p>
+    <p><strong>¿Cómo se clasifica a la Fase 2?</strong></p>
+    <ul>
+        <li><strong>Femenino:</strong> Clasifican los <strong>6 mejores equipos</strong> de cada grupo (A y B). En total, 12 equipos.</li>
+        <li><strong>Masculino:</strong> Clasifican los <strong>7 mejores equipos</strong> de cada grupo (A y B). En total, 14 equipos.</li>
+    </ul>
+    
+    <p><strong>Formato de las Eliminatorias:</strong></p>
+    <ul>
+        <li><strong>Cuartos de Final:</strong> Los cruces son fijos:
+            <ul>
+                <li>1° del Grupo A vs 4° del Grupo B</li>
+                <li>2° del Grupo A vs 3° del Grupo B</li>
+                <li>3° del Grupo A vs 2° del Grupo B</li>
+                <li>4° del Grupo A vs 1° del Grupo B</li>
+            </ul>
+        </li>
+        <li><strong>Semifinales:</strong> Los 4 ganadores de Cuartos se sortean para definir los cruces de Semifinales.</li>
+        <li><strong>Final y 3er Lugar:</strong> Los perdedores de las semifinales juegan por el 3er y 4to lugar. Los ganadores juegan la Gran Final por el título.</li>
+    </ul>
+
+    <div class="highlight-box">
+        📌 <strong>Nueva Pestaña: Eliminatorias</strong><br>
+        En la página de Fase 2 encontrarás una pestaña llamada <strong>"Eliminatorias"</strong> (con el icono 🥇) donde podrás ver el cuadro completo (Bracket) con los cruces desde Cuartos de Final, Semifinales, el partido por el 3er Lugar y la Gran Final.
+    </div>
+
+    <p><strong>Pestañas dentro de la Fase 2:</strong></p>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Pestaña</th>
+                    <th>Icono</th>
+                    <th>Qué encuentras</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Partidos</strong></td>
+                    <td>🎯</td>
+                    <td>Los partidos de Fase 2 organizados por semana. Puedes ver resultados y estados.</td>
+                </tr>
+                <tr>
+                    <td><strong>Tabla</strong></td>
+                    <td>🏆</td>
+                    <td>Posiciones de los equipos en la Fase 2, dividida en <strong>Grupo A</strong> y <strong>Grupo B</strong>. Incluye barras de progreso según los puntos obtenidos.</td>
+                </tr>
+                <tr>
+                    <td><strong>Eliminatorias</strong></td>
+                    <td>🥇</td>
+                    <td>El cuadro visual (Bracket) que muestra el camino a la final y el partido por el 3er lugar.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="highlight-box">
+        📌 <strong>Comparte la Fase 2:</strong><br>
+        En la esquina inferior derecha de la página de Fase 2 encontrarás un botón flotante de WhatsApp (📱). Al hacer clic, podrás compartir el enlace de la Fase 2 con tus amigos y familiares para que sigan el torneo en vivo.
+    </div>
 
     <!-- ===================== RESULTADOS ===================== -->
     <h2>🎯 Consulta de Resultados</h2>
@@ -434,6 +510,7 @@
         <li>Derrota: <strong>0 puntos</strong></li>
     </ul>
     <p><strong>Desempate:</strong> Mayor diferencia de <strong>tantos</strong> (TF - TC).</p>
+    <p>En la Fase 2, la tabla de posiciones incluye <strong>barras de progreso verdes</strong> que se llenan según los puntos obtenidos por cada equipo, lo que permite ver de un vistazo quiénes van liderando.</p>
 
     <!-- ===================== PUBLICIDAD ===================== -->
     <h2>📢 Publicidad y Patrocinios</h2>
@@ -491,7 +568,7 @@
 
     <!-- ===================== BOTÓN VOLVER ===================== -->
     <div style="text-align:center;">
-        <a href="index2.html" class="back-button">← Volver al Portal</a>
+        <a href="index.html" class="back-button">← Volver al Portal</a>
     </div>
 
     <!-- ===================== PIE DE PÁGINA ===================== -->
@@ -499,7 +576,7 @@
         <strong>© 2026 Sibarita Sport Club</strong> — Copa Navidad 2026<br>
         Organizado por <strong>Arq. Berly Salazar</strong> — Desarrollado por <strong>MSc. Orlando Silva</strong>
         <br><br>
-        <a href="index2.html">← Volver al portal principal</a>
+        <a href="index.html">← Volver al portal principal</a>
     </div>
 
 </div>
