@@ -139,27 +139,28 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
   // ============================================================
   // PARTIDOS FASE 2 (EXTRAÍDOS DE TU IMAGEN)
   // ============================================================
+   // ============================================================
+  // PARTIDOS FASE 2 (SEMANA 1 COMPLETADA Y CORREGIDA)
+  // ============================================================
   const MATCHES_F2 = [
-    // SEMANA 1 (F2-S1)
-    { id: "F2-M-01", c: "Masculino", g: "G2", w: "F2-S1", a: "Deportivo Guaimaral", b: "Chumacera", d: "13/11/2026", h: "6:00pm", f: "Cancha 1" },
-    { id: "F2-M-02", c: "Masculino", g: "G2", w: "F2-S1", a: "Team Suárez", b: "Feria Bolivariana", d: "13/11/2026", h: "6:00pm", f: "Cancha 2" },
-    { id: "F2-M-03", c: "Masculino", g: "G1", w: "F2-S1", a: "Cultivar", b: "Poder Justiciable", d: "13/11/2026", h: "6:00pm", f: "Cancha 3" },
+    // ===== F2-S1: Viernes 13/11 =====
+    { id: "F2-M-01", c: "Masculino", g: "F2", w: "F2-S1", a: "Deportivo Guaimaral", b: "Chumacera", d: "13/11/2026", h: "6:00pm", f: "Cancha 1" },
+    { id: "F2-M-02", c: "Masculino", g: "F2", w: "F2-S1", a: "Team Suárez", b: "Feria Bolivariana", d: "13/11/2026", h: "6:00pm", f: "Cancha 2" },
+    { id: "F2-M-03", c: "Masculino", g: "F2", w: "F2-S1", a: "Cultivar", b: "Poder Justiciable", d: "13/11/2026", h: "6:00pm", f: "Cancha 3" },
+    { id: "F2-F-01", c: "Femenino",  g: "F2", w: "F2-S1", a: "New Family", b: "Repostería el Ponque", d: "13/11/2026", h: "8:30pm", f: "Cancha 1" },
+
+    // ===== F2-S1: Sábado 14/11 =====
+    { id: "F2-M-04", c: "Masculino", g: "F2", w: "F2-S1", a: "Triunfadores", b: "Pintucal", d: "14/11/2026", h: "6:00pm", f: "Cancha 1" },
     
-    { id: "F2-M-04", c: "Masculino", g: "G2", w: "F2-S1", a: "Deportivo Guaimaral", b: "Feria Bolivariana", d: "13/11/2026", h: "8:30pm", f: "Cancha 1" },
-    { id: "F2-M-05", c: "Masculino", g: "G2", w: "F2-S1", a: "Micro PC", b: "Chumacera", d: "13/11/2026", h: "8:30pm", f: "Cancha 2" },
-    { id: "F2-M-06", c: "Masculino", g: "G1", w: "F2-S1", a: "Team JM&JA", b: "La 23 de Araure", d: "13/11/2026", h: "8:30pm", f: "Cancha 3" },
+    { id: "F2-F-02", c: "Femenino",  g: "F2", w: "F2-S1", a: "Las Triunfadoras", b: "Corpoelec", d: "14/11/2026", h: "8:30pm", f: "Cancha 1" },
+    { id: "F2-M-05", c: "Masculino", g: "F2", w: "F2-S1", a: "Micro PC", b: "Team JM&JA", d: "14/11/2026", h: "8:30pm", f: "Cancha 2" },
+    { id: "F2-M-06", c: "Masculino", g: "F2", w: "F2-S1", a: "Deportivo Guaimaral", b: "Cultivar", d: "14/11/2026", h: "8:30pm", f: "Cancha 3" },
+
+    // ===== F2-S1: Domingo 15/11 =====
+    { id: "F2-F-03", c: "Femenino",  g: "F2", w: "F2-S1", a: "T-Teen Club", b: "Chikas B", d: "15/11/2026", h: "4:00pm", f: "Cancha 1" },
     
-    { id: "F2-M-07", c: "Masculino", g: "G2", w: "F2-S1", a: "Triunfadores", b: "Pintucal", d: "14/11/2026", h: "6:00pm", f: "Cancha 1" },
-    { id: "F2-M-08", c: "Masculino", g: "G1", w: "F2-S1", a: "Poder Justiciable", b: "Servihidra", d: "14/11/2026", h: "6:00pm", f: "Cancha 2" },
-    { id: "F2-M-09", c: "Masculino", g: "G2", w: "F2-S1", a: "Team Suárez", b: "Yusevin", d: "14/11/2026", h: "6:00pm", f: "Cancha 3" },
-    
-    { id: "F2-M-10", c: "Masculino", g: "G2", w: "F2-S1", a: "Micro PC", b: "Team JM&JA", d: "14/11/2026", h: "8:30pm", f: "Cancha 1" },
-    { id: "F2-M-11", c: "Masculino", g: "G2", w: "F2-S1", a: "Deportivo Guaimaral", b: "Cultivar", d: "14/11/2026", h: "8:30pm", f: "Cancha 2" },
-    
-    { id: "F2-M-12", c: "Masculino", g: "G2", w: "F2-S1", a: "Exasa", b: "Ingenieros", d: "15/11/2026", h: "4:00pm", f: "Cancha 1" },
-    { id: "F2-M-13", c: "Masculino", g: "G2", w: "F2-S1", a: "Team Suárez", b: "Remodica", d: "15/11/2026", h: "6:00pm", f: "Cancha 1" },
-    
-    // Las siguientes semanas se agregarán aquí a medida que las envíes.
+    { id: "F2-F-04", c: "Femenino",  g: "F2", w: "F2-S1", a: "Jujure (Educadoras)", b: "Repostería el Ponque", d: "15/11/2026", h: "6:00pm", f: "Cancha 1" },
+    { id: "F2-F-05", c: "Femenino",  g: "F2", w: "F2-S1", a: "Las Triunfadoras", b: "Auto Tapicería Veliz", d: "15/11/2026", h: "6:00pm", f: "Cancha 2" }
   ];
 
   let R = {}; 
