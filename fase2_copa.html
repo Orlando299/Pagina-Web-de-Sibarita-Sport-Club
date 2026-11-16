@@ -17,7 +17,7 @@
   --text:#e8f0f8; --text-muted:#94a3b8;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); font-family: 'Segoe UI', Arial, sans-serif; color: var(--text); max-width: 430px; margin: 0 auto; min-height: 100vh; }
+body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); font-family: 'Segoe UI', Arial, sans-serif; color: var(--text); max-width: 430px; margin: 0 auto; min-height: 100vh; padding-bottom: 80px; /* Espacio para el botón flotante */ }
 .hdr { background: linear-gradient(135deg, var(--card-2), #0f2438); padding: 10px 14px 0; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 100; }
 .hdr-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .logo { display: flex; align-items: center; gap: 8px; }
@@ -30,11 +30,31 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
 .nb.on { color: var(--primary); border-bottom: 3px solid var(--primary); }
 .nb span { font-size: 15px; }
 .body { padding: 12px 12px 70px; }
+
+/* ===== BANNER FASE 2 ===== */
+.banner-fase2 {
+  background: linear-gradient(135deg, #1a3b1a 0%, #2d5a2d 50%, #2ecc71 100%);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  border: 2px solid #ffd700;
+  box-shadow: 0 10px 30px rgba(46, 204, 113, 0.3);
+}
+.banner-fase2 h2 { font-size: 24px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); margin-bottom: 5px; letter-spacing: 2px; }
+.banner-fase2 p { font-size: 12px; color: #e8f0f8; font-weight: bold; text-transform: uppercase; }
+
+/* ===== ESTILOS GENERALES ===== */
 .fb { padding: 5px 10px; border-radius: 12px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-weight: bold; cursor: pointer; font-size: 11px; font-family: inherit; }
 .fb.on { background: var(--primary); border-color: var(--primary); color: #000; }
 .frow { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
 .fscroll { display: flex; gap: 6px; margin-bottom: 8px; overflow-x: auto; padding-bottom: 3px; flex-wrap: nowrap; }
 .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; margin-bottom: 7px; }
+.lbl { font-size: 10px; color: var(--primary); font-weight: bold; margin-bottom: 7px; margin-top: 4px; letter-spacing: .06em; }
+.ibox { font-size: 10px; color: var(--text-muted); padding: 9px; background: var(--card-2); border-radius: 9px; border: 1px solid var(--border); margin-top: 7px; line-height: 1.5; }
+.scr { display: none; } .scr.on { display: block; }
+
+/* ===== PARTIDOS ===== */
 .mc { background: linear-gradient(135deg, var(--card), var(--card-2)); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 7px; }
 .mm { font-size: 10px; color: var(--text-muted); margin-bottom: 7px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3px; }
 .mteams { display: flex; align-items: center; justify-content: space-between; }
@@ -44,23 +64,42 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
 .ss.l { color: var(--text-muted); }
 .sep { font-size: 16px; color: var(--text-muted); font-weight: bold; }
 .sbtn { width: 100%; margin-top: 6px; padding: 6px; background: #2ecc71; border: none; border-radius: 7px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; font-family: inherit; }
-.fbtn { width: 100%; margin-top: 4px; padding: 5px; background: transparent; border: 1px solid #c0392b55; border-radius: 7px; color: #c0392b; font-size: 10px; cursor: pointer; font-family: inherit; }
 .wtag { font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 7px; }
 .sinp { width: 46px; height: 34px; background: var(--card-2); border: 1px solid var(--border); border-radius: 7px; color: var(--primary); font-size: 18px; font-weight: bold; text-align: center; font-family: inherit; }
 .srow { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; }
-.sr { display: flex; align-items: center; gap: 6px; padding: 7px 8px; border-radius: 8px; margin-bottom: 4px; }
-.r1 { background: linear-gradient(90deg, var(--primary)22, transparent); border: 1px solid var(--primary)33; }
-.rn { background: var(--card-2); border: 1px solid var(--border); }
-.rb { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0; }
-.rb.r1 { background: var(--primary); color: #000; }
-.rb.rn { background: var(--card); color: var(--text-muted); }
+
+/* ===== TABLA CON BARRAS ===== */
+.sr { display: flex; align-items: center; gap: 6px; padding: 8px 8px; border-radius: 8px; margin-bottom: 4px; background: var(--card-2); border: 1px solid var(--border); position: relative; overflow: hidden; }
+.sr-bg { position: absolute; top: 0; left: 0; height: 100%; background: #2ecc7122; z-index: 0; transition: width 1s ease-in-out; }
+.sr-content { position: relative; z-index: 1; display: flex; align-items: center; width: 100%; gap: 6px; }
+.rb { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0; background: var(--card); color: var(--text-muted); }
 .sv { font-size: 11px; font-weight: bold; color: var(--text); }
 .sh { font-size: 8px; color: var(--primary); font-weight: bold; }
 .scols { display: flex; gap: 4px; }
 .sc { text-align: center; min-width: 22px; }
-.lbl { font-size: 10px; color: var(--primary); font-weight: bold; margin-bottom: 7px; margin-top: 4px; letter-spacing: .06em; }
-.ibox { font-size: 10px; color: var(--text-muted); padding: 9px; background: var(--card-2); border-radius: 9px; border: 1px solid var(--border); margin-top: 7px; line-height: 1.5; }
-.scr { display: none; } .scr.on { display: block; }
+
+/* ===== BRACKET DE ELIMINATORIAS ===== */
+.bracket-container { display: flex; flex-direction: column; gap: 15px; }
+.bracket-round { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+.bracket-round h3 { font-size: 12px; color: var(--primary); text-align: center; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+.bracket-match { display: flex; align-items: center; justify-content: space-between; background: var(--card-2); padding: 8px; border-radius: 6px; margin-bottom: 6px; border: 1px dashed var(--border); }
+.bracket-team { flex: 1; font-size: 11px; font-weight: bold; text-align: center; }
+.bracket-vs { font-size: 10px; color: var(--text-muted); padding: 0 8px; font-weight: bold; }
+.bracket-winner { color: var(--primary); }
+.bracket-placeholder { color: var(--text-muted); font-style: italic; }
+
+/* ===== BOTÓN FLOTANTE WHATSAPP ===== */
+.btn-whatsapp {
+  position: fixed; bottom: 20px; right: 20px;
+  background: #25D366; color: #fff;
+  width: 60px; height: 60px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.5);
+  text-decoration: none; z-index: 1000;
+  transition: transform 0.3s;
+}
+.btn-whatsapp:hover { transform: scale(1.1); }
+
 </style>
 </head>
 <body>
@@ -79,10 +118,17 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
   <div class="nav">
     <button class="nb on" onclick="showTab('matches',this)"><span>🎯</span>Partidos</button>
     <button class="nb" onclick="showTab('standings',this)"><span>🏆</span>Tabla</button>
+    <button class="nb" onclick="showTab('brackets',this)"><span>🥇</span>Eliminatorias</button>
   </div>
 </div>
 
 <div class="body">
+
+  <!-- ===== BANNER ===== -->
+  <div class="banner-fase2">
+    <h2>🏆 FASE 2</h2>
+    <p>Eliminatorias por el Título</p>
+  </div>
 
   <!-- ===== PARTIDOS ===== -->
   <div id="s-matches" class="scr on">
@@ -105,7 +151,21 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     <div class="ibox">📌 Clasifican los 4 primeros a las eliminatorias.<br>📌 Criterios: Puntos → Rendimiento → Average → Sorteo.</div>
   </div>
 
+  <!-- ===== ELIMINATORIAS ===== -->
+  <div id="s-brackets" class="scr">
+    <div class="frow">
+      <button class="fb on" id="btn-bFem" onclick="setF('bCat','Femenino')">👩 Femenino</button>
+      <button class="fb" id="btn-bMas" onclick="setF('bCat','Masculino')">👨 Masculino</button>
+    </div>
+    <div class="bracket-container" id="bracket-container"></div>
+  </div>
+
 </div>
+
+<!-- BOTÓN FLOTANTE WHATSAPP -->
+<a href="https://api.whatsapp.com/send?text=¡Mira%20la%20Fase%202%20de%20la%20Copa%20Navidad%202026%20del%20Sibarita%20Sport%20Club!%20https://sibaritasc.com/fase2_copa.html" target="_blank" class="btn-whatsapp">
+  📱
+</a>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
@@ -122,9 +182,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // ============================================================
-  // CLASIFICADOS CONFIRMADOS (EXTRAÍDOS DE LA TABLA DE POSICIONES)
-  // ============================================================
+  // CLASIFICADOS
   const CLASIFICADOS = {
     Femenino: {
       G1: ["Chikas B", "Corpoelec", "Auto Tapicería Veliz", "Jujure (Educadoras)", "Virtud Femenina", "New Family"], 
@@ -136,35 +194,24 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     }
   };
 
-  // ============================================================
-  // PARTIDOS FASE 2 (EXTRAÍDOS DE TU IMAGEN)
-  // ============================================================
-   // ============================================================
-  // PARTIDOS FASE 2 (SEMANA 1 COMPLETADA Y CORREGIDA)
-  // ============================================================
+  // MATCHES
   const MATCHES_F2 = [
-    // ===== F2-S1: Viernes 13/11 =====
+    // F2-S1
     { id: "F2-M-01", c: "Masculino", g: "F2", w: "F2-S1", a: "Deportivo Guaimaral", b: "Chumacera", d: "13/11/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-M-02", c: "Masculino", g: "F2", w: "F2-S1", a: "Team Suárez", b: "Feria Bolivariana", d: "13/11/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-03", c: "Masculino", g: "F2", w: "F2-S1", a: "Cultivar", b: "Poder Justiciable", d: "13/11/2026", h: "6:00pm", f: "Cancha 3" },
     { id: "F2-F-01", c: "Femenino",  g: "F2", w: "F2-S1", a: "New Family", b: "Repostería el Ponque", d: "13/11/2026", h: "8:30pm", f: "Cancha 1" },
-
-    // ===== F2-S1: Sábado 14/11 =====
     { id: "F2-M-04", c: "Masculino", g: "F2", w: "F2-S1", a: "Triunfadores", b: "Pintucal", d: "14/11/2026", h: "6:00pm", f: "Cancha 1" },
-    
     { id: "F2-F-02", c: "Femenino",  g: "F2", w: "F2-S1", a: "Las Triunfadoras", b: "Corpoelec", d: "14/11/2026", h: "8:30pm", f: "Cancha 1" },
     { id: "F2-M-05", c: "Masculino", g: "F2", w: "F2-S1", a: "Micro PC", b: "Team JM&JA", d: "14/11/2026", h: "8:30pm", f: "Cancha 2" },
     { id: "F2-M-06", c: "Masculino", g: "F2", w: "F2-S1", a: "Deportivo Guaimaral", b: "Cultivar", d: "14/11/2026", h: "8:30pm", f: "Cancha 3" },
-
-    // ===== F2-S1: Domingo 15/11 =====
     { id: "F2-F-03", c: "Femenino",  g: "F2", w: "F2-S1", a: "T-Teen Club", b: "Chikas B", d: "15/11/2026", h: "4:00pm", f: "Cancha 1" },
-    
     { id: "F2-F-04", c: "Femenino",  g: "F2", w: "F2-S1", a: "Jujure (Educadoras)", b: "Repostería el Ponque", d: "15/11/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-F-05", c: "Femenino",  g: "F2", w: "F2-S1", a: "Las Triunfadoras", b: "Auto Tapicería Veliz", d: "15/11/2026", h: "6:00pm", f: "Cancha 2" }
   ];
 
-   let R = {}; 
-  window.F = { mCat: 'Femenino', sCat: 'Femenino', mWk: 'Todas' };
+  let R = {}; 
+  window.F = { mCat: 'Femenino', sCat: 'Femenino', bCat: 'Femenino', mWk: 'Todas' };
   const CLAVE_ADMIN = 'sibarita2026';
   function g(id) { return document.getElementById(id); }
 
@@ -175,13 +222,15 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     if (btn) btn.classList.add('on');
     if (id === 'matches') rM();
     if (id === 'standings') rSt();
+    if (id === 'brackets') rBrackets();
   }
 
   window.setF = function(k, v) {
     F[k] = v;
     const maps = { 
       mCat: { Femenino: 'btn-mFem', Masculino: 'btn-mMas' },
-      sCat: { Femenino: 'btn-sFem', Masculino: 'btn-sMas' }
+      sCat: { Femenino: 'btn-sFem', Masculino: 'btn-sMas' },
+      bCat: { Femenino: 'btn-bFem', Masculino: 'btn-bMas' }
     };
     if (maps[k]) {
       Object.keys(maps[k]).forEach(val => {
@@ -191,6 +240,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     }
     if (k[0] === 'm') rM();
     if (k[0] === 's') rSt();
+    if (k[0] === 'b') rBrackets();
   }
 
   // --- PARTIDOS ---
@@ -211,7 +261,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     const list = F.mWk === 'Todas' ? partidosCat : partidosCat.filter(m => m.w === F.mWk);
     cntEl.textContent = `${list.length} PARTIDOS — ${F.mCat}`;
 
-    if (!list.length) { listEl.innerHTML = '<div style="text-align:center;padding:20px;">Sin partidos registrados</div>'; return; }
+    if (!list.length) { listEl.innerHTML = '<div style="text-align:center;padding:20px;">Sin partidos</div>'; return; }
 
     listEl.innerHTML = list.map(m => {
       const r = R[m.id];
@@ -244,24 +294,17 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     }).join('');
   }
 
-  // --- TABLA (DOS BLOQUES PARALELOS POR GRUPO) ---
+  // --- TABLA CON BARRAS DE PROGRESO ---
   function rSt() {
     const grupos = CLASIFICADOS[F.sCat];
     
     function calcTabla(equiposGrupo) {
       const tb = {};
-      // Inicializar los equipos del grupo
-      equiposGrupo.forEach(eq => {
-        tb[eq] = { n: eq, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 };
-      });
+      equiposGrupo.forEach(eq => tb[eq] = { n: eq, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 });
       
-      // Sumar los resultados de la Fase 2
-      const partidosCat = MATCHES_F2.filter(m => m.c === F.sCat);
-      partidosCat.forEach(m => {
+      MATCHES_F2.filter(m => m.c === F.sCat).forEach(m => {
         const r = R[m.id];
         if (!r || r.status !== 'done') return;
-
-        // Verificar si el equipo pertenece a este grupo
         if (tb[m.a]) {
           tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB;
           if (r.scoreA > r.scoreB) { tb[m.a].pg++; tb[m.a].pts += 3; } else { tb[m.a].pp++; }
@@ -272,7 +315,6 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
         }
       });
       
-      // Ordenar por Puntos -> Rendimiento -> Average
       return Object.values(tb).sort((a, b) => {
         if (b.pts !== a.pts) return b.pts - a.pts;
         const rendA = a.pj ? a.pg / a.pj : 0;
@@ -288,20 +330,25 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
       let html = `<div class="card" style="padding: 12px; border: 1px solid var(--border);">`;
       html += `<div style="text-align: center; font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 10px; text-transform: uppercase;">🏆 ${nombreGrupo}</div>`;
       
-      // Cabecera de la tabla
       html += `<div style="display:flex; gap:5px; padding: 4px 6px; font-size: 9px; color: var(--text-muted); border-bottom: 1px solid var(--border); margin-bottom: 6px;">
         <div style="width: 22px; text-align:center;">#</div>
         <div style="flex: 1;">EQUIPO</div>
         <div class="scols">${['PJ','PG','PP','TF','TC','DIF','PTS'].map(h=>`<div class="sc">${h}</div>`).join('')}</div>
       </div>`;
       
-      // Filas de los equipos
       html += tabla.map((t, i) => {
-        return `<div class="sr rn" style="padding: 6px 6px; margin-bottom: 2px;">
-          <div style="width: 22px; text-align: center; font-weight: bold; color: var(--text-muted); font-size: 11px;">${i + 1}</div>
-          <div style="flex: 1; font-size: 11px; font-weight: 600; color: var(--text); text-align: left;">${t.n}</div>
-          <div class="scols">
-            ${[t.pj, t.pg, t.pp, t.tf, t.tc, (t.tf - t.tc), t.pts].map(v => `<div class="sc"><div class="sv" style="font-size:10px;">${v}</div></div>`).join('')}
+        // Cálculo de barra: máximo 7 partidos * 3 pts = 21
+        const maxPts = 21; 
+        const barWidth = Math.min((t.pts / maxPts) * 100, 100);
+        
+        return `<div class="sr">
+          <div class="sr-bg" style="width: ${barWidth}%;"></div>
+          <div class="sr-content">
+            <div class="rb">${i + 1}</div>
+            <div style="flex: 1; font-size: 11px; font-weight: 600; color: var(--text); text-align: left; margin-left:4px;">${t.n}</div>
+            <div class="scols">
+              ${[t.pj, t.pg, t.pp, t.tf, t.tc, (t.tf - t.tc), t.pts].map(v => `<div class="sc"><div class="sv" style="font-size:10px;">${v}</div></div>`).join('')}
+            </div>
           </div>
         </div>`;
       }).join('');
@@ -310,12 +357,67 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
       return html;
     };
 
-    // Renderizar los dos grupos en paralelo (uno debajo del otro en pantalla móvil)
     const htmlA = renderTablaHTML(calcTabla(grupos.G1), "Grupo A");
     const htmlB = renderTablaHTML(calcTabla(grupos.G2), "Grupo B");
 
-    // Contenedor con flexbox para que se separen bien
     g('st-list').innerHTML = `<div style="display: flex; flex-direction: column; gap: 15px;">${htmlA}${htmlB}</div>`;
+  }
+
+  // --- BRACKET DE ELIMINATORIAS ---
+  function rBrackets() {
+    const categorias = ["G1", "G2"]; // Simularemos posiciones 1A, 2A, 3A, 4A vs 1B, 2B, 3B, 4B
+    
+    // Placeholder visual para el Bracket
+    let html = `
+      <div class="bracket-round">
+        <h3>Cuartos de Final (Muerte Súbita)</h3>
+        <div class="bracket-match">
+          <div class="bracket-team bracket-placeholder">1er Lugar Grupo A</div>
+          <div class="bracket-vs">VS</div>
+          <div class="bracket-team bracket-placeholder">4to Lugar Grupo B</div>
+        </div>
+        <div class="bracket-match">
+          <div class="bracket-team bracket-placeholder">2do Lugar Grupo A</div>
+          <div class="bracket-vs">VS</div>
+          <div class="bracket-team bracket-placeholder">3er Lugar Grupo B</div>
+        </div>
+        <div class="bracket-match">
+          <div class="bracket-team bracket-placeholder">3er Lugar Grupo A</div>
+          <div class="bracket-vs">VS</div>
+          <div class="bracket-team bracket-placeholder">2do Lugar Grupo B</div>
+        </div>
+        <div class="bracket-match">
+          <div class="bracket-team bracket-placeholder">4to Lugar Grupo A</div>
+          <div class="bracket-vs">VS</div>
+          <div class="bracket-team bracket-placeholder">1er Lugar Grupo B</div>
+        </div>
+      </div>
+
+      <div class="bracket-round" style="background: rgba(46, 204, 113, 0.05);">
+        <h3>Semifinales (Sorteo)</h3>
+        <div class="bracket-match">
+          <div class="bracket-team bracket-placeholder">Ganador 1</div>
+          <div class="bracket-vs">VS</div>
+          <div class="bracket-team bracket-placeholder">Ganador 4</div>
+        </div>
+        <div class="bracket-match">
+          <div class="bracket-team bracket-placeholder">Ganador 2</div>
+          <div class="bracket-vs">VS</div>
+          <div class="bracket-team bracket-placeholder">Ganador 3</div>
+        </div>
+      </div>
+
+      <div class="bracket-round" style="border-color: #ffd700;">
+        <h3 style="color: #ffd700;">Gran Final</h3>
+        <div class="bracket-match" style="border-color: #ffd700; background: rgba(255, 215, 0, 0.1);">
+          <div class="bracket-team bracket-placeholder">Ganador Semi 1</div>
+          <div class="bracket-vs" style="color: #ffd700;">VS</div>
+          <div class="bracket-team bracket-placeholder">Ganador Semi 2</div>
+        </div>
+      </div>
+    `;
+
+    g('bracket-container').innerHTML = html;
   }
 
   // --- GUARDAR RESULTADO ---
@@ -352,6 +454,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     });
     window.rM = rM;
     rM();
+    rBrackets(); // Renderizar bracket al inicio
   }
   init();
 </script>
