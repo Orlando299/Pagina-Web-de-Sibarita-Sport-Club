@@ -100,6 +100,60 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
 }
 .btn-whatsapp:hover { transform: scale(1.1); }
 
+/* ===== FOOTER ===== */
+footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+footer a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
+footer a:hover { color: #fff; text-decoration: underline; }
+footer strong { color: var(--primary); letter-spacing: 1px; }
+footer .footer-links {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.85rem;
+}
+footer .footer-links a {
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(46, 204, 113, 0.08);
+  border: 1px solid rgba(46, 204, 113, 0.15);
+  transition: all 0.3s;
+}
+footer .footer-links a:hover {
+  background: rgba(46, 204, 113, 0.2);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+footer .instruccion-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: #000;
+  text-decoration: none;
+  border-radius: 60px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+  transition: all 0.3s;
+  margin: 20px 0 15px;
+}
+footer .instruccion-btn:hover { 
+  transform: scale(1.05); 
+  box-shadow: 0 6px 20px rgba(46,204,113,0.7); 
+  color: #000;
+  text-decoration: none;
+}             
+
 </style>
 </head>
 <body>
@@ -160,7 +214,41 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     <div class="bracket-container" id="bracket-container"></div>
   </div>
 
-</div>
+    <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>
+      <strong>SIBARITA SPORT CLUB</strong><br />
+      Araúre · Portuguesa · Venezuela
+    </p>
+    <p style="margin-top: 8px;">
+      Información: Arq. Berly Salazar · 📞 0412-739.65.16 / 0416-628.60.51
+    </p>
+
+    <!-- Botón Instructivo -->
+    <a href="instructivo.html" class="instruccion-btn">📖 Ver Instructivo de Uso</a>
+
+    <!-- Enlaces legales y de navegación -->
+    <div class="footer-links">
+      <a href="blog.html">📰 Blog</a>
+      <a href="galeria.html">📸 Galería</a>
+      <a href="reglas.html">📋 Reglamento</a>
+      <a href="legal.html">📜 Aviso Legal</a>
+      <a href="privacidad.html">🔒 Privacidad</a>
+      <a href="cookies.html">🍪 Cookies</a>
+    </div>
+
+    <p style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 0.85rem;">
+      💻 Desarrollo y diseño web: 
+      <span style="color: var(--primary); font-weight: 600;">MSc. Orlando Silva</span>
+    </p>
+    <p style="margin-top: 10px;">
+      <a href="#">Volver arriba</a> · 
+      <span style="color: var(--text-muted);">© 2026 Sibarita Sport Club</span>
+    </p>
+  </footer>
+
+</div> <!-- Aquí cierra el .body (si ya tenía un cierre, verifica no duplicarlo) -->
+
 
 <!-- BOTÓN FLOTANTE WHATSAPP -->
 <a href="https://api.whatsapp.com/send?text=¡Mira%20la%20Fase%202%20de%20la%20Copa%20Navidad%202026%20del%20Sibarita%20Sport%20Club!%20https://sibaritasc.com/fase2_copa.html" target="_blank" class="btn-whatsapp">
@@ -363,11 +451,8 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
     g('st-list').innerHTML = `<div style="display: flex; flex-direction: column; gap: 15px;">${htmlA}${htmlB}</div>`;
   }
 
-  // --- BRACKET DE ELIMINATORIAS ---
+    // --- BRACKET DE ELIMINATORIAS ---
   function rBrackets() {
-    const categorias = ["G1", "G2"]; // Simularemos posiciones 1A, 2A, 3A, 4A vs 1B, 2B, 3B, 4B
-    
-    // Placeholder visual para el Bracket
     let html = `
       <div class="bracket-round">
         <h3>Cuartos de Final (Muerte Súbita)</h3>
@@ -408,11 +493,20 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
       </div>
 
       <div class="bracket-round" style="border-color: #ffd700;">
-        <h3 style="color: #ffd700;">Gran Final</h3>
+        <h3 style="color: #ffd700;">🥇 Gran Final</h3>
         <div class="bracket-match" style="border-color: #ffd700; background: rgba(255, 215, 0, 0.1);">
           <div class="bracket-team bracket-placeholder">Ganador Semi 1</div>
           <div class="bracket-vs" style="color: #ffd700;">VS</div>
           <div class="bracket-team bracket-placeholder">Ganador Semi 2</div>
+        </div>
+      </div>
+
+      <div class="bracket-round" style="border-color: #cd7f32; margin-top: 10px;">
+        <h3 style="color: #cd7f32;">🥉 Tercer y Cuarto Lugar</h3>
+        <div class="bracket-match" style="border-color: #cd7f32; background: rgba(205, 127, 50, 0.1);">
+          <div class="bracket-team bracket-placeholder">Perdedor Semi 1</div>
+          <div class="bracket-vs" style="color: #cd7f32;">VS</div>
+          <div class="bracket-team bracket-placeholder">Perdedor Semi 2</div>
         </div>
       </div>
     `;
