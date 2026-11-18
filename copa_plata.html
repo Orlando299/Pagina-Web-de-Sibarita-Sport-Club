@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1a1a1a">
+<title>Copa de Plata · Copa Navidad 2026</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js"></script>
+
+<style>
+:root{
+  /* Paleta Plateada / Gris / Azul Acero */
+  --primary:#bdc3c7; --primary-dark:#95a5a6; --primary-light:#ecf0f1;
+  --bg:#1a1a1a; --bg-grad-1:#2c3e50; --bg-grad-2:#121212;
+  --card:#222222; --card-2:#2a2a2a; --border:#7f8c8d55;
+  --text:#f0f0f0; --text-muted:#a0a0a0;
+  --gold:#f1c40f;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); font-family: 'Segoe UI', Arial, sans-serif; color: var(--text); max-width: 430px; margin: 0 auto; min-height: 100vh; padding-bottom: 80px; }
+.hdr { background: linear-gradient(135deg, var(--card-2), #1a1a1a); padding: 10px 14px 0; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 100; }
+.hdr-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.logo { display: flex; align-items: center; gap: 8px; }
+.logo img { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; }
+.logo-t { font-size: 13px; font-weight: bold; color: var(--primary); text-transform: uppercase; line-height: 1.1; }
+.logo-s { font-size: 9px; color: var(--text-muted); text-transform: uppercase; }
+.btn-nav { background: var(--primary); color: #000; padding: 5px 10px; border-radius: 8px; font-weight: bold; font-size: 9px; text-transform: uppercase; text-decoration: none; }
+.nav { display: flex; flex-wrap: wrap; }
+.nb { flex: 1; min-width: 50px; padding: 8px 2px; font-size: 9px; font-weight: bold; text-transform: uppercase; border: none; background: transparent; color: var(--text-muted); border-bottom: 3px solid transparent; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; font-family: inherit; text-decoration: none; }
+.nb.on { color: var(--primary); border-bottom: 3px solid var(--primary); }
+.nb span { font-size: 15px; }
+.body { padding: 12px 12px 70px; }
+
+/* ===== BANNER COPA DE PLATA ===== */
+.banner-plata {
+  background: linear-gradient(135deg, #2c3e50 0%, #4a5a6a 50%, #95a5a6 100%);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  border: 2px solid var(--gold);
+  box-shadow: 0 10px 30px rgba(189, 195, 199, 0.2);
+}
+.banner-plata h2 { font-size: 22px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); margin-bottom: 5px; letter-spacing: 1px; }
+.banner-plata p { font-size: 11px; color: #e0e0e0; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
+.banner-plata .descripcion {
+  font-size: 12px;
+  color: #ecf0f1;
+  line-height: 1.4;
+  background: rgba(0,0,0,0.2);
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: normal;
+  text-transform: none;
+  font-style: italic;
+}
+
+/* ===== GENERAL ===== */
+.fb { padding: 5px 10px; border-radius: 12px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-weight: bold; cursor: pointer; font-size: 11px; font-family: inherit; }
+.fb.on { background: var(--primary); border-color: var(--primary); color: #000; }
+.frow { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+.fscroll { display: flex; gap: 6px; margin-bottom: 8px; overflow-x: auto; padding-bottom: 3px; flex-wrap: nowrap; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px; margin-bottom: 7px; }
+.lbl { font-size: 10px; color: var(--primary); font-weight: bold; margin-bottom: 7px; margin-top: 4px; letter-spacing: .06em; }
+.ibox { font-size: 10px; color: var(--text-muted); padding: 9px; background: var(--card-2); border-radius: 9px; border: 1px solid var(--border); margin-top: 7px; line-height: 1.5; }
+.scr { display: none; } .scr.on { display: block; }
+
+/* ===== PARTIDOS ===== */
+.mc { background: linear-gradient(135deg, var(--card), var(--card-2)); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 7px; }
+.mm { font-size: 10px; color: var(--text-muted); margin-bottom: 7px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3px; }
+.mteams { display: flex; align-items: center; justify-content: space-between; }
+.tn { flex: 1; font-size: 11px; font-weight: bold; color: var(--text); text-align: center; line-height: 1.3; }
+.vb { text-align: center; flex-shrink: 0; padding: 0 5px; }
+.ss { font-size: 24px; font-weight: bold; color: var(--primary); min-width: 30px; text-align: center; }
+.ss.l { color: var(--text-muted); }
+.sep { font-size: 16px; color: var(--text-muted); font-weight: bold; }
+.sbtn { width: 100%; margin-top: 6px; padding: 6px; background: #2ecc71; border: none; border-radius: 7px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; font-family: inherit; }
+.wtag { font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 7px; }
+.sinp { width: 46px; height: 34px; background: var(--card-2); border: 1px solid var(--border); border-radius: 7px; color: var(--primary); font-size: 18px; font-weight: bold; text-align: center; font-family: inherit; }
+.srow { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; }
+
+/* ===== TABLA ===== */
+.sr { display: flex; align-items: center; gap: 6px; padding: 8px 8px; border-radius: 8px; margin-bottom: 4px; background: var(--card-2); border: 1px solid var(--border); position: relative; overflow: hidden; }
+.sr-bg { position: absolute; top: 0; left: 0; height: 100%; background: var(--primary)22; z-index: 0; transition: width 1s ease-in-out; }
+.sr-content { position: relative; z-index: 1; display: flex; align-items: center; width: 100%; gap: 6px; }
+.rb { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0; background: var(--card); color: var(--text-muted); }
+.sv { font-size: 11px; font-weight: bold; color: var(--text); }
+.sh { font-size: 8px; color: var(--primary); font-weight: bold; }
+.scols { display: flex; gap: 4px; }
+.sc { text-align: center; min-width: 22px; }
+
+/* ===== BOTÓN WHATSAPP ===== */
+.btn-whatsapp {
+  position: fixed; bottom: 20px; right: 20px;
+  background: #25D366; color: #fff;
+  width: 60px; height: 60px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.5);
+  text-decoration: none; z-index: 1000;
+  transition: transform 0.3s;
+}
+.btn-whatsapp:hover { transform: scale(1.1); }
+
+/* ===== FOOTER ===== */
+footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+footer a { color: var(--primary); text-decoration: none; }
+footer .footer-links { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; font-size: 0.85rem; }
+footer .footer-links a { padding: 6px 12px; border-radius: 20px; background: rgba(189, 195, 199, 0.1); border: 1px solid var(--border); }
+footer .instruccion-btn { display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: #000; text-decoration: none; border-radius: 60px; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 15px; }
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="logo">
+      <img src="https://i.imgur.com/HbKo42m.png" alt="Logo">
+      <div>
+        <div class="logo-t">Sibarita Sport Club</div>
+        <div class="logo-s">Copa de Plata</div>
+      </div>
+    </div>
+    <a href="index.html" class="btn-nav">🏠 Inicio</a>
+  </div>
+  <div class="nav">
+    <button class="nb on" onclick="showTab('matches',this)"><span>🎯</span>Partidos</button>
+    <button class="nb" onclick="showTab('standings',this)"><span>🏆</span>Tabla</button>
+  </div>
+</div>
+
+<div class="body">
+
+  <div class="banner-plata">
+    <h2>🥈 COPA DE PLATA</h2>
+    <p>¡El torneo que mantiene viva la pasión!</p>
+    <div class="descripcion">
+      Un espacio creado para que los equipos que no avanzaron a la Fase 2 sigan demostrando su talento, se mantengan activos durante el resto del año y luchen por un nuevo título. ¡La competencia no termina aquí!
+    </div>
+  </div>
+
+  <!-- ===== PARTIDOS ===== -->
+  <div id="s-matches" class="scr on">
+    <div class="frow">
+      <button class="fb on" id="btn-mFem" onclick="setF('mCat','Femenino')">👩 Femenino</button>
+      <button class="fb" id="btn-mMas" onclick="setF('mCat','Masculino')">👨 Masculino</button>
+    </div>
+    <div class="fscroll" id="m-weeks"></div>
+    <div class="lbl" id="m-cnt"></div>
+    <div id="m-list"></div>
+  </div>
+
+  <!-- ===== TABLA ===== -->
+  <div id="s-standings" class="scr">
+    <div class="frow">
+      <button class="fb on" id="btn-sFem" onclick="setF('sCat','Femenino')">👩 Femenino</button>
+      <button class="fb" id="btn-sMas" onclick="setF('sCat','Masculino')">👨 Masculino</button>
+    </div>
+    <div id="st-list"></div>
+    <div class="ibox">📌 Copa de Plata: Competencia para mantener el ritmo y la actividad de todos los equipos.<br>📌 Criterios: Puntos → Rendimiento → Average.</div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p><strong>SIBARITA SPORT CLUB</strong><br>Araúre · Portuguesa · Venezuela</p>
+    <p style="margin-top: 8px;">Información: Arq. Berly Salazar · 📞 0412-739.65.16 / 0416-628.60.51</p>
+    <a href="instructivo.html" class="instruccion-btn">📖 Ver Instructivo</a>
+    <div class="footer-links">
+      <a href="blog.html">📰 Blog</a>
+      <a href="galeria.html">📸 Galería</a>
+      <a href="legal.html">📜 Legal</a>
+    </div>
+    <p style="margin-top: 14px; font-size: 0.85rem;">💻 Desarrollado por MSc. Orlando Silva</p>
+  </footer>
+
+</div>
+
+<!-- BOTÓN FLOTANTE WHATSAPP -->
+<a href="https://api.whatsapp.com/send?text=¡Sigue%20la%20Copa%20de%20Plata%20del%20Sibarita%20Sport%20Club!%20https://sibaritasc.com/copa_plata.html" target="_blank" class="btn-whatsapp">📱</a>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDXIPkeLn5oVn_q-NO1Xm7tc9E6MPfU-cU",
+    authDomain: "sibarita-torneo-bolas-criollas.firebaseapp.com",
+    projectId: "sibarita-torneo-bolas-criollas",
+    storageBucket: "sibarita-torneo-bolas-criollas.firebasestorage.app",
+    messagingSenderId: "466460618853",
+    appId: "1:466460618853:web:52660cd99bba610d6e568c"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ============================================================
+  // EQUIPOS DE LA COPA DE PLATA (Los que no clasificaron a Fase 2)
+  // ============================================================
+  const EQUIPOS_PLATA = {
+    Femenino: [
+      "The Dolls", "Matisse Spa", "Condimentos Neidimar", "Sabaneta", 
+      "Taferca", "Atrevidas", "Saboga"
+    ],
+    Masculino: [
+      "Yusevin", "Chumacera", "Agroserviportuguesa", "Corpoelec 2", 
+      "Los Panas", "Los Parranderos", "Ingenieros", "Team Suárez"
+    ]
+  };
+
+  // ============================================================
+  // PARTIDOS DE LA COPA DE PLATA (Prefijo PL-)
+  // ============================================================
+  const MATCHES_PLATA = [
+    // Semana 1
+    { id: "PL-M-01", c: "Masculino", g: "PL", w: "PL-S1", a: "Yusevin", b: "Chumacera", d: "19/11/2026", h: "6:00pm", f: "Cancha 1" },
+    { id: "PL-M-02", c: "Masculino", g: "PL", w: "PL-S1", a: "Los Panas", b: "Team Suárez", d: "19/11/2026", h: "8:30pm", f: "Cancha 2" },
+    { id: "PL-M-03", c: "Masculino", g: "PL", w: "PL-S1", a: "Los Parranderos", b: "Ingenieros", d: "20/11/2026", h: "6:00pm", f: "Cancha 3" },
+    { id: "PL-F-01", c: "Femenino",  g: "PL", w: "PL-S1", a: "Condimentos Neidimar", b: "Matisse Spa", d: "20/11/2026", h: "8:30pm", f: "Cancha 1" },
+    { id: "PL-F-02", c: "Femenino",  g: "PL", w: "PL-S1", a: "Atrevidas", b: "Sabaneta", d: "21/11/2026", h: "6:00pm", f: "Cancha 2" },
+    { id: "PL-F-03", c: "Femenino",  g: "PL", w: "PL-S1", a: "Matisse Spa", b: "Taferca", d: "21/11/2026", h: "8:30pm", f: "Cancha 3" },
+    { id: "PL-F-04", c: "Femenino",  g: "PL", w: "PL-S1", a: "Saboga", b: "The Dolls", d: "22/11/2026", h: "4:00pm", f: "Cancha 1" },
+    { id: "PL-M-04", c: "Masculino", g: "PL", w: "PL-S1", a: "Agroserviportuguesa", b: "Corpoelec 2", d: "22/11/2026", h: "6:00pm", f: "Cancha 2" },
+    
+    // Semana 2
+    { id: "PL-M-05", c: "Masculino", g: "PL", w: "PL-S2", a: "Yusevin", b: "Agroserviportuguesa", d: "25/11/2026", h: "6:00pm", f: "Cancha 1" },
+    { id: "PL-M-06", c: "Masculino", g: "PL", w: "PL-S2", a: "Chumacera", b: "Los Panas", d: "25/11/2026", h: "6:00pm", f: "Cancha 2" },
+    { id: "PL-F-05", c: "Femenino",  g: "PL", w: "PL-S2", a: "The Dolls", b: "Atrevidas", d: "25/11/2026", h: "8:30pm", f: "Cancha 1" },
+    { id: "PL-F-06", c: "Femenino",  g: "PL", w: "PL-S2", a: "Taferca", b: "Saboga", d: "25/11/2026", h: "8:30pm", f: "Cancha 2" },
+    { id: "PL-F-07", c: "Femenino",  g: "PL", w: "PL-S2", a: "Taferca", b: "Condimentos Neidimar", d: "26/11/2026", h: "6:00pm", f: "Cancha 3" },
+    { id: "PL-M-07", c: "Masculino", g: "PL", w: "PL-S2", a: "Team Suárez", b: "Corpoelec 2", d: "26/11/2026", h: "8:30pm", f: "Cancha 3" },
+    { id: "PL-F-08", c: "Femenino",  g: "PL", w: "PL-S2", a: "Sabaneta", b: "Matisse Spa", d: "27/11/2026", h: "6:00pm", f: "Cancha 3" },
+    { id: "PL-M-08", c: "Masculino", g: "PL", w: "PL-S2", a: "Los Parranderos", b: "Chumacera", d: "27/11/2026", h: "8:30pm", f: "Cancha 3" },
+    { id: "PL-F-09", c: "Femenino",  g: "PL", w: "PL-S2", a: "The Dolls", b: "Condimentos Neidimar", d: "28/11/2026", h: "6:00pm", f: "Cancha 1" },
+    { id: "PL-M-09", c: "Masculino", g: "PL", w: "PL-S2", a: "Ingenieros", b: "Los Panas", d: "28/11/2026", h: "8:30pm", f: "Cancha 3" },
+    { id: "PL-F-10", c: "Femenino",  g: "PL", w: "PL-S2", a: "Saboga", b: "Matisse Spa", d: "29/11/2026", h: "4:00pm", f: "Cancha 1" },
+    { id: "PL-M-10", c: "Masculino", g: "PL", w: "PL-S2", a: "Los Parranderos", b: "Agroserviportuguesa", d: "29/11/2026", h: "6:00pm", f: "Cancha 3" },
+    
+    // Semana 3
+    { id: "PL-F-11", c: "Femenino",  g: "PL", w: "PL-S3", a: "Saboga", b: "Atrevidas", d: "02/12/2026", h: "8:30pm", f: "Cancha 1" },
+    { id: "PL-M-11", c: "Masculino", g: "PL", w: "PL-S3", a: "Corpoelec 2", b: "Los Panas", d: "02/12/2026", h: "6:00pm", f: "Cancha 4" },
+    { id: "PL-M-12", c: "Masculino", g: "PL", w: "PL-S3", a: "Team Suárez", b: "Yusevin", d: "03/12/2026", h: "6:00pm", f: "Cancha 4" },
+    { id: "PL-F-12", c: "Femenino",  g: "PL", w: "PL-S3", a: "Atrevidas", b: "Taferca", d: "03/12/2026", h: "8:30pm", f: "Cancha 3" }
+  ];
+
+  let R = {}; 
+  window.F = { mCat: 'Femenino', sCat: 'Femenino', mWk: 'Todas' };
+  const CLAVE_ADMIN = 'sibarita2026';
+
+  function g(id) { return document.getElementById(id); }
+
+  window.showTab = function(id, btn) {
+    document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
+    document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+    g('s-' + id).classList.add('on');
+    if (btn) btn.classList.add('on');
+    if (id === 'matches') rM();
+    if (id === 'standings') rSt();
+  }
+
+  window.setF = function(k, v) {
+    F[k] = v;
+    const maps = { 
+      mCat: { Femenino: 'btn-mFem', Masculino: 'btn-mMas' },
+      sCat: { Femenino: 'btn-sFem', Masculino: 'btn-sMas' }
+    };
+    if (maps[k]) {
+      Object.keys(maps[k]).forEach(val => {
+        const el = g(maps[k][val]);
+        if (el) el.classList.toggle('on', val === v);
+      });
+    }
+    if (k[0] === 'm') rM();
+    if (k[0] === 's') rSt();
+  }
+
+  // --- PARTIDOS ---
+  function rM() {
+    const weeksEl = g('m-weeks');
+    const cntEl = g('m-cnt');
+    const listEl = g('m-list');
+
+    const partidosCat = MATCHES_PLATA.filter(m => m.c === F.mCat);
+    const semanas = [...new Set(partidosCat.map(m => m.w))].sort();
+
+    let tabsHTML = `<button class="fb ${F.mWk==='Todas'?'on':''}" onclick="F.mWk='Todas';rM();">Todas</button>`;
+    semanas.forEach(w => {
+      tabsHTML += `<button class="fb ${F.mWk===w?'on':''}" onclick="F.mWk='${w}';rM();">Sem ${w.replace('PL-S','')}</button>`;
+    });
+    weeksEl.innerHTML = tabsHTML;
+
+    const list = F.mWk === 'Todas' ? partidosCat : partidosCat.filter(m => m.w === F.mWk);
+    cntEl.textContent = `${list.length} PARTIDOS — ${F.mCat}`;
+
+    if (!list.length) { listEl.innerHTML = '<div style="text-align:center;padding:20px;">Sin partidos</div>'; return; }
+
+    listEl.innerHTML = list.map(m => {
+      const r = R[m.id];
+      const done = r && r.status === 'done';
+      const wA = done && r.scoreA > r.scoreB;
+      const wB = done && r.scoreB > r.scoreA;
+      
+      let inner = '';
+      if (done) {
+        inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+          <span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span>
+        </div><div style="text-align:center;margin-top:4px;"><span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Final</span></div>`;
+      } else {
+        inner = `<div class="srow">
+            <input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0">
+            <span class="sep">—</span>
+            <input class="sinp" id="sB${m.id}" type="number" min="0" max="20" placeholder="0">
+          </div>
+          <button class="sbtn" onclick="guardar('${m.id}')">💾 Guardar</button>`;
+      }
+
+      return `<div class="mc">
+        <div class="mm"><span>📅 ${m.d} ${m.h} · ${m.f}</span>${done?'<span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓</span>':''}</div>
+        <div class="mteams">
+          <div class="tn" style="color:${wA?'var(--primary)':''}">${m.a}</div>
+          <div class="vb">${inner}</div>
+          <div class="tn" style="color:${wB?'var(--primary)':''}">${m.b}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // --- TABLA ---
+  function rSt() {
+    const equipos = EQUIPOS_PLATA[F.sCat];
+    const tb = {};
+    equipos.forEach(eq => tb[eq] = { n: eq, pj: 0, pg: 0, pp: 0, tf: 0, tc: 0, pts: 0 });
+    
+    MATCHES_PLATA.filter(m => m.c === F.sCat).forEach(m => {
+      const r = R[m.id];
+      if (!r || r.status !== 'done') return;
+      if (tb[m.a]) {
+        tb[m.a].pj++; tb[m.a].tf += r.scoreA; tb[m.a].tc += r.scoreB;
+        if (r.scoreA > r.scoreB) { tb[m.a].pg++; tb[m.a].pts += 3; } else { tb[m.a].pp++; }
+      }
+      if (tb[m.b]) {
+        tb[m.b].pj++; tb[m.b].tf += r.scoreB; tb[m.b].tc += r.scoreA;
+        if (r.scoreB > r.scoreA) { tb[m.b].pg++; tb[m.b].pts += 3; } else { tb[m.b].pp++; }
+      }
+    });
+
+    const sorted = Object.values(tb).sort((a, b) => {
+      if (b.pts !== a.pts) return b.pts - a.pts;
+      const rendA = a.pj ? a.pg / a.pj : 0;
+      const rendB = b.pj ? b.pg / b.pj : 0;
+      if (rendB !== rendA) return rendB - rendA;
+      const avgA = a.pj ? (a.tf - a.tc) / a.pj : 0;
+      const avgB = b.pj ? (b.tf - b.tc) / b.pj : 0;
+      return avgB - avgA;
+    });
+
+    let html = `<div class="lbl">🥈 TABLA DE POSICIONES — ${F.sCat}</div>`;
+    html += `<div class="card" style="display:flex;gap:5px;padding:6px 8px;font-size:8px;color:var(--primary);">
+      <div style="width:20px"></div><div style="flex:1;">EQUIPO</div>
+      <div class="scols">${['PJ','PG','PP','TF','TC','DIF','PTS'].map(h=>`<div class="sc">${h}</div>`).join('')}</div>
+    </div>`;
+
+    html += sorted.map((t, i) => {
+      const maxPts = 21; 
+      const barWidth = Math.min((t.pts / maxPts) * 100, 100);
+      return `<div class="sr">
+        <div class="sr-bg" style="width: ${barWidth}%;"></div>
+        <div class="sr-content">
+          <div class="rb">${i + 1}</div>
+          <div style="flex: 1; font-size: 11px; font-weight: 600; color: var(--text); text-align: left; margin-left:4px;">${t.n}</div>
+          <div class="scols">
+            ${[t.pj, t.pg, t.pp, t.tf, t.tc, (t.tf - t.tc), t.pts].map(v => `<div class="sc"><div class="sv" style="font-size:10px;">${v}</div></div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+
+    g('st-list').innerHTML = html;
+  }
+
+  // --- GUARDAR RESULTADO ---
+  window.guardar = async function(id) {
+    const pass = prompt('🔐 Contraseña de organizador:');
+    if (pass !== CLAVE_ADMIN) { alert('❌ Incorrecta'); return; }
+    const a = parseInt(g('sA' + id)?.value);
+    const b = parseInt(g('sB' + id)?.value);
+    if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; }
+    
+    R[id] = { scoreA: a, scoreB: b, status: 'done' };
+    try {
+      await setDoc(doc(db, "resultados", String(id)), { ...R[id], torneo: "navidad", categoria: "B" });
+      alert('✅ Guardado');
+    } catch (e) { console.error(e); alert('⚠️ Guardado local'); }
+    rM(); rSt();
+  };
+
+  // --- INICIALIZACIÓN ---
+  async function init() {
+    try {
+      const snap = await getDocs(collection(db, "resultados"));
+      snap.forEach(d => {
+        const data = d.data();
+        if (d.id.startsWith("PL-")) {
+          R[d.id] = data;
+        }
+      });
+    } catch (e) {
+      console.error("Error cargando Firebase:", e);
+    }
+    
+    window.rM = rM;
+    rM();
+  }
+  init();
+</script>
+</body>
+</html>
