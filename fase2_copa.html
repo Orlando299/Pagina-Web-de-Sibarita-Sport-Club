@@ -17,7 +17,7 @@
   --text:#e8f0f8; --text-muted:#94a3b8;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); font-family: 'Segoe UI', Arial, sans-serif; color: var(--text); max-width: 430px; margin: 0 auto; min-height: 100vh; padding-bottom: 80px; /* Espacio para el botón flotante */ }
+body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); font-family: 'Segoe UI', Arial, sans-serif; color: var(--text); max-width: 430px; margin: 0 auto; min-height: 100vh; padding-bottom: 80px; }
 .hdr { background: linear-gradient(135deg, var(--card-2), #0f2438); padding: 10px 14px 0; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 100; }
 .hdr-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .logo { display: flex; align-items: center; gap: 8px; }
@@ -31,7 +31,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
 .nb span { font-size: 15px; }
 .body { padding: 12px 12px 70px; }
 
-/* ===== BANNER FASE 2 ===== */
+/* ===== BANNER ===== */
 .banner-fase2 {
   background: linear-gradient(135deg, #1a3b1a 0%, #2d5a2d 50%, #2ecc71 100%);
   border-radius: 15px;
@@ -44,7 +44,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
 .banner-fase2 h2 { font-size: 24px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); margin-bottom: 5px; letter-spacing: 2px; }
 .banner-fase2 p { font-size: 12px; color: #e8f0f8; font-weight: bold; text-transform: uppercase; }
 
-/* ===== ESTILOS GENERALES ===== */
+/* ===== GENERAL ===== */
 .fb { padding: 5px 10px; border-radius: 12px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-weight: bold; cursor: pointer; font-size: 11px; font-family: inherit; }
 .fb.on { background: var(--primary); border-color: var(--primary); color: #000; }
 .frow { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
@@ -68,7 +68,7 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
 .sinp { width: 46px; height: 34px; background: var(--card-2); border: 1px solid var(--border); border-radius: 7px; color: var(--primary); font-size: 18px; font-weight: bold; text-align: center; font-family: inherit; }
 .srow { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; }
 
-/* ===== TABLA CON BARRAS ===== */
+/* ===== TABLA ===== */
 .sr { display: flex; align-items: center; gap: 6px; padding: 8px 8px; border-radius: 8px; margin-bottom: 4px; background: var(--card-2); border: 1px solid var(--border); position: relative; overflow: hidden; }
 .sr-bg { position: absolute; top: 0; left: 0; height: 100%; background: #2ecc7122; z-index: 0; transition: width 1s ease-in-out; }
 .sr-content { position: relative; z-index: 1; display: flex; align-items: center; width: 100%; gap: 6px; }
@@ -78,17 +78,30 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
 .scols { display: flex; gap: 4px; }
 .sc { text-align: center; min-width: 22px; }
 
-/* ===== BRACKET DE ELIMINATORIAS ===== */
+/* ===== BRACKET ===== */
 .bracket-container { display: flex; flex-direction: column; gap: 15px; }
 .bracket-round { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
 .bracket-round h3 { font-size: 12px; color: var(--primary); text-align: center; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
 .bracket-match { display: flex; align-items: center; justify-content: space-between; background: var(--card-2); padding: 8px; border-radius: 6px; margin-bottom: 6px; border: 1px dashed var(--border); }
 .bracket-team { flex: 1; font-size: 11px; font-weight: bold; text-align: center; }
 .bracket-vs { font-size: 10px; color: var(--text-muted); padding: 0 8px; font-weight: bold; }
-.bracket-winner { color: var(--primary); }
 .bracket-placeholder { color: var(--text-muted); font-style: italic; }
 
-/* ===== BOTÓN FLOTANTE WHATSAPP ===== */
+/* ===== MODAL MVP ===== */
+.modal-mvp { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; overflow-y: auto; padding: 20px; box-sizing: border-box; }
+.modal-mvp.on { display: block; }
+.mvp-content { background: var(--card-2); max-width: 400px; margin: 20px auto; border-radius: 15px; padding: 15px; border: 1px solid var(--border); }
+.mvp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+.mvp-title { font-size: 14px; font-weight: bold; color: var(--primary); }
+.mvp-close { background: #c0392b; color: #fff; border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; }
+.mvp-list { max-height: 50vh; overflow-y: auto; margin-bottom: 15px; }
+.mvp-item { display: flex; align-items: center; gap: 8px; padding: 8px; border-bottom: 1px solid var(--border); cursor: pointer; }
+.mvp-item:hover { background: var(--card); }
+.mvp-item input { accent-color: var(--primary); }
+.mvp-item label { font-size: 12px; cursor: pointer; flex: 1; }
+.mvp-btn-save { width: 100%; padding: 10px; background: #2ecc71; border: none; border-radius: 8px; color: #000; font-weight: bold; font-size: 14px; cursor: pointer; }
+
+/* ===== BOTÓN WHATSAPP ===== */
 .btn-whatsapp {
   position: fixed; bottom: 20px; right: 20px;
   background: #25D366; color: #fff;
@@ -101,59 +114,11 @@ body { background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2)); 
 .btn-whatsapp:hover { transform: scale(1.1); }
 
 /* ===== FOOTER ===== */
-footer {
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-footer a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
-footer a:hover { color: #fff; text-decoration: underline; }
-footer strong { color: var(--primary); letter-spacing: 1px; }
-footer .footer-links {
-  margin-top: 15px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  font-size: 0.85rem;
-}
-footer .footer-links a {
-  padding: 6px 12px;
-  border-radius: 20px;
-  background: rgba(46, 204, 113, 0.08);
-  border: 1px solid rgba(46, 204, 113, 0.15);
-  transition: all 0.3s;
-}
-footer .footer-links a:hover {
-  background: rgba(46, 204, 113, 0.2);
-  transform: translateY(-2px);
-  text-decoration: none;
-}
-footer .instruccion-btn {
-  display: inline-block;
-  padding: 12px 28px;
-  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-  color: #000;
-  text-decoration: none;
-  border-radius: 60px;
-  font-weight: 800;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
-  transition: all 0.3s;
-  margin: 20px 0 15px;
-}
-footer .instruccion-btn:hover { 
-  transform: scale(1.05); 
-  box-shadow: 0 6px 20px rgba(46,204,113,0.7); 
-  color: #000;
-  text-decoration: none;
-}             
-
+footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+footer a { color: var(--primary); text-decoration: none; }
+footer .footer-links { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; font-size: 0.85rem; }
+footer .footer-links a { padding: 6px 12px; border-radius: 20px; background: rgba(46, 204, 113, 0.08); border: 1px solid rgba(46, 204, 113, 0.15); }
+footer .instruccion-btn { display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: #000; text-decoration: none; border-radius: 60px; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 15px; }
 </style>
 </head>
 <body>
@@ -178,7 +143,6 @@ footer .instruccion-btn:hover {
 
 <div class="body">
 
-  <!-- ===== BANNER ===== -->
   <div class="banner-fase2">
     <h2>🏆 FASE 2</h2>
     <p>Eliminatorias por el Título</p>
@@ -201,18 +165,15 @@ footer .instruccion-btn:hover {
       <button class="fb on" id="btn-sFem" onclick="setF('sCat','Femenino')">👩 Femenino</button>
       <button class="fb" id="btn-sMas" onclick="setF('sCat','Masculino')">👨 Masculino</button>
     </div>
-    
-    <!-- NUEVO BOTÓN PARA VER LOS CRUCES -->
     <div style="text-align: center; margin-bottom: 12px;">
       <button onclick="mostrarCruces()" style="background: linear-gradient(135deg, #2980b9, #3498db); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 12px; cursor: pointer; width: 100%; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);">
-        🔀 Ver Cruces de Eliminatorias
+        🔀 Ver Cruces Reales
       </button>
     </div>
-
     <div id="st-list"></div>
     <div class="ibox">📌 Clasifican los 4 primeros a las eliminatorias.<br>📌 Criterios: Puntos → Rendimiento → Average → Sorteo.</div>
   </div>
-  
+
   <!-- ===== ELIMINATORIAS ===== -->
   <div id="s-brackets" class="scr">
     <div class="frow">
@@ -222,20 +183,11 @@ footer .instruccion-btn:hover {
     <div class="bracket-container" id="bracket-container"></div>
   </div>
 
-    <!-- ===== FOOTER ===== -->
+  <!-- ===== FOOTER ===== -->
   <footer>
-    <p>
-      <strong>SIBARITA SPORT CLUB</strong><br />
-      Araúre · Portuguesa · Venezuela
-    </p>
-    <p style="margin-top: 8px;">
-      Información: Arq. Berly Salazar · 📞 0412-739.65.16 / 0416-628.60.51
-    </p>
-
-    <!-- Botón Instructivo -->
+    <p><strong>SIBARITA SPORT CLUB</strong><br>Araúre · Portuguesa · Venezuela</p>
+    <p style="margin-top: 8px;">Información: Arq. Berly Salazar · 📞 0412-739.65.16 / 0416-628.60.51</p>
     <a href="instructivo.html" class="instruccion-btn">📖 Ver Instructivo de Uso</a>
-
-    <!-- Enlaces legales y de navegación -->
     <div class="footer-links">
       <a href="blog.html">📰 Blog</a>
       <a href="galeria.html">📸 Galería</a>
@@ -244,24 +196,26 @@ footer .instruccion-btn:hover {
       <a href="privacidad.html">🔒 Privacidad</a>
       <a href="cookies.html">🍪 Cookies</a>
     </div>
-
-    <p style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 0.85rem;">
-      💻 Desarrollo y diseño web: 
-      <span style="color: var(--primary); font-weight: 600;">MSc. Orlando Silva</span>
-    </p>
-    <p style="margin-top: 10px;">
-      <a href="#">Volver arriba</a> · 
-      <span style="color: var(--text-muted);">© 2026 Sibarita Sport Club</span>
-    </p>
+    <p style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 0.85rem;">💻 Desarrollo y diseño web: <span style="color: var(--primary); font-weight: 600;">MSc. Orlando Silva</span></p>
+    <p style="margin-top: 10px;"><a href="#">Volver arriba</a> · <span style="color: var(--text-muted);">© 2026 Sibarita Sport Club</span></p>
   </footer>
 
-</div> <!-- Aquí cierra el .body (si ya tenía un cierre, verifica no duplicarlo) -->
-
+</div>
 
 <!-- BOTÓN FLOTANTE WHATSAPP -->
-<a href="https://api.whatsapp.com/send?text=¡Mira%20la%20Fase%202%20de%20la%20Copa%20Navidad%202026%20del%20Sibarita%20Sport%20Club!%20https://sibaritasc.com/fase2_copa.html" target="_blank" class="btn-whatsapp">
-  📱
-</a>
+<a href="https://api.whatsapp.com/send?text=¡Mira%20la%20Fase%202%20de%20la%20Copa%20Navidad%202026%20del%20Sibarita%20Sport%20Club!%20https://sibaritasc.com/fase2_copa.html" target="_blank" class="btn-whatsapp">📱</a>
+
+<!-- MODAL MVP -->
+<div id="mvp-modal" class="modal-mvp">
+  <div class="mvp-content">
+    <div class="mvp-header">
+      <div class="mvp-title" id="mvp-match-title">Asignar MVP</div>
+      <button class="mvp-close" onclick="cerrarModalMVP()">✕</button>
+    </div>
+    <div class="mvp-list" id="mvp-list-container"></div>
+    <button class="mvp-btn-save" onclick="guardarMVPElegido()">💾 Guardar MVP</button>
+  </div>
+</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
@@ -290,6 +244,40 @@ footer .instruccion-btn:hover {
     }
   };
 
+  // ROSTERS (PLANTILLAS PARA EL MVP)
+  const ROSTERS = {
+    // Femenino G1
+    "Chikas B": ["Nathalia Garcia","Maria Escalante","Alejandra Meza","Marianni Torres","Osmery Rodriguez","Desire Caballero","Gilian Renjifo","Vanessa Lugo","Berly Salazar","Marbella Suarez"],
+    "Corpoelec": ["Nitza Zabaleta","Yuly Alvarez","Yunibel Rodriguez","Denny Cesar","Yacelis Timaure","Dione Cesar","Adela Guedez"],
+    "Auto Tapicería Veliz": ["Yelitza Pineda","Yahidith Cedeño","Amada Perez","Jennifer Salazar","Yajaira Martinez","Genesis Muñoz","Rocio Sanchez","Celenenny Mujica","Maria Elizabeth Castillo","Jeanmary Salcedo","Damaris Castillo"],
+    "Jujure (Educadoras)": ["Karina Morles","Leudini Torres","Keila Valderrama","Luissanna Rodriguez","Maria Vivas","Irene De Vicent","Lisbeth Barco","Dulce Torrealba","Marelis Marchan","Jannellys Dudamel"],
+    "Virtud Femenina": ["Carolin Arocha","Luisamar Peña","Mirelys Mendoza","Romi Arapé","Karla Reyes","Josmayfe Alvarado","Maria Morles","Esther Sanchez","Yohana Coronel","Ana Luisa Mendoza"],
+    "New Family": ["Sara Menoni","Maria Rodriguez","Yusbelis Valenzuela","Nair Herrera","Carolina Jaimes","Maria Carreno","Sol Rodriguez","Glenda Reyes","Liseth Palma","Camelia Suárez"],
+    // Femenino G2
+    "Divinas": ["Sandra Delgado","Dagmary Juarez","Bárbara Narvaez","Ida Guevara","Maribel Goyo","Rosandrys Yepez","Yamiletsi Colina","Karla Rodriguez","Celia Lucero de Rodriguez","Magaly Parra","Mar Suarez"],
+    "Team Frutas": ["Yusbelis Chirinos","Luz Maria Paez","María Gaona","Gehiliz Rodríguez","Esmeralda Mercado","María Delgado","María Elcy Noriega","Diana Oropeza","Yenny Yamilet Vargas Sira"],
+    "Las Triunfadoras": ["Karelis Aguilar","Luisa Arrieta","Cresky Pérez","Yanet Vetancour","Juana Pérez","Yanireth torres","Oliennes Ramirez","Evelin Angulo","Belkis Duran","Fanny Pérez"],
+    "Las Queen": ["Gimenez Hilda","Almao Petra","Febres Graciela","Yustiz Deyanira","Cadevillas Nellis","Méndez Gloria","Sira Marbelis","De Rodríguez Rosa Lugo","Almazán Vilmania","Linarez Marisela"],
+    "T-Teen Club": ["Norky Alvarez","Rondon Livia","Juana Sanchez","Milagro Morán","Yorgelis Torrez","Perez Tania","Sanchez Patricia","Mezher Diana","Segura Vilma","Hernandez Florinda","Betzi Pérez","Doraida González"],
+    "Repostería el Ponque": ["Lisbeth Vasquez","Nayelis Valera","Nayeska Vasquez","Joalvicmar Aguirre","Lenmarys Montes","Ana Tovar","Nairobis Suárez","Marelis Carrillo","Sandra Carmona","Yaritza Caruci"],
+    // Masculino G1
+    "Pintucal": ["Angel Figueroa","Juan Figueroa","Roberto Martinez","Mackiver Sanchez","Yolbert Suarez","Carlos Caro","Amilcar Garrido"],
+    "Sibarita": ["Eleazar Lezama","Jaime Paez","Egar Leonardo Sánchez","José Gregorio Salazar Vasquez","José Villegas","Fernando Antonio Perozo","Jesus Perozo","Leon Salazar","Orlando Silva","Virgilio Mora","Juan Sira"],
+    "Team JM&JA": ["Juan Alvarado","José Hernández","Saul Fonseca","Jesús Pérez","Miguel Parra","Miguel Rodríguez","Alexis Martínez","Yeritzon Ballester","Miguel Duque"],
+    "Cultivar": ["Jose Matute","Sandro de Jose","Jose Galindez","Yonny Boyanes","Jose Perez","Sander Rodriguez","Jose Paraza","Henrry Hardilla","Ali Falcon","Pedro Noguera","José Morillo","Jesus Pérez"],
+    "Servihidra": ["Pacheco Henry","Rodriguez Jose","Melendez Atahualpa","Orozco Gustavo","Vicent Theoscar","Cordero Jose","Dudamel Numan","Colmenarez Leonardo","Gonzalez Giovanni"],
+    "Poder Justiciable": ["Daniel Roman","Honorio Peroza","Jhonny Oviedo","Alfonso Delgado","Jonathan Cedeño","Tony Pérez","Oscar De Santis","Jose Fernández","Javier Antonio Torrealba Gonzalez"],
+    "La 23 de Araure": ["González Alfredo","Torrealba Toribio","Nadal Ronald","Leal Angel","Álvarez Yeiker","Pedraza Cesar","Suarez Jorge","Rodriguez José","Sánchez Gregorio"],
+    // Masculino G2
+    "Exasa": ["Rodolfo Jara","Luis Hurtado","Jorge Sierralta","Orlando Rodriguez","José Mendez","Luis Sierralta","Arpaia Marcos","Adder Matute","Hector Reyes","Jorge Perez","John Marzatteli","Odulio Torreabla"],
+    "Triunfadores": ["Saul Rine","Yeiso Fana","Jose Gil","Jose Leal","Joan Cano","Luis Sequera","Antony Gonzalez","Jorge Vasquez","Yoama Vasquez","Alexis Mendoza","Victor Sanchez","Jesos Hernandez","Jesus Meléndez"],
+    "Deportivo Guaimaral": ["Yovanny Escalona","Jose Salas","Eligio Escalona","Jose manuel Vivas","Cruz Alejandro Linarez","Calo Linarez","Feliz Lopez","Nicola Rodriguez","Yohander Linarez","Ciro Escalona","Jose Gregorio Escalona","Rubén Ortiz"],
+    "Micro PC": ["Jesus Soteldo","Oscar Paredes","David Chávez","Rafael Valderrama","Victor Escalona","José Jiménez","Samuel Canelon","Luis Mendoza","Pedro Aguilar","José Yepez"],
+    "Feria Bolivariana": ["Wilfredo Guedez","Javier Lugo","Pedro Rojas","Yuris Peraza","Luis Ferrer","Luis Vera","Daniel Diaz","Nabor Carrillo","Robert Aguero","Nelson Nadal"],
+    "Remodica": ["Yoiber Oviedo","Freddy Alvarado","Yordany Villegas","René Tona","José Viera","José Mujica","Jesus Leal","Carlos Herrera"],
+    "La 1": ["Jose Felix Rodríguez Bazan","Luis Gutiérrez","Alfredo Ceppo","Jose Ramón Suárez Vargas","Kevin Matheus","Adelis Javier Cazu González","Victor Felipe Colmenarez Fernández","Pedro Nelo","Eiderzon Nelo"]
+  };
+
   // MATCHES
   const MATCHES_F2 = [
     // F2-S1
@@ -301,33 +289,29 @@ footer .instruccion-btn:hover {
     { id: "F2-F-03", c: "Femenino",  g: "F2", w: "F2-S1", a: "T-Teen Club", b: "Chikas B", d: "15/11/2026", h: "4:00pm", f: "Cancha 1" },
     { id: "F2-F-04", c: "Femenino",  g: "F2", w: "F2-S1", a: "Jujure (Educadoras)", b: "Repostería el Ponque", d: "15/11/2026", h: "6:00pm", f: "Cancha 1" },
 
-// ===== F2-S2: Semana 2 (18/11 al 22/11) =====
+    // F2-S2
     { id: "F2-F-06", c: "Femenino",  g: "F2", w: "F2-S2", a: "Auto Tapicería Veliz", b: "Repostería el Ponque", d: "18/11/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-F-07", c: "Femenino",  g: "F2", w: "F2-S2", a: "T-Teen Club", b: "Corpoelec", d: "18/11/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-F-08", c: "Femenino",  g: "F2", w: "F2-S2", a: "Jujure (Educadoras)", b: "Las Queen", d: "18/11/2026", h: "8:30pm", f: "Cancha 1" },
     { id: "F2-M-07", c: "Masculino", g: "F2", w: "F2-S2", a: "Deportivo Guaimaral", b: "Sibarita", d: "18/11/2026", h: "8:30pm", f: "Cancha 2" },
-    
     { id: "F2-F-09", c: "Femenino",  g: "F2", w: "F2-S2", a: "Repostería el Ponque", b: "Chikas B", d: "19/11/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-M-08", c: "Masculino", g: "F2", w: "F2-S2", a: "Team JM&JA", b: "Triunfadores", d: "19/11/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-09", c: "Masculino", g: "F2", w: "F2-S2", a: "Feria Bolivariana", b: "Pintucal", d: "19/11/2026", h: "6:00pm", f: "Cancha 3" },
     { id: "F2-F-10", c: "Femenino",  g: "F2", w: "F2-S2", a: "New Family", b: "T-Teen Club", d: "19/11/2026", h: "8:30pm", f: "Cancha 1" },
     { id: "F2-F-11", c: "Femenino",  g: "F2", w: "F2-S2", a: "Auto Tapicería Veliz", b: "Las Triunfadoras", d: "19/11/2026", h: "8:30pm", f: "Cancha 2" },
     { id: "F2-M-10", c: "Masculino", g: "F2", w: "F2-S2", a: "Team JM&JA", b: "La 1", d: "19/11/2026", h: "8:30pm", f: "Cancha 3" },
-    
     { id: "F2-F-12", c: "Femenino",  g: "F2", w: "F2-S2", a: "New Family", b: "Team Frutas", d: "20/11/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-M-11", c: "Masculino", g: "F2", w: "F2-S2", a: "Feria Bolivariana", b: "Cultivar", d: "20/11/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-12", c: "Masculino", g: "F2", w: "F2-S2", a: "Poder Justiciable", b: "Triunfadores", d: "20/11/2026", h: "6:00pm", f: "Cancha 3" },
     { id: "F2-F-13", c: "Femenino",  g: "F2", w: "F2-S2", a: "Divinas", b: "Virtud Femenina", d: "20/11/2026", h: "8:30pm", f: "Cancha 1" },
     { id: "F2-M-13", c: "Masculino", g: "F2", w: "F2-S2", a: "Exasa", b: "Cultivar", d: "20/11/2026", h: "8:30pm", f: "Cancha 2" },
     { id: "F2-M-14", c: "Masculino", g: "F2", w: "F2-S2", a: "Remodica", b: "La 23 de Araure", d: "20/11/2026", h: "8:30pm", f: "Cancha 3" },
-    
     { id: "F2-F-14", c: "Femenino",  g: "F2", w: "F2-S2", a: "Chikas B", b: "Las Queen", d: "21/11/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-M-15", c: "Masculino", g: "F2", w: "F2-S2", a: "Deportivo Guaimaral", b: "La 23 de Araure", d: "21/11/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-16", c: "Masculino", g: "F2", w: "F2-S2", a: "Exasa", b: "Poder Justiciable", d: "21/11/2026", h: "6:00pm", f: "Cancha 3" },
     { id: "F2-F-15", c: "Femenino",  g: "F2", w: "F2-S2", a: "Divinas", b: "Corpoelec", d: "21/11/2026", h: "8:30pm", f: "Cancha 1" },
     { id: "F2-F-16", c: "Femenino",  g: "F2", w: "F2-S2", a: "Jujure (Educadoras)", b: "Las Triunfadoras", d: "21/11/2026", h: "8:30pm", f: "Cancha 2" },
     { id: "F2-M-17", c: "Masculino", g: "F2", w: "F2-S2", a: "Servihidra", b: "Micro PC", d: "21/11/2026", h: "8:30pm", f: "Cancha 3" },
-    
     { id: "F2-M-18", c: "Masculino", g: "F2", w: "F2-S2", a: "Poder Justiciable", b: "Micro PC", d: "22/11/2026", h: "4:00pm", f: "Cancha 1" },
     { id: "F2-M-19", c: "Masculino", g: "F2", w: "F2-S2", a: "Servihidra", b: "La 1", d: "22/11/2026", h: "4:00pm", f: "Cancha 2" },
     { id: "F2-M-20", c: "Masculino", g: "F2", w: "F2-S2", a: "Feria Bolivariana", b: "La 23 de Araure", d: "22/11/2026", h: "4:00pm", f: "Cancha 3" },
@@ -335,33 +319,29 @@ footer .instruccion-btn:hover {
     { id: "F2-M-21", c: "Masculino", g: "F2", w: "F2-S2", a: "Remodica", b: "Pintucal", d: "22/11/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-22", c: "Masculino", g: "F2", w: "F2-S2", a: "Exasa", b: "Sibarita", d: "22/11/2026", h: "6:00pm", f: "Cancha 3" },
 
-    // ===== F2-S3: Semana 3 (25/11 al 29/11) =====
+    // F2-S3
     { id: "F2-F-18", c: "Femenino",  g: "F2", w: "F2-S3", a: "Auto Tapicería Veliz", b: "Las Queen", d: "25/11/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-M-23", c: "Masculino", g: "F2", w: "F2-S3", a: "Deportivo Guaimaral", b: "Pintucal", d: "25/11/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-24", c: "Masculino", g: "F2", w: "F2-S3", a: "Remodica", b: "Sibarita", d: "25/11/2026", h: "8:30pm", f: "Cancha 1" },
     { id: "F2-M-25", c: "Masculino", g: "F2", w: "F2-S3", a: "Triunfadores", b: "Servihidra", d: "25/11/2026", h: "8:30pm", f: "Cancha 2" },
-    
     { id: "F2-F-19", c: "Femenino",  g: "F2", w: "F2-S3", a: "Chikas B", b: "Team Frutas", d: "26/11/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-M-26", c: "Masculino", g: "F2", w: "F2-S3", a: "Exasa", b: "Pintucal", d: "26/11/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-27", c: "Masculino", g: "F2", w: "F2-S3", a: "Triunfadores", b: "Sibarita", d: "26/11/2026", h: "6:00pm", f: "Cancha 3" },
     { id: "F2-F-20", c: "Femenino",  g: "F2", w: "F2-S3", a: "Jujure (Educadoras)", b: "Divinas", d: "26/11/2026", h: "8:30pm", f: "Cancha 1" },
     { id: "F2-M-28", c: "Masculino", g: "F2", w: "F2-S3", a: "Feria Bolivariana", b: "Poder Justiciable", d: "26/11/2026", h: "8:30pm", f: "Cancha 2" },
     { id: "F2-M-29", c: "Masculino", g: "F2", w: "F2-S3", a: "Team JM&JA", b: "Remodica", d: "26/11/2026", h: "8:30pm", f: "Cancha 3" },
-    
     { id: "F2-F-21", c: "Femenino",  g: "F2", w: "F2-S3", a: "Chikas B", b: "Divinas", d: "27/11/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-M-30", c: "Masculino", g: "F2", w: "F2-S3", a: "Deportivo Guaimaral", b: "Servihidra", d: "27/11/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-31", c: "Masculino", g: "F2", w: "F2-S3", a: "Poder Justiciable", b: "La 1", d: "27/11/2026", h: "6:00pm", f: "Cancha 3" },
     { id: "F2-F-22", c: "Femenino",  g: "F2", w: "F2-S3", a: "Corpoelec", b: "Las Queen", d: "27/11/2026", h: "8:30pm", f: "Cancha 1" },
     { id: "F2-M-32", c: "Masculino", g: "F2", w: "F2-S3", a: "Team JM&JA", b: "Feria Bolivariana", d: "27/11/2026", h: "8:30pm", f: "Cancha 2" },
     { id: "F2-M-33", c: "Masculino", g: "F2", w: "F2-S3", a: "Cultivar", b: "Micro PC", d: "27/11/2026", h: "8:30pm", f: "Cancha 3" },
-    
     { id: "F2-F-23", c: "Femenino",  g: "F2", w: "F2-S3", a: "Corpoelec", b: "Team Frutas", d: "28/11/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-F-24", c: "Femenino",  g: "F2", w: "F2-S3", a: "Virtud Femenina", b: "Las Triunfadoras", d: "28/11/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-34", c: "Masculino", g: "F2", w: "F2-S3", a: "Exasa", b: "La 23 de Araure", d: "28/11/2026", h: "6:00pm", f: "Cancha 3" },
     { id: "F2-F-25", c: "Femenino",  g: "F2", w: "F2-S3", a: "Jujure (Educadoras)", b: "T-Teen Club", d: "28/11/2026", h: "8:30pm", f: "Cancha 1" },
     { id: "F2-F-26", c: "Femenino",  g: "F2", w: "F2-S3", a: "New Family", b: "Las Queen", d: "28/11/2026", h: "8:30pm", f: "Cancha 2" },
     { id: "F2-M-35", c: "Masculino", g: "F2", w: "F2-S3", a: "Cultivar", b: "La 1", d: "28/11/2026", h: "8:30pm", f: "Cancha 3" },
-    
     { id: "F2-F-27", c: "Femenino",  g: "F2", w: "F2-S3", a: "Virtud Femenina", b: "Repostería el Ponque", d: "29/11/2026", h: "4:00pm", f: "Cancha 1" },
     { id: "F2-M-36", c: "Masculino", g: "F2", w: "F2-S3", a: "Micro PC", b: "La 23 de Araure", d: "29/11/2026", h: "4:00pm", f: "Cancha 2" },
     { id: "F2-M-37", c: "Masculino", g: "F2", w: "F2-S3", a: "Remodica", b: "Poder Justiciable", d: "29/11/2026", h: "4:00pm", f: "Cancha 3" },
@@ -369,21 +349,19 @@ footer .instruccion-btn:hover {
     { id: "F2-F-29", c: "Femenino",  g: "F2", w: "F2-S3", a: "New Family", b: "Las Triunfadoras", d: "29/11/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-38", c: "Masculino", g: "F2", w: "F2-S3", a: "La 1", b: "Sibarita", d: "29/11/2026", h: "6:00pm", f: "Cancha 3" },
 
-    // ===== F2-S4: Semana 4 (02/12 al 04/12) =====
+    // F2-S4
     { id: "F2-M-39", c: "Masculino", g: "F2", w: "F2-S4", a: "La 1", b: "Pintucal", d: "02/12/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-M-40", c: "Masculino", g: "F2", w: "F2-S4", a: "Servihidra", b: "Exasa", d: "02/12/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-41", c: "Masculino", g: "F2", w: "F2-S4", a: "Poder Justiciable", b: "Deportivo Guaimaral", d: "02/12/2026", h: "6:00pm", f: "Cancha 3" },
     { id: "F2-F-30", c: "Femenino",  g: "F2", w: "F2-S4", a: "Auto Tapicería Veliz", b: "Divinas", d: "02/12/2026", h: "8:30pm", f: "Cancha 1" },
     { id: "F2-M-42", c: "Masculino", g: "F2", w: "F2-S4", a: "Micro PC", b: "Sibarita", d: "02/12/2026", h: "8:30pm", f: "Cancha 2" },
     { id: "F2-M-43", c: "Masculino", g: "F2", w: "F2-S4", a: "La 23 de Araure", b: "Triunfadores", d: "02/12/2026", h: "8:30pm", f: "Cancha 3" },
-    
     { id: "F2-F-31", c: "Femenino",  g: "F2", w: "F2-S4", a: "Chikas B", b: "Las Triunfadoras", d: "03/12/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-M-44", c: "Masculino", g: "F2", w: "F2-S4", a: "Feria Bolivariana", b: "Sibarita", d: "03/12/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-45", c: "Masculino", g: "F2", w: "F2-S4", a: "La 23 de Araure", b: "La 1", d: "03/12/2026", h: "6:00pm", f: "Cancha 3" },
     { id: "F2-F-32", c: "Femenino",  g: "F2", w: "F2-S4", a: "Virtud Femenina", b: "Las Queen", d: "03/12/2026", h: "8:30pm", f: "Cancha 1" },
     { id: "F2-M-46", c: "Masculino", g: "F2", w: "F2-S4", a: "Cultivar", b: "Remodica", d: "03/12/2026", h: "8:30pm", f: "Cancha 2" },
     { id: "F2-M-47", c: "Masculino", g: "F2", w: "F2-S4", a: "Team JM&JA", b: "Exasa", d: "03/12/2026", h: "8:30pm", f: "Cancha 3" },
-    
     { id: "F2-F-33", c: "Femenino",  g: "F2", w: "F2-S4", a: "New Family", b: "Divinas", d: "04/12/2026", h: "6:00pm", f: "Cancha 1" },
     { id: "F2-F-34", c: "Femenino",  g: "F2", w: "F2-S4", a: "Auto Tapicería Veliz", b: "T-Teen Club", d: "04/12/2026", h: "6:00pm", f: "Cancha 2" },
     { id: "F2-M-48", c: "Masculino", g: "F2", w: "F2-S4", a: "Cultivar", b: "Triunfadores", d: "04/12/2026", h: "6:00pm", f: "Cancha 3" },
@@ -393,13 +371,15 @@ footer .instruccion-btn:hover {
     { id: "F2-M-50", c: "Masculino", g: "F2", w: "F2-S4", a: "Micro PC", b: "Pintucal", d: "04/12/2026", h: "8:30pm", f: "Cancha 4" },
     { id: "F2-M-51", c: "Masculino", g: "F2", w: "F2-S4", a: "Team JM&JA", b: "Deportivo Guaimaral", d: "04/12/2026", h: "8:30pm", f: "Cancha 1" },
     { id: "F2-F-37", c: "Femenino",  g: "F2", w: "F2-S4", a: "Virtud Femenina", b: "T-Teen Club", d: "05/12/2026", h: "4:00pm", f: "Cancha 1" },
-    { id: "F2-M-52", c: "Masculino", g: "F2", w: "F2-S4", a: "Servihidra", b: "Remodica", d: "04/12/2026", dy: "Sábado", h: "4:00pm", f: "Cancha 2" }
-    
+    { id: "F2-M-52", c: "Masculino", g: "F2", w: "F2-S4", a: "Servihidra", b: "Remodica", d: "04/12/2026", h: "4:00pm", f: "Cancha 2" }
   ];
 
   let R = {}; 
-  window.F = { mCat: 'Femenino', sCat: 'Femenino', bCat: 'Femenino', mWk: 'Todas' };
+  let MVP_F2 = {};
+  let F = { mCat: 'Femenino', sCat: 'Femenino', bCat: 'Femenino', mWk: 'Todas' };
   const CLAVE_ADMIN = 'sibarita2026';
+  let matchIdMVPActual = null;
+
   function g(id) { return document.getElementById(id); }
 
   window.showTab = function(id, btn) {
@@ -455,12 +435,26 @@ footer .instruccion-btn:hover {
       const done = r && r.status === 'done';
       const wA = done && r.scoreA > r.scoreB;
       const wB = done && r.scoreB > r.scoreA;
+      const mv = MVP_F2[m.id];
       
       let inner = '';
       if (done) {
         inner = `<div style="display:flex;align-items:center;gap:5px;justify-content:center;">
           <span class="ss ${wA?'':'l'}">${r.scoreA}</span><span class="sep">—</span><span class="ss ${wB?'':'l'}">${r.scoreB}</span>
         </div><div style="text-align:center;margin-top:4px;"><span class="wtag" style="background:#2ecc7133;color:#2ecc71;">✓ Final</span></div>`;
+        
+        if (mv) {
+          inner += `<div style="background:var(--primary)22; border:1px solid var(--border); border-radius:8px; padding:6px 10px; margin-top:6px; display:flex; align-items:center; gap:8px; text-align:left;">
+            <span style="font-size:16px;">🏅</span>
+            <div>
+              <div style="font-size:8px; color:var(--primary); font-weight:bold; text-transform:uppercase;">MVP del Partido</div>
+              <div style="font-size:11px; color:var(--text); font-weight:bold;">${mv.name}</div>
+              <div style="font-size:9px; color:var(--text-muted);">${mv.team}</div>
+            </div>
+          </div>`;
+        } else {
+          inner += `<button onclick="abrirModalMVP('${m.id}')" style="width:100%; margin-top:6px; padding:6px; background:transparent; border:1px dashed var(--primary); border-radius:7px; color:var(--primary); font-weight:bold; font-size:11px; cursor:pointer; font-family:inherit;">⭐ Asignar MVP</button>`;
+        }
       } else {
         inner = `<div class="srow">
             <input class="sinp" id="sA${m.id}" type="number" min="0" max="20" placeholder="0">
@@ -481,7 +475,62 @@ footer .instruccion-btn:hover {
     }).join('');
   }
 
-  // --- TABLA CON BARRAS DE PROGRESO ---
+  // --- TABLA (CRUCES O TABLA) ---
+  window.mostrarCruces = function() {
+    const modal = document.createElement('div');
+    modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:2000;display:flex;flex-direction:column;padding:20px;box-sizing:border-box;overflow-y:auto;';
+    
+    const btnCerrar = document.createElement('button');
+    btnCerrar.textContent = '✕ Cerrar';
+    btnCerrar.style.cssText = 'align-self:flex-end;background:#c0392b;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;margin-bottom:15px;';
+    btnCerrar.onclick = () => modal.remove();
+
+    const content = document.createElement('div');
+    content.style.cssText = 'max-width:430px;margin:0 auto;width:100%;';
+
+    const partidosCat = MATCHES_F2.filter(m => m.c === F.sCat);
+    const semanas = [...new Set(partidosCat.map(m => m.w))].sort();
+
+    let html = `<div class="lbl" style="text-align:center; font-size:14px; margin-bottom:10px;">🏆 CRUCES REALES — ${F.sCat}</div>`;
+
+    semanas.forEach(sem => {
+      const partidosSem = partidosCat.filter(m => m.w === sem);
+      html += `<div style="background: var(--primary-dark); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; margin: 15px 0 8px 0; display: inline-block;">Semana ${sem.replace('F2-S','')}</div>`;
+      
+      partidosSem.forEach(m => {
+        const r = R[m.id];
+        const done = r && r.status === 'done';
+        const wA = done && r.scoreA > r.scoreB;
+        const wB = done && r.scoreB > r.scoreA;
+        
+        let resultStr = 'VS';
+        let colorA = 'var(--text)';
+        let colorB = 'var(--text)';
+        let bgColor = 'var(--card-2)';
+
+        if (done) {
+          resultStr = `<span style="font-size:12px; font-weight:bold; color:var(--primary);">${r.scoreA} - ${r.scoreB}</span>`;
+          if (wA) { colorA = '#2ecc71'; colorB = 'var(--text-muted)'; }
+          if (wB) { colorB = '#2ecc71'; colorA = 'var(--text-muted)'; }
+        }
+
+        html += `
+          <div style="display:flex; justify-content:space-between; align-items:center; background:${bgColor}; padding:10px; border-radius:8px; margin-bottom:6px; border:1px solid var(--border);">
+            <div style="width:40%; text-align:center; color:${colorA}; font-weight:bold; font-size:11px;">${m.a}</div>
+            <div style="width:20%; text-align:center; color:var(--text-muted); font-size:10px;">${resultStr}</div>
+            <div style="width:40%; text-align:center; color:${colorB}; font-weight:bold; font-size:11px;">${m.b}</div>
+          </div>
+        `;
+      });
+    });
+
+    content.innerHTML = html;
+    modal.appendChild(btnCerrar);
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+  };
+
+  // --- TABLA PRINCIPAL (A Y B) ---
   function rSt() {
     const grupos = CLASIFICADOS[F.sCat];
     
@@ -524,7 +573,6 @@ footer .instruccion-btn:hover {
       </div>`;
       
       html += tabla.map((t, i) => {
-        // Cálculo de barra: máximo 7 partidos * 3 pts = 21
         const maxPts = 21; 
         const barWidth = Math.min((t.pts / maxPts) * 100, 100);
         
@@ -550,208 +598,133 @@ footer .instruccion-btn:hover {
     g('st-list').innerHTML = `<div style="display: flex; flex-direction: column; gap: 15px;">${htmlA}${htmlB}</div>`;
   }
 
-   // --- FUNCIÓN PARA MOSTRAR LOS CRUCES (SEGÚN CALENDARIO) ---
-  function mostrarCruces() {
-    const modal = document.createElement('div');
-    modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:2000;display:flex;flex-direction:column;padding:20px;box-sizing:border-box;overflow-y:auto;';
-    
-    const btnCerrar = document.createElement('button');
-    btnCerrar.textContent = '✕ Cerrar';
-    btnCerrar.style.cssText = 'align-self:flex-end;background:#c0392b;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;margin-bottom:15px;';
-    btnCerrar.onclick = () => modal.remove();
-
-    const content = document.createElement('div');
-    content.style.cssText = 'max-width:430px;margin:0 auto;width:100%;';
-
-    // Filtrar los partidos de la categoría actual (Femenino o Masculino)
-    const partidosCat = MATCHES_F2.filter(m => m.c === F.sCat);
-
-    let html = `<div class="lbl" style="text-align:center; font-size:14px; margin-bottom:15px;">🏆 CRUCES FASE 2 — ${F.sCat}</div>`;
-    
-    if (partidosCat.length === 0) {
-      html += `<div style="text-align:center; color:var(--text-muted); padding:20px;">No hay partidos programados para esta categoría.</div>`;
-    } else {
-      html += `<div style="display:flex; justify-content:space-between; padding:8px; color:var(--primary); font-weight:bold; font-size:11px; border-bottom:2px solid var(--border); margin-bottom:10px;">
-        <div style="width:45%; text-align:center;">GRUPO A</div>
-        <div style="width:10%; text-align:center;">VS</div>
-        <div style="width:45%; text-align:center;">GRUPO B</div>
-      </div>`;
-
-      // Mostrar TODOS los partidos del calendario
-      partidosCat.forEach(m => {
-        // Determinar a qué grupo pertenece cada equipo (buscando en los clasificados)
-        const esGrupoA_A = CLASIFICADOS[F.sCat].G1.includes(m.a);
-        const esGrupoB_B = CLASIFICADOS[F.sCat].G2.includes(m.b);
-        
-        // Si el Equipo A está en el G1 y el B en el G2, se muestran en orden.
-        // Si están invertidos, los acomodamos para que siempre el G1 quede a la izquierda.
-        const equipoIzquierda = esGrupoA_A ? m.a : m.b;
-        const equipoDerecha = esGrupoA_A ? m.b : m.a;
-        
-        let golesIzquierda = 0;
-        let golesDerecha = 0;
-        let jugado = false;
-
-        const r = R[m.id];
-        if (r && r.status === 'done') {
-          jugado = true;
-          golesIzquierda = esGrupoA_A ? r.scoreA : r.scoreB;
-          golesDerecha = esGrupoA_A ? r.scoreB : r.scoreA;
-        }
-
-        let colorIzq = 'var(--text)';
-        let colorDer = 'var(--text)';
-        let resultadoStr = 'VS';
-        
-        if (jugado) {
-          resultadoStr = `<span style="font-size:12px;font-weight:bold;">${golesIzquierda} - ${golesDerecha}</span>`;
-          if (golesIzquierda > golesDerecha) { colorIzq = 'var(--primary)'; colorDer = 'var(--text-muted)'; }
-          else if (golesDerecha > golesIzquierda) { colorDer = 'var(--primary)'; colorIzq = 'var(--text-muted)'; }
-        }
-
-        html += `
-          <div style="display:flex; justify-content:space-between; align-items:center; background:var(--card-2); padding:10px; border-radius:8px; margin-bottom:6px; border:1px solid var(--border);">
-            <div style="width:45%; text-align:center; color:${colorIzq}; font-weight:bold; font-size:11px;">${equipoIzquierda}</div>
-            <div style="width:10%; text-align:center; color:var(--text-muted); font-size:10px;">${resultadoStr}</div>
-            <div style="width:45%; text-align:center; color:${colorDer}; font-weight:bold; font-size:11px;">${equipoDerecha}</div>
-          </div>
-          <div style="text-align:center; font-size:9px; color:var(--text-muted); margin-top:-4px; margin-bottom:8px;">📅 ${m.d} · ${m.h}</div>
-        `;
-      });
-    }
-
-    content.innerHTML = html;
-    modal.appendChild(btnCerrar);
-    modal.appendChild(content);
-    document.body.appendChild(modal);
-  }
-
-  window.mostrarCruces = mostrarCruces;
-
-  // ✅ AGREGA ESTA LÍNEA JUSTO DEBAJO:
-  window.mostrarCruces = mostrarCruces;
-
-  
-
-    // --- BRACKET DE ELIMINATORIAS ---
+  // --- BRACKET ELIMINATORIAS ---
   function rBrackets() {
     let html = `
       <div class="bracket-round">
         <h3>Cuartos de Final (Muerte Súbita)</h3>
-        <div class="bracket-match">
-          <div class="bracket-team bracket-placeholder">1er Lugar Grupo A</div>
-          <div class="bracket-vs">VS</div>
-          <div class="bracket-team bracket-placeholder">4to Lugar Grupo B</div>
-        </div>
-        <div class="bracket-match">
-          <div class="bracket-team bracket-placeholder">2do Lugar Grupo A</div>
-          <div class="bracket-vs">VS</div>
-          <div class="bracket-team bracket-placeholder">3er Lugar Grupo B</div>
-        </div>
-        <div class="bracket-match">
-          <div class="bracket-team bracket-placeholder">3er Lugar Grupo A</div>
-          <div class="bracket-vs">VS</div>
-          <div class="bracket-team bracket-placeholder">2do Lugar Grupo B</div>
-        </div>
-        <div class="bracket-match">
-          <div class="bracket-team bracket-placeholder">4to Lugar Grupo A</div>
-          <div class="bracket-vs">VS</div>
-          <div class="bracket-team bracket-placeholder">1er Lugar Grupo B</div>
-        </div>
+        <div class="bracket-match"><div class="bracket-team bracket-placeholder">1er Lugar Grupo A</div><div class="bracket-vs">VS</div><div class="bracket-team bracket-placeholder">4to Lugar Grupo B</div></div>
+        <div class="bracket-match"><div class="bracket-team bracket-placeholder">2do Lugar Grupo A</div><div class="bracket-vs">VS</div><div class="bracket-team bracket-placeholder">3er Lugar Grupo B</div></div>
+        <div class="bracket-match"><div class="bracket-team bracket-placeholder">3er Lugar Grupo A</div><div class="bracket-vs">VS</div><div class="bracket-team bracket-placeholder">2do Lugar Grupo B</div></div>
+        <div class="bracket-match"><div class="bracket-team bracket-placeholder">4to Lugar Grupo A</div><div class="bracket-vs">VS</div><div class="bracket-team bracket-placeholder">1er Lugar Grupo B</div></div>
       </div>
-
       <div class="bracket-round" style="background: rgba(46, 204, 113, 0.05);">
         <h3>Semifinales (Sorteo)</h3>
-        <div class="bracket-match">
-          <div class="bracket-team bracket-placeholder">Ganador 1</div>
-          <div class="bracket-vs">VS</div>
-          <div class="bracket-team bracket-placeholder">Ganador 4</div>
-        </div>
-        <div class="bracket-match">
-          <div class="bracket-team bracket-placeholder">Ganador 2</div>
-          <div class="bracket-vs">VS</div>
-          <div class="bracket-team bracket-placeholder">Ganador 3</div>
-        </div>
+        <div class="bracket-match"><div class="bracket-team bracket-placeholder">Ganador 1</div><div class="bracket-vs">VS</div><div class="bracket-team bracket-placeholder">Ganador 4</div></div>
+        <div class="bracket-match"><div class="bracket-team bracket-placeholder">Ganador 2</div><div class="bracket-vs">VS</div><div class="bracket-team bracket-placeholder">Ganador 3</div></div>
       </div>
-
       <div class="bracket-round" style="border-color: #ffd700;">
         <h3 style="color: #ffd700;">🥇 Gran Final</h3>
         <div class="bracket-match" style="border-color: #ffd700; background: rgba(255, 215, 0, 0.1);">
-          <div class="bracket-team bracket-placeholder">Ganador Semi 1</div>
-          <div class="bracket-vs" style="color: #ffd700;">VS</div>
-          <div class="bracket-team bracket-placeholder">Ganador Semi 2</div>
+          <div class="bracket-team bracket-placeholder">Ganador Semi 1</div><div class="bracket-vs" style="color: #ffd700;">VS</div><div class="bracket-team bracket-placeholder">Ganador Semi 2</div>
         </div>
       </div>
-
       <div class="bracket-round" style="border-color: #cd7f32; margin-top: 10px;">
         <h3 style="color: #cd7f32;">🥉 Tercer y Cuarto Lugar</h3>
         <div class="bracket-match" style="border-color: #cd7f32; background: rgba(205, 127, 50, 0.1);">
-          <div class="bracket-team bracket-placeholder">Perdedor Semi 1</div>
-          <div class="bracket-vs" style="color: #cd7f32;">VS</div>
-          <div class="bracket-team bracket-placeholder">Perdedor Semi 2</div>
+          <div class="bracket-team bracket-placeholder">Perdedor Semi 1</div><div class="bracket-vs" style="color: #cd7f32;">VS</div><div class="bracket-team bracket-placeholder">Perdedor Semi 2</div>
         </div>
       </div>
     `;
-
     g('bracket-container').innerHTML = html;
   }
 
-   // --- GUARDAR RESULTADO ---
+  // --- GUARDAR RESULTADO Y MVP ---
   window.guardar = async function(id) {
-    console.log("🚀 Intentando guardar partido:", id);
-    
     const pass = prompt('🔐 Contraseña de organizador:');
-    if (pass !== CLAVE_ADMIN) { 
-      console.log("❌ Contraseña incorrecta");
-      alert('❌ Incorrecta'); 
-      return; 
-    }
-    
+    if (pass !== CLAVE_ADMIN) { alert('❌ Incorrecta'); return; }
     const a = parseInt(g('sA' + id)?.value);
     const b = parseInt(g('sB' + id)?.value);
-    console.log("Marcador capturado:", a, "-", b);
-    
-    if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) {
-      console.log("❌ Marcador inválido");
-      alert('Marcador inválido (0-20)'); return;
-    }
+    if (isNaN(a) || isNaN(b) || a < 0 || a > 20 || b < 0 || b > 20) { alert('Marcador inválido (0-20)'); return; }
     
     R[id] = { scoreA: a, scoreB: b, status: 'done' };
-    
     try {
-      console.log("☁️ Enviando a Firebase...");
       await setDoc(doc(db, "resultados", String(id)), { ...R[id], torneo: "navidad", categoria: "B" });
-      console.log("✅ Guardado exitoso en Firebase");
       alert('✅ Guardado');
-    } catch (e) {
-      console.error("❌ Error en Firebase:", e);
-      alert('⚠️ Guardado local (Error en Firebase: ' + e.message + ')');
-    }
-    
+    } catch (e) { console.error(e); alert('⚠️ Guardado local'); }
     rM(); rSt();
-  }
- // --- INICIALIZACIÓN ---
+  };
+
+  window.abrirModalMVP = function(id) {
+    const pass = prompt('🔐 Contraseña de organizador:');
+    if (pass !== CLAVE_ADMIN) { alert('❌ Incorrecta'); return; }
+    
+    matchIdMVPActual = id;
+    const match = MATCHES_F2.find(m => m.id === id);
+    if (!match) return;
+
+    g('mvp-match-title').textContent = `MVP: ${match.a} vs ${match.b}`;
+    
+    const listA = ROSTERS[match.a] || [];
+    const listB = ROSTERS[match.b] || [];
+    
+    let html = '';
+    listA.forEach(j => {
+      html += `<label class="mvp-item"><input type="radio" name="mvp-radio" value="${match.a}|${j}"> <span>${j} <span style="font-size:9px;color:var(--text-muted);">(${match.a})</span></span></label>`;
+    });
+    listB.forEach(j => {
+      html += `<label class="mvp-item"><input type="radio" name="mvp-radio" value="${match.b}|${j}"> <span>${j} <span style="font-size:9px;color:var(--text-muted);">(${match.b})</span></span></label>`;
+    });
+
+    g('mvp-list-container').innerHTML = html;
+    g('mvp-modal').classList.add('on');
+  };
+
+  window.cerrarModalMVP = function() {
+    g('mvp-modal').classList.remove('on');
+    matchIdMVPActual = null;
+  };
+
+  window.guardarMVPElegido = async function() {
+    if (!matchIdMVPActual) return;
+    const seleccionado = document.querySelector('input[name="mvp-radio"]:checked');
+    if (!seleccionado) { alert('⚠️ Selecciona un jugador'); return; }
+
+    const valor = seleccionado.value;
+    const [team, name] = valor.split('|');
+
+    try {
+      await setDoc(doc(db, "mvp", String(matchIdMVPActual)), {
+        name: name,
+        team: team,
+        torneo: "navidad",
+        categoria: "B"
+      });
+      
+      MVP_F2[matchIdMVPActual] = { name, team };
+      alert(`✅ MVP guardado: ${name}`);
+      cerrarModalMVP();
+      rM();
+    } catch (e) {
+      console.error(e);
+      alert('⚠️ Error al guardar MVP');
+    }
+  };
+
+  // --- INICIALIZACIÓN ---
   async function init() {
-    console.log("🔄 Iniciando Fase 2...");
     try {
       const snap = await getDocs(collection(db, "resultados"));
-      let contador = 0;
       snap.forEach(d => {
         const data = d.data();
         if (data.torneo === "navidad" && data.categoria === "B") {
           R[d.id] = data;
-          contador++;
         }
       });
-      console.log(`✅ Resultados cargados desde Firebase: ${contador}`);
+
+      const snapMVP = await getDocs(collection(db, "mvp"));
+      snapMVP.forEach(d => {
+        const data = d.data();
+        if (data.torneo === "navidad" && data.categoria === "B") {
+          MVP_F2[d.id] = { name: data.name, team: data.team };
+        }
+      });
     } catch (e) {
-      console.error("❌ Error cargando Firebase:", e);
+      console.error("Error cargando Firebase:", e);
     }
     
     window.rM = rM;
     rM();
-    rBrackets();
-    console.log("✅ Página Fase 2 cargada correctamente");
   }
   init();
 </script>
