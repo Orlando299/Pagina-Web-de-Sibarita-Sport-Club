@@ -376,7 +376,7 @@ footer .instruccion-btn { display: inline-block; padding: 12px 28px; background:
 
   let R = {}; 
   let MVP_F2 = {};
-  let F = { mCat: 'Femenino', sCat: 'Femenino', bCat: 'Femenino', mWk: 'Todas' };
+  window.F = { mCat: 'Femenino', sCat: 'Femenino', bCat: 'Femenino', mWk: 'Todas' };
   const CLAVE_ADMIN = 'sibarita2026';
   let matchIdMVPActual = null;
 
@@ -702,29 +702,40 @@ footer .instruccion-btn { display: inline-block; padding: 12px 28px; background:
   };
 
   // --- INICIALIZACIÓN ---
-  async function init() {
+    async function init() {
+    console.log("🔄 Iniciando Fase 2...");
     try {
+      console.log("📥 Conectando a Firebase...");
       const snap = await getDocs(collection(db, "resultados"));
+      let contadorResultados = 0;
       snap.forEach(d => {
         const data = d.data();
         if (data.torneo === "navidad" && data.categoria === "B") {
           R[d.id] = data;
+          contadorResultados++;
         }
       });
+      console.log(`✅ Resultados cargados: ${contadorResultados}`);
 
       const snapMVP = await getDocs(collection(db, "mvp"));
+      let contadorMVP = 0;
       snapMVP.forEach(d => {
         const data = d.data();
         if (data.torneo === "navidad" && data.categoria === "B") {
           MVP_F2[d.id] = { name: data.name, team: data.team };
+          contadorMVP++;
         }
       });
+      console.log(`✅ MVPs cargados: ${contadorMVP}`);
+
     } catch (e) {
-      console.error("Error cargando Firebase:", e);
+      console.error("❌ Error cargando Firebase:", e);
     }
     
     window.rM = rM;
+    console.log("🎨 Renderizando interfaz...");
     rM();
+    console.log("✅ Página Fase 2 lista y funcionando");
   }
   init();
 </script>
