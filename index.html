@@ -110,6 +110,24 @@
       font-weight: 500;
     }
 
+        /* NUEVA TARJETA COPA DE PLATA */
+    .card-plata { 
+      border-color: rgba(189, 195, 199, 0.3); 
+      background: linear-gradient(145deg, rgba(30, 30, 30, 0.95), rgba(18, 18, 18, 0.95)); 
+    }
+    .card-plata:hover { 
+      border-color: #bdc3c7; 
+      box-shadow: 0 20px 60px rgba(189, 195, 199, 0.4); 
+    }
+    .card-plata h2 { 
+      color: #ecf0f1; 
+      text-shadow: 0 0 20px rgba(189, 195, 199, 0.5); 
+    }
+    .card-plata .btn-acceso { 
+      background: linear-gradient(135deg, #95a5a6, #bdc3c7); 
+      color: #000; 
+    }                                                                          
+
     /* Fecha inicio */
     .fecha-inicio {
       display: inline-block;
@@ -258,6 +276,14 @@
       50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(231, 76, 60, 1); }
       100% { transform: scale(1); box-shadow: 0 0 10px rgba(231, 76, 60, 0.6); }
     }
+
+        <!-- NUEVA TARJETA: COPA DE PLATA -->
+    <a href="copa_plata.html" class="card-torneo card-plata">
+      <span class="icono">🥈</span>
+      <h2>Copa de Plata</h2>
+      <p>Segunda División · Actividad todo el año</p>
+      <span class="btn-acceso">Ingresar</span>
+    </a>
 
     /* ===== SECCIONES GENÉRICAS ===== */
     .seccion {
